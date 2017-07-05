@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:divider="@drawable/lin_layout_vertical_line_shape"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/on_line_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+        android:id="@+id/on_lin_classify_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="4dp"
+        android:numColumns="5"
+        android:paddingBottom="8dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="8dp"
+        android:verticalSpacing="4dp"/>
+</LinearLayout>

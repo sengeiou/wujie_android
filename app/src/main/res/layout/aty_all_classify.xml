@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/lin_layout_vertical_line_shape"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    tools:context="com.txd.hzj.wjlp.mainFgt.mellOnLine.AllClassifyAty">
+
+    <include layout="@layout/aty_search_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/classify_left_lv"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:divider="@color/white"
+            android:dividerHeight="1dp"
+            android:scrollbars="none"/>
+
+        <ListView
+            android:id="@+id/classify_right_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/white"
+            android:dividerHeight="1dp"
+            android:scrollbars="none"/>
+
+    </LinearLayout>
+</LinearLayout>

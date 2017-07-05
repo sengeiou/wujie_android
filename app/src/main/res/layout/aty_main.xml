@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.MainAty">
+
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_color"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/app_main_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/home_pager_rb"
+                style="@style/main_tab_bottom_style"
+                android:drawableTop="@drawable/selector_tab_main_bottom_homepage"
+                android:text="线上商城"
+                />
+
+            <RadioButton
+                android:id="@+id/mell_offline_rb"
+                style="@style/main_tab_bottom_style"
+                android:drawableTop="@drawable/selector_tab_main_bottom_mell_offline"
+                android:text="线下商铺"
+                />
+
+            <RadioButton
+                style="@style/main_tab_bottom_style"
+                android:text="更多"
+                android:visibility="invisible"
+                />
+
+            <RadioButton
+                android:id="@+id/cart_rb"
+                style="@style/main_tab_bottom_style"
+                android:drawableTop="@drawable/selector_tab_main_bottom_cart"
+                android:text="购物车"
+                />
+
+            <RadioButton
+                android:id="@+id/mine_rb"
+                style="@style/main_tab_bottom_style"
+                android:drawableTop="@drawable/selector_tab_main_bottom_mine"
+                android:text="我的"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/mach_more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更多"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:drawablePadding="4dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawableTop="@drawable/icon_main_more"
+            android:textColor="@color/gray_text_color"/>
+    </FrameLayout>
+</LinearLayout>
