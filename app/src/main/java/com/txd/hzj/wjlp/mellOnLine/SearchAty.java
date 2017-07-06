@@ -171,8 +171,8 @@ public class SearchAty extends BaseAty {
         if (!his_str.contains(key)) {
             sb = new StringBuilder();
             sb.append(key).append(",").append(his_str);
+            PreferencesUtils.putString(this, "history", sb.toString());
         }
-        PreferencesUtils.putString(this, "history", sb.toString());
         nextAty(key);
     }
 

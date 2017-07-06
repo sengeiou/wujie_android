@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
@@ -56,6 +60,8 @@ public class GoodsListAty extends BaseAty {
 
     private String type = "";
     private String keyword = "";
+    private String his_str;
+    private StringBuilder sb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,7 @@ public class GoodsListAty extends BaseAty {
         search_goods_rv.setHasFixedSize(true);
         search_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         search_goods_rv.setAdapter(racycleAllAdapter);
-
+        forKeyboardSearch();
     }
 
     private void forTitle() {
@@ -86,6 +92,48 @@ public class GoodsListAty extends BaseAty {
         search_type_tv.setText(type);
     }
 
+    /**
+     * 键盘搜索
+     */
+    private void forKeyboardSearch() {
+        title_search_ev.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    forSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    @OnClick({R.id.search_title_right_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.search_title_right_tv:
+                forSearch();
+                break;
+        }
+    }
+
+    // 搜索
+    private void forSearch() {
+        hideKeyBoard();
+        String key = title_search_ev.getText().toString();
+        if (key.equals("")) {
+            showErrorTip("请输入搜索关键词");
+            return;
+        }
+        his_str = PreferencesUtils.getString(this,"history", "");
+        if (!his_str.contains(key)) {
+            sb = new StringBuilder();
+            sb.append(key).append(",").append(his_str);
+            PreferencesUtils.putString(this, "history", sb.toString());
+        }
+    }
 
     @Override
     protected int getLayoutResId() {
