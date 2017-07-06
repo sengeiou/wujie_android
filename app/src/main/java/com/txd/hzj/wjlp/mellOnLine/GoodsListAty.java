@@ -26,6 +26,14 @@ import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/7/6 0006
+ * 时间：下午 3:58
+ * 描述：商品列表(1-4搜索结果1)
+ * ===============Txunda===============
+ */
 public class GoodsListAty extends BaseAty {
     @ViewInject(R.id.search_title_be_back_iv)
     public ImageView search_title_be_back_iv;
@@ -127,7 +135,7 @@ public class GoodsListAty extends BaseAty {
             showErrorTip("请输入搜索关键词");
             return;
         }
-        his_str = PreferencesUtils.getString(this,"history", "");
+        his_str = PreferencesUtils.getString(this, "history", "");
         if (!his_str.contains(key)) {
             sb = new StringBuilder();
             sb.append(key).append(",").append(his_str);

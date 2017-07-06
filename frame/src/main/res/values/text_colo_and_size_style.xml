@@ -3,8 +3,8 @@
 
     <!-- 字体默认样式 -->
     <style name="text_default_style">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <!-- 天猫样式 -->
     <style name="tianmao_style">
@@ -21,14 +21,15 @@
         <item name="android:textColor">@color/theme_color</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="goods_price_style2">
-        <item name="android:textColor">@color/theme_color</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:textSize">16sp</item>
     </style>
     <!-- 货币单位样式 -->
     <style name="monetary_unit_style">
         <item name="android:textColor">@color/theme_color</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
     <!-- 签到提示样式 -->
     <style name="sign_in_tip_style">

@@ -27,6 +27,11 @@
         </activity>
         <activity android:name=".mellOnLine.GoodsListAty">
         </activity>
+        <activity
+            android:name=".mellOnLine.MellListAty"
+            android:label="@string/title_activity_mell_list_aty"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

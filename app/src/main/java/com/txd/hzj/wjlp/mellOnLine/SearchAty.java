@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.ListUtils;
@@ -43,6 +44,8 @@ import java.util.List;
  */
 public class SearchAty extends BaseAty {
 
+    @ViewInject(R.id.search_title_layout)
+    private RelativeLayout search_title_layout;
 
     @ViewInject(R.id.search_title_be_back_iv)
     public ImageView search_title_be_back_iv;
@@ -113,6 +116,7 @@ public class SearchAty extends BaseAty {
     }
 
     private void forTitle() {
+        search_title_layout.setBackgroundColor(ContextCompat.getColor(this,R.color.white));
         search_title_be_back_iv.setVisibility(View.VISIBLE);
         title_search_tv.setVisibility(View.GONE);
         search_lin_layout.setVisibility(View.VISIBLE);
@@ -187,6 +191,8 @@ public class SearchAty extends BaseAty {
         bundle.putString("type", type);
         if (1 == search_type) {
             startActivity(GoodsListAty.class, bundle);
+        } else {
+            startActivity(MellListAty.class,bundle);
         }
     }
 
