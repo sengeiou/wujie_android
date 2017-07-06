@@ -17,11 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".mainFgt.mellOnLine.MellOnLineClassifyAty">
+        <activity android:name=".mellOnLine.MellOnLineClassifyAty">
         </activity>
-        <activity android:name=".mainFgt.mellOnLine.SubclassificationAty">
+        <activity android:name=".mellOnLine.SubclassificationAty">
         </activity>
-        <activity android:name=".mainFgt.mellOnLine.AllClassifyAty">
+        <activity android:name=".mellOnLine.AllClassifyAty">
         </activity>
     </application>
 

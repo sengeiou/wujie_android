@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mainFgt.mellOnLine;
+package com.txd.hzj.wjlp.mellOnLine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mainFgt.mellOnLine.fgt.SubClassifyListFgt;
+import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
 
 import java.util.ArrayList;
 

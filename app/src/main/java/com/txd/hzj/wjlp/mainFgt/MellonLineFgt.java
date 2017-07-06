@@ -26,8 +26,8 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
-import com.txd.hzj.wjlp.mainFgt.mellOnLine.AllClassifyAty;
-import com.txd.hzj.wjlp.mainFgt.mellOnLine.MellOnLineClassifyAty;
+import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
+import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -239,11 +239,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     };
 
     @Override
-    @OnClick({R.id.title_classify_tv})
+    @OnClick({R.id.title_classify_tv, R.id.title_search_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.title_classify_tv:// 分类
+                startActivity(AllClassifyAty.class, null);
+                break;
+            case R.id.title_search_tv:// 搜索
                 startActivity(AllClassifyAty.class, null);
                 break;
         }

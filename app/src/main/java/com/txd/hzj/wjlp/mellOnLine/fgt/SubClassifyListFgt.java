@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mainFgt.mellOnLine.fgt;
+package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 
 import android.graphics.Color;
@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.lidroid.xutils.view.annotation.ViewInject;
