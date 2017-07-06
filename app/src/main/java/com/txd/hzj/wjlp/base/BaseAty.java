@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.base;
 
+import android.content.Context;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
@@ -37,5 +39,11 @@ public abstract class BaseAty extends BaseActivity {
      */
     public void showStatusBar(int vid) {
         ImmersionBar.with(this).titleBar(vid).init();
+    }
+
+    public void hideKeyBoard(){
+        // 先隐藏键盘
+        ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 }

@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
+import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -247,7 +248,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 startActivity(AllClassifyAty.class, null);
                 break;
             case R.id.title_search_tv:// 搜索
-                startActivity(AllClassifyAty.class, null);
+                startActivity(SearchAty.class, null);
                 break;
         }
     }

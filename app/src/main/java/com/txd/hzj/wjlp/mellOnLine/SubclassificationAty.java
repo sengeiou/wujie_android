@@ -13,7 +13,14 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
 
 import java.util.ArrayList;
-
+/**
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/7/6 0006
+ * 时间：上午 11:34
+ * 描述：子分类(1-1-2)二级分类
+ * ===============Txunda===============
+ */
 public class SubclassificationAty extends BaseAty {
     /**
      * TabLayout

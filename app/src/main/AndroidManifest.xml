@@ -17,11 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".mellOnLine.MellOnLineClassifyAty">
+        <!-- 线上商城分类(1-1-1 首页 2) -->
+        <activity android:name=".mellOnLine.MellOnLineClassifyAty"/>
+        <!-- 子分类(1-1-2)二级分类 -->
+        <activity android:name=".mellOnLine.SubclassificationAty"/>
+        <!-- 分类 (1-2) -->
+        <activity android:name=".mellOnLine.AllClassifyAty"/>
+        <activity android:name=".mellOnLine.SearchAty">
         </activity>
-        <activity android:name=".mellOnLine.SubclassificationAty">
-        </activity>
-        <activity android:name=".mellOnLine.AllClassifyAty">
+        <activity android:name=".mellOnLine.GoodsListAty">
         </activity>
     </application>
 

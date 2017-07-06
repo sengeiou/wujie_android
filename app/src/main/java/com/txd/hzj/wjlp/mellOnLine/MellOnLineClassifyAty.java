@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,6 +41,9 @@ public class MellOnLineClassifyAty extends BaseAty {
      */
     @ViewInject(R.id.search_title_layout)
     public RelativeLayout search_title_layout;
+
+    @ViewInject(R.id.search_title_be_back_iv)
+    public ImageView search_title_be_back_iv;
     /**
      * 扫一扫
      */
@@ -130,7 +134,8 @@ public class MellOnLineClassifyAty extends BaseAty {
      */
     private void forTitle() {
         search_title_layout.setBackgroundColor(Color.WHITE);
-        title_scan_tv.setVisibility(View.GONE);
+        title_scan_tv.setVisibility(View.INVISIBLE);
+        search_title_be_back_iv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.GONE);
 
         title_search_tv.setBackgroundResource(R.drawable.shape_search_tv_bg);
@@ -157,6 +162,9 @@ public class MellOnLineClassifyAty extends BaseAty {
             public void onItemClick(View view, int position) {
                 horizontalAdapter.setSelected(position);
                 horizontalAdapter.notifyDataSetChanged();
+                if (0 == position) {
+                    finish();
+                }
             }
         });
         on_lin_classify_gv.setAdapter(gvClassifyAdapter);
