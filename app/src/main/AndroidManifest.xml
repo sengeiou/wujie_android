@@ -3,6 +3,7 @@
           package="com.txd.hzj.wjlp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name="com.ants.theantsgo.WeApplication"
         android:allowBackup="false"
@@ -38,6 +39,8 @@
         <activity android:name=".mellOnLine.OrderAndInformMessageListAty">
         </activity>
         <activity android:name=".mellOnLine.NoticeDetailsAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty">
         </activity>
     </application>
 

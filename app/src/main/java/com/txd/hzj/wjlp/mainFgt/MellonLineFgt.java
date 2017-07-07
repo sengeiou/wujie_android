@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -188,25 +190,18 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .displayWidth * 2 / 3);
         online_carvouse_view.setLayoutParams(layoutParams);
         forBanner();
-
-        // 设置布局方式
-        on_line_rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        // 默认分割线
-        on_line_rv.setItemAnimator(new DefaultItemAnimator());
-        on_line_rv.setHasFixedSize(true);
-        on_line_rv.setAdapter(horizontalAdapter);
-        horizontalAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+        forHorizontalItem();
+        on_lin_classify_gv.setAdapter(gvClassifyAdapter);
+        on_lin_classify_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                horizontalAdapter.setSelected(position);
-                horizontalAdapter.notifyDataSetChanged();
-                Bundle bundle = new Bundle();
-                bundle.putInt("pos", position);
-                startActivity(MellOnLineClassifyAty.class, bundle);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:// 限量购
+                        startActivity(LimitShoppingAty.class, null);
+                        break;
+                }
             }
         });
-
-        on_lin_classify_gv.setAdapter(gvClassifyAdapter);
 
         setView();
         upview1.setViews(views);
@@ -222,6 +217,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         house_gv.setAdapter(allGvLvAdapter7);
         group_shopping_lv.setAdapter(allGvLvAdapter8);
     }
+
 
     /**
      * 轮播图
@@ -257,6 +253,28 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 startActivity(MessageAty.class, null);
                 break;
         }
+    }
+
+    /**
+     * 横向滑动的分类菜单
+     */
+    private void forHorizontalItem() {
+        // 设置布局方式
+        on_line_rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        // 默认分割线
+        on_line_rv.setItemAnimator(new DefaultItemAnimator());
+        on_line_rv.setHasFixedSize(true);
+        on_line_rv.setAdapter(horizontalAdapter);
+        horizontalAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                horizontalAdapter.setSelected(position);
+                horizontalAdapter.notifyDataSetChanged();
+                Bundle bundle = new Bundle();
+                bundle.putInt("pos", position);
+                startActivity(MellOnLineClassifyAty.class, bundle);
+            }
+        });
     }
 
     @Override
