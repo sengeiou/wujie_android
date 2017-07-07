@@ -4,7 +4,7 @@
     android:id="@+id/search_title_layout"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@color/transparent">
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/search_title_be_back_iv"

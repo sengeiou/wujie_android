@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.txd.hzj.wjlp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="com.ants.theantsgo.WeApplication"
         android:allowBackup="false"
@@ -31,6 +32,12 @@
             android:name=".mellOnLine.MellListAty"
             android:label="@string/title_activity_mell_list_aty"
             android:theme="@style/AppTheme">
+        </activity>
+        <activity android:name=".mellOnLine.MessageAty">
+        </activity>
+        <activity android:name=".mellOnLine.OrderAndInformMessageListAty">
+        </activity>
+        <activity android:name=".mellOnLine.NoticeDetailsAty">
         </activity>
     </application>
 

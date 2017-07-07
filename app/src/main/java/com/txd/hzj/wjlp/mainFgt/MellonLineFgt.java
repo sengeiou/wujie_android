@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mainFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
+import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -178,6 +180,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        search_title_layout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.transparent));
         title_scan_tv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.VISIBLE);
         // 设置轮播图高度
@@ -240,7 +243,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     };
 
     @Override
-    @OnClick({R.id.title_classify_tv, R.id.title_search_tv})
+    @OnClick({R.id.title_classify_tv, R.id.title_search_tv, R.id.message_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -249,6 +252,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 break;
             case R.id.title_search_tv:// 搜索
                 startActivity(SearchAty.class, null);
+                break;
+            case R.id.message_layout:// 消息中心
+                startActivity(MessageAty.class, null);
                 break;
         }
     }
