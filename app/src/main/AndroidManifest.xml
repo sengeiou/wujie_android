@@ -47,6 +47,11 @@
 
         <!--汽车购-->
         <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
+        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
+
+
+
+
 
     </application>
 

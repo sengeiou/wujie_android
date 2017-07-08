@@ -38,17 +38,6 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
 
     List<CarBean> listSelect;
 
-    @OnClick({R.id.screen})
-    private void onClick(View v){
-        switch (v.getId()){
-
-            //筛选
-            case R.id.screen:
-
-                break;
-        }
-
-    }
 
 
     public CarTypeChenAdapter(Context context, int type){
