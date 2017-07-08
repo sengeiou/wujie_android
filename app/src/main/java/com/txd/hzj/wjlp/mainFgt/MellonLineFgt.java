@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -198,6 +199,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 switch (i) {
                     case 0:// 限量购
                         startActivity(LimitShoppingAty.class, null);
+                        break;
+                    case 7://汽车购
+                        startActivity(CarChenAty.class, null);
+
                         break;
                 }
             }
