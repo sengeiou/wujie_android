@@ -42,6 +42,8 @@
         </activity>
         <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty">
         </activity>
+        <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty">
+        </activity>
     </application>
 
 </manifest>

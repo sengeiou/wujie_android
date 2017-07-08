@@ -199,7 +199,7 @@ public class MellOnLineClassifyAty extends BaseAty {
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
         horizontalAdapter = new HorizontalAdapter(horizontal_classify, this);
-        gvClassifyAdapter = new GVClassifyAdapter(this, gv_classify);
+        gvClassifyAdapter = new GVClassifyAdapter(this, gv_classify, 1);
         data = new ArrayList<>();
         racycleAllAdapter = new RacycleAllAdapter(this, data);
         height = ToolKit.dip2px(this, 4);

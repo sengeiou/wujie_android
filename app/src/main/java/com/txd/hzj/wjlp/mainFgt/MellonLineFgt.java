@@ -300,7 +300,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
         horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
-        gvClassifyAdapter = new GVClassifyAdapter(getActivity(), gv_classify);
+        gvClassifyAdapter = new GVClassifyAdapter(getActivity(), gv_classify, 0);
         data = new ArrayList<>();
         views = new ArrayList<>();
         data.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
