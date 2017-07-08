@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="23dp"
+    android:orientation="vertical">
+
+
+    <include
+        android:id="@+id/ie_car"
+        layout="@layout/aty_title"></include>
+
+    <View
+        android:id="@+id/ie_view"
+        android:layout_below="@+id/ie_car"
+        style="@style/line_view"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ie_view"
+        android:orientation="vertical">
+
+        <com.txd.hzj.wjlp.view.ATDragView
+            android:id="@+id/at_dragView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/a_large_blank_area_color"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="12-70万" />
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/a_large_blank_area_color"
+            android:padding="10dp"
+            android:text="车型" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_car_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/a_large_blank_area_color"
+            android:padding="10dp"
+            android:text="品牌" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_car_brand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            ></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_car_screen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="筛选"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@color/theme_color"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
