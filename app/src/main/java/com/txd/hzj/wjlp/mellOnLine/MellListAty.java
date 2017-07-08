@@ -241,7 +241,7 @@ public class MellListAty extends BaseAty {
             } else {
                 mpvh = (MPViewHolder) view.getTag();
             }
-            ChangeTextViewStyle.forMellProdect(MellListAty.this, mpvh.mell_prodect_price_tv, "￥12.00");
+            ChangeTextViewStyle.getInstance().forMellProdect(MellListAty.this, mpvh.mell_prodect_price_tv, "￥12.00");
             return view;
         }
 

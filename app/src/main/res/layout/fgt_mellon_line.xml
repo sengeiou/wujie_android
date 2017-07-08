@@ -17,23 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.synnapps.carouselview.CarouselView
-                android:id="@+id/online_carvouse_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/bg_color"
-                app:animateOnBoundary="true"
-                app:autoPlay="true"
-                app:fillColor="@color/theme_color"
-                app:indicatorGravity="bottom|center_horizontal"
-                app:pageColor="#7f000000"
-                app:pageTransformInterval="500"
-                app:pageTransformer="zoom"
-                app:radius="4dp"
-                app:slideInterval="3000"
-                app:strokeColor="@color/transparent"
-                app:strokeWidth="1dp"
-                />
+            <include layout="@layout/aty_banner"/>
 
             <include layout="@layout/mell_on_line_classify"/>
 

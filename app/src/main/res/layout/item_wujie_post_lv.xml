@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/icon_start_point"
+        android:text="南开华苑驿站"
+        android:textColor="@color/app_text_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/goods_inventory_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:text="库存15"
+        android:textColor="@color/gray_text_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/goods_distance_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="距您15KM"
+        android:textColor="@color/gray_text_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_call_post_tv"
+        android:padding="8dp"
+        android:text="联系店主"
+        android:textColor="@color/white"/>
+
+</LinearLayout>

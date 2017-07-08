@@ -1,12 +1,14 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -66,11 +68,14 @@ public class LimitAdapter extends BaseAdapter {
         }
         lvh.home_count_down_view.setTag("text");
         lvh.home_count_down_view.start(3600000);
-        if(1==type){
+        if (1 == type) {
             lvh.limit_remeber_me_tv.setVisibility(View.VISIBLE);
         } else {
             lvh.limit_remeber_me_tv.setVisibility(View.GONE);
         }
+        lvh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        lvh.cpb_progresbar2.setMaxProgress(100);
+        lvh.cpb_progresbar2.setCurProgress(50);
         return view;
     }
 
@@ -79,7 +84,13 @@ public class LimitAdapter extends BaseAdapter {
         @ViewInject(R.id.home_count_down_view)
         private CountdownView home_count_down_view;
 
+        @ViewInject(R.id.older_price_tv)
+        private TextView older_price_tv;
+
         @ViewInject(R.id.limit_remeber_me_tv)
         private TextView limit_remeber_me_tv;
+
+        @ViewInject(R.id.cpb_progresbar2)
+        private CustomProgressBar cpb_progresbar2;
     }
 }
