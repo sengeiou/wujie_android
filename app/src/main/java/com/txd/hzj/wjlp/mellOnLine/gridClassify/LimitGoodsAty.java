@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,8 +19,10 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：限量详情(2-3)
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty {
+public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
 
     /**
      * 商品布局
@@ -203,6 +206,45 @@ public class LimitGoodsAty extends BaseAty {
     @ViewInject(R.id.log_serve_tv)
     private TextView log_serve_tv;
 
+    /**
+     * 滚动监听的ScrollView
+     */
+    @ViewInject(R.id.limit_goods_details_sc)
+    private ObservableScrollView limit_goods_details_sc;
+
+    /**
+     * 回到顶部
+     */
+    @ViewInject(R.id.be_back_top_iv)
+    private ImageView be_back_top_iv;
+
+    /**
+     * 轮播的高度
+     */
+    private int bannerHeight = 0;
+
+    /**
+     * 对应top_lin_layout
+     */
+    private int topHeighe = 0;
+    /**
+     * 对应 second_lin_layout
+     */
+    private int secondHeight = 0;
+
+    /**
+     * 除去图文详情和店铺信息，评论外的所有空间布局
+     */
+    @ViewInject(R.id.top_lin_layout)
+    private LinearLayout top_lin_layout;
+
+    /**
+     * 除去图文详情外的所有控件布局
+     */
+    @ViewInject(R.id.second_lin_layout)
+    private LinearLayout second_lin_layout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -224,7 +266,8 @@ public class LimitGoodsAty extends BaseAty {
         TextViewChange();
 
         wujie_post_lv.setAdapter(postAdapter);
-
+        // 判断是否显示回到顶部按钮
+        getHeight();
     }
 
     /**
@@ -283,24 +326,28 @@ public class LimitGoodsAty extends BaseAty {
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.title_goods_layout://商品
                 setTextViewAndViewColor(0);
+                limit_goods_details_sc.smoothScrollTo(0, 0);
                 break;
             case R.id.title_details_layout://详情
                 setTextViewAndViewColor(1);
+                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                 break;
             case R.id.title_evaluate_layout://评价
                 setTextViewAndViewColor(2);
+                limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏
                 break;
             case R.id.goods_title_share_tv://分享
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
+                getHeight();// 重新计算高度
                 if (goods_bottom_lin_layout.getVisibility() == View.GONE) {
                     goods_bottom_lin_layout.setVisibility(View.VISIBLE);
                     show_or_hide_iv.setImageResource(R.drawable.icon_show_other_layout);
@@ -310,6 +357,7 @@ public class LimitGoodsAty extends BaseAty {
                 }
                 break;
             case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
+                getHeight();// 重新计算高度
                 if (wujie_post_lv.getVisibility() == View.GONE) {// 隐藏状态
                     wujie_post_lv.setVisibility(View.VISIBLE);
                     show_or_hide_lv_iv.setImageResource(R.drawable.icon_show_other_layout);
@@ -319,6 +367,7 @@ public class LimitGoodsAty extends BaseAty {
                 }
                 break;
             case R.id.show_or_hide_explain_iv://展开,隐藏(无界驿站)
+                getHeight();// 重新计算高度
                 if (goods_other_info_layout.getVisibility() == View.GONE) {// 隐藏状态
                     goods_other_info_layout.setVisibility(View.VISIBLE);
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_show_other_layout);
@@ -326,6 +375,10 @@ public class LimitGoodsAty extends BaseAty {
                     goods_other_info_layout.setVisibility(View.GONE);
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
+                break;
+            case R.id.be_back_top_iv://回到顶部
+                limit_goods_details_sc.smoothScrollTo(0, 0);
+                setTextViewAndViewColor(0);
                 break;
         }
     }
@@ -369,4 +422,35 @@ public class LimitGoodsAty extends BaseAty {
         }
     };
 
+    private void getHeight() {
+        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onGlobalLayout() {
+                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                bannerHeight = online_carvouse_view.getHeight();
+                topHeighe = top_lin_layout.getHeight();
+                secondHeight = second_lin_layout.getHeight();
+                limit_goods_details_sc.setScrollViewListener(LimitGoodsAty.this);
+            }
+        });
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if (y <= 0) {
+            be_back_top_iv.setVisibility(View.GONE);
+            setTextViewAndViewColor(0);
+        } else if (y > bannerHeight) {
+            be_back_top_iv.setVisibility(View.VISIBLE);
+            if (y < topHeighe) {
+                setTextViewAndViewColor(0);
+            } else if (y > topHeighe && y < secondHeight) {
+                setTextViewAndViewColor(2);
+            } else {
+                setTextViewAndViewColor(1);
+            }
+        }
+    }
 }
