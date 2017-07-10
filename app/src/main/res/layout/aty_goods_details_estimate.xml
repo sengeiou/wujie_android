@@ -24,11 +24,13 @@
                 android:textSize="16sp"/>
 
             <TextView
+                android:id="@+id/all_evaluate_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_all_estimate"
                 android:padding="8dp"
                 android:text="全部评价"
+                android:onClick="toEvaluate"
                 android:textColor="@color/colorAccent"/>
         </LinearLayout>
 

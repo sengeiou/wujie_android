@@ -38,4 +38,14 @@
         android:text="个头小，其他还可以"
         android:textColor="@color/app_text_color"/>
 
+    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+        android:id="@+id/estimate_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="4dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:verticalSpacing="4dp"
+        android:visibility="gone"/>
+
 </LinearLayout>

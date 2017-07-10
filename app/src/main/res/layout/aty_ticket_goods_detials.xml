@@ -120,7 +120,7 @@
         <LinearLayout
             android:id="@+id/goods_details_bottom_layout"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:gravity="center"
@@ -140,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawablePadding="4dp"
+                    android:padding="8dp"
                     android:drawableTop="@drawable/icon_home_pager"
                     android:gravity="center"
                     android:text="首页"/>
@@ -155,6 +156,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:drawablePadding="4dp"
+                        android:padding="8dp"
                         android:drawableTop="@drawable/icon_goods_cart"
                         android:gravity="center"
                         android:text="购物车"/>
@@ -177,6 +179,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawablePadding="4dp"
+                    android:padding="8dp"
                     android:drawableTop="@drawable/icon_goods_kf"
                     android:gravity="center"
                     android:text="客服"/>

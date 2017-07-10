@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 
 /**
  * ===============Txunda===============
@@ -41,9 +42,17 @@ public abstract class BaseAty extends BaseActivity {
         ImmersionBar.with(this).titleBar(vid).init();
     }
 
+    /**
+     * 隐藏键盘
+     */
     public void hideKeyBoard(){
         // 先隐藏键盘
         ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+    public void toEvaluate(View v){
+        startActivity(GoodsEvaluateAty.class,null);
+    }
+
 }
