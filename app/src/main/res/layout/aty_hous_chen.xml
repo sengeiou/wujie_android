@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/aty_title"></include>
+    <View
+        style="@style/line_view"
+        />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_discount_chen"
+        />
+    <RadioGroup
+        android:id="@+id/rg_hous"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/rb_hous_synthesize"
+            style="@style/menu_screen"
+            android:text="踪合"
+            android:checked="true"
+            />
+        <RadioButton
+            android:id="@+id/rb_hous_newest"
+            style="@style/menu_screen"
+            android:text="最新"
+            />
+        <RadioButton
+            android:id="@+id/rb_hous_distance"
+            style="@style/menu_screen"
+            android:text="距离"
+            android:drawableRight="@drawable/selector_screen_rb_chen"
+            />
+        <RadioButton
+            android:id="@+id/rb_hous_price"
+            style="@style/menu_screen"
+            android:text="价格"
+            android:drawableRight="@drawable/selector_screen_rb_chen"
+            />
+    </RadioGroup>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_hous"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
