@@ -7,17 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.CarBean;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
  * ===============Txunda===============
@@ -28,18 +21,18 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * ===============Txunda===============
  */
 
-public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHolder> {
+public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAdapter.ViewHolder> {
 
     private Context context;
 
 
-    public HousChenAdapter(Context context){
+    public DetilsTypeChenAdapter(Context context){
         this.context=context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_chen,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_type_chen,parent,false);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }

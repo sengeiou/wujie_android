@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.ants.theantsgo.view.banner.SliderBanner
+                android:id="@+id/sb_houses_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:slider_banner_indicator="@+id/sb_houses_dotview"
+                app:slider_banner_pager="@+id/sb_houses_viewpager"
+                app:slider_banner_time_interval="2000">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/sb_houses_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
+
+                <com.ants.theantsgo.view.banner.DotView
+                    android:id="@+id/sb_houses_dotview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp"
+                    app:dot_radius="4dp"
+                    app:dot_selected_color="@android:color/holo_red_light"
+                    app:dot_unselected_color="#7E7E7B"></com.ants.theantsgo.view.banner.DotView>
+            </com.ants.theantsgo.view.banner.SliderBanner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="棠颂别墅"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <View
+                style="@style/line_view"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.2万-3万"
+                    android:textColor="@color/theme_color"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/平"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="地    址:" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="大兴亦庄南海子公园北侧"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="开    盘:" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5#、6#、7#独栋已于2016年9月21日开盘独栋已于2016年9月21日开盘（在售）"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:text="交    房:" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一期5-7#独栋预计在2018年下半年交房"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <View
+                style="@style/line_view_h"
+                android:layout_marginTop="15dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:padding="10dp"
+                    android:text="商品评价"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tv_houses_evaluate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape_grey_no_chen_chen"
+                    android:padding="5dp"
+                    android:text="更多评价(54)"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <include layout="@layout/aty_estimate_layout"/>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</LinearLayout>

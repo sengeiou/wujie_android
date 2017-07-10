@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:id="@+id/rl_hous_detail"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="48dp">
+
+        <ImageView
+            android:id="@+id/title_be_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="beBack"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:src="@drawable/icon_be_back_b"
+            android:layout_alignTop="@+id/rg_hous_detail"
+            android:layout_alignParentStart="true" />
+
+
+        <RadioGroup
+            android:id="@+id/rg_hous_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_detail_houses"
+                style="@style/hous_tab_detail"
+                android:text="楼盘" />
+
+            <RadioButton
+                android:id="@+id/rb_detail_type"
+                style="@style/hous_tab_detail"
+                android:text="户型" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_hous_detail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        ></FrameLayout>
+    
+    <View
+        style="@style/line_view"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系电话"
+                />
+            <TextView
+                android:id="@+id/tv_detail_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="022-1236-5989"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_detail_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/icon_heart_chen"
+            android:background="@color/colorRed"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:layout_marginRight="0.5dp"
+
+            android:text="收藏"
+            />
+        <TextView
+            android:id="@+id/tv_detail_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@mipmap/icon_phone_chen"
+            android:background="@color/colorRed"
+            android:padding="15dp"
+            android:textColor="@color/white"
+            android:text="电话"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
