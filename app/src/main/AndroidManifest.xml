@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.txd.hzj.wjlp">
+          package="com.txd.hzj.wjlp">
 
     <!--打电话-->
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -60,12 +60,15 @@
         <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty"/>
 
         <!--汽车购-->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
-        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
+        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"/>
         <!--房产购-->
-        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
-        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"></activity>
-
+        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
+        <!--商品属性选择-->
+        <activity android:name=".mellOnLine.gridClassify.GoodsAttributeAty"/>
+        <!--商品评价-->
+        <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty"/>
     </application>
 
 </manifest>
