@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.car;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -36,6 +38,16 @@ public class CarChenAty extends BaseAty{
     private RecyclerView mRvCarType;
     @ViewInject(R.id.rv_car_brand)//品牌选择
     private  RecyclerView rvCarBrand;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        /**
+         * 沉浸式解决顶部标题重叠
+         */
+        showStatusBar(R.id.ie_car);
+    }
 
     @OnClick({R.id.tv_car_screen})
     public void onClick(View v){

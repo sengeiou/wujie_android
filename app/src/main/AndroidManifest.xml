@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.txd.hzj.wjlp">
+    package="com.txd.hzj.wjlp">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
@@ -49,8 +49,16 @@
         <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty"/>
         <!--拼团详情-->
         <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty"/>
+
         <!--汽车购-->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
+        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
+        <!--房产购-->
+        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
+
+
+
+
 
     </application>
 

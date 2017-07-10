@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.ants.theantsgo.tool.ToolKit;
 import com.txd.hzj.wjlp.R;
 
 import java.util.List;
@@ -167,7 +168,10 @@ public class ATDragView extends View {
             canvas.drawText(tempDesc, DEF_PADDING + unitWidth * i - measureTextWidth / 2, seekTextY, seekTextPaint);
             linePaint.setStrokeWidth(2);//设置线宽
             linePaint.setColor(getResources().getColor(R.color.colorGrey));
-            canvas.drawLine(DEF_PADDING + unitWidth * i - measureTextWidth / 2+8,seekTextY+50,DEF_PADDING + unitWidth * i - measureTextWidth / 2+8,seekTextY+120, linePaint);
+//            canvas.drawLine(DEF_PADDING + unitWidth * i - measureTextWidth / 2+8,seekTextY+50,DEF_PADDING + unitWidth * i - measureTextWidth / 2+8,seekTextY+120, linePaint);
+            int numWidith= ToolKit.dip2px(getContext(),5f);
+            canvas.drawLine(DEF_PADDING + unitWidth * i - measureTextWidth / 2+numWidith, viewHeight * SEEK_BG_SCALE-numWidith,DEF_PADDING + unitWidth * i - measureTextWidth / 2+numWidith, viewHeight * SEEK_BG_SCALE+ToolKit.dip2px(getContext(),8f), linePaint);
+
 
         }
     }
@@ -236,7 +240,7 @@ public class ATDragView extends View {
             }
         }
         seekPbRectF = new RectF(leftSeekBallX, viewHeight * SEEK_BG_SCALE, rightSeekBallX, viewHeight * SEEK_BG_SCALE + BG_HEIGHT);
-        invalidate();
+                invalidate();
         return true;
     }
 
@@ -246,14 +250,14 @@ public class ATDragView extends View {
 
     private void drawRightCircle(Canvas canvas) {
         setLayerType(LAYER_TYPE_SOFTWARE, null);
-        canvas.drawCircle(rightSeekBallX, seekBallY, seekBallRadio, seekBallStrokePaint);
-        canvas.drawCircle(rightSeekBallX, seekBallY, seekBallRadio - SEEK_STROKE_SIZE, seekBallEndPaint);
+        canvas.drawCircle(rightSeekBallX-seekBallRadio, seekBallY, seekBallRadio, seekBallStrokePaint);
+        canvas.drawCircle(rightSeekBallX-seekBallRadio, seekBallY, seekBallRadio - SEEK_STROKE_SIZE, seekBallEndPaint);
     }
 
     private void drawLeftCircle(Canvas canvas) {
         setLayerType(LAYER_TYPE_SOFTWARE, null);
-        canvas.drawCircle(leftSeekBallX, seekBallY, seekBallRadio, seekBallStrokePaint);
-        canvas.drawCircle(leftSeekBallX, seekBallY, seekBallRadio - SEEK_STROKE_SIZE, seekBallPaint);
+        canvas.drawCircle(leftSeekBallX-seekBallRadio, seekBallY, seekBallRadio, seekBallStrokePaint);
+        canvas.drawCircle(leftSeekBallX-seekBallRadio, seekBallY, seekBallRadio - SEEK_STROKE_SIZE, seekBallPaint);
     }
 
     private void drawSeekBG(Canvas canvas) {

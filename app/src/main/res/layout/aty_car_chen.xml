@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_car_chen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:paddingTop="23dp"
     android:orientation="vertical">
 
 
@@ -13,20 +13,14 @@
 
     <View
         android:id="@+id/ie_view"
-        android:layout_below="@+id/ie_car"
-        style="@style/line_view"></View>
+        style="@style/line_view"
+        android:layout_below="@+id/ie_car"></View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ie_view"
         android:orientation="vertical">
-
-        <com.txd.hzj.wjlp.view.ATDragView
-            android:id="@+id/at_dragView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -45,6 +39,13 @@
                 android:layout_alignParentRight="true"
                 android:text="12-70万" />
         </RelativeLayout>
+
+
+        <com.txd.hzj.wjlp.view.ATDragView
+            android:id="@+id/at_dragView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp" />
 
 
         <TextView
@@ -70,20 +71,18 @@
             android:id="@+id/rv_car_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
-            ></android.support.v7.widget.RecyclerView>
+            android:layout_marginBottom="50dp"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_car_screen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="筛选"
-        android:padding="10dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:background="@color/theme_color"
         android:layout_alignParentBottom="true"
-        />
+        android:background="@color/theme_color"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="筛选"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

@@ -32,9 +32,10 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -177,7 +178,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private AllGvLvAdapter allGvLvAdapter7;
     private AllGvLvAdapter allGvLvAdapter8;
     private Bundle bundle;
-
     public MellonLineFgt() {
     }
 
@@ -214,8 +214,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         break;
                     case 7://汽车购
                         startActivity(CarChenAty.class, null);
-                        break;
 
+                        break;
+                    case 8://房产购
+                        startActivity(HousChenAty.class, null);
+
+                        break;
                 }
             }
         });
