@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.TicketZoonAty">
+    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty">
 
     <include layout="@layout/aty_title"/>
 

@@ -44,11 +44,11 @@
         <!--限量购详情-->
         <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty"/>
         <!--分类-->
-        <activity android:name=".mellOnLine.TicketZoonAty"/>
+        <activity android:name=".mellOnLine.gridClassify.TicketZoonAty"/>
         <!--票券详情-->
         <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty"/>
         <!--拼团详情-->
-        <activity android:name=".mellOnLine.GoodLuckDetailsAty"/>
+        <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty"/>
         <!--汽车购-->
         <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
 

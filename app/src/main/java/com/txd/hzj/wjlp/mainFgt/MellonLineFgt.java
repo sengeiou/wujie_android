@@ -32,7 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
-import com.txd.hzj.wjlp.mellOnLine.TicketZoonAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;

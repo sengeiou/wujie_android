@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine;
+package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,7 +20,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -279,7 +278,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.creat_group_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -329,9 +328,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.be_back_top_iv://回到顶部
+            case R.id.be_back_top_iv:// 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
+                break;
+            case R.id.creat_group_tv:// 一键开团
                 break;
         }
     }

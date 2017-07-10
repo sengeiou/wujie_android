@@ -12,7 +12,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
-import com.txd.hzj.wjlp.mellOnLine.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
