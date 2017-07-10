@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
@@ -211,6 +212,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         bundle = new Bundle();
                         bundle.putInt("type", 8);
                         startActivity(TicketZoonAty.class, bundle);
+                        break;
+                    case 3:// 主题街
+                        startActivity(ThemeStreetHzjAty.class, null);
                         break;
                     case 7://汽车购
                         startActivity(CarChenAty.class, null);

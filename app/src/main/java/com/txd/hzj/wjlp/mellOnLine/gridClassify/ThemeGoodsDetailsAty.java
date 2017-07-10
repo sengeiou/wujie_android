@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -19,7 +18,6 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -27,15 +25,8 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * ===============Txunda===============
- * 作者：DUKE_HwangZj
- * 日期：2017/7/10 0010
- * 时间：上午 11:00
- * 描述：拼团详情
- * ===============Txunda===============
- */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
+public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener{
+
     /**
      * 商品布局
      */
@@ -222,19 +213,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
 
-    /**
-     * 别人在开团
-     */
-    @ViewInject(R.id.good_luck_lv)
-    private ListViewForScrollView good_luck_lv;
-    /**
-     * 别人在开团
-     */
-    private List<String> group;
-
-    private GoodLuckAdapter goodLuckAdapter;
-    private Bundle bundle;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -248,16 +226,28 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
         getHeight();
-        // 拼团列表
-        good_luck_lv.setAdapter(goodLuckAdapter);
-        goodLuckAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
-            @Override
-            public void onTextViewClick(View v, int position) {
-                bundle = new Bundle();
-                bundle.putInt("status", position);
-                startActivity(CreateGroupAty.class, bundle);
-            }
-        });
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.aty_theme_goods_details;
+    }
+
+    @Override
+    protected void initialized() {
+        image = new ArrayList<>();
+        image.add(R.drawable.icon_temp_goods_banner);
+        image.add(R.drawable.icon_temp_goods_banner);
+        image.add(R.drawable.icon_temp_goods_banner);
+        image.add(R.drawable.icon_temp_goods_banner);
+        image.add(R.drawable.icon_temp_goods_banner);
+        posts = new ArrayList<>();
+        postAdapter = new PostAdapter(this, posts);
+    }
+
+    @Override
+    protected void requestData() {
+
     }
 
     /**
@@ -288,7 +278,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.creat_group_tv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -338,14 +328,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.be_back_top_iv:// 回到顶部
+            case R.id.be_back_top_iv://回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
-                break;
-            case R.id.creat_group_tv:// 一键开团
-                bundle = new Bundle();
-                bundle.putInt("status", 2);
-                startActivity(CreateGroupAty.class, bundle);
                 break;
         }
     }
@@ -389,30 +374,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     };
 
-    @Override
-    protected int getLayoutResId() {
-        return R.layout.aty_good_luck_details;
-    }
-
-    @Override
-    protected void initialized() {
-        image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        posts = new ArrayList<>();
-        postAdapter = new PostAdapter(this, posts);
-        group = new ArrayList<>();
-        goodLuckAdapter = new GoodLuckAdapter(this, group);
-    }
-
-    @Override
-    protected void requestData() {
-
-    }
-
     private void getHeight() {
         ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -423,7 +384,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bannerHeight = online_carvouse_view.getHeight();
                 topHeighe = top_lin_layout.getHeight();
                 secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
+                limit_goods_details_sc.setScrollViewListener(ThemeGoodsDetailsAty.this);
             }
         });
     }
@@ -444,4 +405,5 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             }
         }
     }
+
 }

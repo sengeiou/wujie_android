@@ -25,33 +25,40 @@
         <activity android:name=".mellOnLine.SubclassificationAty"/>
         <!-- 分类 (1-2) -->
         <activity android:name=".mellOnLine.AllClassifyAty"/>
-        <!--搜索-->
+        <!-- 搜索 -->
         <activity android:name=".mellOnLine.SearchAty"/>
-        <!--商品列表-->
+        <!-- 商品列表 -->
         <activity android:name=".mellOnLine.GoodsListAty"/>
-        <!--商家列表-->
+        <!-- 商家列表 -->
         <activity
             android:name=".mellOnLine.MellListAty"
             android:theme="@style/AppTheme"/>
-        <!--消息-->
+        <!-- 消息 -->
         <activity android:name=".mellOnLine.MessageAty"/>
-        <!--消息列表-->
+        <!-- 消息列表 -->
         <activity android:name=".mellOnLine.OrderAndInformMessageListAty"/>
-        <!--公告详情-->
+        <!-- 公告详情 -->
         <activity android:name=".mellOnLine.NoticeDetailsAty"/>
-        <!--限量购-->
+        <!-- 限量购 -->
         <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty"/>
-        <!--限量购详情-->
+        <!-- 限量购详情 -->
         <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty"/>
-        <!--分类-->
+        <!-- 分类 -->
         <activity android:name=".mellOnLine.gridClassify.TicketZoonAty"/>
-        <!--票券详情-->
+        <!-- 票券详情 -->
         <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty"/>
-        <!--拼团详情-->
+        <!-- 拼团详情 -->
         <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty"/>
-        <!--汽车购-->
+        <!-- 汽车购 -->
         <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
-
+        <activity android:name=".mellOnLine.gridClassify.CreateGroupAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.ThemeStreetHzjAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsListAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty">
+        </activity>
     </application>
 
 </manifest>
