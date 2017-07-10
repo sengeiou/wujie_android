@@ -51,121 +51,22 @@
                                 android:background="@color/white"
                                 android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:background="#F3ABA7"
-                                    android:gravity="center_vertical"
-                                    android:orientation="horizontal"
-                                    android:padding="8dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="20dp"
-                                        android:drawablePadding="12dp"
-                                        android:drawableStart="@drawable/icon_time_count_down"
-                                        android:gravity="center"
-                                        android:text="距离本场结束"
-                                        android:textColor="@color/white"
-                                        android:textSize="16sp"/>
-
-                                    <cn.iwgang.countdownview.CountdownView
-                                        android:id="@+id/goods_count_down_view"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center_horizontal"
-                                        app:isHideTimeBackground="false"
-                                        app:isShowDay="false"
-                                        app:isShowHour="true"
-                                        app:isShowMillisecond="false"
-                                        app:isShowMinute="true"
-                                        app:isShowSecond="true"
-                                        app:isShowTimeBgDivisionLine="false"
-                                        app:suffixGravity="center"
-                                        app:suffixTextColor="@color/white"
-                                        app:suffixTextSize="16sp"
-                                        app:timeBgColor="@color/transparent"
-                                        app:timeTextColor="#FFFFFF"
-                                        app:timeTextSize="16sp"/>
-                                </LinearLayout>
-
                                 <include layout="@layout/aty_goods_details_title"/>
 
-                                <FrameLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
-                                        android:id="@+id/goods_custom_pb"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="15dp"
-                                        android:layout_gravity="center"
-                                        android:layout_margin="8dp"
-                                        android:background="@drawable/shape_tb_progress"
-                                        app:borderWidth="0dp"
-                                        app:isShowDesc="false"
-                                        app:progressColor="#599FFF"
-                                        app:progressDesc="50%"
-                                        app:progressDescColor="@color/white"
-                                        app:progressRadius="7dp"/>
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="center"
-                                        android:text="50%"
-                                        android:textColor="@color/white"/>
-                                </FrameLayout>
-
-
                                 <TextView
-                                    android:id="@+id/goods_residue_tv"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
-                                    android:gravity="end"
-                                    android:text="已抢419件/剩余56件"
-                                    android:textColor="@color/gray_text_color"/>
-                            </LinearLayout>
-
-                            <Space
-                                android:layout_width="match_parent"
-                                android:layout_height="8dp"/>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:padding="8dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/icon_temp_han"
-                                    />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:text="韩国进口，境外发货"/>
+                                    android:background="@drawable/shape_tv_bg_by_orange"
+                                    android:paddingBottom="4dp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingTop="4dp"
+                                    android:text="可使用30%购物券"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"/>
 
                             </LinearLayout>
-
-                            <Space
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"/>
-
-                            <TextView
-                                android:id="@+id/goods_tariff_tv"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@color/white"
-                                android:padding="8dp"
-                                android:text="进口税 50元/件"/>
 
                             <Space
                                 android:layout_width="match_parent"
@@ -200,6 +101,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp"/>
                     </LinearLayout>
+
                     <include layout="@layout/aty_goods_details_other_info"/>
                 </LinearLayout>
 
