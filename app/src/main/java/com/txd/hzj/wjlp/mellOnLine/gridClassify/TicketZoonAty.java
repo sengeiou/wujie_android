@@ -65,7 +65,7 @@ public class TicketZoonAty extends BaseAty {
         mFragments = new ArrayList<>();
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         for (String title : mTitles) {
-            mFragments.add(TicketZoonFgt.getFgt(title,type));
+            mFragments.add(TicketZoonFgt.getFgt(title, type));
         }
     }
 

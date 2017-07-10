@@ -26,7 +26,7 @@
     <!-- 提示文字的颜色 -->
     <color name="a_large_blank_area_color">#F6F6F6</color>
     <!-- 分割线颜色 -->
-    <color name="view_color">#D2D2D2</color>
+    <color name="view_color">#B9B9B9</color>
     <!-- 背景颜色 F6F6F6 -->
     <color name="bg_color">#F6F6F6</color>
     <!-- 今日必抢字体颜色颜色 C2C2C2 -->

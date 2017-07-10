@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty">
+
+    <include layout="@layout/aty_title"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/item_theme_lv"/>
+
+            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                android:id="@+id/theme_goods_gv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="4dp"
+                android:numColumns="2"
+                android:scrollbars="none"
+                android:verticalSpacing="4dp"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>
