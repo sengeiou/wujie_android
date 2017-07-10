@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.txd.hzj.wjlp">
 
+    <!--打电话-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -55,6 +58,7 @@
         <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
         <!--房产购-->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
+        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"></activity>
 
 
 
