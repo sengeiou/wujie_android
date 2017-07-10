@@ -49,16 +49,18 @@
         <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty"/>
         <!--拼团详情-->
         <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty"/>
+        <!--主题街-->
+        <activity android:name=".mellOnLine.gridClassify.ThemeStreetHzjAty"/>
+        <!--主题街商品列表-->
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsListAty"/>
+        <!--主题街商品详情-->
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty"/>
 
         <!--汽车购-->
         <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
         <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
         <!--房产购-->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
-
-
-
-
 
     </application>
 
