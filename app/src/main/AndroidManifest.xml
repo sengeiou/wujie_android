@@ -45,14 +45,9 @@
         <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty">
         </activity>
 
-        <!-- 汽车购 -->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
-        <activity android:name=".mellOnLine.TicketZoonAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty">
-        </activity>
-        <activity android:name=".mellOnLine.GoodLuckDetailsAty">
-        </activity>
+        <!--汽车购-->
+        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
+
     </application>
 
 </manifest>

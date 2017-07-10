@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.car;
 
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tencent.mm.opensdk.utils.Log;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -15,8 +15,6 @@ import com.txd.hzj.wjlp.view.ATDragView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
  * ===============Txunda===============
@@ -30,16 +28,25 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 public class CarChenAty extends BaseAty{
 
-
+    @ViewInject(R.id.titlt_conter_tv)//标题
+    private TextView titlt_conter_tv;
     @ViewInject(R.id.at_dragView)//价格筛选
     private ATDragView mAtDragView;
-
-
     @ViewInject(R.id.rv_car_type)//车型
     private RecyclerView mRvCarType;
-
     @ViewInject(R.id.rv_car_brand)//品牌选择
     private  RecyclerView rvCarBrand;
+
+    @OnClick({R.id.tv_car_screen})
+    public void onClick(View v){
+        switch (v.getId()){
+            //跳转到汽车购商品页
+            case R.id.tv_car_screen:
+                startActivity(CarCommodityChenAty.class,null);
+                break;
+        }
+
+    }
 
     @Override
     protected int getLayoutResId() {
@@ -48,6 +55,7 @@ public class CarChenAty extends BaseAty{
 
     @Override
     protected void initialized() {
+        titlt_conter_tv.setText("汽车购");
         initRecyclerView();//RecyclerView
         
         initAtDrag();//选择价格
