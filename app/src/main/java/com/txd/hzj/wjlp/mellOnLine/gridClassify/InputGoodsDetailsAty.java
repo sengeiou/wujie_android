@@ -19,7 +19,6 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -32,13 +31,12 @@ import cn.iwgang.countdownview.CountdownView;
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
- * 日期：2017/7/7 0007
- * 时间：下午 5:07
- * 描述：限量详情(2-3)
+ * 日期：2017/7/11 0011
+ * 时间：下午 1:02
+ * 描述：进口馆商品详情(7-2)进口详情
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
-
+public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
     /**
      * 商品布局
      */
@@ -99,12 +97,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private ArrayList<Integer> image;
 
     /**
-     * 倒计时
-     */
-    @ViewInject(R.id.goods_count_down_view)
-    private CountdownView goods_count_down_view;
-
-    /**
      * 现价
      */
     @ViewInject(R.id.now_price_tv)
@@ -121,14 +113,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.goods_profit_num_tv)
     private TextView goods_profit_num_tv;
 
-    @ViewInject(R.id.goods_custom_pb)
-    private CustomProgressBar goods_custom_pb;
-
-    /**
-     * 已抢，剩余
-     */
-    @ViewInject(R.id.goods_residue_tv)
-    private TextView goods_residue_tv;
     /**
      * 进口税
      */
@@ -244,7 +228,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -256,13 +239,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 Settings.displayWidth);
         online_carvouse_view.setLayoutParams(layoutParams);
         forBanner();
-        // 倒计时
-        goods_count_down_view.setTag("limitGoods");
-        goods_count_down_view.start(5 * 60 * 60 * 1000);
-
-        // 进度
-        goods_custom_pb.setMaxProgress(100);
-        goods_custom_pb.setCurProgress(50);
         TextViewChange();
 
         wujie_post_lv.setAdapter(postAdapter);
@@ -270,40 +246,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         getHeight();
     }
 
-    /**
-     * 修改TextView的样式
-     */
-    private void TextViewChange() {
-
-        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
-        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
-
-        String only = "已抢419件/剩余56件";
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only, 9, only.length() - 1,
-                ContextCompat.getColor(this, R.color.theme_color));
-        String tariff = "进口税 50元/件";
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
-                ContextCompat.getColor(this, R.color.theme_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FD8214"));
-
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
-
-
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务4.8", 2, Color.parseColor("#FD8214"));
-    }
-
     @Override
     protected int getLayoutResId() {
-        return R.layout.aty_limit_goods;
+        return R.layout.aty_input_goods_details;
     }
 
     @Override
@@ -321,6 +266,34 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     protected void requestData() {
 
+    }
+
+    /**
+     * 修改TextView的样式
+     */
+    private void TextViewChange() {
+
+        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
+        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+                "分红权10.23", 3, Color.parseColor("#FD8214"));
+
+        String tariff = "进口税 50元/件";
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
+                ContextCompat.getColor(this, R.color.theme_color));
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                "运费10元", 2, Color.parseColor("#FD8214"));
+
+        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
+        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
+
+
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
+                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
+                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
+                "物流服务4.8", 2, Color.parseColor("#FD8214"));
     }
 
     @Override
@@ -433,7 +406,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 bannerHeight = online_carvouse_view.getHeight();
                 topHeighe = top_lin_layout.getHeight();
                 secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(LimitGoodsAty.this);
+                limit_goods_details_sc.setScrollViewListener(InputGoodsDetailsAty.this);
             }
         });
     }

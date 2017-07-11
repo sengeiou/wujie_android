@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import static android.media.CamcorderProfile.get;
 
 /**
  * ===============Txunda===============
@@ -41,11 +45,17 @@ public class GoodsAttributeAty extends BaseAty {
 
     private List<String> attrGroup;
     private List<GoodsAttrs> attrs;
+    private List<GoodsAttrs> attrs2;
+
+    private GoodsAttrsAdapter goodsAttrsAdapter;
+
+    private List<GoodsAttrs> selectAttrs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥49.00");
+        goods_attr_lv.setAdapter(goodsAttrsAdapter);
     }
 
     @Override
@@ -57,12 +67,21 @@ public class GoodsAttributeAty extends BaseAty {
     protected void initialized() {
         attrGroup = new ArrayList<>();
         attrs = new ArrayList<>();
+        attrs2 = new ArrayList<>();
+        selectAttrs = new ArrayList<>();
         attrs.add(new GoodsAttrs("S"));
         attrs.add(new GoodsAttrs("M"));
         attrs.add(new GoodsAttrs("L"));
         attrs.add(new GoodsAttrs("XL"));
         attrs.add(new GoodsAttrs("XXL"));
         attrs.add(new GoodsAttrs("XXXL"));
+        attrs2.add(new GoodsAttrs("红色"));
+        attrs2.add(new GoodsAttrs("藏青色"));
+        attrs2.add(new GoodsAttrs("白色"));
+        attrs2.add(new GoodsAttrs("蓝色"));
+        attrs2.add(new GoodsAttrs("军绿色"));
+        attrs2.add(new GoodsAttrs("黑色"));
+        goodsAttrsAdapter = new GoodsAttrsAdapter();
     }
 
     @Override
@@ -90,7 +109,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
 
             if (null == view) {
                 view = LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout.item_goods_attr_lv, null);
@@ -100,10 +119,48 @@ public class GoodsAttributeAty extends BaseAty {
             } else {
                 avh = (AttrsVh) view.getTag();
             }
-            avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs>(attrs) {
+            if (0 == i) {
+                avh.goods_attrs_title.setText("尺寸");
+                avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs>(attrs) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, GoodsAttrs goodsAttrses) {
+                        TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
+                                        .item_goods_attrs_tfl,
+                                parent, false);
+                        tv.setText(goodsAttrses.getValues());
+                        return tv;
+                    }
+                });
+            } else {
+                avh.goods_attrs_title.setText("颜色");
+                avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs>(attrs2) {
+                    @Override
+                    public View getView(FlowLayout parent, int position, GoodsAttrs goodsAttrses) {
+                        TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
+                                        .item_goods_attrs_tfl,
+                                parent, false);
+                        tv.setText(goodsAttrses.getValues());
+                        return tv;
+                    }
+                });
+            }
+            avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
-                public View getView(FlowLayout parent, int position, GoodsAttrs goodsAttrses) {
-                    return null;
+                public boolean onTagClick(View view, int position, FlowLayout parent) {
+//                    get(i).get(position).getXXX();
+                    if (0 == i) {
+                        showRightTip(attrs.get(position).getValues());
+                    } else {
+                        showRightTip(attrs2.get(position).getValues());
+                    }
+                    return true;
+                }
+            });
+            // 这个在单选中貌似并没有用(多选记录下标)
+            avh.goods_attr_tfl.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+                @Override
+                public void onSelected(Set<Integer> selectPosSet) {
+                    L.e("=====选中的=====", selectPosSet.toString());
                 }
             });
             return view;
@@ -111,7 +168,12 @@ public class GoodsAttributeAty extends BaseAty {
 
         class AttrsVh {
             /**
-             * TagFlowLayout
+             * 标题
+             */
+            @ViewInject(R.id.goods_attrs_title)
+            private TextView goods_attrs_title;
+            /**
+             * 属性值TagFlowLayout
              */
             @ViewInject(R.id.goods_attr_tfl)
             private TagFlowLayout goods_attr_tfl;

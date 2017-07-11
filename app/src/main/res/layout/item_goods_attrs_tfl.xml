@@ -4,6 +4,7 @@
           android:layout_height="wrap_content"
           android:layout_margin="4dp"
           android:background="@drawable/selector_tab_bg"
-          android:text="S">
+          android:text="S"
+          android:textColor="@drawable/text_color">
 
 </TextView>

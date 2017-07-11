@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
@@ -179,6 +180,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private AllGvLvAdapter allGvLvAdapter7;
     private AllGvLvAdapter allGvLvAdapter8;
     private Bundle bundle;
+
     public MellonLineFgt() {
     }
 
@@ -206,23 +208,41 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     case 1:// 票券区
                         bundle = new Bundle();
                         bundle.putInt("type", 1);
+                        bundle.putString("title", "票券区");
                         startActivity(TicketZoonAty.class, bundle);
                         break;
                     case 2:// 票券区
                         bundle = new Bundle();
                         bundle.putInt("type", 8);
+                        bundle.putString("title", "拼团购");
                         startActivity(TicketZoonAty.class, bundle);
                         break;
                     case 3:// 主题街
-                        startActivity(ThemeStreetHzjAty.class,null);
+                        startActivity(ThemeStreetHzjAty.class, null);
+                        break;
+                    case 4:// 无界预购
+                        bundle = new Bundle();
+                        bundle.putInt("type", 2);
+                        bundle.putString("title", "无界预购");
+                        startActivity(TicketZoonAty.class, bundle);
+                        break;
+                    case 5:// 进口馆
+                        bundle = new Bundle();
+                        bundle.putInt("type", 3);
+                        bundle.putString("title", "拼团购");
+                        startActivity(GoodsInputHzjAty.class, bundle);
+                        break;
+                    case 6:// 竞拍汇
+                        bundle = new Bundle();
+                        bundle.putInt("type", 3);
+                        bundle.putString("title", "拼团购");
+                        startActivity(GoodsInputHzjAty.class, bundle);
                         break;
                     case 7://汽车购
                         startActivity(CarChenAty.class, null);
-
                         break;
                     case 8://房产购
                         startActivity(HousChenAty.class, null);
-
                         break;
                 }
             }

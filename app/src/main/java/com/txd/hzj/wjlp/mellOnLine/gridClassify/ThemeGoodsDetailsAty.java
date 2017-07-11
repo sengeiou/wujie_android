@@ -25,7 +25,15 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener{
+/**
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/7/11 0011
+ * 时间：上午 10:31
+ * 描述：主题街商品详情
+ * ===============Txunda===============
+ */
+public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
 
     /**
      * 商品布局
@@ -278,7 +286,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.details_into_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -331,6 +339,9 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             case R.id.be_back_top_iv://回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
+                break;
+            case R.id.details_into_mell_tv://进店逛逛
+                startActivity(MellInfoAty.class, null);
                 break;
         }
     }

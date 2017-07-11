@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -142,6 +143,19 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 page_index = 3;
                 fragmentChangeManager.setFragments(3);
                 break;
+        }
+    }
+
+    private long firstTime;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() - firstTime < 1500) {
+            hasAnimiation = false;
+            AppManager.getInstance().killAllActivity();
+        } else {
+            firstTime = System.currentTimeMillis();
+            showToast("再按一次返回桌面");
         }
     }
 }
