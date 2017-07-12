@@ -74,16 +74,16 @@
         <activity
             android:name=".mellOnLine.gridClassify.ToShareAty"
             android:theme="@style/share_style"/>
-        <activity android:name=".mellOnLine.gridClassify.MellInfoAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty">
-        </activity>
+        <!--店铺详情-->
+        <activity android:name=".mellOnLine.gridClassify.MellInfoAty"/>
+        <!--进口馆列表-->
+        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty"/>
+        <!--进口馆商品详情-->
+        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty"/>
+        <!--竞拍-->
+        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty"/>
+        <!--竞拍详情-->
+        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
     </application>
 
 </manifest>
