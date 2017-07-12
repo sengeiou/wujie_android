@@ -31,6 +31,7 @@
         <item name="android:textColor">@color/app_text_color</item>
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="auction_name_grage">
         <item name="android:textColor">@color/app_text_color</item>
         <item name="android:textSize">16sp</item>
@@ -39,6 +40,11 @@
     <style name="goods_price_style_white">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="cart_goods_price_style">
+        <item name="android:textColor">@color/app_text_color</item>
+        <item name="android:textSize">12sp</item>
     </style>
     <!--拍品详情价格18sp-->
     <style name="auction_price_style_18">

@@ -26,4 +26,16 @@
         android:text="零食"
         android:textColor="@color/app_text_color"
         android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/titlt_right_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:text="编辑"
+        android:visibility="gone"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textColor="@color/app_text_color"
+        android:textSize="16sp"/>
 </RelativeLayout>

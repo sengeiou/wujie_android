@@ -17,7 +17,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：上午 10:47
- * 描述：公告详情
+ * 描述：公告详情(无界头条详情)
  * ===============Txunda===============
  */
 public class NoticeDetailsAty extends BaseAty {
@@ -27,11 +27,17 @@ public class NoticeDetailsAty extends BaseAty {
     @ViewInject(R.id.notice_details_wv)
     public WebView notice_details_wv;
 
+    private int from = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        titlt_conter_tv.setText("详情");
         showStatusBar(R.id.title_re_layout);
+        if(0==from){
+            titlt_conter_tv.setText("详情");
+        } else {
+            titlt_conter_tv.setText("无界头条");
+        }
         initWebView();
     }
 
@@ -68,7 +74,7 @@ public class NoticeDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        from = getIntent().getIntExtra("from", 0);
     }
 
     @Override

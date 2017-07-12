@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
@@ -43,6 +45,23 @@ public class GoodsAttributeAty extends BaseAty {
     @ViewInject(R.id.goods_attr_lv)
     private ListView goods_attr_lv;
 
+    /**
+     * 首页，客服。。。
+     */
+    @ViewInject(R.id.at_left_lin_layout)
+    private LinearLayout at_left_lin_layout;
+
+    /**
+     * 假如购物车
+     */
+    @ViewInject(R.id.goods_into_cart_tv)
+    private TextView goods_into_cart_tv;
+    /**
+     * 假如购物车
+     */
+    @ViewInject(R.id.to_buy_must_tv)
+    private TextView to_buy_must_tv;
+
     private List<String> attrGroup;
     private List<GoodsAttrs> attrs;
     private List<GoodsAttrs> attrs2;
@@ -50,12 +69,28 @@ public class GoodsAttributeAty extends BaseAty {
     private GoodsAttrsAdapter goodsAttrsAdapter;
 
     private List<GoodsAttrs> selectAttrs;
+    private int from = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥49.00");
         goods_attr_lv.setAdapter(goodsAttrsAdapter);
+        if (1 == from) {
+            to_buy_must_tv.setText("确定");
+            goods_into_cart_tv.setVisibility(View.GONE);
+            at_left_lin_layout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    @OnClick({R.id.to_buy_must_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.to_buy_must_tv:// 立即购买，确定
+                break;
+        }
     }
 
     @Override
@@ -65,6 +100,7 @@ public class GoodsAttributeAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        from = getIntent().getIntExtra("from", 0);
         attrGroup = new ArrayList<>();
         attrs = new ArrayList<>();
         attrs2 = new ArrayList<>();

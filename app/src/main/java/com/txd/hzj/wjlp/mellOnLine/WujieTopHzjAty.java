@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnItemClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
@@ -42,7 +44,19 @@ public class WujieTopHzjAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("无界头条");
         wujie_top_lv.setAdapter(topAdapter);
+    }
 
+    @Override
+    @OnItemClick({R.id.wujie_top_lv})
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+        switch (parent.getId()){
+            case R.id.wujie_top_lv://头条详情
+                Bundle bundle = new Bundle();
+                bundle.putInt("from",1);
+                startActivity(NoticeDetailsAty.class,bundle);
+                break;
+        }
     }
 
     @Override
