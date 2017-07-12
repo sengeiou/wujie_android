@@ -80,6 +80,10 @@
         </activity>
         <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty">
         </activity>
+        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty">
+        </activity>
     </application>
 
 </manifest>

@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
@@ -235,8 +236,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     case 6:// 竞拍汇
                         bundle = new Bundle();
                         bundle.putInt("type", 3);
-                        bundle.putString("title", "拼团购");
-                        startActivity(GoodsInputHzjAty.class, bundle);
+                        bundle.putString("title", "竞拍汇");
+                        startActivity(AuctionCollectAty.class, bundle);
                         break;
                     case 7://汽车购
                         startActivity(CarChenAty.class, null);

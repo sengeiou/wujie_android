@@ -40,6 +40,9 @@ public class LimitAdapter extends BaseAdapter {
         this.type = type;
         inflater = LayoutInflater.from(context);
     }
+    public void setType(int type) {
+        this.type = type;
+    }
 
     @Override
     public int getCount() {

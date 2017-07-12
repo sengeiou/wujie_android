@@ -146,6 +146,55 @@ public class ChangeTextViewStyle {
                 unit_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(styledText, TextView.BufferType.SPANNABLE);
     }
+    /**
+     * 修改商品详情商家描述(换行)
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forAuctionNameAndGrade(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position = 0;
+        unit_position = str.indexOf("\n");
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.auction_name_grage), 0,
+                unit_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
 
+    /**
+     * 拍品详情--去报名(换行)
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forSingUpWhite(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position = 0;
+        unit_position = str.indexOf("\n");
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.goods_price_style_white), 0,
+                unit_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
+
+    /**
+     * 拍品详情--当前价
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forAuctionPrice(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position = 0;
+        unit_position = str.indexOf("￥");
+        int len = str.length();
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.auction_price_style_18),
+                unit_position, unit_position + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.auction_price_style_24),
+                unit_position+1, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
 
 }

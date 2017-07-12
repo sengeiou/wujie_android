@@ -4,11 +4,16 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -63,6 +68,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private MineFgt mineFgt;
     private ArrayList<Fragment> fragments;
     private FragmentChangeManager fragmentChangeManager;
+
+    private PopupWindow mCurPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +127,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.onClick(v);
         switch (v.getId()) {
             case R.id.mach_more_tv:// 更多
+                L.e("=====zhixingle=====");
+                mCurPopupWindow = showPopupWindow(v);
                 break;
         }
     }
@@ -150,12 +159,27 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     public void onBackPressed() {
-        if (System.currentTimeMillis() - firstTime < 1500) {
-            hasAnimiation = false;
-            AppManager.getInstance().killAllActivity();
+        if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+            mCurPopupWindow.dismiss();
         } else {
-            firstTime = System.currentTimeMillis();
-            showToast("再按一次返回桌面");
+            if (System.currentTimeMillis() - firstTime < 1500) {
+                hasAnimiation = false;
+                AppManager.getInstance().killAllActivity();
+            } else {
+                firstTime = System.currentTimeMillis();
+                showToast("再按一次返回桌面");
+            }
         }
     }
+    private PopupWindow showPopupWindow(View anchorView) {
+        final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(R.layout
+                .main_popup_windeow_layout, null);
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayWidth, false);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(anchorView);
+        return popupWindow;
+    }
+
 }
