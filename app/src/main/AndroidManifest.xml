@@ -85,6 +85,7 @@
         <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty"/>
         <!-- 竞拍详情 -->
         <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
+        <!-- 无界头条 -->
         <activity android:name=".mellOnLine.WujieTopHzjAty">
         </activity>
     </application>
