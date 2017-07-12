@@ -38,6 +38,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:onClick="toSearch"
         android:layout_toEndOf="@+id/title_scan_tv"
         android:layout_toStartOf="@+id/title_classify_tv"
         android:background="@drawable/shape_search_view"
@@ -103,6 +104,7 @@
         android:paddingRight="12dp"
         android:paddingTop="4dp"
         android:text="分类"
+        android:onClick="toClassify"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="gone"/>
@@ -114,6 +116,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="6dp"
         android:layout_marginStart="6dp"
+        android:onClick="toMessage"
         >
 
         <TextView

@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
@@ -285,18 +286,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     };
 
     @Override
-    @OnClick({R.id.title_classify_tv, R.id.title_search_tv, R.id.message_layout})
+    @OnClick({R.id.wujie_top_lin_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.title_classify_tv:// 分类
-                startActivity(AllClassifyAty.class, null);
-                break;
-            case R.id.title_search_tv:// 搜索
-                startActivity(SearchAty.class, null);
-                break;
-            case R.id.message_layout:// 消息中心
-                startActivity(MessageAty.class, null);
+            case R.id.wujie_top_lin_layout:// 无界头条
+                startActivity(WujieTopHzjAty.class,null);
                 break;
         }
     }

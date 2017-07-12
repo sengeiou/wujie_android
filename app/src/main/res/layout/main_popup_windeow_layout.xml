@@ -15,21 +15,25 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/main_wj_shop_iv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/icon_wj_shop_hzj"
             android:layout_height="wrap_content"/>
         <ImageView
+            android:id="@+id/welfare_service_iv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/icon_wj_fls_hzj"
             android:layout_height="wrap_content"/>
         <ImageView
+            android:id="@+id/main_wj_hatch_iv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/icon_wj_ssfh_hzj"
             android:layout_height="wrap_content"/>
         <ImageView
+            android:id="@+id/recruit_stockholder_iv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:src="@drawable/icon_wj_zmgd_hzj"

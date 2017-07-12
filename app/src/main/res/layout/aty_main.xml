@@ -65,19 +65,33 @@
                 />
         </RadioGroup>
 
-        <TextView
-            android:id="@+id/mach_more_tv"
+        <LinearLayout
+            android:id="@+id/mach_more_lin_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:drawablePadding="4dp"
-            android:drawableTop="@drawable/icon_main_more"
             android:gravity="center"
+            android:orientation="vertical"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:text="更多"
-            android:textColor="@color/gray_text_color"/>
+            android:paddingTop="4dp">
+
+            <ImageView
+                android:id="@+id/mach_more_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_main_more"/>
+
+            <TextView
+                android:id="@+id/mach_more_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更多"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/gray_text_color"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
     </FrameLayout>
 </LinearLayout>
