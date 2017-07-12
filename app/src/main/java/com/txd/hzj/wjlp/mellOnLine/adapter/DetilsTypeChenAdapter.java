@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
 
 /**
  * ===============Txunda===============
@@ -60,8 +59,7 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentDetail=new Intent(context, HousDetailsChenAty.class);
-                context.startActivity(intentDetail);
+
             }
         });
 
