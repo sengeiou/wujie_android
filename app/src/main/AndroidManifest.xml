@@ -66,6 +66,7 @@
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
         <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"></activity>
 
+
     </application>
 
 </manifest>
