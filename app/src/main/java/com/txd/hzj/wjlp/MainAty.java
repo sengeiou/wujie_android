@@ -4,10 +4,19 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -54,6 +63,18 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      */
     @ViewInject(R.id.mine_rb)
     private RadioButton mine_rb;
+
+    /**
+     * 更多
+     */
+    @ViewInject(R.id.mach_more_iv)
+    private ImageView mach_more_iv;
+    /**
+     * 更多
+     */
+    @ViewInject(R.id.mach_more_tv)
+    private TextView mach_more_tv;
+
     private int page_index = 0;
     // 碎片
     private MellonLineFgt mellonLineFgt;
@@ -62,6 +83,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private MineFgt mineFgt;
     private ArrayList<Fragment> fragments;
     private FragmentChangeManager fragmentChangeManager;
+
+    private PopupWindow mCurPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +137,19 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     @Override
-    @OnClick({R.id.mach_more_tv})
+    @OnClick({R.id.mach_more_lin_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.mach_more_tv:// 更多
+            case R.id.mach_more_lin_layout:// 更多
+                if (mCurPopupWindow == null || !mCurPopupWindow.isShowing()) {
+                    mCurPopupWindow = showPopupWindow(v);
+                    mach_more_tv.setText("关闭");
+                    mach_more_iv.setImageResource(R.drawable.icon_main_close_hzj);
+                } else {
+                    setMoreStatus();
+                    mCurPopupWindow.dismiss();
+                }
                 break;
         }
     }
@@ -144,4 +175,98 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 break;
         }
     }
+
+    private long firstTime;
+
+    @Override
+    public void onBackPressed() {
+        if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+            mCurPopupWindow.dismiss();
+            setMoreStatus();
+        } else {
+            if (System.currentTimeMillis() - firstTime < 1500) {
+                hasAnimiation = false;
+                AppManager.getInstance().killAllActivity();
+            } else {
+                firstTime = System.currentTimeMillis();
+                showToast("再按一次返回桌面");
+            }
+        }
+    }
+
+    /**
+     * 更多
+     */
+    private void setMoreStatus() {
+        mach_more_tv.setText("更多");
+        mach_more_iv.setImageResource(R.drawable.icon_main_more);
+    }
+
+    private PopupWindow showPopupWindow(View anchorView) {
+        final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(
+                R.layout.main_popup_windeow_layout, null);
+        contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayWidth, false);
+
+        // setOutsideTouchable设置生效的前提是setTouchable(true)和setFocusable(false)
+        popupWindow.setOutsideTouchable(true);
+
+        // 设置为true之后，PopupWindow内容区域 才可以响应点击事件
+        popupWindow.setTouchable(true);
+
+        // true时，点击返回键先消失 PopupWindow
+        // 但是设置为true时setOutsideTouchable，setTouchable方法就失效了（点击外部不消失，内容区域也不响应事件）
+        // false时PopupWindow不处理返回键
+        popupWindow.setFocusable(false);
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;   // 这里面拦截不到返回键
+            }
+        });
+        /**
+         * 无界商城
+         */
+        contentView.findViewById(R.id.main_wj_shop_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMoreStatus();
+                popupWindow.dismiss();
+            }
+        });
+        /**
+         * 福利社
+         */
+        contentView.findViewById(R.id.welfare_service_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMoreStatus();
+                popupWindow.dismiss();
+            }
+        });
+        /**
+         * 上市孵化
+         */
+        contentView.findViewById(R.id.main_wj_hatch_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMoreStatus();
+                popupWindow.dismiss();
+            }
+        });
+        /**
+         * 股东招募
+         */
+        contentView.findViewById(R.id.recruit_stockholder_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMoreStatus();
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAsDropDown(anchorView);
+        return popupWindow;
+    }
+
 }

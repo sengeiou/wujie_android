@@ -200,6 +200,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp"/>
                     </LinearLayout>
+
                     <include layout="@layout/aty_goods_details_other_info"/>
                 </LinearLayout>
 
@@ -218,7 +219,7 @@
         <LinearLayout
             android:id="@+id/goods_details_bottom_layout"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:gravity="center"
@@ -240,6 +241,7 @@
                     android:drawablePadding="4dp"
                     android:drawableTop="@drawable/icon_home_pager"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="首页"/>
 
                 <FrameLayout
@@ -255,16 +257,18 @@
                         android:drawablePadding="4dp"
                         android:drawableTop="@drawable/icon_goods_cart"
                         android:gravity="center"
+                        android:padding="8dp"
                         android:text="购物车"/>
 
                     <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/shape_search_message_num_tv"
                         android:gravity="center"
                         android:text="1"
+                        android:textSize="10sp"
                         android:textColor="@color/white"
                         />
 
@@ -277,6 +281,7 @@
                     android:drawablePadding="4dp"
                     android:drawableTop="@drawable/icon_goods_kf"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="客服"/>
 
             </LinearLayout>
@@ -287,8 +292,6 @@
                 android:layout_weight="1"
                 android:background="#F3ABA7"
                 android:gravity="center"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
                 android:text="加入购物车"
                 android:textColor="@color/white"/>
 
@@ -298,8 +301,6 @@
                 android:layout_weight="1"
                 android:background="@color/colorAccent"
                 android:gravity="center"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
                 android:text="立即购买"
                 android:textColor="@color/white"/>
         </LinearLayout>

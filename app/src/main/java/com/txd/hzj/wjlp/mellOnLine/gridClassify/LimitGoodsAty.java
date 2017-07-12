@@ -345,6 +345,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case R.id.goods_title_collect_layout://收藏
                 break;
             case R.id.goods_title_share_tv://分享
+                toShare();
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度

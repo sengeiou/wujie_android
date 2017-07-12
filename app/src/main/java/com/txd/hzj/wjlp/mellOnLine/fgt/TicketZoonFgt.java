@@ -13,6 +13,8 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
@@ -80,6 +82,11 @@ public class TicketZoonFgt extends BaseFgt {
                 switch (type) {
                     case 1:// 票券区
                         startActivity(TicketGoodsDetialsAty.class, null);
+                        break;
+                    case 2:// 预购
+                        startActivity(LimitGoodsAty.class, null);
+                    case 3:// 进口馆
+                        startActivity(InputGoodsDetailsAty.class, null);
                         break;
                 }
             }

@@ -130,10 +130,10 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingBottom="2dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="2dp"
-            android:paddingBottom="2dp"
             >
 
             <ImageView
@@ -157,12 +157,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:drawablePadding="6dp"
+            android:drawableTop="@drawable/icon_goods_title_share"
+            android:padding="2dp"
+            android:paddingBottom="2dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
             android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:drawableTop="@drawable/icon_goods_title_share"
-            android:padding="2dp"
             android:text="分享"
             />
 

@@ -31,12 +31,13 @@ public class TicketZoonAty extends BaseAty {
     private ArrayList<Fragment> mFragments;
     private MyPagerAdapter myPagerAdapter;
     private int type = 0;
+    private String title = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("票券区");
+        titlt_conter_tv.setText(title);
         vp_for_title.setAdapter(myPagerAdapter);
         title_s_tab_layout.setViewPager(vp_for_title);
         title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
@@ -49,7 +50,6 @@ public class TicketZoonAty extends BaseAty {
 
             @Override
             public void onTabReselect(int position) {
-
             }
         });
     }
@@ -62,6 +62,7 @@ public class TicketZoonAty extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("type", 0);
+        title = getIntent().getStringExtra("title");
         mFragments = new ArrayList<>();
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         for (String title : mTitles) {

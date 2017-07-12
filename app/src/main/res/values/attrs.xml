@@ -3,12 +3,12 @@
 
     <!--双向水平筛选价格chen-->
     <declare-styleable name="ATDragView">
-        <attr name="seek_bg_color" format="color" />
-        <attr name="seek_pb_color" format="color" />
-        <attr name="seek_ball_solid_color" format="color" />
-        <attr name="seek_ball_stroke_color" format="color" />
-        <attr name="seek_text_color" format="color" />
-        <attr name="seek_text_size" format="dimension" />
+        <attr name="seek_bg_color" format="color"/>
+        <attr name="seek_pb_color" format="color"/>
+        <attr name="seek_ball_solid_color" format="color"/>
+        <attr name="seek_ball_stroke_color" format="color"/>
+        <attr name="seek_text_color" format="color"/>
+        <attr name="seek_text_size" format="dimension"/>
     </declare-styleable>
 
     <!--双向水平筛选价格，默认颜色chen-->
@@ -20,5 +20,16 @@
         <item name="seek_text_color">#666666</item>
         <item name="seek_text_size">12sp</item>
     </style>
+
+    <!--张鸿洋FlowLayout-->
+    <declare-styleable name="TagFlowLayout">
+        <attr name="auto_select_effect" format="boolean"></attr>
+        <attr name="max_select" format="integer"></attr>
+        <attr name="gravity">
+            <enum name="left" value="-1"/>
+            <enum name="center" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+    </declare-styleable>
 
 </resources>

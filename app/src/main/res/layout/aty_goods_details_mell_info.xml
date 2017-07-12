@@ -176,6 +176,7 @@
                 android:layout_height="32dp"/>
 
             <TextView
+                android:id="@+id/details_into_mell_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_all_estimate"
@@ -183,7 +184,7 @@
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
-                android:text="查看分类"
+                android:text="进店逛逛"
                 android:textColor="@color/colorAccent"/>
 
         </LinearLayout>

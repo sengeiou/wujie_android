@@ -32,6 +32,9 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.WujieTopHzjAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
@@ -179,6 +182,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private AllGvLvAdapter allGvLvAdapter7;
     private AllGvLvAdapter allGvLvAdapter8;
     private Bundle bundle;
+
     public MellonLineFgt() {
     }
 
@@ -206,23 +210,41 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     case 1:// 票券区
                         bundle = new Bundle();
                         bundle.putInt("type", 1);
+                        bundle.putString("title", "票券区");
                         startActivity(TicketZoonAty.class, bundle);
                         break;
                     case 2:// 票券区
                         bundle = new Bundle();
                         bundle.putInt("type", 8);
+                        bundle.putString("title", "拼团购");
                         startActivity(TicketZoonAty.class, bundle);
                         break;
                     case 3:// 主题街
-                        startActivity(ThemeStreetHzjAty.class,null);
+                        startActivity(ThemeStreetHzjAty.class, null);
+                        break;
+                    case 4:// 无界预购
+                        bundle = new Bundle();
+                        bundle.putInt("type", 2);
+                        bundle.putString("title", "无界预购");
+                        startActivity(TicketZoonAty.class, bundle);
+                        break;
+                    case 5:// 进口馆
+                        bundle = new Bundle();
+                        bundle.putInt("type", 3);
+                        bundle.putString("title", "拼团购");
+                        startActivity(GoodsInputHzjAty.class, bundle);
+                        break;
+                    case 6:// 竞拍汇
+                        bundle = new Bundle();
+                        bundle.putInt("type", 3);
+                        bundle.putString("title", "竞拍汇");
+                        startActivity(AuctionCollectAty.class, bundle);
                         break;
                     case 7://汽车购
                         startActivity(CarChenAty.class, null);
-
                         break;
                     case 8://房产购
                         startActivity(HousChenAty.class, null);
-
                         break;
                 }
             }
@@ -264,18 +286,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     };
 
     @Override
-    @OnClick({R.id.title_classify_tv, R.id.title_search_tv, R.id.message_layout})
+    @OnClick({R.id.wujie_top_lin_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.title_classify_tv:// 分类
-                startActivity(AllClassifyAty.class, null);
-                break;
-            case R.id.title_search_tv:// 搜索
-                startActivity(SearchAty.class, null);
-                break;
-            case R.id.message_layout:// 消息中心
-                startActivity(MessageAty.class, null);
+            case R.id.wujie_top_lin_layout:// 无界头条
+                startActivity(WujieTopHzjAty.class,null);
                 break;
         }
     }

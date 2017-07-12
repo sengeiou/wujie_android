@@ -59,14 +59,34 @@
         <!--主题街商品详情-->
         <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty"/>
 
-        <!--汽车购-->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"></activity>
-        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"></activity>
-        <!--房产购-->
-        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"></activity>
-        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"></activity>
-
-
+        <!-- 汽车购 -->
+        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"/>
+        <!-- 房产购 -->
+        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
+        <!-- 商品属性选择 -->
+        <activity
+            android:name=".mellOnLine.gridClassify.GoodsAttributeAty"
+            android:theme="@style/share_style"/>
+        <!-- 商品评价 -->
+        <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty"/>
+        <!-- 分享 -->
+        <activity
+            android:name=".mellOnLine.gridClassify.ToShareAty"
+            android:theme="@style/share_style"/>
+        <!-- 店铺详情 -->
+        <activity android:name=".mellOnLine.gridClassify.MellInfoAty"/>
+        <!-- 进口馆列表 -->
+        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty"/>
+        <!-- 进口馆商品详情 -->
+        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty"/>
+        <!-- 竞拍 -->
+        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty"/>
+        <!-- 竞拍详情 -->
+        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
+        <activity android:name=".mellOnLine.WujieTopHzjAty">
+        </activity>
     </application>
 
 </manifest>

@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty">
+
+    <include layout="@layout/aty_title_for_goods_details"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/goods_details_bottom_layout">
+
+            <com.txd.hzj.wjlp.view.ObservableScrollView
+                android:id="@+id/limit_goods_details_sc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/second_lin_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/top_lin_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <include layout="@layout/aty_banner"/>
+
+                            <include layout="@layout/aty_goods_details_title"/>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="8dp"/>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:padding="8dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/icon_temp_han"
+                                    />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:text="韩国进口，境外发货"/>
+
+                            </LinearLayout>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"/>
+
+                            <TextView
+                                android:id="@+id/goods_tariff_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:padding="8dp"
+                                android:text="进口税 50元/件"/>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="8dp"/>
+
+                            <include layout="@layout/aty_goods_details_sales_promotion"/>
+
+                            <Space
+                                android:layout_width="match_parent"
+                                android:layout_height="8dp"/>
+
+                            <include layout="@layout/aty_goods_details_attribute"/>
+
+                            <include layout="@layout/aty_goods_details_wujie_post"/>
+                            <!--服务-->
+                            <include layout="@layout/aty_goods_details_serve"/>
+                        </LinearLayout>
+                        <!--开始评价-->
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"/>
+
+                        <include layout="@layout/aty_goods_details_estimate"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"/>
+
+                        <include layout="@layout/aty_goods_details_mell_info"/>
+
+                        <Space
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"/>
+                    </LinearLayout>
+                    <include layout="@layout/aty_goods_details_other_info"/>
+                </LinearLayout>
+
+            </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+            <ImageView
+                android:id="@+id/be_back_top_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:padding="16dp"
+                android:src="@drawable/icon_be_back_top"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/goods_details_bottom_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:divider="@drawable/lin_layout_horizontal_line_shape"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:showDividers="middle">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="4dp"
+                    android:padding="8dp"
+                    android:drawableTop="@drawable/icon_home_pager"
+                    android:gravity="center"
+                    android:text="首页"/>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:drawablePadding="4dp"
+                        android:drawableTop="@drawable/icon_goods_cart"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="购物车"/>
+
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/shape_search_message_num_tv"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        />
+
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawablePadding="4dp"
+                    android:drawableTop="@drawable/icon_goods_kf"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="客服"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#F3ABA7"
+                android:gravity="center"
+                android:text="加入购物车"
+                android:padding="8dp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:text="立即购买"
+                android:padding="8dp"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
