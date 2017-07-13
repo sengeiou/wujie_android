@@ -17,8 +17,6 @@ public class MineFgt extends BaseFgt {
 
     public MineFgt() {
     }
-
-
     @Override
     protected int getLayoutResId() {
         return R.layout.fgt_mine;
