@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty;
 
 /**
  * ===============Txunda===============
@@ -25,17 +26,16 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
     private Context context;
 
 
-    public DetilsTypeChenAdapter(Context context){
-        this.context=context;
+    public DetilsTypeChenAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_type_chen,parent,false);
-        ViewHolder holder=new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_type_chen, parent, false);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
-
 
 
     @Override
@@ -45,9 +45,9 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
         /**
          * 设置RecyclerView间隔
          */
-        if(position%2!=0){
+        if (position % 2 != 0) {
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.ll_item_hous.getLayoutParams();
-            lp.setMargins(0,ToolKit.dip2px(context,5f), 0,0);
+            lp.setMargins(0, ToolKit.dip2px(context, 5f), 0, 0);
             holder.ll_item_hous.setLayoutParams(lp);
         }
 
@@ -59,7 +59,8 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(context, HouseTypeDetailsHzjAty.class);
+                context.startActivity(intent);
             }
         });
 
@@ -67,18 +68,18 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
 
     @Override
     public int getItemCount() {
-            return 8;
+        return 8;
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         View view;
         LinearLayout ll_item_hous;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            view=itemView;
-            ll_item_hous=itemView.findViewById(R.id.ll_item_hous);
+            view = itemView;
+            ll_item_hous = itemView.findViewById(R.id.ll_item_hous);
         }
     }
 }

@@ -22,21 +22,16 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.HousChenAdapter;
  */
 
 
-public class HousChenAty extends BaseAty{
+public class HousChenAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)//标题
     private TextView titlt_conter_tv;
     @ViewInject(R.id.rv_hous)//房子
     private RecyclerView mRvHous;
 
-
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         /**
          * 沉浸式解决顶部标题重叠
          */
@@ -55,7 +50,6 @@ public class HousChenAty extends BaseAty{
     }
 
 
-
     @Override
     protected void requestData() {
         titlt_conter_tv.setText("房产购");
@@ -68,9 +62,9 @@ public class HousChenAty extends BaseAty{
      * RecyclerView初始化
      */
     private void initRecycler() {
-        GridLayoutManager manager=new GridLayoutManager(this,2);
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
         mRvHous.setLayoutManager(manager);
-        HousChenAdapter housAdapter=new HousChenAdapter(this);
+        HousChenAdapter housAdapter = new HousChenAdapter(this);
         mRvHous.setAdapter(housAdapter);
 
 

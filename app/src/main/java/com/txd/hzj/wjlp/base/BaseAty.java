@@ -46,7 +46,13 @@ public abstract class BaseAty extends BaseActivity {
      * @param vid
      */
     public void showStatusBar(int vid) {
-        ImmersionBar.with(this).titleBar(vid).init();
+        String name = android.os.Build.BRAND;
+        if (name.equals("Xiaomi") || name.equals("OPPO") || name.equals("htc") ||
+                name.equals("samsung") || name.equals("360")) {
+            ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+        } else {
+            ImmersionBar.with(this).titleBar(vid).init();
+        }
     }
 
     /**

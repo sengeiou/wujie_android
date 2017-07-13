@@ -92,6 +92,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
+        L.e("=====手机厂商=====",android.os.Build.BRAND);
+        //Huawei,,
     }
 
     @Override

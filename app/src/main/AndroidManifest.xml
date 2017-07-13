@@ -4,9 +4,9 @@
 
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <!--访问网络-->
+    <!-- 访问网络 -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--相机权限-->
+    <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -14,9 +14,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 从SDCard读取数据权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--震动-->
+    <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <!--闪光灯-->
+    <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
@@ -99,12 +99,16 @@
         <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
         <!-- 无界头条 -->
         <activity android:name=".mellOnLine.WujieTopHzjAty"/>
-        <!--扫一扫-->
+        <!-- 扫一扫 -->
         <activity android:name=".mellOnLine.ScanAty"/>
-        <!--设置-->
+        <!-- 设置 -->
         <activity android:name=".minetoAty.SetAty"/>
-        <!--个人信息-->
+        <!-- 个人信息 -->
         <activity android:name=".minetoAty.EditProfileAty"/>
+        <!-- 位置 -->
+        <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
+        <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty">
+        </activity>
     </application>
 
 </manifest>
