@@ -40,6 +40,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -251,6 +252,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         break;
                     case 8://房产购
                         startActivity(HousChenAty.class, null);
+                        break;
+                    case 9://一元夺宝
+                        startActivity(SnatchChenAty.class, null);
+
                         break;
                 }
             }
