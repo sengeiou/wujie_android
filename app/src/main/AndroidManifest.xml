@@ -77,6 +77,10 @@
         <!-- 房产购 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
         <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
+        <!--一元夺宝-->
+        <activity android:name=".mellOnLine.gridClassify.snatch.SnatchChenAty"/>
+
+
         <!-- 商品属性选择 -->
         <activity
             android:name=".mellOnLine.gridClassify.GoodsAttributeAty"
