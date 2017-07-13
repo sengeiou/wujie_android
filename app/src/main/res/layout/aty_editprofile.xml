@@ -72,6 +72,7 @@
                     android:text="昵称"
                     />
                 <EditText
+                    android:background="@null"
                     android:padding="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,6 +106,7 @@
                     android:text="真实姓名"
                     />
                 <EditText
+                    android:background="@null"
                     android:padding="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,6 +143,7 @@
                 android:layout_height="10dp"
                 android:background="@color/white"></View>
             <RelativeLayout
+                android:id="@+id/rel_Sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
@@ -154,6 +157,7 @@
                     android:text="性别"
                     />
                 <TextView
+                    android:id="@+id/tv_Sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"
@@ -186,6 +190,7 @@
                     android:text="邮箱"
                     />
                 <EditText
+                    android:background="@null"
                     android:padding="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -193,6 +198,7 @@
                     style="@style/mine_text_list"
                     android:text="1545621215@qq.com"/>
                 <ImageView
+                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -251,7 +257,9 @@
                     android:layout_height="wrap_content"
                     android:text="推荐人姓名"
                     />
-                <TextView
+                <EditText
+                    android:background="@null"
+                    android:padding="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"
@@ -275,7 +283,9 @@
                     android:layout_height="wrap_content"
                     android:text="推荐人手机号"
                     />
-                <TextView
+                <EditText
+                    android:background="@null"
+                    android:padding="0dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"

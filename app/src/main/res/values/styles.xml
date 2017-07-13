@@ -62,11 +62,19 @@
     <item name="android:progressDrawable">@drawable/layer_list_rationg_bar</item>
     <item name="android:minHeight">16dp</item>
     <item name="android:maxHeight">32dp</item>
-
+<!--我的页面样式-->
 </style>
     <style name="mine_text_list">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/black</item>
     </style>
-
+    <!--底部dialog样式-->
+    <style name="BottomDialog" parent="@style/Base.V7.Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="BottomDialog.Animation" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/actionsheet_dialog_in_li</item>
+        <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out_li</item>
+    </style>
 </resources>
