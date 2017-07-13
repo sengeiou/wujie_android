@@ -68,6 +68,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener{
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(Color.RED);
         initEvent();
+
     }
 
     private void initEvent() {
