@@ -101,6 +101,10 @@
         <activity android:name=".mellOnLine.WujieTopHzjAty"/>
         <!--扫一扫-->
         <activity android:name=".mellOnLine.ScanAty"/>
+        <!--设置-->
+        <activity android:name=".minetoAty.SetAty"/>
+        <!--个人信息-->
+        <activity android:name=".minetoAty.EditProfileAty"/>
     </application>
 
 </manifest>
