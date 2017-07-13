@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.txd.hzj.wjlp">
 
-    <!--打电话-->
+    <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="com.ants.theantsgo.WeApplication"
@@ -17,77 +16,80 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainAty">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <!-- 线上商城分类(1-1-1 首页 2) -->
-        <activity android:name=".mellOnLine.MellOnLineClassifyAty"/>
+        <activity android:name=".mellOnLine.MellOnLineClassifyAty" />
         <!-- 子分类(1-1-2)二级分类 -->
-        <activity android:name=".mellOnLine.SubclassificationAty"/>
+        <activity android:name=".mellOnLine.SubclassificationAty" />
         <!-- 分类 (1-2) -->
-        <activity android:name=".mellOnLine.AllClassifyAty"/>
-        <!--搜索-->
-        <activity android:name=".mellOnLine.SearchAty"/>
-        <!--商品列表-->
-        <activity android:name=".mellOnLine.GoodsListAty"/>
-        <!--商家列表-->
+        <activity android:name=".mellOnLine.AllClassifyAty" />
+        <!-- 搜索 -->
+        <activity android:name=".mellOnLine.SearchAty" />
+        <!-- 商品列表 -->
+        <activity android:name=".mellOnLine.GoodsListAty" />
+        <!-- 商家列表 -->
         <activity
             android:name=".mellOnLine.MellListAty"
-            android:theme="@style/AppTheme"/>
-        <!--消息-->
-        <activity android:name=".mellOnLine.MessageAty"/>
-        <!--消息列表-->
-        <activity android:name=".mellOnLine.OrderAndInformMessageListAty"/>
-        <!--公告详情-->
-        <activity android:name=".mellOnLine.NoticeDetailsAty"/>
-        <!--限量购-->
-        <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty"/>
-        <!--限量购详情-->
-        <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty"/>
-        <!--分类-->
-        <activity android:name=".mellOnLine.gridClassify.TicketZoonAty"/>
-        <!--票券详情-->
-        <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty"/>
-        <!--拼团详情-->
-        <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty"/>
-        <!--主题街-->
-        <activity android:name=".mellOnLine.gridClassify.ThemeStreetHzjAty"/>
-        <!--主题街商品列表-->
-        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsListAty"/>
-        <!--主题街商品详情-->
-        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty"/>
+            android:theme="@style/AppTheme" />
+        <!-- 消息 -->
+        <activity android:name=".mellOnLine.MessageAty" />
+        <!-- 消息列表 -->
+        <activity android:name=".mellOnLine.OrderAndInformMessageListAty" />
+        <!-- 公告详情 -->
+        <activity android:name=".mellOnLine.NoticeDetailsAty" />
+        <!-- 限量购 -->
+        <activity android:name=".mellOnLine.gridClassify.LimitShoppingAty" />
+        <!-- 限量购详情 -->
+        <activity android:name=".mellOnLine.gridClassify.LimitGoodsAty" />
+        <!-- 分类 -->
+        <activity android:name=".mellOnLine.gridClassify.TicketZoonAty" />
+        <!-- 票券详情 -->
+        <activity android:name=".mellOnLine.gridClassify.TicketGoodsDetialsAty" />
+        <!-- 拼团详情 -->
+        <activity android:name=".mellOnLine.gridClassify.GoodLuckDetailsAty" />
+        <!-- 主题街 -->
+        <activity android:name=".mellOnLine.gridClassify.ThemeStreetHzjAty" />
+        <!-- 主题街商品列表 -->
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsListAty" />
+        <!-- 主题街商品详情 -->
+        <activity android:name=".mellOnLine.gridClassify.ThemeGoodsDetailsAty" />
 
         <!-- 汽车购 -->
-        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty"/>
-        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.car.CarChenAty" />
+        <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty" />
         <!-- 房产购 -->
-        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
-        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
+        <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty" />
+        <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty" />
         <!-- 商品属性选择 -->
         <activity
             android:name=".mellOnLine.gridClassify.GoodsAttributeAty"
-            android:theme="@style/share_style"/>
+            android:theme="@style/share_style" />
         <!-- 商品评价 -->
-        <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty"/>
+        <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty" />
         <!-- 分享 -->
         <activity
             android:name=".mellOnLine.gridClassify.ToShareAty"
-            android:theme="@style/share_style"/>
+            android:theme="@style/share_style" />
         <!-- 店铺详情 -->
-        <activity android:name=".mellOnLine.gridClassify.MellInfoAty"/>
+        <activity android:name=".mellOnLine.gridClassify.MellInfoAty" />
         <!-- 进口馆列表 -->
-        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty"/>
+        <activity android:name=".mellOnLine.gridClassify.GoodsInputHzjAty" />
         <!-- 进口馆商品详情 -->
-        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty"/>
+        <activity android:name=".mellOnLine.gridClassify.InputGoodsDetailsAty" />
         <!-- 竞拍 -->
-        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty"/>
+        <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty" />
         <!-- 竞拍详情 -->
-        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
+        <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty" />
         <!-- 无界头条 -->
-        <activity android:name=".mellOnLine.WujieTopHzjAty">
-        </activity>
+        <activity android:name=".mellOnLine.WujieTopHzjAty"></activity>
+        <!--设置-->
+        <activity android:name=".minetoAty.SetAty"></activity>
+        <!--个人资料-->
+        <activity android:name=".minetoAty.EditProfileAty"></activity>
     </application>
 
 </manifest>
