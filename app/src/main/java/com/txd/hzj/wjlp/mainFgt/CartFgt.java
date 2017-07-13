@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,13 +92,18 @@ public class CartFgt extends BaseFgt {
     private CartAdapter cartAdapter;
     private int all = 0;
 
+    /**
+     * 选中的商品价格
+     */
+    private BigDecimal all_price;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         titlt_conter_tv.setText("购物车");
         title_be_back_iv.setVisibility(View.GONE);
         titlt_right_tv.setVisibility(View.VISIBLE);
-        ChangeTextViewStyle.getInstance().forCartPrice(getActivity(), all_goods_price_tv, "￥27\n不含配送费");
+        toChangePrice();
         cart_lv.setAdapter(cartAdapter);
 
         cart_select_all_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -111,14 +117,25 @@ public class CartFgt extends BaseFgt {
                 for (ShopingCart sc : shopingCarts) {
                     sc.setMellAllCheck(b);
                     List<CartGoods> cartGoodses = sc.getGoodsInfo();
-                    for(CartGoods cg:cartGoodses){
+                    for (CartGoods cg : cartGoodses) {
                         cg.setSelect(b);
+                        BigDecimal price = new BigDecimal(cg.getPrice());
+                        price = price.multiply(new BigDecimal(cg.getNum()));
+                        all_price = all_price.add(price);
                     }
                 }
+                toChangePrice();
                 cartAdapter.notifyDataSetChanged();
             }
         });
 
+    }
+
+    /**
+     * 修改商品价格
+     */
+    private void toChangePrice() {
+        ChangeTextViewStyle.getInstance().forCartPrice(getActivity(), all_goods_price_tv, "￥" + all_price + "\n不含配送费");
     }
 
     @Override
@@ -131,6 +148,7 @@ public class CartFgt extends BaseFgt {
         shopingCarts = new ArrayList<>();
         getDate();
         cartAdapter = new CartAdapter();
+        all_price = new BigDecimal("0.00");
     }
 
     private void getDate() {
@@ -274,19 +292,30 @@ public class CartFgt extends BaseFgt {
                         sc.setMellAllCheck(false);
                         for (CartGoods cg : sc.getGoodsInfo()) {
                             cg.setSelect(false);
+                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            price = price.multiply(new BigDecimal(cg.getNum()));
+                            all_price = all_price.subtract(price);
+                            if (all_price.compareTo(new BigDecimal("0.00")) <= 0) {
+                                all_price = new BigDecimal("0.00");
+                            }
                         }
                         if (all > 0) {
                             all--;
                         } else {
                             all = 0;
                         }
+
                     } else {
                         sc.setMellAllCheck(true);
                         for (CartGoods cg : sc.getGoodsInfo()) {
                             cg.setSelect(true);
+                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            price = price.multiply(new BigDecimal(cg.getNum()));
+                            all_price = all_price.add(price);
                         }
                         all++;
                     }
+                    toChangePrice();
                     notifyDataSetChanged();
                 }
             });
@@ -392,8 +421,23 @@ public class CartFgt extends BaseFgt {
                 public void onClick(View view) {
                     if (cg.isSelect()) {
                         cg.setSelect(false);
+                        // 获取价格
+                        BigDecimal price = new BigDecimal(cg.getPrice());
+                        // 计算选中商品价格
+                        price = price.multiply(new BigDecimal(cg.getNum()));
+                        // 计算总价
+                        all_price = all_price.subtract(price);
+                        if (all_price.compareTo(new BigDecimal("0.00")) <= 0) {
+                            all_price = new BigDecimal("0.00");
+                        }
                     } else {
                         cg.setSelect(true);
+                        // 获取价格
+                        BigDecimal price = new BigDecimal(cg.getPrice());
+                        // 计算单件商品价格
+                        price = price.multiply(new BigDecimal(cg.getNum()));
+                        // 计算总价
+                        all_price = all_price.add(price);
                     }
                     // 重新加载数据
                     for (CartGoods cartGoods : list.get(groupPosion).getGoodsInfo()) {
@@ -406,6 +450,7 @@ public class CartFgt extends BaseFgt {
                     } else {
                         list.get(groupPosion).setMellAllCheck(false);
                     }
+                    toChangePrice();
                     cartAdapter.notifyDataSetChanged();
                 }
             });

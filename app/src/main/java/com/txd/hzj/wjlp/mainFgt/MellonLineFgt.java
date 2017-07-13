@@ -183,6 +183,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private AllGvLvAdapter allGvLvAdapter8;
     private Bundle bundle;
 
+    /**
+     * 轮播图高度
+     */
+    private int allHeight = 0;
+
     public MellonLineFgt() {
     }
 
@@ -193,9 +198,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         search_title_layout.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.transparent));
         title_scan_tv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.VISIBLE);
+        // 轮播图高度
+        allHeight = Settings.displayWidth * 2 / 3;
         // 设置轮播图高度
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, Settings
-                .displayWidth * 2 / 3);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
         forBanner();
         forHorizontalItem();
@@ -253,7 +259,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         setView();
         upview1.setViews(views);
 
-        onChangeTitleColor();
+        mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
+
         purchase_gv.setAdapter(allGvLvAdapter);
         ticket_gv.setAdapter(allGvLvAdapter1);
         limit_shopping_gv.setAdapter(allGvLvAdapter2);
@@ -291,7 +298,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         super.onClick(v);
         switch (v.getId()) {
             case R.id.wujie_top_lin_layout:// 无界头条
-                startActivity(WujieTopHzjAty.class,null);
+                startActivity(WujieTopHzjAty.class, null);
                 break;
         }
     }
@@ -396,24 +403,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             //添加到循环滚动数组里面去
             views.add(moreView);
         }
-    }
-
-    private int allHeight = 0;
-
-    /**
-     * 设置标题栏颜色和滑动的高度
-     */
-    private void onChangeTitleColor() {
-        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                allHeight = online_carvouse_view.getHeight();
-                mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
-            }
-        });
     }
 
     @Override

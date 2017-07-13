@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/off_line_title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/to_location_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableStart="@drawable/icon_loc_hzj_w"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="北京市海淀区"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        />
+
+    <TextView
+        android:id="@+id/off_line_search_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="6dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/to_location_tv"
+        android:layout_toStartOf="@+id/off_line_scan_tv"
+        android:background="@drawable/shape_search_view"
+        android:drawableLeft="@drawable/icon_search"
+        android:drawablePadding="8dp"
+        android:hint="搜索商品、商家"
+        android:onClick="toSearch"
+        android:padding="8dp"
+        android:textColor="@color/white"
+        android:textColorHint="#8Cffffff"
+        />
+
+    <TextView
+        android:id="@+id/off_line_scan_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/off_line_message_layout"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/icon_scan"
+        android:onClick="toScan"
+        android:paddingBottom="4dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="4dp"
+        android:text="扫一扫"
+        android:textColor="@color/white"/>
+
+    <FrameLayout
+        android:id="@+id/off_line_message_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:onClick="toMessage"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        >
+
+        <TextView
+            android:id="@+id/search_title_message_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/icon_message"
+            android:gravity="center"
+            android:text="消息"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/message_num_tv"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="end"
+            android:background="@drawable/shape_search_message_num_tv"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/white"
+            android:textSize="10sp"/>
+    </FrameLayout>
+
+</RelativeLayout>

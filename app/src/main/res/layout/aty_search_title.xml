@@ -26,6 +26,7 @@
         android:paddingStart="12dp"
         android:paddingTop="4dp"
         android:text="扫一扫"
+        android:onClick="toScan"
         android:textColor="@color/white"
         android:visibility="gone"/>
 

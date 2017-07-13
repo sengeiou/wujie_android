@@ -57,4 +57,11 @@
         <item name="android:drawablePadding">10dp</item>
         <item name="android:drawableBottom">@drawable/selector_home_line_chen</item>
     </style>
+
+    <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
+    <item name="android:progressDrawable">@drawable/layer_list_rationg_bar</item>
+    <item name="android:minHeight">16dp</item>
+    <item name="android:maxHeight">32dp</item>
+</style>
+
 </resources>

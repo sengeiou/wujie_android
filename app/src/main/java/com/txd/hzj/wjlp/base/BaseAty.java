@@ -9,6 +9,7 @@ import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
+import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
@@ -74,6 +75,7 @@ public abstract class BaseAty extends BaseActivity {
     public void toAttrs(View v) {
         startActivity(GoodsAttributeAty.class, null);
     }
+
     /**
      * 消息
      *
@@ -82,6 +84,7 @@ public abstract class BaseAty extends BaseActivity {
     public void toMessage(View v) {
         startActivity(MessageAty.class, null);
     }
+
     /**
      * 分类
      *
@@ -90,6 +93,7 @@ public abstract class BaseAty extends BaseActivity {
     public void toClassify(View v) {
         startActivity(AllClassifyAty.class, null);
     }
+
     /**
      * 搜索
      *
@@ -98,10 +102,18 @@ public abstract class BaseAty extends BaseActivity {
     public void toSearch(View v) {
         startActivity(SearchAty.class, null);
     }
+
     /**
      * 分享
      */
     public void toShare() {
         startActivity(ToShareAty.class, null);
+    }
+
+    /**
+     * 扫一扫
+     */
+    public void toScan(View v) {
+        startActivity(ScanAty.class, null);
     }
 }

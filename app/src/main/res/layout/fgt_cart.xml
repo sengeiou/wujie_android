@@ -47,7 +47,7 @@
                     android:paddingBottom="5dp"
                     android:paddingLeft="12dp"
                     android:paddingTop="5dp"
-                    android:text="￥27\n不含配送费"
+                    android:text="￥0.00\n不含配送费"
                     android:textColor="@color/colorAccent"/>
 
                 <CheckBox

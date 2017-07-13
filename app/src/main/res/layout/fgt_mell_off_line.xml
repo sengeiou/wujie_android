@@ -1,15 +1,123 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:background="@color/bg_color"
-             tools:context="com.txd.hzj.wjlp.mainFgt.MellOffLineFgt">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:backgroundTint="@color/bg_color"
+    tools:context="com.txd.hzj.wjlp.mainFgt.MellOffLineFgt">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.txd.hzj.wjlp.view.ObservableScrollView
+        android:id="@+id/off_line_to_change_sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="线下商铺"/>
+        android:scrollbars="none">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/aty_banner"/>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/icon_nice_foods_hzj"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="餐饮美食"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/icon_wujie_post_hzj"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="无界驿站"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="18sp"/>
+
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <include layout="@layout/for_on_off_line_hzj"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view_color"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_temp_discount"/>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/app_text_color"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="附近的店铺"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="16sp"/>
+
+                <View
+                    android:layout_width="80dp"
+                    android:layout_height="1dp"
+                    android:background="@color/app_text_color"/>
+
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/mell_near_by_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/bg_color"
+                android:dividerHeight="1dp"
+                android:scrollbars="none"/>
+
+        </LinearLayout>
+
+    </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+    <include layout="@layout/off_line_title"/>
 </FrameLayout>
