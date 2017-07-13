@@ -33,7 +33,6 @@ public class SetAty extends BaseAty {
         titlt_conter_tv.setText("设置");
         initEvent();
     }
-
     private void initEvent() {
         rel_editprofile.setOnClickListener(new View.OnClickListener() {
             @Override
