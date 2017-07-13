@@ -2,25 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_hous_detail"
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="48dp">
+        android:layout_height="48dp"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/title_be_back_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/rg_hous_detail"
             android:onClick="beBack"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:src="@drawable/icon_be_back_b"
-            android:layout_alignTop="@+id/rg_hous_detail"
-            android:layout_alignParentStart="true" />
+            android:src="@drawable/icon_be_back_b" />
 
 
         <RadioGroup
@@ -48,60 +47,63 @@
         android:id="@+id/fl_hous_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        ></FrameLayout>
-    
-    <View
-        style="@style/line_view"/>
+        android:layout_weight="1"></FrameLayout>
+
+    <View style="@style/line_view" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:orientation="vertical"
-            >
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:orientation="vertical">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="联系电话"
-                />
+                android:text="联系电话" />
+
             <TextView
                 android:id="@+id/tv_detail_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="18sp"
                 android:text="022-1236-5989"
-                />
+                android:textColor="@color/black"
+                android:textSize="18sp" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/tv_detail_collect"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@mipmap/icon_heart_chen"
-            android:background="@color/colorRed"
-            android:padding="15dp"
-            android:textColor="@color/white"
+            android:layout_height="match_parent"
             android:layout_marginRight="0.5dp"
-
+            android:background="@color/colorRed"
+            android:drawableTop="@mipmap/icon_heart_chen"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
             android:text="收藏"
-            />
+            android:textColor="@color/white" />
+
         <TextView
             android:id="@+id/tv_detail_phone"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@mipmap/icon_phone_chen"
+            android:layout_height="match_parent"
             android:background="@color/colorRed"
-            android:padding="15dp"
-            android:textColor="@color/white"
+            android:drawableTop="@mipmap/icon_phone_chen"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:text="电话"
-            />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
