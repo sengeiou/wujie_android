@@ -7,6 +7,8 @@
     android:background="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellonLineFgt">
 
+    <include layout="@layout/aty_search_title"/>
+
     <com.txd.hzj.wjlp.view.ObservableScrollView
         android:id="@+id/mell_on_line_sc"
         android:layout_width="match_parent"
@@ -249,7 +251,5 @@
         </LinearLayout>
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
-
-    <include layout="@layout/aty_search_title"/>
 
 </FrameLayout>
