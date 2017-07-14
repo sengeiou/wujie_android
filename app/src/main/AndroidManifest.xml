@@ -110,10 +110,20 @@
         <activity android:name=".minetoAty.EditProfileAty"/>
         <!-- 位置 -->
         <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
-        <!--户型详情-->
+        <!-- 户型详情 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty"/>
-        <!--登录注册-->
+        <!-- 登录注册 -->
         <activity android:name=".login.LoginAty"/>
+        <activity android:name=".login.FindPwgBackHzjAty">
+        </activity>
+        <activity android:name=".login.ReSetPwdAty">
+        </activity>
+        <activity android:name=".login.BindAccountAty">
+        </activity>
+        <activity android:name=".login.RegisterGetCodeAty">
+        </activity>
+        <activity android:name=".login.RegisterSetPwdAty">
+        </activity>
     </application>
 
 </manifest>

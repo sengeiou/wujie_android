@@ -75,7 +75,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
-            android:divider="@drawable/lin_layout_vertical_line_shape"
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_login_phone_hzj"
             android:hint="手机号"
@@ -92,11 +91,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
-            android:divider="@drawable/lin_layout_vertical_line_shape"
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_login_pwd_hzj"
             android:hint="请输入密码"
-            android:inputType="phone"
+            android:inputType="textPassword"
             android:orientation="vertical"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
@@ -125,6 +123,13 @@
         android:textColor="@color/white"
         android:textSize="16sp"/>
 
+    <TextView
+        android:id="@+id/terms_of_service_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="继续标识已经阅读并同意《服务条款》"/>
+
     <LinearLayout
         android:id="@+id/use_trilateral_lin_layout"
         android:layout_width="match_parent"
@@ -148,7 +153,8 @@
             android:layout_width="80dp"
             android:layout_height="1dp"
             android:background="@color/view_color"/>
-
     </LinearLayout>
+
+    <include layout="@layout/aty_third_for_login_share_hzj"/>
 
 </LinearLayout>

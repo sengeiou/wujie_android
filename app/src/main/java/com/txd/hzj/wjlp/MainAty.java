@@ -170,10 +170,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 fragmentChangeManager.setFragments(1);
                 break;
             case R.id.cart_rb:// 购物车
-//                if (!Config.isLogin()) {
-//                    startActivity(LoginAty.class, null);
-//                    break;
-//                }
+                if (!Config.isLogin()) {
+                    startActivity(LoginAty.class, null);
+                    break;
+                }
                 page_index = 2;
                 fragmentChangeManager.setFragments(2);
                 break;
