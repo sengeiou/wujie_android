@@ -29,7 +29,7 @@ public class HelpCenterAty extends BaseAty {
     /**
      * 多级菜单
      * */
-    private ExpandableListView expandableListView;
+    private ExpandableListView expandableListView_1,expandableListView_2,expandableListView_3;
     /**
      * 一级菜单数据
      * */
@@ -37,7 +37,8 @@ public class HelpCenterAty extends BaseAty {
     /**
      * 二级菜单
      * */
-    private String[][] childs = {{"如何充值", "如何充值", "如何充值", "如何充值"}, {"如何充值", "如何充值", "如何充值", "如何充值"}, {"如何充值", "如何充值", "如何充值", "如何充值"}};
+    private String[][] childs = {{"如何充值如何充值如何充值如何充值如何充值如何充值如何充值如何充值" +
+            "如何充值如何充值如何充值如何充值如何充值如何充值如何充值如何充值如何充值"}, {"如何充值", "如何充值", "如何充值", "如何充值"}, {"如何充值", "如何充值", "如何充值", "如何充值"}};
     /**
      * 设置标题
      * */
@@ -71,8 +72,15 @@ public class HelpCenterAty extends BaseAty {
         view2 = mInflater.inflate(R.layout.help_center_item_li, null);
         view3 = mInflater.inflate(R.layout.help_center_item_li, null);
         //初始化帮助菜单
-        expandableListView = (ExpandableListView)view1. findViewById(R.id.expandableListView);
-        expandableListView.setAdapter(new MyExpandableListView());
+        expandableListView_1 = (ExpandableListView)view1. findViewById(R.id.expandableListView);
+        expandableListView_1.setGroupIndicator(null);
+        expandableListView_1.setAdapter(new MyExpandableListView());
+        expandableListView_2 = (ExpandableListView)view2. findViewById(R.id.expandableListView);
+        expandableListView_2.setGroupIndicator(null);
+        expandableListView_2.setAdapter(new MyExpandableListView());
+        expandableListView_3 = (ExpandableListView)view3. findViewById(R.id.expandableListView);
+        expandableListView_3.setGroupIndicator(null);
+        expandableListView_3.setAdapter(new MyExpandableListView());
         //添加页卡视图
         mViewList.add(view1);
         mViewList.add(view2);
@@ -80,7 +88,7 @@ public class HelpCenterAty extends BaseAty {
         //添加页卡标题
         mTitleList.add("商家篇");
         mTitleList.add("用户篇");
-        mTitleList.add("运营中心片");
+        mTitleList.add("运营中心篇");
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);//设置tab模式，当前为系统默认模式
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(0)));//添加tab选项卡
         mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(1)));
@@ -106,7 +114,7 @@ public class HelpCenterAty extends BaseAty {
 
     }
     //ViewPager适配器
-    class MyPagerAdapter extends PagerAdapter {
+     class MyPagerAdapter extends PagerAdapter {
         private List<View> mViewList;
 
         public MyPagerAdapter(List<View> mViewList) {
@@ -194,6 +202,12 @@ public class HelpCenterAty extends BaseAty {
 
             }
             TextView tv_group = (TextView) convertView.findViewById(R.id.tv_group);
+            ImageView img_group= (ImageView) convertView.findViewById(R.id.img_group);
+            if(isExpanded){
+                img_group.setBackgroundResource(R.drawable.icon_hide_other_layout);
+            }else{
+                img_group.setBackgroundResource(R.drawable.icon_show_other_layout);
+            }
             tv_group.setText(groups[groupPosition]);
             return convertView;
         }
@@ -206,7 +220,6 @@ public class HelpCenterAty extends BaseAty {
                 convertView = getLayoutInflater().inflate(R.layout.help_item_child, null);
             }
 
-            ImageView iv_child = (ImageView) convertView.findViewById(R.id.iv_child);
             TextView tv_child = (TextView) convertView.findViewById(R.id.tv_child);
 
             //iv_child.setImageResource(resId);

@@ -84,17 +84,9 @@ public class SetAty extends BaseAty {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(SetAty.this,BindPhoneAty.class));
+
             }
         });
-    }
-
-    @Override
-    @OnClick({R.id.rel_bind_phone,})
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()){
-
-        }
     }
 
     @Override

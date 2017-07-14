@@ -14,6 +14,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
+import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.flowlayout.WaveView;
@@ -54,7 +56,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      * 关于
      * */
     @ViewInject(R.id.rel_mine_about)
-    private RelativeLayout rel_mine_about;
+    private TextView rel_mine_about;
+    /**
+     * 帮助中心
+     * */
+    @ViewInject(R.id.tv_help_center)
+    TextView tv_help_center;
+    /**
+     * 订单中心
+     * */
+    @ViewInject(R.id.tv_order_center)
+    private TextView tv_order_center;
     public MineFgt() {
     }
 
@@ -82,6 +94,18 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), AboutOursAty.class));
+            }
+        });
+        tv_help_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(HelpCenterAty.class,null);
+            }
+        });
+        tv_order_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(OrderCenterAty.class,null);
             }
         });
     }

@@ -109,6 +109,40 @@
         <activity android:name=".minetoAty.SetAty"/>
         <!--个人信息-->
         <activity android:name=".minetoAty.EditProfileAty"/>
+        <!--修改当前密码-->
+        <activity android:name=".minetoAty.EditLoginPasswordAty"/>
+        <!--修改支付密码-->
+        <activity android:name=".minetoAty.EditPayPasswordAty"/>
+        <!--实名认证-->
+        <activity android:name=".minetoAty.RealnameAty"/>
+        <!--绑定手机-->
+        <activity android:name=".minetoAty.BindPhoneAty"/>
+        <!--绑定新手机-->
+        <activity android:name=".minetoAty.BindNewPhoneAty"/>
+        <!--关于我们-->
+        <activity android:name=".minetoAty.AboutOursAty"/>
+        <!--帮助中心-->
+        <activity android:name=".minetoAty.HelpCenterAty"/>
+        <!--注册设置密码-->
+        <activity android:name=".login.RegisterSetPwdAty"/>
+        <!-- 位置 -->
+        <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
+        <!-- 户型详情 -->
+        <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty"/>
+        <!-- 登录注册 -->
+        <activity android:name=".login.LoginAty"/>
+        <!--忘记密码-->
+        <activity android:name=".login.FindPwgBackHzjAty"/>
+        <!--重置密码-->
+        <activity android:name=".login.ReSetPwdAty"/>
+        <!--绑定账号-->
+        <activity android:name=".login.BindAccountAty"/>
+        <!--注册获取验证码-->
+        <activity android:name=".login.RegisterGetCodeAty"/>
+        <!--线上商城-->
+        <activity android:name=".minetoAty.OnlineShopAty"/>
+        <!--订单中心-->
+        <activity android:name=".minetoAty.OrderCenterAty"/>
     </application>
 
 </manifest>
