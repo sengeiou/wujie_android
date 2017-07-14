@@ -59,7 +59,7 @@
                 android:layout_height="10dp"
                 android:background="@color/white"></View>
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
                 android:background="@color/bg_color"
@@ -71,22 +71,14 @@
                     android:layout_height="wrap_content"
                     android:text="昵称"
                     />
-                <EditText
-                    android:background="@null"
+                <com.txd.hzj.wjlp.view.flowlayout.ClearEditText
                     android:padding="0dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"
-                    style="@style/mine_text_list"
                     android:text="Sung Kyung"
-
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/icon_mine_cha"
-                    />
+                    android:background="@null"
+                    style="@style/mine_text_list"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -189,21 +181,15 @@
                     android:layout_height="wrap_content"
                     android:text="邮箱"
                     />
-                <EditText
-                    android:background="@null"
+                <com.txd.hzj.wjlp.view.flowlayout.ClearEditText
                     android:padding="0dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="130dp"
-                    style="@style/mine_text_list"
-                    android:text="1545621215@qq.com"/>
-                <ImageView
-                    android:layout_centerVertical="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="@drawable/icon_mine_cha"
-                    />
+                    android:text="1235554367@qq.com"
+                    android:background="@null"
+                    style="@style/mine_text_list"/>
+
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

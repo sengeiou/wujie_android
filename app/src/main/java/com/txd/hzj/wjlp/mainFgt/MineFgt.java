@@ -11,11 +11,14 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
+import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.flowlayout.WaveView;
 
 /**
  * ===============Txunda===============
@@ -44,6 +47,26 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     TextView tv_set;
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
+    /**
+     * 波浪视图
+     * */
+    @ViewInject(R.id.wave)
+    private WaveView wave;
+    /**
+     * 关于
+     * */
+    @ViewInject(R.id.rel_mine_about)
+    private TextView rel_mine_about;
+    /**
+     * 帮助中心
+     * */
+    @ViewInject(R.id.tv_help_center)
+    TextView tv_help_center;
+    /**
+     * 订单中心
+     * */
+    @ViewInject(R.id.tv_order_center)
+    private TextView tv_order_center;
     public MineFgt() {
     }
 
@@ -56,17 +79,35 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         rel_head_back.setLayoutParams(layoutParams);
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
+        wave.startAnim();
+        initEvent();
     }
 
-    @Override
-    @OnClick({R.id.tv_set})
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()){
-            case R.id.tv_set:
-                startActivity(SetAty.class,null);
-                break;
-        }
+    private void initEvent() {
+        tv_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), SetAty.class));
+            }
+        });
+        rel_mine_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AboutOursAty.class));
+            }
+        });
+        tv_help_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(HelpCenterAty.class,null);
+            }
+        });
+        tv_order_center.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(OrderCenterAty.class,null);
+            }
+        });
     }
 
     @Override

@@ -46,12 +46,11 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener{
     @ViewInject(R.id.tv_Sex)
     public TextView tv_Sex;
     /**
-     * dialog中TextView
+     * dialog控件
      * */
-    private Button btn_men,btn_women,btn_cancel;
-    private Button choosePhoto;
-    private Button takePhoto;
-    private Button cancel;
+    private TextView choosePhoto;
+    private TextView takePhoto;
+    private TextView cancel;
     private Dialog dialog;
     private View inflate;
     /**
@@ -59,6 +58,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener{
      * */
     @ViewInject(R.id.img_head_edit)
     private ImageView img_head_edit;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,9 +115,9 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener{
     public void show(){
         dialog = new Dialog(this, R.style.BottomDialog);
         inflate = LayoutInflater.from(this).inflate(R.layout.dialog_bottom_li, null);
-        choosePhoto = (Button) inflate.findViewById(R.id.choosePhoto);
-        takePhoto = (Button) inflate.findViewById(R.id.takePhoto);
-        cancel = (Button) inflate.findViewById(R.id.btn_cancel);
+        choosePhoto = (TextView) inflate.findViewById(R.id.choosePhoto);
+        takePhoto = (TextView) inflate.findViewById(R.id.takePhoto);
+        cancel = (TextView) inflate.findViewById(R.id.btn_cancel);
         choosePhoto.setOnClickListener(this);
         takePhoto.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -126,6 +126,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener{
         dialogWindow.setGravity( Gravity.BOTTOM);
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         lp.y = 20;
+        lp.width=-1;
         dialogWindow.setAttributes(lp);
         dialog.show();
     }
