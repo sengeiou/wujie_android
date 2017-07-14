@@ -11,7 +11,7 @@
 
     <include layout="@layout/aty_search_title"/>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -40,9 +40,9 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/classify_goods_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 />
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
