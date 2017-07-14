@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
@@ -27,6 +28,26 @@ public class SetAty extends BaseAty {
      * */
     @ViewInject(R.id.rel_editprofile)
     public RelativeLayout rel_editprofile;
+    /**
+     * 修改登录密码
+     * */
+    @ViewInject(R.id.rel_editpassword)
+    private RelativeLayout rel_editpassword;
+    /**
+     * 修改支付密码
+     * */
+    @ViewInject(R.id.rel_editpaypassword)
+    private RelativeLayout rel_editpaypassword;
+    /**
+     * 实名认证
+     * */
+    @ViewInject(R.id.rel_realname)
+    private RelativeLayout rel_realname;
+    /**
+     * 绑定手机
+     * */
+    @ViewInject(R.id.rel_bind_phone)
+    private RelativeLayout rel_bind_phone;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +62,39 @@ public class SetAty extends BaseAty {
                 startActivity(new Intent(SetAty.this,EditProfileAty.class));
             }
         });
+        rel_editpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SetAty.this,EditLoginPasswordAty.class));
+            }
+        });
+        rel_editpaypassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SetAty.this,EditPayPasswordAty.class));
+            }
+        });
+        rel_realname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SetAty.this,RealnameAty.class));
+            }
+        });
+        rel_bind_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SetAty.this,BindPhoneAty.class));
+            }
+        });
+    }
+
+    @Override
+    @OnClick({R.id.rel_bind_phone,})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+
+        }
     }
 
     @Override

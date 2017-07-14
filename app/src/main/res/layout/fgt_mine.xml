@@ -24,7 +24,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-
+                <com.txd.hzj.wjlp.view.flowlayout.WaveView
+                    android:layout_alignParentBottom="true"
+                    android:id="@+id/wave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:layout_centerVertical="true"
@@ -549,6 +553,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"></View>
             <RelativeLayout
+                android:id="@+id/rel_mine_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
