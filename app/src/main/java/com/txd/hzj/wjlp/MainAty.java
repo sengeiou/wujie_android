@@ -16,12 +16,14 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
@@ -92,6 +94,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
+        L.e("=====手机厂商=====", android.os.Build.BRAND);
+        //Huawei,,
     }
 
     @Override
@@ -166,6 +170,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 fragmentChangeManager.setFragments(1);
                 break;
             case R.id.cart_rb:// 购物车
+                if (!Config.isLogin()) {
+                    startActivity(LoginAty.class, null);
+                    break;
+                }
                 page_index = 2;
                 fragmentChangeManager.setFragments(2);
                 break;

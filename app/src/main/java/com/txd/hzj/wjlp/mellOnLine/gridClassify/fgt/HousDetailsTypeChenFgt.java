@@ -27,8 +27,6 @@ public class HousDetailsTypeChenFgt extends BaseFgt{
     @ViewInject(R.id.rv_details_type)//RecyclerView
     private RecyclerView rv_details_type;
 
-
-
     @Override
     protected void immersionInit() {
 

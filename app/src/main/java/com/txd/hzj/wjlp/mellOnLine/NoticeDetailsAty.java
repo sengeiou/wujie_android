@@ -27,16 +27,23 @@ public class NoticeDetailsAty extends BaseAty {
     @ViewInject(R.id.notice_details_wv)
     public WebView notice_details_wv;
 
+    /**
+     * 0.消息详情
+     * 1.无界头条
+     * 3.服务条款
+     */
     private int from = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        if(0==from){
+        if (0 == from) {
             titlt_conter_tv.setText("详情");
-        } else {
+        } else if (1 == from) {
             titlt_conter_tv.setText("无界头条");
+        } else {
+            titlt_conter_tv.setText("服务条款");
         }
         initWebView();
     }

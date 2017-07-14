@@ -308,10 +308,12 @@ public class CartFgt extends BaseFgt {
                     } else {
                         sc.setMellAllCheck(true);
                         for (CartGoods cg : sc.getGoodsInfo()) {
-                            cg.setSelect(true);
-                            BigDecimal price = new BigDecimal(cg.getPrice());
-                            price = price.multiply(new BigDecimal(cg.getNum()));
-                            all_price = all_price.add(price);
+                            if(!cg.isSelect()){
+                                cg.setSelect(true);
+                                BigDecimal price = new BigDecimal(cg.getPrice());
+                                price = price.multiply(new BigDecimal(cg.getNum()));
+                                all_price = all_price.add(price);
+                            }
                         }
                         all++;
                     }

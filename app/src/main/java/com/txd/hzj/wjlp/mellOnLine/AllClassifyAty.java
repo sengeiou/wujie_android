@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,6 +43,10 @@ public class AllClassifyAty extends BaseAty {
      */
     @ViewInject(R.id.search_title_layout)
     public RelativeLayout search_title_layout;
+
+    @ViewInject(R.id.search_title_be_back_iv)
+    private ImageView search_title_be_back_iv;
+
     /**
      * 扫一扫
      */
@@ -109,7 +114,8 @@ public class AllClassifyAty extends BaseAty {
      */
     private void forTitle() {
         search_title_layout.setBackgroundColor(Color.WHITE);
-        title_scan_tv.setVisibility(View.GONE);
+        title_scan_tv.setVisibility(View.INVISIBLE);
+        search_title_be_back_iv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.GONE);
 
         title_search_tv.setBackgroundResource(R.drawable.shape_search_tv_bg);

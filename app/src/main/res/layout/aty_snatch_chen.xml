@@ -1,9 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/aty_title"></include>
+    <include layout="@layout/aty_title"></include>
 
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.ants.theantsgo.view.banner.SliderBanner
+                android:id="@+id/sb_snatch_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:slider_banner_indicator="@+id/sb_snatch_dotview"
+                app:slider_banner_pager="@+id/sb_snatch_viewpager"
+                app:slider_banner_time_interval="2000">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/sb_snatch_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></android.support.v4.view.ViewPager>
+
+                <com.ants.theantsgo.view.banner.DotView
+                    android:id="@+id/sb_snatch_dotview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    app:dot_radius="4dp"
+                    app:dot_selected_color="@android:color/holo_red_light"
+                    app:dot_unselected_color="#7E7E7B"></com.ants.theantsgo.view.banner.DotView>
+
+            </com.ants.theantsgo.view.banner.SliderBanner>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:src="@mipmap/icon_broadcast_chen" />
+
+                <com.txd.hzj.wjlp.view.TextChenView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:scrollText="恭喜李**获得iphone7 128G"
+                    app:scrollTextColor="@color/black"
+                    app:scrollTextSize="14dp">
+
+                </com.txd.hzj.wjlp.view.TextChenView>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
