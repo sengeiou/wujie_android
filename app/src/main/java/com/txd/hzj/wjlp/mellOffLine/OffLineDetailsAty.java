@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByMySelfFgt;
@@ -86,6 +87,7 @@ public class OffLineDetailsAty extends BaseAty {
                 onBackPressed();
             }
         });
+        // 沉浸式
         showStatusBar(R.id.toolbar);
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -103,6 +105,20 @@ public class OffLineDetailsAty extends BaseAty {
         toolbar_tab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(main_vp_container));
 
 
+    }
+
+    @Override
+    @OnClick({R.id.off_line_mell_collect_layout,R.id.off_line_mell_share_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.off_line_mell_collect_layout:// 收藏
+                showRightTip("收藏");
+                break;
+            case R.id.off_line_mell_share_tv:// 分享
+                toShare();
+                break;
+        }
     }
 
     @Override
