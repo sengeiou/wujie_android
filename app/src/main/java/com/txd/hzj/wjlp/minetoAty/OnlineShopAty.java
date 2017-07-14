@@ -28,6 +28,7 @@ public class OnlineShopAty extends BaseAty {
     /**
      * 页卡
      * */
+
     @ViewInject(R.id.tabs)
     private TabLayout mTabLayout;
     /**
