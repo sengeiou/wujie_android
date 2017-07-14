@@ -114,16 +114,18 @@
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty"/>
         <!-- 登录注册 -->
         <activity android:name=".login.LoginAty"/>
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity android:name=".login.FindPwgBackHzjAty"/>
-        <!--重置密码-->
+        <!-- 重置密码 -->
         <activity android:name=".login.ReSetPwdAty"/>
-        <!--绑定账号-->
+        <!-- 绑定账号 -->
         <activity android:name=".login.BindAccountAty"/>
-        <!--注册获取验证码-->
+        <!-- 注册获取验证码 -->
         <activity android:name=".login.RegisterGetCodeAty"/>
-        <!--注册设置密码-->
+        <!-- 注册设置密码 -->
         <activity android:name=".login.RegisterSetPwdAty"/>
+        <activity android:name=".mellOffLine.OffLineDetailsAty">
+        </activity>
     </application>
 
 </manifest>

@@ -3,7 +3,9 @@ package com.txd.hzj.wjlp.mainFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -11,11 +13,13 @@ import android.widget.RelativeLayout;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
+import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -73,6 +77,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MellOffLineFgt.this);
         mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
+        mell_near_by_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(OffLineDetailsAty.class, null);
+            }
+        });
 
     }
 
@@ -94,6 +104,17 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
+
+    @Override
+    @OnClick({R.id.to_location_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.to_location_tv:// 当前位置
+
+                break;
+        }
+    }
 
     @Override
     protected int getLayoutResId() {
