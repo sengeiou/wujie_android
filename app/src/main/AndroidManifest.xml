@@ -110,10 +110,10 @@
         <activity android:name=".minetoAty.EditProfileAty"/>
         <!-- 位置 -->
         <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
-        <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty">
-        </activity>
-        <activity android:name=".login.LoginAty">
-        </activity>
+        <!--户型详情-->
+        <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty"/>
+        <!--登录注册-->
+        <activity android:name=".login.LoginAty"/>
     </application>
 
 </manifest>
