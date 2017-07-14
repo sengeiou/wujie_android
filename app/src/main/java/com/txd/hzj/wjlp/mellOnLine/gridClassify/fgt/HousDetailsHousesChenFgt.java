@@ -14,6 +14,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
@@ -43,12 +45,15 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
     private List<Integer> list;//图片
     private MyViewAdapter adapter;//轮播图适配器
 
-    @OnClick({R.id.tv_houses_evaluate})
+    @OnClick({R.id.tv_houses_evaluate,R.id.to_check_location_layout})
     public void onClick(View v){
         switch (v.getId()){
             case R.id.tv_houses_evaluate:
                 //跳转到评价页
-//                startActivity(GoodsEvaluateAty.class,null);
+                startActivity(GoodsEvaluateAty.class,null);
+                break;
+            case R.id.to_check_location_layout:// 查看地图
+                startActivity(FindHouseByMapAty.class,null);
                 break;
         }
     }

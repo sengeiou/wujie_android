@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mine_title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/off_line_scan_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/off_line_message_layout"
+        android:drawablePadding="4dp"
+        android:drawableTop="@drawable/icon_message"
+        android:onClick="toMessage"
+        android:paddingBottom="4dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="4dp"
+        android:text="消息"
+        android:textColor="@color/white"/>
+
+    <FrameLayout
+        android:id="@+id/off_line_message_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/icon_mine_set"
+            android:gravity="center"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+
+    </FrameLayout>
+
+</RelativeLayout>

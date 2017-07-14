@@ -5,6 +5,8 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.SuperscriptSpan;
 import android.text.style.TextAppearanceSpan;
 import android.widget.TextView;
 
@@ -129,6 +131,24 @@ public class ChangeTextViewStyle {
         ForegroundColorSpan redSpan = new ForegroundColorSpan(color);
         builder.setSpan(redSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(builder);
+    }
+
+    /**
+     * 修改字体颜色,上标(上标字体为默认字体的一半)
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     * @param start   起始位置
+     * @param color   颜色
+     */
+    public void forTextColorSub(Context context, TextView tv, String str, int start, int color) {
+        SpannableString msp = new SpannableString(str);
+        int len = str.length();
+        msp.setSpan(new ForegroundColorSpan(color), start, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //设置前景色为洋红色
+        msp.setSpan(new SuperscriptSpan(), len - 1, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new RelativeSizeSpan(0.5f), len - 1, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //0.5f表示默认字体大小的一半
+        tv.setText(msp);
     }
 
     /**

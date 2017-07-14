@@ -1,74 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     >
 
-    <include
-        layout="@layout/aty_title"></include>
+    <include layout="@layout/aty_title"/>
 
-    <View
-        style="@style/line_view"
-        />
+    <View style="@style/line_view"/>
 
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nv_hous"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:theme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/icon_discount_chen"
-        />
-    <RadioGroup
-        android:id="@+id/rg_hous"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <RadioButton
-            android:id="@+id/rb_hous_synthesize"
-            style="@style/menu_screen"
-            android:text="踪合"
-            android:checked="true"
-            />
-        <RadioButton
-            android:id="@+id/rb_hous_newest"
-            style="@style/menu_screen"
-            android:text="最新"
-            />
-        <RadioButton
-            android:id="@+id/rb_hous_distance"
-            style="@style/menu_screen"
-            android:text="距离"
-            android:drawableRight="@drawable/selector_screen_rb_chen"
-            />
-        <RadioButton
-            android:id="@+id/rb_hous_price"
-            style="@style/menu_screen"
-            android:text="价格"
-            android:drawableRight="@drawable/selector_screen_rb_chen"
-            />
-    </RadioGroup>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_hous"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/house_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        >
-    </android.support.v7.widget.RecyclerView>
-    </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentScrim="#46a8ba"
+                app:expandedTitleMarginEnd="48dp"
+                app:expandedTitleMarginStart="48dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/icon_discount_chen"
+                    />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+            <RadioGroup
+                android:id="@+id/rg_hous"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                >
+
+                <RadioButton
+                    android:id="@+id/rb_hous_synthesize"
+                    style="@style/menu_screen"
+                    android:checked="true"
+                    android:text="踪合"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rb_hous_newest"
+                    style="@style/menu_screen"
+                    android:text="最新"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rb_hous_distance"
+                    style="@style/menu_screen"
+                    android:drawableRight="@drawable/selector_screen_rb_chen"
+                    android:text="距离"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rb_hous_price"
+                    style="@style/menu_screen"
+                    android:drawableRight="@drawable/selector_screen_rb_chen"
+                    android:text="价格"
+                    />
+            </RadioGroup>
+        </android.support.design.widget.AppBarLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_hous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </android.support.v7.widget.RecyclerView>
+    </android.support.design.widget.CoordinatorLayout>
+
+
 </LinearLayout>
