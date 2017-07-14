@@ -32,4 +32,15 @@
         </attr>
     </declare-styleable>
 
+
+    <!--文字跑马灯 chen-->
+    <declare-styleable name="ViewTwo">
+        <!--文字尺寸-->
+        <attr name="scrollTextSize" format="dimension"/>
+        <!--文字颜色-->
+        <attr name="scrollTextColor" format="color"/>
+        <!--文字内容-->
+        <attr name="scrollText" format="string"/>
+    </declare-styleable>
+
 </resources>
