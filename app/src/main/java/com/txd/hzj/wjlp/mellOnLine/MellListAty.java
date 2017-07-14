@@ -79,6 +79,7 @@ public class MellListAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showStatusBar(R.id.search_title_layout);
         forTitle();
         forKeyboardSearch();
         mell_lv.setAdapter(mlAdapter);

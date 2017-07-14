@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.SetAty;
@@ -55,16 +56,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         rel_head_back.setLayoutParams(layoutParams);
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
-        initEvent();
     }
 
-    private void initEvent() {
-        tv_set.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SetAty.class));
-            }
-        });
+    @Override
+    @OnClick({R.id.tv_set})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.tv_set:
+                startActivity(SetAty.class,null);
+                break;
+        }
     }
 
     @Override

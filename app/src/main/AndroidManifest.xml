@@ -77,9 +77,8 @@
         <!-- 房产购 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
         <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
-        <!--一元夺宝-->
+        <!-- 一元夺宝 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchChenAty"/>
-
 
         <!-- 商品属性选择 -->
         <activity
@@ -112,6 +111,8 @@
         <!-- 位置 -->
         <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty">
+        </activity>
+        <activity android:name=".login.LoginAty">
         </activity>
     </application>
 

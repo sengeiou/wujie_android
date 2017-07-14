@@ -12,7 +12,7 @@
         android:layout_toStartOf="@+id/off_line_message_layout"
         android:drawablePadding="4dp"
         android:drawableTop="@drawable/icon_message"
-        android:onClick="toScan"
+        android:onClick="toMessage"
         android:paddingBottom="4dp"
         android:paddingEnd="6dp"
         android:paddingStart="6dp"
@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
-        android:onClick="toMessage"
         android:paddingEnd="6dp"
         android:paddingStart="6dp"
         >
