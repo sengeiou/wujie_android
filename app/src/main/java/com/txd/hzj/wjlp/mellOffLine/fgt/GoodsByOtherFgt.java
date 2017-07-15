@@ -5,9 +5,12 @@ import android.os.Bundle;
 
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+
+import java.util.List;
+
 /**
  * ===============Txunda===============
- * 作者：DUKE_HwangZj 
+ * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：下午 4:38
  * 描述：流转商品
@@ -16,6 +19,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 public class GoodsByOtherFgt extends BaseFgt {
 
     private int page;
+
 
     public static GoodsByOtherFgt newInstance(int page) {
         Bundle args = new Bundle();
@@ -42,6 +46,6 @@ public class GoodsByOtherFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-        
+
     }
 }

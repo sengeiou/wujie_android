@@ -1,44 +1,76 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt">
 
-    <ScrollView
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/fgt_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/white"
+            app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
+            app:contentScrim="@color/white"
+            app:expandedTitleMarginEnd="48dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/transparentText"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorAccent"/>
+                android:layout_height="wrap_content"
+                android:background="@color/bg_color"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorPrimaryDark"/>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorAccent"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_temp_discount"
+                    />
+            </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorPrimaryDark"/>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/colorAccent"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/fgt_toolbar_tab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#ffffff"
+            android:fillViewport="false"
+            app:layout_scrollFlags="scroll"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorHeight="3.0dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@color/app_text_color">
+        </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
 
-        </LinearLayout>
-    </ScrollView>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/fgt_main_vp_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>
