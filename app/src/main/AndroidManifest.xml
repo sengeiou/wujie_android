@@ -143,6 +143,8 @@
         <activity android:name=".minetoAty.OnlineShopAty"/>
         <!--订单中心-->
         <activity android:name=".minetoAty.OrderCenterAty"/>
+        <!--竞拍纪录-->
+        <activity android:name=".minetoAty.AuctionRecordAty"/>
     </application>
 
 </manifest>
