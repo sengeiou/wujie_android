@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:descendantFocusability="blocksDescendants"
     android:padding="6dp">
 
     <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
