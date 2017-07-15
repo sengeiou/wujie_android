@@ -20,10 +20,52 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
     @ViewInject(R.id.tv_online_shops)
     TextView tv_online_shops;
     /**
+     * 线下商城
+     * */
+    @ViewInject(R.id.tv_offline_shop)
+    TextView tv_offline_shop;
+    /**
+     * 无界商店
+     * */
+    @ViewInject(R.id.tv_wj_shop)
+    TextView tv_wj_shop;
+    /**
+     * 拼团区
+     * */
+    @ViewInject(R.id.tv_pintuan)
+    TextView tv_pintuan;
+    /**
+     * 无界预购
+     * */
+    @ViewInject(R.id.tv_wjyg)
+    TextView tv_wjyg;
+    /**
+     * 竞拍区
+     * */
+    @ViewInject(R.id.tv_jpq)
+    TextView tv_jpq;
+    /**
+     * 一元夺宝
+     * */
+    @ViewInject(R.id.tv_yydb)
+    TextView tv_yydb;
+    /**
+     * 汽车购
+     * */
+    @ViewInject(R.id.tv_car_buy)
+    TextView tv_car_buy;
+    /**
+     * 房产购
+     * */
+    @ViewInject(R.id.tv_home_buy)
+    TextView tv_home_buy;
+    /**
      * 设置标题
      * */
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
+
+    Bundle mBundle = new Bundle();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +75,16 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
     }
 
     private void initEvent() {
+
         tv_online_shops.setOnClickListener(this);
+        tv_offline_shop.setOnClickListener(this);
+        tv_wj_shop.setOnClickListener(this);
+        tv_pintuan.setOnClickListener(this);
+        tv_wjyg.setOnClickListener(this);
+        tv_jpq.setOnClickListener(this);
+        tv_yydb.setOnClickListener(this);
+        tv_car_buy.setOnClickListener(this);
+        tv_home_buy.setOnClickListener(this);
     }
 
     @Override
@@ -54,8 +105,42 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+
             case R.id.tv_online_shops:
-                startActivity(OnlineShopAty.class,null);
+                mBundle.putString("title","线上商城");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_offline_shop:
+                mBundle.putString("title","线下商城");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_wj_shop:
+                mBundle.putString("title","无界商店");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_pintuan:
+                mBundle.putString("title","拼团区");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_wjyg:
+                mBundle.putString("title","无界预购");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_jpq:
+                mBundle.putString("title","竞拍汇");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_yydb:
+                mBundle.putString("title","抢宝记录");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_car_buy:
+                mBundle.putString("title","汽车购");
+                startActivity(OnlineShopAty.class,mBundle);
+                break;
+            case R.id.tv_home_buy:
+                mBundle.putString("title","房产购");
+                startActivity(OnlineShopAty.class,mBundle);
                 break;
         }
         super.onClick(v);
