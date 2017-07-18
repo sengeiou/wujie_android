@@ -99,7 +99,6 @@ public class PayForAppAty extends BaseAty {
                 break;
         }
     }
-
     /**
      * 传递使者，传递大使选中状态
      *
