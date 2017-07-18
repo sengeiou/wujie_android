@@ -31,7 +31,9 @@ public class IntegralAty extends BaseAty {
                 startActivity(ParticularsUsedByTricketAty.class, bundle);
                 break;
             case R.id.exchange_money_tv:// 确认兑换
-                startActivity(ExchangeMoneyAty.class,null);
+                bundle = new Bundle();
+                bundle.putInt("to",1);
+                startActivity(ExchangeMoneyAty.class,bundle);
                 break;
         }
     }

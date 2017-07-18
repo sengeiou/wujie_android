@@ -35,13 +35,10 @@ public class CarCommodityChenAty extends BaseAty{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         /**
          * 沉浸式解决顶部标题重叠
          */
         showStatusBar(R.id.title_re_layout);
-
     }
 
     @Override

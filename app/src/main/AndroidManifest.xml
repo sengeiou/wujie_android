@@ -168,6 +168,10 @@
         </activity>
         <activity android:name=".minetoAty.balance.BankInfoForReChargeAty">
         </activity>
+        <activity android:name=".minetoAty.balance.BankCardHzjAty">
+        </activity>
+        <activity android:name=".mellOnLine.gridClassify.CarDetailseAty">
+        </activity>
     </application>
 
 </manifest>

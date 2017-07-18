@@ -52,6 +52,24 @@ public class TicketZoonAty extends BaseAty {
             public void onTabReselect(int position) {
             }
         });
+        vp_for_title.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (0 == position) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

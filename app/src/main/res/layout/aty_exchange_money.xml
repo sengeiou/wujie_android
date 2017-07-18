@@ -37,6 +37,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/type_logo_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_exchange_hzj"/>
@@ -57,8 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的积分300"
-                android:textColor="@color/app_text_color"/>
+                android:text="我的积分300"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,13 +75,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:paddingBottom="4dp"
+        android:paddingStart="16dp"
+        android:paddingTop="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="积分转余额，手续费率"
-            android:textColor="@color/app_text_color"/>
+            android:text="积分转余额，手续费率"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,7 +92,37 @@
             android:textColor="#2E77FE"/>
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/select_bank_card_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/card_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="12dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="16dp"
+            android:paddingTop="12dp"
+            android:text="中国农业银行"
+            android:textColor="@color/app_text_color"/>
+
+        <TextView
+            android:id="@+id/card_num_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_turn_right_g"
+            android:padding="12dp"
+            android:text="**** **** **** 1701"/>
+
+    </LinearLayout>
+
     <TextView
+        android:id="@+id/submit_op_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -102,4 +133,31 @@
         android:padding="12dp"
         android:text="确认"
         android:textColor="@color/white"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_tip_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现到账周期为"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="T+1"
+            android:textColor="#2E77FE"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=",节假日顺延"/>
+    </LinearLayout>
 </LinearLayout>

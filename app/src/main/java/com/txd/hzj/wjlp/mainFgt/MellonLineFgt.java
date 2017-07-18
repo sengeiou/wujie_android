@@ -34,12 +34,19 @@ import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionGoodsDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -265,15 +272,72 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         upview1.setViews(views);
 
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
-
+        // 限量购
         purchase_gv.setAdapter(allGvLvAdapter);
+        purchase_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(LimitGoodsAty.class, null);
+            }
+        });
+        // 票券区
         ticket_gv.setAdapter(allGvLvAdapter1);
+        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(TicketGoodsDetialsAty.class, null);
+            }
+        });
+
+        // 无界预购
         limit_shopping_gv.setAdapter(allGvLvAdapter2);
+        limit_shopping_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(LimitGoodsAty.class, null);
+            }
+        });
+
+        // 进口馆
         import_gv.setAdapter(allGvLvAdapter3);
+        import_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(InputGoodsDetailsAty.class, null);
+            }
+        });
+        // 竞拍汇
         auction_gv.setAdapter(allGvLvAdapter4);
+        auction_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(AuctionGoodsDetailsAty.class, null);
+            }
+        });
+        // 一元夺宝
         good_luck_gv.setAdapter(allGvLvAdapter5);
+        good_luck_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(GoodLuckDetailsAty.class, null);
+            }
+        });
+        // 汽车购
         car_gv.setAdapter(allGvLvAdapter6);
+        car_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(CarDetailseAty.class, null);
+            }
+        });
+        // 房产购
         house_gv.setAdapter(allGvLvAdapter7);
+        house_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(HousDetailsChenAty.class, null);
+            }
+        });
         group_shopping_lv.setAdapter(allGvLvAdapter8);
     }
 

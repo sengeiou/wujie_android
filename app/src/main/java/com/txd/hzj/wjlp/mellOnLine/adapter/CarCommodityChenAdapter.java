@@ -12,6 +12,7 @@ import com.ants.theantsgo.tool.ToolKit;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.CarBean;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 
 import java.util.ArrayList;
@@ -33,19 +34,15 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
     private Context context;
 
 
-
-
-    public CarCommodityChenAdapter(Context context){
-        this.context=context;
+    public CarCommodityChenAdapter(Context context) {
+        this.context = context;
 
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car_commodity_chen,parent,false);
-        ViewHolder holder=new ViewHolder(view);
-
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car_commodity_chen, parent, false);
+        ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
@@ -60,28 +57,28 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, LimitGoodsAty.class);
+                Intent intent = new Intent(context, CarDetailseAty.class);
                 context.startActivity(intent);
 
             }
         });
 
 
-
     }
 
     @Override
     public int getItemCount() {
-            return 4;
+        return 4;
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         View view;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
-            view=itemView;
+            view = itemView;
         }
     }
 }

@@ -9,6 +9,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 
 /**
  * ===============Txunda===============
@@ -40,6 +41,7 @@ public class BalanceAty extends BaseAty {
      */
     @ViewInject(R.id.layout_bottom_tv)
     public TextView layout_bottom_tv;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,9 @@ public class BalanceAty extends BaseAty {
                 startActivity(RechargeAty.class, null);
                 break;
             case R.id.withdraw_tv:// 提现
+                bundle = new Bundle();
+                bundle.putInt("to", 2);
+                startActivity(ExchangeMoneyAty.class, bundle);
                 break;
             case R.id.balance_details_tv:// 余额明细
                 break;
