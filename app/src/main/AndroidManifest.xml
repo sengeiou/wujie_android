@@ -4,9 +4,9 @@
 
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-    <!--访问网络-->
+    <!-- 访问网络 -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--相机权限-->
+    <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <!-- 在SDCard中创建与删除文件权限 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
@@ -14,9 +14,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 从SDCard读取数据权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--震动-->
+    <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <!--闪光灯-->
+    <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
     <application
@@ -77,9 +77,8 @@
         <!-- 房产购 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty"/>
         <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty"/>
-        <!--一元夺宝-->
+        <!-- 一元夺宝 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchChenAty"/>
-
 
         <!-- 商品属性选择 -->
         <activity
@@ -103,27 +102,27 @@
         <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty"/>
         <!-- 无界头条 -->
         <activity android:name=".mellOnLine.WujieTopHzjAty"/>
-        <!--扫一扫-->
+        <!-- 扫一扫 -->
         <activity android:name=".mellOnLine.ScanAty"/>
-        <!--设置-->
+        <!-- 设置 -->
         <activity android:name=".minetoAty.SetAty"/>
-        <!--个人信息-->
+        <!-- 个人信息 -->
         <activity android:name=".minetoAty.EditProfileAty"/>
-        <!--修改当前密码-->
+        <!-- 修改当前密码 -->
         <activity android:name=".minetoAty.EditLoginPasswordAty"/>
-        <!--修改支付密码-->
+        <!-- 修改支付密码 -->
         <activity android:name=".minetoAty.EditPayPasswordAty"/>
-        <!--实名认证-->
+        <!-- 实名认证 -->
         <activity android:name=".minetoAty.RealnameAty"/>
-        <!--绑定手机-->
+        <!-- 绑定手机 -->
         <activity android:name=".minetoAty.BindPhoneAty"/>
-        <!--绑定新手机-->
+        <!-- 绑定新手机 -->
         <activity android:name=".minetoAty.BindNewPhoneAty"/>
-        <!--关于我们-->
+        <!-- 关于我们 -->
         <activity android:name=".minetoAty.AboutOursAty"/>
-        <!--帮助中心-->
+        <!-- 帮助中心 -->
         <activity android:name=".minetoAty.HelpCenterAty"/>
-        <!--注册设置密码-->
+        <!-- 注册设置密码 -->
         <activity android:name=".login.RegisterSetPwdAty"/>
         <!-- 位置 -->
         <activity android:name=".mellOnLine.gridClassify.hous.FindHouseByMapAty"/>
@@ -131,22 +130,32 @@
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty"/>
         <!-- 登录注册 -->
         <activity android:name=".login.LoginAty"/>
-        <!--忘记密码-->
+        <!-- 忘记密码 -->
         <activity android:name=".login.FindPwgBackHzjAty"/>
-        <!--重置密码-->
+        <!-- 重置密码 -->
         <activity android:name=".login.ReSetPwdAty"/>
-        <!--绑定账号-->
+        <!-- 绑定账号 -->
         <activity android:name=".login.BindAccountAty"/>
-        <!--注册获取验证码-->
+        <!-- 注册获取验证码 -->
         <activity android:name=".login.RegisterGetCodeAty"/>
-        <!--线上商城-->
+        <!-- 线上商城 -->
         <activity android:name=".minetoAty.OnlineShopAty"/>
-        <!--订单中心-->
+        <!-- 订单中心 -->
         <activity android:name=".minetoAty.OrderCenterAty"/>
-        <!--线下商城店铺详情-->
+        <!-- 线下商城店铺详情 -->
         <activity android:name=".mellOffLine.OffLineDetailsAty"/>
-        <!--竞拍纪录-->
+        <!-- 竞拍纪录 -->
         <activity android:name=".minetoAty.AuctionRecordAty"/>
+        <!-- 会员成长，会员等级 -->
+        <activity android:name=".minetoAty.GradeOfMemberAty"/>
+        <!-- 支付 -->
+        <activity android:name=".minetoAty.PayForAppAty"/>
+        <!-- 购物券 -->
+        <activity android:name=".minetoAty.tricket.MyCouponAty"/>
+        <activity android:name=".minetoAty.tricket.ParticularsUsedByTricketAty">
+        </activity>
+        <activity android:name=".minetoAty.tricket.IntegralAty">
+        </activity>
     </application>
 
 </manifest>

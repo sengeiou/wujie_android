@@ -233,4 +233,19 @@ public class ChangeTextViewStyle {
         tv.setText(styledText, TextView.BufferType.SPANNABLE);
     }
 
+    /**
+     * 会员等级
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forMemberGrade(Context context, TextView tv, String str, int pos) {
+        SpannableString styledText = new SpannableString(str);
+        int len = str.length();
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.style_for_member),
+                pos, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
+
 }

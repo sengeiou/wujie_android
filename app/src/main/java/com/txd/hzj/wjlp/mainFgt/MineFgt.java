@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -11,10 +10,14 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
+import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.minetoAty.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -37,36 +40,38 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private int allHeight = 0;
     /**
      * 我的背景
-     * */
+     */
     @ViewInject(R.id.rel_head_back)
     public RelativeLayout rel_head_back;
     /**
      * 设置
-     * */
+     */
     @ViewInject(R.id.tv_set)
     TextView tv_set;
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
     /**
      * 波浪视图
-     * */
+     */
     @ViewInject(R.id.wave)
     private WaveView wave;
     /**
      * 关于
-     * */
+     */
     @ViewInject(R.id.rel_mine_about)
     private TextView rel_mine_about;
     /**
      * 帮助中心
-     * */
+     */
     @ViewInject(R.id.tv_help_center)
     TextView tv_help_center;
     /**
      * 订单中心
-     * */
+     */
     @ViewInject(R.id.tv_order_center)
     private TextView tv_order_center;
+    private Bundle bundle;
+
     public MineFgt() {
     }
 
@@ -80,35 +85,46 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
         wave.startAnim();
-        initEvent();
     }
 
-    private void initEvent() {
-        tv_set.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), SetAty.class));
-            }
-        });
-        rel_mine_about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), AboutOursAty.class));
-            }
-        });
-        tv_help_center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(HelpCenterAty.class,null);
-            }
-        });
-        tv_order_center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(OrderCenterAty.class,null);
-            }
-        });
+
+    @Override
+    @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
+            R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_set:// 设置
+                startActivity(SetAty.class, null);
+                break;
+            case R.id.grade_of_member_tv:// 会员等级
+                bundle = new Bundle();
+                bundle.putInt("from", 0);
+                startActivity(GradeOfMemberAty.class, bundle);
+                break;
+            case R.id.mine_member_type_tv:// 会员等级
+                bundle = new Bundle();
+                bundle.putInt("from", 1);
+                startActivity(GradeOfMemberAty.class, bundle);
+                break;
+            case R.id.rel_mine_about:// 关于
+                startActivity(AboutOursAty.class, null);
+                break;
+            case R.id.tv_help_center:// 帮助中心
+                startActivity(HelpCenterAty.class, null);
+                break;
+            case R.id.tv_order_center:// 订单中心
+                startActivity(OrderCenterAty.class, null);
+                break;
+            case R.id.my_coupon_layout:// 购物券
+                startActivity(MyCouponAty.class, null);
+                break;
+            case R.id.integral_tv:// 积分
+                startActivity(IntegralAty.class, null);
+                break;
+        }
     }
+
 
     @Override
     protected int getLayoutResId() {

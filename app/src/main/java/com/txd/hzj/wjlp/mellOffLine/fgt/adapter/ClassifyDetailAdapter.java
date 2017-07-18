@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.SortBean;
 
 import java.util.List;
 

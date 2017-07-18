@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOffLine.fgt.adapter;
+package com.txd.hzj.wjlp.bean;
 
 
 import java.io.Serializable;

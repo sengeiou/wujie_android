@@ -11,13 +11,14 @@
         android:id="@+id/left_view"
         android:layout_width="2dp"
         android:layout_height="match_parent"/>
+
     <TextView
         android:id="@+id/tv_sort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
+        android:paddingBottom="12dp"
+        android:paddingTop="12dp"
         android:text="测试文字"
         android:textColor="@color/app_text_color"
         android:textSize="14sp"/>

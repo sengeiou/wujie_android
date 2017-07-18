@@ -106,7 +106,7 @@ public class LoginAty extends BaseAty {
                 break;
             case R.id.to_login_or_register_tv:// 登录，注册
                 if (0 == type) {//登录
-                    Config.isLogin();
+                    Config.setLoginState(true);
                     finish();
                 } else {// 注册下一步
                     startActivity(RegisterGetCodeAty.class, null);

@@ -16,7 +16,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.CheckListener;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.ClassifyDetailAdapter;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvListener;
-import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.SortBean;
+import com.txd.hzj.wjlp.bean.SortBean;
 
 import java.util.ArrayList;
 import java.util.List;
