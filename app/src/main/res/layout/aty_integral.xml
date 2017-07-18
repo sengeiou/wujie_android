@@ -21,35 +21,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@drawable/icon_integral_hzj"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
-                    android:text="我的积分"
-                    android:textColor="@color/white"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginStart="16dp"
-                    android:text="888"
-                    android:textColor="@color/white"
-                    android:textSize="64dp"/>
-            </FrameLayout>
+            <include layout="@layout/aty_top_layout_for_mine"/>
 
             <TextView
                 android:id="@+id/check_details_tv"
@@ -167,6 +139,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/exchange_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"

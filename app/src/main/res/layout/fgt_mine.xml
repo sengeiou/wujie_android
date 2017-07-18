@@ -127,6 +127,7 @@
                 android:padding="10dp">
 
                 <LinearLayout
+                    android:id="@+id/my_balance_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -342,6 +343,7 @@
                 android:background="@color/bg_color"></View>
 
             <TextView
+                android:id="@+id/registration_code_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

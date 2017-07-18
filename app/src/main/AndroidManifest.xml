@@ -152,9 +152,21 @@
         <activity android:name=".minetoAty.PayForAppAty"/>
         <!-- 购物券 -->
         <activity android:name=".minetoAty.tricket.MyCouponAty"/>
-        <activity android:name=".minetoAty.tricket.ParticularsUsedByTricketAty">
+        <!-- 明细 -->
+        <activity android:name=".minetoAty.tricket.ParticularsUsedByTricketAty"/>
+        <!-- 积分 -->
+        <activity android:name=".minetoAty.tricket.IntegralAty"/>
+        <!-- 积分转余额 -->
+        <activity android:name=".minetoAty.tricket.ExchangeMoneyAty"/>
+        <!-- 注册码 -->
+        <activity
+            android:name=".minetoAty.dialog.RegistrationCodeAty"
+            android:theme="@style/share_style"/>
+        <!-- 余额 -->
+        <activity android:name=".minetoAty.balance.BalanceAty"/>
+        <activity android:name=".minetoAty.balance.RechargeAty">
         </activity>
-        <activity android:name=".minetoAty.tricket.IntegralAty">
+        <activity android:name=".minetoAty.balance.BankInfoForReChargeAty">
         </activity>
     </application>
 

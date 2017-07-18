@@ -21,14 +21,17 @@ public class IntegralAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.check_details_tv})
+    @OnClick({R.id.check_details_tv,R.id.exchange_money_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.check_details_tv:
+            case R.id.check_details_tv:// 积分明细
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
                 startActivity(ParticularsUsedByTricketAty.class, bundle);
+                break;
+            case R.id.exchange_money_tv:// 确认兑换
+                startActivity(ExchangeMoneyAty.class,null);
                 break;
         }
     }
