@@ -11,26 +11,41 @@ import java.io.Serializable;
  * ===============Txunda===============
  */
 
-public class TricketDetailks implements Serializable {
+public class TricketDetailks {
 
-    private String name;
-    private String tag;
-    private boolean isTitle;
-    private String time;
-    private String price;
-    private String type;
+    /**
+     * 吸顶标题
+     */
+    public String sticky;
+    /**
+     * 条目标题
+     */
+    public String name;
+    /**
+     * 交易记录时间
+     */
+    public String gender;
+    /**
+     * 最后的交易数量
+     */
+    public String profession;
 
-    public TricketDetailks(String name, String tag, boolean isTitle, String time, String price, String type) {
+    public TricketDetailks(String sticky, String name, String gender, String profession) {
+        this.sticky = sticky;
         this.name = name;
-        this.tag = tag;
-        this.isTitle = isTitle;
-        this.time = time;
-        this.price = price;
-        this.type = type;
+        this.gender = gender;
+        this.profession = profession;
+    }
+
+    public String getSticky() {
+        return sticky;
+    }
+
+    public void setSticky(String sticky) {
+        this.sticky = sticky;
     }
 
     public String getName() {
-
         return name;
     }
 
@@ -38,43 +53,19 @@ public class TricketDetailks implements Serializable {
         this.name = name;
     }
 
-    public String getTag() {
-        return tag;
+    public String getGender() {
+        return gender;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public boolean isTitle() {
-        return isTitle;
+    public String getProfession() {
+        return profession;
     }
 
-    public void setTitle(boolean title) {
-        isTitle = title;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 }

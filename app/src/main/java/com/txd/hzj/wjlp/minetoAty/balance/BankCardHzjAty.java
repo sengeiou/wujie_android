@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.minetoAty.dialog.DeteleBankDialog;
 
 /**
  * ===============Txunda===============
@@ -40,6 +42,8 @@ public class BankCardHzjAty extends BaseAty {
 
     private BankCardAdapter bankCardAdapter;
 
+    private DeteleBankDialog deteleBankDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,30 @@ public class BankCardHzjAty extends BaseAty {
                 finish();
             }
         });
+        bank_card_lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                deteleBankDialog = new DeteleBankDialog(BankCardHzjAty.this, new DeteleBankDialog.ClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deteleBankDialog.dismiss();
+                    }
+                });
+                deteleBankDialog.show();
+                return true;
+            }
+        });
+    }
+
+    @Override
+    @OnClick({R.id.titlt_right_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.titlt_right_tv:// 添加银行卡
+                startActivity(AddBankCardAty.class, null);
+                break;
+        }
     }
 
     @Override

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ticket_lin_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="88dp"
     android:background="@drawable/icon_un_valid_ticket_bg_hzj"
     android:gravity="center_vertical"
     android:orientation="horizontal">

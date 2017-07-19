@@ -15,6 +15,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.minetoAty.adapter.TricketAdapter;
 
 /**
  * ===============Txunda===============
@@ -72,8 +73,8 @@ public class MyCouponAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        tricketAdapter = new TricketAdapter(0);
-        tricketAdapter1 = new TricketAdapter(1);
+        tricketAdapter = new TricketAdapter(0,this);
+        tricketAdapter1 = new TricketAdapter(1,this);
     }
 
     @Override
@@ -81,51 +82,5 @@ public class MyCouponAty extends BaseAty {
 
     }
 
-    private class TricketAdapter extends BaseAdapter {
-        private MCVH mcvh;
-        private int type = 0;
-
-        public TricketAdapter(int type) {
-            this.type = type;
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = LayoutInflater.from(MyCouponAty.this).inflate(R.layout.item_tricket_lv_hzj, null);
-                mcvh = new MCVH();
-                ViewUtils.inject(mcvh, view);
-                view.setTag(mcvh);
-            } else {
-                mcvh = (MCVH) view.getTag();
-            }
-            if (0 == type) {
-                mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
-            } else {
-                mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
-            }
-            return view;
-        }
-
-        class MCVH {
-            @ViewInject(R.id.ticket_lin_layout)
-            private LinearLayout ticket_lin_layout;
-        }
-    }
 
 }

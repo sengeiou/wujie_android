@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty">
+
+    <RelativeLayout
+        android:id="@+id/card_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/title_be_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="beBack"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:src="@drawable/icon_be_back_b"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_vertical|bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/title_goods_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/title_goods_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="会员卡"
+                    android:textColor="@color/theme_color"
+                    android:textSize="16sp"
+                    />
+
+                <View
+                    android:id="@+id/title_goods_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/theme_color"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/title_details_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/title_details_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="优惠券"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="16sp"
+                    />
+
+                <View
+                    android:id="@+id/title_details_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/title_evaluate_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/title_evaluate_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="期权券"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="16sp"
+                    />
+
+                <View
+                    android:id="@+id/title_evaluate_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/white"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/center_for_coupon_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoAty.order;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

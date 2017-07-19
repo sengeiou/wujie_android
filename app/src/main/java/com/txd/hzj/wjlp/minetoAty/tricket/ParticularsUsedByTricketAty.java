@@ -3,14 +3,14 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
-import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvListener;
-import com.txd.hzj.wjlp.minetoAty.adapter.TricketAdapter;
+import com.txd.hzj.wjlp.minetoAty.adapter.StickyExampleAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,12 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     @ViewInject(R.id.tricket_rv)
     private RecyclerView tricket_rv;
 
-    private TricketAdapter tricketAdapter;
+    @ViewInject(R.id.tv_sticky_header_view)
+    private TextView tv_sticky_header_view;
 
     private List<TricketDetailks> list;
-    private ItemHeaderDecoration mDecoration;
+
+    private StickyExampleAdapter stickyExampleAdapter;
 
     private int from = 1;
 
@@ -46,20 +48,54 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         if (1 == from) {
             titlt_conter_tv.setText("购物券使用明细");
-        } else {
+        } else if (2 == from) {
             titlt_conter_tv.setText("积分明细");
+        } else {
+            titlt_conter_tv.setText("余额明细");
         }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        tricketAdapter = new TricketAdapter(this, list, new RvListener() {
+        tricket_rv.setAdapter(stickyExampleAdapter);
+
+        tricket_rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onItemClick(int id, int position) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                View stickyInfoView = recyclerView.findChildViewUnder(
+                        tv_sticky_header_view.getMeasuredWidth() / 2, 5);
+
+                if (stickyInfoView != null && stickyInfoView.getContentDescription() != null) {
+                    tv_sticky_header_view.setText(String.valueOf(stickyInfoView.getContentDescription()));
+                }
+
+                View transInfoView = recyclerView.findChildViewUnder(
+                        tv_sticky_header_view.getMeasuredWidth() / 2, tv_sticky_header_view.getMeasuredHeight() + 1);
+
+                if (transInfoView != null && transInfoView.getTag() != null) {
+
+                    int transViewStatus = (int) transInfoView.getTag();
+                    int dealtY = transInfoView.getTop() - tv_sticky_header_view.getMeasuredHeight();
+
+                    if (transViewStatus == StickyExampleAdapter.HAS_STICKY_VIEW) {
+                        if (transInfoView.getTop() > 0) {
+                            tv_sticky_header_view.setTranslationY(dealtY);
+                        } else {
+                            tv_sticky_header_view.setTranslationY(0);
+                        }
+                    } else if (transViewStatus == StickyExampleAdapter.NONE_STICKY_VIEW) {
+                        tv_sticky_header_view.setTranslationY(0);
+                    }
+                }
 
             }
         });
-        tricket_rv.setAdapter(tricketAdapter);
-        mDecoration = new ItemHeaderDecoration(this, list);
-        tricket_rv.addItemDecoration(mDecoration);
+
     }
 
     @Override
@@ -71,13 +107,19 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     protected void initialized() {
         from = getIntent().getIntExtra("from", 1);
         list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            list.add(new TricketDetailks("2016年" + (i + 3) + "月", String.valueOf(i), true, "", "", "-1"));
-            for (int j = 0; j < 3; j++) {
-                list.add(new TricketDetailks("积分转余额 赠送", String.valueOf(j), false, "2017-06-23", "300.00",
-                        String.valueOf(j)));
+        for (int i = 0; i < 15; i++) {
+            if (i < 5) {
+                list.add(new TricketDetailks(
+                        "2017-06", "积分转余额 赠送", "2017-06-23", "+300"));
+            } else if (i < 10) {
+                list.add(new TricketDetailks(
+                        "2017-07", "积分转余额 赠送", "2017-07-23", "+500"));
+            } else if (i < 15) {
+                list.add(new TricketDetailks(
+                        "2017-08", "积分转余额 赠送", "2017-08-23", "+700"));
             }
         }
+        stickyExampleAdapter = new StickyExampleAdapter(this, list);
     }
 
     @Override

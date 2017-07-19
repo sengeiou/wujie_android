@@ -1,0 +1,74 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    tools:context="com.txd.hzj.wjlp.minetoAty.coupon.fgt.ClubCardFgt">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/valid_ticket_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/bg_color"
+                android:dividerHeight="8dp"
+                android:padding="8dp"
+                android:scrollbars="none"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/view_color"/>
+
+                <ImageView
+                    android:id="@+id/show_delete_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/icon_clear_ticket_hzj"/>
+
+                <TextView
+                    android:id="@+id/card_status_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:padding="8dp"
+                    android:text="清除失效购物券"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/view_color"/>
+
+            </LinearLayout>
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/un_valid_ticket_lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/bg_color"
+                android:dividerHeight="8dp"
+                android:padding="8dp"
+                android:scrollbars="none"/>
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

@@ -1,91 +1,74 @@
 package com.txd.hzj.wjlp.minetoAty.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.TricketDetailks;
-import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvAdapter;
-import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvHolder;
-import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvListener;
-
-import java.util.List;
+import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
- * 日期：2017/7/17 0017
- * 时间：15:58
- * 描述：购物券使用明细适配器
+ * 日期：2017/7/19 0019
+ * 时间：10:08
+ * 描述：
  * ===============Txunda===============
  */
 
-public class TricketAdapter extends RvAdapter<TricketDetailks> {
+public class TricketAdapter extends BaseAdapter {
+    private MCVH mcvh;
+    private int type = 0;
+    private Context context;
 
-    public TricketAdapter(Context context, List<TricketDetailks> list, RvListener listener) {
-        super(context, list, listener);
+    public TricketAdapter(int type, Context context) {
+        this.type = type;
+        this.context = context;
+    }
+
+    public TricketAdapter(int type) {
+        this.type = type;
     }
 
     @Override
-    protected int getLayoutId(int viewType) {
-        return viewType == 0 ? R.layout.item_title : R.layout.item_tricket_rv;
+    public int getCount() {
+        return 5;
     }
 
     @Override
-    protected RvHolder getHolder(View view, int viewType) {
-        return new TrickViewHolder(view, viewType, listener);
+    public Object getItem(int i) {
+        return null;
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return list.get(position).isTitle() ? 0 : 1;
+    public long getItemId(int i) {
+        return i;
     }
 
-    public class TrickViewHolder extends RvHolder<TricketDetailks> {
-
-        private TextView tvTitle;
-
-        private ImageView t_details_logo_tv;
-
-        private TextView t_details_title_tv;
-
-        private TextView t_details_time_tv;
-
-        private TextView t_details_price_tv;
-
-        private View view_for_rv;
-
-        public TrickViewHolder(View itemView, int type, RvListener listener) {
-            super(itemView, type, listener);
-            if (type == 0) {
-                tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
-            } else {
-                t_details_logo_tv = itemView.findViewById(R.id.t_details_logo_tv);
-                t_details_title_tv = itemView.findViewById(R.id.t_details_title_tv);
-                t_details_time_tv = itemView.findViewById(R.id.t_details_time_tv);
-                t_details_price_tv = itemView.findViewById(R.id.t_details_price_tv);
-                view_for_rv = itemView.findViewById(R.id.view_for_rv);
-            }
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.item_tricket_lv_hzj, null);
+            mcvh = new MCVH();
+            ViewUtils.inject(mcvh, view);
+            view.setTag(mcvh);
+        } else {
+            mcvh = (MCVH) view.getTag();
         }
-
-        @Override
-        public void bindHolder(TricketDetailks tricketDetailks, int position) {
-            int type = TricketAdapter.this.getItemViewType(position);
-            switch (type) {
-                case 0:
-                    tvTitle.setText(list.get(position).getName());
-                    tvTitle.setBackgroundColor(Color.parseColor("#E2E2E2"));
-                    break;
-                case 1:
-                    t_details_title_tv.setText(list.get(position).getName());
-                    t_details_time_tv.setText(list.get(position).getTime());
-                    t_details_price_tv.setText("+" + list.get(position).getPrice());
-                    break;
-            }
+        if (0 == type) {
+            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
+        } else {
+            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
         }
+        return view;
     }
 
-}
+    class MCVH {
+        @ViewInject(R.id.ticket_lin_layout)
+        private LinearLayout ticket_lin_layout;
+    }}

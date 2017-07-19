@@ -1,141 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/bg_color"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         >
+
         <TextView
             android:id="@+id/ItemTitle"
-            android:textColor="@color/black"
-            android:drawablePadding="10dp"
-            android:drawableLeft="@drawable/icon_home_pager"
-            android:drawableRight="@drawable/icon_turn_right_gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_home_pager"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/icon_turn_right_gray"
+            android:textColor="@color/black"
             />
+
         <TextView
             android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="待付款"
             android:layout_alignParentRight="true"
+            android:text="待付款"
             android:textColor="@color/colorRed"/>
     </RelativeLayout>
-    <RelativeLayout
-        android:padding="10dp"
+
+    <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+        android:id="@+id/goods_for_order_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bg_color">
-        <ImageView
-            android:id="@+id/img_pic"
-            android:layout_marginRight="10dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/icon_temp_mell_prodect"/>
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_toRightOf="@id/img_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="床单"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_name"
-            android:layout_toRightOf="@id/img_pic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="绿色"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="¥99.00"
-            android:layout_alignParentRight="true"/>
-        <TextView
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="x1"
-            />
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_marginTop="6dp"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_color">
-        <ImageView
-            android:id="@+id/img_pic_01"
-            android:layout_marginRight="10dp"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/icon_temp_mell_prodect"/>
-        <TextView
-            android:id="@+id/tv_name_01"
-            android:layout_toRightOf="@id/img_pic_01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="床单"
-            android:textColor="@color/black"/>
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_name_01"
-            android:layout_toRightOf="@id/img_pic_01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="绿色"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:text="¥99.00"
-            android:layout_alignParentRight="true"/>
-        <TextView
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:layout_below="@id/tv_name_01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="x1"
-            />
-    </RelativeLayout>
-    <RelativeLayout
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="共2件商品  合计:¥179.55(含运费¥10.00)"
-            android:textColor="@color/black"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
+        android:divider="@color/white"
+        android:dividerHeight="4dp"
+        android:scrollbars="none"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/bg_color"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true">
+
             <TextView
                 android:id="@+id/tv_btn_left"
                 android:layout_width="80dp"
@@ -144,18 +65,20 @@
                 android:gravity="center"
                 android:text="取消订单"
                 />
+
             <TextView
                 android:id="@+id/tv_btn_right"
-                android:layout_marginLeft="10dp"
                 android:layout_width="80dp"
-                android:gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/shape_red_btn_01_li"
+                android:gravity="center"
                 android:text="付款"
                 android:textColor="@color/colorRed"
                 />
         </LinearLayout>
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

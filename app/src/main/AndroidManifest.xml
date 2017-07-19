@@ -139,9 +139,9 @@
         <!-- 注册获取验证码 -->
         <activity android:name=".login.RegisterGetCodeAty"/>
         <!-- 线上商城 -->
-        <activity android:name=".minetoAty.OnlineShopAty"/>
+        <activity android:name=".minetoAty.order.OnlineShopAty"/>
         <!-- 订单中心 -->
-        <activity android:name=".minetoAty.OrderCenterAty"/>
+        <activity android:name=".minetoAty.order.OrderCenterAty"/>
         <!-- 线下商城店铺详情 -->
         <activity android:name=".mellOffLine.OffLineDetailsAty"/>
         <!-- 竞拍纪录 -->
@@ -164,13 +164,19 @@
             android:theme="@style/share_style"/>
         <!-- 余额 -->
         <activity android:name=".minetoAty.balance.BalanceAty"/>
-        <activity android:name=".minetoAty.balance.RechargeAty">
+        <!-- 余额充值 -->
+        <activity android:name=".minetoAty.balance.RechargeAty"/>
+        <!-- 线下充值，选择银行卡 -->
+        <activity android:name=".minetoAty.balance.BankInfoForReChargeAty"/>
+        <!-- 银行卡列表 -->
+        <activity android:name=".minetoAty.balance.BankCardHzjAty"/>
+        <!-- 汽车购商品详情 -->
+        <activity android:name=".mellOnLine.gridClassify.CarDetailseAty"/>
+        <!-- 添加银行卡 -->
+        <activity android:name=".minetoAty.balance.AddBankCardAty"/>
+        <activity android:name=".minetoAty.balance.RechargeOffLineAty">
         </activity>
-        <activity android:name=".minetoAty.balance.BankInfoForReChargeAty">
-        </activity>
-        <activity android:name=".minetoAty.balance.BankCardHzjAty">
-        </activity>
-        <activity android:name=".mellOnLine.gridClassify.CarDetailseAty">
+        <activity android:name=".minetoAty.coupon.CouponHzjAty">
         </activity>
     </application>
 

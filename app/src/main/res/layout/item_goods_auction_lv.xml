@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:background="@color/bg_color"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/img_pic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/icon_temp_goods_banner"/>
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/img_pic"
+            android:text="逆光女装韩版松逆光女装韩版bf宽松逆光女装韩版bf宽松"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@id/img_pic">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="起拍价"
+                android:textColor="@color/colorRed"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="¥8000.00"
+                android:textColor="@color/colorRed"
+                android:textSize="18dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

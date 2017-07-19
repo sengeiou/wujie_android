@@ -13,15 +13,15 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.login.RegisterGetCodeAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
+import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
-import com.txd.hzj.wjlp.minetoAty.OrderCenterAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.flowlayout.WaveView;
@@ -93,7 +93,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
-            R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,R.id.my_balance_layout})
+            R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
+            R.id.my_balance_layout, R.id.coupon_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -130,6 +131,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.my_balance_layout:// 余额
                 startActivity(BalanceAty.class, null);
+                break;
+            case R.id.coupon_tv:// 卡券包
+                startActivity(CouponHzjAty.class, null);
                 break;
         }
     }

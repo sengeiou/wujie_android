@@ -10,6 +10,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 
 /**
  * ===============Txunda===============
@@ -68,6 +69,9 @@ public class BalanceAty extends BaseAty {
                 startActivity(ExchangeMoneyAty.class, bundle);
                 break;
             case R.id.balance_details_tv:// 余额明细
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                startActivity(ParticularsUsedByTricketAty.class, bundle);
                 break;
         }
     }
