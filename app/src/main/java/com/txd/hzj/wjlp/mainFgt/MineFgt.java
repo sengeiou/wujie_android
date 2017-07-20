@@ -16,6 +16,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
 import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
@@ -94,7 +95,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
             R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
-            R.id.my_balance_layout, R.id.coupon_tv})
+            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -134,6 +135,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.coupon_tv:// 卡券包
                 startActivity(CouponHzjAty.class, null);
+                break;
+            case R.id.address_tv:// 我的地址
+                startActivity(AddressListAty.class, null);
                 break;
         }
     }

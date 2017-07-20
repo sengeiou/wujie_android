@@ -97,8 +97,8 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             mTitleList = OrderTitleUtils.getInstance().orderTitle5();
         }
         // 添加碎片
-        for (Map<String, String> title : mTitleList) {
-            mFragment.add(OrderOnLineFgt.getFgt(title.get("title"), title.get("type")));
+        for (Map<String, String> fgt : mTitleList) {
+            mFragment.add(OrderOnLineFgt.getFgt(title, fgt.get("type")));
         }
     }
 

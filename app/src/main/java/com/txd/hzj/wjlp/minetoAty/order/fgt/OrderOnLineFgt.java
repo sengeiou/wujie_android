@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
+import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 
 import java.util.ArrayList;
@@ -67,7 +69,12 @@ public class OrderOnLineFgt extends BaseFgt {
         order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(OrderDetailsAty.class,null);
+                L.e("=====title=====", title);
+                if (title.equals("抢宝记录")) {
+                    startActivity(GoodLuckOrderDetailsAty.class, null);
+                } else {
+                    startActivity(OrderDetailsAty.class, null);
+                }
             }
         });
 

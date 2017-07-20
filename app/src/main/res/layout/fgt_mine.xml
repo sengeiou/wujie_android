@@ -288,6 +288,7 @@
                 android:background="@color/bg_color"></View>
 
             <TextView
+                android:id="@+id/address_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

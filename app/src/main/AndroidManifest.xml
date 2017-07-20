@@ -193,6 +193,10 @@
         </activity>
         <activity android:name=".minetoAty.order.TextListAty">
         </activity>
+        <activity android:name=".minetoAty.order.GoodLuckOrderDetailsAty">
+        </activity>
+        <activity android:name=".minetoAty.address.AddressListAty">
+        </activity>
     </application>
 
 </manifest>
