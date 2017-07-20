@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
@@ -39,6 +41,20 @@ public class OrderDetailsAty extends BaseAty {
     @ViewInject(R.id.bot_for_order)
     private LinearLayout bot_for_order;
 
+    /**
+     * 预订第一阶段(定金实付款)
+     */
+    @ViewInject(R.id.reserve_first_step_price_tv)
+    private TextView reserve_first_step_price_tv;
+
+    /**
+     * 预定第二阶段(尾款实付款)
+     */
+    @ViewInject(R.id.reserve_sec_step_price_tv)
+    private TextView reserve_sec_step_price_tv;
+
+    @ViewInject(R.id.details_order_sc)
+    private ScrollView details_order_sc;
     private ThisGoodsAdapter thisAdapter;
 
     @Override
@@ -46,9 +62,28 @@ public class OrderDetailsAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("订单详情");
+        details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         goods_for_this_order_lv.setAdapter(thisAdapter);
         ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_info_tv, "共1件商品 合计：￥14.80");
+        ChangeTextViewStyle.getInstance().forOrderPrice2(this, reserve_first_step_price_tv, "￥5.24");
+        ChangeTextViewStyle.getInstance().forOrderPrice2(this, reserve_sec_step_price_tv, "￥43.86");
+    }
+
+    @Override
+    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_btn_left:// 最底部左侧按钮
+                // 申请售后
+                startActivity(ApplyForAfterSalesAty.class, null);
+                break;
+            case R.id.tv_btn_right:// 最底部右侧按钮
+                // 评价商品
+                startActivity(EvaluationReleaseAty.class, null);
+                break;
+        }
     }
 
     @Override

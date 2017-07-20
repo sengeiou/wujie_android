@@ -111,18 +111,26 @@ public class CartFgt extends BaseFgt {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     all = shopingCarts.size();
+                    for (ShopingCart sc : shopingCarts) {
+                        sc.setMellAllCheck(true);
+                        List<CartGoods> cartGoodses = sc.getGoodsInfo();
+                        for (CartGoods cg : cartGoodses) {
+                            cg.setSelect(true);
+                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            price = price.multiply(new BigDecimal(cg.getNum()));
+                            all_price = all_price.add(price);
+                        }
+                    }
                 } else {
                     all = 0;
-                }
-                for (ShopingCart sc : shopingCarts) {
-                    sc.setMellAllCheck(b);
-                    List<CartGoods> cartGoodses = sc.getGoodsInfo();
-                    for (CartGoods cg : cartGoodses) {
-                        cg.setSelect(b);
-                        BigDecimal price = new BigDecimal(cg.getPrice());
-                        price = price.multiply(new BigDecimal(cg.getNum()));
-                        all_price = all_price.add(price);
+                    for (ShopingCart sc : shopingCarts) {
+                        sc.setMellAllCheck(false);
+                        List<CartGoods> cartGoodses = sc.getGoodsInfo();
+                        for (CartGoods cg : cartGoodses) {
+                            cg.setSelect(false);
+                        }
                     }
+                    all_price = new BigDecimal("0.00");
                 }
                 toChangePrice();
                 cartAdapter.notifyDataSetChanged();
@@ -308,7 +316,7 @@ public class CartFgt extends BaseFgt {
                     } else {
                         sc.setMellAllCheck(true);
                         for (CartGoods cg : sc.getGoodsInfo()) {
-                            if(!cg.isSelect()){
+                            if (!cg.isSelect()) {
                                 cg.setSelect(true);
                                 BigDecimal price = new BigDecimal(cg.getPrice());
                                 price = price.multiply(new BigDecimal(cg.getNum()));

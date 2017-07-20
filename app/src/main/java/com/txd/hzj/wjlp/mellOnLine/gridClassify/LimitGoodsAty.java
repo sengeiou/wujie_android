@@ -430,8 +430,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             @Override
             public void onGlobalLayout() {
                 online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                // 轮播图高度
                 bannerHeight = online_carvouse_view.getHeight();
+                // 商品信息的高度
                 topHeighe = top_lin_layout.getHeight();
+                // 商品信息和评价的高度
                 secondHeight = second_lin_layout.getHeight();
                 limit_goods_details_sc.setScrollViewListener(LimitGoodsAty.this);
             }
@@ -447,7 +450,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             be_back_top_iv.setVisibility(View.VISIBLE);
             if (y < topHeighe) {
                 setTextViewAndViewColor(0);
-            } else if (y > topHeighe && y < secondHeight) {
+            } else if (y >= topHeighe && y < secondHeight) {
                 setTextViewAndViewColor(2);
             } else {
                 setTextViewAndViewColor(1);

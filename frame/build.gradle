@@ -43,26 +43,23 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    // xUtils
-    compile files('libs/xUtils-2.6.14.jar')
-    // 支付宝支付
-    compile files('libs/alipaySingle-20160825.jar')
 
+    compile files('libs/xUtils-2.6.14.jar')// xUtils
+    compile files('libs/alipaySingle-20160825.jar')// 支付宝支付
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1' // OKHttp
-    compile 'com.squareup.okio:okio:1.10.0'     // OKio
-    compile 'com.android.support:recyclerview-v7:26.+'    // RecyclerView
-    compile 'com.github.bumptech.glide:glide:3.7.0'         // Google图片异步加载框架
-    compile 'com.lzy.widget:imagepicker:0.5.3'              // 廖子尧图片选择控件
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'// OKHttp
+    compile 'com.squareup.okio:okio:1.10.0'// OKio
+    compile 'com.android.support:recyclerview-v7:26.+'// RecyclerView
+    compile 'com.github.bumptech.glide:glide:3.7.0'// Google图片异步加载框架
+    compile 'com.lzy.widget:imagepicker:0.5.3'// 廖子尧图片选择控件
     compile 'com.android.support:support-v4:26.+'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'   // 微信支付
-    compile 'com.umeng.analytics:analytics:latest.integration'  // 友盟
+    compile 'com.umeng.analytics:analytics:latest.integration'// 友盟
     compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.synnapps:carouselview:0.1.3'               // 轮播图
-    compile 'com.google.code.gson:gson:2.8.0'               // Gson
-    compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4' // 圆形头像
-    compile 'com.github.iwgang:countdownview:2.1.3'         // 倒计时控件
+    compile 'com.synnapps:carouselview:0.1.3'// 轮播图
+    compile 'com.google.code.gson:gson:2.8.0'// Gson
+    compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'// 圆形头像
+    compile 'com.github.iwgang:countdownview:2.1.3'// 倒计时控件
     testCompile 'junit:junit:4.12'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'// TabLayout可以设置左右滑动和不滑动
-
+    compile files('libs/wechat-sdk-android-without-mta-1.3.4.jar')
 }

@@ -19,6 +19,13 @@
     <!-- 闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
 
+    <!-- 改变网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 改变WiFi状态 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!-- 读取手机状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <application
         android:name="com.ants.theantsgo.WeApplication"
         android:allowBackup="false"
@@ -179,6 +186,12 @@
         <activity android:name=".minetoAty.coupon.CouponHzjAty">
         </activity>
         <activity android:name=".minetoAty.order.OrderDetailsAty">
+        </activity>
+        <activity android:name=".minetoAty.order.EvaluationReleaseAty">
+        </activity>
+        <activity android:name=".minetoAty.order.ApplyForAfterSalesAty">
+        </activity>
+        <activity android:name=".minetoAty.order.TextListAty">
         </activity>
     </application>
 
