@@ -178,6 +178,8 @@
         </activity>
         <activity android:name=".minetoAty.coupon.CouponHzjAty">
         </activity>
+        <activity android:name=".minetoAty.order.OrderDetailsAty">
+        </activity>
     </application>
 
 </manifest>

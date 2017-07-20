@@ -1,9 +1,11 @@
 package com.txd.hzj.wjlp.mainFgt.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
@@ -13,6 +15,8 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Order;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +94,18 @@ public class MyOrderAdapter extends BaseAdapter {
             holder.tv_btn_right.setText("评价");
         } else {
         }
+
+        ChangeTextViewStyle.getInstance().forOrderPrice(context,
+                holder.goods_price_info_tv,
+                "共2件商品 合计：￥190.00(含运费￥10.00)");
+
         holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter());
+        holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                context.startActivity(new Intent(context, OrderDetailsAty.class));
+            }
+        });
         return convertView;
     }
 
@@ -99,10 +114,15 @@ public class MyOrderAdapter extends BaseAdapter {
         public TextView title;
         @ViewInject(R.id.tv_state)
         public TextView state;
+
+        @ViewInject(R.id.goods_price_info_tv)
+        private TextView goods_price_info_tv;
+
         @ViewInject(R.id.tv_btn_left)
         public TextView tv_btn_left;
         @ViewInject(R.id.tv_btn_right)
         public TextView tv_btn_right;
+
 
         @ViewInject(R.id.goods_for_order_lv)
         private ListViewForScrollView goods_for_order_lv;
@@ -131,7 +151,7 @@ public class MyOrderAdapter extends BaseAdapter {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = LayoutInflater.from(context).inflate(R.layout.item_goods_for_order_lv, null);
+                view = LayoutInflater.from(context).inflate(R.layout.aty_goods_for_order, null);
                 goVh = new GOVH();
                 ViewUtils.inject(goVh, view);
                 view.setTag(goVh);

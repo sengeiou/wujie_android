@@ -234,6 +234,47 @@ public class ChangeTextViewStyle {
     }
 
     /**
+     * 订单列表价格样式
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forOrderPrice(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position;
+        unit_position = str.indexOf("￥");
+        int point_position;
+        point_position = str.indexOf(".");
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.sign_in_tip_style),
+                unit_position + 1, point_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
+
+    /**
+     * 订单列表价格样式
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forOrderPrice2(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position;
+        unit_position = str.indexOf("￥");
+        int point_position;
+        point_position = str.indexOf(".");
+        int len = str.length();
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.style_for_member),
+                unit_position, unit_position + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.style_for_member2),
+                unit_position + 1, point_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.style_for_member),
+                point_position, len, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
+
+    /**
      * 会员等级
      *
      * @param context 上下文

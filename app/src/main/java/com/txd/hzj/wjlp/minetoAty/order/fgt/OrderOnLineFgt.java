@@ -2,6 +2,8 @@ package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -10,6 +12,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 
 import java.util.ArrayList;
 
@@ -60,6 +63,13 @@ public class OrderOnLineFgt extends BaseFgt {
             adapter = new MyOrderAdapter(getActivity(), list, Integer.parseInt(type));
             order_on_line_lv.setAdapter(adapter);//显示全部list
         }
+
+        order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(OrderDetailsAty.class,null);
+            }
+        });
 
     }
 

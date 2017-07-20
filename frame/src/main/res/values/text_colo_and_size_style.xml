@@ -66,9 +66,13 @@
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="style_for_member2">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
     <!-- 签到提示样式 -->
     <style name="sign_in_tip_style">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
 </resources>
