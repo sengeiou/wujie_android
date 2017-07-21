@@ -140,7 +140,7 @@ public class AddressAdapter extends BaseAdapter {
          * 默认地址显示的线
          */
         @ViewInject(R.id.under_address_iv)
-        private ImageView under_address_iv;
+        private View under_address_iv;
 
     }
 }

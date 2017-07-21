@@ -197,6 +197,8 @@
         </activity>
         <activity android:name=".minetoAty.address.AddressListAty">
         </activity>
+        <activity android:name=".minetoAty.address.AddNewAddressAty">
+        </activity>
     </application>
 
 </manifest>

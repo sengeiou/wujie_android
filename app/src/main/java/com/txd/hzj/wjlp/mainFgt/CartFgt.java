@@ -106,36 +106,12 @@ public class CartFgt extends BaseFgt {
         toChangePrice();
         cart_lv.setAdapter(cartAdapter);
 
-        cart_select_all_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    all = shopingCarts.size();
-                    for (ShopingCart sc : shopingCarts) {
-                        sc.setMellAllCheck(true);
-                        List<CartGoods> cartGoodses = sc.getGoodsInfo();
-                        for (CartGoods cg : cartGoodses) {
-                            cg.setSelect(true);
-                            BigDecimal price = new BigDecimal(cg.getPrice());
-                            price = price.multiply(new BigDecimal(cg.getNum()));
-                            all_price = all_price.add(price);
-                        }
-                    }
-                } else {
-                    all = 0;
-                    for (ShopingCart sc : shopingCarts) {
-                        sc.setMellAllCheck(false);
-                        List<CartGoods> cartGoodses = sc.getGoodsInfo();
-                        for (CartGoods cg : cartGoodses) {
-                            cg.setSelect(false);
-                        }
-                    }
-                    all_price = new BigDecimal("0.00");
-                }
-                toChangePrice();
-                cartAdapter.notifyDataSetChanged();
-            }
-        });
+//        cart_select_all_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//
+//            }
+//        });
 
     }
 
@@ -190,7 +166,7 @@ public class CartFgt extends BaseFgt {
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv, R.id.operation_goods_tv})
+    @OnClick({R.id.titlt_right_tv, R.id.operation_goods_tv, R.id.cart_select_all_cb})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -243,6 +219,30 @@ public class CartFgt extends BaseFgt {
                     }).showDialog();
                 } else {// 去结算
                 }
+                break;
+            case R.id.cart_select_all_cb:// 全选
+                boolean b = cart_select_all_cb.isChecked();// 全选按钮的选中状态
+                if (b) {
+                    all = shopingCarts.size();
+                } else {
+                    all = 0;
+                }
+                all_price = new BigDecimal("0.00");
+                for (ShopingCart sc : shopingCarts) {
+                    sc.setMellAllCheck(b);
+                    List<CartGoods> cartGoodses = sc.getGoodsInfo();
+                    for (CartGoods cg : cartGoodses) {
+                        cg.setSelect(b);
+                        if (b) {
+                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            price = price.multiply(new BigDecimal(cg.getNum()));
+                            all_price = all_price.add(price);
+                        }
+                    }
+                }
+                toChangePrice();
+                cartAdapter.notifyDataSetChanged();
+
                 break;
         }
     }
@@ -312,7 +312,8 @@ public class CartFgt extends BaseFgt {
                         } else {
                             all = 0;
                         }
-
+                        // 取消全选
+                        cart_select_all_cb.setChecked(false);
                     } else {
                         sc.setMellAllCheck(true);
                         for (CartGoods cg : sc.getGoodsInfo()) {
@@ -324,6 +325,10 @@ public class CartFgt extends BaseFgt {
                             }
                         }
                         all++;
+                        // 判断是否被全选
+                        if (all >= shopingCarts.size()) {
+                            cart_select_all_cb.setChecked(true);
+                        }
                     }
                     toChangePrice();
                     notifyDataSetChanged();

@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.address;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,12 +34,24 @@ public class AddressListAty extends BaseAty {
     private List<String> addresses;
     private AddressAdapter addressAdapter;
 
+    /**
+     * 来源
+     * 1.个人中心
+     * 2.
+     */
+    private int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("收货地址");
         address_lv.setAdapter(addressAdapter);
+        address_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            }
+        });
     }
 
     @Override
@@ -47,6 +60,7 @@ public class AddressListAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.add_address_tv:// 新增地址
+                startActivity(AddNewAddressAty.class, null);
                 break;
         }
     }
@@ -58,6 +72,7 @@ public class AddressListAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        type = getIntent().getIntExtra("type", 1);
         addresses = new ArrayList<>();
         addressAdapter = new AddressAdapter(this, addresses);
     }

@@ -96,11 +96,10 @@
 
     </LinearLayout>
 
-    <ImageView
+    <View
         android:id="@+id/under_address_iv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_under_address_line"/>
+        android:layout_height="4dp"
+        android:background="@drawable/icon_under_address_line"/>
 
 </LinearLayout>

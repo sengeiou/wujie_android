@@ -137,7 +137,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(CouponHzjAty.class, null);
                 break;
             case R.id.address_tv:// 我的地址
-                startActivity(AddressListAty.class, null);
+                bundle = new Bundle();
+                bundle.putInt("type", 1);
+                startActivity(AddressListAty.class, bundle);
                 break;
         }
     }
