@@ -14,12 +14,15 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
+import com.txd.hzj.wjlp.minetoAty.FeedBackAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
 import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
+import com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
@@ -95,7 +98,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
             R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
-            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv})
+            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
+            R.id.share_grade_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -140,6 +144,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bundle = new Bundle();
                 bundle.putInt("type", 1);
                 startActivity(AddressListAty.class, bundle);
+                break;
+            case R.id.feedBack_tv:// 意见反馈
+                startActivity(FeedBackAty.class, null);
+                break;
+            case R.id.shre_to_friends_tv:// 分享好友
+                startActivity(ShareToFriendsAty.class, null);
+                break;
+            case R.id.share_grade_tv:// 分享成绩
+                startActivity(ShareGradeAty.class, null);
                 break;
         }
     }

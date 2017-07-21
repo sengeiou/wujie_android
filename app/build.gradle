@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.0'
     defaultConfig {
         applicationId "com.txd.hzj.wjlp"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -26,6 +26,12 @@ dependencies {
     })
     compile project(':frame')
     compile project(':pickerview')
+    compile project(':sideBar')
+    // zXing
+    //zxing
+    //zxing
+    // Glide高斯模糊
+    // 地址边栏选择
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.+'
@@ -33,5 +39,7 @@ dependencies {
     compile 'com.google.zxing:core:3.1.0'
     compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile 'cc.solart:turbo-recyclerview-helper:1.0.3-beta'
     testCompile 'junit:junit:4.12'
 }

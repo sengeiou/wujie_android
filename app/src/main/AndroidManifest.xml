@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.txd.hzj.wjlp">
 
     <!-- 打电话 -->
@@ -33,7 +34,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme,android:allowBackup">
         <activity android:name=".MainAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -181,24 +183,36 @@
         <activity android:name=".mellOnLine.gridClassify.CarDetailseAty"/>
         <!-- 添加银行卡 -->
         <activity android:name=".minetoAty.balance.AddBankCardAty"/>
-        <activity android:name=".minetoAty.balance.RechargeOffLineAty">
-        </activity>
-        <activity android:name=".minetoAty.coupon.CouponHzjAty">
-        </activity>
-        <activity android:name=".minetoAty.order.OrderDetailsAty">
-        </activity>
-        <activity android:name=".minetoAty.order.EvaluationReleaseAty">
-        </activity>
-        <activity android:name=".minetoAty.order.ApplyForAfterSalesAty">
-        </activity>
-        <activity android:name=".minetoAty.order.TextListAty">
-        </activity>
-        <activity android:name=".minetoAty.order.GoodLuckOrderDetailsAty">
-        </activity>
-        <activity android:name=".minetoAty.address.AddressListAty">
-        </activity>
-        <activity android:name=".minetoAty.address.AddNewAddressAty">
-        </activity>
+        <!--线下充值明细-->
+        <activity android:name=".minetoAty.balance.RechargeOffLineAty"/>
+        <!--我的卡券包-->
+        <activity android:name=".minetoAty.coupon.CouponHzjAty"/>
+        <!--订单详情-->
+        <activity android:name=".minetoAty.order.OrderDetailsAty"/>
+        <!--商品评价-->
+        <activity android:name=".minetoAty.order.EvaluationReleaseAty"/>
+        <!--申请售后-->
+        <activity android:name=".minetoAty.order.ApplyForAfterSalesAty"/>
+        <!--物流，退货原因等等界面-->
+        <activity android:name=".minetoAty.order.TextListAty"/>
+        <!--一元夺宝详情-->
+        <activity android:name=".minetoAty.order.GoodLuckOrderDetailsAty"/>
+        <!--地址列表-->
+        <activity android:name=".minetoAty.address.AddressListAty"/>
+        <!--添加地址-->
+        <activity android:name=".minetoAty.address.AddNewAddressAty"/>
+        <!--意见反馈-->
+        <activity android:name=".minetoAty.FeedBackAty"/>
+        <!--分享给好友-->
+        <activity android:name=".minetoAty.ShareToFriendsAty"/>
+        <!--工作成绩-->
+        <activity android:name=".minetoAty.myGrade.ShareGradeAty"/>
+        <!--城市选择-->
+        <activity android:name=".citySelect.CitySelectAty"/>
+        <!--分享次数-->
+        <activity android:name=".minetoAty.myGrade.ShareTimesAty"/>
+        <!--我的推荐-->
+        <activity android:name=".minetoAty.myGrade.RecommendSuccessAty"/>
     </application>
 
 </manifest>
