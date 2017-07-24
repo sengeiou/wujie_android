@@ -24,6 +24,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
@@ -138,9 +139,9 @@ public class MellListAty extends BaseAty {
     protected void initialized() {
         type = getIntent().getStringExtra("type");
         keyword = getIntent().getStringExtra("keyword");
-        mlAdapter = new MellListAdapter();
         mells = new ArrayList<>();
         prodects = new ArrayList<>();
+        mlAdapter = new MellListAdapter(this, mells);
     }
 
     @Override
@@ -158,101 +159,4 @@ public class MellListAty extends BaseAty {
         title_search_ev.setText(keyword);
         search_type_tv.setText(type);
     }
-
-    /**
-     * ===============Txunda===============
-     * 作者：DUKE_HwangZj
-     * 日期：2017/7/6 0006
-     * 时间：下午 4:42
-     * 描述：搜索商家列表
-     * ===============Txunda===============
-     */
-    private class MellListAdapter extends BaseAdapter {
-        private MellViewHolder mvh;
-
-        @Override
-        public int getCount() {
-            return 9;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return mells.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-
-            if (null == view) {
-                view = LayoutInflater.from(MellListAty.this).inflate(R.layout.item_mell_lv, viewGroup, false);
-                mvh = new MellViewHolder();
-                ViewUtils.inject(mvh, view);
-                view.setTag(mvh);
-            } else {
-                mvh = (MellViewHolder) view.getTag();
-            }
-
-            mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(prodects));
-
-            return view;
-        }
-
-        private class MellViewHolder {
-            @ViewInject(R.id.mell_prodect_gv)
-            private GridViewForScrollView mell_prodect_gv;
-        }
-    }
-
-    private class MellProdectAdapter extends BaseAdapter {
-        private MPViewHolder mpvh;
-
-        private List<String> prodect;
-
-        public MellProdectAdapter(List<String> prodect) {
-            this.prodect = prodect;
-        }
-
-        @Override
-        public int getCount() {
-            return 3;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return prodect.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            if (view == null) {
-                view = LayoutInflater.from(MellListAty.this).inflate(R.layout.item_mell_prodect_gv, viewGroup, false);
-                mpvh = new MPViewHolder();
-                ViewUtils.inject(mpvh, view);
-                view.setTag(mpvh);
-            } else {
-                mpvh = (MPViewHolder) view.getTag();
-            }
-            ChangeTextViewStyle.getInstance().forMellProdect(MellListAty.this, mpvh.mell_prodect_price_tv, "￥12.00");
-            return view;
-        }
-
-        class MPViewHolder {
-
-            @ViewInject(R.id.mell_prodect_price_tv)
-            private TextView mell_prodect_price_tv;
-
-        }
-
-    }
-
 }

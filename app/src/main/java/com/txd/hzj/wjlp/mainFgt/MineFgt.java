@@ -13,15 +13,19 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FeedBackAty;
+import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
+import com.txd.hzj.wjlp.minetoAty.collect.CollectHzjAty;
 import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
+import com.txd.hzj.wjlp.minetoAty.mellInto.MerchantWillMoveIntoAty;
 import com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
@@ -99,7 +103,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
             R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
-            R.id.share_grade_tv})
+            R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.merchant_will_move_into_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -124,6 +128,20 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.tv_order_center:// 订单中心
                 startActivity(OrderCenterAty.class, null);
+                break;
+            case R.id.collect_tv:// 我的收藏
+                startActivity(CollectHzjAty.class, null);
+                break;
+            case R.id.footprint_tv:// 我的足迹
+                startActivity(FootprintAty.class, null);
+                break;
+            case R.id.merchant_will_move_into_tv:// 商家入驻
+                startActivity(MerchantWillMoveIntoAty.class, null);
+                break;
+            case R.id.evaluate_tv:// 我的评价
+                bundle = new Bundle();
+                bundle.putInt("from", 1);
+                startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             case R.id.my_coupon_layout:// 购物券
                 startActivity(MyCouponAty.class, null);

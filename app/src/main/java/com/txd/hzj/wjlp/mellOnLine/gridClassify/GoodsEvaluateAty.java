@@ -1,9 +1,12 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -26,17 +29,28 @@ public class GoodsEvaluateAty extends BaseAty {
     public TextView titlt_conter_tv;
 
     @ViewInject(R.id.goods_evaluste_lv)
-    private ListView goods_evaluste_lv;
+    private ListViewForScrollView goods_evaluste_lv;
 
     private List<String> data;
     private List<String> pic;
+    private int from = 0;
+
+    @ViewInject(R.id.evaluate_lin_layout)
+    private LinearLayout evaluate_lin_layout;
+
     private GoodsEvalusteAdapter goodsEvalusteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("全部评价(45)");
+        if (0 == from) {
+            titlt_conter_tv.setText("全部评价(45)");
+            evaluate_lin_layout.setVisibility(View.GONE);
+        } else {
+            titlt_conter_tv.setText("我的评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+        }
         goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
     }
 
@@ -47,9 +61,10 @@ public class GoodsEvaluateAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        from = getIntent().getIntExtra("from", 0);
         data = new ArrayList<>();
         pic = new ArrayList<>();
-        goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, pic);
+        goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, pic,from);
     }
 
     @Override

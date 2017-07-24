@@ -1,89 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:divider="@drawable/lin_layout_vertical_line_shape"
-    android:orientation="vertical"
-    android:showDividers="middle">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/icon_temp_mell_head"
-            />
-
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:divider="@drawable/lin_layout_vertical_line_shape"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:padding="2dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_temp_mell_head"
+                />
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="康尔馨酒店家纺"
+                        android:textColor="@color/app_text_color"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/shape_into_mell_tv"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="4dp"
+                        android:text="进店逛逛"
+                        android:textColor="@color/colorAccent"/>
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="康尔馨酒店家纺"
-                    android:textColor="@color/app_text_color"
-                    android:textSize="16sp"/>
+                    android:text="介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:background="@drawable/shape_into_mell_tv"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="4dp"
-                    android:text="进店逛逛"
-                    android:textColor="@color/colorAccent"/>
+                    android:text="评分4.5分"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="评分4.5分"
-                android:textColor="@color/gray_text_color"
-                android:textSize="16sp"/>
         </LinearLayout>
 
-
+        <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+            android:id="@+id/mell_prodect_gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="8dp"
+            android:numColumns="3"
+            android:padding="8dp"/>
     </LinearLayout>
 
-    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-        android:id="@+id/mell_prodect_gv"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3"
-        android:horizontalSpacing="8dp"
-        android:padding="8dp"/>
-</LinearLayout>
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_collect_goods_selected"
+        android:visibility="gone"/>
+
+</FrameLayout>

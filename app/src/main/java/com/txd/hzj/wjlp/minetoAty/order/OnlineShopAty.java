@@ -64,8 +64,11 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         Bundle mBundle = getIntent().getExtras();
         title = mBundle.getString("title");
         titlt_conter_tv.setText(title);
-
-        mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
+        if (mTitleList.size() >= 5) {
+            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
+        } else {
+            mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        }
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
     }
@@ -80,7 +83,8 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         title = getIntent().getStringExtra("title");
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店")) {
+        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店")
+                || title.equals("爱心商店")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         } else if (title.equals("拼团区")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();

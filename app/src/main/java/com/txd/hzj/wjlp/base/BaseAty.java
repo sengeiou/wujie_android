@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.base;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -70,7 +71,9 @@ public abstract class BaseAty extends BaseActivity {
      * @param v View
      */
     public void toEvaluate(View v) {
-        startActivity(GoodsEvaluateAty.class, null);
+        Bundle bundle = new Bundle();
+        bundle.putInt("from",0);
+        startActivity(GoodsEvaluateAty.class, bundle);
     }
 
     /**

@@ -53,6 +53,8 @@ public class TextListAty extends BaseAty {
                     data.putExtra("status", "已收到货物");
                 } else if (title.equals("选择快递")) {
                     data.putExtra("express", "申通快递");
+                } else if (title.equals("选择经营范围")) {
+                    data.putExtra("scope", "服饰");
                 }
                 setResult(RESULT_OK, data);
                 finish();
@@ -117,6 +119,8 @@ public class TextListAty extends BaseAty {
                 tvvh.text_context_tv.setText("已收到货物");
             } else if (title.equals("选择快递")) {
                 tvvh.text_context_tv.setText("申通快递");
+            } else if (title.equals("选择经营范围")) {
+                tvvh.text_context_tv.setText("服饰");
             }
 
             return view;

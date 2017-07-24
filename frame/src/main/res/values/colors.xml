@@ -12,6 +12,7 @@
     <color name="translucentForThemeColor">#33F23030</color>
     <!--透明-->
     <color name="transparent">@android:color/transparent</color>
+    <color name="translucence_black">#7F000000</color>
     <!--白色-->
     <color name="white">#ffffff</color>
 
@@ -31,10 +32,9 @@
     <color name="bg_color">#F6F6F6</color>
     <!-- 今日必抢字体颜色颜色 C2C2C2 -->
     <color name="text_color">#C2C2C2</color>
-    <!-- App字体颜色    黑色 -->
+    <!-- App字体颜色  黑色 -->
     <color name="app_text_color">#333333</color>
     <color name="alertdialog_line">#c6c6c6</color>
-
     <color name="black_overlay">#66000000</color>
 
 </resources>

@@ -15,6 +15,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.popAty.LovingAdapter;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class OrderOnLineFgt extends BaseFgt {
     @ViewInject(R.id.order_on_line_lv)
     private ListView order_on_line_lv;
     private MyOrderAdapter adapter;
+
+    private LovingAdapter lovingAdapter;
     private ArrayList<Order> list;
 
     public OrderOnLineFgt() {
@@ -60,6 +63,9 @@ public class OrderOnLineFgt extends BaseFgt {
             // 0.全部，1.代付款，2.代发货，3.待收货
             IndianaRecordAdapter adapter = new IndianaRecordAdapter(getActivity(), list, Integer.parseInt(type));
             order_on_line_lv.setAdapter(adapter);//显示全部list
+        } else if (title.equals("爱心商店")) {
+            lovingAdapter = new LovingAdapter(getActivity(), list, Integer.parseInt(type));
+            order_on_line_lv.setAdapter(lovingAdapter);
         } else {
             // 0.全部，1.代付款，2.代发货，3.待收货，4.待评价
             adapter = new MyOrderAdapter(getActivity(), list, Integer.parseInt(type));

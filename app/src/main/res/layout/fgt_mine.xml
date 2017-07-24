@@ -242,6 +242,7 @@
                 android:background="@color/bg_color"/>
 
             <TextView
+                android:id="@+id/collect_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -260,6 +261,7 @@
                 android:background="@color/bg_color"/>
 
             <TextView
+                android:id="@+id/footprint_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -297,6 +299,7 @@
                 android:background="@color/bg_color"/>
 
             <TextView
+                android:id="@+id/evaluate_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -390,6 +393,7 @@
                 android:background="@color/bg_color"/>
 
             <TextView
+                android:id="@+id/merchant_will_move_into_tv"
                 style="@style/mine_text_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

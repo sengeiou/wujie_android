@@ -183,36 +183,52 @@
         <activity android:name=".mellOnLine.gridClassify.CarDetailseAty"/>
         <!-- 添加银行卡 -->
         <activity android:name=".minetoAty.balance.AddBankCardAty"/>
-        <!--线下充值明细-->
+        <!-- 线下充值明细 -->
         <activity android:name=".minetoAty.balance.RechargeOffLineAty"/>
-        <!--我的卡券包-->
+        <!-- 我的卡券包 -->
         <activity android:name=".minetoAty.coupon.CouponHzjAty"/>
-        <!--订单详情-->
+        <!-- 订单详情 -->
         <activity android:name=".minetoAty.order.OrderDetailsAty"/>
-        <!--商品评价-->
+        <!-- 商品评价 -->
         <activity android:name=".minetoAty.order.EvaluationReleaseAty"/>
-        <!--申请售后-->
+        <!-- 申请售后 -->
         <activity android:name=".minetoAty.order.ApplyForAfterSalesAty"/>
-        <!--物流，退货原因等等界面-->
+        <!-- 物流，退货原因等等界面 -->
         <activity android:name=".minetoAty.order.TextListAty"/>
-        <!--一元夺宝详情-->
+        <!-- 一元夺宝详情 -->
         <activity android:name=".minetoAty.order.GoodLuckOrderDetailsAty"/>
-        <!--地址列表-->
+        <!-- 地址列表 -->
         <activity android:name=".minetoAty.address.AddressListAty"/>
-        <!--添加地址-->
+        <!-- 添加地址 -->
         <activity android:name=".minetoAty.address.AddNewAddressAty"/>
-        <!--意见反馈-->
+        <!-- 意见反馈 -->
         <activity android:name=".minetoAty.FeedBackAty"/>
-        <!--分享给好友-->
+        <!-- 分享给好友 -->
         <activity android:name=".minetoAty.ShareToFriendsAty"/>
-        <!--工作成绩-->
+        <!-- 工作成绩 -->
         <activity android:name=".minetoAty.myGrade.ShareGradeAty"/>
-        <!--城市选择-->
+        <!-- 城市选择 -->
         <activity android:name=".citySelect.CitySelectAty"/>
-        <!--分享次数-->
+        <!-- 分享次数 -->
         <activity android:name=".minetoAty.myGrade.ShareTimesAty"/>
-        <!--我的推荐-->
+        <!-- 我的推荐 -->
         <activity android:name=".minetoAty.myGrade.RecommendSuccessAty"/>
+        <!-- 我的收藏 -->
+        <activity android:name=".minetoAty.collect.CollectHzjAty"/>
+        <!-- 足迹 -->
+        <activity android:name=".minetoAty.FootprintAty"/>
+        <!-- 商家入驻 -->
+        <activity android:name=".minetoAty.mellInto.MerchantWillMoveIntoAty"/>
+        <!-- 福利社 -->
+        <activity android:name=".popAty.WelfareServiceAty"/>
+        <!-- 福利社，拿红包 -->
+        <activity
+            android:name=".popAty.GetRedPackageAty"
+            android:theme="@style/share_style"/>
+        <activity android:name=".popAty.WJHatchAty">
+        </activity>
+        <activity android:name=".popAty.HatchDetailsAty">
+        </activity>
     </application>
 
 </manifest>

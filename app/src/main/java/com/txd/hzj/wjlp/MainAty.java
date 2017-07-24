@@ -28,6 +28,10 @@ import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
+import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
+import com.txd.hzj.wjlp.popAty.WJHatchAty;
+import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -240,6 +244,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             @Override
             public void onClick(View view) {
                 setMoreStatus();
+                Bundle mBundle = new Bundle();
+                mBundle.putString("title", "爱心商店");
+                startActivity(OnlineShopAty.class, mBundle);
                 popupWindow.dismiss();
             }
         });
@@ -250,6 +257,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             @Override
             public void onClick(View view) {
                 setMoreStatus();
+                startActivity(WelfareServiceAty.class, null);
                 popupWindow.dismiss();
             }
         });
@@ -260,6 +268,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             @Override
             public void onClick(View view) {
                 setMoreStatus();
+                startActivity(WJHatchAty.class, null);
                 popupWindow.dismiss();
             }
         });
