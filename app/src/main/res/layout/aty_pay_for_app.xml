@@ -27,6 +27,7 @@
                 android:layout_height="8dp"/>
 
             <LinearLayout
+                android:id="@+id/for_member_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -86,6 +87,31 @@
                         android:text="￥1980.00"
                         android:textColor="@color/colorAccent"/>
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/for_order_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="太平鸟女装"
+                    android:textColor="@color/colorAccent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="￥44.5"
+                    android:textColor="@color/app_text_color"/>
 
             </LinearLayout>
 

@@ -26,6 +26,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CartGoods;
 import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.math.BigDecimal;
@@ -105,14 +106,6 @@ public class CartFgt extends BaseFgt {
         titlt_right_tv.setVisibility(View.VISIBLE);
         toChangePrice();
         cart_lv.setAdapter(cartAdapter);
-
-//        cart_select_all_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//
-//            }
-//        });
-
     }
 
     /**
@@ -218,6 +211,7 @@ public class CartFgt extends BaseFgt {
                         }
                     }).showDialog();
                 } else {// 去结算
+                    startActivity(BuildOrderAty.class, null);
                 }
                 break;
             case R.id.cart_select_all_cb:// 全选

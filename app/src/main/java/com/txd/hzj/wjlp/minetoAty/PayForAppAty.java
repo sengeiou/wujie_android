@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoAty;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
@@ -60,18 +61,39 @@ public class PayForAppAty extends BaseAty {
 
     private int bottom_type = 0;
 
+    private int order_type = 0;
+    /**
+     * 传递使者，传递大使
+     */
+    @ViewInject(R.id.for_member_layout)
+    private LinearLayout for_member_layout;
+    /**
+     * 购买商品
+     */
+    @ViewInject(R.id.for_order_layout)
+    private LinearLayout for_order_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("支付");
+
+        if (0 == order_type) {
+            for_member_layout.setVisibility(View.VISIBLE);
+            for_order_layout.setVisibility(View.GONE);
+        } else {
+            for_member_layout.setVisibility(View.GONE);
+            for_order_layout.setVisibility(View.VISIBLE);
+        }
+
         selectCheckBoxTop(top_type);
         selectCheckBoxBottom(bottom_type);
     }
 
     @Override
     @OnClick({R.id.top_lin_layout, R.id.top_cb, R.id.bottom_lin_layout, R.id.bottom_cb, R.id.pay_by_wechat_cb,
-            R.id.pay_by_ali_cb,R.id.pay_by_balance_cb})
+            R.id.pay_by_ali_cb, R.id.pay_by_balance_cb})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -99,6 +121,7 @@ public class PayForAppAty extends BaseAty {
                 break;
         }
     }
+
     /**
      * 传递使者，传递大使选中状态
      *
@@ -120,7 +143,7 @@ public class PayForAppAty extends BaseAty {
      * @param type 方式
      */
     private void selectCheckBoxBottom(int type) {
-        L.e("============",String.valueOf(type));
+        L.e("============", String.valueOf(type));
         pay_by_wechat_cb.setChecked(false);
         pay_by_ali_cb.setChecked(false);
         pay_by_balance_cb.setChecked(false);
@@ -140,7 +163,7 @@ public class PayForAppAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        order_type = getIntent().getIntExtra("order_type", 0);
     }
 
     @Override

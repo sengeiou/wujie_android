@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -109,8 +110,13 @@ public class GradeOfMemberAty extends BaseAty {
             gvAdapter.setItemClickForRecyclerView(new ItemClickForRecyclerView() {
                 @Override
                 public void OnItemClick(View v, int pos) {
-                    if(2>=pos){
-                        startActivity(PayForAppAty.class, null);
+
+                    L.e("=====点击下标=====", String.valueOf(pos));
+
+                    if (2 <= pos) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("order_type", 0);
+                        startActivity(PayForAppAty.class, bundle);
                     }
                 }
             });

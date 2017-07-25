@@ -229,6 +229,8 @@
         </activity>
         <activity android:name=".popAty.HatchDetailsAty">
         </activity>
+        <activity android:name=".shoppingCart.BuildOrderAty">
+        </activity>
     </application>
 
 </manifest>
