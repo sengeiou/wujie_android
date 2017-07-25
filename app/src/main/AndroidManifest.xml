@@ -225,12 +225,14 @@
         <activity
             android:name=".popAty.GetRedPackageAty"
             android:theme="@style/share_style"/>
-        <activity android:name=".popAty.WJHatchAty">
-        </activity>
-        <activity android:name=".popAty.HatchDetailsAty">
-        </activity>
-        <activity android:name=".shoppingCart.BuildOrderAty">
-        </activity>
+        <!--上市孵化-->
+        <activity android:name=".popAty.WJHatchAty"/>
+        <!--孵化详情-->
+        <activity android:name=".popAty.HatchDetailsAty"/>
+        <!--提交订单-->
+        <activity android:name=".shoppingCart.BuildOrderAty"/>
+        <!--一元夺宝详情-->
+        <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty"/>
     </application>
 
 </manifest>

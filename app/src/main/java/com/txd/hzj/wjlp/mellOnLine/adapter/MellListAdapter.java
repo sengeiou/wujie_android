@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.mellOnLine.MellListAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.List;
@@ -63,12 +65,26 @@ public class MellListAdapter extends BaseAdapter {
             mvh = (MellViewHolder) view.getTag();
         }
 
+        mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, MellInfoAty.class));
+            }
+        });
+
         mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(mells));
 
         return view;
     }
 
     private class MellViewHolder {
+
+        /**
+         * 进店逛逛
+         */
+        @ViewInject(R.id.into_mell_tv)
+        private TextView into_mell_tv;
+
         @ViewInject(R.id.mell_prodect_gv)
         private GridViewForScrollView mell_prodect_gv;
     }

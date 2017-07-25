@@ -262,7 +262,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         break;
                     case 9://一元夺宝
                         startActivity(SnatchChenAty.class, null);
-
                         break;
                 }
             }
