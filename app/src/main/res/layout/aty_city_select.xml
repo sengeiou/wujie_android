@@ -185,8 +185,9 @@
             android:id="@+id/side_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:sidebarBackgroundColor="#00000000"
-            app:sidebarTextColor="#FF3E80"
+            app:sidebarBackgroundColor="@color/theme_color"
+            app:sidebarTextColor="@color/theme_color"
+            app:sidebarChooseTextColor="@color/white"
             />
 
     </FrameLayout>

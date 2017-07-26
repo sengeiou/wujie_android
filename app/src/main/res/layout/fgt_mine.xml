@@ -63,37 +63,58 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/mine_member_type_tv"
+                            android:id="@+id/mine_mell_point_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="20dp"
                             android:background="@drawable/shape_mine_identity_li"
                             android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/icon_putong"
+                            android:drawableStart="@drawable/icon_point_left_hzj"
                             android:gravity="center"
                             android:paddingBottom="4dp"
                             android:paddingEnd="8dp"
                             android:paddingStart="8dp"
                             android:paddingTop="4dp"
-                            android:text="普通用户"/>
+                            android:text="无界驿站"
+                            android:visibility="gone"/>
+                        <LinearLayout
+                            android:id="@+id/member_type_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/mine_member_type_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="20dp"
+                                android:background="@drawable/shape_mine_identity_li"
+                                android:drawablePadding="8dp"
+                                android:drawableStart="@drawable/icon_putong"
+                                android:gravity="center"
+                                android:paddingBottom="4dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="4dp"
+                                android:text="普通用户"/>
 
-                        <TextView
-                            android:id="@+id/grade_of_member_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape_mine_identity_li"
-                            android:drawablePadding="8dp"
-                            android:drawableStart="@drawable/icon_jinpai"
-                            android:gravity="center"
-                            android:paddingBottom="4dp"
-                            android:paddingEnd="8dp"
-                            android:paddingStart="8dp"
-                            android:paddingTop="4dp"
-                            android:text="金牌会员"/>
+                            <TextView
+                                android:id="@+id/grade_of_member_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/shape_mine_identity_li"
+                                android:drawablePadding="8dp"
+                                android:drawableStart="@drawable/icon_jinpai"
+                                android:gravity="center"
+                                android:paddingBottom="4dp"
+                                android:paddingEnd="8dp"
+                                android:paddingStart="8dp"
+                                android:paddingTop="4dp"
+                                android:text="金牌会员"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/uset_other_info_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -168,6 +189,7 @@
                         android:textSize="16sp"/>
 
                     <TextView
+                        android:id="@+id/center_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="积分"
@@ -203,298 +225,356 @@
                 android:layout_height="8dp"
                 android:background="@color/bg_color"/>
 
-            <TextView
-                android:id="@+id/coupon_tv"
-                style="@style/mine_text_list"
+            <LinearLayout
+                android:id="@+id/member_lin_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_wallet"
-                android:padding="12dp"
-                android:text="卡券包"
-                android:textColor="@color/app_text_color"/>
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
+                <TextView
+                    android:id="@+id/coupon_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_wallet"
+                    android:padding="12dp"
+                    android:text="卡券包"
+                    android:textColor="@color/app_text_color"/>
 
-            <TextView
-                android:id="@+id/tv_order_center"
-                style="@style/mine_text_list"
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/tv_order_center"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_dingdan"
+                    android:padding="12dp"
+                    android:text="订单中心"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/collect_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_collection"
+                    android:padding="12dp"
+                    android:text="我的收藏"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/footprint_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_zuji"
+                    android:padding="12dp"
+                    android:text="我的足迹"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/address_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_dizhi"
+                    android:padding="12dp"
+                    android:text="收货地址"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/evaluate_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_pingjia"
+                    android:padding="12dp"
+                    android:text="我的评价"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/bg_color"/>
+
+
+                <TextView
+                    android:id="@+id/books_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_shuyuan"
+                    android:padding="12dp"
+                    android:text="无界书院"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/registration_code_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_erweima"
+                    android:padding="12dp"
+                    android:text="注册码"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/shre_to_friends_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_share"
+                    android:padding="12dp"
+                    android:text="分享好友"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/share_grade_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_tuijian"
+                    android:padding="12dp"
+                    android:text="分享成绩"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/merchant_will_move_into_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_ruzhu"
+                    android:padding="12dp"
+                    android:text="商家推荐"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/tv_help_center"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_help"
+                    android:padding="12dp"
+                    android:text="帮助中心"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/feedBack_tv"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_fankui"
+                    android:padding="12dp"
+                    android:text="意见反馈"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_guli"
+                    android:padding="12dp"
+                    android:text="评分鼓励"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    android:id="@+id/rel_mine_about"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_about"
+                    android:padding="12dp"
+                    android:text="关于我们"
+                    android:textColor="@color/app_text_color"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color"/>
+
+                <TextView
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/icon_mine_kefu"
+                    android:padding="12dp"
+                    android:text="在线客服"
+                    android:textColor="@color/app_text_color"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/mell_point_lin_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_dingdan"
-                android:padding="12dp"
-                android:text="订单中心"
-                android:textColor="@color/app_text_color"/>
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:divider="@drawable/lin_layout_vertical_line_shape"
+                android:showDividers="middle">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
+                <TextView
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/icon_stock_left"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="进货记录"
+                    android:textColor="@color/app_text_color"/>
+                <TextView
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/icon_sale_left_hzj"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="销货记录"
+                    android:textColor="@color/app_text_color"/>
+                <TextView
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/icon_goods_list_left_hzj"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="货品列表"
+                    android:textColor="@color/app_text_color"/>
 
-            <TextView
-                android:id="@+id/collect_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_collection"
-                android:padding="12dp"
-                android:text="我的收藏"
-                android:textColor="@color/app_text_color"/>
+            </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/footprint_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_zuji"
-                android:padding="12dp"
-                android:text="我的足迹"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/address_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_dizhi"
-                android:padding="12dp"
-                android:text="收货地址"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/evaluate_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_pingjia"
-                android:padding="12dp"
-                android:text="我的评价"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/bg_color"/>
-
-
-            <TextView
-                android:id="@+id/books_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_shuyuan"
-                android:padding="12dp"
-                android:text="无界书院"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/registration_code_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_erweima"
-                android:padding="12dp"
-                android:text="注册码"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/shre_to_friends_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_share"
-                android:padding="12dp"
-                android:text="分享好友"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/share_grade_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_tuijian"
-                android:padding="12dp"
-                android:text="分享成绩"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/merchant_will_move_into_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_ruzhu"
-                android:padding="12dp"
-                android:text="商家推荐"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/tv_help_center"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_help"
-                android:padding="12dp"
-                android:text="帮助中心"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/feedBack_tv"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_fankui"
-                android:padding="12dp"
-                android:text="意见反馈"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_guli"
-                android:padding="12dp"
-                android:text="评分鼓励"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                android:id="@+id/rel_mine_about"
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_about"
-                android:padding="12dp"
-                android:text="关于我们"
-                android:textColor="@color/app_text_color"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/bg_color"/>
-
-            <TextView
-                style="@style/mine_text_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/icon_turn_right_gray"
-                android:drawablePadding="10dp"
-                android:drawableStart="@drawable/icon_mine_kefu"
-                android:padding="12dp"
-                android:text="在线客服"
-                android:textColor="@color/app_text_color"/>
         </LinearLayout>
+
     </com.txd.hzj.wjlp.view.ObservableScrollView>
 
     <include layout="@layout/mine_title"/>

@@ -67,22 +67,45 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     @ViewInject(R.id.wave)
     private WaveView wave;
+
     /**
-     * 关于
+     * 用户视图
      */
-    @ViewInject(R.id.rel_mine_about)
-    private TextView rel_mine_about;
+    @ViewInject(R.id.member_lin_layout)
+    private LinearLayout member_lin_layout;
     /**
-     * 帮助中心
+     * 用户其他信息(头像下边)
      */
-    @ViewInject(R.id.tv_help_center)
-    TextView tv_help_center;
+    @ViewInject(R.id.uset_other_info_layout)
+    private LinearLayout uset_other_info_layout;
     /**
-     * 订单中心
+     * 商家
      */
-    @ViewInject(R.id.tv_order_center)
-    private TextView tv_order_center;
+    @ViewInject(R.id.mell_point_lin_layout)
+    private LinearLayout mell_point_lin_layout;
+
+    /**
+     * 无界驿站
+     */
+    @ViewInject(R.id.mine_mell_point_tv)
+    private TextView mine_mell_point_tv;
+
+    /**
+     * 普通用户信息
+     */
+    @ViewInject(R.id.member_type_layout)
+    private LinearLayout member_type_layout;
+
+    /**
+     * 爱心
+     * 积分
+     */
+    @ViewInject(R.id.center_tv)
+    private TextView center_tv;
+
     private Bundle bundle;
+
+    private int type = 1;
 
     public MineFgt() {
     }
@@ -97,6 +120,23 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
         wave.startAnim();
+
+        if (0 == type) {
+            mine_mell_point_tv.setVisibility(View.VISIBLE);
+            mell_point_lin_layout.setVisibility(View.VISIBLE);
+            member_type_layout.setVisibility(View.GONE);
+            member_lin_layout.setVisibility(View.GONE);
+            uset_other_info_layout.setVisibility(View.GONE);
+            center_tv.setText("爱心");
+        } else {
+            mine_mell_point_tv.setVisibility(View.GONE);
+            mell_point_lin_layout.setVisibility(View.GONE);
+            member_type_layout.setVisibility(View.VISIBLE);
+            member_lin_layout.setVisibility(View.VISIBLE);
+            uset_other_info_layout.setVisibility(View.VISIBLE);
+            center_tv.setText("积分");
+        }
+
     }
 
 
@@ -105,7 +145,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv,
-            R.id.merchant_will_move_into_tv,R.id.books_tv})
+            R.id.merchant_will_move_into_tv, R.id.books_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -149,7 +189,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(MyCouponAty.class, null);
                 break;
             case R.id.integral_tv:// 积分
-                startActivity(IntegralAty.class, null);
+                String s = center_tv.getText().toString();
+                if (s.equals("积分")) {
+                    startActivity(IntegralAty.class, null);
+                } else {
+
+                }
                 break;
             case R.id.registration_code_tv:// 注册码
                 startActivity(RegistrationCodeAty.class, null);

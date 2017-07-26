@@ -12,13 +12,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByMySelfFgt;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt;
+import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +80,28 @@ public class OffLineDetailsAty extends BaseAty {
     private List<Fragment> mFragment;
     private VPAdapter vpAdapter;
 
+    /**
+     * 公告
+     */
+    @ViewInject(R.id.notice_layout)
+    private LinearLayout notice_layout;
+    /**
+     * 商家其他信息
+     */
+    @ViewInject(R.id.other_info_layout)
+    private LinearLayout other_info_layout;
+
+    /**
+     * 上滑
+     */
+    @ViewInject(R.id.up_tip_tv)
+    private TextView up_tip_tv;
+
+    @ViewInject(R.id.off_line_coupon_lv)
+    private ListViewForScrollView off_line_coupon_lv;
+
+    private CouponAdapter couponAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +118,7 @@ public class OffLineDetailsAty extends BaseAty {
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset <= -head_layout.getHeight() / 2) {
+                if (verticalOffset <= -head_layout.getHeight() * 7 / 8) {
                     collapsing_toolbar_layout.setTitle("好收成超市");
                 } else {
                     collapsing_toolbar_layout.setTitle(" ");
@@ -104,19 +130,28 @@ public class OffLineDetailsAty extends BaseAty {
         main_vp_container.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(toolbar_tab));
         toolbar_tab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(main_vp_container));
 
+        notice_layout.setVisibility(View.VISIBLE);
+        other_info_layout.setVisibility(View.GONE);
+        up_tip_tv.setVisibility(View.GONE);
 
+        off_line_coupon_lv.setAdapter(couponAdapter);
     }
 
     @Override
-    @OnClick({R.id.off_line_mell_collect_layout,R.id.off_line_mell_share_tv})
+    @OnClick({R.id.off_line_mell_collect_layout, R.id.off_line_mell_share_tv, R.id.notice_layout})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.off_line_mell_collect_layout:// 收藏
                 showRightTip("收藏");
                 break;
             case R.id.off_line_mell_share_tv:// 分享
                 toShare();
+                break;
+            case R.id.notice_layout:// 公告
+                notice_layout.setVisibility(View.GONE);
+                other_info_layout.setVisibility(View.VISIBLE);
+                up_tip_tv.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -135,6 +170,7 @@ public class OffLineDetailsAty extends BaseAty {
         mFragment.add(GoodsByOtherFgt.newInstance(0));
         mFragment.add(GoodsByMySelfFgt.newInstance(1));
         vpAdapter = new VPAdapter(getSupportFragmentManager());
+        couponAdapter = new CouponAdapter(this);
     }
 
     @Override
@@ -142,7 +178,7 @@ public class OffLineDetailsAty extends BaseAty {
 
     }
 
-    public class VPAdapter extends FragmentPagerAdapter{
+    public class VPAdapter extends FragmentPagerAdapter {
 
         public VPAdapter(FragmentManager fm) {
             super(fm);
