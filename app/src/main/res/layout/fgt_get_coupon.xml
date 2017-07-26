@@ -1,13 +1,23 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context="com.txd.hzj.wjlp.popAty.fgt.GetCouponFgt">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.popAty.fgt.GetCouponFgt">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/coupon_classify_rv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"/>
+
+    <ListView
+        android:id="@+id/coupon_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
-
-</FrameLayout>
+        android:divider="@color/bg_color"
+        android:dividerHeight="8dp"
+        android:padding="8dp"/>
+</LinearLayout>
