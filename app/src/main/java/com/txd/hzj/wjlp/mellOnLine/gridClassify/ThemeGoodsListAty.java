@@ -1,21 +1,22 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  * 描述：5-1主题街2(主题街商品列表)
  * ===============Txunda===============
  */
-public class ThemeGoodsListAty extends BaseAty {
+public class ThemeGoodsListAty extends BaseAty implements ObservableScrollView.ScrollViewListener{
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -42,6 +43,13 @@ public class ThemeGoodsListAty extends BaseAty {
     private List<String> list;
     private ThemeGoodsAdapter themeGoodsAdapter;
 
+
+    @ViewInject(R.id.tg_sc)
+    private ObservableScrollView tg_sc;
+
+    @ViewInject(R.id.tg_be_back_top_iv)
+    private ImageView tg_be_back_top_iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +62,20 @@ public class ThemeGoodsListAty extends BaseAty {
                 startActivity(ThemeGoodsDetailsAty.class, null);
             }
         });
+        tg_sc.smoothScrollTo(0,0);
+        tg_sc.setScrollViewListener(this);
+    }
+
+    @Override
+    @OnClick({R.id.tg_be_back_top_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.tg_be_back_top_iv:
+                tg_sc.smoothScrollTo(0,0);
+                tg_be_back_top_iv.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -69,6 +91,15 @@ public class ThemeGoodsListAty extends BaseAty {
 
     @Override
     protected void requestData() {
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(y< Settings.displayWidth/2){
+            tg_be_back_top_iv.setVisibility(View.GONE);
+        } else {
+            tg_be_back_top_iv.setVisibility(View.VISIBLE);
+        }
     }
 
     private class ThemeGoodsAdapter extends BaseAdapter {
@@ -99,10 +130,23 @@ public class ThemeGoodsListAty extends BaseAty {
             } else {
                 tgvh = (TGVH) view.getTag();
             }
+
+            tgvh.use_coupon_tv.setVisibility(View.VISIBLE);
+            if (i % 2 == 0) {
+                tgvh.use_coupon_tv.setText("不可使用购物券");
+                tgvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+            } else {
+                tgvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                tgvh.use_coupon_tv.setText("可使用30%购物券");
+            }
+
             return view;
         }
 
         class TGVH {
+
+            @ViewInject(R.id.use_coupon_tv)
+            private TextView use_coupon_tv;
 
         }
     }

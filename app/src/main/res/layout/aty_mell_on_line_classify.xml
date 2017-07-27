@@ -11,38 +11,27 @@
 
     <include layout="@layout/aty_search_title"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="1dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/title_s_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:tl_indicator_color="@color/theme_color"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_textSelectColor="@color/theme_color"
+        app:tl_textUnselectColor="@color/app_text_color"
+        app:tl_textsize="14sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp"/>
 
-            <include layout="@layout/mell_on_line_classify"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_for_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_discount"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/classify_goods_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

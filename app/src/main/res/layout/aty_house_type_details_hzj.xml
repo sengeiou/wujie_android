@@ -5,140 +5,395 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:showDividers="middle"
+    android:background="@color/bg_color"
     android:divider="@drawable/lin_layout_vertical_line_shape"
+    android:orientation="vertical"
+    android:showDividers="middle"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty">
 
     <include layout="@layout/aty_title"/>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
 
-        <LinearLayout
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.txd.hzj.wjlp.view.ObservableScrollView
+            android:id="@+id/hxd_sc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <include layout="@layout/aty_banner"/>
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white"
-                android:padding="16dp">
+                android:orientation="vertical">
+
+                <include layout="@layout/aty_banner"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="枫丹公馆两室一厅"
-                        android:textColor="@color/app_text_color"
-                        android:textSize="24sp"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="在售 西青 独栋 大户型"
-                        android:layout_marginStart="16dp"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_car_voucher_tv"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="4dp"
-                        android:text="代金券"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:text="￥"
-                        android:textColor="@color/theme_color"
-                        android:textSize="13sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="99.00"
-                        android:textColor="@color/theme_color"
-                        android:textSize="16sp"/>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_marginStart="16dp"
-                        android:layout_height="wrap_content"
-                        android:text="15000元/平"
-                        android:textColor="@color/gray_text_color"/>
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/icon_send"
-                            android:drawablePadding="8dp"
-                            android:text="分红权"
-                            android:textColor="@color/gray_text_color"
-                            />
+                            android:text="枫丹公馆两室一厅"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="24sp"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="10.23"
-                            android:textColor="#FD8214"
-                            />
+                            android:layout_marginStart="16dp"
+                            android:text="在售 西青 独栋 大户型"
+                            android:textColor="@color/gray_text_color"
+                            android:textSize="12sp"/>
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_car_voucher_tv"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="4dp"
+                            android:text="代金券"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:text="￥"
+                            android:textColor="@color/theme_color"
+                            android:textSize="13sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="99.00"
+                            android:textColor="@color/theme_color"
+                            android:textSize="16sp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="15000元/平"
+                            android:textColor="@color/gray_text_color"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableLeft="@drawable/icon_send"
+                                android:drawablePadding="8dp"
+                                android:text="分红权"
+                                android:textColor="@color/gray_text_color"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10.23"
+                                android:textColor="#FD8214"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
+                        android:text="可低￥200房款\n房款全价￥9999999.00"/>
+
+                    <TextView
+                        android:id="@+id/house_area_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="建筑面积:75.00m2"
+                        android:textColor="@color/gray_text_color"/>
+
+                    <TextView
+                        android:id="@+id/house_loc_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="楼        盘:大运河孔雀城学府公园"
+                        android:textColor="@color/gray_text_color"/>
                 </LinearLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="4dp"
-                    android:text="可低￥200房款\n房款全价￥9999999.00"/>
-                <TextView
-                    android:id="@+id/house_area_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="4dp"
-                    android:text="建筑面积:75.00m2"
-                    android:textColor="@color/gray_text_color"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
-                <TextView
-                    android:id="@+id/house_loc_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="4dp"
-                    android:text="楼        盘:大运河孔雀城学府公园"
-                    android:textColor="@color/gray_text_color"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"/>
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="预约看房可享以下优惠"
+                        android:textColor="@color/app_text_color"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bg_color"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="房价折扣:房天下会员享优惠"
+                        android:textColor="@color/app_text_color"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="专属顾问服务:房源推荐 购房咨询 现场带看"
+                        android:textColor="@color/app_text_color"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="48dp"
+                        android:layout_marginStart="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/shape_subscribe_tv"
+                        android:gravity="center"
+                        android:lineSpacingExtra="4dp"
+                        android:padding="12dp"
+                        android:text="预约看房"
+                        android:textColor="@color/theme_color"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="小编点评"
+                        android:textColor="@color/app_text_color"
+                        android:textStyle="bold"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/bg_color"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:text="4.8分"
+                            android:textColor="#FFB80F"/>
+
+                        <RatingBar
+                            android:id="@+id/mell_score_rating_bar"
+                            style="@style/foodRatingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="14dp"
+                            android:layout_gravity="center_vertical"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            android:rating="4.8"
+                            />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="方正5.0分 采光4.9分 布局5.0分 尺寸5.0分 得房率4.0分"
+                        android:textColor="@color/gray_text_color"
+                        android:textSize="12sp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="4dp"
+                        android:text="这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论这是小编的评论"
+                        android:textColor="@color/app_text_color"/>
+
+                </LinearLayout>
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/other_lp_gv"
+                    android:horizontalSpacing="4dp"
+                    android:verticalSpacing="4dp"
+                    android:numColumns="2"/>
 
             </LinearLayout>
+
+        </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+        <ImageView
+            android:id="@+id/hxd_be_back_top_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_be_back_top"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/goods_details_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:divider="@drawable/lin_layout_horizontal_line_shape"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="4dp"
+                android:drawableTop="@drawable/icon_home_pager"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="首页"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawablePadding="4dp"
+                    android:drawableTop="@drawable/icon_goods_cart"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="购物车"/>
+
+                <TextView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/shape_search_message_num_tv"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="4dp"
+                android:drawableTop="@drawable/icon_goods_kf"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="客服"/>
+
         </LinearLayout>
 
-    </ScrollView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F3ABA7"
+            android:gravity="center"
+            android:text="加入购物车"
+            android:textColor="@color/white"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:text="立即购买"
+            android:textColor="@color/white"/>
+    </LinearLayout>
 </LinearLayout>

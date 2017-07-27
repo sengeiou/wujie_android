@@ -35,23 +35,18 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
 
     private Context context;
     private int type;//1 车型  2品牌
+    private List<CarBean> listSelect;
 
-    List<CarBean> listSelect;
-
-
-
-    public CarTypeChenAdapter(Context context, int type){
-        this.context=context;
-        this.type=type;
+    public CarTypeChenAdapter(Context context, int type) {
+        this.context = context;
+        this.type = type;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car_type_chen,parent,false);
-        ViewHolder holder=new ViewHolder(view);
-        
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car_type_chen, parent, false);
+        ViewHolder holder = new ViewHolder(view);
         initSelect();//select 初始化
-
         return holder;
     }
 
@@ -59,9 +54,9 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
      * select初始化
      */
     private void initSelect() {
-        listSelect=new ArrayList<CarBean>();
-        for(int i=0;i<4;i++){
-            CarBean carBean=new CarBean();
+        listSelect = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            CarBean carBean = new CarBean();
             carBean.setSelect(false);
             listSelect.add(carBean);
         }
@@ -69,68 +64,59 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
         /**
          * 图片
          */
-        if(type==1){
+        if (type == 1) {
             holder.iv_type_car.setImageResource(R.mipmap.icon_car_chen);
-        }else{
+        } else {
             holder.iv_type_car.setImageResource(R.mipmap.icon_brand_chen);
         }
-
         /**
          * 单击
          */
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listSelect.get(position).getSelect()){
+                if (listSelect.get(position).getSelect()) {
                     //选中
                     listSelect.get(position).setSelect(false);
-                }else{
+                } else {
                     //未选中
                     listSelect.get(position).setSelect(true);
                 }
-
                 notifyDataSetChanged();
             }
         });
 
-        if(listSelect.get(position).getSelect()){
+        if (listSelect.get(position).getSelect()) {
             //选中
-            holder.iv_type_car.setStroke(context.getResources().getColor(R.color.theme_color),ToolKit.dip2px(context,2f));//边缘宽度颜色
+            holder.iv_type_car.setStroke(context.getResources().getColor(R.color.theme_color),
+                    ToolKit.dip2px(context, 2f));//边缘宽度颜色
             holder.tv_type_car.setTextColor(context.getResources().getColor(R.color.theme_color));
-        }else{
+        } else {
             //没有选中
-
-            holder.iv_type_car.setStroke(context.getResources().getColor(R.color.transparent),ToolKit.dip2px(context,2f));//边缘宽度颜色
+            holder.iv_type_car.setStroke(context.getResources().getColor(R.color.transparent),
+                    ToolKit.dip2px(context, 2f));//边缘宽度颜色
             holder.tv_type_car.setTextColor(context.getResources().getColor(R.color.black));
-
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-            return 4;
-
+        return 8;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         ShapedImageView iv_type_car;
         View view;
         TextView tv_type_car;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
-            iv_type_car=itemView.findViewById(R.id.iv_type_car);
-            tv_type_car=itemView.findViewById(R.id.tv_type_car);
-
-
-            view=itemView;
+            iv_type_car = itemView.findViewById(R.id.iv_type_car);
+            tv_type_car = itemView.findViewById(R.id.tv_type_car);
+            view = itemView;
         }
     }
 }

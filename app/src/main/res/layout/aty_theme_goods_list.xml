@@ -11,29 +11,44 @@
 
     <include layout="@layout/aty_title"/>
 
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <com.txd.hzj.wjlp.view.ObservableScrollView
+            android:id="@+id/tg_sc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
-            <include layout="@layout/item_theme_lv"/>
-
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/theme_goods_gv"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </ScrollView>
+                <include layout="@layout/item_theme_lv"/>
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/theme_goods_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp"/>
+            </LinearLayout>
+
+        </com.txd.hzj.wjlp.view.ObservableScrollView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_be_back_top"
+            android:id="@+id/tg_be_back_top_iv"
+            android:layout_gravity="bottom|end"
+            android:visibility="gone"
+            android:layout_margin="16dp"/>
+
+    </FrameLayout>
 
 
 </LinearLayout>

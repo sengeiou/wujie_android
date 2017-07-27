@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:padding="8dp"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,8 +17,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2"
         android:layout_marginBottom="4dp"
+        android:maxLines="2"
         android:text="Seagull海鸥手表男士自动机械手表飞轮男表防水皮带"/>
 
     <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
@@ -28,8 +28,8 @@
         android:layout_height="8dp"
         android:layout_gravity="center"
         android:background="@drawable/shape_tb_progress2"
-        app:borderWidth="0dp"
         app:borderColor="#DDDDDD"
+        app:borderWidth="0dp"
         app:isShowDesc="false"
         app:progressColor="@color/theme_color"
         app:progressRadius="4dp"/>
@@ -46,23 +46,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="总需419人次"
-            android:textColor="@color/theme_color"
-            android:textSize="16sp"/>
+            android:textColor="@color/app_text_color"
+            android:textSize="13sp"/>
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="end"
             android:text="剩余"
             android:textColor="@color/gray_text_color"
             android:textSize="13sp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
             android:text="144"
             android:textColor="@color/theme_color"
+            android:textSize="13sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="人次"
+            android:textColor="@color/gray_text_color"
             android:textSize="13sp"/>
     </LinearLayout>
 
@@ -76,8 +84,9 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
-            android:text="分红权"
+            android:text="积分"
             android:textColor="@color/gray_text_color"
+            android:textSize="13sp"
             />
 
         <TextView
@@ -85,6 +94,7 @@
             android:layout_height="wrap_content"
             android:text="10.23"
             android:textColor="#FD8214"
+            android:textSize="13sp"
             />
     </LinearLayout>
 

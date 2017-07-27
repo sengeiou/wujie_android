@@ -30,7 +30,7 @@
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="0dp"
             app:tabMinWidth="98dp"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabPaddingBottom="3dp"
             app:tabSelectedTextColor="@color/white"
             app:tabTextAppearance="@style/TabLayoutTextStyle"

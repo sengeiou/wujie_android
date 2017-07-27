@@ -1,92 +1,82 @@
 package com.txd.hzj.wjlp.minetoAty;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.login.LoginAty;
 
 /**
- * Created by lienchao on 2017/7/13 0013.
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/7/26 0026
+ * 时间：下午 3:40
+ * 描述：设置
+ * ===============Txunda===============
  */
-
 public class SetAty extends BaseAty {
     /**
      * 设置标题
-     * */
+     */
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
-    /**
-     * 个人资料
-     * */
-    @ViewInject(R.id.rel_editprofile)
-    public RelativeLayout rel_editprofile;
-    /**
-     * 修改登录密码
-     * */
-    @ViewInject(R.id.rel_editpassword)
-    private RelativeLayout rel_editpassword;
-    /**
-     * 修改支付密码
-     * */
-    @ViewInject(R.id.rel_editpaypassword)
-    private RelativeLayout rel_editpaypassword;
-    /**
-     * 实名认证
-     * */
-    @ViewInject(R.id.rel_realname)
-    private RelativeLayout rel_realname;
-    /**
-     * 绑定手机
-     * */
-    @ViewInject(R.id.rel_bind_phone)
-    private RelativeLayout rel_bind_phone;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("设置");
-        initEvent();
     }
-    private void initEvent() {
-        rel_editprofile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SetAty.this,EditProfileAty.class));
-            }
-        });
-        rel_editpassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SetAty.this,EditLoginPasswordAty.class));
-            }
-        });
-        rel_editpaypassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SetAty.this,EditPayPasswordAty.class));
-            }
-        });
-        rel_realname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SetAty.this,RealnameAty.class));
-            }
-        });
-        rel_bind_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(SetAty.this,BindPhoneAty.class));
 
-            }
-        });
+    @Override
+    @OnClick({R.id.rel_editprofile, R.id.rel_editpassword, R.id.rel_editpaypassword, R.id.rel_realname,
+            R.id.rel_bind_phone, R.id.sing_out_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.rel_editprofile:// 个人资料
+                startActivity(EditProfileAty.class, null);
+                break;
+            case R.id.rel_editpassword:// 修改登录密码
+                startActivity(EditLoginPasswordAty.class, null);
+                break;
+            case R.id.rel_editpaypassword:// 修改支付密码
+                startActivity(EditPayPasswordAty.class, null);
+                break;
+            case R.id.rel_realname:// 实名认证
+                startActivity(RealnameAty.class, null);
+                break;
+            case R.id.rel_bind_phone:// 绑定手机号
+                startActivity(BindPhoneAty.class, null);
+                break;
+            case R.id.sing_out_tv:// 退出登录
+                new MikyouCommonDialog(this, "确定要退出吗?", "提示", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog
+                        .OnDialogListener() {
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
+                            which) {
+                        switch (btnType) {
+                            case MikyouCommonDialog.OK:
+                                Config.setLoginState(false);
+                                startActivity(LoginAty.class, null);
+                                finish();
+                                break;
+                            case MikyouCommonDialog.NO:
+                                break;
+                        }
+                    }
+                }).showDialog();
+                break;
+        }
     }
 
     @Override

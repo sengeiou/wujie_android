@@ -4,10 +4,13 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
@@ -16,6 +19,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.List;
  * 描述：票券区碎片
  * ===============Txunda===============
  */
-public class TicketZoonFgt extends BaseFgt {
+public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
     /**
      * 分类
      */
@@ -55,6 +59,15 @@ public class TicketZoonFgt extends BaseFgt {
     private int type = 0;
     private AllGvLvAdapter allGvLvAdapter1;
     private List<String> data;
+
+    /**
+     * 回到顶部
+     */
+    @ViewInject(R.id.zoom_be_back_top_iv)
+    private ImageView zoom_be_back_top_iv;
+
+    @ViewInject(R.id.zooom_sc)
+    private ObservableScrollView zooom_sc;
 
     public static TicketZoonFgt getFgt(String title, int type) {
         TicketZoonFgt tzf = new TicketZoonFgt();
@@ -97,6 +110,20 @@ public class TicketZoonFgt extends BaseFgt {
                 startActivity(GoodLuckDetailsAty.class, null);
             }
         });
+        zooom_sc.smoothScrollTo(0, 0);
+        zooom_sc.setScrollViewListener(this);
+    }
+
+    @Override
+    @OnClick({R.id.zoom_be_back_top_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.zoom_be_back_top_iv:
+                zoom_be_back_top_iv.setVisibility(View.GONE);
+                zooom_sc.smoothScrollTo(0, 0);
+                break;
+        }
     }
 
     @Override
@@ -120,5 +147,14 @@ public class TicketZoonFgt extends BaseFgt {
     @Override
     protected void immersionInit() {
 
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if (y < Settings.displayWidth / 2) {
+            zoom_be_back_top_iv.setVisibility(View.GONE);
+        } else {
+            zoom_be_back_top_iv.setVisibility(View.VISIBLE);
+        }
     }
 }

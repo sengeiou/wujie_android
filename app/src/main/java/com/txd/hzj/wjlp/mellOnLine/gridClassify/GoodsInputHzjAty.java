@@ -6,14 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +30,7 @@ import java.util.List;
  * 描述：进口馆
  * ===============Txunda===============
  */
-public class GoodsInputHzjAty extends BaseAty {
+public class GoodsInputHzjAty extends BaseAty implements ObservableScrollView.ScrollViewListener{
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -48,6 +52,12 @@ public class GoodsInputHzjAty extends BaseAty {
     private int type = 3;
     private Bundle bundle;
 
+    @ViewInject(R.id.input_be_back_top_iv)
+    private ImageView input_be_back_top_iv;
+
+    @ViewInject(R.id.input_sc)
+    private ObservableScrollView input_sc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +74,20 @@ public class GoodsInputHzjAty extends BaseAty {
                 startActivity(TicketZoonAty.class, bundle);
             }
         });
+        input_sc.smoothScrollTo(0,0);
+        input_sc.setScrollViewListener(this);
+    }
+
+    @Override
+    @OnClick({R.id.input_be_back_top_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch(v.getId()){
+            case R.id.input_be_back_top_iv:
+                input_sc.smoothScrollTo(0,0);
+                input_be_back_top_iv.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -83,6 +107,15 @@ public class GoodsInputHzjAty extends BaseAty {
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(y< Settings.displayWidth/2){
+            input_be_back_top_iv.setVisibility(View.GONE);
+        } else {
+            input_be_back_top_iv.setVisibility(View.VISIBLE);
+        }
     }
 
     private class CountryAdapter extends BaseAdapter {

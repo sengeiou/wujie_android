@@ -6,13 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +30,7 @@ import java.util.List;
  * 描述：5-1主题街
  * ===============Txunda===============
  */
-public class ThemeStreetHzjAty extends BaseAty {
+public class ThemeStreetHzjAty extends BaseAty implements ObservableScrollView.ScrollViewListener{
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -34,7 +39,13 @@ public class ThemeStreetHzjAty extends BaseAty {
      * 主题街列表
      */
     @ViewInject(R.id.hzj_theme_lv)
-    private ListView hzj_theme_lv;
+    private ListViewForScrollView hzj_theme_lv;
+
+    @ViewInject(R.id.theme_sc)
+    private ObservableScrollView theme_sc;
+
+    @ViewInject(R.id.theme_be_back_top_iv)
+    private ImageView theme_be_back_top_iv;
 
     private List<String> list;
 
@@ -53,6 +64,20 @@ public class ThemeStreetHzjAty extends BaseAty {
                 startActivity(ThemeGoodsListAty.class, null);
             }
         });
+        theme_sc.smoothScrollTo(0,0);
+        theme_sc.setScrollViewListener(this);
+    }
+
+    @Override
+    @OnClick({R.id.theme_be_back_top_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.theme_be_back_top_iv:
+                theme_sc.smoothScrollTo(0,0);
+                theme_be_back_top_iv.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -69,6 +94,15 @@ public class ThemeStreetHzjAty extends BaseAty {
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if(y< Settings.displayWidth/2){
+            theme_be_back_top_iv.setVisibility(View.GONE);
+        } else {
+            theme_be_back_top_iv.setVisibility(View.VISIBLE);
+        }
     }
 
     private class ThemeAdapter extends BaseAdapter {

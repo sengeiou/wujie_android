@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.banner.BannerAdapter;
 import com.ants.theantsgo.view.banner.DotView;
@@ -132,9 +134,12 @@ public class SnatchChenAty extends BaseAty {
 
     private List<String> dataForRv;
 
-    private int height = 0;
-
     private GoodsForRvAdapter goodsByOrderAdapter;
+
+    @ViewInject(R.id.snatch_be_back_top_iv)
+    private ImageView snatch_be_back_top_iv;
+
+    private int height =0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,12 +156,26 @@ public class SnatchChenAty extends BaseAty {
         setView();
         upview1.setViews(views);
 
-        good_luck_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        GridLayoutManager manager = new GridLayoutManager(this,2);
+        good_luck_rv.setLayoutManager(manager);
         good_luck_rv.setItemAnimator(new DefaultItemAnimator());
         good_luck_rv.setHasFixedSize(true);
         good_luck_rv.addItemDecoration(new GridDividerItemDecoration(height, ContextCompat.getColor(this,
                 R.color.bg_color)));
         good_luck_rv.setAdapter(goodsByOrderAdapter);
+
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position<=3){
+                    snatch_be_back_top_iv.setVisibility(View.GONE);
+                } else {
+                    snatch_be_back_top_iv.setVisibility(View.VISIBLE);
+                }
+                return 1;
+            }
+        });
+
         goodsByOrderAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -167,7 +186,7 @@ public class SnatchChenAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_tv, R.id.times_layout})
+    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_tv, R.id.times_layout,R.id.snatch_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -186,6 +205,9 @@ public class SnatchChenAty extends BaseAty {
             case R.id.times_layout:// 人次
                 soft_type = 3;
                 softStyle(soft_type);
+                break;
+            case R.id.snatch_be_back_top_iv:// 回到顶部
+                good_luck_rv.smoothScrollToPosition(0);
                 break;
         }
     }
@@ -229,6 +251,7 @@ public class SnatchChenAty extends BaseAty {
         data.add("主人内疚逃命时没带够，回废墟狂挖30小时！");
         dataForRv = new ArrayList<>();
         goodsByOrderAdapter = new GoodsForRvAdapter(this, dataForRv, 5);
+        height = ToolKit.dip2px(this,4);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -64,8 +65,8 @@ public class AuctionCollectAty extends BaseAty {
     }
 
     private void changeViewStatus(int i) {
-        left_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
-        right_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
+        left_tv.setTextColor(Color.parseColor("#FFC8C9"));
+        right_tv.setTextColor(Color.parseColor("#FFC8C9"));
         left_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
         right_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
         if (0 == i) {
@@ -104,7 +105,7 @@ public class AuctionCollectAty extends BaseAty {
     protected void initialized() {
         list = new ArrayList<>();
         type = getIntent().getIntExtra("type", 0);
-        limitAdapter = new LimitAdapter(list, this, 0);
+        limitAdapter = new LimitAdapter(list, this, 0, 1);
     }
 
     @Override

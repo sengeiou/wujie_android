@@ -9,6 +9,6 @@
     <ImageView
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:src="@drawable/icon_temp_head"/>
+        android:src="@drawable/icon_temp_globe"/>
 
 </LinearLayout>

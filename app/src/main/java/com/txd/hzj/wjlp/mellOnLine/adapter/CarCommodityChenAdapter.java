@@ -68,7 +68,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
 
     @Override
     public int getItemCount() {
-        return 4;
+        return 12;
 
     }
 

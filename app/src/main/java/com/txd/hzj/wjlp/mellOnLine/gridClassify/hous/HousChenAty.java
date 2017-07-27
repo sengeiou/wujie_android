@@ -5,9 +5,12 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.HousChenAdapter;
@@ -29,6 +32,9 @@ public class HousChenAty extends BaseAty {
     @ViewInject(R.id.rv_hous)//房子
     private RecyclerView mRvHous;
 
+    @ViewInject(R.id.hose_be_back_top_iv)
+    private ImageView hose_be_back_top_iv;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +45,23 @@ public class HousChenAty extends BaseAty {
     }
 
     @Override
+    @OnClick({R.id.hose_be_back_top_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.hose_be_back_top_iv:
+                mRvHous.scrollToPosition(0);
+                break;
+        }
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.aty_hous_chen;
     }
 
     @Override
     protected void initialized() {
-
-
     }
 
 
@@ -66,8 +81,17 @@ public class HousChenAty extends BaseAty {
         mRvHous.setLayoutManager(manager);
         HousChenAdapter housAdapter = new HousChenAdapter(this);
         mRvHous.setAdapter(housAdapter);
-
-
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if(position<=3){
+                    hose_be_back_top_iv.setVisibility(View.GONE);
+                } else {
+                    hose_be_back_top_iv.setVisibility(View.VISIBLE);
+                }
+                return 1;
+            }
+        });
     }
 
 }

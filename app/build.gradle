@@ -11,10 +11,26 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    signingConfigs {
+        releaseConfig {
+            keyAlias 'wjlpkey'
+            keyPassword 'android'
+            storeFile file('D:/AndroidProgectForStudio/wjlp/wjlp.jks')
+            storePassword 'android'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseConfig
+        }
+        debug {
+            signingConfig signingConfigs.releaseConfig
         }
     }
 }
@@ -27,11 +43,12 @@ dependencies {
     compile project(':frame')
     compile project(':pickerview')
     compile project(':sideBar')
+
+    // 地址边栏选择
     // zXing
     //zxing
     //zxing
     // Glide高斯模糊
-    // 地址边栏选择
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.+'

@@ -261,7 +261,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
         if (y <= 0) {
             be_back_top_iv.setVisibility(View.GONE);
             setTextViewAndViewColor(0);
-        } else if (y > bannerHeight) {
+        } else if (y >= bannerHeight) {
             be_back_top_iv.setVisibility(View.VISIBLE);
             if (y < topHeighe) {
                 setTextViewAndViewColor(0);

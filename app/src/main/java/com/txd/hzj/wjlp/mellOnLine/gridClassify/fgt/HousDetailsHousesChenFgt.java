@@ -16,9 +16,13 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +35,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class HousDetailsHousesChenFgt extends BaseFgt{
+public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
     /**
      * 轮播图
      */
@@ -45,15 +49,27 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
     private List<Integer> list;//图片
     private MyViewAdapter adapter;//轮播图适配器
 
-    @OnClick({R.id.tv_houses_evaluate,R.id.to_check_location_layout})
-    public void onClick(View v){
-        switch (v.getId()){
+    @ViewInject(R.id.scrollView)
+    private ObservableScrollView scrollView;
+
+    @ViewInject(R.id.hd_be_back_top_iv)
+    private ImageView hd_be_back_top_iv;
+
+    @ViewInject(R.id.propety_fee_tv)
+    private TextView propety_fee_tv;
+
+    @OnClick({R.id.tv_houses_evaluate, R.id.to_check_location_layout, R.id.hd_be_back_top_iv})
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_houses_evaluate:
                 //跳转到评价页
-                startActivity(GoodsEvaluateAty.class,null);
+                startActivity(GoodsEvaluateAty.class, null);
                 break;
             case R.id.to_check_location_layout:// 查看地图
-                startActivity(FindHouseByMapAty.class,null);
+                startActivity(FindHouseByMapAty.class, null);
+                break;
+            case R.id.hd_be_back_top_iv:// 回到顶部
+                scrollView.smoothScrollTo(0, 0);
                 break;
         }
     }
@@ -64,15 +80,13 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
         super.onActivityCreated(savedInstanceState);
         /** 轮播图 **/
         initBanner();
-
+        scrollView.setScrollViewListener(this);
+        ChangeTextViewStyle.getInstance().forFeeStyle(propety_fee_tv,"2.80元/m2·月");
     }
-
 
 
     @Override
     protected void immersionInit() {
-//        GoodsEvaluateAty
-
     }
 
     @Override
@@ -88,15 +102,14 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
     @Override
     protected void requestData() {
         adapter = new MyViewAdapter();//轮播图适配器初始化
-        albums = new ArrayList<ImageView>();
-        list=new ArrayList<Integer>();
+        albums = new ArrayList<>();
+        list = new ArrayList<>();
         list.add(R.mipmap.icon_car_two_chen);
         list.add(R.mipmap.icon_car_two_chen);
         list.add(R.mipmap.icon_car_two_chen);
         list.add(R.mipmap.icon_car_two_chen);
         startBanner();//启动轮播图
     }
-
 
 
     /**
@@ -108,12 +121,12 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
     }
 
     /**
-     *启动轮播图
+     * 启动轮播图
      */
     private void startBanner() {
         LayoutParams params = new LayoutParams(Settings.displayWidth, Settings.displayWidth);
         sb_houses_banner.setLayoutParams(params);
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             albums.add(imageView);
@@ -125,11 +138,19 @@ public class HousDetailsHousesChenFgt extends BaseFgt{
 
     }
 
+    @Override
+    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+        if (y < Settings.displayWidth / 2) {
+            hd_be_back_top_iv.setVisibility(View.GONE);
+        } else {
+            hd_be_back_top_iv.setVisibility(View.VISIBLE);
+        }
+    }
+
     /**
      * 轮播图适配器
      *
      * @author Administrator
-     *
      */
     private class MyViewAdapter extends BannerAdapter {
 

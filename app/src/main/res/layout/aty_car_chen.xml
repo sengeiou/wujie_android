@@ -1,78 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_car_chen"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/rl_car_chen"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
 
     <include
         android:id="@+id/ie_car"
-        layout="@layout/aty_title"></include>
+        layout="@layout/aty_title"/>
 
     <View
         android:id="@+id/ie_view"
         style="@style/line_view"
-        android:layout_below="@+id/ie_car"></View>
+        android:layout_below="@+id/ie_car"/>
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ie_view"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/a_large_blank_area_color"
-            android:padding="10dp">
+            android:layout_below="@+id/ie_view"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/a_large_blank_area_color"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="价格"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="12-70万"/>
+            </RelativeLayout>
+
+
+            <com.txd.hzj.wjlp.view.ATDragView
+                android:id="@+id/at_dragView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"/>
+
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="价格" />
+                android:background="@color/a_large_blank_area_color"
+                android:padding="10dp"
+                android:text="车型"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_car_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="12-70万" />
-        </RelativeLayout>
+                android:background="@color/a_large_blank_area_color"
+                android:padding="10dp"
+                android:text="品牌"/>
 
-
-        <com.txd.hzj.wjlp.view.ATDragView
-            android:id="@+id/at_dragView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/a_large_blank_area_color"
-            android:padding="10dp"
-            android:text="车型" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_car_type"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/a_large_blank_area_color"
-            android:padding="10dp"
-            android:text="品牌" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_car_brand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_car_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <TextView
         android:id="@+id/tv_car_screen"
@@ -83,6 +93,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="筛选"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"/>
 
-</RelativeLayout>
+</LinearLayout>

@@ -69,7 +69,6 @@ public class CarChenAty extends BaseAty{
     protected void initialized() {
         titlt_conter_tv.setText("汽车购");
         initRecyclerView();//RecyclerView
-        
         initAtDrag();//选择价格
 
 
@@ -87,7 +86,7 @@ public class CarChenAty extends BaseAty{
         /**
          * 车型选择
          */
-        GridLayoutManager typeManager=new GridLayoutManager(this,4);
+        GridLayoutManager typeManager=new GridLayoutManager(this,5);
 //        typeManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRvCarType.setLayoutManager(typeManager);
         CarTypeChenAdapter typeAdapter=new CarTypeChenAdapter(this,1);
@@ -100,9 +99,6 @@ public class CarChenAty extends BaseAty{
         rvCarBrand.setLayoutManager(barndManager);
         CarTypeChenAdapter gridAdapter=new CarTypeChenAdapter(this,2);
         rvCarBrand.setAdapter(gridAdapter);
-
-
-
     }
 
     /**

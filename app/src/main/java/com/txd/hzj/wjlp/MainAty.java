@@ -19,6 +19,7 @@ import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -128,19 +129,32 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onResume() {
         super.onResume();
-        switch (page_index) {
-            case 0:// 线上商城
-                home_pager_rb.setChecked(true);
-                break;
-            case 1:// 线下商城
-                mell_offline_rb.setChecked(true);
-                break;
-            case 2:// 购物车
-                cart_rb.setChecked(true);
-                break;
-            case 3:// 我的
-                mine_rb.setChecked(true);
-                break;
+        if(Config.isLogin()){
+            switch (page_index) {
+                case 0:// 线上商城
+                    home_pager_rb.setChecked(true);
+                    break;
+                case 1:// 线下商城
+                    mell_offline_rb.setChecked(true);
+                    break;
+                case 2:// 购物车
+                    cart_rb.setChecked(true);
+                    break;
+                case 3:// 我的
+                    mine_rb.setChecked(true);
+                    break;
+            }
+        } else {
+            switch (page_index) {
+                case 0:// 线上商城
+                case 2:// 购物车
+                case 3:// 我的
+                    home_pager_rb.setChecked(true);
+                    break;
+                case 1:// 线下商城
+                    mell_offline_rb.setChecked(true);
+                    break;
+            }
         }
     }
 
@@ -182,6 +196,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 fragmentChangeManager.setFragments(2);
                 break;
             case R.id.mine_rb:// 我的
+                if (!Config.isLogin()) {
+                    startActivity(LoginAty.class, null);
+                    break;
+                }
                 page_index = 3;
                 fragmentChangeManager.setFragments(3);
                 break;

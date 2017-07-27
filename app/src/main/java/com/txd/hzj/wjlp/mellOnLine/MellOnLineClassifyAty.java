@@ -3,7 +3,11 @@ package com.txd.hzj.wjlp.mellOnLine;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,12 +20,16 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
+import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
+import com.txd.hzj.wjlp.mellOnLine.fgt.ClassifyFgt;
+import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -70,63 +78,68 @@ public class MellOnLineClassifyAty extends BaseAty {
      * 搜索左侧的图标
      */
     private Drawable search_left;
-
-    /**
-     * 横向滑动的分类
-     */
-    @ViewInject(R.id.on_line_rv)
-    private RecyclerView on_line_rv;
     /**
      * 分类列表
      */
     private List<String> horizontal_classify;
 
     /**
-     * 横向滑动的分类适配器
-     */
-    private HorizontalAdapter horizontalAdapter;
-
-    /**
-     * GridView分类
-     */
-    @ViewInject(R.id.on_lin_classify_gv)
-    private GridViewForScrollView on_lin_classify_gv;
-    /**
-     * GridView数据列表
-     */
-    private List<String> gv_classify;
-
-    private GVClassifyAdapter gvClassifyAdapter;
-    /**
      * 前一页选中的分类标识
      */
     private int pos = 0;
 
-    @ViewInject(R.id.classify_goods_rv)
-    private RecyclerView classify_goods_rv;
+    private ArrayList<Fragment> fragments;
 
-    private RacycleAllAdapter racycleAllAdapter;
+    @ViewInject(R.id.title_s_tab_layout)
+    private SlidingTabLayout title_s_tab_layout;
 
-    private List<String> data;
+    @ViewInject(R.id.vp_for_title)
+    private ViewPager vp_for_title;
 
-    private int height = 0;
+    private MyPagerAdapter myPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         forTitle();
         showStatusBar(R.id.search_title_layout);
-        forClassify();
-        classify_goods_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
+
+        vp_for_title.setAdapter(myPagerAdapter);
+
+        title_s_tab_layout.setViewPager(vp_for_title);
+
+        title_s_tab_layout.setCurrentTab(pos);
+
+        title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public boolean canScrollVertically() {
-                return false;
+            public void onTabSelect(int position) {
+                if (0 == position) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onTabReselect(int position) {
             }
         });
-        classify_goods_rv.setItemAnimator(new DefaultItemAnimator());
-        classify_goods_rv.setHasFixedSize(true);
-        classify_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
-        classify_goods_rv.setAdapter(racycleAllAdapter);
+        vp_for_title.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (0 == position) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     /**
@@ -146,36 +159,6 @@ public class MellOnLineClassifyAty extends BaseAty {
         search_title_message_tv.setCompoundDrawables(null, top, null, null);
     }
 
-    /**
-     * 分类
-     */
-    private void forClassify() {
-        // 设置布局方式
-        on_line_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        // 默认分割线
-        on_line_rv.setItemAnimator(new DefaultItemAnimator());
-        on_line_rv.setHasFixedSize(true);
-        on_line_rv.setAdapter(horizontalAdapter);
-        horizontalAdapter.setSelected(pos);
-        horizontalAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                horizontalAdapter.setSelected(position);
-                horizontalAdapter.notifyDataSetChanged();
-                if (0 == position) {
-                    finish();
-                }
-            }
-        });
-        on_lin_classify_gv.setAdapter(gvClassifyAdapter);
-        on_lin_classify_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(SubclassificationAty.class, null);
-            }
-        });
-    }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_mell_on_line_classify;
@@ -183,6 +166,7 @@ public class MellOnLineClassifyAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        fragments = new ArrayList<>();
         pos = getIntent().getIntExtra("pos", 0);
         top = ContextCompat.getDrawable(this, R.drawable.icon_message_gray);
         top.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());
@@ -198,15 +182,38 @@ public class MellOnLineClassifyAty extends BaseAty {
         horizontal_classify.add("美妆");
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
-        horizontalAdapter = new HorizontalAdapter(horizontal_classify, this);
-        gvClassifyAdapter = new GVClassifyAdapter(this, gv_classify, 1);
-        data = new ArrayList<>();
-        racycleAllAdapter = new RacycleAllAdapter(this, data);
-        height = ToolKit.dip2px(this, 4);
+
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+
+        for (String title : horizontal_classify) {
+            fragments.add(ClassifyFgt.newInstance(title));
+        }
+
+
     }
 
     @Override
     protected void requestData() {
 
+    }
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return horizontal_classify.get(position);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
     }
 }

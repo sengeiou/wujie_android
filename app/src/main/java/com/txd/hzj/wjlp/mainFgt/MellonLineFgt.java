@@ -196,6 +196,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     private int allHeight = 0;
 
+    @ViewInject(R.id.on_line_be_back_top_iv)
+    private ImageView on_line_be_back_top_iv;
+
     public MellonLineFgt() {
     }
 
@@ -227,7 +230,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         bundle.putString("title", "票券区");
                         startActivity(TicketZoonAty.class, bundle);
                         break;
-                    case 2:// 票券区
+                    case 2:// 拼团购
                         bundle = new Bundle();
                         bundle.putInt("type", 8);
                         bundle.putString("title", "拼团购");
@@ -361,12 +364,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     };
 
     @Override
-    @OnClick({R.id.wujie_top_lin_layout})
+    @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.wujie_top_lin_layout:// 无界头条
                 startActivity(WujieTopHzjAty.class, null);
+                break;
+            case R.id.on_line_be_back_top_iv:// 无界头条
+                mell_on_line_sc.smoothScrollTo(0, 0);
                 break;
         }
     }
@@ -477,14 +483,19 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= 0) {
             search_title_layout.setBackgroundColor(Color.TRANSPARENT);//AGB由相关工具获得，或者美工提供
+            on_line_be_back_top_iv.setVisibility(View.GONE);
         } else if (y > 0 && y <= allHeight) {
             float scale = (float) y / allHeight;
             float alpha = (255 * scale);
             // 只是layout背景透明(仿知乎滑动效果)
             search_title_layout.setBackgroundColor(Color.argb((int) alpha, 242, 48, 48));
+            on_line_be_back_top_iv.setVisibility(View.GONE);
         } else {
             search_title_layout.setBackgroundColor(Color.argb(255, 242, 48, 48));
+            on_line_be_back_top_iv.setVisibility(View.VISIBLE);
         }
+
+
         immersionInit();
     }
 

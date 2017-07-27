@@ -1,34 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
     >
+
     <LinearLayout
-        android:background="@drawable/shape_mine_identity_li"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/shape_mine_identity_li"
+        android:divider="@drawable/lin_layout_vertical_line_shape"
+        android:orientation="vertical"
+        android:showDividers="middle">
+
         <TextView
             android:id="@+id/takePhoto"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="男"
-            android:gravity="center"
             android:background="@drawable/shape_mine_identity_li"
+            android:gravity="center"
+            android:text="男"
             android:textSize="18sp"
-             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bg_color"/>
+            />
+
         <TextView
             android:id="@+id/choosePhoto"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="女"
-            android:gravity="center"
             android:background="@drawable/shape_mine_identity_li"
-            android:textSize="18sp" />
+            android:gravity="center"
+            android:text="女"
+            android:textSize="18sp"/>
     </LinearLayout>
 
 
@@ -36,10 +39,12 @@
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/shape_mine_identity_li"
         android:gravity="center"
         android:text="取消"
-        android:background="@drawable/shape_mine_identity_li"
-        android:textSize="18sp" />
+        android:textSize="18sp"/>
 
 </LinearLayout>

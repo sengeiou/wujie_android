@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
@@ -32,14 +33,17 @@ public class LimitAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private LimitViewHolder lvh;
 
+    private int source = 0;
     private int type;
 
-    public LimitAdapter(List<String> list, Context context, int type) {
+    public LimitAdapter(List<String> list, Context context, int type, int source) {
         this.list = list;
         this.context = context;
         this.type = type;
+        this.source = source;
         inflater = LayoutInflater.from(context);
     }
+
     public void setType(int type) {
         this.type = type;
     }
@@ -79,6 +83,14 @@ public class LimitAdapter extends BaseAdapter {
         lvh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         lvh.cpb_progresbar2.setMaxProgress(100);
         lvh.cpb_progresbar2.setCurProgress(50);
+        if (0 == source) {
+            lvh.goods_pross_layout.setVisibility(View.VISIBLE);
+        } else {
+            lvh.goods_pross_layout.setVisibility(View.GONE);
+        }
+
+        lvh.sold_num_tv.setVisibility(View.GONE);
+
         return view;
     }
 
@@ -95,5 +107,11 @@ public class LimitAdapter extends BaseAdapter {
 
         @ViewInject(R.id.cpb_progresbar2)
         private CustomProgressBar cpb_progresbar2;
+
+        @ViewInject(R.id.sold_num_tv)
+        private TextView sold_num_tv;
+
+        @ViewInject(R.id.goods_pross_layout)
+        private LinearLayout goods_pross_layout;
     }
 }

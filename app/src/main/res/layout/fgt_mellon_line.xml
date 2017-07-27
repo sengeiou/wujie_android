@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellonLineFgt">
-
     <com.txd.hzj.wjlp.view.ObservableScrollView
         android:id="@+id/mell_on_line_sc"
         android:layout_width="match_parent"
@@ -249,7 +248,14 @@
         </LinearLayout>
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_be_back_top"
+        android:id="@+id/on_line_be_back_top_iv"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone"
+        android:layout_margin="16dp"/>
     <include layout="@layout/aty_search_title"/>
 
 </FrameLayout>

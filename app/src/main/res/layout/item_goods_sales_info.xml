@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/goods_pross_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
     android:gravity="center"
     android:orientation="horizontal">
 
     <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content">
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1">
 
         <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cpb_progresbar2"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_gravity="center"
             android:background="@drawable/shape_tb_progress"
@@ -35,9 +39,11 @@
     </FrameLayout>
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/goods_num_already_tv"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="end"
         android:text="已抢19件"
-        android:textColor="@color/theme_color"/>
+        android:textColor="@color/theme_color"
+        android:textSize="12sp"/>
 </LinearLayout>

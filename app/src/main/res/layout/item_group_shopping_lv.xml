@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
-            android:text="分红权"
+            android:text="积分"
             android:textColor="@color/gray_text_color"
             />
 

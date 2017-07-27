@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.base;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -52,7 +53,11 @@ public abstract class BaseAty extends BaseActivity {
                 name.equals("samsung") || name.equals("360")) {
             ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
         } else {
-            ImmersionBar.with(this).titleBar(vid).init();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            } else {
+                ImmersionBar.with(this).titleBar(vid).init();
+            }
         }
     }
 
@@ -72,7 +77,7 @@ public abstract class BaseAty extends BaseActivity {
      */
     public void toEvaluate(View v) {
         Bundle bundle = new Bundle();
-        bundle.putInt("from",0);
+        bundle.putInt("from", 0);
         startActivity(GoodsEvaluateAty.class, bundle);
     }
 

@@ -11,14 +11,34 @@
 
     <include layout="@layout/aty_title"/>
 
-    <ListView
-        android:id="@+id/hzj_theme_lv"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/bg_color"
-        android:dividerHeight="2dp"
-        android:background="@color/white"
-        android:scrollbars="none"/>
+        android:layout_height="match_parent">
+
+        <com.txd.hzj.wjlp.view.ObservableScrollView
+            android:id="@+id/theme_sc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/hzj_theme_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:divider="@color/bg_color"
+                android:dividerHeight="2dp"
+                android:scrollbars="none"/>
+        </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+        <ImageView
+            android:id="@+id/theme_be_back_top_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_be_back_top"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 
 </LinearLayout>

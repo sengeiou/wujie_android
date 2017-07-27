@@ -38,6 +38,8 @@
             android:paddingTop="6dp"
             android:text="查看更多"
             android:textColor="@color/gray_text_color"
+            android:textSize="12sp"
+            android:visibility="invisible"
             />
     </LinearLayout>
 

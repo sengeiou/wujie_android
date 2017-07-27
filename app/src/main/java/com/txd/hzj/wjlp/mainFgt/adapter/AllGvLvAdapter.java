@@ -115,6 +115,11 @@ public class AllGvLvAdapter extends BaseAdapter {
             vh.cpb_progresbar2.setCurProgress(50);
         }
 
+        if(type == 2){
+            vh.goods_num_already_tv.setText("已预购100件");
+            vh.sold_num_tv.setVisibility(View.GONE);
+        }
+
         if (type < 5) {
             vh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
@@ -134,5 +139,15 @@ public class AllGvLvAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.cpb_progresbar2)
         private CustomProgressBar cpb_progresbar2;
+
+        @ViewInject(R.id.sold_num_tv)
+        private TextView sold_num_tv;
+        /**
+         * 已抢购
+         * 已预购
+         */
+        @ViewInject(R.id.goods_num_already_tv)
+        private TextView goods_num_already_tv;
+
     }
 }

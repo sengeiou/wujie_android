@@ -152,6 +152,20 @@ public class ChangeTextViewStyle {
     }
 
     /**
+     * 修改字体颜色,上标(上标字体为默认字体的一半)
+     *
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forFeeStyle(TextView tv, String str) {
+        SpannableString msp = new SpannableString(str);
+        int len = str.length();
+        msp.setSpan(new SuperscriptSpan(), len - 3, len - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        msp.setSpan(new RelativeSizeSpan(0.5f), len - 3, len - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);  //0.5f表示默认字体大小的一半
+        tv.setText(msp);
+    }
+
+    /**
      * 修改商品详情商家描述(换行)
      *
      * @param context 上下文
@@ -211,6 +225,21 @@ public class ChangeTextViewStyle {
         int unit_position = str.indexOf("\n");
         styledText.setSpan(new TextAppearanceSpan(context, R.style.cart_goods_price_style), unit_position,
                 str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv.setText(styledText, TextView.BufferType.SPANNABLE);
+    }
+
+    /**
+     * 拍品详情--去报名(换行)
+     *
+     * @param context 上下文
+     * @param tv      TextView
+     * @param str     内容
+     */
+    public void forTabText(Context context, TextView tv, String str) {
+        SpannableString styledText = new SpannableString(str);
+        int unit_position = str.indexOf("\n");
+        styledText.setSpan(new TextAppearanceSpan(context, R.style.tab_text_style), 0,
+                unit_position, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(styledText, TextView.BufferType.SPANNABLE);
     }
 

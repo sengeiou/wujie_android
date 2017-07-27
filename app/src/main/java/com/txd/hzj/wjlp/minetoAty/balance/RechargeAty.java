@@ -60,7 +60,7 @@ public class RechargeAty extends BaseAty {
     @ViewInject(R.id.on_line_recharge_layout)
     private LinearLayout on_line_recharge_layout;
     /**
-     * 线上充值
+     * 线下充值
      */
     @ViewInject(R.id.off_line_recharge_layout)
     private LinearLayout off_line_recharge_layout;
