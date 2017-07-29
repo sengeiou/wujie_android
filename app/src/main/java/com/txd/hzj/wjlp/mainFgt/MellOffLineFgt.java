@@ -18,8 +18,11 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.Mell;
+import com.txd.hzj.wjlp.citySelect.CitySelectAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+import com.txd.hzj.wjlp.mellOffLine.point.PointWjAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -60,7 +63,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @ViewInject(R.id.mell_near_by_lv)
     private ListViewForScrollView mell_near_by_lv;
 
-    private List<String> mells;
+    private List<Mell> mells;
 
     private MellNearByHzjAdapter mellNearByHzjAdapter;
 
@@ -106,12 +109,15 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     };
 
     @Override
-    @OnClick({R.id.to_location_tv})
+    @OnClick({R.id.to_location_tv, R.id.point_by_wj_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_location_tv:// 当前位置
-
+                startActivity(CitySelectAty.class, null);
+                break;
+            case R.id.point_by_wj_tv:// 无界驿站
+                startActivity(PointWjAty.class, null);
                 break;
         }
     }
@@ -125,6 +131,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     protected void initialized() {
         image = new ArrayList<>();
         mells = new ArrayList<>();
+        for (int i = 0; i < 12; i++) {
+            if(i%2==0){
+                mells.add(new Mell(true, false));
+            } else {
+                mells.add(new Mell(false, false));
+            }
+        }
         mellNearByHzjAdapter = new MellNearByHzjAdapter(getActivity(), mells);
         image.add(R.drawable.icon_temp_banner);
         image.add(R.drawable.icon_temp_banner);

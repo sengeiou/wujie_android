@@ -243,6 +243,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
+    private int clickType = 0;
 
 
     @Override
@@ -331,14 +332,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         super.onClick(v);
         switch (v.getId()) {
             case R.id.title_goods_layout://商品
-                setTextViewAndViewColor(0);
+                clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 break;
             case R.id.title_details_layout://详情
+                clickType = 2;
                 setTextViewAndViewColor(1);
                 limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                 break;
             case R.id.title_evaluate_layout://评价
+                clickType = 3;
                 setTextViewAndViewColor(2);
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
@@ -392,6 +395,22 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         title_goods_view.setBackgroundColor(Color.WHITE);
         title_details_view.setBackgroundColor(Color.WHITE);
         title_evaluate_view.setBackgroundColor(Color.WHITE);
+
+        if (1 == clickType) {
+            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
+        if (2 == clickType) {
+            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
+        if (3 == clickType) {
+            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
         if (0 == next) {
             title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
             title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
@@ -455,6 +474,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             } else {
                 setTextViewAndViewColor(1);
             }
+        }
+        if (oldy > y) {
+            clickType = 0;
         }
     }
 }

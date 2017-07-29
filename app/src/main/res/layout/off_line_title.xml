@@ -52,7 +52,8 @@
         android:paddingStart="6dp"
         android:paddingTop="4dp"
         android:text="扫一扫"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textSize="12sp"/>
 
     <FrameLayout
         android:id="@+id/off_line_message_layout"

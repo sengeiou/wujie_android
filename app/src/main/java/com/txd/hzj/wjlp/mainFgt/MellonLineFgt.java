@@ -4,6 +4,7 @@ package com.txd.hzj.wjlp.mainFgt;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,8 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.OnLineMenuGvAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
@@ -53,6 +56,7 @@ import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -112,8 +116,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * GridView数据列表
      */
     private List<String> gv_classify;
-
-    private GVClassifyAdapter gvClassifyAdapter;
 
     /**
      * 今日头条
@@ -199,6 +201,22 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.on_line_be_back_top_iv)
     private ImageView on_line_be_back_top_iv;
 
+    /**
+     * 轮图下方的分类
+     */
+    @ViewInject(R.id.under_banner_menu_vp)
+    private ViewPager under_banner_menu_vp;
+
+
+    private int pageSize = 10;
+    private ArrayList<View> mPagerList;
+    /**
+     * 当前选中的第几页
+     */
+    private int curIndex = 0;
+
+    private ViewPagerAdapter viewPagerAdapter;
+
     public MellonLineFgt() {
     }
 
@@ -216,64 +234,108 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         online_carvouse_view.setLayoutParams(layoutParams);
         forBanner();
         forHorizontalItem();
-        on_lin_classify_gv.setAdapter(gvClassifyAdapter);
-        on_lin_classify_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0:// 限量购
-                        startActivity(LimitShoppingAty.class, null);
-                        break;
-                    case 1:// 票券区
-                        bundle = new Bundle();
-                        bundle.putInt("type", 1);
-                        bundle.putString("title", "票券区");
-                        startActivity(TicketZoonAty.class, bundle);
-                        break;
-                    case 2:// 拼团购
-                        bundle = new Bundle();
-                        bundle.putInt("type", 8);
-                        bundle.putString("title", "拼团购");
-                        startActivity(TicketZoonAty.class, bundle);
-                        break;
-                    case 3:// 主题街
-                        startActivity(ThemeStreetHzjAty.class, null);
-                        break;
-                    case 4:// 无界预购
-                        bundle = new Bundle();
-                        bundle.putInt("type", 2);
-                        bundle.putString("title", "无界预购");
-                        startActivity(TicketZoonAty.class, bundle);
-                        break;
-                    case 5:// 进口馆
-                        bundle = new Bundle();
-                        bundle.putInt("type", 3);
-                        bundle.putString("title", "拼团购");
-                        startActivity(GoodsInputHzjAty.class, bundle);
-                        break;
-                    case 6:// 竞拍汇
-                        bundle = new Bundle();
-                        bundle.putInt("type", 3);
-                        bundle.putString("title", "竞拍汇");
-                        startActivity(AuctionCollectAty.class, bundle);
-                        break;
-                    case 7://汽车购
-                        startActivity(CarChenAty.class, null);
-                        break;
-                    case 8://房产购
-                        startActivity(HousChenAty.class, null);
-                        break;
-                    case 9://一元夺宝
-                        startActivity(SnatchChenAty.class, null);
-                        break;
-                }
-            }
-        });
+
+        forMenu();
 
         setView();
         upview1.setViews(views);
 
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
+        goodsAdapter();
+
+    }
+
+    private void forMenu() {
+        // 获取总页数
+        int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
+        // 初始化View列表
+        mPagerList = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        for (int i = 0; i < pageCount; i++) {
+            GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
+                    under_banner_menu_vp, false);
+            gridView.setAdapter(new OnLineMenuGvAdapter(getActivity(), gv_classify, i));
+            mPagerList.add(gridView);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int pos = i + curIndex * pageSize;
+                    switch (pos) {
+                        case 0:// 限量购
+                            startActivity(LimitShoppingAty.class, null);
+                            break;
+                        case 1:// 票券区
+                            bundle = new Bundle();
+                            bundle.putInt("type", 1);
+                            bundle.putString("title", "票券区");
+                            startActivity(TicketZoonAty.class, bundle);
+                            break;
+                        case 2:// 拼团购
+                            bundle = new Bundle();
+                            bundle.putInt("type", 8);
+                            bundle.putString("title", "拼团购");
+                            startActivity(TicketZoonAty.class, bundle);
+                            break;
+                        case 3:// 主题街
+                            startActivity(ThemeStreetHzjAty.class, null);
+                            break;
+                        case 4:// 无界预购
+                            bundle = new Bundle();
+                            bundle.putInt("type", 2);
+                            bundle.putString("title", "无界预购");
+                            startActivity(TicketZoonAty.class, bundle);
+                            break;
+                        case 5:// 进口馆
+                            bundle = new Bundle();
+                            bundle.putInt("type", 3);
+                            bundle.putString("title", "拼团购");
+                            startActivity(GoodsInputHzjAty.class, bundle);
+                            break;
+                        case 6:// 竞拍汇
+                            bundle = new Bundle();
+                            bundle.putInt("type", 3);
+                            bundle.putString("title", "竞拍汇");
+                            startActivity(AuctionCollectAty.class, bundle);
+                            break;
+                        case 7://汽车购
+                            startActivity(CarChenAty.class, null);
+                            break;
+                        case 8://房产购
+                            startActivity(HousChenAty.class, null);
+                            break;
+                        case 9://一元夺宝
+                            startActivity(SnatchChenAty.class, null);
+                            break;
+                    }
+                }
+            });
+            // 给ViewPager设置适配器
+            under_banner_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
+            // 添加页面改变监听事件
+            under_banner_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    curIndex = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+
+    }
+
+    /**
+     * 首页下方列表适配器
+     */
+    private void goodsAdapter() {
         // 限量购
         purchase_gv.setAdapter(allGvLvAdapter);
         purchase_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -422,7 +484,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
         horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
-        gvClassifyAdapter = new GVClassifyAdapter(getActivity(), gv_classify, 0);
+
         data = new ArrayList<>();
         views = new ArrayList<>();
         data.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
@@ -440,6 +502,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), data, 6);
         allGvLvAdapter7 = new AllGvLvAdapter(getActivity(), data, 7);
         allGvLvAdapter8 = new AllGvLvAdapter(getActivity(), data, 8);
+
+        gv_classify.add("限量购");
+        gv_classify.add("票券区");
+        gv_classify.add("拼团购");
+        gv_classify.add("主题街");
+        gv_classify.add("无界预购");
+        gv_classify.add("进口馆");
+        gv_classify.add("竞拍汇");
+        gv_classify.add("汽车购");
+        gv_classify.add("房产购");
+        gv_classify.add("一元夺宝");
     }
 
     @Override

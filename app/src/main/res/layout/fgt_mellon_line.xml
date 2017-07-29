@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellonLineFgt">
+
     <com.txd.hzj.wjlp.view.ObservableScrollView
         android:id="@+id/mell_on_line_sc"
         android:layout_width="match_parent"
@@ -18,7 +19,17 @@
 
             <include layout="@layout/aty_banner"/>
 
-            <include layout="@layout/mell_on_line_classify"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/on_line_rv"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/under_banner_menu_vp"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@color/white"/>
 
             <View
                 android:layout_width="match_parent"
@@ -248,14 +259,16 @@
         </LinearLayout>
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
+
     <ImageView
+        android:id="@+id/on_line_be_back_top_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_be_back_top"
-        android:id="@+id/on_line_be_back_top_iv"
         android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_be_back_top"
+        android:visibility="gone"/>
+
     <include layout="@layout/aty_search_title"/>
 
 </FrameLayout>

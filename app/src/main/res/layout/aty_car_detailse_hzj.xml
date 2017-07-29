@@ -106,7 +106,7 @@
                                             android:layout_height="wrap_content"
                                             android:drawableLeft="@drawable/icon_send"
                                             android:drawablePadding="8dp"
-                                            android:text="分红权"
+                                            android:text="积分"
                                             android:textColor="@color/gray_text_color"
                                             />
 
@@ -124,7 +124,7 @@
                                     android:layout_height="wrap_content"
                                     android:lineSpacingExtra="4dp"
                                     android:padding="8dp"
-                                    android:text="可低￥200车款\n全车价￥1490000.00"/>
+                                    android:text="可    低:￥200车款\n全车价:￥1490000.00"/>
                             </LinearLayout>
 
                             <Space

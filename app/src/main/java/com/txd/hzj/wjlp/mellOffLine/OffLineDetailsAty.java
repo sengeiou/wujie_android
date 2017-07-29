@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByMySelfFgt;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt;
 import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
@@ -81,11 +83,6 @@ public class OffLineDetailsAty extends BaseAty {
     private VPAdapter vpAdapter;
 
     /**
-     * 公告
-     */
-    @ViewInject(R.id.notice_layout)
-    private LinearLayout notice_layout;
-    /**
      * 商家其他信息
      */
     @ViewInject(R.id.other_info_layout)
@@ -97,10 +94,19 @@ public class OffLineDetailsAty extends BaseAty {
     @ViewInject(R.id.up_tip_tv)
     private TextView up_tip_tv;
 
-    @ViewInject(R.id.off_line_coupon_lv)
-    private ListViewForScrollView off_line_coupon_lv;
+    /**
+     * 店铺详情
+     */
+    @ViewInject(R.id.mell_info_by_off_line)
+    private LinearLayout mell_info_by_off_line;
 
-    private CouponAdapter couponAdapter;
+    /**
+     * 显示或隐藏信息
+     */
+    @ViewInject(R.id.show_or_hide_info_iv)
+    private ImageView show_or_hide_info_iv;
+
+    private NoticeDialog noticeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,27 +124,25 @@ public class OffLineDetailsAty extends BaseAty {
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset <= -head_layout.getHeight() * 7 / 8) {
+                if (verticalOffset <= -head_layout.getHeight() / 2) {
                     collapsing_toolbar_layout.setTitle("好收成超市");
                 } else {
                     collapsing_toolbar_layout.setTitle(" ");
                 }
             }
         });
-
         main_vp_container.setAdapter(vpAdapter);
         main_vp_container.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(toolbar_tab));
         toolbar_tab.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(main_vp_container));
 
-        notice_layout.setVisibility(View.VISIBLE);
         other_info_layout.setVisibility(View.GONE);
         up_tip_tv.setVisibility(View.GONE);
 
-        off_line_coupon_lv.setAdapter(couponAdapter);
     }
 
     @Override
-    @OnClick({R.id.off_line_mell_collect_layout, R.id.off_line_mell_share_tv, R.id.notice_layout})
+    @OnClick({R.id.off_line_mell_collect_layout, R.id.off_line_mell_share_tv, R.id.notice_layout,
+            R.id.mell_info_by_off_line})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -149,9 +153,19 @@ public class OffLineDetailsAty extends BaseAty {
                 toShare();
                 break;
             case R.id.notice_layout:// 公告
-                notice_layout.setVisibility(View.GONE);
-                other_info_layout.setVisibility(View.VISIBLE);
-                up_tip_tv.setVisibility(View.VISIBLE);
+                noticeDialog = new NoticeDialog(this);
+                noticeDialog.show();
+                break;
+            case R.id.mell_info_by_off_line://详情
+                if (other_info_layout.getVisibility() == View.GONE) {
+                    show_or_hide_info_iv.setImageResource(R.drawable.icon_hide_mell_ac);
+                    other_info_layout.setVisibility(View.VISIBLE);
+                    up_tip_tv.setVisibility(View.VISIBLE);
+                } else {
+                    show_or_hide_info_iv.setImageResource(R.drawable.icon_show_mell_ac);
+                    other_info_layout.setVisibility(View.GONE);
+                    up_tip_tv.setVisibility(View.GONE);
+                }
                 break;
         }
     }
@@ -170,7 +184,6 @@ public class OffLineDetailsAty extends BaseAty {
         mFragment.add(GoodsByOtherFgt.newInstance(0));
         mFragment.add(GoodsByMySelfFgt.newInstance(1));
         vpAdapter = new VPAdapter(getSupportFragmentManager());
-        couponAdapter = new CouponAdapter(this);
     }
 
     @Override

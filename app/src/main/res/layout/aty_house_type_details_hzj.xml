@@ -116,7 +116,7 @@
                                 android:layout_height="wrap_content"
                                 android:drawableLeft="@drawable/icon_send"
                                 android:drawablePadding="8dp"
-                                android:text="分红权"
+                                android:text="积分"
                                 android:textColor="@color/gray_text_color"
                                 />
 
@@ -130,10 +130,18 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/counteract_price_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="4dp"
-                        android:text="可低￥200房款\n房款全价￥9999999.00"/>
+                        android:text="可        低:￥200房款"/>
+
+                    <TextView
+                        android:id="@+id/toltal_payment_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
+                        android:text="房款全价:￥9999999.00"/>
 
                     <TextView
                         android:id="@+id/house_area_tv"
@@ -165,8 +173,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:visibility="gone"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -219,10 +227,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:background="@color/white"
-                    android:visibility="gone"
-                    android:padding="16dp">
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -284,13 +292,27 @@
 
                 </LinearLayout>
 
-                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="同楼盘其他户型"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="16sp"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/other_lp_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:horizontalSpacing="4dp"
-                    android:verticalSpacing="4dp"
-                    android:numColumns="2"/>
+                    android:numColumns="2"
+                    android:verticalSpacing="4dp"/>
 
             </LinearLayout>
 

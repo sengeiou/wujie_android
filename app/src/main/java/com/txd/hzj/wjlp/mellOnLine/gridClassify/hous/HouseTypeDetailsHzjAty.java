@@ -62,6 +62,17 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     @ViewInject(R.id.house_loc_tv)
     private TextView house_loc_tv;
 
+    /**
+     * 可低房价
+     */
+    @ViewInject(R.id.counteract_price_tv)
+    private TextView counteract_price_tv;
+    /**
+     * 全款房价
+     */
+    @ViewInject(R.id.toltal_payment_tv)
+    private TextView toltal_payment_tv;
+
     @ViewInject(R.id.hxd_be_back_top_iv)
     private ImageView hxd_be_back_top_iv;
 
@@ -84,6 +95,10 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
         online_carvouse_view.setLayoutParams(layoutParams);
         forBanner();
 
+        ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可        低:￥200房款", 11,
+                ContextCompat.getColor(this, R.color.app_text_color));
+        ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房款全价:￥9999999.00", 5,
+                ContextCompat.getColor(this, R.color.app_text_color));
         ChangeTextViewStyle.getInstance().forTextColorSub(this, house_area_tv, "建筑面积:75.00m2", 5,
                 ContextCompat.getColor(this, R.color.app_text_color));
 

@@ -2,19 +2,29 @@ package com.txd.hzj.wjlp.mellOffLine.fgt;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
+import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,29 +40,23 @@ import java.util.List;
 public class GoodsByOtherFgt extends BaseFgt {
 
     /**
-     * 分类
-     */
-    @ViewInject(R.id.classify_off_line_rv)
-    private RecyclerView classify_off_line_rv;
-
-    /**
      * 分类列表
      */
     private List<String> horizontal_classify;
 
-    /**
-     * 横向滑动的分类适配器
-     */
-    private HorizontalAdapter horizontalAdapter;
 
     /**
-     * 商品列表
+     * 分类菜单
      */
-    @ViewInject(R.id.off_line_goods_rv)
-    private RecyclerView off_line_goods_rv;
+    @ViewInject(R.id.title_goods_by_other_layout)
+    private SlidingTabLayout title_goods_by_other_layout;
 
-    private int page;
-    private MellGoodsAdapter mellGoodsAdapter;
+    @ViewInject(R.id.vp_for_goods_title)
+    private ViewPager vp_for_goods_title;
+    private List<Fragment> fragments;
+
+    private MyPagerAdapter myPagerAdapter;
+
 
     public static GoodsByOtherFgt newInstance(int page) {
         Bundle args = new Bundle();
@@ -66,22 +70,8 @@ public class GoodsByOtherFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        // 设置布局方式
-        classify_off_line_rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        classify_off_line_rv.setHasFixedSize(true);
-        classify_off_line_rv.setAdapter(horizontalAdapter);
-        horizontalAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                horizontalAdapter.setSelected(position);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-        });
-
-
-        off_line_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        off_line_goods_rv.setAdapter(mellGoodsAdapter);
+        vp_for_goods_title.setAdapter(myPagerAdapter);
+        title_goods_by_other_layout.setViewPager(vp_for_goods_title);
 
     }
 
@@ -92,7 +82,6 @@ public class GoodsByOtherFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-
         horizontal_classify = new ArrayList<>();
         horizontal_classify.add("全部");
         horizontal_classify.add("食品");
@@ -103,9 +92,11 @@ public class GoodsByOtherFgt extends BaseFgt {
         horizontal_classify.add("美妆");
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
-        horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
-
-        mellGoodsAdapter = new MellGoodsAdapter(getActivity(),1);
+        fragments = new ArrayList<>();
+        for (String title : horizontal_classify) {
+            fragments.add(ForGoodsByOtherFgt.newInstance(title));
+        }
+        myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
     }
 
     @Override
@@ -115,6 +106,28 @@ public class GoodsByOtherFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-
     }
+
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return horizontal_classify.get(position);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+    }
+
 }

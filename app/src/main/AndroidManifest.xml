@@ -235,6 +235,8 @@
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty"/>
         <activity android:name=".minetoAty.books.BooksAty">
         </activity>
+        <activity android:name=".mellOffLine.point.PointWjAty">
+        </activity>
     </application>
 
 </manifest>

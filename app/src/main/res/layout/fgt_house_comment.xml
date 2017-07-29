@@ -1,0 +1,102 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    tools:context="com.txd.hzj.wjlp.mellOnLine.fgt.HouseCommentFgt">
+
+    <!-- TODO: Update blank fragment layout -->
+    <com.txd.hzj.wjlp.view.ObservableScrollView
+        android:id="@+id/comment_sc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="综合评分："
+                        android:textColor="@color/app_text_color"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="4.8"
+                        android:textColor="#FFB80F"/>
+
+                    <RatingBar
+                        android:id="@+id/mell_score_rating_bar"
+                        style="@style/foodRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="14dp"
+                        android:layout_gravity="center_vertical"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:rating="4.8"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="价格3.2分 地段3.3分 配套3.2分 交通3.5分 环境3.3分"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp"/>
+
+                <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
+                    android:id="@+id/house_comment_tag"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    app:max_select="1"
+                    />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp"/>
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/house_comment_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:divider="@color/bg_color"
+                android:dividerHeight="6dp"/>
+
+        </LinearLayout>
+
+    </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+    <ImageView
+        android:id="@+id/hc_be_back_top_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_be_back_top"
+        android:visibility="gone"/>
+
+</FrameLayout>

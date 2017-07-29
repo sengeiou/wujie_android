@@ -87,7 +87,7 @@
         android:background="@color/white"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:text="可抵:¥200车款"/>
+        android:text="可    抵:¥200车款"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -102,9 +102,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:paddingBottom="6dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
         android:paddingTop="8dp"
         >
 

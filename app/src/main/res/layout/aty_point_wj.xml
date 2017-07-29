@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.mellOffLine.point.PointWjAty">
+
+    <include layout="@layout/aty_title"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.txd.hzj.wjlp.view.ObservableScrollView
+            android:id="@+id/point_sc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <include layout="@layout/aty_banner"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="0.8dp"
+                        android:background="@color/app_text_color"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="附近的店铺"
+                        android:textColor="@color/app_text_color"
+                        android:textSize="18sp"/>
+
+                    <View
+                        android:layout_width="60dp"
+                        android:layout_height="0.8dp"
+                        android:background="@color/app_text_color"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                    android:id="@+id/point_mell_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@color/bg_color"
+                    android:dividerHeight="1dp"
+                    android:scrollbars="none"/>
+
+            </LinearLayout>
+
+        </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+    </FrameLayout>
+
+</LinearLayout>

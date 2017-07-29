@@ -9,28 +9,33 @@
     <FrameLayout
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:padding="1dp"
-        android:background="@drawable/shape_mell_goods_bg_hzj">
+        android:background="@drawable/shape_mell_goods_bg_hzj"
+        android:padding="1dp">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_temp_goods_banner"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/theme_color"
+            android:paddingBottom="2dp"
+            android:paddingEnd="1dp"
+            android:paddingStart="1dp"
+            android:paddingTop="2dp"
             android:text="省8元"
             android:textColor="@color/white"
-            android:textSize="8sp"
-            android:padding="4dp"
-            android:background="@color/theme_color"/>
+            android:textSize="8sp"/>
     </FrameLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:text="￥17.00"
         android:textColor="@color/theme_color"
-        android:textSize="8sp"
-        android:padding="4dp"/>
+        android:textSize="10sp"/>
 </LinearLayout>

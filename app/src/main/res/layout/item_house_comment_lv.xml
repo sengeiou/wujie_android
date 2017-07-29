@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_temp_head"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="匿名用户"
+                android:textColor="@color/app_text_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RatingBar
+                    style="@style/foodRatingBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="4.8"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="2017-07-20 19:30:30"
+                    android:textColor="@color/gray_text_color"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="个头小，其他还可以个头小，其他还可以个头小，其他还可以个头小，其他还可以个头小，其他还可以"
+        android:textColor="@color/app_text_color"/>
+
+    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+        android:id="@+id/huose_comment_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="4dp"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:verticalSpacing="4dp"
+        android:visibility="gone"/>
+</LinearLayout>

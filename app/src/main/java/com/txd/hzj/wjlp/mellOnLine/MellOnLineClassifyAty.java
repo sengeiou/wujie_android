@@ -134,7 +134,6 @@ public class MellOnLineClassifyAty extends BaseAty {
                     finish();
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
 

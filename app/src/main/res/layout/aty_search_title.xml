@@ -10,8 +10,8 @@
         android:id="@+id/search_title_be_back_iv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:padding="8dp"
         android:onClick="beBack"
+        android:padding="8dp"
         android:src="@drawable/icon_be_back_b"
         android:visibility="gone"/>
 
@@ -21,13 +21,14 @@
         android:layout_height="wrap_content"
         android:drawablePadding="4dp"
         android:drawableTop="@drawable/icon_scan"
+        android:onClick="toScan"
         android:paddingBottom="4dp"
         android:paddingEnd="4dp"
         android:paddingStart="12dp"
         android:paddingTop="4dp"
         android:text="扫一扫"
-        android:onClick="toScan"
         android:textColor="@color/white"
+        android:textSize="12sp"
         android:visibility="gone"/>
 
     <TextView
@@ -39,13 +40,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="toSearch"
         android:layout_toEndOf="@+id/title_scan_tv"
         android:layout_toStartOf="@+id/title_classify_tv"
         android:background="@drawable/shape_search_view"
         android:drawableLeft="@drawable/icon_search"
         android:drawablePadding="8dp"
         android:hint="搜索商品、商家"
+        android:onClick="toSearch"
         android:padding="8dp"
         android:textColor="@color/white"
         android:textColorHint="#8Cffffff"
@@ -100,12 +101,12 @@
         android:layout_toStartOf="@+id/message_layout"
         android:drawablePadding="4dp"
         android:drawableTop="@drawable/icon_classfy"
+        android:onClick="toClassify"
         android:paddingBottom="4dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         android:paddingTop="4dp"
         android:text="分类"
-        android:onClick="toClassify"
         android:textColor="@color/white"
         android:textSize="12sp"
         android:visibility="gone"/>
@@ -154,7 +155,7 @@
         android:background="@drawable/shape_sraech_title_right_tv"
         android:padding="6dp"
         android:text="搜索"
-        android:visibility="gone"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:visibility="gone"/>
 
 </RelativeLayout>

@@ -41,6 +41,10 @@
                 android:id="@+id/rb_detail_type"
                 style="@style/hous_tab_detail"
                 android:text="户型"/>
+            <RadioButton
+                android:id="@+id/rb_comment_type"
+                style="@style/hous_tab_detail"
+                android:text="点评"/>
         </RadioGroup>
     </RelativeLayout>
 
@@ -49,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        ></FrameLayout>
+        />
 
     <View
         style="@style/line_view"/>

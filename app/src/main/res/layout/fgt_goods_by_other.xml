@@ -8,19 +8,22 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/classify_off_line_rv"
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/title_goods_by_other_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"/>
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:tl_indicator_color="@color/theme_color"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_textSelectColor="@color/theme_color"
+        app:tl_textUnselectColor="@color/app_text_color"
+        app:tl_textsize="14sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp"/>
 
-    <Space
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_for_goods_title"
         android:layout_width="match_parent"
-        android:layout_height="8dp"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/off_line_goods_rv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

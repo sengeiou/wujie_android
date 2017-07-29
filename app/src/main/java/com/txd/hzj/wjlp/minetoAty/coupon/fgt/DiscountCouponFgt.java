@@ -9,6 +9,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.adapter.TricketAdapter;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
+import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 /**
  * ===============Txunda===============
@@ -24,8 +25,9 @@ public class DiscountCouponFgt extends BaseFgt {
     private ListViewForScrollView valid_ticket_lv;
     @ViewInject(R.id.un_valid_ticket_lv)
     private ListViewForScrollView un_valid_ticket_lv;
-    private TricketAdapter tricketAdapter;
-    private TricketAdapter tricketAdapter1;
+
+    private CouponAdapter couponAdapter;
+    private CouponAdapter couponAdapter1;
 
     public DiscountCouponFgt() {
     }
@@ -33,8 +35,8 @@ public class DiscountCouponFgt extends BaseFgt {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        valid_ticket_lv.setAdapter(tricketAdapter);
-        un_valid_ticket_lv.setAdapter(tricketAdapter1);
+        valid_ticket_lv.setAdapter(couponAdapter);
+        un_valid_ticket_lv.setAdapter(couponAdapter1);
     }
 
     @Override
@@ -44,8 +46,8 @@ public class DiscountCouponFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        tricketAdapter = new TricketAdapter(0, getActivity());
-        tricketAdapter1 = new TricketAdapter(1, getActivity());
+        couponAdapter = new CouponAdapter(getActivity(), 0);
+        couponAdapter1 = new CouponAdapter(getActivity(), 1);
     }
 
     @Override

@@ -223,6 +223,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
+    private int clickType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,15 +273,15 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         super.onClick(v);
         switch (v.getId()) {
             case R.id.title_goods_layout://商品
-                setTextViewAndViewColor(0);
+                clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 break;
             case R.id.title_details_layout://详情
-                setTextViewAndViewColor(1);
+                clickType = 2;
                 limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                 break;
             case R.id.title_evaluate_layout://评价
-                setTextViewAndViewColor(2);
+                clickType = 3;
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏
@@ -332,6 +333,22 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         title_goods_view.setBackgroundColor(Color.WHITE);
         title_details_view.setBackgroundColor(Color.WHITE);
         title_evaluate_view.setBackgroundColor(Color.WHITE);
+
+        if (1 == clickType) {
+            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
+        if (2 == clickType) {
+            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
+        if (3 == clickType) {
+            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
+            return;
+        }
         if (0 == next) {
             title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
             title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
@@ -409,11 +426,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             be_back_top_iv.setVisibility(View.VISIBLE);
             if (y < topHeighe) {
                 setTextViewAndViewColor(0);
-            } else if (y > topHeighe && y < secondHeight) {
+            } else if (y >= topHeighe && y < secondHeight) {
                 setTextViewAndViewColor(2);
             } else {
                 setTextViewAndViewColor(1);
             }
+        }
+        if (oldy > y) {
+            clickType = 0;
         }
     }
 }

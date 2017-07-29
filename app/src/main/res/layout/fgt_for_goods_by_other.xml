@@ -1,0 +1,38 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.mellOffLine.fgt.ForGoodsByOtherFgt">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <TextView
+            android:id="@+id/check_all_coupon_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="查看更多优惠券"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/icon_turn_right_g"
+            android:textColor="@color/app_text_color"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/off_line_goods_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+    </LinearLayout>
+
+</LinearLayout>

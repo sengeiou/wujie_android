@@ -20,12 +20,14 @@ public class ClassifyDetailAdapter extends RvAdapter<SortBean> {
 
     @Override
     protected int getLayoutId(int viewType) {
-        return viewType == 0 ? R.layout.item_title : R.layout.item_classify_detail;
+        return viewType == 0 ? R.layout.item_title : (viewType == 1?R.layout.item_classify_detail:R.layout.item_coupon_layout);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return list.get(position).isTitle() ? 0 : 1;
+
+        // 标题返回1，商品返回1，优惠券返回2
+        return list.get(position).isTitle() ? 0 : (list.get(position).isCoupon() ? 2 : 1);
     }
 
     @Override

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/translucence_black"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+
+    <TextView
+        android:id="@+id/dialog_titlt_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/coupon_dialog_title_style"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="领取优惠券"
+        android:textColor="@color/white"
+        android:textSize="24sp"/>
+
+    <ListView
+        android:id="@+id/coup_lv"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        android:scrollbars="none"
+        android:padding="16dp"
+        android:background="@drawable/coupon_lv_style"
+        android:divider="@color/white"
+        android:dividerHeight="4dp"/>
+
+    <ImageView
+        android:id="@+id/be_dimiss_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@drawable/icon_rp_close"/>
+
+</LinearLayout>

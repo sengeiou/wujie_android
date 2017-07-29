@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.mellOffLine.dialog.CouponDialog;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.CheckListener;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.ClassifyDetailAdapter;
 import com.txd.hzj.wjlp.mellOffLine.fgt.adapter.RvListener;
@@ -35,6 +36,8 @@ public class SortDetailFragment extends BaseFgt implements CheckListener {
     private int mIndex = 0;
     private CheckListener checkListener;
 
+    private CouponDialog couponDialog;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -51,7 +54,16 @@ public class SortDetailFragment extends BaseFgt implements CheckListener {
                     case R.id.content:
                         content = "content";
                         break;
+                    case R.id.item_coupon_layout:
+                        content = "优惠券";
+                        break;
+                }
+                if (mDatas.get(position).isCoupon()) {
 
+                    couponDialog = new CouponDialog(getActivity());
+                    couponDialog.show();
+
+                    return;
                 }
                 Snackbar snackbar = Snackbar.make(mRv, "当前点击的是" + content + ":" + mDatas.get(position).getName(),
                         Snackbar.LENGTH_SHORT);
@@ -90,6 +102,9 @@ public class SortDetailFragment extends BaseFgt implements CheckListener {
             mDatas.add(titleBean);
             for (int j = 0; j < 10; j++) {
                 SortBean sortBean = new SortBean(String.valueOf(i + "行" + j + "个"));
+                if (i == 0 && j == 0) {
+                    sortBean.setCoupon(true);
+                }
                 sortBean.setTag(String.valueOf(i));
                 mDatas.add(sortBean);
             }

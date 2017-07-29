@@ -62,9 +62,7 @@ public class GetCouponFgt extends BaseFgt {
                 horizontalAdapter.notifyDataSetChanged();
             }
         });
-
         coupon_lv.setAdapter(couponAdapter);
-
     }
 
     @Override
@@ -85,7 +83,7 @@ public class GetCouponFgt extends BaseFgt {
         horizontal_classify.add("母婴");
         horizontal_classify.add("电子");
         horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
-        couponAdapter = new CouponAdapter(getActivity());
+        couponAdapter = new CouponAdapter(getActivity(), 0);
     }
 
     @Override

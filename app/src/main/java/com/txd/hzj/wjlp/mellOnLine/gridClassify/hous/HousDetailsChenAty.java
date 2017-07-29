@@ -17,6 +17,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOnLine.fgt.HouseCommentFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsHousesChenFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
 
@@ -29,7 +30,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
  * ===============Txunda===============
  */
 
-public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
+public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener ,HousDetailsHousesChenFgt.SkipToComment{
 
     @ViewInject(R.id.tv_detail_num)//电话号码
     private TextView tv_detail_num;
@@ -41,6 +42,7 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
      */
     private HousDetailsHousesChenFgt housesFgt;//楼盘Fragment
     private HousDetailsTypeChenFgt typeFgt;//户型Fragment
+    private HouseCommentFgt commentFgt;//点评Fragment
 
 
     private String phone;//电话号码
@@ -133,10 +135,20 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
             case R.id.rb_detail_type:
                 typeFgt = new HousDetailsTypeChenFgt();
                 transaction.add(R.id.fl_hous_detail, typeFgt);
-
+                break;
+            case R.id.rb_comment_type:
+                commentFgt = new HouseCommentFgt();
+                transaction.add(R.id.fl_hous_detail, commentFgt);
                 break;
         }
         transaction.commit();
 
+    }
+
+    @Override
+    public void beSkip(boolean skip) {
+        if(true){
+            ((RadioButton) findViewById(R.id.rb_comment_type)).setChecked(true);//默认选中
+        }
     }
 }

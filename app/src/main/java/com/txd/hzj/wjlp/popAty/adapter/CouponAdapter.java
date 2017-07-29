@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 /**
@@ -23,8 +25,11 @@ public class CouponAdapter extends BaseAdapter {
     private Context context;
     private CouVH couVH;
 
-    public CouponAdapter(Context context) {
+    private int type;
+
+    public CouponAdapter(Context context, int type) {
         this.context = context;
+        this.type = type;
     }
 
     @Override
@@ -52,9 +57,26 @@ public class CouponAdapter extends BaseAdapter {
         } else {
             couVH = (CouVH) view.getTag();
         }
+
+        if (0 == type) {
+            couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
+            couVH.coupon_already_layout.setVisibility(View.VISIBLE);
+        } else {
+            couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
+            couVH.coupon_already_layout.setVisibility(View.GONE);
+        }
+
         return view;
     }
+
     class CouVH {
+
+        @ViewInject(R.id.coupon_bg_layout)
+        private LinearLayout coupon_bg_layout;
+
+        @ViewInject(R.id.coupon_already_layout)
+        private LinearLayout coupon_already_layout;
+
     }
 
 }

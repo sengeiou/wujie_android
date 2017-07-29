@@ -57,7 +57,7 @@
             android:layout_marginBottom="4dp"
             android:maxLines="2"
             android:padding="8dp"
-            android:text="枫丹公馆两室一厅" />
+            android:text="棠颂别墅" />
 
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:text="在售 西青 独栋 大户型" />
+            android:text="金安投资有限公司" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -58,12 +59,21 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
     @ViewInject(R.id.propety_fee_tv)
     private TextView propety_fee_tv;
 
+    private SkipToComment skipToComment;
+
+    @Override
+    public void onAttach(Context context) {
+        skipToComment = (SkipToComment) context;
+        super.onAttach(context);
+    }
+
     @OnClick({R.id.tv_houses_evaluate, R.id.to_check_location_layout, R.id.hd_be_back_top_iv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_houses_evaluate:
-                //跳转到评价页
-                startActivity(GoodsEvaluateAty.class, null);
+                if (skipToComment != null) {
+                    skipToComment.beSkip(true);
+                }
                 break;
             case R.id.to_check_location_layout:// 查看地图
                 startActivity(FindHouseByMapAty.class, null);
@@ -74,14 +84,13 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
         }
     }
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         /** 轮播图 **/
         initBanner();
         scrollView.setScrollViewListener(this);
-        ChangeTextViewStyle.getInstance().forFeeStyle(propety_fee_tv,"2.80元/m2·月");
+        ChangeTextViewStyle.getInstance().forFeeStyle(propety_fee_tv, "2.80元/m2·月");
     }
 
 
@@ -165,6 +174,10 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
         public int getCount() {
             return ListUtils.getSize(albums);
         }
-
     }
+
+    public interface SkipToComment {
+        void beSkip(boolean skip);
+    }
+
 }
