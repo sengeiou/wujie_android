@@ -15,15 +15,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bg_color"
             android:orientation="vertical">
 
             <include layout="@layout/aty_banner"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/on_line_rv"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@color/white"/>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/under_banner_menu_vp"
@@ -47,7 +48,10 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:paddingBottom="4dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="4dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/icon_top_wj"/>
 
@@ -260,6 +264,8 @@
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
 
+    <include layout="@layout/aty_search_title"/>
+
     <ImageView
         android:id="@+id/on_line_be_back_top_iv"
         android:layout_width="wrap_content"
@@ -268,7 +274,4 @@
         android:layout_margin="16dp"
         android:src="@drawable/icon_be_back_top"
         android:visibility="gone"/>
-
-    <include layout="@layout/aty_search_title"/>
-
 </FrameLayout>

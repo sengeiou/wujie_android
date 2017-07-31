@@ -1,11 +1,13 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -54,6 +56,9 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
         } else {
             holder.bottom_layout_for_goods.setVisibility(View.VISIBLE);
         }
+
+        holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
         if (itemClickLitener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -75,6 +80,10 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
 
         @ViewInject(R.id.bottom_layout_for_goods)
         private LinearLayout bottom_layout_for_goods;
+
+        @ViewInject(R.id.older_price_tv)
+        private TextView older_price_tv;
+
 
         public MellGoodsViewHolder(View itemView) {
             super(itemView);

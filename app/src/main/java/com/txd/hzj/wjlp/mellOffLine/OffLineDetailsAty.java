@@ -9,10 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
@@ -108,6 +111,12 @@ public class OffLineDetailsAty extends BaseAty {
 
     private NoticeDialog noticeDialog;
 
+    @ViewInject(R.id.under_title_layout)
+    private LinearLayout under_title_layout;
+
+    private AppBarLayout.LayoutParams layoutParams;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +133,7 @@ public class OffLineDetailsAty extends BaseAty {
         app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset <= -head_layout.getHeight() / 2) {
+                if (verticalOffset <= -head_layout.getHeight() / 5) {
                     collapsing_toolbar_layout.setTitle("好收成超市");
                 } else {
                     collapsing_toolbar_layout.setTitle(" ");
@@ -142,7 +151,7 @@ public class OffLineDetailsAty extends BaseAty {
 
     @Override
     @OnClick({R.id.off_line_mell_collect_layout, R.id.off_line_mell_share_tv, R.id.notice_layout,
-            R.id.mell_info_by_off_line})
+            R.id.mell_info_by_off_line, R.id.up_tip_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -157,15 +166,17 @@ public class OffLineDetailsAty extends BaseAty {
                 noticeDialog.show();
                 break;
             case R.id.mell_info_by_off_line://详情
-                if (other_info_layout.getVisibility() == View.GONE) {
-                    show_or_hide_info_iv.setImageResource(R.drawable.icon_hide_mell_ac);
-                    other_info_layout.setVisibility(View.VISIBLE);
-                    up_tip_tv.setVisibility(View.VISIBLE);
-                } else {
-                    show_or_hide_info_iv.setImageResource(R.drawable.icon_show_mell_ac);
-                    other_info_layout.setVisibility(View.GONE);
-                    up_tip_tv.setVisibility(View.GONE);
-                }
+                show_or_hide_info_iv.setImageResource(R.drawable.icon_hide_mell_ac);
+                other_info_layout.setVisibility(View.VISIBLE);
+                up_tip_tv.setVisibility(View.VISIBLE);
+                under_title_layout.setVisibility(View.GONE);
+                break;
+            case R.id.up_tip_tv: // 收起店铺信息
+                show_or_hide_info_iv.setImageResource(R.drawable.icon_show_mell_ac);
+                other_info_layout.setVisibility(View.GONE);
+                up_tip_tv.setVisibility(View.GONE);
+                under_title_layout.setVisibility(View.VISIBLE);
+                app_bar_layout.setExpanded(false);
                 break;
         }
     }

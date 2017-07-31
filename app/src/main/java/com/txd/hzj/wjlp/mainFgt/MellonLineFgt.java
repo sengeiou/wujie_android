@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -557,18 +558,20 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (y <= 0) {
             search_title_layout.setBackgroundColor(Color.TRANSPARENT);//AGB由相关工具获得，或者美工提供
             on_line_be_back_top_iv.setVisibility(View.GONE);
+
+            L.e("=====执行====11111");
+
         } else if (y > 0 && y <= allHeight) {
             float scale = (float) y / allHeight;
             float alpha = (255 * scale);
             // 只是layout背景透明(仿知乎滑动效果)
             search_title_layout.setBackgroundColor(Color.argb((int) alpha, 242, 48, 48));
             on_line_be_back_top_iv.setVisibility(View.GONE);
+            L.e("=====执行====22222");
         } else {
             search_title_layout.setBackgroundColor(Color.argb(255, 242, 48, 48));
             on_line_be_back_top_iv.setVisibility(View.VISIBLE);
         }
-
-
         immersionInit();
     }
 
