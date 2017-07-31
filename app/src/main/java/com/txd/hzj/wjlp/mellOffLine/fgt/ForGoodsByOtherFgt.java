@@ -42,9 +42,6 @@ public class ForGoodsByOtherFgt extends BaseFgt {
 
     private MellCouponDialog mellCouponDialog;
 
-    @ViewInject(R.id.un_use_view)
-    private View un_use_view;
-
     private int height = 0;
 
     private int viewHeight = 0;
@@ -71,10 +68,9 @@ public class ForGoodsByOtherFgt extends BaseFgt {
         nested_sc.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY>viewHeight && !isTouch){
-                    un_use_view.setVisibility(View.VISIBLE);
+                if(scrollY>=viewHeight && !isTouch){
+                    nested_sc.scrollTo(0,0);
                 } else {
-                    un_use_view.setVisibility(View.GONE);
                 }
             }
         });
