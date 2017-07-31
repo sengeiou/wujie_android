@@ -9,17 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -27,7 +21,6 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByMySelfFgt;
 import com.txd.hzj.wjlp.mellOffLine.fgt.GoodsByOtherFgt;
-import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +34,6 @@ import java.util.List;
  * ===============Txunda===============
  */
 public class OffLineDetailsAty extends BaseAty {
-
-    /**
-     * 最外层布局
-     */
-    @ViewInject(R.id.root_layout)
-    private CoordinatorLayout root_layout;
 
     /**
      * AppBarLAyout
@@ -97,25 +84,8 @@ public class OffLineDetailsAty extends BaseAty {
     @ViewInject(R.id.up_tip_tv)
     private TextView up_tip_tv;
 
-    /**
-     * 店铺详情
-     */
-    @ViewInject(R.id.mell_info_by_off_line)
-    private LinearLayout mell_info_by_off_line;
-
-    /**
-     * 显示或隐藏信息
-     */
-    @ViewInject(R.id.show_or_hide_info_iv)
-    private ImageView show_or_hide_info_iv;
 
     private NoticeDialog noticeDialog;
-
-    @ViewInject(R.id.under_title_layout)
-    private LinearLayout under_title_layout;
-
-    private AppBarLayout.LayoutParams layoutParams;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +121,7 @@ public class OffLineDetailsAty extends BaseAty {
 
     @Override
     @OnClick({R.id.off_line_mell_collect_layout, R.id.off_line_mell_share_tv, R.id.notice_layout,
-            R.id.mell_info_by_off_line, R.id.up_tip_tv})
+            R.id.mell_info_by_off_line})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -166,17 +136,7 @@ public class OffLineDetailsAty extends BaseAty {
                 noticeDialog.show();
                 break;
             case R.id.mell_info_by_off_line://详情
-                show_or_hide_info_iv.setImageResource(R.drawable.icon_hide_mell_ac);
-                other_info_layout.setVisibility(View.VISIBLE);
-                up_tip_tv.setVisibility(View.VISIBLE);
-                under_title_layout.setVisibility(View.GONE);
-                break;
-            case R.id.up_tip_tv: // 收起店铺信息
-                show_or_hide_info_iv.setImageResource(R.drawable.icon_show_mell_ac);
-                other_info_layout.setVisibility(View.GONE);
-                up_tip_tv.setVisibility(View.GONE);
-                under_title_layout.setVisibility(View.VISIBLE);
-                app_bar_layout.setExpanded(false);
+                startActivity(OffLineMellInfoAty.class,null);
                 break;
         }
     }

@@ -237,6 +237,8 @@
         </activity>
         <activity android:name=".mellOffLine.point.PointWjAty">
         </activity>
+        <activity android:name=".mellOffLine.OffLineMellInfoAty">
+        </activity>
     </application>
 
 </manifest>

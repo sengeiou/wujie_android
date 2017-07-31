@@ -164,13 +164,16 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.onClick(v);
         switch (v.getId()) {
             case R.id.mach_more_lin_layout:// 更多
-                if (mCurPopupWindow == null || !mCurPopupWindow.isShowing()) {
+                if (mCurPopupWindow == null) {
+                    L.e("=====空的=====","true");
                     mCurPopupWindow = showPopupWindow(v);
                     mach_more_tv.setText("关闭");
                     mach_more_iv.setImageResource(R.drawable.icon_main_close_hzj);
                 } else {
+                    L.e("=====空的=====","false");
                     setMoreStatus();
                     mCurPopupWindow.dismiss();
+                    mCurPopupWindow = null;
                 }
                 break;
         }
@@ -240,7 +243,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayWidth, false);
 
         // setOutsideTouchable设置生效的前提是setTouchable(true)和setFocusable(false)
-        popupWindow.setOutsideTouchable(true);
+        popupWindow.setOutsideTouchable(false);
 
         // 设置为true之后，PopupWindow内容区域 才可以响应点击事件
         popupWindow.setTouchable(true);

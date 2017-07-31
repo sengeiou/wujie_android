@@ -84,11 +84,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
+                            android:drawableEnd="@drawable/icon_turn_right_g"
                             android:hint="请选择您的经营范围"
                             android:paddingBottom="8dp"
                             android:paddingStart="12dp"
                             android:paddingTop="8dp"
-                            android:drawableEnd="@drawable/icon_turn_right_g"
                             android:textSize="14sp"/>
 
                     </LinearLayout>
@@ -103,14 +103,14 @@
                             android:paddingBottom="12dp"
                             android:paddingEnd="8dp"
                             android:paddingTop="8dp"
-                            android:text="真实姓名"
+                            android:text="联系人    "
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:hint="请填写您的真实姓名"
+                            android:hint="请填写商家联系人"
                             android:paddingBottom="8dp"
                             android:paddingStart="12dp"
                             android:paddingTop="8dp"
@@ -128,7 +128,7 @@
                             android:paddingBottom="12dp"
                             android:paddingEnd="8dp"
                             android:paddingTop="8dp"
-                            android:text="身份证号"
+                            android:text="职位        "
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
@@ -153,7 +153,7 @@
                             android:paddingBottom="12dp"
                             android:paddingEnd="8dp"
                             android:paddingTop="8dp"
-                            android:text="手机号码"
+                            android:text="联系电话"
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
@@ -169,20 +169,178 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="8dp"
+                            android:text="天猫网店"
+                            android:textColor="@color/app_text_color"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="请填写您的网店网址"
+                            android:inputType="textUri"
+                            android:paddingBottom="8dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="8dp"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="8dp"
+                            android:text="京东网店"
+                            android:textColor="@color/app_text_color"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="请填写您的网店网址"
+                            android:inputType="textUri"
+                            android:paddingBottom="8dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="8dp"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="8dp"
+                            android:text="其他网店"
+                            android:textColor="@color/app_text_color"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:hint="请填写您的网店网址"
+                            android:inputType="textUri"
+                            android:paddingBottom="8dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="8dp"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="8dp"
+                            android:text="产品描述"
+                            android:textColor="@color/app_text_color"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"
+                            android:gravity="top|start"
+                            android:hint="请填写计划销售产品描述"
+                            android:lines="7"
+                            android:textSize="14sp"/>
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
-                    android:text="照片信息"/>
+                    android:text="上传产品照片"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/goods_pic_iv"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icon_updata_pic_hzj"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="上传营业执照照片"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/bottom_right_iv"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icon_updata_pic_hzj"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:text="上传其他证件照片"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/other_papers_iv"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/icon_updata_pic_hzj"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:padding="12dp">
+                    android:padding="12dp"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -224,7 +382,6 @@
                             android:layout_height="match_parent"/>
 
                         <ImageView
-                            android:id="@+id/bottom_right_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/icon_bottom_right"/>
