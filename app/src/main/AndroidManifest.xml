@@ -233,12 +233,23 @@
         <activity android:name=".shoppingCart.BuildOrderAty"/>
         <!-- 一元夺宝详情 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty"/>
-        <activity android:name=".minetoAty.books.BooksAty">
-        </activity>
-        <activity android:name=".mellOffLine.point.PointWjAty">
-        </activity>
-        <activity android:name=".mellOffLine.OffLineMellInfoAty">
-        </activity>
+        <!-- 无界书院 -->
+        <activity android:name=".minetoAty.books.BooksAty"/>
+        <!-- 无界驿站 -->
+        <activity android:name=".mellOffLine.point.PointWjAty"/>
+        <!-- 线下商店详情 -->
+        <activity android:name=".mellOffLine.OffLineMellInfoAty"/>
+        <!-- 商家设置 -->
+        <activity android:name=".minetoAty.mell.MellSettingAty"/>
+        <!-- 编辑商家信息 -->
+        <activity android:name=".minetoAty.mell.EditMellInfoAty"/>
+        <!--进货，销货列表-->
+        <activity android:name=".minetoAty.mell.StockRecordAty"/>
+        <!--商品列表-->
+        <activity android:name=".minetoAty.mell.MellGoodsListAty"/>
+        <!--商品二维码-->
+        <activity android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
+            android:theme="@style/share_style"/>
     </application>
 
 </manifest>

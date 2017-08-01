@@ -1,78 +1,49 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
+import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellAllGoodsFgt;
+import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellGuideFgt;
+import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellInfoFgt;
+import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MellInfoAty extends BaseAty {
-    /**
-     * 返回
-     */
-    @ViewInject(R.id.search_title_be_back_iv)
-    public ImageView search_title_be_back_iv;
-
-    /**
-     * 扫一扫
-     */
-    @ViewInject(R.id.title_scan_tv)
-    public TextView title_scan_tv;
-    /**
-     * 搜索
-     */
-    @ViewInject(R.id.title_search_tv)
-    public TextView title_search_tv;
-    /**
-     * 搜索框
-     */
-    @ViewInject(R.id.search_lin_layout)
-    public LinearLayout search_lin_layout;
-    /**
-     * 搜索类
-     */
-    @ViewInject(R.id.search_type_tv)
-    public TextView search_type_tv;
-    /**
-     * 分类
-     */
-    @ViewInject(R.id.title_classify_tv)
-    public TextView title_classify_tv;
-    /**
-     * 消息
-     */
-    @ViewInject(R.id.message_layout)
-    public FrameLayout message_layout;
-    /**
-     * 搜索
-     */
-    @ViewInject(R.id.search_title_right_tv)
-    public TextView search_title_right_tv;
 
     // ========人气，价格，销量，全部
-
     /**
      * 人气
      */
@@ -111,35 +82,61 @@ public class MellInfoAty extends BaseAty {
     @ViewInject(R.id.mell_goods_rv)
     private RecyclerView mell_goods_rv;
 
-    private MellGoodsAdapter mellGoodsAdapter;
+
     private PopupWindow mCurPopupWindow;
+
+    /**
+     * 店铺信息布局
+     */
+    @ViewInject(R.id.mell_info_head_layout)
+    private LinearLayout mell_info_head_layout;
+
+    @ViewInject(R.id.mell_info_app_bar_layout)
+    private AppBarLayout mell_info_app_bar_layout;
+
+    @ViewInject(R.id.mell_info_tool_layout)
+    private CollapsingToolbarLayout mell_info_tool_layout;
+
+    /**
+     * TitleBar
+     */
+    @ViewInject(R.id.mell_tool_bar)
+    private Toolbar mell_tool_bar;
+    private int height;
+    private MellGoodsAdapter mellGoodsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showStatusBar(R.id.search_title_layout);
-        forTitle();
 
-        setStyle(soft_type);
+        setSupportActionBar(mell_tool_bar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mell_tool_bar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        showStatusBar(R.id.mell_tool_bar);
+
+        mell_info_app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset <= -mell_info_head_layout.getHeight() / 2) {
+                    mell_info_tool_layout.setTitle("康尔馨酒店家纺");
+                } else {
+                    mell_info_tool_layout.setTitle(" ");
+                }
+            }
+        });
 
         mell_goods_rv.setLayoutManager(new GridLayoutManager(this, 2));
+        mell_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         mell_goods_rv.setAdapter(mellGoodsAdapter);
 
     }
 
-    /**
-     * 标题栏
-     */
-    private void forTitle() {
-        search_title_be_back_iv.setVisibility(View.VISIBLE);
-        title_scan_tv.setVisibility(View.INVISIBLE);
-        title_search_tv.setVisibility(View.GONE);
-        search_lin_layout.setVisibility(View.VISIBLE);
-        search_type_tv.setVisibility(View.GONE);
-        title_classify_tv.setVisibility(View.GONE);
-        message_layout.setVisibility(View.GONE);
-        search_title_right_tv.setVisibility(View.VISIBLE);
-    }
 
     @Override
     @OnClick({R.id.popularity_tv, R.id.mell_price_layout, R.id.sales_tv, R.id.all_classify_tv})
@@ -168,6 +165,7 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_mell_info_hzj;
@@ -175,7 +173,9 @@ public class MellInfoAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        mellGoodsAdapter = new MellGoodsAdapter(this,0);
+
+        height = ToolKit.dip2px(this, 4);
+        mellGoodsAdapter = new MellGoodsAdapter(this, 0);
     }
 
     @Override
@@ -263,6 +263,9 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
+    /**
+     * 全部筛选适配器
+     */
     private class ClassIfyAdapter extends BaseAdapter {
 
         private CVH cvh;
@@ -316,4 +319,7 @@ public class MellInfoAty extends BaseAty {
 
         }
     }
+
+
+
 }

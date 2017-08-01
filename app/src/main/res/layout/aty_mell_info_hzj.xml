@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,38 +8,44 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty">
 
-    <include layout="@layout/aty_search_title"/>
-
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mell_info_app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/mell_info_tool_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
+            app:contentScrim="@color/colorAccent"
+            app:expandedTitleMarginEnd="48dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/transparentText"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <LinearLayout
+                android:id="@+id/mell_info_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bg_color"
-                app:contentScrim="@color/transparent"
-                app:expandedTitleMarginEnd="48dp"
-                app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:background="@drawable/icon_mell_info_bg"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="12dp"
+                app:layout_collapseMode="pin"
+                app:layout_collapseParallaxMultiplier="0.7">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/icon_mell_info_bg"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:layout_marginTop="60dp"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:src="@drawable/icon_temp_mell_head"/>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -82,7 +88,8 @@
                                 android:padding="6dp"
                                 android:text="收藏"
                                 android:textColor="@color/white"
-                                android:textSize="16sp"/>
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -94,27 +101,132 @@
                                 android:padding="6dp"
                                 android:text="分享"
                                 android:textColor="@color/colorAccent"
-                                android:textSize="16sp"/>
-
+                                android:textSize="14sp"
+                                android:visibility="gone"/>
                         </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/mell_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/icon_be_back_w">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/off_line_mell_collect_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp"
+                        >
+
+                        <ImageView
+                            android:id="@+id/goods_title_collect_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_collect_w_hzj"
+                            />
+
+                        <TextView
+                            android:id="@+id/goods_title_collect_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center"
+                            android:text="收藏"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"/>
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/off_line_mell_share_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawablePadding="6dp"
+                        android:drawableTop="@drawable/icon_goods_title_share_w_hzj"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="分享"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        />
                 </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                >
+
+                <EditText
+                    android:id="@+id/title_search_ev"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_search_tv_bg"
+                    android:gravity="center_vertical"
+                    android:hint="搜索本店"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/app_text_color"
+                    android:textColorHint="@color/gray_text_color"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/search_title_right_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_sraech_title_right_tv"
+                    android:padding="6dp"
+                    android:text="搜索"
+                    android:textColor="@color/white"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color"/>
 
             <include layout="@layout/aty_mell_filtrate_layout"/>
-        </android.support.design.widget.AppBarLayout>
+        </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mell_goods_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:backgroundTint="@color/white"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.AppBarLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mell_goods_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

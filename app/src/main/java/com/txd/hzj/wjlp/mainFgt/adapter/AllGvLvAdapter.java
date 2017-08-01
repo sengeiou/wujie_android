@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -155,6 +156,5 @@ public class AllGvLvAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.sold_num_tv)
         private TextView sold_num_tv;
-
     }
 }

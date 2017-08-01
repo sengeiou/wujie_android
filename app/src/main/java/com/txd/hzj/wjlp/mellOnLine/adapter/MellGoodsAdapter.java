@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 
 /**
@@ -35,6 +36,7 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
 
     private LayoutInflater inflater;
 
+
     public MellGoodsAdapter(Context context, int from) {
         this.context = context;
         this.from = from;
@@ -52,9 +54,9 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
     @Override
     public void onBindViewHolder(final MellGoodsViewHolder holder, int position) {
         if (0 == from) {
-            holder.bottom_layout_for_goods.setVisibility(View.GONE);
+            holder.coupon_layout.setVisibility(View.VISIBLE);
         } else {
-            holder.bottom_layout_for_goods.setVisibility(View.VISIBLE);
+            holder.coupon_layout.setVisibility(View.GONE);
         }
 
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -84,6 +86,9 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
         @ViewInject(R.id.older_price_tv)
         private TextView older_price_tv;
 
+        @ViewInject(R.id.coupon_layout)
+        private LinearLayout coupon_layout;
+
 
         public MellGoodsViewHolder(View itemView) {
             super(itemView);
@@ -95,5 +100,4 @@ public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.Mell
     public void setListener(HorizontalAdapter.OnItemClickLitener itemClickLitener) {
         this.itemClickLitener = itemClickLitener;
     }
-
 }

@@ -42,6 +42,9 @@ public class ForGoodsByOtherFgt extends BaseFgt {
 
     private MellCouponDialog mellCouponDialog;
 
+    @ViewInject(R.id.un_use_view)
+    private View un_use_view;
+
     private int height = 0;
 
     private int viewHeight = 0;
@@ -68,9 +71,11 @@ public class ForGoodsByOtherFgt extends BaseFgt {
         nested_sc.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY>=viewHeight && !isTouch){
-                    nested_sc.scrollTo(0,0);
-                } else {
+                L.e("=====高度=====", viewHeight + "");
+                if (scrollY <= viewHeight && !isTouch) {
+                    L.e("=====距离=====", scrollY + "");
+                    L.e("=====触摸=====", isTouch + "");
+                    nested_sc.scrollTo(0, 0);
                 }
             }
         });
@@ -82,7 +87,14 @@ public class ForGoodsByOtherFgt extends BaseFgt {
                 return false;
             }
         });
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isTouch = false;
+        }
     }
 
     @Override
@@ -106,7 +118,7 @@ public class ForGoodsByOtherFgt extends BaseFgt {
     protected void initialized() {
         mellGoodsAdapter = new MellGoodsAdapter(getActivity(), 1);
         height = ToolKit.dip2px(getActivity(), 4);
-        viewHeight = ToolKit.dip2px(getActivity(), 48);
+        viewHeight = ToolKit.dip2px(getActivity(), 64);
     }
 
     @Override

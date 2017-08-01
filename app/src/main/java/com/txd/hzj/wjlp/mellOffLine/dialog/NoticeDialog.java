@@ -29,6 +29,7 @@ public class NoticeDialog extends Dialog {
 
     private TextView dialog_titlt_tv;
     private ListView coup_lv;
+    private TextView notice_content_tv;
     private Context context;
     private NoticeAdapter noticeAdapter;
 
@@ -44,15 +45,18 @@ public class NoticeDialog extends Dialog {
         setContentView(R.layout.dialog_coupon_layout);
 
         dialog_titlt_tv = findViewById(R.id.dialog_titlt_tv);
-        dialog_titlt_tv.setText("公告");
+        dialog_titlt_tv.setText("活动公告");
         coup_lv = findViewById(R.id.coup_lv);
+        coup_lv.setVisibility(View.GONE);
         findViewById(R.id.be_dimiss_iv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
-        coup_lv.setAdapter(noticeAdapter);
+        notice_content_tv = findViewById(R.id.notice_content_tv);
+
+        notice_content_tv.setVisibility(View.VISIBLE);
     }
 
     private class NoticeAdapter extends BaseAdapter {

@@ -89,6 +89,7 @@
         android:text="可    低:￥200车款\n全车价:￥1490000.00"/>
 
     <LinearLayout
+        android:id="@+id/jf_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

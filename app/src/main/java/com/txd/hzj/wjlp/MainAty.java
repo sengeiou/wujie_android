@@ -29,6 +29,7 @@ import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
@@ -129,7 +130,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onResume() {
         super.onResume();
-        if(Config.isLogin()){
+        if (Config.isLogin()) {
             switch (page_index) {
                 case 0:// 线上商城
                     home_pager_rb.setChecked(true);
@@ -165,12 +166,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         switch (v.getId()) {
             case R.id.mach_more_lin_layout:// 更多
                 if (mCurPopupWindow == null) {
-                    L.e("=====空的=====","true");
                     mCurPopupWindow = showPopupWindow(v);
                     mach_more_tv.setText("关闭");
                     mach_more_iv.setImageResource(R.drawable.icon_main_close_hzj);
                 } else {
-                    L.e("=====空的=====","false");
                     setMoreStatus();
                     mCurPopupWindow.dismiss();
                     mCurPopupWindow = null;
@@ -266,8 +265,13 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             public void onClick(View view) {
                 setMoreStatus();
                 Bundle mBundle = new Bundle();
-                mBundle.putString("title", "爱心商店");
-                startActivity(OnlineShopAty.class, mBundle);
+//                mBundle.putString("title", "爱心商店");
+//                startActivity(OnlineShopAty.class, mBundle);
+
+                mBundle.putInt("type", 10);
+                mBundle.putString("title", "无界商店");
+                startActivity(TicketZoonAty.class, mBundle);
+
                 popupWindow.dismiss();
             }
         });

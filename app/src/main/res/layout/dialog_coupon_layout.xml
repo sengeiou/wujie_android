@@ -24,11 +24,22 @@
         android:id="@+id/coup_lv"
         android:layout_width="match_parent"
         android:layout_height="224dp"
-        android:scrollbars="none"
-        android:padding="16dp"
         android:background="@drawable/coupon_lv_style"
         android:divider="@color/white"
-        android:dividerHeight="4dp"/>
+        android:dividerHeight="4dp"
+        android:padding="16dp"
+        android:scrollbars="none"/>
+
+    <TextView
+        android:id="@+id/notice_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="224dp"
+        android:background="@drawable/coupon_lv_style"
+        android:padding="12dp"
+        android:text="        这是公告内容这是公告内容这是公告内容这是公告内容这是公告内容"
+        android:textColor="@color/app_text_color"
+        android:visibility="gone"/>
+
 
     <ImageView
         android:id="@+id/be_dimiss_iv"

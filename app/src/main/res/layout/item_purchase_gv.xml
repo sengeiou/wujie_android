@@ -13,28 +13,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right|center_vertical"
-            android:text="距结束 "
-            android:textColor="@color/gray_text_color"/>
-
-        <include layout="@layout/aty_count_down_view"/>
-    </LinearLayout>
-
-    <include layout="@layout/item_goods_info"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:gravity="center_vertical">
 
         <ImageView
@@ -64,6 +42,28 @@
             android:textSize="12sp"/>
     </LinearLayout>
 
+
+    <include layout="@layout/item_goods_info"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="right|center_vertical"
+            android:text="距结束 "
+            android:textColor="@color/gray_text_color"/>
+
+        <include layout="@layout/aty_count_down_view"/>
+    </LinearLayout>
 
     <include layout="@layout/item_goods_sales_info"/>
 

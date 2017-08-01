@@ -40,7 +40,8 @@
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:text="餐饮美食"
-                    android:textColor="@color/gray_text_color"/>
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:id="@+id/point_by_wj_tv"
@@ -51,7 +52,8 @@
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:text="无界驿店"
-                    android:textColor="@color/gray_text_color"/>
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -61,7 +63,8 @@
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
                     android:text="商户地图"
-                    android:textColor="@color/gray_text_color"/>
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp"/>
 
             </LinearLayout>
 

@@ -43,7 +43,11 @@ public class GVClassifyAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        if (0 == type) {
+            return list.size();
+        } else {
+            return 10;
+        }
     }
 
     @Override
@@ -101,7 +105,8 @@ public class GVClassifyAdapter extends BaseAdapter {
                     vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_yydb);
                     break;
             }
-
+        } else {
+            vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_xlg);
         }
 
         return view;

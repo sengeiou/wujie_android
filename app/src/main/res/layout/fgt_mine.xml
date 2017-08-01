@@ -535,6 +535,7 @@
                 android:showDividers="middle">
 
                 <TextView
+                    android:id="@+id/stock_record_tv"
                     style="@style/mine_text_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -547,6 +548,7 @@
                     android:text="进货记录"
                     android:textColor="@color/app_text_color"/>
                 <TextView
+                    android:id="@+id/sales_record_tv"
                     style="@style/mine_text_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -559,6 +561,7 @@
                     android:text="销货记录"
                     android:textColor="@color/app_text_color"/>
                 <TextView
+                    android:id="@+id/mell_goods_list_tv"
                     style="@style/mine_text_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

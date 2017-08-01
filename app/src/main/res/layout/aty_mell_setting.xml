@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_set_aty"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.minetoAty.SetAty">
+
+    <include layout="@layout/aty_title"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:divider="@drawable/lin_layout_vertical_line_shape"
+        android:orientation="vertical"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:showDividers="middle">
+
+        <TextView
+            android:id="@+id/mell_info_tv"
+            style="@style/mine_text_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_turn_right_gray"
+            android:drawablePadding="10dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="驿站资料"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/edit_pwd_tv"
+            style="@style/mine_text_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_turn_right_gray"
+            android:drawablePadding="10dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="修改密码"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/mell_address_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                style="@style/mine_text_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:paddingBottom="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="12dp"
+                android:text="驿站地址"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/mell_address_tv"
+                style="@style/mine_text_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/icon_turn_right_gray"
+                android:drawablePadding="10dp"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/mell_updata_video_tv"
+            style="@style/mine_text_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_turn_right_gray"
+            android:drawablePadding="10dp"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:text="上传视频"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:id="@+id/rel_bind_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                style="@style/mine_text_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="手机绑定"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="15822230910"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+
+            <TextView
+                style="@style/mine_text_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:text="清除缓存"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:paddingBottom="12dp"
+                android:paddingTop="12dp"
+                android:text="35.73M"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/sing_out_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/shape_to_login_tv_shape"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        />
+
+</LinearLayout>

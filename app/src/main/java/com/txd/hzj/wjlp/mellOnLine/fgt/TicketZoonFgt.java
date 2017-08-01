@@ -2,11 +2,14 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -15,14 +18,27 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.OnLineMenuGvAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.txd.hzj.wjlp.R.id.under_banner_menu_vp;
 
 /**
  * ===============Txunda===============
@@ -34,11 +50,6 @@ import java.util.List;
  */
 public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
     /**
-     * 分类
-     */
-    @ViewInject(R.id.ticket_zoon_gv)
-    private GridViewForScrollView ticket_zoon_gv;
-    /**
      * 商品
      */
     @ViewInject(R.id.ticket_zoon_goods_gv)
@@ -49,7 +60,6 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.ticket_zoon_goods_lv)
     private ListViewForScrollView ticket_zoon_goods_lv;
 
-    private GVClassifyAdapter gvClassifyAdapter;
     /**
      * GridView数据列表
      */
@@ -58,6 +68,9 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     private String title = "";
     private int type = 0;
     private AllGvLvAdapter allGvLvAdapter1;
+
+    private WjMellAdapter wjMellAdapter;
+
     private List<String> data;
 
     /**
@@ -69,6 +82,12 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.zooom_sc)
     private ObservableScrollView zooom_sc;
 
+    @ViewInject(R.id.goods_menu_vp)
+    private ViewPager goods_menu_vp;
+    private int pageSize = 10;
+    private ArrayList<View> mPagerList;
+    private int curIndex = 0;
+
     public static TicketZoonFgt getFgt(String title, int type) {
         TicketZoonFgt tzf = new TicketZoonFgt();
         tzf.title = title;
@@ -79,7 +98,13 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ticket_zoon_gv.setAdapter(gvClassifyAdapter);
+
+        if (10 == type) {
+            wjMellAdapter = new WjMellAdapter(getActivity());
+        } else {
+            allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+        }
+
         if (8 == type) {
             ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
             ticket_zoon_goods_gv.setVisibility(View.GONE);
@@ -87,7 +112,11 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
         } else {
             ticket_zoon_goods_lv.setVisibility(View.GONE);
             ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
-            ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+            if (10 == type) {
+                ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
+            } else {
+                ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+            }
         }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,6 +141,7 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
         });
         zooom_sc.smoothScrollTo(0, 0);
         zooom_sc.setScrollViewListener(this);
+        forMenu();
     }
 
     @Override
@@ -134,9 +164,21 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     protected void initialized() {
         gv_classify = new ArrayList<>();
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
+        gv_classify.add("巧克力");
         data = new ArrayList<>();
-        gvClassifyAdapter = new GVClassifyAdapter(getActivity(), gv_classify, 1);
-        allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
     }
 
     @Override
@@ -157,4 +199,46 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
             zoom_be_back_top_iv.setVisibility(View.VISIBLE);
         }
     }
+
+    private void forMenu() {
+        // 获取总页数
+        int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
+        // 初始化View列表
+        mPagerList = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        for (int i = 0; i < pageCount; i++) {
+            GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
+                    goods_menu_vp, false);
+            gridView.setAdapter(new OnLineMenuGvAdapter(getActivity(), gv_classify, i));
+            mPagerList.add(gridView);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int itemPos = i + curIndex * pageSize;
+
+                }
+            });
+            // 给ViewPager设置适配器
+            goods_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
+            // 添加页面改变监听事件
+            goods_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    curIndex = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+
+    }
+
 }

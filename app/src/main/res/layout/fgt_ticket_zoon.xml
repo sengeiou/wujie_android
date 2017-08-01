@@ -18,14 +18,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/ticket_zoon_gv"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/goods_menu_vp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:numColumns="5"
-                android:padding="8dp"
-                android:scrollbars="none"/>
+                android:layout_height="160dp"
+                android:background="@color/white"/>
 
             <ImageView
                 android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -27,7 +28,7 @@ public class TicketZoonAty extends BaseAty {
     @ViewInject(R.id.vp_for_title)
     private ViewPager vp_for_title;
 
-    private String[] mTitles = {"推荐", "食品", "生鲜", "服饰", "家居", "进口", "美妆", "母婴", "电子", "运动", "户外"};
+    private String[] mTitles;
     private ArrayList<Fragment> mFragments;
     private MyPagerAdapter myPagerAdapter;
     private int type = 0;
@@ -43,7 +44,7 @@ public class TicketZoonAty extends BaseAty {
         title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
-                if (0 == position) {
+                if (0 == position && type != 10) {
                     finish();
                 }
             }
@@ -60,7 +61,7 @@ public class TicketZoonAty extends BaseAty {
 
             @Override
             public void onPageSelected(int position) {
-                if (0 == position) {
+                if (0 == position && type != 10) {
                     finish();
                 }
             }
@@ -80,6 +81,12 @@ public class TicketZoonAty extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("type", 0);
+        if (type == 10) {
+            mTitles = new String[]{"食品", "生鲜", "服饰", "家居", "进口", "美妆", "母婴", "电子", "运动", "户外"};
+        } else {
+            mTitles = new String[]{"推荐", "食品", "生鲜", "服饰", "家居", "进口", "美妆", "母婴", "电子", "运动", "户外"};
+        }
+
         title = getIntent().getStringExtra("title");
         mFragments = new ArrayList<>();
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
