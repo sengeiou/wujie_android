@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,11 +33,14 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellAllGoodsFgt;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellGuideFgt;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellInfoFgt;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +109,19 @@ public class MellInfoAty extends BaseAty {
     private int height;
     private MellGoodsAdapter mellGoodsAdapter;
 
+    @ViewInject(R.id.mell_noty_up_view)
+    private UPMarqueeView mell_noty_up_view;
+
+    /**
+     * 误解头条数据
+     */
+    private List<String> data;
+    /**
+     * 无界头条View
+     */
+    private List<View> views;
+    private NoticeDialog noticeDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,6 +152,9 @@ public class MellInfoAty extends BaseAty {
         mell_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         mell_goods_rv.setAdapter(mellGoodsAdapter);
 
+        // 公告
+        setView();
+        mell_noty_up_view.setViews(views);
     }
 
 
@@ -173,9 +193,15 @@ public class MellInfoAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
         height = ToolKit.dip2px(this, 4);
         mellGoodsAdapter = new MellGoodsAdapter(this, 0);
+        data = new ArrayList<>();
+        views = new ArrayList<>();
+        data.add("这是公告，这只是一个公告1");
+        data.add("这是公告，这只是一个公告2");
+        data.add("这是公告，这只是一个公告3");
+        data.add("这是公告，这只是一个公告4");
+        data.add("这是公告，这只是一个公告5");
     }
 
     @Override
@@ -320,6 +346,36 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
-
+    /**
+     * 初始化需要循环的View
+     * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
+     * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
+     */
+    private void setView() {
+        for (int i = 0; i < data.size(); i++) {
+            //设置滚动的单个布局
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(MellInfoAty.this).inflate(
+                    R.layout.item_view, null);
+            //初始化布局的控件
+            TextView tv1 = moreView.findViewById(R.id.tv1);
+            tv1.setTextColor(Color.WHITE);
+            tv1.setGravity(Gravity.CENTER_VERTICAL);
+            tv1.setTextSize(10);
+            /**
+             * 设置监听
+             */
+            tv1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    noticeDialog = new NoticeDialog(MellInfoAty.this);
+                    noticeDialog.show();
+                }
+            });
+            //进行对控件赋值
+            tv1.setText(data.get(i));
+            //添加到循环滚动数组里面去
+            views.add(moreView);
+        }
+    }
 
 }

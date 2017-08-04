@@ -40,6 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -59,7 +60,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="康尔馨酒店家纺康尔馨酒店家纺康尔馨酒店家纺康尔馨酒店家纺康尔馨酒店家纺"
+                            android:text="康尔馨酒店家纺"
                             android:textColor="@color/white"
                             android:textSize="16sp"/>
 
@@ -67,43 +68,54 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:gravity="center_vertical">
-
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:text="评分4.5分"
-                                android:textColor="@color/white"
-                                android:textSize="16sp"/>
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@drawable/shape_mell_collect"
-                                android:drawablePadding="6dp"
-                                android:drawableStart="@drawable/icon_collect_w_hzj"
-                                android:padding="6dp"
-                                android:text="收藏"
+                                android:background="@drawable/shape_mell_info_tv_hzj"
+                                android:paddingBottom="2dp"
+                                android:paddingEnd="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="2dp"
+                                android:text="达达专送 | 39分钟"
                                 android:textColor="@color/white"
-                                android:textSize="14sp"
-                                android:visibility="gone"/>
+                                android:textSize="8sp"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:background="@drawable/shape_mell_share"
-                                android:drawablePadding="6dp"
-                                android:drawableStart="@drawable/icon_share_r"
-                                android:padding="6dp"
-                                android:text="分享"
-                                android:textColor="@color/colorAccent"
-                                android:textSize="14sp"
-                                android:visibility="gone"/>
+                                android:background="@drawable/shape_mell_info_tv_hzj"
+                                android:paddingBottom="2dp"
+                                android:paddingEnd="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="2dp"
+                                android:text="基础运费5元"
+                                android:textColor="@color/white"
+                                android:textSize="8sp"/>
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:src="@drawable/icon_notifiy_w_package"/>
+
+                            <com.txd.hzj.wjlp.view.UPMarqueeView
+                                android:id="@+id/mell_noty_up_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

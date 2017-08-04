@@ -20,6 +20,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.citySelect.CitySelectAty;
+import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.point.PointWjAty;
@@ -114,7 +115,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_location_tv:// 当前位置
-                startActivity(CitySelectAty.class, null);
+                startActivity(MellCitySelectAty.class, null);
                 break;
             case R.id.point_by_wj_tv:// 无界驿站
                 startActivity(PointWjAty.class, null);

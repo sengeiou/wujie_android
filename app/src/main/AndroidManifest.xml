@@ -243,13 +243,16 @@
         <activity android:name=".minetoAty.mell.MellSettingAty"/>
         <!-- 编辑商家信息 -->
         <activity android:name=".minetoAty.mell.EditMellInfoAty"/>
-        <!--进货，销货列表-->
+        <!-- 进货，销货列表 -->
         <activity android:name=".minetoAty.mell.StockRecordAty"/>
-        <!--商品列表-->
+        <!-- 商品列表 -->
         <activity android:name=".minetoAty.mell.MellGoodsListAty"/>
-        <!--商品二维码-->
-        <activity android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
+        <!-- 商品二维码 -->
+        <activity
+            android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
             android:theme="@style/share_style"/>
+        <activity android:name=".citySelect.MellCitySelectAty">
+        </activity>
     </application>
 
 </manifest>
