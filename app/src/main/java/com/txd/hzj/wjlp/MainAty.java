@@ -18,12 +18,15 @@ import android.widget.TextView;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
@@ -94,6 +97,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     private PopupWindow mCurPopupWindow;
 
+    // 更新
+    private UpdataPst updataPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,11 +126,13 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragments.add(mellOffLineFgt);
         fragments.add(cartFgt);
         fragments.add(mineFgt);
+
+        updataPst = new UpdataPst(this);
     }
 
     @Override
     protected void requestData() {
-
+        updataPst.toUpdata();
     }
 
     @Override
@@ -311,4 +319,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         return popupWindow;
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr,UpdataApp.class);
+        L.e("=====更新=====",updataApp.toString());
+    }
 }

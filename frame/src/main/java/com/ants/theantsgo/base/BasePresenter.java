@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class BasePresenter implements ApiListener {
 
-    private BaseView baseView;
+    public BaseView baseView;
 
     public BasePresenter(BaseView baseView) {
         this.baseView = baseView;

@@ -139,7 +139,7 @@ public class SnatchChenAty extends BaseAty {
     @ViewInject(R.id.snatch_be_back_top_iv)
     private ImageView snatch_be_back_top_iv;
 
-    private int height =0;
+    private int height = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class SnatchChenAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("一元夺宝");
         // 轮播图高度
-        allHeight = Settings.displayWidth * 2 / 3;
+        allHeight = Settings.displayWidth / 2;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
@@ -156,7 +156,7 @@ public class SnatchChenAty extends BaseAty {
         setView();
         upview1.setViews(views);
 
-        GridLayoutManager manager = new GridLayoutManager(this,2);
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
         good_luck_rv.setLayoutManager(manager);
         good_luck_rv.setItemAnimator(new DefaultItemAnimator());
         good_luck_rv.setHasFixedSize(true);
@@ -167,7 +167,7 @@ public class SnatchChenAty extends BaseAty {
         manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if(position<=3){
+                if (position <= 3) {
                     snatch_be_back_top_iv.setVisibility(View.GONE);
                 } else {
                     snatch_be_back_top_iv.setVisibility(View.VISIBLE);
@@ -186,7 +186,8 @@ public class SnatchChenAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_tv, R.id.times_layout,R.id.snatch_be_back_top_iv})
+    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_tv, R.id.times_layout, R.id
+            .snatch_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -251,7 +252,7 @@ public class SnatchChenAty extends BaseAty {
         data.add("主人内疚逃命时没带够，回废墟狂挖30小时！");
         dataForRv = new ArrayList<>();
         goodsByOrderAdapter = new GoodsForRvAdapter(this, dataForRv, 5);
-        height = ToolKit.dip2px(this,4);
+        height = ToolKit.dip2px(this, 4);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Config {
     /**
      * 主URL
      */
-    public final static String BASE_URL = "http://app.mayiyinlu.com/index.php/Api/";
+    public final static String BASE_URL = "http://wjyp.txunda.com/index.php/Api/";
 
     public static List<Activity> list = new ArrayList<>();
 
@@ -99,7 +99,7 @@ public class Config {
      * 屏幕密度DPI(120 / 160 / 240)
      *
      * @param activity Activity
-     * @return  int
+     * @return int
      */
     public static int getScreenDensityDpi(Activity activity) {
         DisplayMetrics metric = new DisplayMetrics();

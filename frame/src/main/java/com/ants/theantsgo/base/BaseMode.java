@@ -12,20 +12,20 @@ import java.io.Serializable;
  */
 
 public class BaseMode implements Serializable {
-    public String flag;
+    public String code;
     public String message;
 
-    public BaseMode(String flag, String message) {
-        this.flag = flag;
+    public BaseMode(String code, String message) {
+        this.code = code;
         this.message = message;
     }
 
     public String getFlag() {
-        return flag;
+        return code;
     }
 
     public void setFlag(String flag) {
-        this.flag = flag;
+        this.code = flag;
     }
 
     public String getMessage() {

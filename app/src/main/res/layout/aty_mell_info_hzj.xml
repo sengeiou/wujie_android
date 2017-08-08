@@ -29,7 +29,7 @@
                 android:id="@+id/mell_info_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/icon_mell_info_bg"
+                android:background="@drawable/icon_off_line_mell_bg_hzj"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:padding="12dp"

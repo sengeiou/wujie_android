@@ -229,7 +229,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         title_scan_tv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.VISIBLE);
         // 轮播图高度
-        allHeight = Settings.displayWidth * 2 / 3;
+        allHeight = Settings.displayWidth * 3 / 5;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
@@ -534,9 +534,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void setView() {
         for (int i = 0; i < data.size(); i = i + 2) {
             //设置滚动的单个布局
-            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.item_view, null);
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.iten_wj_top_view, null);
             //初始化布局的控件
-            TextView tv1 = moreView.findViewById(R.id.tv1);
+            TextView tv1 = moreView.findViewById(R.id.top_tv1);
+            //初始化布局的控件
+            TextView tv2 = moreView.findViewById(R.id.top_tv2);
 
             /**
              * 设置监听
@@ -547,7 +549,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 }
             });
             //进行对控件赋值
-            tv1.setText(data.get(i).toString());
+            tv1.setText(data.get(i));
+
+            if (data.size() > i + 1) {
+                //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
+                tv2.setText(data.get(i + 1).toString());
+            } else {
+                tv2.setVisibility(View.GONE);
+            }
+
             //添加到循环滚动数组里面去
             views.add(moreView);
         }
