@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -131,7 +132,7 @@ public class ThemeGoodsListAty extends BaseAty implements ObservableScrollView.S
                 tgvh = (TGVH) view.getTag();
             }
 
-            tgvh.use_coupon_tv.setVisibility(View.VISIBLE);
+            tgvh.theme_lin_layout.setVisibility(View.VISIBLE);
             if (i % 2 == 0) {
                 tgvh.use_coupon_tv.setText("不可使用购物券");
                 tgvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
@@ -144,6 +145,9 @@ public class ThemeGoodsListAty extends BaseAty implements ObservableScrollView.S
         }
 
         class TGVH {
+
+            @ViewInject(R.id.theme_lin_layout)
+            private LinearLayout theme_lin_layout;
 
             @ViewInject(R.id.use_coupon_tv)
             private TextView use_coupon_tv;
