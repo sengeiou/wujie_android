@@ -242,6 +242,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         mach_more_iv.setImageResource(R.drawable.icon_main_more);
     }
 
+    /**
+     * 更多弹窗
+     *
+     * @param anchorView 点击的按钮
+     * @return PopupWindow
+     */
     private PopupWindow showPopupWindow(View anchorView) {
         final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(
                 R.layout.main_popup_windeow_layout, null);
@@ -322,7 +328,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr,UpdataApp.class);
-        L.e("=====更新=====",updataApp.toString());
+        UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+        L.e("=====更新=====", updataApp.toString());
     }
 }
