@@ -1,7 +1,16 @@
 package com.txd.hzj.wjlp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
+import android.os.PowerManager;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
@@ -22,11 +32,22 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.flyco.tablayout.utils.FragmentChangeManager;
+import com.hyphenate.EMContactListener;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.EMMultiDeviceListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMCmdMessageBody;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
+import com.txd.hzj.wjlp.huanxin.db.InviteMessgeDao;
+import com.txd.hzj.wjlp.huanxin.db.UserDao;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
@@ -100,6 +121,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // 更新
     private UpdataPst updataPst;
 
+    //========== 环信相关 ==========
+    private InviteMessgeDao inviteMessgeDao;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +131,21 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
         L.e("=====手机厂商=====", android.os.Build.BRAND);
-        //Huawei,,
+        // 电源管理
+        forPowerManager();
+        // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
+        keepActivity();
+        // 意外弹窗
+        showExceptionDialogFromIntent(getIntent());
+
+        inviteMessgeDao = new InviteMessgeDao(this);
+        UserDao userDao = new UserDao(this);
+
+        // 注册DemoHelper的广播接收器
+        registerBroadcastReceiver();
+
+        EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
+        EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
     }
 
     @Override
@@ -165,6 +203,21 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     break;
             }
         }
+
+        // 更新未读消息，新增联系人消息
+        if (!isConflict && !isCurrentAccountRemoved) {
+            updateUnreadLabel();
+            updateUnreadAddressLable();
+        }
+
+        // unregister this event listener when this activity enters the
+        // background
+        // 后台运行时取消监听
+        DemoHelper sdkHelper = DemoHelper.getInstance();
+        sdkHelper.pushActivity(this);
+
+        EMClient.getInstance().chatManager().addMessageListener(messageListener);
+
     }
 
     @Override
@@ -330,5 +383,346 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.onComplete(requestUrl, jsonStr);
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
         L.e("=====更新=====", updataApp.toString());
+    }
+    // ============================== 环信 ==============================
+    // Todo 环信=========================================================
+    // Todo 环信=========================================================
+    // Todo 环信=========================================================
+    // Todo 环信=========================================================
+
+    private boolean isExceptionDialogShow = false;
+
+    private android.app.AlertDialog.Builder exceptionBuilder;
+
+    // user logged into another device
+    public boolean isConflict = false;
+
+    private LocalBroadcastManager broadcastManager;
+
+    private BroadcastReceiver broadcastReceiver;
+
+
+    // user account was removed
+    private boolean isCurrentAccountRemoved = false;
+
+    /**
+     * check if current user account was remove
+     */
+    public boolean getCurrentAccountRemoved() {
+        return isCurrentAccountRemoved;
+    }
+
+    /**
+     * 电源管理
+     */
+    private void forPowerManager() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {// android 6.0电源管理
+            String packageName = getPackageName();// 获取包名
+            // 获取电源管理服务
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                try {
+                    //some device doesn't has activity to handle this intent
+                    //so add try catch
+                    // 防止有些设备无法对电量管理服务进行处理(添加try...catch)
+                    Intent intent = new Intent();
+                    intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    intent.setData(Uri.parse("package:" + packageName));
+                    startActivity(intent);
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 当用户登录到另一个设备或删除时，确保活动不会出现在后台
+     */
+    private void keepActivity() {
+        // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
+        if (getIntent() != null &&
+                (getIntent().getBooleanExtra(Constant.ACCOUNT_REMOVED, false) ||
+                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
+                        getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
+            DemoHelper.getInstance().logout(false, null);
+            startActivity(new Intent(this, LoginAty.class));
+        } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
+            startActivity(new Intent(this, LoginAty.class));
+        }
+    }
+
+    /**
+     * 用户意外会话弹窗
+     *
+     * @param intent
+     */
+    private void showExceptionDialogFromIntent(Intent intent) {
+        EMLog.e("=====mainAty=====", "showExceptionDialogFromIntent");
+        if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_CONFLICT, false)) {
+            showExceptionDialog(Constant.ACCOUNT_CONFLICT);
+        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_REMOVED, false)) {
+            showExceptionDialog(Constant.ACCOUNT_REMOVED);
+        } else if (!isExceptionDialogShow && intent.getBooleanExtra(Constant.ACCOUNT_FORBIDDEN, false)) {
+            showExceptionDialog(Constant.ACCOUNT_FORBIDDEN);
+        } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
+                intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
+            this.finish();
+            startActivity(new Intent(this, LoginAty.class));
+        }
+    }
+
+    /**
+     * show the dialog when user met some exception: such as login on another device, user removed or user forbidden
+     * 当用户遇到一些异常时显示对话框:例如在另一个设备上登录，用户删除或禁止用户
+     */
+    private void showExceptionDialog(String exceptionType) {
+        isExceptionDialogShow = true;
+        DemoHelper.getInstance().logout(false, null);
+        String st = getResources().getString(R.string.Logoff_notification);
+        if (!MainAty.this.isFinishing()) {
+            // clear up global variables
+            try {
+                if (exceptionBuilder == null)
+                    exceptionBuilder = new android.app.AlertDialog.Builder(MainAty.this);
+                exceptionBuilder.setTitle(st);
+                exceptionBuilder.setMessage(getExceptionMessageId(exceptionType));
+                exceptionBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        exceptionBuilder = null;
+                        isExceptionDialogShow = false;
+                        finish();
+                        Intent intent = new Intent(MainAty.this, LoginAty.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+                exceptionBuilder.setCancelable(false);
+                exceptionBuilder.create().show();
+                isConflict = true;
+            } catch (Exception e) {
+                EMLog.e("=====MainAty=====", "---------color conflictBuilder error" + e.getMessage());
+            }
+        }
+    }
+
+    private int getExceptionMessageId(String exceptionType) {
+        if (exceptionType.equals(Constant.ACCOUNT_CONFLICT)) {
+            return R.string.connect_conflict;
+        } else if (exceptionType.equals(Constant.ACCOUNT_REMOVED)) {
+            return R.string.em_user_remove;
+        } else if (exceptionType.equals(Constant.ACCOUNT_FORBIDDEN)) {
+            return R.string.user_forbidden;
+        }
+        return R.string.Network_error;
+    }
+
+    public class MyContactListener implements EMContactListener {
+        @Override
+        public void onContactAdded(String username) {
+        }
+
+        @Override
+        public void onContactDeleted(final String username) {
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
+                            username.equals(ChatActivity.activityInstance.toChatUsername)) {
+                        String st10 = getResources().getString(R.string.have_you_removed);
+                        Toast.makeText(MainAty.this, ChatActivity.activityInstance.getToChatUsername() + st10,
+                                Toast.LENGTH_LONG)
+                                .show();
+                        ChatActivity.activityInstance.finish();
+                    }
+                }
+            });
+            updateUnreadAddressLable();
+        }
+
+        @Override
+        public void onContactInvited(String username, String reason) {
+        }
+
+        @Override
+        public void onFriendRequestAccepted(String username) {
+        }
+
+        @Override
+        public void onFriendRequestDeclined(String username) {
+        }
+    }
+
+    public class MyMultiDeviceListener implements EMMultiDeviceListener {
+
+        @Override
+        public void onContactEvent(int event, String target, String ext) {
+
+        }
+
+        @Override
+        public void onGroupEvent(int event, String target, final List<String> username) {
+            switch (event) {
+                case EMMultiDeviceListener.GROUP_LEAVE:
+                    ChatActivity.activityInstance.finish();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    /**
+     * update the total unread count
+     * 获取全部新朋友数量(通讯录)
+     */
+    public void updateUnreadAddressLable() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                int count = getUnreadAddressCountTotal();
+//                if (count > 0) {
+//                    unreadAddressLable.setVisibility(View.VISIBLE);
+//                } else {
+//                    unreadAddressLable.setVisibility(View.INVISIBLE);
+//                }
+            }
+        });
+    }
+
+    /**
+     * get unread event notification count, including application, accepted, etc
+     *
+     * @return int
+     */
+    public int getUnreadAddressCountTotal() {
+        int unreadAddressCountTotal = 0;
+        unreadAddressCountTotal = inviteMessgeDao.getUnreadMessagesCount();
+        return unreadAddressCountTotal;
+    }
+
+
+    EMMessageListener messageListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+            // notify new message
+            for (EMMessage message : messages) {
+                DemoHelper.getInstance().getNotifier().onNewMsg(message);
+            }
+            refreshUIWithMessage();
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //red packet code : 处理红包回执透传消息
+            for (EMMessage message : messages) {
+                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
+                final String action = cmdMsgBody.action();//获取自定义action
+
+            }
+            //end of red packet code
+            refreshUIWithMessage();
+        }
+
+        @Override
+        public void onMessageRead(List<EMMessage> messages) {
+        }
+
+        @Override
+        public void onMessageDelivered(List<EMMessage> message) {
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {
+        }
+    };
+    /**
+     * 刷新UI
+     */
+    private void refreshUIWithMessage() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                // refresh unread count
+                // 刷新未读消息数量
+                updateUnreadLabel();
+
+            }
+        });
+    }
+    /**
+     * update unread message count
+     * 更新未读消息数量
+     */
+    public void updateUnreadLabel() {
+        int count = getUnreadMsgCountTotal();
+
+//        if (count > 0) {// 显示消息数量TextView
+//            unreadLabel.setText(String.valueOf(count));
+//            unreadLabel.setVisibility(View.VISIBLE);
+//        } else {
+//            unreadLabel.setVisibility(View.INVISIBLE);
+//        }
+    }
+    /**
+     * get unread message count
+     * 获取未读消息数量
+     *
+     * @return int
+     */
+    public int getUnreadMsgCountTotal() {
+        return EMClient.getInstance().chatManager().getUnreadMessageCount();
+    }
+
+    private void registerBroadcastReceiver() {
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constant.ACTION_CONTACT_CHANAGED);
+        intentFilter.addAction(Constant.ACTION_GROUP_CHANAGED);
+        broadcastReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                updateUnreadLabel();
+                updateUnreadAddressLable();
+                String action = intent.getAction();
+            }
+        };
+        broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
+    }
+    // ============================== 环信 ==============================
+
+    @Override
+    protected void onStop() {
+        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
+        DemoHelper sdkHelper = DemoHelper.getInstance();
+        sdkHelper.popActivity(this);
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("isConflict", isConflict);
+        outState.putBoolean(Constant.ACCOUNT_REMOVED, isCurrentAccountRemoved);
+        super.onSaveInstanceState(outState);
+    }
+    // 注销广播
+    private void unregisterBroadcastReceiver() {
+        broadcastManager.unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (exceptionBuilder != null) {
+            exceptionBuilder.create().dismiss();
+            exceptionBuilder = null;
+            isExceptionDialogShow = false;
+        }
+        unregisterBroadcastReceiver();
+
     }
 }

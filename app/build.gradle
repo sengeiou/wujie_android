@@ -9,6 +9,7 @@ android {
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
@@ -43,7 +44,6 @@ dependencies {
     compile project(':frame')
     compile project(':pickerview')
     compile project(':sideBar')
-
     // 地址边栏选择
     // zXing
     //zxing
@@ -59,4 +59,9 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'cc.solart:turbo-recyclerview-helper:1.0.3-beta'
     testCompile 'junit:junit:4.12'
+    compile project(':easeui')
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.android.support:multidex:1.0.1'
+
+    compile 'com.android.support:multidex:1.0.0'
 }
