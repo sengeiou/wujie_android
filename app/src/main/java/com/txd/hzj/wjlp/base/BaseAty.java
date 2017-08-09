@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
@@ -49,15 +50,18 @@ public abstract class BaseAty extends BaseActivity {
      */
     public void showStatusBar(int vid) {
         String name = android.os.Build.BRAND;
-        if (name.equals("Xiaomi") || name.equals("OPPO") || name.equals("htc") ||
-                name.equals("samsung") || name.equals("360")) {
-            ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
-        } else {
+
+        if(name.equals("Huawei")){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
             } else {
                 ImmersionBar.with(this).titleBar(vid).init();
             }
+        } else {
+            if (ImmersionBar.isSupportStatusBarDarkFont())
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
+            else
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
         }
     }
 

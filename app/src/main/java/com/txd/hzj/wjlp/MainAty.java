@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,13 +9,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,23 +26,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMMultiDeviceListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
@@ -54,10 +56,12 @@ import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
-import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
+import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
+import com.txd.hzj.wjlp.tool.NotifyUtil;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,11 +112,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private TextView mach_more_tv;
 
     private int page_index = 0;
-    // 碎片
-    private MellonLineFgt mellonLineFgt;
-    private MellOffLineFgt mellOffLineFgt;
-    private CartFgt cartFgt;
-    private MineFgt mineFgt;
     private ArrayList<Fragment> fragments;
     private FragmentChangeManager fragmentChangeManager;
 
@@ -123,6 +122,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     //========== 环信相关 ==========
     private InviteMessgeDao inviteMessgeDao;
+    //========== apk更新 ==========
+    private MaterialDialog dialogUpdate;
+    private NotifyUtil notifyUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
         L.e("=====手机厂商=====", android.os.Build.BRAND);
+
+
+        //申请权限
+        requestSomePermission();
+
         // 电源管理
         forPowerManager();
         // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
@@ -155,10 +162,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void initialized() {
-        mellonLineFgt = new MellonLineFgt();
-        mellOffLineFgt = new MellOffLineFgt();
-        cartFgt = new CartFgt();
-        mineFgt = new MineFgt();
+        MellonLineFgt mellonLineFgt = new MellonLineFgt();
+        MellOffLineFgt mellOffLineFgt = new MellOffLineFgt();
+        CartFgt cartFgt = new CartFgt();
+        MineFgt mineFgt = new MineFgt();
         fragments = new ArrayList<>();
         fragments.add(mellonLineFgt);
         fragments.add(mellOffLineFgt);
@@ -324,7 +331,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 return false;   // 这里面拦截不到返回键
             }
         });
-        /**
+        /*
          * 无界商城
          */
         contentView.findViewById(R.id.main_wj_shop_iv).setOnClickListener(new View.OnClickListener() {
@@ -342,7 +349,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 popupWindow.dismiss();
             }
         });
-        /**
+        /*
          * 福利社
          */
         contentView.findViewById(R.id.welfare_service_iv).setOnClickListener(new View.OnClickListener() {
@@ -353,7 +360,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 popupWindow.dismiss();
             }
         });
-        /**
+        /*
          * 上市孵化
          */
         contentView.findViewById(R.id.main_wj_hatch_iv).setOnClickListener(new View.OnClickListener() {
@@ -364,7 +371,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 popupWindow.dismiss();
             }
         });
-        /**
+        /*
          * 股东招募
          */
         contentView.findViewById(R.id.recruit_stockholder_iv).setOnClickListener(new View.OnClickListener() {
@@ -382,6 +389,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+        showAppUpdateDialog(updataApp);
         L.e("=====更新=====", updataApp.toString());
     }
     // ============================== 环信 ==============================
@@ -430,6 +438,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     intent.setData(Uri.parse("package:" + packageName));
                     startActivity(intent);
                 } catch (Exception e) {
+                    L.e("=====", "电量管理");
                 }
             }
         }
@@ -454,7 +463,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     /**
      * 用户意外会话弹窗
      *
-     * @param intent
+     * @param intent 意图
      */
     private void showExceptionDialogFromIntent(Intent intent) {
         EMLog.e("=====mainAty=====", "showExceptionDialogFromIntent");
@@ -509,17 +518,23 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     private int getExceptionMessageId(String exceptionType) {
-        if (exceptionType.equals(Constant.ACCOUNT_CONFLICT)) {
-            return R.string.connect_conflict;
-        } else if (exceptionType.equals(Constant.ACCOUNT_REMOVED)) {
-            return R.string.em_user_remove;
-        } else if (exceptionType.equals(Constant.ACCOUNT_FORBIDDEN)) {
-            return R.string.user_forbidden;
+
+        int reid = R.string.Network_error;
+        switch (exceptionType){
+            case Constant.ACCOUNT_CONFLICT:
+                reid = R.string.connect_conflict;
+                break;
+            case Constant.ACCOUNT_REMOVED:
+                reid = R.string.em_user_remove;
+                break;
+            case Constant.ACCOUNT_FORBIDDEN:
+                reid = R.string.user_forbidden;
+                break;
         }
-        return R.string.Network_error;
+        return reid;
     }
 
-    public class MyContactListener implements EMContactListener {
+    private class MyContactListener implements EMContactListener {
         @Override
         public void onContactAdded(String username) {
         }
@@ -554,7 +569,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
     }
 
-    public class MyMultiDeviceListener implements EMMultiDeviceListener {
+    private class MyMultiDeviceListener implements EMMultiDeviceListener {
 
         @Override
         public void onContactEvent(int event, String target, String ext) {
@@ -597,7 +612,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * @return int
      */
     public int getUnreadAddressCountTotal() {
-        int unreadAddressCountTotal = 0;
+        int unreadAddressCountTotal;
         unreadAddressCountTotal = inviteMessgeDao.getUnreadMessagesCount();
         return unreadAddressCountTotal;
     }
@@ -616,13 +631,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         @Override
         public void onCmdMessageReceived(List<EMMessage> messages) {
-            //red packet code : 处理红包回执透传消息
-            for (EMMessage message : messages) {
-                EMCmdMessageBody cmdMsgBody = (EMCmdMessageBody) message.getBody();
-                final String action = cmdMsgBody.action();//获取自定义action
-
-            }
-            //end of red packet code
             refreshUIWithMessage();
         }
 
@@ -638,6 +646,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         public void onMessageChanged(EMMessage message, Object change) {
         }
     };
+
     /**
      * 刷新UI
      */
@@ -651,6 +660,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             }
         });
     }
+
     /**
      * update unread message count
      * 更新未读消息数量
@@ -665,6 +675,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //            unreadLabel.setVisibility(View.INVISIBLE);
 //        }
     }
+
     /**
      * get unread message count
      * 获取未读消息数量
@@ -686,7 +697,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             public void onReceive(Context context, Intent intent) {
                 updateUnreadLabel();
                 updateUnreadAddressLable();
-                String action = intent.getAction();
+//                String action = intent.getAction();
             }
         };
         broadcastManager.registerReceiver(broadcastReceiver, intentFilter);
@@ -708,6 +719,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         outState.putBoolean(Constant.ACCOUNT_REMOVED, isCurrentAccountRemoved);
         super.onSaveInstanceState(outState);
     }
+
     // 注销广播
     private void unregisterBroadcastReceiver() {
         broadcastManager.unregisterReceiver(broadcastReceiver);
@@ -725,4 +737,169 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         unregisterBroadcastReceiver();
 
     }
+
+    //==================== apk更新 =====================
+    // Todo============================================
+    // Todo============================================
+    // Todo============================================
+    // Todo============================================
+    // Todo============================================
+    private void showAppUpdateDialog(final UpdataApp updataApp) {
+        int code = Integer.parseInt(updataApp.getData().getCode());
+        if (code > BuildConfig.VERSION_CODE) {
+            new MikyouCommonDialog(this, "检测到新版本v" + updataApp.getData().getName(), "提示", "立即更新", "稍后更新")
+                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                        @Override
+                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
+                                which) {
+                            switch (btnType) {
+                                case MikyouCommonDialog.NO:// 取消
+                                    break;
+                                case MikyouCommonDialog.OK:// 更新
+                                    showDownloadDialog(updataApp);
+                                    break;
+                            }
+                        }
+                    }).showDialog();
+        }
+    }
+
+    private void showDownloadDialog(UpdataApp appUpdateInfo) {
+        dialogUpdate = new MaterialDialog.Builder(MainAty.this)
+                .title("正在下载最新版本")
+                .content("请稍等")
+                .canceledOnTouchOutside(false)
+                .cancelable(false)
+                .progress(false, 100, false)
+                .negativeText("后台下载")
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        startNotifyProgress();
+                    }
+                })
+                .show();
+
+        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "无界优品 " + appUpdateInfo.getData().getMessage(),
+                new
+                        InstallUtils.DownloadCallBack() {
+                            @Override
+                            public void onStart() {
+                                if (dialogUpdate != null) {
+                                    dialogUpdate.setProgress(0);
+                                }
+                            }
+
+                            @Override
+                            public void onComplete(String path) {
+                                /*
+                                 * 安装APK工具类
+                                 * @param context       上下文
+                                 * @param filePath      文件路径
+                                 * @param authorities   ---------Manifest中配置provider的authorities字段---------
+                                 * @param callBack      安装界面成功调起的回调
+                                 */
+                                InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
+                                        InstallUtils
+                                                .InstallCallBack
+                                                () {
+                                            @Override
+                                            public void onSuccess() {
+                                                Toast.makeText(MainAty.this, "正在安装程序", Toast.LENGTH_SHORT).show();
+                                            }
+
+                                            @Override
+                                            public void onFail(Exception e) {
+                                                Toast.makeText(MainAty.this, "安装失败:" + e.toString(), Toast
+                                                        .LENGTH_SHORT).show();
+                                            }
+                                        });
+                                if (dialogUpdate != null && dialogUpdate.isShowing()) {
+                                    dialogUpdate.dismiss();
+                                }
+                                if (notifyUtils != null) {
+                                    notifyUtils.setNotifyProgressComplete();
+                                    notifyUtils.clear();
+                                }
+                            }
+
+                            @Override
+                            public void onLoading(long total, long current) {
+                                int currentProgress = (int) (current * 100 / total);
+                                if (dialogUpdate != null) {
+                                    dialogUpdate.setProgress(currentProgress);
+                                }
+                                if (notifyUtils != null) {
+                                    notifyUtils.setNotifyProgress(100, currentProgress, false);
+                                }
+                            }
+
+                            @Override
+                            public void onFail(Exception e) {
+                                if (dialogUpdate != null && dialogUpdate.isShowing()) {
+                                    dialogUpdate.dismiss();
+                                }
+                                if (notifyUtils != null) {
+                                    notifyUtils.clear();
+                                }
+                            }
+                        }).downloadAPK();
+
+    }
+
+    /**
+     * 开启通知栏
+     */
+    private void startNotifyProgress() {
+        //设置想要展示的数据内容
+        Intent intent = new Intent(this, SetAty.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent rightPendIntent = PendingIntent.getActivity(this,
+                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        int smallIcon = R.mipmap.ic_launcher;
+        String ticker = "正在下载无界优品更新包...";
+        //实例化工具类，并且调用接口
+        notifyUtils = new NotifyUtil(this, 0);
+        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "无界优品 下载", "正在下载中...", false, false, false);
+    }
+
+    // ====================android M+动态授权====================
+    private void requestSomePermission() {
+
+        // 先判断是否有权限。
+        // !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
+        if (!AndPermission.hasPermission(MainAty.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.READ_PHONE_STATE) ||
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.CAMERA)
+                ) {
+            // 申请权限。
+            AndPermission.with(MainAty.this)
+                    .requestCode(100)
+                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA)
+                    .send();
+        }
+    }
+
+    private PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantedPermissions) {
+
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // 权限申请失败回调。
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(MainAty.this, deniedPermissions)) {
+                // 第二种：用自定义的提示语。
+                AndPermission.defaultSettingDialog(MainAty.this, 300)
+                        .setTitle("权限申请失败")
+                        .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                        .setPositiveButton("好，去设置")
+                        .show();
+            }
+        }
+    };
 }
