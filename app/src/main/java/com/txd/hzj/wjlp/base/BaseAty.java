@@ -10,6 +10,7 @@ import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.ScanAty;
@@ -41,6 +42,7 @@ public abstract class BaseAty extends BaseActivity {
      * 登录
      */
     public void toLogin() {
+        startActivity(LoginAty.class, null);
     }
 
     /**
@@ -51,7 +53,7 @@ public abstract class BaseAty extends BaseActivity {
     public void showStatusBar(int vid) {
         String name = android.os.Build.BRAND;
 
-        if(name.equals("Huawei")){
+        if (name.equals("Huawei")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
             } else {

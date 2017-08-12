@@ -31,7 +31,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="8dp"/>
+                android:layout_height="4dp"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -41,7 +41,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="8dp"/>
+                android:layout_height="4dp"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/classify_goods_rv"

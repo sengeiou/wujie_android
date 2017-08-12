@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -59,11 +61,21 @@ public class GetRedPackageAty extends BaseAty {
 
     private MyCountDown myCountDown;
 
+    private int padding = 0;
+    private int pic_w = 0;
+    private int pic_h = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         next_pic_tv.setEnabled(false);
         next_pic_tv.setBackgroundResource(R.drawable.shape_rp_un_click_next_tv);
+
+        pic_w = Settings.displayWidth - padding;
+        pic_h = pic_w;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_w, pic_h);
+        ad_pic_iv.setLayoutParams(params);
+
         // 设置第一张图片
         ad_pic_iv.setImageResource(pics.get(pos));
         // 设置图片总数量和当前位置
@@ -102,6 +114,7 @@ public class GetRedPackageAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        padding = ToolKit.dip2px(this, 64);
         pics = new ArrayList<>();
         pics.add(R.drawable.icon_temp_banner);
         pics.add(R.drawable.icon_temp_banner);

@@ -35,7 +35,7 @@ public class CollectHzjAty extends BaseAty {
     /**
      * 编辑，完成
      */
-    @ViewInject(R.id.titlt_right_tv)
+    @ViewInject(R.id.foot_right_tv)
     public TextView titlt_right_tv;
 
     /**
@@ -69,9 +69,7 @@ public class CollectHzjAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("我的收藏");
-        titlt_right_tv.setVisibility(View.VISIBLE);
+        showStatusBar(R.id.collect_title_layout);
 
         fcm = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.collect_frame_layout, mFragment);
 
@@ -102,11 +100,11 @@ public class CollectHzjAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout})
+    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.titlt_right_tv:// 编辑，完成
+            case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
                 String status = titlt_right_tv.getText().toString();
                 if (0 == selected) {// 商品

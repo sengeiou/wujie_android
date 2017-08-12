@@ -5,19 +5,24 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.txd.hzj.wjlp.popAty.fgt.GetCouponFgt">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/coupon_classify_rv"
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/title_coupon_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/white"/>
-
-    <ListView
-        android:id="@+id/coupon_lv"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_textSelectColor="@color/theme_color"
+        app:tl_textUnselectColor="@color/app_text_color"
+        app:tl_textsize="14sp"
+        app:tl_underline_color="@color/white"
+        app:tl_indicator_color="@color/theme_color"
+        app:tl_underline_height="1dp"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_for_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/bg_color"
-        android:dividerHeight="8dp"
-        android:padding="8dp"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

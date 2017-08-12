@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -24,6 +27,22 @@ public class OffLineMellInfoAty extends BaseAty {
         super.onCreate(savedInstanceState);
         // 沉浸式
         showStatusBar(R.id.mell_info_title_layout);
+    }
+
+    @Override
+    @OnClick({R.id.check_all_comment_tv, R.id.mell_reported_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.check_all_comment_tv:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                startActivity(GoodsEvaluateAty.class, bundle);
+                break;
+            case R.id.mell_reported_tv:// 举报商家
+                startActivity(MellReportedAty.class, null);
+                break;
+        }
     }
 
     @Override

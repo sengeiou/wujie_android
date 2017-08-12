@@ -46,7 +46,7 @@ public class MyCouponAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("购物券");
-        titlt_right_tv.setText("使用明细");
+        titlt_right_tv.setText("明细");
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         valid_ticket_lv.setAdapter(tricketAdapter);

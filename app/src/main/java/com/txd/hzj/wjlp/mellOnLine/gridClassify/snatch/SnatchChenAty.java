@@ -96,11 +96,13 @@ public class SnatchChenAty extends BaseAty {
      */
     @ViewInject(R.id.plan_goods_tv)
     private TextView plan_goods_tv;
+
     /**
-     * 人次布局
+     * 进度升降
      */
-    @ViewInject(R.id.times_layout)
-    private LinearLayout times_layout;
+    @ViewInject(R.id.plan_goods_time_iv)
+    private ImageView plan_goods_time_iv;
+
     /**
      * 人次
      */
@@ -119,6 +121,12 @@ public class SnatchChenAty extends BaseAty {
      * 3.人次
      */
     private int soft_type = 0;
+    /**
+     * 进度升降
+     * 偶数-->降
+     * 奇数-->升
+     */
+    private int plan_goods_times = 0;
     /**
      * 人次升降
      * 偶数-->降
@@ -186,7 +194,7 @@ public class SnatchChenAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_tv, R.id.times_layout, R.id
+    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_layout, R.id.times_layout, R.id
             .snatch_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
@@ -199,7 +207,7 @@ public class SnatchChenAty extends BaseAty {
                 soft_type = 1;
                 softStyle(soft_type);
                 break;
-            case R.id.plan_goods_tv:// 热度
+            case R.id.plan_goods_layout:// 进度
                 soft_type = 2;
                 softStyle(soft_type);
                 break;
@@ -284,17 +292,29 @@ public class SnatchChenAty extends BaseAty {
         plan_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
         times_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
         times_iv.setImageResource(R.mipmap.icon_screen_default_chen);
-
+        plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_default_chen);
         if (0 == type) {
             hot_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             times = 0;
+            plan_goods_times = 0;
         } else if ((1 == type)) {
             lastest_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             times = 0;
+            plan_goods_times = 0;
         } else if (2 == type) {
             times = 0;
             plan_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+            if (plan_goods_times % 2 == 0) {
+                plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_down_chen);
+            } else {
+                plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_top_chen);
+            }
+
+            plan_goods_times++;
+
         } else {
+            plan_goods_times = 0;
             times_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             if (times % 2 == 0) {
                 times_iv.setImageResource(R.mipmap.icon_screen_down_chen);

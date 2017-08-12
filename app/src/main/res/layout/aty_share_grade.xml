@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin"
-                android:background="@drawable/icon_mine_bg"
+                android:background="@drawable/icon_share_grade_bg_hzj"
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <LinearLayout

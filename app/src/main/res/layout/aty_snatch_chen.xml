@@ -84,17 +84,31 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="最新"
+                    android:text="积分"
                     />
 
-                <TextView
-                    android:id="@+id/plan_goods_tv"
+                <LinearLayout
+                    android:id="@+id/plan_goods_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="进度"
-                    />
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/plan_goods_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="进度"
+                        />
+
+                    <ImageView
+                        android:id="@+id/plan_goods_time_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/icon_screen_default_chen"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/times_layout"

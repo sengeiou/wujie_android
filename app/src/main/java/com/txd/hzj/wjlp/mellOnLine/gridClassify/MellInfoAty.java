@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -34,8 +36,10 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.MellOnlineGoodsAdapter;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellAllGoodsFgt;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellGuideFgt;
 import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellInfoFgt;
@@ -54,37 +58,36 @@ public class MellInfoAty extends BaseAty {
     @ViewInject(R.id.popularity_tv)
     private TextView popularity_tv;
     /**
-     * 价格
+     * 全部商品
      */
     @ViewInject(R.id.mell_price_tv)
     private TextView mell_price_tv;
-    @ViewInject(R.id.mell_price_iv)
-    private ImageView mell_price_iv;
 
     /**
-     * 销量
+     * 热销商品
      */
     @ViewInject(R.id.sales_tv)
     private TextView sales_tv;
     /**
-     * 全部
+     * 活动商品
      */
     @ViewInject(R.id.all_classify_tv)
     private TextView all_classify_tv;
+    /**
+     * 最新上架
+     */
+    @ViewInject(R.id.at_laster_tv)
+    private TextView at_laster_tv;
 
     /**
      * 排序方式
      */
     private int soft_type = 0;
-    /**
-     * 价格排序方式
-     * 偶数升序
-     * 奇数降序
-     */
-    private int price_type = 0;
 
     @ViewInject(R.id.mell_goods_rv)
     private RecyclerView mell_goods_rv;
+    @ViewInject(R.id.mell_goods_rv2)
+    private RecyclerView mell_goods_rv2;
 
 
     private PopupWindow mCurPopupWindow;
@@ -107,7 +110,6 @@ public class MellInfoAty extends BaseAty {
     @ViewInject(R.id.mell_tool_bar)
     private Toolbar mell_tool_bar;
     private int height;
-    private MellGoodsAdapter mellGoodsAdapter;
 
     @ViewInject(R.id.mell_noty_up_view)
     private UPMarqueeView mell_noty_up_view;
@@ -121,6 +123,25 @@ public class MellInfoAty extends BaseAty {
      */
     private List<View> views;
     private NoticeDialog noticeDialog;
+
+    private List<String> aty_type;
+
+    private int pop_select = 0;
+
+    /**
+     * 数据源，此参数用于判断ReclycleView的item样式
+     * 0.店铺首页，全部是图片，LinearManager方式
+     * 1.全部商品，热销商品，最新上架
+     * 2.限量购
+     * 3.拼团购
+     * 4.无界预购
+     * 5.竞拍汇
+     * 6.一元夺宝
+     */
+    private int data_type = 0;
+
+    private MellOnlineGoodsAdapter mellOnlineGoodsAdapter;
+    private boolean drawableLine = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,10 +169,7 @@ public class MellInfoAty extends BaseAty {
             }
         });
 
-        mell_goods_rv.setLayoutManager(new GridLayoutManager(this, 2));
-        mell_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
-        mell_goods_rv.setAdapter(mellGoodsAdapter);
-
+        setAdapterType(data_type);
         // 公告
         setView();
         mell_noty_up_view.setViews(views);
@@ -159,28 +177,47 @@ public class MellInfoAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.popularity_tv, R.id.mell_price_layout, R.id.sales_tv, R.id.all_classify_tv})
+    @OnClick({R.id.popularity_tv, R.id.mell_price_tv, R.id.sales_tv, R.id.at_laster_tv, R.id.all_classify_tv, R.id
+            .mell_info_by_off_line})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.popularity_tv:// 人气
+            case R.id.popularity_tv:// 店铺首页
                 soft_type = 0;
                 setStyle(soft_type);
+                mCurPopupWindow = null;
                 break;
-            case R.id.mell_price_layout:// 价格
+            case R.id.mell_price_tv:// 全部商品
                 soft_type = 1;
                 setStyle(soft_type);
+                mCurPopupWindow = null;
                 break;
-            case R.id.sales_tv:// 销量
+            case R.id.sales_tv:// 热销商品
                 soft_type = 2;
                 setStyle(soft_type);
+                mCurPopupWindow = null;
+                break;
+            case R.id.at_laster_tv:// 最新上架
+                soft_type = 3;
+                setStyle(soft_type);
+                mCurPopupWindow = null;
                 break;
             case R.id.all_classify_tv:// 分类
-                if (mCurPopupWindow == null || !mCurPopupWindow.isShowing()) {
+
+                if (mCurPopupWindow == null) {
                     mCurPopupWindow = showPop(v);
+                    if (mCurPopupWindow != null) {
+                        mCurPopupWindow.update();
+                    }
                 } else {
                     mCurPopupWindow.dismiss();
+                    mCurPopupWindow = null;
                 }
+                soft_type = 4;
+                setStyle(soft_type);
+                break;
+            case R.id.mell_info_by_off_line:// 详情
+                startActivity(OffLineMellInfoAty.class, null);
                 break;
         }
     }
@@ -194,7 +231,6 @@ public class MellInfoAty extends BaseAty {
     @Override
     protected void initialized() {
         height = ToolKit.dip2px(this, 4);
-        mellGoodsAdapter = new MellGoodsAdapter(this, 0);
         data = new ArrayList<>();
         views = new ArrayList<>();
         data.add("这是公告，这只是一个公告1");
@@ -202,6 +238,15 @@ public class MellInfoAty extends BaseAty {
         data.add("这是公告，这只是一个公告3");
         data.add("这是公告，这只是一个公告4");
         data.add("这是公告，这只是一个公告5");
+
+        aty_type = new ArrayList<>();
+        aty_type.add("限量购");
+        aty_type.add("拼团购");
+        aty_type.add("无界预购");
+        aty_type.add("竞拍汇");
+        aty_type.add("一元夺宝");
+
+
     }
 
     @Override
@@ -210,26 +255,33 @@ public class MellInfoAty extends BaseAty {
     }
 
     private void setStyle(int type) {
+        pop_select = 0;
+        // 店铺详情
         popularity_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+        // 全部商品
         mell_price_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+        // 热销商品
         sales_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
-        mell_price_iv.setImageResource(R.mipmap.icon_screen_default_chen);
-
+        // 最新上架
+        at_laster_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+        // 活动商品
+        all_classify_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
         if (0 == type) {
-            price_type = 0;
             popularity_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            data_type = 0;
+            setAdapterType(data_type);
         } else if (1 == type) {
             mell_price_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-
-            if (price_type % 2 == 0) {
-                mell_price_iv.setImageResource(R.mipmap.icon_screen_down_chen);
-            } else {
-                mell_price_iv.setImageResource(R.mipmap.icon_screen_top_chen);
-            }
-            price_type++;
-        } else {
+            data_type = 1;
+            setAdapterType(1);
+        } else if (2 == type) {
             sales_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-            price_type = 0;
+            data_type = 1;
+            setAdapterType(1);
+        } else if (3 == type) {
+            at_laster_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        } else {
+            all_classify_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
     }
 
@@ -243,19 +295,27 @@ public class MellInfoAty extends BaseAty {
         GridView classify_gv = contentView.findViewById(R.id.classify_gv);
         final ClassIfyAdapter classIfyAdapter = new ClassIfyAdapter();
         classify_gv.setAdapter(classIfyAdapter);
+        classIfyAdapter.setSelected(pop_select);
         classify_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                all_classify_tv.setText("拼团");
+                all_classify_tv.setText(aty_type.get(i));
+                all_classify_tv.setTextColor(ContextCompat.getColor(MellInfoAty.this, R.color.theme_color));
                 classIfyAdapter.setSelected(i);
                 classIfyAdapter.notifyDataSetChanged();
                 popupWindow.dismiss();
+                pop_select = i;
+                mCurPopupWindow = null;
+                data_type = i + 2;
+                setAdapterType(data_type);
+
             }
         });
         contentView.findViewById(R.id.be_dissmis_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 popupWindow.dismiss();
+                mCurPopupWindow = null;
             }
         });
         // 如果不设置PopupWindow的背景，有些版本就会出现一个问题：无论是点击外部区域还是Back键都无法dismiss弹框
@@ -289,6 +349,26 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
+    public void setAdapterType(int adapterType) {
+        mellOnlineGoodsAdapter = new MellOnlineGoodsAdapter(this, adapterType);
+        if (0 == adapterType) {
+            mell_goods_rv2.setVisibility(View.VISIBLE);
+            mell_goods_rv.setVisibility(View.GONE);
+            mell_goods_rv2.setLayoutManager(new LinearLayoutManager(this));
+            mell_goods_rv2.setAdapter(mellOnlineGoodsAdapter);
+        } else {
+
+            mell_goods_rv.setVisibility(View.VISIBLE);
+            mell_goods_rv2.setVisibility(View.GONE);
+            mell_goods_rv.setLayoutManager(new GridLayoutManager(this, 2));
+            if (drawableLine) {
+                drawableLine = false;
+                mell_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
+            }
+            mell_goods_rv.setAdapter(mellOnlineGoodsAdapter);
+        }
+    }
+
     /**
      * 全部筛选适配器
      */
@@ -300,12 +380,12 @@ public class MellInfoAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 12;
+            return aty_type.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public String getItem(int i) {
+            return aty_type.get(i);
         }
 
         @Override
@@ -315,7 +395,7 @@ public class MellInfoAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-
+            String type = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(MellInfoAty.this).inflate(R.layout.item_classify_gv, null);
                 cvh = new CVH();
@@ -330,7 +410,7 @@ public class MellInfoAty extends BaseAty {
             } else {
                 cvh.classify_text_tv.setTextColor(ContextCompat.getColor(MellInfoAty.this, R.color.app_text_color));
             }
-
+            cvh.classify_text_tv.setText(type);
             return view;
         }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.lidroid.xutils.ViewUtils;
@@ -25,7 +26,14 @@ public class CouponAdapter extends BaseAdapter {
     private Context context;
     private CouVH couVH;
 
+    /**
+     * 数据类型
+     */
     private int type;
+    /**
+     * 数据来源
+     */
+    private int from = 1;
 
     public CouponAdapter(Context context, int type) {
         this.context = context;
@@ -47,6 +55,10 @@ public class CouponAdapter extends BaseAdapter {
         return i;
     }
 
+    public void setFrom(int from) {
+        this.from = from;
+    }
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
@@ -59,10 +71,21 @@ public class CouponAdapter extends BaseAdapter {
         }
 
         if (0 == type) {
-            couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
-            couVH.coupon_already_layout.setVisibility(View.VISIBLE);
+
+            if(0 == from){
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
+                couVH.coupon_already_layout.setVisibility(View.GONE);
+            } else{
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
+                couVH.coupon_already_layout.setVisibility(View.VISIBLE);
+            }
+
         } else {
-            couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
+            if(0 == from){
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
+            } else {
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
+            }
             couVH.coupon_already_layout.setVisibility(View.GONE);
         }
 
@@ -76,6 +99,12 @@ public class CouponAdapter extends BaseAdapter {
 
         @ViewInject(R.id.coupon_already_layout)
         private LinearLayout coupon_already_layout;
+
+        /**
+         * 满减，满折，满赠
+         */
+        @ViewInject(R.id.coupon_type_iv)
+        private ImageView coupon_type_iv;
 
     }
 

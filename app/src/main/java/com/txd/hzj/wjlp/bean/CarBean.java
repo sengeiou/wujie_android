@@ -9,13 +9,48 @@ package com.txd.hzj.wjlp.bean;
  * ===============Txunda===============
  */
 public class CarBean {
-    private Boolean select;
 
-    public Boolean getSelect() {
-        return select;
+    private boolean selecet;
+    private int unSelectIcon;
+    private int selectIcon;
+    private String carname;
+
+    public CarBean(boolean selecet, int unSelectIcon, int selectIcon, String carname) {
+        this.selecet = selecet;
+        this.unSelectIcon = unSelectIcon;
+        this.selectIcon = selectIcon;
+        this.carname = carname;
     }
 
-    public void setSelect(Boolean select) {
-        this.select = select;
+    public boolean isSelecet() {
+        return selecet;
+    }
+
+    public void setSelecet(boolean selecet) {
+        this.selecet = selecet;
+    }
+
+    public int getUnSelectIcon() {
+        return unSelectIcon;
+    }
+
+    public void setUnSelectIcon(int unSelectIcon) {
+        this.unSelectIcon = unSelectIcon;
+    }
+
+    public int getSelectIcon() {
+        return selectIcon;
+    }
+
+    public void setSelectIcon(int selectIcon) {
+        this.selectIcon = selectIcon;
+    }
+
+    public String getCarname() {
+        return carname;
+    }
+
+    public void setCarname(String carname) {
+        this.carname = carname;
     }
 }

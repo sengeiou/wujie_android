@@ -7,11 +7,6 @@
     <include
         layout="@layout/aty_title"/>
 
-    <View
-        android:id="@+id/ie_view"
-        style="@style/line_view_h"
-        android:layout_below="@+id/ie_car"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

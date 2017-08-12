@@ -70,7 +70,7 @@ public class BalanceAty extends BaseAty {
                 break;
             case R.id.balance_details_tv:// 余额明细
                 Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
+                bundle.putInt("from", 3);
                 startActivity(ParticularsUsedByTricketAty.class, bundle);
                 break;
         }

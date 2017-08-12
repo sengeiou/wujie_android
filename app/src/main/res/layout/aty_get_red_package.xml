@@ -91,6 +91,7 @@
                 android:id="@+id/ad_pic_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:src="@drawable/icon_temp_goods_banner"
                 app:round_radius="12dp"
                 app:shape_mode="round_rect"

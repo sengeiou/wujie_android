@@ -16,10 +16,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
-import com.txd.hzj.wjlp.minetoAty.FeedBackAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
@@ -27,17 +27,16 @@ import com.txd.hzj.wjlp.minetoAty.books.BooksAty;
 import com.txd.hzj.wjlp.minetoAty.collect.CollectHzjAty;
 import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
+import com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellSettingAty;
 import com.txd.hzj.wjlp.minetoAty.mell.StockRecordAty;
-import com.txd.hzj.wjlp.minetoAty.mellInto.MerchantWillMoveIntoAty;
+import com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoListAty;
 import com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
-import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
-import com.txd.hzj.wjlp.minetoAty.SetAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
-import com.txd.hzj.wjlp.view.flowlayout.WaveView;
 
 /**
  * ===============Txunda===============
@@ -78,18 +77,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.user_name_tv)
     private TextView user_name_tv;
 
-    /**
-     * 设置
-     */
-    @ViewInject(R.id.tv_set)
-    TextView tv_set;
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
-    /**
-     * 波浪视图
-     */
-    @ViewInject(R.id.wave)
-    private WaveView wave;
+
 
     /**
      * 用户视图
@@ -148,7 +138,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         off_line_to_change_sc.smoothScrollTo(0, 0);
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
-        wave.startAnim();
 
         if (0 == type) {
             mine_mell_point_tv.setVisibility(View.VISIBLE);
@@ -168,7 +157,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     }
 
-
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
             R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
@@ -186,7 +174,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     startActivity(MellSettingAty.class, null);
                 }
                 break;
-            case R.id.grade_of_member_tv:// 会员等级
+            case R.id.grade_of_member_tv:// 会员成长
                 bundle = new Bundle();
                 bundle.putInt("from", 0);
                 startActivity(GradeOfMemberAty.class, bundle);
@@ -212,7 +200,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(FootprintAty.class, null);
                 break;
             case R.id.merchant_will_move_into_tv:// 商家入驻
-                startActivity(MerchantWillMoveIntoAty.class, null);
+                startActivity(MellIntoListAty.class, null);
                 break;
             case R.id.evaluate_tv:// 我的评价
                 bundle = new Bundle();

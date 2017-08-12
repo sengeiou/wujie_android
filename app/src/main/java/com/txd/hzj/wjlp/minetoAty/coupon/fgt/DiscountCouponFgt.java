@@ -47,7 +47,9 @@ public class DiscountCouponFgt extends BaseFgt {
     @Override
     protected void initialized() {
         couponAdapter = new CouponAdapter(getActivity(), 0);
+        couponAdapter.setFrom(0);
         couponAdapter1 = new CouponAdapter(getActivity(), 1);
+        couponAdapter1.setFrom(0);
     }
 
     @Override

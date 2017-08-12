@@ -50,6 +50,7 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
     /**
      * 0.商品全部评价
      * 1.我的全部评价
+     * 2.店铺全部评价
      */
     private int from = 0;
 
@@ -80,8 +81,12 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
             titlt_conter_tv.setText("全部评价(45)");
             evaluate_lin_layout.setVisibility(View.GONE);
             goods_comment_tag.setVisibility(View.VISIBLE);
-        } else {
+        } else if(1 == from){
             titlt_conter_tv.setText("我的评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+            goods_comment_tag.setVisibility(View.GONE);
+        } else{
+            titlt_conter_tv.setText("店铺评价");
             evaluate_lin_layout.setVisibility(View.VISIBLE);
             goods_comment_tag.setVisibility(View.GONE);
         }

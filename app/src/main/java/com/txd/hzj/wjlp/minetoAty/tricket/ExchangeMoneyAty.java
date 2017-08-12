@@ -58,6 +58,12 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.submit_op_tv)
     private TextView submit_op_tv;
 
+    @ViewInject(R.id.operation_type_tv)
+    private TextView operation_type_tv;
+
+    @ViewInject(R.id.operation_type_tv2)
+    private TextView operation_type_tv2;
+
     /**
      * 提现提示
      */
@@ -74,12 +80,15 @@ public class ExchangeMoneyAty extends BaseAty {
             submit_op_tv.setText("确定");
             select_bank_card_layout.setVisibility(View.INVISIBLE);
             bottom_tip_layout.setVisibility(View.GONE);
+            operation_type_tv.setText("积分");
         } else {
             titlt_conter_tv.setText("提现");
+            operation_type_tv.setText("提现金额");
             type_logo_iv.setImageResource(R.drawable.icon_withdraw_hzj_);
             submit_op_tv.setText("提交");
             select_bank_card_layout.setVisibility(View.VISIBLE);
             bottom_tip_layout.setVisibility(View.VISIBLE);
+            operation_type_tv2.setText("提现到银行卡，手续费率");
         }
     }
 

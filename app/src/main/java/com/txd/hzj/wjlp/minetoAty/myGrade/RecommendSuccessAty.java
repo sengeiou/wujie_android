@@ -36,7 +36,7 @@ public class RecommendSuccessAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("分享次数");
+        titlt_conter_tv.setText("推荐成功");
         share_times_lv.setAdapter(reSuccessAdapter);
     }
 

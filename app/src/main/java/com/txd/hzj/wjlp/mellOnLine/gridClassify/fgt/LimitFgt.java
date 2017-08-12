@@ -83,9 +83,21 @@ public class LimitFgt extends BaseFgt implements ObservableScrollView.ScrollView
         height = Settings.displayWidth / 2;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, height);
         top_ad_iv.setLayoutParams(params);
-        fgt_limit_sc.smoothScrollTo(0, 0);
         fgt_limit_sc.setScrollViewListener(this);
+        fgt_limit_sc.smoothScrollTo(0, 0);
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(getUserVisibleHint()){
+            try {
+                fgt_limit_sc.smoothScrollTo(0,0);
+            } catch (NullPointerException e){
+
+            }
+        }
     }
 
     @Override

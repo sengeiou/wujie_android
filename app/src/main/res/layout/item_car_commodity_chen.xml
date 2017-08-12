@@ -47,7 +47,10 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:maxLines="2"
-        android:padding="8dp"
+        android:paddingBottom="3dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
         android:text="新BMW 系 99元订金全价到店为准330LixDrive豪华"
         android:textColor="@color/black"
         />
@@ -58,7 +61,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
+        android:paddingBottom="4dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp">
 
@@ -68,7 +71,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button_red_chen"
             android:padding="5dp"
-            android:text="代金卷"
+            android:text="代金券"
             android:textColor="@color/white"
             android:textSize="10sp"/>
 
@@ -85,27 +88,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:lineSpacingExtra="4dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:text="可    抵:¥200车款"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:text="车全价:¥99999.00"/>
+        android:text="可    抵:¥200车款\n车全价:¥99999.00"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="horizontal"
-        android:paddingBottom="6dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:paddingTop="8dp"
+        android:paddingTop="4dp"
         >
 
         <TextView
@@ -128,5 +123,38 @@
             android:layout_height="wrap_content"
             android:text="10.23"
             android:textColor="@color/colorOrange"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_temp_han"
+            />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/use_coupon_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/shape_tv_bg_by_orange"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:text="可使用30%购物券"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
     </LinearLayout>
 </LinearLayout>

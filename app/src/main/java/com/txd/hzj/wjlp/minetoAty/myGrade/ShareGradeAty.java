@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.myGrade;
 
-import android.annotation.TargetApi;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,26 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.citySelect.CitySelectAty;
-
-import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * ===============Txunda===============
@@ -61,9 +51,6 @@ public class ShareGradeAty extends BaseAty {
      */
     @ViewInject(R.id.sh_collapsing_toolbar_layout)
     private CollapsingToolbarLayout collapsing_toolbar_layout;
-
-    @ViewInject(R.id.grade_head_layout)
-    private LinearLayout head_layout;
 
     /**
      * ToolBar
@@ -109,7 +96,6 @@ public class ShareGradeAty extends BaseAty {
 
         changeViewStatus(0);
         my_share_grade_lv.setAdapter(rankingListAdapter);
-        lodingBgPic();
     }
 
     @Override
@@ -163,35 +149,6 @@ public class ShareGradeAty extends BaseAty {
     @Override
     protected void requestData() {
 
-    }
-
-    /**
-     * 加载背景图片
-     */
-    private void lodingBgPic() {
-        Glide.with(this)
-                .load("https://img6.bdstatic.com/img/image/public/jingtianshouxie.jpg")
-                .bitmapTransform(new BlurTransformation(this, 200))
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super
-                            GlideDrawable> glideAnimation) {
-                        head_layout.setBackground(resource);
-                        root_layout.setBackground(resource);
-                    }
-                });
-
-        Glide.with(this)
-                .load("https://img6.bdstatic.com/img/image/public/jingtianshouxie.jpg")
-                .bitmapTransform(new BlurTransformation(this, 200))
-                .into(new SimpleTarget<GlideDrawable>() {
-                    @Override
-                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super
-                            GlideDrawable> glideAnimation) {
-                        collapsing_toolbar_layout.setContentScrim(resource);
-                    }
-                });
     }
 
     private class RankingListAdapter extends BaseAdapter {

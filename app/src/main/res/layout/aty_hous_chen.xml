@@ -61,7 +61,7 @@
                     <RadioButton
                         android:id="@+id/rb_hous_newest"
                         style="@style/menu_screen"
-                        android:text="最新"
+                        android:text="积分"
                         />
 
                     <RadioButton

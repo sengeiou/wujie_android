@@ -42,13 +42,17 @@
                     android:layout_weight="1"
                     android:background="@color/view_color"/>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_clear_ticket_hzj"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/icon_clear_ticket_hzj"
                     android:padding="8dp"
-                    android:text="清除失效购物券"/>
+                    android:text="已过期优惠券"/>
 
                 <View
                     android:layout_width="0dp"

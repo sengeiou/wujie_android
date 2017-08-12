@@ -36,7 +36,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme,android:allowBackup">
-        <!--App升级-->
+
+        <!-- App升级 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -213,7 +214,7 @@
         <!-- 添加地址 -->
         <activity android:name=".minetoAty.address.AddNewAddressAty"/>
         <!-- 意见反馈 -->
-        <activity android:name=".minetoAty.FeedBackAty"/>
+        <activity android:name=".minetoAty.feedback.FeedBackAty"/>
         <!-- 分享给好友 -->
         <activity android:name=".minetoAty.ShareToFriendsAty"/>
         <!-- 工作成绩 -->
@@ -263,6 +264,10 @@
             android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
             android:theme="@style/share_style"/>
         <activity android:name=".citySelect.MellCitySelectAty">
+        </activity>
+        <activity android:name=".minetoAty.mellInto.MellIntoListAty">
+        </activity>
+        <activity android:name=".mellOffLine.MellReportedAty">
         </activity>
     </application>
 

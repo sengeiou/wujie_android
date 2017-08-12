@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty;
 
@@ -34,6 +37,7 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_type_chen, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        ViewUtils.inject(holder, view);
         return holder;
     }
 
@@ -41,16 +45,8 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-
-        /**
-         * 设置RecyclerView间隔
-         */
-        if (position % 2 != 0) {
-            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) holder.ll_item_hous.getLayoutParams();
-            lp.setMargins(0, ToolKit.dip2px(context, 5f), 0, 0);
-            holder.ll_item_hous.setLayoutParams(lp);
-        }
-
+        holder.house_type_cpb.setMaxProgress(100);
+        holder.house_type_cpb.setCurProgress(50);
         /**
          * 点击事件
          *
@@ -74,12 +70,13 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
         View view;
-        LinearLayout ll_item_hous;
+
+        @ViewInject(R.id.house_type_cpb)
+        private CustomProgressBar house_type_cpb;
 
         public ViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            ll_item_hous = itemView.findViewById(R.id.ll_item_hous);
         }
     }
 }

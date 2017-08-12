@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.CarBean;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
@@ -41,6 +43,7 @@ public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_house_chen,parent,false);
         ViewHolder holder=new ViewHolder(view);
+        ViewUtils.inject(holder,view);
         return holder;
     }
 
@@ -64,7 +67,7 @@ public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHo
          *
          * 跳转到详情页
          */
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentDetail=new Intent(context, HousDetailsChenAty.class);
@@ -81,13 +84,11 @@ public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        View view;
+        @ViewInject(R.id.ll_item_hous)
         LinearLayout ll_item_hous;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            view=itemView;
-            ll_item_hous=itemView.findViewById(R.id.ll_item_hous);
         }
     }
 }

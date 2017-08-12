@@ -42,7 +42,7 @@ public class BooksAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("无极书院");
+        titlt_conter_tv.setText("无界书院");
 
         books_vp.setAdapter(pageAdapter);
         books_classify_tab.setupWithViewPager(books_vp);

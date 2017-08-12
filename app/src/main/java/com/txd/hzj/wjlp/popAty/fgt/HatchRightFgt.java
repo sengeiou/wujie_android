@@ -13,7 +13,11 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
 import com.txd.hzj.wjlp.minetoAty.coupon.fgt.ShareOptionFgt;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ===============Txunda===============
@@ -30,10 +34,13 @@ public class HatchRightFgt extends BaseFgt {
 
     private ShapAdapter shopAdapter;
 
+    private MellListAdapter mellListAdapter;
+    private List<String> mells;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        shop_enterprise_lv.setAdapter(shopAdapter);
+        shop_enterprise_lv.setAdapter(mellListAdapter);
     }
 
     @Override
@@ -44,6 +51,8 @@ public class HatchRightFgt extends BaseFgt {
     @Override
     protected void initialized() {
         shopAdapter = new ShapAdapter();
+        mells = new ArrayList<>();
+        mellListAdapter = new MellListAdapter(getActivity(),mells);
     }
 
     @Override

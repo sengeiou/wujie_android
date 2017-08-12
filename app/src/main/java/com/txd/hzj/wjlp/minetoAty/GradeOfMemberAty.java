@@ -93,12 +93,12 @@ public class GradeOfMemberAty extends BaseAty {
         if (0 == from) {
             grade_of_member_tv.setVisibility(View.VISIBLE);
             member_type_tv.setVisibility(View.GONE);
-            member_growth_value_tv.setText("成长值:88");
+            member_growth_value_tv.setText("2017年度成长值:88");
             member_title_tv.setText("会员成长");
         } else {
             grade_of_member_tv.setVisibility(View.GONE);
             member_type_tv.setVisibility(View.VISIBLE);
-            member_growth_value_tv.setText("已消费:88");
+            member_growth_value_tv.setText("2018年08月10日到期");
             member_title_tv.setText("会员等级");
         }
 
