@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +77,12 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
     private int size = 0;
     private File file;
+    private File file2;
+
+    @ViewInject(R.id.id_card_front_iv)
+    private ImageView id_card_front_iv;
+    private int w = 0;
+    private int h = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +92,12 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         titlt_right_tv.setText("保存");
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(Color.RED);
+
+        w = Settings.displayWidth / 2;
+        h = w / 2;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w, h);
+        id_card_front_iv.setLayoutParams(params);
+
     }
 
     @Override
@@ -95,15 +108,24 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
     @Override
     protected void initialized() {
         size = ToolKit.dip2px(this, 80);
+    }
 
+    private void forImagePacker(int type) {
         imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
         imagePicker.setCrop(true);// 裁剪
         imagePicker.setSaveRectangle(true);// 矩形保存
-        imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
-        imagePicker.setFocusHeight(Settings.displayWidth);// 裁剪框高度
-        imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
-        imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
+        if (1 == type) {
+            imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
+            imagePicker.setFocusHeight(Settings.displayWidth);// 裁剪框高度
+            imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
+            imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
+        } else {
+            imagePicker.setFocusWidth(Settings.displayWidth);//裁剪框宽度
+            imagePicker.setFocusHeight(Settings.displayWidth * 2 / 3);// 裁剪框高度
+            imagePicker.setOutPutX(Settings.displayWidth);// 保存图片高度
+            imagePicker.setOutPutY(Settings.displayWidth * 2 / 3);// 保存图片宽度
+        }
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
     }
@@ -114,16 +136,20 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
     }
 
     @Override
-    @OnClick({R.id.img_head_edit, R.id.rel_Sex})
+    @OnClick({R.id.img_head_edit, R.id.rel_Sex, R.id.id_card_front_layout})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_head_edit:// 头像
+                forImagePacker(1);
                 startActivityForResult(ImageGridActivity.class, null, 100);
                 break;
             case R.id.rel_Sex:// 性别
                 show();
                 break;
-
+            case R.id.id_card_front_layout:
+                forImagePacker(2);
+                startActivityForResult(ImageGridActivity.class, null, 101);
+                break;
         }
     }
 
@@ -178,6 +204,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     case 100:
                         file = new File(pic_path);
                         Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
+                        break;
+                    case 101:
+                        file2 = new File(pic_path);
+                        Glide.with(this).load(file2).override(w, h).centerCrop().into(id_card_front_iv);
                         break;
                 }
             } else {

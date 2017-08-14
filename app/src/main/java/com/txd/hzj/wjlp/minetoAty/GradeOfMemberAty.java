@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 import com.txd.hzj.wjlp.minetoAty.adapter.GrowthValueAdapter;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +123,21 @@ public class GradeOfMemberAty extends BaseAty {
                 }
             });
         }
+    }
 
+    @Override
+    @OnClick({R.id.member_growth_value_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.member_growth_value_tv:// 成长值
+                if(0 == from){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("from", 4);
+                    startActivity(ParticularsUsedByTricketAty.class, bundle);
+                }
+                break;
+        }
     }
 
     @Override

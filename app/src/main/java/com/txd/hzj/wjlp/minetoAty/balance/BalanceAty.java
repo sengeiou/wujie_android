@@ -56,7 +56,7 @@ public class BalanceAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.recharge_tv, R.id.withdraw_tv, R.id.balance_details_tv})
+    @OnClick({R.id.recharge_tv, R.id.withdraw_tv,R.id.transfer_accounts_tv, R.id.balance_details_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -67,6 +67,9 @@ public class BalanceAty extends BaseAty {
                 bundle = new Bundle();
                 bundle.putInt("to", 2);
                 startActivity(ExchangeMoneyAty.class, bundle);
+                break;
+            case R.id.transfer_accounts_tv:// 转账给用户
+                startActivity(TransferAccountsAty.class,null);
                 break;
             case R.id.balance_details_tv:// 余额明细
                 Bundle bundle = new Bundle();

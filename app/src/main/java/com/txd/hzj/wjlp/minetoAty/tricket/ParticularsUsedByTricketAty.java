@@ -40,6 +40,12 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 
     private StickyExampleAdapter stickyExampleAdapter;
 
+    /**
+     * 1.购物券使用明细
+     * 2.积分明细
+     * 3.余额明细
+     * 4.成长值明细
+     */
     private int from = 1;
 
     @Override
@@ -50,8 +56,10 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             titlt_conter_tv.setText("购物券使用明细");
         } else if (2 == from) {
             titlt_conter_tv.setText("积分明细");
-        } else {
+        } else if(3 == from){
             titlt_conter_tv.setText("余额明细");
+        } else {
+            titlt_conter_tv.setText("成长值明细");
         }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

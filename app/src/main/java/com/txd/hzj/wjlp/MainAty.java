@@ -177,7 +177,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void requestData() {
-//        updataPst.toUpdata();
+        updataPst.toUpdata();
     }
 
     @Override

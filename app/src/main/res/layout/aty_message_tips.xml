@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/message_lin_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/message_lin_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="订单消息"
                 android:textColor="@color/app_text_color"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:id="@+id/order_message_time_tv"
@@ -59,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="昨天下午"
-                android:textColor="@color/gray_text_color"/>
+                android:textColor="@color/gray_text_color"
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -71,7 +72,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="订单签收！您购买的太平鸟女装2017下新"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
 
 </LinearLayout>

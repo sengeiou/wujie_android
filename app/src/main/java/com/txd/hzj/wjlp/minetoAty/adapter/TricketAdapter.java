@@ -64,7 +64,7 @@ public class TricketAdapter extends BaseAdapter {
             mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
         } else {
             // icon_un_valid_ticket_bg_hzj
-            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
+            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
         }
         return view;
     }
