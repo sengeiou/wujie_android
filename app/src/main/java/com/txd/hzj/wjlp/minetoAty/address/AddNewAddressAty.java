@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.address;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.JsonBean;
 import com.txd.hzj.wjlp.minetoAty.address.adapter.AddressAdapter;
+import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
 import org.json.JSONArray;
@@ -55,6 +57,9 @@ public class AddNewAddressAty extends BaseAty {
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
 
+    @ViewInject(R.id.street_tv)
+    private TextView street_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +71,7 @@ public class AddNewAddressAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv, R.id.zore_layout})
+    @OnClick({R.id.titlt_right_tv, R.id.zore_layout, R.id.street_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -76,6 +81,11 @@ public class AddNewAddressAty extends BaseAty {
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
                 showProgressDialog();
                 mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+                break;
+            case R.id.street_layout:// 解析数据，弹出城市选择弹窗
+                Bundle bundle = new Bundle();
+                bundle.putString("title", "选择街道");
+                startActivityForResult(TextListAty.class, bundle, 100);
                 break;
         }
     }
@@ -99,7 +109,7 @@ public class AddNewAddressAty extends BaseAty {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_LOAD_DATA:
-                    if (thread==null){//如果已创建就不再重新创建子线程了
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -223,4 +233,16 @@ public class AddNewAddressAty extends BaseAty {
         pvOptions.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null)
+            return;
+        if (RESULT_OK == resultCode) {
+            if (100 == requestCode) {
+                String street = data.getStringExtra("street");
+                street_tv.setText(street);
+            }
+        }
+    }
 }

@@ -274,10 +274,9 @@
 
                 <TextView
                     style="@style/mine_text_list"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:drawableEnd="@drawable/icon_turn_right_gray"
                     android:padding="0dp"
                     android:text="李某某(747474)"/>
             </LinearLayout>
@@ -307,7 +306,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:drawableEnd="@drawable/icon_turn_right_gray"
                     android:text="18622940135"/>
             </LinearLayout>
         </LinearLayout>

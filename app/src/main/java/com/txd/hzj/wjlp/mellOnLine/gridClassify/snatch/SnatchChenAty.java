@@ -91,6 +91,10 @@ public class SnatchChenAty extends BaseAty {
      */
     @ViewInject(R.id.lastest_goods_tv)
     private TextView lastest_goods_tv;
+
+    @ViewInject(R.id.lastest_goods_time_iv)
+    private ImageView lastest_goods_time_iv;
+
     /**
      * 进度
      */
@@ -127,6 +131,12 @@ public class SnatchChenAty extends BaseAty {
      * 奇数-->升
      */
     private int plan_goods_times = 0;
+    /**
+     * 积分升降
+     * 偶数-->降
+     * 奇数-->升
+     */
+    private int lastest_goods_times = 0;
     /**
      * 人次升降
      * 偶数-->降
@@ -194,7 +204,7 @@ public class SnatchChenAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_tv, R.id.plan_goods_layout, R.id.times_layout, R.id
+    @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_layout, R.id.plan_goods_layout, R.id.times_layout, R.id
             .snatch_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
@@ -203,7 +213,7 @@ public class SnatchChenAty extends BaseAty {
                 soft_type = 0;
                 softStyle(soft_type);
                 break;
-            case R.id.lastest_goods_tv:// 最新
+            case R.id.lastest_goods_layout:// 最新
                 soft_type = 1;
                 softStyle(soft_type);
                 break;
@@ -293,16 +303,25 @@ public class SnatchChenAty extends BaseAty {
         times_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
         times_iv.setImageResource(R.mipmap.icon_screen_default_chen);
         plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_default_chen);
+        lastest_goods_time_iv.setImageResource(R.mipmap.icon_screen_default_chen);
         if (0 == type) {
             hot_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             times = 0;
             plan_goods_times = 0;
+            lastest_goods_times = 0;
         } else if ((1 == type)) {
             lastest_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             times = 0;
             plan_goods_times = 0;
+            if (lastest_goods_times % 2 == 0) {
+                lastest_goods_time_iv.setImageResource(R.mipmap.icon_screen_down_chen);
+            } else {
+                lastest_goods_time_iv.setImageResource(R.mipmap.icon_screen_top_chen);
+            }
+            lastest_goods_times++;
         } else if (2 == type) {
             times = 0;
+            lastest_goods_times = 0;
             plan_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
 
             if (plan_goods_times % 2 == 0) {
@@ -315,6 +334,7 @@ public class SnatchChenAty extends BaseAty {
 
         } else {
             plan_goods_times = 0;
+            lastest_goods_times = 0;
             times_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             if (times % 2 == 0) {
                 times_iv.setImageResource(R.mipmap.icon_screen_down_chen);

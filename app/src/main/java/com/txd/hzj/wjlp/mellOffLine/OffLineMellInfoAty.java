@@ -30,7 +30,7 @@ public class OffLineMellInfoAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.check_all_comment_tv, R.id.mell_reported_tv})
+    @OnClick({R.id.check_all_comment_tv, R.id.mell_reported_tv,R.id.mell_aptitude_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -41,6 +41,9 @@ public class OffLineMellInfoAty extends BaseAty {
                 break;
             case R.id.mell_reported_tv:// 举报商家
                 startActivity(MellReportedAty.class, null);
+                break;
+            case R.id.mell_aptitude_tv:// 商家资质
+                startActivity(MellAptitudeAty.class, null);
                 break;
         }
     }

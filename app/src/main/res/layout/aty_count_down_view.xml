@@ -24,5 +24,6 @@
         app:suffixTextColor="#000000"
         app:suffixTextSize="16sp"
         app:timeTextColor="#FFFFFF"
-        app:timeTextSize="14sp"/>
+        app:timeTextSize="10sp"
+        app:timeBgRadius="4dp"/>
 </LinearLayout>

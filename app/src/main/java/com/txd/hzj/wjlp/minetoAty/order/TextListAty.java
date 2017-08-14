@@ -55,6 +55,10 @@ public class TextListAty extends BaseAty {
                     data.putExtra("express", "申通快递");
                 } else if (title.equals("选择经营范围")) {
                     data.putExtra("scope", "服饰");
+                } else if(title.equals("选择街道")){
+                    data.putExtra("street", "西长安街道");
+                } else if (title.equals("举报类型")){
+                    data.putExtra("type", "卫生");
                 }
                 setResult(RESULT_OK, data);
                 finish();
@@ -121,6 +125,10 @@ public class TextListAty extends BaseAty {
                 tvvh.text_context_tv.setText("申通快递");
             } else if (title.equals("选择经营范围")) {
                 tvvh.text_context_tv.setText("服饰");
+            }else if (title.equals("选择街道")) {
+                tvvh.text_context_tv.setText("西长安街道");
+            } else if (title.equals("举报类型")){
+                tvvh.text_context_tv.setText("卫生");
             }
 
             return view;

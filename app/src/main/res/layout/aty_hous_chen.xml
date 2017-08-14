@@ -43,41 +43,89 @@
 
                 </android.support.design.widget.CollapsingToolbarLayout>
 
-                <RadioGroup
-                    android:id="@+id/rg_hous"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_height="40dp"
+                    android:background="@color/white">
 
-                    <RadioButton
-                        android:id="@+id/rb_hous_synthesize"
-                        style="@style/menu_screen"
-                        android:checked="true"
-                        android:text="踪合"
+                    <TextView
+                        android:id="@+id/hot_goods_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="综合"
                         />
 
-                    <RadioButton
-                        android:id="@+id/rb_hous_newest"
-                        style="@style/menu_screen"
-                        android:text="积分"
-                        />
 
-                    <RadioButton
-                        android:id="@+id/rb_hous_distance"
-                        style="@style/menu_screen"
-                        android:drawableRight="@drawable/selector_screen_rb_chen"
-                        android:text="距离"
-                        />
+                    <LinearLayout
+                        android:id="@+id/lastest_goods_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
 
-                    <RadioButton
-                        android:id="@+id/rb_hous_price"
-                        style="@style/menu_screen"
-                        android:drawableRight="@drawable/selector_screen_rb_chen"
-                        android:text="价格"
-                        />
-                </RadioGroup>
+                        <TextView
+                            android:id="@+id/lastest_goods_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="积分"
+                            />
+
+                        <ImageView
+                            android:id="@+id/lastest_goods_time_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/icon_screen_default_chen"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/plan_goods_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/plan_goods_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="距离"
+                            />
+
+                        <ImageView
+                            android:id="@+id/plan_goods_time_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/icon_screen_default_chen"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/times_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/times_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="价格"/>
+
+                        <ImageView
+                            android:id="@+id/times_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/icon_screen_default_chen"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v7.widget.RecyclerView

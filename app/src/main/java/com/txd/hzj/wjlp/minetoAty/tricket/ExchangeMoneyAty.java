@@ -70,6 +70,11 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.bottom_tip_layout)
     private LinearLayout bottom_tip_layout;
 
+    @ViewInject(R.id.my_bal_tv1)
+    private TextView my_bal_tv1;
+    @ViewInject(R.id.my_bal_tv2)
+    private TextView my_bal_tv2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +86,8 @@ public class ExchangeMoneyAty extends BaseAty {
             select_bank_card_layout.setVisibility(View.INVISIBLE);
             bottom_tip_layout.setVisibility(View.GONE);
             operation_type_tv.setText("积分");
+            my_bal_tv2.setText("全部使用");
+            my_bal_tv1.setText("我的积分300 ");
         } else {
             titlt_conter_tv.setText("提现");
             operation_type_tv.setText("提现金额");
@@ -89,6 +96,8 @@ public class ExchangeMoneyAty extends BaseAty {
             select_bank_card_layout.setVisibility(View.VISIBLE);
             bottom_tip_layout.setVisibility(View.VISIBLE);
             operation_type_tv2.setText("提现到银行卡，手续费率");
+            my_bal_tv2.setText("全部提现");
+            my_bal_tv1.setText("我的余额300 ");
         }
     }
 

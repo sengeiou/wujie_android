@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -29,7 +30,9 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -48,6 +51,8 @@ import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.txd.hzj.wjlp.R.id.top_lin_layout;
 
 public class MellInfoAty extends BaseAty {
 
@@ -142,6 +147,7 @@ public class MellInfoAty extends BaseAty {
 
     private MellOnlineGoodsAdapter mellOnlineGoodsAdapter;
     private boolean drawableLine = true;
+    private int imageHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +179,7 @@ public class MellInfoAty extends BaseAty {
         // 公告
         setView();
         mell_noty_up_view.setViews(views);
+//        onChangeTitleColor();
     }
 
 
@@ -206,9 +213,7 @@ public class MellInfoAty extends BaseAty {
 
                 if (mCurPopupWindow == null) {
                     mCurPopupWindow = showPop(v);
-                    if (mCurPopupWindow != null) {
-                        mCurPopupWindow.update();
-                    }
+                    mCurPopupWindow.update();
                 } else {
                     mCurPopupWindow.dismiss();
                     mCurPopupWindow = null;
@@ -290,7 +295,7 @@ public class MellInfoAty extends BaseAty {
                 R.layout.pop_classify_layout, null);
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         final PopupWindow popupWindow = new PopupWindow(contentView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, false);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, false);
 
         GridView classify_gv = contentView.findViewById(R.id.classify_gv);
         final ClassIfyAdapter classIfyAdapter = new ClassIfyAdapter();
@@ -458,4 +463,16 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
+    private void onChangeTitleColor() {
+        ViewTreeObserver vto = mell_info_app_bar_layout.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onGlobalLayout() {
+                mell_info_app_bar_layout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                imageHeight = mell_info_app_bar_layout.getHeight();
+            }
+        });
+        L.e("=====高度=====", imageHeight + "");
+    }
 }

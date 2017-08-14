@@ -248,6 +248,14 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+        // 如果PopupWindow不为空，而且显示了，dismiss();
+        if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+            setMoreStatus();
+            mCurPopupWindow.dismiss();
+            mCurPopupWindow = null;
+            return;
+        }
+
         switch (i) {
             case R.id.home_pager_rb:// 线上商城
                 page_index = 0;
@@ -520,7 +528,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private int getExceptionMessageId(String exceptionType) {
 
         int reid = R.string.Network_error;
-        switch (exceptionType){
+        switch (exceptionType) {
             case Constant.ACCOUNT_CONFLICT:
                 reid = R.string.connect_conflict;
                 break;

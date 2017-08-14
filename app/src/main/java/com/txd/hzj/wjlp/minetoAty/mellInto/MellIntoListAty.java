@@ -1,10 +1,14 @@
 package com.txd.hzj.wjlp.minetoAty.mellInto;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -28,12 +32,14 @@ public class MellIntoListAty extends BaseAty {
 
     @ViewInject(R.id.mell_into_lv)
     private ListView mell_into_lv;
+    private MellIntoAdapter mellInto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("推荐列表");
+        mell_into_lv.setAdapter(mellInto);
     }
 
     @Override
@@ -54,11 +60,46 @@ public class MellIntoListAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+mellInto =new MellIntoAdapter();
     }
 
     @Override
     protected void requestData() {
 
     }
+
+    private class MellIntoAdapter extends BaseAdapter{
+private MIVH mivh;
+        @Override
+        public int getCount() {
+            return 10;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            if(view == null){
+                view = LayoutInflater.from(MellIntoListAty.this).inflate(R.layout.item_mell_into_lv,null);
+                mivh = new MIVH();
+                ViewUtils.inject(mivh,view);
+                view.setTag(mivh);
+            } else {
+                mivh = (MIVH) view.getTag();
+            }
+            return view;
+        }
+        class MIVH{
+
+        }
+    }
+
 }

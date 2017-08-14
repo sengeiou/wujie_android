@@ -269,6 +269,8 @@
         </activity>
         <activity android:name=".mellOffLine.MellReportedAty">
         </activity>
+        <activity android:name=".mellOffLine.MellAptitudeAty">
+        </activity>
     </application>
 
 </manifest>
