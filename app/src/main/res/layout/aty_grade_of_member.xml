@@ -127,6 +127,17 @@
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
 
+                <TextView
+                    android:id="@+id/details_for_sb_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="成长明细"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 

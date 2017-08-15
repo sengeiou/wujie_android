@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
+    android:background="@color/bg_color"
     android:orientation="vertical">
     <include layout="@layout/aty_title" />
     <View
@@ -13,6 +12,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:padding="12dp"
         >
         <TextView
@@ -35,10 +35,11 @@
         android:layout_height="1dp"
         android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
+        android:layout_marginRight="20dp"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:padding="12dp"
         >
         <TextView
@@ -61,14 +62,47 @@
         android:layout_height="1dp"
         android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
+        android:layout_marginRight="20dp"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
 
+    <LinearLayout
+        android:id="@+id/id_card_front_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="身份证正面    "
+            android:textSize="16sp"
+            />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/id_card_front_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_top_left"/>
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
+        android:layout_marginRight="20dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

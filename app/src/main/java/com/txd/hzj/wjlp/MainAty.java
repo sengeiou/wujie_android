@@ -253,7 +253,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             setMoreStatus();
             mCurPopupWindow.dismiss();
             mCurPopupWindow = null;
-            return;
         }
 
         switch (i) {

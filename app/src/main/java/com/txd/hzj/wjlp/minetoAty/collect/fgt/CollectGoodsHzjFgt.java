@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -29,6 +31,9 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     private List<String> data;
     private int height=0;
 
+    @ViewInject(R.id.collect_operation_layout)
+    private LinearLayout collect_operation_layout;
+
     public static CollectGoodsHzjFgt newInstance(String param1) {
         CollectGoodsHzjFgt fragment = new CollectGoodsHzjFgt();
         Bundle args = new Bundle();
@@ -48,6 +53,7 @@ public class CollectGoodsHzjFgt extends BaseFgt {
         collect_goods_rv.setHasFixedSize(true);
         collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         collect_goods_rv.setAdapter(racycleAllAdapter);
+        setStatus(status);
     }
 
     @Override
@@ -75,5 +81,10 @@ public class CollectGoodsHzjFgt extends BaseFgt {
 
     public void setStatus(String status) {
         this.status = status;
+        if(status.equals("完成")){
+            collect_operation_layout.setVisibility(View.GONE);
+        } else {
+            collect_operation_layout.setVisibility(View.VISIBLE);
+        }
     }
 }

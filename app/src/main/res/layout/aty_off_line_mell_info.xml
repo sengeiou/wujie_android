@@ -24,6 +24,7 @@
             android:src="@drawable/icon_be_back_b"/>
 
         <TextView
+            android:id="@+id/center_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -92,122 +93,7 @@
             android:id="@+id/mell_info_head_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/icon_off_line_mell_bg_hzj"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/icon_temp_goods_banner"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="好收成超市"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"/>
-
-                        <TextView
-                            android:id="@+id/notice_layout"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape_mell_tv_w_hzj"
-                            android:paddingBottom="2dp"
-                            android:paddingEnd="6dp"
-                            android:paddingStart="6dp"
-                            android:paddingTop="2dp"
-                            android:text="公告"
-                            android:textColor="@color/gray_text_color"
-                            android:textSize="10dp"/>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape_mell_info_tv_hzj"
-                            android:paddingBottom="2dp"
-                            android:paddingEnd="4dp"
-                            android:paddingStart="4dp"
-                            android:paddingTop="2dp"
-                            android:text="达达专送 | 39分钟"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/shape_mell_info_tv_hzj"
-                            android:paddingBottom="2dp"
-                            android:paddingEnd="4dp"
-                            android:paddingStart="4dp"
-                            android:paddingTop="2dp"
-                            android:text="基础运费5元"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"/>
-
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="1dp"
-                            android:layout_weight="1"/>
-
-                        <LinearLayout
-                            android:id="@+id/mell_info_by_off_line"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/shape_show_mell_ac_layout"
-                            android:gravity="center_vertical"
-                            >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:padding="4dp"
-                                android:text="店铺信息"
-                                android:textColor="@color/white"
-                                android:textSize="8sp"/>
-
-                            <ImageView
-                                android:id="@+id/show_or_hide_info_iv"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="4dp"
-                                android:src="@drawable/icon_show_mell_ac"/>
-                        </LinearLayout>
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/other_info_layout"
                 android:layout_width="match_parent"

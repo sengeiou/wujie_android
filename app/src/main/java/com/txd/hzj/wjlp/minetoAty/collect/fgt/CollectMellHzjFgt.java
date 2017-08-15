@@ -40,6 +40,7 @@ public class CollectMellHzjFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         collect_mell_lv.setAdapter(mellListAdapter);
+        setStatus(status);
     }
 
     @Override

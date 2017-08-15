@@ -59,6 +59,7 @@ public class AddNewAddressAty extends BaseAty {
 
     @ViewInject(R.id.street_tv)
     private TextView street_tv;
+    private boolean isLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +80,12 @@ public class AddNewAddressAty extends BaseAty {
                 finish();
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
-                showProgressDialog();
-                mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+                if (isLoaded) {
+                    ShowPickerView();
+                } else {
+                    showProgressDialog();
+                    mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+                }
                 break;
             case R.id.street_layout:// 解析数据，弹出城市选择弹窗
                 Bundle bundle = new Bundle();
@@ -124,6 +129,7 @@ public class AddNewAddressAty extends BaseAty {
                 case MSG_LOAD_SUCCESS://成功
                     ShowPickerView();
                     removeProgressDialog();
+                    isLoaded = true;
                     break;
 
                 case MSG_LOAD_FAILED:// 失败

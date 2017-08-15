@@ -1,17 +1,11 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +19,10 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
@@ -38,22 +30,22 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
-import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellOnlineGoodsAdapter;
-import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellAllGoodsFgt;
-import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellGuideFgt;
-import com.txd.hzj.wjlp.mellOnLine.fgt.mellFgt.MellInfoFgt;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.txd.hzj.wjlp.R.id.top_lin_layout;
-
+/**
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/8/14 0014
+ * 时间：下午 2:30
+ * 描述：线上店铺详情
+ * ===============Txunda===============
+ */
 public class MellInfoAty extends BaseAty {
 
     // ========人气，价格，销量，全部
@@ -222,7 +214,9 @@ public class MellInfoAty extends BaseAty {
                 setStyle(soft_type);
                 break;
             case R.id.mell_info_by_off_line:// 详情
-                startActivity(OffLineMellInfoAty.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putInt("type",1);
+                startActivity(OffLineMellInfoAty.class, bundle);
                 break;
         }
     }

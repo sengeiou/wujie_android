@@ -72,7 +72,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         off_line_title_layout.setBackgroundColor(Color.TRANSPARENT);
-        allHeight = Settings.displayWidth * 2 / 3;
+        allHeight = Settings.displayWidth * 3 / 5;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);

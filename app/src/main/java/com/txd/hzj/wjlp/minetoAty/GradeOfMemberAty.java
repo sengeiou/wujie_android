@@ -70,6 +70,9 @@ public class GradeOfMemberAty extends BaseAty {
     @ViewInject(R.id.member_title_tv)
     private TextView member_title_tv;
 
+    @ViewInject(R.id.details_for_sb_tv)
+    private TextView details_for_sb_tv;
+
     private int from = 0;
 
     @Override
@@ -97,11 +100,13 @@ public class GradeOfMemberAty extends BaseAty {
             member_type_tv.setVisibility(View.GONE);
             member_growth_value_tv.setText("2017年度成长值:88");
             member_title_tv.setText("会员成长");
+            details_for_sb_tv.setVisibility(View.VISIBLE);
         } else {
             grade_of_member_tv.setVisibility(View.GONE);
             member_type_tv.setVisibility(View.VISIBLE);
             member_growth_value_tv.setText("2018年08月10日到期");
             member_title_tv.setText("会员等级");
+            details_for_sb_tv.setVisibility(View.GONE);
         }
 
         growth_value_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -126,12 +131,12 @@ public class GradeOfMemberAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.member_growth_value_tv})
+    @OnClick({R.id.details_for_sb_tv})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
-            case R.id.member_growth_value_tv:// 成长值
-                if(0 == from){
+        switch (v.getId()) {
+            case R.id.details_for_sb_tv:// 成长值
+                if (0 == from) {
                     Bundle bundle = new Bundle();
                     bundle.putInt("from", 4);
                     startActivity(ParticularsUsedByTricketAty.class, bundle);
