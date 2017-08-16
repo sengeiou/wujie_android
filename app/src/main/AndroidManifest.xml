@@ -263,16 +263,18 @@
         <activity
             android:name=".minetoAty.mell.QRCodeForMellGoodsAty"
             android:theme="@style/share_style"/>
-        <activity android:name=".citySelect.MellCitySelectAty">
-        </activity>
-        <activity android:name=".minetoAty.mellInto.MellIntoListAty">
-        </activity>
-        <activity android:name=".mellOffLine.MellReportedAty">
-        </activity>
-        <activity android:name=".mellOffLine.MellAptitudeAty">
-        </activity>
-        <activity android:name=".minetoAty.balance.TransferAccountsAty">
-        </activity>
+        <!--商家地址选择-->
+        <activity android:name=".citySelect.MellCitySelectAty"/>
+        <!--推荐列表-->
+        <activity android:name=".minetoAty.mellInto.MellIntoListAty"/>
+        <!--举报商家得红包-->
+        <activity android:name=".mellOffLine.MellReportedAty"/>
+        <!--商家资质-->
+        <activity android:name=".mellOffLine.MellAptitudeAty"/>
+        <!--转账给用户-->
+        <activity android:name=".minetoAty.balance.TransferAccountsAty"/>
+        <!--推荐详情-->
+        <activity android:name=".minetoAty.mellInto.MellIntoInfoAty"/>
     </application>
 
 </manifest>

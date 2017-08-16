@@ -122,7 +122,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      * 0.商家
      * 1.用户
      */
-    private int type = 0;
+    private int type = 1;
 
     public MineFgt() {
     }

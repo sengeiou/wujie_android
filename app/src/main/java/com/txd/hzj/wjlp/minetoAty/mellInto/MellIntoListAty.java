@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,13 +41,19 @@ public class MellIntoListAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("推荐列表");
         mell_into_lv.setAdapter(mellInto);
+        mell_into_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(MellIntoInfoAty.class, null);
+            }
+        });
     }
 
     @Override
     @OnClick({R.id.to_mell_into_tv})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.to_mell_into_tv:
                 startActivity(MerchantWillMoveIntoAty.class, null);
                 break;
@@ -60,7 +67,7 @@ public class MellIntoListAty extends BaseAty {
 
     @Override
     protected void initialized() {
-mellInto =new MellIntoAdapter();
+        mellInto = new MellIntoAdapter();
     }
 
     @Override
@@ -68,8 +75,9 @@ mellInto =new MellIntoAdapter();
 
     }
 
-    private class MellIntoAdapter extends BaseAdapter{
-private MIVH mivh;
+    private class MellIntoAdapter extends BaseAdapter {
+        private MIVH mivh;
+
         @Override
         public int getCount() {
             return 10;
@@ -87,17 +95,18 @@ private MIVH mivh;
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            if(view == null){
-                view = LayoutInflater.from(MellIntoListAty.this).inflate(R.layout.item_mell_into_lv,null);
+            if (view == null) {
+                view = LayoutInflater.from(MellIntoListAty.this).inflate(R.layout.item_mell_into_lv, null);
                 mivh = new MIVH();
-                ViewUtils.inject(mivh,view);
+                ViewUtils.inject(mivh, view);
                 view.setTag(mivh);
             } else {
                 mivh = (MIVH) view.getTag();
             }
             return view;
         }
-        class MIVH{
+
+        class MIVH {
 
         }
     }
