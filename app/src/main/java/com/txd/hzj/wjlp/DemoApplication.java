@@ -17,6 +17,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.util.L;
 
 /**
  * ===============Txunda===============
@@ -40,6 +41,7 @@ public class DemoApplication extends WeApplication {
 
     @Override
     public void onCreate() {
+        L.isDebug= BuildConfig.DEBUG;
         MultiDex.install(this);
         super.onCreate();
         applicationContext = this;

@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:src="@drawable/icon_toggle_hzj"/>
+            android:src="@drawable/icon_untoggle_hzj"/>
     </LinearLayout>
 
     <View
@@ -85,6 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:src="@drawable/icon_toggle_hzj"/>
+            android:src="@drawable/icon_untoggle_hzj"/>
     </LinearLayout>
 </LinearLayout>

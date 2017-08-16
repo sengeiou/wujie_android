@@ -1,12 +1,8 @@
 package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -36,6 +32,9 @@ public class CollectBooksFgt extends BaseFgt {
 
     private WjBooksAdapter wjBooksAdapter;
 
+    @ViewInject(R.id.operation_book_collect_layout)
+    private LinearLayout operation_book_collect_layout;
+
     public static CollectBooksFgt newInstance(String param1) {
         CollectBooksFgt fragment = new CollectBooksFgt();
         fragment.status = param1;
@@ -50,6 +49,18 @@ public class CollectBooksFgt extends BaseFgt {
 
     public void setStatus(String status) {
         this.status = status;
+        if (status.equals("完成")) {
+            operation_book_collect_layout.setVisibility(View.GONE);
+            if(wjBooksAdapter!=null){
+                wjBooksAdapter.setCanEdit(false);
+            }
+        } else {
+            operation_book_collect_layout.setVisibility(View.VISIBLE);
+            if(wjBooksAdapter!=null){
+                wjBooksAdapter.setCanEdit(true);
+            }
+        }
+        wjBooksAdapter.notifyDataSetChanged();
     }
 
     @Override

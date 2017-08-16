@@ -14,7 +14,7 @@
         android:drawableStart="@drawable/icon_start_point"
         android:text="南开华苑驿站"
         android:textColor="@color/app_text_color"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/goods_inventory_tv"
@@ -24,7 +24,7 @@
         android:paddingStart="8dp"
         android:text="库存15"
         android:textColor="@color/gray_text_color"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/goods_distance_tv"
@@ -33,20 +33,23 @@
         android:layout_weight="1"
         android:text="距您15KM"
         android:textColor="@color/gray_text_color"
-        android:textSize="16sp"/>
+        android:textSize="14sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_call_post_tv"
-        android:padding="6dp"
+        android:paddingBottom="3dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="3dp"
         android:text="联系店主"
         android:textColor="@color/white"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="6dp"
         android:src="@drawable/icon_cart_goods_unselect"/>
 
 </LinearLayout>

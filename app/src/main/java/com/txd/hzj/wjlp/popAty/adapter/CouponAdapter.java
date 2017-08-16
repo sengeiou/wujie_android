@@ -1,12 +1,14 @@
 package com.txd.hzj.wjlp.popAty.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -28,21 +30,26 @@ public class CouponAdapter extends BaseAdapter {
 
     /**
      * 数据类型
+     * 0.红的
+     * 1.灰的
      */
     private int type;
     /**
      * 数据来源
+     * 0.卡券包，优惠券
+     * 1.福利社优惠券列表
      */
     private int from = 1;
 
-    public CouponAdapter(Context context, int type) {
+    public CouponAdapter(Context context, int type, int from) {
         this.context = context;
         this.type = type;
+        this.from = from;
     }
 
     @Override
     public int getCount() {
-        return 6;
+        return 10;
     }
 
     @Override
@@ -55,9 +62,6 @@ public class CouponAdapter extends BaseAdapter {
         return i;
     }
 
-    public void setFrom(int from) {
-        this.from = from;
-    }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -70,24 +74,42 @@ public class CouponAdapter extends BaseAdapter {
             couVH = (CouVH) view.getTag();
         }
 
-        if (0 == type) {
-
-            if(0 == from){
+        if (0 == from) {// 卡券包，优惠券
+            if (0 == type) {
                 couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
-                couVH.coupon_already_layout.setVisibility(View.GONE);
-            } else{
-                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
-                couVH.coupon_already_layout.setVisibility(View.VISIBLE);
-            }
-
-        } else {
-            if(0 == from){
-                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
             } else {
-                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
             }
             couVH.coupon_already_layout.setVisibility(View.GONE);
+        } else {// 福利社优惠券
+            couVH.coupon_already_layout.setVisibility(View.VISIBLE);
+            if (i < 5) {
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
+                couVH.can_get_coupon_tv.setText("立即领取");
+                couVH.can_get_coupon_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            } else {
+                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_get_coupon_already_bg);
+                couVH.can_get_coupon_tv.setText("已领取");
+                couVH.can_get_coupon_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+            }
         }
+
+//        if (0 == type) {
+//            if(0 == from){
+//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
+//                couVH.coupon_already_layout.setVisibility(View.GONE);
+//            } else{
+//
+//            }
+//
+//        } else {
+//            if(0 == from){
+//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
+//            } else {
+//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
+//            }
+//            couVH.coupon_already_layout.setVisibility(View.GONE);
+//        }
 
         return view;
     }
@@ -105,6 +127,12 @@ public class CouponAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.coupon_type_iv)
         private ImageView coupon_type_iv;
+
+        /**
+         * 立即领取，已领取
+         */
+        @ViewInject(R.id.can_get_coupon_tv)
+        private TextView can_get_coupon_tv;
 
     }
 

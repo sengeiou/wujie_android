@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_color"
-    android:orientation="vertical">
-    <include layout="@layout/aty_title" />
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_color"
+              android:orientation="vertical">
+
+    <include layout="@layout/aty_title"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/bg_color"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="12dp"
         >
+
         <TextView
             style="@style/mine_text_list"
-            android:drawablePadding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="真实姓名"
-            android:textColor="@color/black"/>
+            android:drawablePadding="10dp"
+            android:text="真实姓名    "
+            android:padding="12dp"
+            android:textColor="@color/app_text_color"/>
+
         <EditText
-            android:layout_marginLeft="90dp"
-            android:padding="0dp"
-            android:background="@null"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:hint="您的真实姓名"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            android:padding="12dp"/>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
-    <RelativeLayout
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="12dp"
         >
+
         <TextView
             style="@style/mine_text_list"
-            android:drawablePadding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="身份证号"
-            android:textColor="@color/black"/>
+            android:drawablePadding="10dp"
+            android:text="身份证号    "
+            android:padding="12dp"
+            android:textColor="@color/app_text_color"/>
+
         <EditText
-            android:layout_marginLeft="90dp"
-            android:padding="0dp"
-            android:background="@null"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:hint="您的身份证号"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            android:padding="12dp"/>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="8dp"/>
@@ -72,10 +81,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:paddingBottom="8dp"
-        android:paddingEnd="12dp"
-        android:paddingStart="12dp"
         android:paddingTop="8dp"
         >
 
@@ -83,51 +90,52 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="身份证正面    "
-            android:textSize="16sp"
+            android:textColor="@color/app_text_color"
+            android:padding="12dp"
             />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/id_card_front_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
             android:src="@drawable/icon_top_left"/>
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_color"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提示:"
             android:textColor="@color/colorRed"/>
+
         <TextView
-            android:layout_toRightOf="@id/tv_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_text"
             android:text="  认证后不可修改"
             />
+
         <Button
-            android:layout_marginTop="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/shape_red_btn_li"
             android:text="认证"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_red_btn_li"/>
+            android:textColor="@color/white"/>
     </RelativeLayout>
 
 

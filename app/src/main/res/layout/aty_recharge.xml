@@ -233,7 +233,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:drawableEnd="@drawable/icon_turn_right_g"
                             android:hint="请填写"
                             android:padding="12dp"
                             android:textColor="@color/app_text_color"
@@ -264,22 +263,22 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/white">
+                        android:background="@color/white"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingStart="12dp"
+                            android:padding="12dp"
                             android:text="汇款凭证        "
                             android:textColor="@color/app_text_color"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/icon_turn_right_g"
-                            android:hint="上传照片"
-                            android:padding="12dp"
-                            android:textColor="@color/app_text_color"/>
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="12dp"
+                            android:layout_marginStart="12dp"
+                            android:src="@drawable/icon_updata_pic_hzj"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -343,10 +342,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="48dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="48dp"
-                    android:layout_marginBottom="48dp"
                     android:background="@drawable/shape_to_login_tv_shape"
                     android:gravity="center"
                     android:padding="12dp"

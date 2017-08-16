@@ -76,12 +76,12 @@ public class ReSetPwdAty extends BaseAty {
                     //隐藏密码
                     new_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     newPwd = false;
-                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
+                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                 } else {
                     //显示密码
                     new_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     newPwd = true;
-                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
+                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 }
                 break;
             case R.id.countersign_pwd_iv:// 确认新密码
@@ -89,12 +89,12 @@ public class ReSetPwdAty extends BaseAty {
                     //隐藏密码
                     countersign_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     couPwd = false;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                 } else {
                     //显示密码
                     countersign_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     couPwd = true;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 }
                 break;
             case R.id.get_code_tv:// 重新获取

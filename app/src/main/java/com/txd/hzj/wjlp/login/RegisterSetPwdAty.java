@@ -70,26 +70,26 @@ public class RegisterSetPwdAty extends BaseAty {
                 if (newPwd) {
                     //隐藏密码
                     new_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                     newPwd = false;
-                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 } else {
                     //显示密码
                     new_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     newPwd = true;
-                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
+                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 }
                 break;
             case R.id.countersign_pwd_iv:// 确认新密码
                 if (couPwd) {
                     //隐藏密码
                     countersign_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                     couPwd = false;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 } else {
                     //显示密码
                     countersign_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                     couPwd = true;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                 }
                 break;
             case R.id.register_success_tv:

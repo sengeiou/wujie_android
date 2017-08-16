@@ -49,6 +49,7 @@ public class LimitShoppingAty extends BaseAty {
         titlt_conter_tv.setText("限量购");
         showStatusBar(R.id.title_re_layout);
         viewPager.setAdapter(vpAdapter);
+        viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
 
 //        for (int i = 0; i < vpAdapter.getCount(); i++) {
@@ -102,12 +103,18 @@ public class LimitShoppingAty extends BaseAty {
 
 
         tabTitle.add("06:00\n抢购进行中");
-        tabTitle.add("09:00\n抢购进行中");
+        tabTitle.add("08:00\n抢购进行中");
+        tabTitle.add("10:00\n抢购进行中");
         tabTitle.add("13:00\n抢购进行中");
+        tabTitle.add("14:00\n即将开始");
+        tabTitle.add("16:00\n即将开始");
         tabTitle.add("17:00\n即将开始");
         tabTitle.add("21:00\n即将开始");
         tabTitle.add("23:00\n即将开始");
         tabTitle.add("00:00\n即将开始");
+        fragments.add(LimitFgt.getFgt(0));
+        fragments.add(LimitFgt.getFgt(0));
+        fragments.add(LimitFgt.getFgt(0));
         fragments.add(LimitFgt.getFgt(0));
         fragments.add(LimitFgt.getFgt(1));
         fragments.add(LimitFgt.getFgt(1));

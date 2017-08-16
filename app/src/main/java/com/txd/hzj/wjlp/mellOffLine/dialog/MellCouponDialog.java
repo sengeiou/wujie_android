@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -57,7 +59,7 @@ public class MellCouponDialog extends Dialog {
 
         @Override
         public int getCount() {
-            return 6;
+            return 10;
         }
 
         @Override
@@ -80,10 +82,33 @@ public class MellCouponDialog extends Dialog {
             } else {
                 couVH = (CouVH) view.getTag();
             }
+
+            if (i < 5) {
+                couVH.mell_coupon_layout.setBackgroundResource(R.drawable.icon_get_coupon_bg);
+                couVH.get_already_tv.setText("立即领取");
+                couVH.get_already_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            } else {
+                couVH.mell_coupon_layout.setBackgroundResource(R.drawable.icon_get_coupon_already_bg);
+                couVH.get_already_tv.setText("已领取");
+                couVH.get_already_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+            }
+
             return view;
         }
     }
     class CouVH {
+
+        /**
+         * 背景
+         */
+        @ViewInject(R.id.mell_coupon_layout)
+        private LinearLayout mell_coupon_layout;
+
+        /**
+         * 立即获取，已获取
+         */
+        @ViewInject(R.id.get_already_tv)
+        private TextView get_already_tv;
 
     }
 

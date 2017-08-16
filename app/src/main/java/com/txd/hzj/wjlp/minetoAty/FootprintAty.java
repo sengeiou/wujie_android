@@ -11,6 +11,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
@@ -48,6 +49,7 @@ public class FootprintAty extends BaseAty {
     private ArrayList<Fragment> mFragment;
 
     private int selected = 0;
+    private String status = "编辑";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,26 +66,30 @@ public class FootprintAty extends BaseAty {
         switch (v.getId()) {
             case R.id.title_left_layout:// 商品
                 setTvAndViewStyle(0);
+                setNewStatus(mFragment.get(selected));
                 break;
             case R.id.title_right_layout:// 商家
                 setTvAndViewStyle(1);
+                setNewStatus(mFragment.get(selected));
                 break;
-            case R.id.foot_right_tv:// 商家
+            case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
-                String status = foot_right_tv.getText().toString();
-                if (0 == selected) {// 商品
-                    ((CollectGoodsHzjFgt) f).setStatus(status);
-                } else if (1 == selected) {// 商家
-                    ((CollectMellHzjFgt) f).setStatus(status);
-                } else {// 书院
-                    ((CollectBooksFgt) f).setStatus(status);
-                }
-                if(status.equals("编辑")){
+                status = foot_right_tv.getText().toString();
+                setNewStatus(f);
+                if (status.equals("编辑")) {
                     foot_right_tv.setText("完成");
-                } else{
+                } else {
                     foot_right_tv.setText("编辑");
                 }
                 break;
+        }
+    }
+
+    private void setNewStatus(Fragment f) {
+        if (0 == selected) {// 商品
+            ((CollectGoodsHzjFgt) f).setStatus(status);
+        } else if (1 == selected) {// 商家
+            ((CollectMellHzjFgt) f).setStatus(status);
         }
     }
 

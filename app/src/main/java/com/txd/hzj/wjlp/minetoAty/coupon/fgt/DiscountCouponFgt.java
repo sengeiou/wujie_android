@@ -16,7 +16,7 @@ import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 9:55
- * 描述：优惠券
+ * 描述：优惠券(卡券包)
  * ===============Txunda===============
  */
 public class DiscountCouponFgt extends BaseFgt {
@@ -46,10 +46,8 @@ public class DiscountCouponFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        couponAdapter = new CouponAdapter(getActivity(), 0);
-        couponAdapter.setFrom(0);
-        couponAdapter1 = new CouponAdapter(getActivity(), 1);
-        couponAdapter1.setFrom(0);
+        couponAdapter = new CouponAdapter(getActivity(), 0, 0);
+        couponAdapter1 = new CouponAdapter(getActivity(), 1, 0);
     }
 
     @Override

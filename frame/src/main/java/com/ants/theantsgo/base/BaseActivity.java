@@ -122,7 +122,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null) {
+            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                 if (getCurrentFocus().getWindowToken() != null) {
                     mInputMethodManager.hideSoftInputFromWindow(
                             getCurrentFocus().getWindowToken(),

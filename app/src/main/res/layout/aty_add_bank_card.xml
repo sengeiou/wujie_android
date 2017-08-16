@@ -49,6 +49,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/card_type_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -58,6 +59,7 @@
                 android:text="卡类型"/>
 
             <TextView
+                android:id="@+id/card_type_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

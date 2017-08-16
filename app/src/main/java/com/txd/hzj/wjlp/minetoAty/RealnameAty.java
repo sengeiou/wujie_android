@@ -92,6 +92,14 @@ public class RealnameAty extends BaseAty {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (file2 != null && file2.exists()) {
+            file2.delete();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {

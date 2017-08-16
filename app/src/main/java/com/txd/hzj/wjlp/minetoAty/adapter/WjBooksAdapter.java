@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 import java.util.List;
@@ -63,10 +65,23 @@ public class WjBooksAdapter extends BaseAdapter {
         } else {
             bvh = (BVH) view.getTag();
         }
+
+        if (canEdit) {
+            bvh.books_select_iv.setVisibility(View.VISIBLE);
+        } else {
+            bvh.books_select_iv.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
     class BVH {
+
+        /**
+         * 选中未选中
+         */
+        @ViewInject(R.id.books_select_iv)
+        private ImageView books_select_iv;
 
     }
 }

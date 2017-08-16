@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -32,12 +33,19 @@ public class MellListAdapter extends BaseAdapter {
     private Context context;
     private List<String> mells;
 
+    private boolean showSelect = false;
+
     public MellListAdapter(Context context, List<String> mells) {
         this.context = context;
         this.mells = mells;
     }
 
+    public void setShowSelect(boolean showSelect) {
+        this.showSelect = showSelect;
+    }
+
     private MellViewHolder mvh;
+
     @Override
     public int getCount() {
         return 9;
@@ -72,6 +80,12 @@ public class MellListAdapter extends BaseAdapter {
             }
         });
 
+        if (showSelect) {
+            mvh.operation_mell_iv.setVisibility(View.VISIBLE);
+        } else {
+            mvh.operation_mell_iv.setVisibility(View.GONE);
+        }
+
         mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(mells));
 
         return view;
@@ -87,6 +101,12 @@ public class MellListAdapter extends BaseAdapter {
 
         @ViewInject(R.id.mell_prodect_gv)
         private GridViewForScrollView mell_prodect_gv;
+
+        /**
+         * 选中，非选中
+         */
+        @ViewInject(R.id.operation_mell_iv)
+        private ImageView operation_mell_iv;
     }
 
 

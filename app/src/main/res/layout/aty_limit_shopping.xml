@@ -29,7 +29,7 @@
             app:tabGravity="center"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="0dp"
-            app:tabMinWidth="98dp"
+            app:tabMinWidth="120dp"
             app:tabMode="scrollable"
             app:tabPaddingBottom="5dp"
             app:tabSelectedTextColor="@color/white"

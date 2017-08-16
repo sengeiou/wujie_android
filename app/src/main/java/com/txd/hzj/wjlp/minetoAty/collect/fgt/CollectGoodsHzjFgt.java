@@ -53,7 +53,6 @@ public class CollectGoodsHzjFgt extends BaseFgt {
         collect_goods_rv.setHasFixedSize(true);
         collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         collect_goods_rv.setAdapter(racycleAllAdapter);
-        setStatus(status);
     }
 
     @Override
@@ -83,8 +82,15 @@ public class CollectGoodsHzjFgt extends BaseFgt {
         this.status = status;
         if(status.equals("完成")){
             collect_operation_layout.setVisibility(View.GONE);
+            if(racycleAllAdapter!=null){
+                racycleAllAdapter.setShowSelect(false);
+            }
         } else {
             collect_operation_layout.setVisibility(View.VISIBLE);
+            if(racycleAllAdapter!=null){
+                racycleAllAdapter.setShowSelect(true);
+            }
         }
+        racycleAllAdapter.notifyDataSetChanged();
     }
 }

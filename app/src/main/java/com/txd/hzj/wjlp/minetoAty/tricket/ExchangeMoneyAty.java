@@ -83,7 +83,7 @@ public class ExchangeMoneyAty extends BaseAty {
             titlt_conter_tv.setText("积分转余额");
             type_logo_iv.setImageResource(R.drawable.icon_exchange_hzj);
             submit_op_tv.setText("确定");
-            select_bank_card_layout.setVisibility(View.INVISIBLE);
+            select_bank_card_layout.setVisibility(View.GONE);
             bottom_tip_layout.setVisibility(View.GONE);
             operation_type_tv.setText("积分");
             my_bal_tv2.setText("全部使用");

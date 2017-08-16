@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
@@ -44,16 +45,22 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
      */
     private int type = 0;
 
+    private boolean showSelect;
+
     public RacycleAllAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
     }
 
+    public void setShowSelect(boolean showSelect) {
+        this.showSelect = showSelect;
+    }
+
     @Override
     public ItemView onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = null;
+        View view;
         L.e("=====ViewTYpe=====", String.valueOf(viewType));
         view = inflater.inflate(R.layout.item_ticket_gv, parent, false);
 //        switch (viewType) {
@@ -120,6 +127,15 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 }
             });
         }
+
+        // 是不是显示选中按钮
+        if (showSelect) {
+            holder.collect_goods_status_iv.setVisibility(View.VISIBLE);
+        } else {
+            holder.collect_goods_status_iv.setVisibility(View.GONE);
+
+        }
+
     }
 
     @Override
@@ -156,6 +172,12 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         @ViewInject(R.id.use_coupon_tv)
         private TextView use_coupon_tv;
+
+        /**
+         * 选中不选中
+         */
+        @ViewInject(R.id.collect_goods_status_iv)
+        private ImageView collect_goods_status_iv;
 
         public ItemView(View itemView) {
             super(itemView);

@@ -266,7 +266,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 break;
             case R.id.cart_rb:// 购物车
                 if (!Config.isLogin()) {
-                    startActivity(LoginAty.class, null);
+                    toLogin();
                     break;
                 }
                 page_index = 2;
@@ -274,7 +274,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 break;
             case R.id.mine_rb:// 我的
                 if (!Config.isLogin()) {
-                    startActivity(LoginAty.class, null);
+                    toLogin();
                     break;
                 }
                 page_index = 3;

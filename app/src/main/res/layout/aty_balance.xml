@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/icon_turn_right_g"
-            android:text="转账给用户"
+            android:text="转账"
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_transfer_accounts"
             android:textColor="@color/app_text_color"

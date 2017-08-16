@@ -50,7 +50,7 @@ public class CouponListFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        couponAdapter = new CouponAdapter(getActivity(), 0);
+        couponAdapter = new CouponAdapter(getActivity(), 0, 1);
     }
 
     @Override
