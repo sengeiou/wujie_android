@@ -19,7 +19,7 @@ import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
-import com.txd.hzj.wjlp.minetoAty.SetAty;
+import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
@@ -37,6 +37,8 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
  * ===============Txunda===============
@@ -116,6 +118,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.center_tv)
     private TextView center_tv;
 
+    /**
+     * 用户头像
+     */
+    @ViewInject(R.id.img_head)
+    private ShapedImageView img_headl;
+
     private Bundle bundle;
 
     /**
@@ -134,6 +142,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         allHeight = Settings.displayWidth * 2 / 3;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         rel_head_back.setLayoutParams(layoutParams);
+
+        img_headl.setVisibility(View.VISIBLE);
 
         off_line_to_change_sc.smoothScrollTo(0, 0);
         // 改变标题栏颜色

@@ -56,7 +56,7 @@ import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.minetoAty.SetAty;
+import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
 import com.txd.hzj.wjlp.tool.NotifyUtil;
@@ -409,7 +409,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     private android.app.AlertDialog.Builder exceptionBuilder;
 
-    // user logged into another device
+    /**
+     * 账号异地登录
+     */
     public boolean isConflict = false;
 
     private LocalBroadcastManager broadcastManager;
@@ -417,11 +419,14 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private BroadcastReceiver broadcastReceiver;
 
 
-    // user account was removed
+    /**
+     * 账号被移除
+     */
     private boolean isCurrentAccountRemoved = false;
 
     /**
-     * check if current user account was remove
+     *  check if current user account was remove
+     *  检查当前账号是否被移除
      */
     public boolean getCurrentAccountRemoved() {
         return isCurrentAccountRemoved;

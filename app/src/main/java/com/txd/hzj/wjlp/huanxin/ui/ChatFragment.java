@@ -46,14 +46,10 @@ import java.util.Map;
 public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHelper {
 
     // constant start from 11 to avoid conflict with constant in base class
-    private static final int ITEM_VIDEO = 11;
     private static final int ITEM_FILE = 12;
-    private static final int ITEM_VOICE_CALL = 13;
-    private static final int ITEM_VIDEO_CALL = 14;
 
     private static final int REQUEST_CODE_SELECT_VIDEO = 11;
     private static final int REQUEST_CODE_SELECT_FILE = 12;
-    private static final int REQUEST_CODE_GROUP_DETAIL = 13;
     private static final int REQUEST_CODE_CONTEXT_MENU = 14;
     private static final int REQUEST_CODE_SELECT_AT_USER = 15;
 
@@ -63,15 +59,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     private static final int MESSAGE_TYPE_SENT_VIDEO_CALL = 3;
     private static final int MESSAGE_TYPE_RECV_VIDEO_CALL = 4;
 
-    //red packet code : 红包功能使用的常量
-    private static final int MESSAGE_TYPE_RECV_RED_PACKET = 5;
-    private static final int MESSAGE_TYPE_SEND_RED_PACKET = 6;
-    private static final int MESSAGE_TYPE_SEND_RED_PACKET_ACK = 7;
-    private static final int MESSAGE_TYPE_RECV_RED_PACKET_ACK = 8;
-    private static final int MESSAGE_TYPE_RECV_RANDOM = 11;
-    private static final int MESSAGE_TYPE_SEND_RANDOM = 12;
-    private static final int ITEM_RED_PACKET = 16;
-    //end of red packet code
 
     /**
      * if it is chatBot

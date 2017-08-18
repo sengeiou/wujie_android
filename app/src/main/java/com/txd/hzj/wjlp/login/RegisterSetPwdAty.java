@@ -8,10 +8,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -53,6 +58,10 @@ public class RegisterSetPwdAty extends BaseAty {
     private boolean newPwd = false;
     private boolean couPwd = false;
 
+    private String phone = "";
+
+    private RegisterPst registerPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +102,12 @@ public class RegisterSetPwdAty extends BaseAty {
                 }
                 break;
             case R.id.register_success_tv:
-                finish();
+
+                String password = new_pwd_ev.getText().toString();
+                String confirmPassword = countersign_pwd_ev.getText().toString();
+
+                registerPst.register(phone, password, confirmPassword);
+                hideKeyBoard();
                 break;
         }
     }
@@ -105,11 +119,25 @@ public class RegisterSetPwdAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        phone = getIntent().getStringExtra("phone");
+        registerPst = new RegisterPst(this);
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("register")) {
+            showRightTip("注册并登陆成功");
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            application.setUserInfo(data);
+            Config.setLoginState(true);
+            finish();
+        }
     }
 }

@@ -34,4 +34,7 @@ public interface BaseView {
     void onComplete(String requestUrl, String jsonStr);
 
     void onError(String requestUrl, Map<String, String> error);
+
+    void onErrorTip(String tips);
+
 }

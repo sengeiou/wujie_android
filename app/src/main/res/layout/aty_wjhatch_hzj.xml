@@ -12,6 +12,7 @@
     <include layout="@layout/aty_title"/>
 
     <ScrollView
+        android:id="@+id/wjh_sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -21,11 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_discount"/>
+            <include layout="@layout/aty_banner"/>
 
             <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                 android:id="@+id/hatch_lv"

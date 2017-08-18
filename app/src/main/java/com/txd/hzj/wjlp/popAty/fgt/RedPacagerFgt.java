@@ -50,7 +50,7 @@ public class RedPacagerFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        redPackageAdapter = new RedPackageAdapter(getActivity());
+        redPackageAdapter = new RedPackageAdapter(getActivity(),1);
     }
 
     @Override

@@ -29,6 +29,8 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
  */
 
 public abstract class BaseAty extends BaseActivity {
+    private Bundle bundle;
+
     /**
      * 返回
      *
@@ -42,7 +44,18 @@ public abstract class BaseAty extends BaseActivity {
      * 登录
      */
     public void toLogin() {
-        startActivity(LoginAty.class, null);
+        bundle = new Bundle();
+        bundle.putInt("type",1);
+        startActivity(LoginAty.class, bundle);
+    }
+
+    /**
+     * 退出并跳转到登录页
+     */
+    public void loginoutToLogin(){
+        bundle = new Bundle();
+        bundle.putInt("type",0);
+        startActivity(LoginAty.class, bundle);
     }
 
     /**

@@ -2,8 +2,10 @@ package com.txd.hzj.wjlp.login;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tools.RegexUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -24,6 +26,9 @@ public class FindPwgBackHzjAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
 
+    @ViewInject(R.id.phone_ev)
+    private EditText phone_ev;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +42,15 @@ public class FindPwgBackHzjAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_next_tv:// 下一步
-                startActivity(ReSetPwdAty.class, null);
+                String phone = phone_ev.getText().toString();
+                if (!RegexUtils.checkPhone(phone)) {
+                    onErrorTip("请检查手机号");
+                    break;
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("phone", phone);
+                startActivity(ReSetPwdAty.class, bundle);
+                finish();
                 break;
         }
     }

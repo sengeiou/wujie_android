@@ -14,6 +14,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CodeCountDown;
 
@@ -55,19 +56,24 @@ public class ReSetPwdAty extends BaseAty {
 
     private CodeCountDown codeCountDown;
 
+    private RegisterPst registerPst;
+    private String phone = "";
+
+    @ViewInject(R.id.reset_get_code_ev)
+    private EditText reset_get_code_ev;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("重置登录密码");
-        if (codeCountDown == null) {
-            codeCountDown = new CodeCountDown(60000, 1000, this, get_code_tv);
-        }
-        codeCountDown.start();
+
+        registerPst.getVerify(phone, "retrieve");
+
     }
 
     @Override
-    @OnClick({R.id.countersign_pwd_iv, R.id.new_pwd_iv, R.id.get_code_tv})
+    @OnClick({R.id.countersign_pwd_iv, R.id.new_pwd_iv, R.id.get_code_tv, R.id.get_pwd_success_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -98,6 +104,13 @@ public class ReSetPwdAty extends BaseAty {
                 }
                 break;
             case R.id.get_code_tv:// 重新获取
+                registerPst.getVerify(phone, "retrieve");
+                break;
+            case R.id.get_pwd_success_tv:// 完成
+                String verify = reset_get_code_ev.getText().toString();
+                String newPassword = new_pwd_ev.getText().toString();
+                String confirmPassword = countersign_pwd_ev.getText().toString();
+                registerPst.resetPassword(phone,verify, newPassword, confirmPassword);
                 break;
         }
     }
@@ -109,7 +122,8 @@ public class ReSetPwdAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        registerPst = new RegisterPst(this);
+        phone = getIntent().getStringExtra("phone");
     }
 
     @Override
@@ -117,4 +131,19 @@ public class ReSetPwdAty extends BaseAty {
 
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("sendVerify")) {
+            if (codeCountDown == null) {
+                codeCountDown = new CodeCountDown(60000, 1000, this, get_code_tv);
+            }
+            codeCountDown.start();
+            return;
+        }
+        if (requestUrl.contains("resetPassword")) {
+            showRightTip("重置成功");
+            finish();
+        }
+    }
 }

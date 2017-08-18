@@ -27,14 +27,18 @@
                 android:background="@drawable/icon_mine_bg"
                 >
 
-                <ImageView
+                <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                     android:id="@+id/img_head"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp"
-                    android:background="@drawable/icon_temp_head"/>
+                    android:background="@drawable/icon_temp_head"
+                    app:shape_mode="circle"
+                    android:visibility="invisible"
+                    app:stroke_color="@color/white"
+                    app:stroke_width="2dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

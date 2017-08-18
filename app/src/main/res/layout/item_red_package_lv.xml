@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:shape_mode="round_rect"
-        app:round_radius="16dp"
+        app:round_radius="0dp"
         app:stroke_width="1dp"
+        android:id="@+id/image_for_mell"
         app:stroke_color="@color/bg_color"
         android:src="@drawable/icon_temp_discount"/>
 

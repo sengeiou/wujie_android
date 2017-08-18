@@ -1,19 +1,30 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoAty.setting;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.login.LoginAty;
+import com.txd.hzj.wjlp.minetoAty.BindPhoneAty;
+import com.txd.hzj.wjlp.minetoAty.EditLoginPasswordAty;
+import com.txd.hzj.wjlp.minetoAty.EditPayPasswordAty;
+import com.txd.hzj.wjlp.minetoAty.EditProfileAty;
+import com.txd.hzj.wjlp.minetoAty.RealnameAty;
 
 /**
  * ===============Txunda===============
@@ -67,8 +78,7 @@ public class SetAty extends BaseAty {
                         switch (btnType) {
                             case MikyouCommonDialog.OK:
                                 Config.setLoginState(false);
-                                startActivity(LoginAty.class, null);
-                                finish();
+                                logout();
                                 break;
                             case MikyouCommonDialog.NO:
                                 break;
@@ -93,4 +103,38 @@ public class SetAty extends BaseAty {
     protected void requestData() {
 
     }
+
+    private void logout() {
+        DemoHelper.getInstance().logout(true, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                L.e("=====退出登录=====", "成功");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginoutToLogin();
+                        finish();
+                    }
+                });
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                L.e("=====退出登录=====", "退出中");
+            }
+
+            @Override
+            public void onError(int code, String message) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showErrorTip("退出失败，请重新操作");
+                    }
+                });
+                L.e("=====退出登录=====", "失败：" + code + "-----" + message);
+            }
+        });
+    }
+
 }

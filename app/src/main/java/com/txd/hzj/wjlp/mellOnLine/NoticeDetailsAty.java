@@ -8,9 +8,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.article.ArticlePst;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -34,18 +38,22 @@ public class NoticeDetailsAty extends BaseAty {
      */
     private int from = 0;
 
+    private ArticlePst articlePst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         if (0 == from) {
             titlt_conter_tv.setText("详情");
+            initWebView();
         } else if (1 == from) {
             titlt_conter_tv.setText("无界头条");
+            initWebView();
         } else {
             titlt_conter_tv.setText("服务条款");
+            articlePst.getArticle("1");
         }
-        initWebView();
     }
 
     /**
@@ -82,10 +90,21 @@ public class NoticeDetailsAty extends BaseAty {
     @Override
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
+        articlePst = new ArticlePst(this);
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("getArticle")) {
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            Map<String, String> data = (Map<String, String>) map.get("data");
+            notice_details_wv.loadDataWithBaseURL(null, data.get("content"), "text/html", "utf-8", null);
+        }
     }
 }
