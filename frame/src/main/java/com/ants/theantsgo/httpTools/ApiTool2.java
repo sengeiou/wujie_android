@@ -2,6 +2,7 @@ package com.ants.theantsgo.httpTools;
 
 import com.ants.theantsgo.base.BaseMode;
 import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.MapUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -43,6 +44,7 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
+        params.addHeader("token", Config.getToken());
         httpUtils.send(HttpRequest.HttpMethod.GET, url, params, new DefaultRequestCallBack(apiListener));
     }
 
@@ -57,6 +59,7 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
+        params.addHeader("token", Config.getToken());
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }
 

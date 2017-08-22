@@ -65,6 +65,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:theme,android:allowBackup">
+        <!--Glide缓存-->
+        <meta-data
+            android:name="com.ants.theantsgo.GlideCache"
+            android:value="GlideModule"
+            tools:node="remove"/>
 
         <!-- App升级 -->
         <provider
@@ -157,21 +162,21 @@
         <!-- 设置 -->
         <activity android:name=".minetoAty.setting.SetAty"/>
         <!-- 个人信息 -->
-        <activity android:name=".minetoAty.EditProfileAty"/>
+        <activity android:name=".minetoAty.setting.EditProfileAty"/>
         <!-- 修改当前密码 -->
-        <activity android:name=".minetoAty.EditLoginPasswordAty"/>
+        <activity android:name=".minetoAty.setting.EditLoginPasswordAty"/>
         <!-- 修改支付密码 -->
-        <activity android:name=".minetoAty.EditPayPasswordAty"/>
+        <activity android:name=".minetoAty.setting.EditPayPasswordAty"/>
         <!-- 实名认证 -->
         <activity android:name=".minetoAty.RealnameAty"/>
         <!-- 绑定手机 -->
-        <activity android:name=".minetoAty.BindPhoneAty"/>
+        <activity android:name=".minetoAty.setting.BindPhoneAty"/>
         <!-- 绑定新手机 -->
-        <activity android:name=".minetoAty.BindNewPhoneAty"/>
+        <activity android:name=".minetoAty.setting.BindNewPhoneAty"/>
         <!-- 关于我们 -->
         <activity android:name=".minetoAty.AboutOursAty"/>
         <!-- 帮助中心 -->
-        <activity android:name=".minetoAty.HelpCenterAty"/>
+        <activity android:name=".minetoAty.help.HelpCenterAty"/>
         <!-- 注册设置密码 -->
         <activity android:name=".login.RegisterSetPwdAty"/>
         <!-- 位置 -->
@@ -470,11 +475,16 @@
 
 
         <!-- 环信相关服务等 ↑ END -->
-
-        <activity android:name=".minetoAty.setting.ResetPayPwdAty">
-        </activity>
-        <activity android:name=".minetoAty.setting.ResetPayPwdSecAty">
-        </activity>
+        <!--重置支付密码-->
+        <activity android:name=".minetoAty.setting.ResetPayPwdAty"/>
+        <!--第二步-->
+        <activity android:name=".minetoAty.setting.ResetPayPwdSecAty"/>
+        <!--书院详情-->
+        <activity android:name=".minetoAty.books.BooksDetailsAty"/>
+        <!--省市区选择-->
+        <activity
+            android:name=".minetoAty.address.AreaSelectAty"
+            android:theme="@style/share_style"/>
     </application>
 
 </manifest>

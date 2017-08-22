@@ -38,6 +38,7 @@
                 android:textColor="@color/app_text_color"/>
 
             <EditText
+                android:id="@+id/address_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -62,6 +63,7 @@
                 android:textColor="@color/app_text_color"/>
 
             <EditText
+                android:id="@+id/address_phone_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -143,6 +145,7 @@
                 android:textColor="@color/app_text_color"/>
 
             <EditText
+                android:id="@+id/address_details_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

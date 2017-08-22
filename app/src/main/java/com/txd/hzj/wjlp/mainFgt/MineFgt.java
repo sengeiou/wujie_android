@@ -18,7 +18,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
-import com.txd.hzj.wjlp.minetoAty.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;

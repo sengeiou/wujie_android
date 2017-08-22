@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -61,6 +62,7 @@ public class RegisterSetPwdAty extends BaseAty {
     private String phone = "";
 
     private RegisterPst registerPst;
+    private String password = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +105,7 @@ public class RegisterSetPwdAty extends BaseAty {
                 break;
             case R.id.register_success_tv:
 
-                String password = new_pwd_ev.getText().toString();
+                password = new_pwd_ev.getText().toString();
                 String confirmPassword = countersign_pwd_ev.getText().toString();
 
                 registerPst.register(phone, password, confirmPassword);
@@ -137,6 +139,12 @@ public class RegisterSetPwdAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
+
+            PreferencesUtils.putString(this, "phone", phone);
+            PreferencesUtils.putString(this, "pwd", password);
+            PreferencesUtils.putString(this, "token", data.get("token"));
+
+            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             finish();
         }
     }

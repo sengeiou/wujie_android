@@ -12,27 +12,27 @@
         android:padding="16dp">
 
         <TextView
+            android:id="@+id/add_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="赵策"
             android:textColor="@color/app_text_color"
             android:textSize="18sp"/>
 
         <TextView
+            android:id="@+id/add_phone_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="15822230910"
             android:textColor="@color/app_text_color"
             android:textSize="18sp"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/add_details_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="16dp"
-        android:paddingStart="16dp"
-        android:text="天津市南开区王顶堤鹤园南里甲四号楼6门505"/>
+        android:paddingStart="16dp"/>
 
     <View
         android:layout_width="match_parent"

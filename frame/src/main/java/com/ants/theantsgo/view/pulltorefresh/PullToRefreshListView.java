@@ -104,6 +104,8 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
         super(context, attrs);
     }
 
+
+
     public PullToRefreshListView(Context context, Mode mode) {
         super(context, mode);
     }

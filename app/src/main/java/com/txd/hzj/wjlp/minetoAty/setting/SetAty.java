@@ -1,30 +1,28 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.tool.GlideCacheUtil;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.login.LoginAty;
-import com.txd.hzj.wjlp.minetoAty.BindPhoneAty;
-import com.txd.hzj.wjlp.minetoAty.EditLoginPasswordAty;
-import com.txd.hzj.wjlp.minetoAty.EditPayPasswordAty;
-import com.txd.hzj.wjlp.minetoAty.EditProfileAty;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.RealnameAty;
+
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * ===============Txunda===============
@@ -41,6 +39,42 @@ public class SetAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
+    private UserPst userPst;
+    private String auth_status = "0";
+
+    /**
+     * 缓存
+     */
+    @ViewInject(R.id.tv_data_number)
+    private TextView tv_data_number;
+
+    /**
+     * 绑定手机
+     */
+    @ViewInject(R.id.user_bind_phone_tv)
+    private TextView user_bind_phone_tv;
+    /**
+     * 是否有登录密码
+     */
+    private String is_password = "0";
+    /**
+     * 是否有支付密码
+     */
+    private String is_pay_password = "0";
+
+    /**
+     * 登录密码
+     */
+    @ViewInject(R.id.rel_editpassword)
+    private TextView rel_editpassword;
+    /**
+     * 支付密码
+     */
+    @ViewInject(R.id.rel_editpaypassword)
+    private TextView rel_editpaypassword;
+    private Bundle bundle;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +84,7 @@ public class SetAty extends BaseAty {
 
     @Override
     @OnClick({R.id.rel_editprofile, R.id.rel_editpassword, R.id.rel_editpaypassword, R.id.rel_realname,
-            R.id.rel_bind_phone, R.id.sing_out_tv})
+            R.id.rel_bind_phone, R.id.sing_out_tv, R.id.clear_cach_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -58,12 +92,24 @@ public class SetAty extends BaseAty {
                 startActivity(EditProfileAty.class, null);
                 break;
             case R.id.rel_editpassword:// 修改登录密码
-                startActivity(EditLoginPasswordAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("is_password", is_password);
+                startActivity(EditLoginPasswordAty.class, bundle);
                 break;
             case R.id.rel_editpaypassword:// 修改支付密码
-                startActivity(EditPayPasswordAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("is_pay_password", is_pay_password);
+                startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证
+                if (auth_status.equals("1")) {
+                    showRightTip("认证中");
+                    break;
+                }
+                if (auth_status.equals("2")) {
+                    showRightTip("已认证成功");
+                    break;
+                }
                 startActivity(RealnameAty.class, null);
                 break;
             case R.id.rel_bind_phone:// 绑定手机号
@@ -86,6 +132,32 @@ public class SetAty extends BaseAty {
                     }
                 }).showDialog();
                 break;
+            case R.id.clear_cach_layout:// 清除缓存
+                new MikyouCommonDialog(this, "提示", "确定要清除缓存？", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog
+                        .OnDialogListener() {
+
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
+                            which) {
+                        switch (btnType) {
+                            case MikyouCommonDialog.OK:
+                                showProgressDialog();
+                                GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
+                                TimerTask task = new TimerTask() {
+                                    public void run() {
+                                        removeProgressDialog();
+                                    }
+                                };
+                                Timer timer = new Timer();
+                                timer.schedule(task, 500);
+                                tv_data_number.setText("0.00M");
+                                break;
+                            case MikyouCommonDialog.NO:
+                                break;
+                        }
+                    }
+                }).showDialog();
+                break;
         }
     }
 
@@ -96,11 +168,43 @@ public class SetAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        userPst = new UserPst(this);
     }
 
     @Override
     protected void requestData() {
+        userPst.setting();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SetSize();
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+        Map<String, String> data = (Map<String, String>) map.get("data");
+        // 认证状态 0 未认证 1认证中 2 已认证
+        auth_status = data.get("auth_status");
+        user_bind_phone_tv.setText(data.get("phone"));
+        is_password = data.get("is_password");
+
+        if (is_password.equals("0")) {
+            rel_editpassword.setText("修改登录密码");
+        } else {
+            rel_editpassword.setText("设置登录密码");
+        }
+
+        is_pay_password = data.get("is_pay_password");
+        if (is_pay_password.equals("0")) {
+            rel_editpassword.setText("设置支付密码");
+        } else {
+            rel_editpassword.setText("修改支付密码");
+        }
+
 
     }
 
@@ -137,4 +241,10 @@ public class SetAty extends BaseAty {
         });
     }
 
+    /**
+     * 获取缓存大小
+     */
+    public void SetSize() {
+        tv_data_number.setText(GlideCacheUtil.getInstance().getCacheSize(getApplicationContext()));
+    }
 }

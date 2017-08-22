@@ -11,10 +11,16 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.address.AddressPst;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -35,12 +41,15 @@ public class TextListAty extends BaseAty {
 
     private TextAdapter tAdapter;
 
+    private AddressPst addressPst;
+
+    private List<Map<String, String>> dataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText(title);
-        all_text_lv.setAdapter(tAdapter);
         all_text_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -56,7 +65,8 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("选择经营范围")) {
                     data.putExtra("scope", "服饰");
                 } else if (title.equals("选择街道")) {
-                    data.putExtra("street", "西长安街道");
+                    data.putExtra("street", dataList.get(i).get("street_name"));
+                    data.putExtra("street_id", dataList.get(i).get("street_id"));
                 } else if (title.equals("举报类型")) {
                     data.putExtra("type", "卫生");
                 } else if (title.equals("银行卡类型")) {
@@ -76,12 +86,30 @@ public class TextListAty extends BaseAty {
     @Override
     protected void initialized() {
         title = getIntent().getStringExtra("title");
-        tAdapter = new TextAdapter();
+
+        addressPst = new AddressPst(this);
+
+        dataList = new ArrayList<>();
+
     }
 
     @Override
     protected void requestData() {
+        if (title.equals("选择街道")) {
+            String area_id = getIntent().getStringExtra("area_id");
+            addressPst.getStreet(area_id);
+        }
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("getStreet")) {//街道
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+        }
     }
 
     private class TextAdapter extends BaseAdapter {
@@ -90,12 +118,12 @@ public class TextListAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 5;
+            return dataList.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public Map<String, String> getItem(int i) {
+            return dataList.get(i);
         }
 
         @Override
@@ -105,6 +133,7 @@ public class TextListAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Map<String, String> map = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(TextListAty.this).inflate(R.layout.item_text_lv_hzj, null);
                 tvvh = new TVVh();
@@ -128,7 +157,7 @@ public class TextListAty extends BaseAty {
             } else if (title.equals("选择经营范围")) {
                 tvvh.text_context_tv.setText("服饰");
             } else if (title.equals("选择街道")) {
-                tvvh.text_context_tv.setText("西长安街道");
+                tvvh.text_context_tv.setText(map.get("street_name"));
             } else if (title.equals("举报类型")) {
                 tvvh.text_context_tv.setText("卫生");
             } else if (title.equals("银行卡类型")) {

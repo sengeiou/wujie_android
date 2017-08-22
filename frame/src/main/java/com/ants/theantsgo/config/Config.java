@@ -143,6 +143,10 @@ public class Config {
         }
     }
 
+    public static String getToken() {
+        return PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
+    }
+
     /**
      * 设置标签和别名
      *

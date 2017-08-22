@@ -7,7 +7,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ants.theantsgo.base.BaseActivity;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.ants.theantsgo.util.L;
+import com.hyphenate.EMCallBack;
+import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -18,6 +22,8 @@ import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -45,16 +51,16 @@ public abstract class BaseAty extends BaseActivity {
      */
     public void toLogin() {
         bundle = new Bundle();
-        bundle.putInt("type",1);
+        bundle.putInt("type", 1);
         startActivity(LoginAty.class, bundle);
     }
 
     /**
      * 退出并跳转到登录页
      */
-    public void loginoutToLogin(){
+    public void loginoutToLogin() {
         bundle = new Bundle();
-        bundle.putInt("type",0);
+        bundle.putInt("type", 0);
         startActivity(LoginAty.class, bundle);
     }
 
@@ -148,5 +154,37 @@ public abstract class BaseAty extends BaseActivity {
      */
     public void toScan(View v) {
         startActivity(ScanAty.class, null);
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (error.get("code").equals("-1")) {// 登录失效
+            // 环信退出登录
+            DemoHelper.getInstance().logout(true, new EMCallBack() {
+
+                @Override
+                public void onSuccess() {
+                    L.e("=====退出登录=====", "成功");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toLogin();
+                            Config.setLoginState(false);
+                        }
+                    });
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+                    L.e("=====退出登录=====", "退出中");
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    L.e("=====退出登录=====", "失败：" + code + "-----" + message);
+                }
+            });
+        }
     }
 }

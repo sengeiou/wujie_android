@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.minetoAty.adapter.WjBooksAdapter;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CollectBooksFgt extends BaseFgt {
      */
     @ViewInject(R.id.collect_bools_lv)
     private ListView collect_bools_lv;
-    private List<String> books;
+    private List<AcademyList> books;
 
     private WjBooksAdapter wjBooksAdapter;
 

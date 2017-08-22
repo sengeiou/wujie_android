@@ -1,30 +1,21 @@
 package com.txd.hzj.wjlp.minetoAty.address;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ants.theantsgo.util.L;
-import com.bigkoo.pickerview.OptionsPickerView;
-import com.google.gson.Gson;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.JsonBean;
-import com.txd.hzj.wjlp.minetoAty.address.adapter.AddressAdapter;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -47,19 +38,70 @@ public class AddNewAddressAty extends BaseAty {
     @ViewInject(R.id.zore_tv)
     private TextView zore_tv;
 
-    private Thread thread;
-
-    private ArrayList<JsonBean> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
-
-    private static final int MSG_LOAD_DATA = 0x0001;
-    private static final int MSG_LOAD_SUCCESS = 0x0002;
-    private static final int MSG_LOAD_FAILED = 0x0003;
-
     @ViewInject(R.id.street_tv)
     private TextView street_tv;
-    private boolean isLoaded = false;
+
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+
+    private AddressPst addressPst;
+
+    /**
+     * 省id
+     */
+    private String province_id = "";
+    /**
+     * 市id
+     */
+    private String city_id = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+
+    /**
+     * 街道
+     */
+    private String street = "";
+    /**
+     * 街道id
+     */
+    private String street_id = "";
+
+    private int type = 0;
+
+    private String address_id = "";
+
+
+    /**
+     * 姓名
+     */
+    @ViewInject(R.id.address_name_tv)
+    private EditText address_name_tv;
+    /**
+     * 电话
+     */
+    @ViewInject(R.id.address_phone_tv)
+    private EditText address_phone_tv;
+
+    /**
+     * 详细地址
+     */
+    @ViewInject(R.id.address_details_tv)
+    private EditText address_details_tv;
+    private String lng = "";
+    private String lat = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +119,28 @@ public class AddNewAddressAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.titlt_right_tv:
-                finish();
-                break;
-            case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
-                if (isLoaded) {
-                    ShowPickerView();
+                String receiver = address_name_tv.getText().toString();
+                String phone = address_phone_tv.getText().toString();
+                String address = address_details_tv.getText().toString();
+                if (0 == type) {
+                    addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
+                            street_id, address, lng, lat);
                 } else {
-                    showProgressDialog();
-                    mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+                    addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id,
+                            city_id, area_id, street_id, address, lng, lat);
                 }
                 break;
+            case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
+                startActivityForResult(AreaSelectAty.class, null, 101);
+                break;
             case R.id.street_layout:// 解析数据，弹出城市选择弹窗
+                if (area_id.equals("")) {
+                    showErrorTip("请选择省市区");
+                    break;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "选择街道");
+                bundle.putString("area_id", area_id);
                 startActivityForResult(TextListAty.class, bundle, 100);
                 break;
         }
@@ -102,141 +153,49 @@ public class AddNewAddressAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        type = getIntent().getIntExtra("type", 0);
+        addressPst = new AddressPst(this);
 
     }
 
     @Override
     protected void requestData() {
-
+        if (1 == type) {
+            address_id = getIntent().getStringExtra("address_id");
+            addressPst.getOneAddress(address_id);
+        }
     }
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 写子线程中的操作,解析省市区数据
-                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("getOneAddress")) {// 获取一条地址
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            Map<String, String> data = (Map<String, String>) map.get("data");
 
-                case MSG_LOAD_SUCCESS://成功
-                    ShowPickerView();
-                    removeProgressDialog();
-                    isLoaded = true;
-                    break;
+            address_name_tv.setText(data.get("receiver"));
+            address_phone_tv.setText(data.get("phone"));
+            zore_tv.setText(data.get("province" + data.get("city") + data.get("area")));
+            street_tv.setText(data.get("street"));
+            province_id = data.get("province_id");
+            city_id = data.get("city_id");
+            area_id = data.get("area_id");
+            street_id = data.get("street_id");
+            address_details_tv.setText(data.get("address"));
 
-                case MSG_LOAD_FAILED:// 失败
-                    break;
-
-            }
+            lng = data.get("lng");
+            lat = data.get("lat");
+            return;
         }
-    };
-
-
-    private void initJsonData() {//解析数据
-
-        /**
-         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
-         * 关键逻辑在于循环体
-         *
-         * */
-        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
-
-        ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
-
-        /**
-         * 添加省份数据
-         *
-         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
-        options1Items = jsonBean;
-
-        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-
-            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
-                String CityName = jsonBean.get(i).getCityList().get(c).getName();
-                CityList.add(CityName);//添加城市
-
-                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
-
-                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCityList().get(c).getArea() == null
-                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
-                    City_AreaList.add("");
-                } else {
-
-                    for (int d = 0; d < jsonBean.get(i).getCityList().get(c).getArea().size(); d++) {//该城市对应地区所有数据
-                        String AreaName = jsonBean.get(i).getCityList().get(c).getArea().get(d);
-
-                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                    }
-                }
-                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
-            }
-
-            /**
-             * 添加城市数据
-             */
-            options2Items.add(CityList);
-
-            /**
-             * 添加地区数据
-             */
-            options3Items.add(Province_AreaList);
+        if (requestUrl.contains("addAddress")) {
+            showRightTip("添加成功");
+            finish();
+            return;
         }
-        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
-    }
-
-    public ArrayList<JsonBean> parseData(String result) {//Gson 解析
-        ArrayList<JsonBean> detail = new ArrayList<>();
-        try {
-            JSONArray data = new JSONArray(result);
-            Gson gson = new Gson();
-            for (int i = 0; i < data.length(); i++) {
-                JsonBean entity = gson.fromJson(data.optJSONObject(i).toString(), JsonBean.class);
-                detail.add(entity);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            removeProgressDialog();
+        if (requestUrl.contains("editAddress")) {
+            showRightTip("修改成功");
+            finish();
         }
-        return detail;
-    }
-
-    private void ShowPickerView() {// 弹出选择器
-
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(AddNewAddressAty.this, new OptionsPickerView
-                .OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-                String tx = options1Items.get(options1).getPickerViewText() +
-                        options2Items.get(options1).get(options2) +
-                        options3Items.get(options1).get(options2).get(options3);
-                zore_tv.setText(tx);
-            }
-        })
-                .setTitleText("城市选择")
-                .setDividerColor(Color.BLACK)
-                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
-                .build();
-
-        /*pvOptions.setPicker(options1Items);//一级选择器
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
-        pvOptions.show();
     }
 
     @Override
@@ -245,9 +204,25 @@ public class AddNewAddressAty extends BaseAty {
         if (data == null)
             return;
         if (RESULT_OK == resultCode) {
-            if (100 == requestCode) {
-                String street = data.getStringExtra("street");
-                street_tv.setText(street);
+            switch (requestCode) {
+                case 100:// 街道
+                    street = data.getStringExtra("street");
+                    street_id = data.getStringExtra("street_id");
+                    street_tv.setText(street);
+                    break;
+                case 101:// 省市区
+                    province = data.getStringExtra("province");
+                    city = data.getStringExtra("city");
+                    area = data.getStringExtra("area");
+
+                    province_id = data.getStringExtra("province_id");
+                    city_id = data.getStringExtra("city_id");
+                    area_id = data.getStringExtra("area_id");
+
+                    // 省市区
+                    String tx = province + city + area;
+                    zore_tv.setText(tx);
+                    break;
             }
         }
     }

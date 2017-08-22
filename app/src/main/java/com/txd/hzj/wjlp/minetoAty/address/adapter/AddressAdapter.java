@@ -14,6 +14,7 @@ import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.AddressList;
 
 import java.util.List;
 
@@ -29,13 +30,13 @@ import java.util.List;
 public class AddressAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> address;
+    private List<AddressList.Address> address;
     private LayoutInflater inflater;
     private AVH avh;
 
     private AdapterTextViewClickListener adapterTextViewClickListener;
 
-    public AddressAdapter(Context context, List<String> address) {
+    public AddressAdapter(Context context, List<AddressList.Address> address) {
         this.context = context;
         this.address = address;
         inflater = LayoutInflater.from(context);
@@ -43,12 +44,12 @@ public class AddressAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return address.size();
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public AddressList.Address getItem(int i) {
+        return address.get(i);
     }
 
     @Override
@@ -58,6 +59,7 @@ public class AddressAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
+        AddressList.Address ad = getItem(i);
         if (view == null) {
             view = inflater.inflate(R.layout.item_address_hzj_lv, null);
             avh = new AVH();
@@ -67,7 +69,7 @@ public class AddressAdapter extends BaseAdapter {
             avh = (AVH) view.getTag();
         }
 
-        if (0 == i) {
+        if (ad.getIs_default().equals("1")) { // 默认地址
             avh.address_status_iv.setImageResource(R.drawable.icon_default_address);
             avh.address_defailt_tv.setText("默认地址");
             avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
@@ -101,6 +103,10 @@ public class AddressAdapter extends BaseAdapter {
                 }
             });
         }
+
+        avh.add_name_tv.setText(ad.getReceiver());
+        avh.add_phone_tv.setText(ad.getPhone());
+        avh.add_details_tv.setText(ad.getProvince() + ad.getCity() + ad.getArea() + ad.getStreet() + ad.getAddress());
 
         return view;
     }
@@ -141,6 +147,24 @@ public class AddressAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.under_address_iv)
         private View under_address_iv;
+
+        /**
+         * 姓名
+         */
+        @ViewInject(R.id.add_name_tv)
+        private TextView add_name_tv;
+
+        /**
+         * 电话
+         */
+        @ViewInject(R.id.add_phone_tv)
+        private TextView add_phone_tv;
+
+        /**
+         * 地址
+         */
+        @ViewInject(R.id.add_details_tv)
+        private TextView add_details_tv;
 
     }
 }

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.minetoAty;
+package com.txd.hzj.wjlp.minetoAty.setting;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
  * Created by lienchao on 2017/7/14 0014.
  */
 
-public class EditLoginPasswordAty extends BaseAty {
+public class BindNewPhoneAty extends BaseAty {
     /**
      * 设置标题
      * */
@@ -22,12 +22,12 @@ public class EditLoginPasswordAty extends BaseAty {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("修改登录密码");
+        titlt_conter_tv.setText("换绑手机");
     }
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.aty_edit_login_password_li;
+        return R.layout.aty_bind_new_phone_li;
     }
 
     @Override

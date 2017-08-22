@@ -17,6 +17,7 @@ import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -97,6 +98,7 @@ public class LoginAty extends BaseAty {
      * 1.跳转到登录页，直接返回
      */
     private int skip_type = 0;
+    private String password = "";
 
 
     @Override
@@ -105,6 +107,8 @@ public class LoginAty extends BaseAty {
         showStatusBar(R.id.longin_title_layout);
         toChangeTextViewStatus(0);
         for_third_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_color));
+
+
         ChangeTextViewStyle.getInstance().forTextColor(this, terms_of_service_tv, "继续表示已经阅读并同意《服务条款》", 11,
                 ContextCompat.getColor(this, R.color.theme_color));
     }
@@ -135,7 +139,7 @@ public class LoginAty extends BaseAty {
             case R.id.to_login_or_register_tv:// 登录，注册
                 phone = phone_ev.getText().toString();
                 if (0 == type) {//登录
-                    String password = pwd_ev.getText().toString();
+                    password = pwd_ev.getText().toString();
                     registerPst.login(phone, password);
                 } else {// 注册下一步
                     registerPst.checkPhone(phone);
@@ -164,9 +168,14 @@ public class LoginAty extends BaseAty {
         if (0 == i) {
             to_login_tv.setTextColor(ContextCompat.getColor(this, R.color.white));
             to_login_tv.setBackgroundResource(R.drawable.shape_login_tv_selected);
+
+            phone_ev.setText(PreferencesUtils.getString(this, "phone"));
+            pwd_ev.setText(PreferencesUtils.getString(this, "pwd"));
         } else {
             to_register_tv.setTextColor(ContextCompat.getColor(this, R.color.white));
             to_register_tv.setBackgroundResource(R.drawable.shape_register_tv_select);
+
+            phone_ev.setText("");
         }
     }
 
@@ -202,6 +211,11 @@ public class LoginAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
+
+            PreferencesUtils.putString(this, "phone", phone);
+            PreferencesUtils.putString(this, "pwd", password);
+            PreferencesUtils.putString(this, "token", data.get("token"));
+
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             if (0 == skip_type) {
