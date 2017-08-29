@@ -54,6 +54,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_mell_name_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -107,6 +108,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_link_man_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -132,10 +134,11 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_job_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
-                            android:hint="请填写您的身份证号"
+                            android:hint="请填写您的职位"
                             android:paddingBottom="8dp"
                             android:paddingStart="12dp"
                             android:paddingTop="8dp"
@@ -157,6 +160,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_link_phone_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -183,6 +187,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_tmall_url_ev"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -209,6 +214,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_jd_mell_ev"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -235,6 +241,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_other_url_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
@@ -262,6 +269,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/refer_goods_desc_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"

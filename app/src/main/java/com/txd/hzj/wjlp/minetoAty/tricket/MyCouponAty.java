@@ -2,20 +2,25 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.lidroid.xutils.ViewUtils;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.adapter.TricketAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -41,6 +46,22 @@ public class MyCouponAty extends BaseAty {
     private TricketAdapter tricketAdapter;
     private TricketAdapter tricketAdapter1;
 
+    private int p = 1;
+    /**
+     * 分页数据
+     */
+    @ViewInject(R.id.pull_refresh_sc)
+    private PullToRefreshScrollView pull_refresh_sc;
+
+    private UserPst userPst;
+
+    // 过期的
+    private List<Map<String, String>> out;
+    private List<Map<String, String>> out2;
+    // 能正常使用
+    private List<Map<String, String>> normal;
+    private List<Map<String, String>> normal2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +70,18 @@ public class MyCouponAty extends BaseAty {
         titlt_right_tv.setText("明细");
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-        valid_ticket_lv.setAdapter(tricketAdapter);
-        un_valid_ticket_lv.setAdapter(tricketAdapter1);
+
+        pull_refresh_sc.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                p = 1;
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                p++;
+            }
+        });
     }
 
     @Override
@@ -60,7 +91,7 @@ public class MyCouponAty extends BaseAty {
         switch (v.getId()) {
             case R.id.titlt_right_tv:
                 Bundle bundle = new Bundle();
-                bundle.putInt("from",1);
+                bundle.putInt("from", 1);
                 startActivity(ParticularsUsedByTricketAty.class, bundle);
                 break;
         }
@@ -73,14 +104,49 @@ public class MyCouponAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        tricketAdapter = new TricketAdapter(0,this);
-        tricketAdapter1 = new TricketAdapter(1,this);
+        userPst = new UserPst(this);
+        out = new ArrayList<>();
+        out2 = new ArrayList<>();
+        normal = new ArrayList<>();
+        normal2 = new ArrayList<>();
+
     }
 
     @Override
     protected void requestData() {
-
+        userPst.vouchersList(p);
     }
 
-
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("vouchersList")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (1 == p) {
+                if (ToolKit.isList(data, "out")) {
+                    out = JSONUtils.parseKeyAndValueToMapList(data.get("out"));
+                    tricketAdapter1 = new TricketAdapter(1, this, out);
+                    un_valid_ticket_lv.setAdapter(tricketAdapter1);
+                }
+                if (ToolKit.isList(data, "normal")) {
+                    normal = JSONUtils.parseKeyAndValueToMapList(data.get("normal"));
+                    tricketAdapter = new TricketAdapter(0, this, normal);
+                    valid_ticket_lv.setAdapter(tricketAdapter);
+                }
+            } else {
+                if (ToolKit.isList(data, "out")) {
+                    out2 = JSONUtils.parseKeyAndValueToMapList(data.get("out"));
+                    out.addAll(out2);
+                    tricketAdapter1.notifyDataSetChanged();
+                }
+                if (ToolKit.isList(data, "normal")) {
+                    normal2 = JSONUtils.parseKeyAndValueToMapList(data.get("normal"));
+                    normal.addAll(normal2);
+                    tricketAdapter.notifyDataSetChanged();
+                }
+            }
+            pull_refresh_sc.onRefreshComplete();
+        }
+    }
 }

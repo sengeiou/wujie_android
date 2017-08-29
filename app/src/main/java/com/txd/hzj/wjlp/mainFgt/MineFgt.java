@@ -10,10 +10,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
@@ -37,6 +41,8 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -71,13 +77,16 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      * 用户头像
      */
     @ViewInject(R.id.user_head_iv)
-    private ImageView user_head_iv;
+    private ShapedImageView user_head_iv;
 
     /**
      * 用户名称
      */
     @ViewInject(R.id.user_name_tv)
     private TextView user_name_tv;
+
+    @ViewInject(R.id.user_nick_tv)
+    private TextView user_nick_tv;
 
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
@@ -132,6 +141,49 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     private int type = 1;
 
+    private UserPst userPst;
+
+    private int size = 0;
+
+    private int tit_size = 0;
+
+
+    /**
+     * 普通用户
+     */
+    @ViewInject(R.id.mine_member_type_tv)
+    private TextView mine_member_type_tv;
+
+    /**
+     * 金牌会员
+     */
+    @ViewInject(R.id.grade_of_member_tv)
+    private TextView grade_of_member_tv;
+
+    /**
+     * 积分
+     */
+    @ViewInject(R.id.integral_tv2)
+    private TextView integral_tv;
+
+    /**
+     * 余额
+     */
+    @ViewInject(R.id.balance_tv)
+    private TextView balance_tv;
+    /**
+     * 购物券
+     */
+    @ViewInject(R.id.ticket_num_tv)
+    private TextView ticket_num_tv;
+    private String nickname = "";
+    private String head_pic = "";
+
+
+    @ViewInject(R.id.message_num_tv)
+    private TextView message_num_tv;
+    private String invite_code = "";
+
     public MineFgt() {
     }
 
@@ -168,8 +220,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     }
 
     @Override
-    @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_tv,
-            R.id.mine_member_type_tv, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
+    @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
+            R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
@@ -184,12 +236,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     startActivity(MellSettingAty.class, null);
                 }
                 break;
-            case R.id.grade_of_member_tv:// 会员成长
+            case R.id.grade_of_member_layout:// 会员成长
                 bundle = new Bundle();
                 bundle.putInt("from", 0);
                 startActivity(GradeOfMemberAty.class, bundle);
                 break;
-            case R.id.mine_member_type_tv:// 会员等级
+            case R.id.mine_member_type_layout:// 会员等级
                 bundle = new Bundle();
                 bundle.putInt("from", 1);
                 startActivity(GradeOfMemberAty.class, bundle);
@@ -229,7 +281,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 break;
             case R.id.registration_code_tv:// 注册码
-                startActivity(RegistrationCodeAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("head_pic",head_pic);
+                bundle.putString("invite_code",invite_code);
+                startActivity(RegistrationCodeAty.class, bundle);
                 break;
             case R.id.my_balance_layout:// 余额
                 startActivity(BalanceAty.class, null);
@@ -278,12 +333,72 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     protected void initialized() {
+        userPst = new UserPst(this);
+        size = ToolKit.dip2px(getActivity(), 80);
+        tit_size = ToolKit.dip2px(getActivity(), 40);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        userPst.userCenter();
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("userCenter")) {
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            Map<String, String> data = (Map<String, String>) map.get("data");
+
+            // 昵称
+            nickname = data.get("nickname");
+            // 头像
+            head_pic = data.get("head_pic");
+            // 邀请码
+            invite_code = data.get("invite_code");
+
+            user_name_tv.setText(nickname);
+            user_nick_tv.setText(nickname);
+
+            Glide.with(getActivity()).load(head_pic)
+                    .override(size, size)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .into(img_headl);
+            Glide.with(getActivity()).load(head_pic)
+                    .override(tit_size, tit_size)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .into(user_head_iv);
+
+            integral_tv.setText(data.get("integral"));
+            balance_tv.setText(data.get("balance"));
+            ticket_num_tv.setText(data.get("ticket_num"));
+
+            // 消息数量
+            int new_msg = 0;
+            try {
+                new_msg = Integer.parseInt(data.get("new_msg"));
+                if (new_msg <= 0) {
+                    new_msg = 0;
+                    message_num_tv.setVisibility(View.GONE);
+                } else {
+                    message_num_tv.setVisibility(View.VISIBLE);
+                }
+            } catch (NumberFormatException e) {
+                new_msg = 0;
+                message_num_tv.setVisibility(View.GONE);
+            }
+
+        }
     }
 
     @Override

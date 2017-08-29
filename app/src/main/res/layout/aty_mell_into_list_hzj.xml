@@ -21,6 +21,14 @@
         android:divider="@color/white"
         android:dividerHeight="4dp"/>
 
+    <include
+        layout="@layout/aty_no_data_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        />
+
     <TextView
         android:id="@+id/to_mell_into_tv"
         android:layout_width="match_parent"

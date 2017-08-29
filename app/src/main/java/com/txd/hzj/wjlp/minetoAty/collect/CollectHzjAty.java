@@ -66,7 +66,7 @@ public class CollectHzjAty extends BaseAty {
     private ArrayList<Fragment> mFragment;
 
     private FragmentChangeManager fcm;
-    private String status = "编辑";
+    private boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,13 +108,15 @@ public class CollectHzjAty extends BaseAty {
         switch (v.getId()) {
             case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
-                status = titlt_right_tv.getText().toString();
-                setNewStatus(f);
-                if (status.equals("编辑")) {
+                String tv = titlt_right_tv.getText().toString();
+                if (tv.equals("编辑")) {
                     titlt_right_tv.setText("完成");
+                    status = true;
                 } else {
                     titlt_right_tv.setText("编辑");
+                    status = false;
                 }
+                setNewStatus(f);
                 break;
             case R.id.collect_left_layout:// 商品
                 setTvAndViewStyle(0);
@@ -152,9 +154,9 @@ public class CollectHzjAty extends BaseAty {
     @Override
     protected void initialized() {
         mFragment = new ArrayList<>();
-        mFragment.add(CollectGoodsHzjFgt.newInstance("编辑"));
-        mFragment.add(CollectMellHzjFgt.newInstance("编辑"));
-        mFragment.add(CollectBooksFgt.newInstance("编辑"));
+        mFragment.add(CollectGoodsHzjFgt.newInstance(false, 1));
+        mFragment.add(CollectMellHzjFgt.newInstance(false, 1));
+        mFragment.add(CollectBooksFgt.newInstance(false));
     }
 
     @Override

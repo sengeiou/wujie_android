@@ -259,6 +259,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingBottom="12dp"
+                            android:paddingEnd="12dp"
                             android:paddingStart="24dp"
                             android:paddingTop="12dp"
                             android:text="这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述"
@@ -311,8 +312,8 @@
                 android:background="@color/white"
                 android:horizontalSpacing="8dp"
                 android:numColumns="3"
-                android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:paddingStart="8dp"
                 android:verticalSpacing="8dp"
                 />
         </LinearLayout>

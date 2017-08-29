@@ -10,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -41,10 +47,16 @@ public class CouponAdapter extends BaseAdapter {
      */
     private int from = 1;
 
-    public CouponAdapter(Context context, int type, int from) {
+    private List<Map<String, String>> data;
+
+    private int size = 0;
+
+    public CouponAdapter(Context context, int type, int from, List<Map<String, String>> data) {
         this.context = context;
         this.type = type;
         this.from = from;
+        this.data = data;
+        size = ToolKit.dip2px(context,80);
     }
 
     @Override
@@ -53,7 +65,7 @@ public class CouponAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
+    public Map<String, String> getItem(int i) {
         return null;
     }
 
@@ -65,6 +77,7 @@ public class CouponAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        Map<String, String> map = getItem(i);
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_coupon_lv, null);
             couVH = new CouVH();
@@ -94,22 +107,28 @@ public class CouponAdapter extends BaseAdapter {
             }
         }
 
-//        if (0 == type) {
-//            if(0 == from){
-//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
-//                couVH.coupon_already_layout.setVisibility(View.GONE);
-//            } else{
-//
-//            }
-//
-//        } else {
-//            if(0 == from){
-//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_no_uses_tick_bg_hzj);
-//            } else {
-//                couVH.coupon_bg_layout.setBackgroundResource(R.drawable.icon_un_valid_ticket_bg_hzj);
-//            }
-//            couVH.coupon_already_layout.setVisibility(View.GONE);
-//        }
+        Glide.with(context).load(map.get("picture"))
+                .override(size,size).centerCrop()
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .into(couVH.mell_logo_cou_iv);
+
+
+
+        couVH.mell_name_cou_tv.setText(map.get("ticket_name"));
+
+        couVH.price_tv.setText(map.get("value"));
+
+        // 优惠券类型
+        int res = 0;
+        if(0 == type){
+            res = context.getResources().getIdentifier("icon_get_coupon_hzj_" + map.get("ticket_type"), "drawable",
+                    context.getPackageName());
+        } else {
+            res = context.getResources().getIdentifier("icon_get_coupon_hzj_gray_" + map.get("ticket_type"), "drawable",
+                    context.getPackageName());
+        }
+        couVH.coupon_type_iv.setImageResource(res);
 
         return view;
     }
@@ -123,6 +142,21 @@ public class CouponAdapter extends BaseAdapter {
         private LinearLayout coupon_already_layout;
 
         /**
+         * logo
+         */
+        @ViewInject(R.id.mell_logo_cou_iv)
+        private ImageView mell_logo_cou_iv;
+
+        /**
+         * 商家名称
+         */
+        @ViewInject(R.id.mell_name_cou_tv)
+        private TextView mell_name_cou_tv;
+
+        @ViewInject(R.id.price_tv)
+        private TextView price_tv;
+
+        /**
          * 满减，满折，满赠
          */
         @ViewInject(R.id.coupon_type_iv)
@@ -133,6 +167,8 @@ public class CouponAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.can_get_coupon_tv)
         private TextView can_get_coupon_tv;
+
+
 
     }
 

@@ -5,23 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.view.DukeScrollView;
+import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.Comment;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
-import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -31,7 +35,7 @@ import java.util.List;
  * 描述：商品评价
  * ===============Txunda===============
  */
-public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
+public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollViewListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -45,8 +49,8 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
     @ViewInject(R.id.goods_evaluste_lv)
     private ListViewForScrollView goods_evaluste_lv;
 
-    private List<String> data;
-    private List<String> pic;
+    private List<Comment.CommentList> data;
+    private List<Comment.CommentList> data2;
     /**
      * 0.商品全部评价
      * 1.我的全部评价
@@ -65,13 +69,27 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
      * 滚动监听
      */
     @ViewInject(R.id.goods_comment_sc)
-    private ObservableScrollView goods_comment_sc;
+    private DukeScrollView goods_comment_sc;
 
     /**
      * 回到顶部
      */
     @ViewInject(R.id.gc_be_back_top_iv)
     private ImageView gc_be_back_top_iv;
+
+    private UserPst userPst;
+    private int p = 1;
+
+    @ViewInject(R.id.refresh_view)
+    private PullToRefreshLayout refresh_view;
+
+    @ViewInject(R.id.evaluate_num_tv)
+    private TextView evaluate_num_tv;
+
+    private int numall = 0;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +99,15 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
             titlt_conter_tv.setText("全部评价(45)");
             evaluate_lin_layout.setVisibility(View.GONE);
             goods_comment_tag.setVisibility(View.VISIBLE);
-        } else if(1 == from){
+        } else if (1 == from) {
             titlt_conter_tv.setText("我的评价");
             evaluate_lin_layout.setVisibility(View.VISIBLE);
             goods_comment_tag.setVisibility(View.GONE);
-        } else{
+        } else {
             titlt_conter_tv.setText("店铺评价");
             evaluate_lin_layout.setVisibility(View.VISIBLE);
             goods_comment_tag.setVisibility(View.GONE);
         }
-        goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
 
         TagAdapter<String> tagAdapter = new TagAdapter<String>(goodsTypes) {
             @Override
@@ -109,6 +126,29 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
         goods_comment_sc.smoothScrollTo(0, 0);
         // 滚动监听
         goods_comment_sc.setScrollViewListener(this);
+
+        goods_evaluste_lv.setEmptyView(no_data_layout);
+
+        refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+                p = 1;
+                userPst.myCommentList(p);
+            }
+
+            @Override
+            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+                if (numall >= data.size()) {
+                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    return;
+                }
+                // 加载操作
+                p++;
+                userPst.myCommentList(p);
+            }
+        });
+
     }
 
     @Override
@@ -130,9 +170,12 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
     @Override
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
+
+        userPst = new UserPst(this);
+
         data = new ArrayList<>();
-        pic = new ArrayList<>();
-        goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, pic, from);
+        data2 = new ArrayList<>();
+
         goodsTypes = new ArrayList<>();
         goodsTypes.add("全部(198)");
         goodsTypes.add("精华(98)");
@@ -150,11 +193,47 @@ public class GoodsEvaluateAty extends BaseAty implements ObservableScrollView.Sc
 
     @Override
     protected void requestData() {
+        if (1 == from) {
+            p = 1;
+            userPst.myCommentList(p);
+        }
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("myCommentList")) {
+            Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
+            numall = comment.getNums();
+            evaluate_num_tv.setText("已有 " + numall + "条评价");
+            if (1 == p) {
+                data.clear();
+                data = comment.getData();
+                goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, from);
+                goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
+                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            } else {
+                data2 = comment.getData();
+                data.addAll(data2);
+                goodsEvalusteAdapter.notifyDataSetChanged();
+                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            }
+        }
+    }
 
     @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        evaluate_num_tv.setText("已有 0 条评价");
+        if (1 == p) {
+            refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+        } else {
+            refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+        }
+    }
+
+    @Override
+    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y < Settings.displayWidth) {
             gc_be_back_top_iv.setVisibility(View.GONE);
         } else {

@@ -69,6 +69,9 @@ public class BooksFgt extends BaseFgt {
     private int numall = 0;
     private Bundle bundle;
 
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
     public static BooksFgt newInstance(String type) {
         BooksFgt fragment = new BooksFgt();
         fragment.type = type;
@@ -93,6 +96,7 @@ public class BooksFgt extends BaseFgt {
                 startActivity(BooksDetailsAty.class, bundle);
             }
         });
+        books_lv.setEmptyView(no_data_layout);
     }
 
     /**

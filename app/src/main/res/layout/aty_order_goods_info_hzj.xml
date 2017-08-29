@@ -9,6 +9,7 @@
     android:padding="8dp">
 
     <ImageView
+        android:id="@+id/goods_comment_pic"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/icon_temp_goods_banner"/>

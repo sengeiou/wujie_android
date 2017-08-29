@@ -15,77 +15,89 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.txd.hzj.wjlp.view.ObservableScrollView
-            android:id="@+id/goods_comment_sc"
+        <com.ants.theantsgo.view.PullToRefreshLayout
+            android:id="@+id/refresh_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <include layout="@layout/refresh_head"/>
+
+            <com.ants.theantsgo.view.DukeScrollView
+                android:id="@+id/goods_comment_sc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
-                    android:id="@+id/goods_comment_tag"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:padding="4dp"
-                    app:max_select="1"
-                    />
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
                 <LinearLayout
-                    android:id="@+id/evaluate_lin_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
+                        android:id="@+id/goods_comment_tag"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mine_evaluate_top"/>
+                        android:background="@color/white"
+                        android:padding="4dp"
+                        app:max_select="1"
+                        />
 
-                    <TextView
-                        android:id="@+id/evaluate_num_tv"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/evaluate_lin_layout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:background="@drawable/shape_for_evaluate_num_tv"
-                        android:paddingBottom="8dp"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:paddingTop="8dp"
-                        android:text="已有 36 条评价"/>
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_mine_evaluate_top"/>
+
+                        <TextView
+                            android:id="@+id/evaluate_num_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:background="@drawable/shape_for_evaluate_num_tv"
+                            android:paddingBottom="8dp"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="16dp"
+                            android:paddingTop="8dp"
+                            android:text="已有 36 条评价"/>
+
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="8dp"/>
+
+                    <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                        android:id="@+id/goods_evaluste_lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:divider="@color/bg_color"
+                        android:dividerHeight="8dp"
+                        android:scrollbars="none"/>
+
+                    <include layout="@layout/aty_no_data_layout"/>
 
                 </LinearLayout>
+            </com.ants.theantsgo.view.DukeScrollView>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+            <include layout="@layout/load_more"/>
+        </com.ants.theantsgo.view.PullToRefreshLayout>
 
-                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                    android:id="@+id/goods_evaluste_lv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:divider="@color/bg_color"
-                    android:dividerHeight="8dp"
-                    android:scrollbars="none"/>
-
-            </LinearLayout>
-        </com.txd.hzj.wjlp.view.ObservableScrollView>
+        <ImageView
+            android:id="@+id/gc_be_back_top_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_be_back_top"
+            android:visibility="gone"/>
     </FrameLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_be_back_top"
-        android:id="@+id/gc_be_back_top_iv"
-        android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        android:layout_margin="16dp"/>
-
 </LinearLayout>

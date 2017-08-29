@@ -23,7 +23,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 public class CollectBooksFgt extends BaseFgt {
-    private String status;
+    private boolean status;
     /**
      * 列表
      */
@@ -36,7 +36,7 @@ public class CollectBooksFgt extends BaseFgt {
     @ViewInject(R.id.operation_book_collect_layout)
     private LinearLayout operation_book_collect_layout;
 
-    public static CollectBooksFgt newInstance(String param1) {
+    public static CollectBooksFgt newInstance(boolean param1) {
         CollectBooksFgt fragment = new CollectBooksFgt();
         fragment.status = param1;
         return fragment;
@@ -48,16 +48,16 @@ public class CollectBooksFgt extends BaseFgt {
         collect_bools_lv.setAdapter(wjBooksAdapter);
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
-        if (status.equals("完成")) {
+        if (!status) {
             operation_book_collect_layout.setVisibility(View.GONE);
-            if(wjBooksAdapter!=null){
+            if (wjBooksAdapter != null) {
                 wjBooksAdapter.setCanEdit(false);
             }
         } else {
             operation_book_collect_layout.setVisibility(View.VISIBLE);
-            if(wjBooksAdapter!=null){
+            if (wjBooksAdapter != null) {
                 wjBooksAdapter.setCanEdit(true);
             }
         }

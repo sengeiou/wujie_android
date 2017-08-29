@@ -18,6 +18,7 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
@@ -43,7 +44,7 @@ public class ClassifyFgt extends BaseFgt {
 
     private RacycleAllAdapter racycleAllAdapter;
 
-    private List<String> data;
+    private List<CFGoodsList> data;
 
     private int height = 0;
 

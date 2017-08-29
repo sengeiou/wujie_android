@@ -1,99 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:orientation="vertical">
-    <include layout="@layout/aty_title" />
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+    <include layout="@layout/aty_title"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/bg_color"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:gravity="center"
         >
+
         <TextView
-            android:layout_centerVertical="true"
             style="@style/mine_text_list"
-            android:drawablePadding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="12dp"
             android:text="旧手机"
             android:textColor="@color/black"/>
+
         <TextView
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="90dp"
+            android:id="@+id/old_phone_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@null"
-            android:layout_width="match_parent"
+            android:padding="12dp"
             android:text="18622658463"
-            android:textColor="@color/black"
-            android:layout_height="wrap_content" />
-        <Button
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/get_code_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送验证码"
-            android:layout_alignParentRight="true"
+            android:layout_marginEnd="12dp"
             android:background="@drawable/shape_red_btn_li"
+            android:paddingBottom="8dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:text="发送验证码"
             android:textColor="@color/white"/>
-    </RelativeLayout>
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
-    <RelativeLayout
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"></View>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
         >
+
         <TextView
             style="@style/mine_text_list"
-            android:drawablePadding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:padding="12dp"
             android:text="验证码"
             android:textColor="@color/black"/>
+
         <EditText
-            android:layout_marginLeft="90dp"
-            android:padding="0dp"
-            android:background="@null"
-            android:layout_width="match_parent"
-            android:hint="还未发送验证码"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_color"
-        android:padding="10dp">
-
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_marginTop="40dp"
+            android:id="@+id/mod_bind_code_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="下一步"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_red_btn_li"/>
-    </RelativeLayout>
+            android:background="@null"
+            android:hint="还未发送验证码"
+            android:padding="12dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+    <TextView
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:padding="12dp"
+        android:background="@drawable/shape_red_btn_li"
+        android:text="下一步"
+        android:textColor="@color/white"/>
 
 
 </LinearLayout>

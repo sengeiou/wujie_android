@@ -16,6 +16,7 @@
         android:layout_weight="3">
 
         <ImageView
+            android:id="@+id/mell_logo_cou_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/icon_temp_goods_banner"/>
@@ -32,6 +33,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/mell_name_cou_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="茶化石"
@@ -42,7 +44,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:src="@drawable/icon_get_coupon_mj_hzj"/>
+                    android:src="@drawable/icon_get_coupon_hzj_1"/>
+                <ImageView
+                    android:id="@+id/mell_type_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_ziying_hzj"/>
             </LinearLayout>
 
             <LinearLayout
@@ -57,6 +66,7 @@
                     android:textColor="@color/colorAccent"/>
 
                 <TextView
+                    android:id="@+id/price_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"

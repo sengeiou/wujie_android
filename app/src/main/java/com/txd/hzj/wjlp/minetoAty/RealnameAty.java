@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.bumptech.glide.Glide;
@@ -19,9 +21,11 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.UserPst;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Created by lienchao on 2017/7/14 0014.
@@ -40,6 +44,24 @@ public class RealnameAty extends BaseAty {
     private int h = 0;
     private File file2;
 
+    /**
+     * 真实姓名
+     */
+    @ViewInject(R.id.user_real_name_ev)
+    private EditText user_real_name_ev;
+
+    /**
+     * 身份证号
+     */
+    @ViewInject(R.id.user_id_card_num_tv)
+    private EditText user_id_card_num_tv;
+    private String real_name = "";
+    private String id_card_num = "";
+
+    private UserPst userPst;
+
+    private String auth_status = "";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,15 +72,30 @@ public class RealnameAty extends BaseAty {
         h = w * 2 / 3;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w, h);
         id_card_front_iv.setLayoutParams(params);
+
+        if ("1".equals(auth_status)) {
+            user_real_name_ev.setEnabled(false);
+            user_id_card_num_tv.setEnabled(false);
+            userPst.getAuth();
+        }
+
     }
 
     @Override
-    @OnClick({R.id.id_card_front_layout})
+    @OnClick({R.id.id_card_front_layout, R.id.user_auth_tv})
     public void onClick(View v) {
         super.onClick(v);
+        if ("1".equals(auth_status)) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.id_card_front_layout:
                 startActivityForResult(ImageGridActivity.class, null, 101);
+                break;
+            case R.id.user_auth_tv:
+                real_name = user_real_name_ev.getText().toString();
+                id_card_num = user_id_card_num_tv.getText().toString();
+                userPst.addAuth(real_name, id_card_num, file2);
                 break;
         }
     }
@@ -71,11 +108,34 @@ public class RealnameAty extends BaseAty {
     @Override
     protected void initialized() {
         forImagePacker();
+        userPst = new UserPst(this);
+        auth_status = getIntent().getStringExtra("auth_status");
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("addAuth")) {
+            showRightTip("提交成功");
+            finish();
+            return;
+        }
+        if (requestUrl.contains("getAuth")) {
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            Map<String, String> data = (Map<String, String>) map.get("data");
+            user_real_name_ev.setText(data.get("real_name"));
+            user_id_card_num_tv.setText(data.get("id_card_num"));
+            Glide.with(this).load(data.get("id_card_pic"))
+                    .override(w, h).centerCrop()
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .into(id_card_front_iv);
+        }
     }
 
     private void forImagePacker() {

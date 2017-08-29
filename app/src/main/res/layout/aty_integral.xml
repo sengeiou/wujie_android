@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="提示：今日若不兑换，次兑换机会将作废\n兑换时间：09:00-210:0"
+                    android:text="提示：今日若不兑换，此兑换机会将作废\n兑换时间：09:00-210:0"
                     android:textColor="@color/app_text_color"
                     android:textSize="14sp"/>
 
@@ -176,9 +176,9 @@
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/icon_doubt_integral_hzj"
                         android:drawablePadding="8dp"
-                        android:paddingTop="20dp"
-                        android:paddingStart="8dp"
                         android:paddingBottom="20dp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="20dp"
                         android:text="系统自动兑换"
                         android:textColor="@color/app_text_color"/>
 

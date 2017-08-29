@@ -55,24 +55,25 @@ dependencies {
     /* 环信*/
     compile project(':easeui')
 
-    /*Glide高斯模糊*/
-//    compile 'jp.wasabeef:glide-transformations:2.0.1'
 
-    /* zXing */
-    /* Dex分包 */
-    /* 版本升级 */
-    /*权限库*/
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:design:26.+'
+    /* zXing */
     compile 'com.google.zxing:core:3.1.0'
     compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
+
     compile 'cc.solart:turbo-recyclerview-helper:1.0.3-beta'
     compile 'com.parse:parse-android:1.13.1'
+    /* Dex分包 */
     compile 'com.android.support:multidex:1.0.1'
+    /* 版本升级 */
     compile 'com.github.maning0303:MNUpdateAPK:V1.0.5'
+    /*权限库*/
     compile 'com.yanzhenjie:permission:1.0.5'
+    /*上拉加载下拉刷新*/
+    compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
     testCompile 'junit:junit:4.12'
 }

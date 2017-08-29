@@ -73,6 +73,7 @@ public class SetAty extends BaseAty {
     @ViewInject(R.id.rel_editpaypassword)
     private TextView rel_editpaypassword;
     private Bundle bundle;
+    private String phone = "";
 
 
     @Override
@@ -102,18 +103,24 @@ public class SetAty extends BaseAty {
                 startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证
-                if (auth_status.equals("1")) {
-                    showRightTip("认证中");
-                    break;
-                }
                 if (auth_status.equals("2")) {
                     showRightTip("已认证成功");
                     break;
                 }
-                startActivity(RealnameAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("auth_status", auth_status);
+                startActivity(RealnameAty.class, bundle);
                 break;
             case R.id.rel_bind_phone:// 绑定手机号
-                startActivity(BindPhoneAty.class, null);
+                if (phone.equals("")) {
+                    bundle = new Bundle();
+                    bundle.putInt("from", 1);
+                    startActivity(BindNewPhoneAty.class, bundle);
+                } else {
+                    bundle = new Bundle();
+                    bundle.putString("phone", phone);
+                    startActivity(BindPhoneAty.class, bundle);
+                }
                 break;
             case R.id.sing_out_tv:// 退出登录
                 new MikyouCommonDialog(this, "确定要退出吗?", "提示", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog
@@ -173,13 +180,14 @@ public class SetAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        userPst.setting();
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         SetSize();
+        userPst.setting();
     }
 
     @Override
@@ -189,7 +197,8 @@ public class SetAty extends BaseAty {
         Map<String, String> data = (Map<String, String>) map.get("data");
         // 认证状态 0 未认证 1认证中 2 已认证
         auth_status = data.get("auth_status");
-        user_bind_phone_tv.setText(data.get("phone"));
+        phone = data.get("phone");
+        user_bind_phone_tv.setText(phone);
         is_password = data.get("is_password");
 
         if (is_password.equals("0")) {
@@ -200,9 +209,9 @@ public class SetAty extends BaseAty {
 
         is_pay_password = data.get("is_pay_password");
         if (is_pay_password.equals("0")) {
-            rel_editpassword.setText("设置支付密码");
+            rel_editpaypassword.setText("修改支付密码");
         } else {
-            rel_editpassword.setText("修改支付密码");
+            rel_editpaypassword.setText("设置支付密码");
         }
 
 

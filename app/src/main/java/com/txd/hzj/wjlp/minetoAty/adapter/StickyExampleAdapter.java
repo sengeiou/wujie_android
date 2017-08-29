@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,9 +28,18 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context context;
     private List<TricketDetailks> stickyExampleModels;
 
-    public StickyExampleAdapter(Context context, List<TricketDetailks> recyclerViewModels) {
+    /**
+     * 1.购物券使用明细
+     * 2.积分明细
+     * 3.余额明细
+     * 4.成长值明细
+     */
+    private int type = 1;
+
+    public StickyExampleAdapter(Context context, List<TricketDetailks> recyclerViewModels,int type) {
         this.context = context;
         this.stickyExampleModels = recyclerViewModels;
+        this.type = type;
     }
 
     @Override
@@ -76,6 +86,14 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                     context.startActivity(new Intent(context, RechargeOffLineAty.class));
                 }
             });
+            if(1 == type){// 购物券
+
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+
+                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable",
+                        context.getPackageName());
+                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+            }
         }
     }
 
@@ -92,7 +110,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
         @ViewInject(R.id.t_details_time_tv)
         TextView tvGender;
         @ViewInject(R.id.check_details_for_balance_tv)
-        public TextView check_details_for_balance_tv;
+        TextView check_details_for_balance_tv;
+
+        @ViewInject(R.id.t_details_logo_tv)
+        ImageView t_details_logo_tv;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);

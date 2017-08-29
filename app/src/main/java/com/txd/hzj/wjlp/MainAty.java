@@ -500,7 +500,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         isExceptionDialogShow = true;
         DemoHelper.getInstance().logout(false, null);
         String st = getResources().getString(R.string.Logoff_notification);
-        if (!MainAty.this.isFinishing()) {
+        if (!MainAty.this.isFinishing()) {// 主页没有被销毁
             // clear up global variables
             try {
                 if (exceptionBuilder == null)

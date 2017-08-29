@@ -363,8 +363,12 @@ public class ToolKit {
      * @return boolean
      */
     private static boolean checkList(Map<String, String> map, String type) {
-        return !map.get(type).equals("") && !map.get(type).equals("null") && !map.get(type).equals("[]")
-                && map.get(type) != null && !map.get(type).equals("[null]");
+        try{
+            return !map.get(type).equals("") && !map.get(type).equals("null") && !map.get(type).equals("[]")
+                    && map.get(type) != null && !map.get(type).equals("[null]");
+        } catch (NullPointerException e){
+            return false;
+        }
     }
 
     /**

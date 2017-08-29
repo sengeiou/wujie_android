@@ -10,10 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.CFGoodsList;
 
 import java.util.List;
 
@@ -28,7 +31,7 @@ import java.util.List;
 
 public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.ItemView> {
     private Context context;
-    private List<String> list;
+    private List<CFGoodsList> list;
     private LayoutInflater inflater;
 
     /**
@@ -47,10 +50,13 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     private boolean showSelect;
 
-    public RacycleAllAdapter(Context context, List<String> list) {
+    private int goods_pic = 0;
+
+    public RacycleAllAdapter(Context context, List<CFGoodsList> list) {
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
+        goods_pic = ToolKit.dip2px(context, 200);
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -97,7 +103,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     @Override
     public void onBindViewHolder(final ItemView holder, int position) {
-
+        final CFGoodsList cfGoodsList = list.get(position);
 //        if (0 == type || 2 == type || 4 == type) {
 //            holder.home_count_down_view.setTag("text");
 //            holder.home_count_down_view.start(3600000);
@@ -131,16 +137,52 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         // 是不是显示选中按钮
         if (showSelect) {
             holder.collect_goods_status_iv.setVisibility(View.VISIBLE);
+
+            if (cfGoodsList.getIsSelect()) {
+                holder.collect_goods_status_iv.setImageResource(R.drawable.icon_collect_goods_selected);
+            } else {
+                holder.collect_goods_status_iv.setImageResource(R.drawable.icon_collect_goods_unselect);
+            }
+
         } else {
             holder.collect_goods_status_iv.setVisibility(View.GONE);
-
         }
 
+        Glide.with(context).load(cfGoodsList.getCountry_logo()).into(holder.country_logo_iv);
+        Glide.with(context).load(cfGoodsList.getGoods_img())
+                .override(goods_pic, goods_pic)
+                .centerCrop().placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default).into(holder.goods_pic_iv);
+
+        holder.item_goods_name_tv.setText(cfGoodsList.getGoods_name());
+        holder.peice_tv.setText(cfGoodsList.getShop_price());
+        holder.older_price_tv.setText(cfGoodsList.getMarket_price());
+
+        holder.get_integral_tv.setText(cfGoodsList.getIntegral());
+
+        holder.sold_num_tv.setText("已售" + cfGoodsList.getSell_num() + "件");
+
+        holder.collect_goods_status_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cfGoodsList.getIsSelect()) {
+                    cfGoodsList.setIsSelect(false);
+                    holder.collect_goods_status_iv.setImageResource(R.drawable.icon_collect_goods_unselect);
+                } else {
+                    cfGoodsList.setIsSelect(true);
+                    holder.collect_goods_status_iv.setImageResource(R.drawable.icon_collect_goods_selected);
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 9;
+        try {
+            return list.size();
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     @Override
@@ -151,6 +193,9 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     class ItemView extends RecyclerView.ViewHolder {
 
+        /**
+         * 原价
+         */
         @ViewInject(R.id.older_price_tv)
         private TextView older_price_tv;
 //        /**
@@ -170,6 +215,9 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         @ViewInject(R.id.sold_num_tv)
         private TextView sold_num_tv;
 
+        /**
+         * 是否使用优惠券
+         */
         @ViewInject(R.id.use_coupon_tv)
         private TextView use_coupon_tv;
 
@@ -179,7 +227,36 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         @ViewInject(R.id.collect_goods_status_iv)
         private ImageView collect_goods_status_iv;
 
-        public ItemView(View itemView) {
+        /**
+         * 国旗
+         */
+        @ViewInject(R.id.country_logo_iv)
+        private ImageView country_logo_iv;
+
+        /**
+         * 商品图片
+         */
+        @ViewInject(R.id.goods_pic_iv)
+        private ImageView goods_pic_iv;
+
+        /**
+         * 商品名称
+         */
+        @ViewInject(R.id.item_goods_name_tv)
+        private TextView item_goods_name_tv;
+
+        /**
+         * 商品价格
+         */
+        @ViewInject(R.id.peice_tv)
+        private TextView peice_tv;
+        /**
+         * 积分
+         */
+        @ViewInject(R.id.get_integral_tv)
+        private TextView get_integral_tv;
+
+        ItemView(View itemView) {
             super(itemView);
         }
     }

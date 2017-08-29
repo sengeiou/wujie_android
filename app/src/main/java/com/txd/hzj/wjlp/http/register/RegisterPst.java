@@ -73,6 +73,21 @@ public class RegisterPst extends BasePresenter {
     }
 
     /**
+     * 检查验证码
+     *
+     * @param phone  手机号
+     * @param verify 验证码
+     */
+    public void checkVerify(String phone, String type, String verify) {
+        if (StringUtils.isBlank(verify)) {// 检查验证码是否为空
+            baseView.onErrorTip("请输入验证码");
+            return;
+        }
+        baseView.showDialog();
+        register.checkVerify(phone, type, verify, baseView);
+    }
+
+    /**
      * 注册
      *
      * @param phone           手机号

@@ -15,14 +15,22 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
-    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
-        android:id="@+id/address_lv"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="@color/bg_color"
-        android:dividerHeight="8dp"
-        app:ptrMode="both"/>
+        android:layout_weight="1">
+
+        <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
+            android:id="@+id/address_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/bg_color"
+            android:dividerHeight="8dp"
+            app:ptrMode="both"/>
+
+        <include
+            layout="@layout/aty_no_data_layout"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/add_address_tv"

@@ -256,7 +256,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             street_id = data.get("street_id");
 
             user_select_zoon_tv.setText(data.get("province_name") + data.get("city_name") + data.get("area_name"));
-            user_select_zoon_tv.setText(data.get("street_name"));
+            user_select_street_tv.setText(data.get("street_name"));
 
             user_parent_name_tv.setText(data.get("parent_name"));
             user_parent_phone_tv.setText(data.get("parent_phone"));
@@ -382,6 +382,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                         province_id = data.getStringExtra("province_id");
                         city_id = data.getStringExtra("city_id");
                         area_id = data.getStringExtra("area_id");
+                        L.e("province_id=====", province_id);
+                        L.e("city_id=====", city_id);
                         L.e("area_id=====", area_id);
                         // 省市区
                         String tx = province + city + area;

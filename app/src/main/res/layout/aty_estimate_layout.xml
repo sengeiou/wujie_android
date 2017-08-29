@@ -15,11 +15,13 @@
         >
 
         <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/comm_user_head_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_temp_head"/>
 
         <TextView
+            android:id="@+id/comm_user_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -31,6 +33,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/comm_content_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"

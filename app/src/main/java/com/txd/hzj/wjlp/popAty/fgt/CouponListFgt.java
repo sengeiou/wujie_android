@@ -14,6 +14,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -30,6 +34,8 @@ public class CouponListFgt extends BaseFgt {
     private ListView coupon_lv;
 
     private CouponAdapter couponAdapter;
+
+    private List<Map<String,String>> data;
 
     public static CouponListFgt newInstance(String type) {
         CouponListFgt fragment = new CouponListFgt();
@@ -50,7 +56,8 @@ public class CouponListFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        couponAdapter = new CouponAdapter(getActivity(), 0, 1);
+        data = new ArrayList<>();
+        couponAdapter = new CouponAdapter(getActivity(), 0, 1,data);
     }
 
     @Override

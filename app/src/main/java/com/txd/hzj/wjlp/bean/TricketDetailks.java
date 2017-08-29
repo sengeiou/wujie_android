@@ -30,11 +30,30 @@ public class TricketDetailks {
      */
     public String profession;
 
-    public TricketDetailks(String sticky, String name, String gender, String profession) {
+    /**
+     * 原因
+     */
+    public String reason;
+
+    /**
+     * 记录id
+     */
+    public String log_id;
+
+    /**
+     * 操作类型
+     */
+    public String act_type;
+
+    public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
+            log_id, String act_type) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
         this.profession = profession;
+        this.reason = reason;
+        this.log_id = log_id;
+        this.act_type = act_type;
     }
 
     public String getSticky() {
@@ -67,5 +86,29 @@ public class TricketDetailks {
 
     public void setProfession(String profession) {
         this.profession = profession;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getLog_id() {
+        return log_id;
+    }
+
+    public void setLog_id(String log_id) {
+        this.log_id = log_id;
+    }
+
+    public String getAct_type() {
+        return act_type;
+    }
+
+    public void setAct_type(String act_type) {
+        this.act_type = act_type;
     }
 }

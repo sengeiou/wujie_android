@@ -17,6 +17,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.address.AddressPst;
+import com.txd.hzj.wjlp.http.user.UserPst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,8 @@ public class TextListAty extends BaseAty {
 
     private List<Map<String, String>> dataList;
 
+    private UserPst userPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +66,8 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("选择快递")) {
                     data.putExtra("express", "申通快递");
                 } else if (title.equals("选择经营范围")) {
-                    data.putExtra("scope", "服饰");
+                    data.putExtra("scope", dataList.get(i).get("short_name"));
+                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
                 } else if (title.equals("选择街道")) {
                     data.putExtra("street", dataList.get(i).get("street_name"));
                     data.putExtra("street_id", dataList.get(i).get("street_id"));
@@ -91,6 +95,8 @@ public class TextListAty extends BaseAty {
 
         dataList = new ArrayList<>();
 
+        userPst = new UserPst(this);
+
     }
 
     @Override
@@ -98,14 +104,22 @@ public class TextListAty extends BaseAty {
         if (title.equals("选择街道")) {
             String area_id = getIntent().getStringExtra("area_id");
             addressPst.getStreet(area_id);
+        } else if (title.equals("选择经营范围")) {
+            userPst.getRange();
         }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
         if (requestUrl.contains("getStreet")) {//街道
-            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+            return;
+        }
+        if(requestUrl.contains("getRange")){
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
@@ -155,7 +169,7 @@ public class TextListAty extends BaseAty {
             } else if (title.equals("选择快递")) {
                 tvvh.text_context_tv.setText("申通快递");
             } else if (title.equals("选择经营范围")) {
-                tvvh.text_context_tv.setText("服饰");
+                tvvh.text_context_tv.setText(map.get("short_name"));
             } else if (title.equals("选择街道")) {
                 tvvh.text_context_tv.setText(map.get("street_name"));
             } else if (title.equals("举报类型")) {

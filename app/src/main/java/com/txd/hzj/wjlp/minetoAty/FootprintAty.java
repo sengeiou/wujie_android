@@ -49,7 +49,7 @@ public class FootprintAty extends BaseAty {
     private ArrayList<Fragment> mFragment;
 
     private int selected = 0;
-    private String status = "编辑";
+    private boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +74,15 @@ public class FootprintAty extends BaseAty {
                 break;
             case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
-                status = foot_right_tv.getText().toString();
-                setNewStatus(f);
-                if (status.equals("编辑")) {
+                String tv = foot_right_tv.getText().toString();
+                if (tv.equals("编辑")) {
                     foot_right_tv.setText("完成");
+                    status = true;
                 } else {
                     foot_right_tv.setText("编辑");
+                    status = false;
                 }
+                setNewStatus(f);
                 break;
         }
     }
@@ -119,8 +121,8 @@ public class FootprintAty extends BaseAty {
     @Override
     protected void initialized() {
         mFragment = new ArrayList<>();
-        mFragment.add(CollectGoodsHzjFgt.newInstance("编辑"));
-        mFragment.add(CollectMellHzjFgt.newInstance("编辑"));
+        mFragment.add(CollectGoodsHzjFgt.newInstance(false, 0));
+        mFragment.add(CollectMellHzjFgt.newInstance(false, 0));
     }
 
     @Override

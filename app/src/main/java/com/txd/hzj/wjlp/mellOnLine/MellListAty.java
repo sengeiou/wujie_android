@@ -24,6 +24,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.MellInfoList;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
@@ -74,7 +75,7 @@ public class MellListAty extends BaseAty {
 
     private MellListAdapter mlAdapter;
 
-    private List<String> mells;
+    private List<MellInfoList> mells;
     private List<String> prodects;
 
     @Override

@@ -9,10 +9,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.GlideUtils;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.Mell;
+import com.txd.hzj.wjlp.bean.MellInfoList;
 import com.txd.hzj.wjlp.mellOnLine.MellListAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
@@ -31,13 +37,16 @@ import java.util.List;
 public class MellListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> mells;
+    private List<MellInfoList> mells;
 
     private boolean showSelect = false;
 
-    public MellListAdapter(Context context, List<String> mells) {
+    private int size = 0;
+
+    public MellListAdapter(Context context, List<MellInfoList> mells) {
         this.context = context;
         this.mells = mells;
+        size = ToolKit.dip2px(context, 100);
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -48,11 +57,11 @@ public class MellListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 9;
+        return mells.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public MellInfoList getItem(int i) {
         return mells.get(i);
     }
 
@@ -63,7 +72,6 @@ public class MellListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
         if (null == view) {
             view = LayoutInflater.from(context).inflate(R.layout.item_mell_lv, viewGroup, false);
             mvh = new MellViewHolder();
@@ -72,26 +80,67 @@ public class MellListAdapter extends BaseAdapter {
         } else {
             mvh = (MellViewHolder) view.getTag();
         }
+        if (mells.size() > 0) {
+            final MellInfoList mellInfoList = getItem(i);
 
-        mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                context.startActivity(new Intent(context, MellInfoAty.class));
+            Glide.with(context).load(mellInfoList.getMerInfo().getLogo())
+                    .override(size, size).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(mvh.mell_logo_iv);
+
+            mvh.mell_name_tv.setText(mellInfoList.getMerInfo().getMerchant_name());
+
+            mvh.textView7.setText(mellInfoList.getMerInfo().getMerchant_desc());
+
+            mvh.mell_score_tv.setText(mellInfoList.getMerInfo().getScore());
+
+            mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, MellInfoAty.class);
+                    intent.putExtra("merchant_id",mellInfoList.getMerInfo().getMerchant_id());
+                    context.startActivity(intent);
+                }
+            });
+
+            if (showSelect) {
+                mvh.operation_mell_iv.setVisibility(View.VISIBLE);
+            } else {
+                mvh.operation_mell_iv.setVisibility(View.GONE);
             }
-        });
 
-        if (showSelect) {
-            mvh.operation_mell_iv.setVisibility(View.VISIBLE);
-        } else {
-            mvh.operation_mell_iv.setVisibility(View.GONE);
+            mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(mellInfoList.getGoodsList()));
         }
-
-        mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(mells));
 
         return view;
     }
 
     private class MellViewHolder {
+
+        /**
+         * 店铺头像
+         */
+        @ViewInject(R.id.mell_logo_iv)
+        private ImageView mell_logo_iv;
+
+        /**
+         * 名称
+         */
+        @ViewInject(R.id.mell_name_tv)
+        private TextView mell_name_tv;
+
+        /**
+         * 店铺简介
+         */
+        @ViewInject(R.id.textView7)
+        private TextView textView7;
+
+        /**
+         * 评分
+         */
+        @ViewInject(R.id.mell_score_tv)
+        private TextView mell_score_tv;
 
         /**
          * 进店逛逛
@@ -113,9 +162,9 @@ public class MellListAdapter extends BaseAdapter {
     private class MellProdectAdapter extends BaseAdapter {
         private MPViewHolder mpvh;
 
-        private List<String> prodect;
+        private List<MellInfoList.GoodsList> prodect;
 
-        public MellProdectAdapter(List<String> prodect) {
+        public MellProdectAdapter(List<MellInfoList.GoodsList> prodect) {
             this.prodect = prodect;
         }
 

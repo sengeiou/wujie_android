@@ -20,6 +20,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
@@ -60,7 +61,7 @@ public class GoodsListAty extends BaseAty {
 
     private RacycleAllAdapter racycleAllAdapter;
 
-    private List<String> data;
+    private List<CFGoodsList> data;
     /**
      * 分割线的高度
      */

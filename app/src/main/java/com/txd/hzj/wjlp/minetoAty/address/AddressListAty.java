@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +61,9 @@ public class AddressListAty extends BaseAty {
     private Bundle bundle;
     private int toOperation = -1;
 
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +93,7 @@ public class AddressListAty extends BaseAty {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             }
         });
+        address_lv.setEmptyView(no_data_layout);
     }
 
     @Override

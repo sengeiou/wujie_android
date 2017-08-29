@@ -11,7 +11,8 @@
 
     <include layout="@layout/aty_title"/>
 
-    <ScrollView
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView
+        android:id="@+id/pull_refresh_sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
@@ -72,6 +73,6 @@
                 android:scrollbars="none"/>
         </LinearLayout>
 
-    </ScrollView>
+    </com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView>
 
 </LinearLayout>

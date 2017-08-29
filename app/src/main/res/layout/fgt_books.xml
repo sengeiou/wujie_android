@@ -34,6 +34,8 @@
                 android:dividerHeight="1dp"
                 android:paddingStart="8dp"/>
 
+            <include layout="@layout/aty_no_data_layout"/>
+
         </LinearLayout>
     </com.ants.theantsgo.view.DukeScrollView>
     <include layout="@layout/load_more"/>

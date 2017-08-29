@@ -22,9 +22,9 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/mell_logo_iv"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/icon_temp_mell_head"
                 />
 
             <Space
@@ -43,12 +43,12 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/mell_name_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="康尔馨酒店家纺"
                         android:textColor="@color/app_text_color"
                         android:textSize="16sp"/>
 
@@ -67,19 +67,19 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/textView7"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍"/>
+                    android:maxLines="1"/>
 
                 <TextView
+                    android:id="@+id/mell_score_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="评分4.5分"
                     android:textColor="@color/gray_text_color"
                     android:textSize="16sp"/>
             </LinearLayout>
