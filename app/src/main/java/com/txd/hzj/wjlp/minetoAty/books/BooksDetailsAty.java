@@ -13,9 +13,11 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.academy.AcademyPst;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 
 import java.util.Map;
 
@@ -63,6 +65,7 @@ public class BooksDetailsAty extends BaseAty {
     private AcademyPst academyPst;
     private String academy_id = "";
 
+    private UserCollectPst collectPst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,24 @@ public class BooksDetailsAty extends BaseAty {
     protected void requestData() {
 
         academyPst.academyInfo(academy_id);
+
+        collectPst = new UserCollectPst(this);
+    }
+
+    @Override
+    @OnClick({R.id.titlt_right_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.titlt_right_tv:// 收藏
+                String str = titlt_right_tv.getText().toString();
+                if (str.equals("收藏")) {
+                    collectPst.addCollect("3", academy_id);
+                } else {
+                    showRightTip("您已收藏");
+                }
+                break;
+        }
     }
 
     @Override
@@ -116,6 +137,10 @@ public class BooksDetailsAty extends BaseAty {
                     .into(books_logo_iv);
             L.e("=====数据=====", data.toString());
             detalis_wb.loadDataWithBaseURL(null, data.get("content"), "text/html", "utf-8", null);
+            return;
+        }
+        if (requestUrl.contains("addCollect")) {
+            titlt_right_tv.setText("已收藏");
         }
     }
 }

@@ -22,6 +22,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AcademyIndex;
 import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.http.academy.AcademyPst;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.adapter.WjBooksAdapter;
@@ -113,7 +114,7 @@ public class BooksFgt extends BaseFgt {
 
             @Override
             public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-                if (numall >= books.size()) {
+                if (numall <= books.size()) {
                     refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
                     return;
                 }

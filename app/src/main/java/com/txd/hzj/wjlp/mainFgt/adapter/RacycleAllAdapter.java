@@ -172,6 +172,15 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                     cfGoodsList.setIsSelect(true);
                     holder.collect_goods_status_iv.setImageResource(R.drawable.icon_collect_goods_selected);
                 }
+                int select = 0;
+                for (CFGoodsList cg : list) {
+                    if (cg.getIsSelect()) {
+                        select++;
+                    }
+                }
+                if (selectNum != null) {
+                    selectNum.selectNum(select);
+                }
             }
         });
     }
@@ -267,4 +276,13 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         this.itemClickLitener = itemClickLitener;
     }
 
+    public interface SelectNum {
+        void selectNum(int num);
+    }
+
+    private SelectNum selectNum;
+
+    public void setSelectNum(SelectNum selectNum) {
+        this.selectNum = selectNum;
+    }
 }

@@ -3,19 +3,24 @@ package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.bean.CollectOrFootpointMell;
 import com.txd.hzj.wjlp.bean.MellInfoList;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
 
@@ -31,7 +36,7 @@ import java.util.Map;
  * 描述：收藏、足迹，商家
  * ===============Txunda===============
  */
-public class CollectMellHzjFgt extends BaseFgt {
+public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSelectNum {
     private boolean status;
     /**
      * 数据类型
@@ -47,6 +52,7 @@ public class CollectMellHzjFgt extends BaseFgt {
 
     private List<MellInfoList> mells;
     private List<MellInfoList> mells2;
+    private List<MellInfoList> mells3;
 
     /**
      * 全选删除布局
@@ -56,10 +62,16 @@ public class CollectMellHzjFgt extends BaseFgt {
 
     private UserPst userPst;
 
+    private UserCollectPst collectPst;
+
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
     private int p = 1;
     private int allNum = 0;
+
+    @ViewInject(R.id.cart_select_all_cb)
+    private CheckBox cart_select_all_cb;
+    private ArrayList<String> ids;
 
     public static CollectMellHzjFgt newInstance(boolean param1, int dataType) {
         CollectMellHzjFgt fragment = new CollectMellHzjFgt();
@@ -77,20 +89,60 @@ public class CollectMellHzjFgt extends BaseFgt {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
-                userPst.myfooter(p, "2");
+                if (0 == dataType) {
+                    userPst.myfooter(p, "2");
+                } else {
+                    collectPst.collectList(p, "2");
+                }
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 if (allNum >= mells.size()) {
                     p++;
-                    userPst.myfooter(p, "2");
+                    if (0 == dataType) {
+                        userPst.myfooter(p, "2");
+                    } else {
+                        collectPst.collectList(p, "2");
+                    }
                 } else {
                     collect_mell_lv.onRefreshComplete();
                 }
             }
         });
 
+    }
+
+    @Override
+    @OnClick({R.id.cart_select_all_cb, R.id.operation_goods_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.cart_select_all_cb:// 全选，取消全选
+                boolean select = cart_select_all_cb.isChecked();
+                for (MellInfoList ms : mells) {
+                    ms.setSelect(select);
+                }
+                mellListAdapter.notifyDataSetChanged();
+                break;
+            case R.id.operation_goods_tv://删除
+                if (0 == dataType) {
+
+                } else {
+                    ids = new ArrayList<>();
+                    mells3 = new ArrayList<>();
+                    for (MellInfoList ms : mells) {
+                        if (ms.isSelect()) {
+                            ids.add(ms.getCollect_id());
+                            mells3.add(ms);
+                        }
+                    }
+                    String collect_ids = ListUtils.join(ids);
+                    L.e("=====List转Json", collect_ids);
+                    collectPst.delCollect(collect_ids);
+                }
+                break;
+        }
     }
 
     @Override
@@ -103,12 +155,16 @@ public class CollectMellHzjFgt extends BaseFgt {
         mells = new ArrayList<>();
         mells2 = new ArrayList<>();
         userPst = new UserPst(this);
+        collectPst = new UserCollectPst(this);
+        L.e("====data22222=====", String.valueOf(dataType));
     }
 
     @Override
     protected void requestData() {
         if (0 == dataType) {
             userPst.myfooter(p, "2");
+        } else {
+            collectPst.collectList(p, "2");
         }
     }
 
@@ -136,7 +192,13 @@ public class CollectMellHzjFgt extends BaseFgt {
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
+        if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
+            removeContent();
+            removeDialog();
+            collect_mell_lv.onRefreshComplete();
+        } else {
+            super.onError(requestUrl, error);
+        }
     }
 
     @Override
@@ -154,7 +216,45 @@ public class CollectMellHzjFgt extends BaseFgt {
                 mells.addAll(mells2);
                 mellListAdapter.notifyDataSetChanged();
             }
+            mellListAdapter.setForSelectNum(this);
             collect_mell_lv.onRefreshComplete();
+            setStatus(status);
+            return;
+        }
+        if (requestUrl.contains("collectList")) {
+            L.e("=====商家=====", "收藏");
+            CollectOrFootpointMell mell = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointMell.class);
+            allNum = mell.getNums();
+            if (1 == p) {
+                mells = mell.getData();
+                mellListAdapter = new MellListAdapter(getActivity(), mells);
+                collect_mell_lv.setAdapter(mellListAdapter);
+            } else {
+                mells2 = mell.getData();
+                mells.addAll(mells2);
+                mellListAdapter.notifyDataSetChanged();
+            }
+            mellListAdapter.setForSelectNum(this);
+            collect_mell_lv.onRefreshComplete();
+            setStatus(status);
+            return;
+        }
+        if (requestUrl.contains("delCollect")) {
+            mells.removeAll(mells3);
+            allNum -= mells3.size();
+            mellListAdapter.notifyDataSetChanged();
+            if (ListUtils.isEmpty(mells)) {
+                operation_mell_collect_layout.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @Override
+    public void selectNum(int num) {
+        if (num >= mells.size()) {// 全部选中
+            cart_select_all_cb.setChecked(true);
+        } else {// 非全部选中
+            cart_select_all_cb.setChecked(false);
         }
     }
 }

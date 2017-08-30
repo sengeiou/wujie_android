@@ -11,9 +11,8 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
-import com.google.gson.Gson;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -40,16 +39,15 @@ public class AddressListAty extends BaseAty {
     private TextView titlt_conter_tv;
 
     @ViewInject(R.id.address_lv)
-    private PullToRefreshListView address_lv;
+    private ListView address_lv;
 
-    private List<AddressList.Address> addresses;
-    private List<AddressList.Address> addresses2;
+    private List<AddressList.Data.CommonAddress> addresses;
     private AddressAdapter addressAdapter;
 
     /**
      * 来源
      * 1.个人中心
-     * 2.
+     * 2.地址选择
      */
     private int type;
 
@@ -57,47 +55,55 @@ public class AddressListAty extends BaseAty {
 
     private int p = 1;
 
-    private int all_num = 0;
     private Bundle bundle;
     private int toOperation = -1;
 
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
+    /**
+     * 默认地址收货人姓名
+     */
+    @ViewInject(R.id.add_name_tv)
+    private TextView add_name_tv;
+    /**
+     * 默认地址收货人手机号
+     */
+    @ViewInject(R.id.add_phone_tv)
+    private TextView add_phone_tv;
+
+    /**
+     * 默认地址详细地址
+     */
+    @ViewInject(R.id.add_details_tv)
+    private TextView add_details_tv;
+
+    /**
+     * 默认地址布局
+     */
+    @ViewInject(R.id.default_address_layout)
+    private LinearLayout default_address_layout;
+
+    private AddressList.Data.DefaultAddress defaultAddress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("收货地址");
-
-        address_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                p = 1;
-                addressPst.addressList(p);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                if (all_num >= addresses.size()) {
-                    address_lv.onRefreshComplete();
-                    return;
-                }
-                p++;
-                addressPst.addressList(p);
-            }
-        });
-
         address_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (2 == type) {// 地址选择
+
+                }
             }
         });
         address_lv.setEmptyView(no_data_layout);
     }
 
     @Override
-    @OnClick(R.id.add_address_tv)
+    @OnClick({R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -105,6 +111,29 @@ public class AddressListAty extends BaseAty {
                 bundle = new Bundle();
                 bundle.putInt("type", 0);
                 startActivity(AddNewAddressAty.class, bundle);
+                break;
+            case R.id.edit_address_tv://编辑
+                bundle = new Bundle();
+                bundle.putInt("type", 1);
+                bundle.putString("address_id", defaultAddress.getAddress_id());
+                startActivity(AddNewAddressAty.class, bundle);
+                break;
+            case R.id.delete_address_tv://删除
+                new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
+                        (new MikyouCommonDialog.OnDialogListener() {
+
+                            @Override
+                            public void dialogListener(int btnType, View customView, DialogInterface
+                                    dialogInterface, int which) {
+                                switch (btnType) {
+                                    case MikyouCommonDialog.OK:
+                                        addressPst.delAddress(defaultAddress.getAddress_id());
+                                        break;
+                                    case MikyouCommonDialog.NO:
+                                        break;
+                                }
+                            }
+                        }).showDialog();
                 break;
         }
     }
@@ -119,8 +148,6 @@ public class AddressListAty extends BaseAty {
         type = getIntent().getIntExtra("type", 1);
         addressPst = new AddressPst(this);
         addresses = new ArrayList<>();
-        addresses2 = new ArrayList<>();
-
     }
 
     @Override
@@ -137,22 +164,29 @@ public class AddressListAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("addressList")) {
-            AddressList addressList = GsonUtil.GsonToBean(jsonStr, AddressList.class);
-            all_num = addressList.getNums();
-            if (1 == p) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
+            if (ToolKit.isList(map, "default_address")) {
+                defaultAddress = GsonUtil.GsonToBean(map.get("default_address"), AddressList.Data.DefaultAddress.class);
+                if (defaultAddress == null) {
+                    default_address_layout.setVisibility(View.GONE);
+                } else {
+                    default_address_layout.setVisibility(View.VISIBLE);
+                    add_name_tv.setText(defaultAddress.getReceiver());
+                    add_phone_tv.setText(defaultAddress.getPhone());
+                    add_details_tv.setText(defaultAddress.getProvince() + defaultAddress.getCity() +
+                            defaultAddress.getArea() + defaultAddress.getAddress());
+                }
+            } else {
+                default_address_layout.setVisibility(View.GONE);
+            }
+            if (ToolKit.isList(map, "common_address")) {
                 addresses.clear();// 清除掉之前的数据
-
-                addresses = addressList.getData();
+                addresses = GsonUtil.GsonToList(map.get("common_address"), AddressList.Data.CommonAddress.class);
                 addressAdapter = new AddressAdapter(this, addresses);
                 address_lv.setAdapter(addressAdapter);
                 toOperationAddress();
-            } else {
-                addresses2 = addressList.getData();
-                addresses.addAll(addresses2);
-                addressAdapter.notifyDataSetChanged();
             }
-            address_lv.onRefreshComplete();
             return;
         }
         if (requestUrl.contains("setDefault")) {
@@ -214,6 +248,5 @@ public class AddressListAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        address_lv.onRefreshComplete();
     }
 }

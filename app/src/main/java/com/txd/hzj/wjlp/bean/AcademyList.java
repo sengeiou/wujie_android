@@ -26,6 +26,15 @@ public class AcademyList {
 
     private boolean select = false;
 
+    /**
+     * 收藏编号
+     */
+    private String collect_id;
+    /**
+     * 文章id
+     */
+    private String aid;
+
     public String getAcademy_id() {
         return academy_id;
     }
@@ -74,6 +83,22 @@ public class AcademyList {
         this.select = select;
     }
 
+    public String getCollect_id() {
+        return collect_id;
+    }
+
+    public void setCollect_id(String collect_id) {
+        this.collect_id = collect_id;
+    }
+
+    public String getAid() {
+        return aid;
+    }
+
+    public void setAid(String aid) {
+        this.aid = aid;
+    }
+
     @Override
     public String toString() {
         return "AcademyList{" +
@@ -83,6 +108,8 @@ public class AcademyList {
                 ", page_views='" + page_views + '\'' +
                 ", collect_num='" + collect_num + '\'' +
                 ", select=" + select +
+                ", collect_id='" + collect_id + '\'' +
+                ", aid='" + aid + '\'' +
                 '}';
     }
 }

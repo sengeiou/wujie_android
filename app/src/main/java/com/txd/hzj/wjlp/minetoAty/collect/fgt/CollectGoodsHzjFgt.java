@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,12 +18,15 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.bean.CollectOrFootpointGoods;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
@@ -40,13 +44,9 @@ import java.util.Map;
  * 描述：收藏、足迹，商品碎片
  * ===============Txunda===============
  */
-public class CollectGoodsHzjFgt extends BaseFgt {
-    private static final String ARG_PARAM1 = "status";
-
+public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.SelectNum {
     private boolean status;
-
     private int dataType = 0;
-
     @ViewInject(R.id.collect_goods_rv)
     private RecyclerView collect_goods_rv;
 
@@ -54,6 +54,7 @@ public class CollectGoodsHzjFgt extends BaseFgt {
 
     private List<CFGoodsList> data;
     private List<CFGoodsList> data2;
+    private List<CFGoodsList> data3;
     private int height = 0;
 
     @ViewInject(R.id.collect_operation_layout)
@@ -73,6 +74,9 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     private ImageView footerImageView;
 
     private UserPst userPst;
+
+    private UserCollectPst collectPst;
+
     /**
      * 分页
      */
@@ -90,21 +94,26 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     private LinearLayout no_data_layout;
     private int allNum = 0;
 
+    @ViewInject(R.id.collect_goods_select_all_cb)
+    private CheckBox collect_goods_select_all_cb;
+
+    private List<String> ids;
     public static CollectGoodsHzjFgt newInstance(boolean param1, int dataType) {
         CollectGoodsHzjFgt fragment = new CollectGoodsHzjFgt();
-        Bundle args = new Bundle();
-        args.putBoolean(ARG_PARAM1, param1);
-        args.putInt("dataType", dataType);
-        fragment.setArguments(args);
+        fragment.status = param1;
+        fragment.dataType = dataType;
         return fragment;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getArguments() != null) {
-            status = getArguments().getBoolean(ARG_PARAM1);
-        }
+
+        // 布局
+        collect_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        collect_goods_rv.setItemAnimator(new DefaultItemAnimator());
+        collect_goods_rv.setHasFixedSize(true);
+        collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
 
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
@@ -121,7 +130,10 @@ public class CollectGoodsHzjFgt extends BaseFgt {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        userPst.myfooter(p, "1");
+                        if (0 == dataType)
+                            userPst.myfooter(p, "1");
+                        else
+                            collectPst.collectList(p, "1");
                     }
 
                     @Override
@@ -147,7 +159,10 @@ public class CollectGoodsHzjFgt extends BaseFgt {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        userPst.myfooter(p, "1");
+                        if (0 == dataType)
+                            userPst.myfooter(p, "1");
+                        else
+                            collectPst.collectList(p, "1");
                     }
 
                     @Override
@@ -166,6 +181,37 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     }
 
     @Override
+    @OnClick({R.id.collect_goods_select_all_cb, R.id.operation_goods_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.collect_goods_select_all_cb:// 全选，取消全选
+                boolean select = collect_goods_select_all_cb.isChecked();
+                for (CFGoodsList cg : data) {
+                    cg.setIsSelect(select);
+                }
+                racycleAllAdapter.notifyDataSetChanged();
+                break;
+            case R.id.operation_goods_tv:
+                if (0 == dataType) {// 足迹
+
+                } else {// 收藏
+                    ids = new ArrayList<>();
+                    data3 = new ArrayList<>();
+                    for (CFGoodsList cg : data) {
+                        if (cg.getIsSelect()) {
+                            ids.add(cg.getCollect_id());
+                            data3.add(cg);
+                        }
+                    }
+                    String collect_ids = ListUtils.join(ids);
+                    collectPst.delCollect(collect_ids);
+                }
+                break;
+        }
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.fgt_collect_goods_hzj;
     }
@@ -175,28 +221,34 @@ public class CollectGoodsHzjFgt extends BaseFgt {
         data = new ArrayList<>();
         data2 = new ArrayList<>();
         userPst = new UserPst(this);
+        collectPst = new UserCollectPst(this);
         height = ToolKit.dip2px(getActivity(), 4);
+        L.e("====data11111=====", String.valueOf(dataType));
     }
 
     @Override
     protected void requestData() {
-
         if (0 == dataType) {
             userPst.myfooter(p, "1");
+        } else {
+            collectPst.collectList(p, "1");
         }
-
     }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
-        L.e("=====商品=====",error.toString());
+        if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
+            removeContent();
+            removeDialog();
+        } else {
+            super.onError(requestUrl, error);
+        }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("myfooter")) {
+        if (requestUrl.contains("myfooter")) {// 足迹
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
             allNum = goods.getNums();
             if (allNum > 0) {
@@ -209,28 +261,71 @@ public class CollectGoodsHzjFgt extends BaseFgt {
             if (1 == p) {
                 data = goods.getList();
 
-                // 适配器初始化
-                racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
-                // 布局
-                collect_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-                collect_goods_rv.setItemAnimator(new DefaultItemAnimator());
-                collect_goods_rv.setHasFixedSize(true);
-                collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
-                collect_goods_rv.setAdapter(racycleAllAdapter);
-
+                if (!ListUtils.isEmpty(data)) {
+                    // 适配器初始化
+                    racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
+                    collect_goods_rv.setAdapter(racycleAllAdapter);
+                }
                 if (!frist) {
                     swipe_refresh.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
                 data2 = goods.getList();
-                data.addAll(data2);
-                racycleAllAdapter.notifyDataSetChanged();
+                if (!ListUtils.isEmpty(data2)) {
+                    data.addAll(data2);
+                    racycleAllAdapter.notifyDataSetChanged();
+                }
 
                 footerImageView.setVisibility(View.VISIBLE);
                 footerProgressBar.setVisibility(View.GONE);
                 swipe_refresh.setLoadMore(false);
             }
+            setStatus(status);
+            return;
+        }
+        if (requestUrl.contains("collectList")) {// 收藏
+            L.e("=====商品=====", "收藏");
+            CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
+            allNum = goods.getNums();
+            if (allNum > 0) {
+                swipe_refresh.setVisibility(View.VISIBLE);
+                no_data_layout.setVisibility(View.GONE);
+            } else {
+                swipe_refresh.setVisibility(View.GONE);
+                no_data_layout.setVisibility(View.VISIBLE);
+            }
+            if (1 == p) {
+                data = goods.getList();
+                if (!ListUtils.isEmpty(data)) {
+                    // 适配器初始化
+                    racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
+                    collect_goods_rv.setAdapter(racycleAllAdapter);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            } else {
+                data2 = goods.getList();
+                if (!ListUtils.isEmpty(data2)) {
+                    data.addAll(data2);
+                    racycleAllAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
+            setStatus(status);
+            return;
+        }
+        if (requestUrl.contains("delCollect")) {
+            data.removeAll(data3);
+            allNum -= data3.size();
+            racycleAllAdapter.notifyDataSetChanged();
+            if (ListUtils.isEmpty(data))
+                collect_operation_layout.setVisibility(View.GONE);
         }
     }
 
@@ -262,11 +357,11 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     private View createFooterView() {
         View footerView = LayoutInflater.from(swipe_refresh.getContext())
                 .inflate(R.layout.layout_footer, null);
-        footerProgressBar = (ProgressBar) footerView
+        footerProgressBar = footerView
                 .findViewById(R.id.footer_pb_view);
-        footerImageView = (ImageView) footerView
+        footerImageView = footerView
                 .findViewById(R.id.footer_image_view);
-        footerTextView = (TextView) footerView
+        footerTextView = footerView
                 .findViewById(R.id.footer_text_view);
         footerProgressBar.setVisibility(View.GONE);
         footerImageView.setVisibility(View.VISIBLE);
@@ -278,13 +373,22 @@ public class CollectGoodsHzjFgt extends BaseFgt {
     private View createHeaderView() {
         View headerView = LayoutInflater.from(swipe_refresh.getContext())
                 .inflate(R.layout.layout_head, null);
-        progressBar = (ProgressBar) headerView.findViewById(R.id.pb_view);
-        textView = (TextView) headerView.findViewById(R.id.text_view);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");
-        imageView = (ImageView) headerView.findViewById(R.id.image_view);
+        imageView = headerView.findViewById(R.id.image_view);
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
         return headerView;
+    }
+
+    @Override
+    public void selectNum(int num) {
+        if (num >= data.size()) {// 全部选择
+            collect_goods_select_all_cb.setChecked(true);
+        } else {// 未全部选择
+            collect_goods_select_all_cb.setChecked(false);
+        }
     }
 }

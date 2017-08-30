@@ -42,6 +42,8 @@ public class CFGoodsList {
     private String ticket_buy_discount;
     private boolean isSelect = false;
 
+    private String collect_id;
+
     public String getGoods_id() {
         return goods_id;
     }
@@ -152,5 +154,13 @@ public class CFGoodsList {
 
     public void setIsSelect(boolean isSelect) {
         this.isSelect = isSelect;
+    }
+
+    public String getCollect_id() {
+        return collect_id;
+    }
+
+    public void setCollect_id(String collect_id) {
+        this.collect_id = collect_id;
     }
 }

@@ -18,17 +18,15 @@ public class MellInfoList {
      * goodsList : [{"goods_id":"商品ID","goods_img":"商品图片","shop_price":"商品价格"}]
      */
 
-    private boolean isSelect;
     private MerInfo merInfo;
     private List<GoodsList> goodsList;
 
-    public boolean isIsSelect() {
-        return isSelect;
-    }
+    /**
+     * 收藏id
+     */
+    private String collect_id;
 
-    public void setIsSelect(boolean isSelect) {
-        this.isSelect = isSelect;
-    }
+    private boolean select = false;
 
     public MerInfo getMerInfo() {
         return merInfo;
@@ -44,6 +42,22 @@ public class MellInfoList {
 
     public void setGoodsList(List<GoodsList> goodsList) {
         this.goodsList = goodsList;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
+    public String getCollect_id() {
+        return collect_id;
+    }
+
+    public void setCollect_id(String collect_id) {
+        this.collect_id = collect_id;
     }
 
     public static class MerInfo {
@@ -136,5 +150,7 @@ public class MellInfoList {
         public void setShop_price(String shop_price) {
             this.shop_price = shop_price;
         }
+
+
     }
 }

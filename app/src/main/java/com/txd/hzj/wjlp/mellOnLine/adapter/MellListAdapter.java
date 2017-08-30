@@ -43,6 +43,8 @@ public class MellListAdapter extends BaseAdapter {
 
     private int size = 0;
 
+    private int selectNum = 0;
+
     public MellListAdapter(Context context, List<MellInfoList> mells) {
         this.context = context;
         this.mells = mells;
@@ -99,18 +101,46 @@ public class MellListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context, MellInfoAty.class);
-                    intent.putExtra("merchant_id",mellInfoList.getMerInfo().getMerchant_id());
+                    intent.putExtra("merchant_id", mellInfoList.getMerInfo().getMerchant_id());
                     context.startActivity(intent);
                 }
             });
 
             if (showSelect) {
                 mvh.operation_mell_iv.setVisibility(View.VISIBLE);
+                if (mellInfoList.isSelect()) {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                } else {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                }
             } else {
                 mvh.operation_mell_iv.setVisibility(View.GONE);
             }
 
             mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(mellInfoList.getGoodsList()));
+
+            mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mellInfoList.isSelect()) {
+                        mellInfoList.setSelect(false);
+                        mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                    } else {
+                        mellInfoList.setSelect(true);
+                        mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                    }
+                    selectNum = 0;
+                    for (MellInfoList mell : mells) {
+                        if (mell.isSelect()) {
+                            selectNum++;
+                        }
+                    }
+                    if (forSelectNum != null) {
+                        forSelectNum.selectNum(selectNum);
+                    }
+                }
+            });
+
         }
 
         return view;
@@ -203,6 +233,15 @@ public class MellListAdapter extends BaseAdapter {
             private TextView mell_prodect_price_tv;
 
         }
+    }
 
+    public interface ForSelectNum {
+        void selectNum(int num);
+    }
+
+    private ForSelectNum forSelectNum;
+
+    public void setForSelectNum(ForSelectNum forSelectNum) {
+        this.forSelectNum = forSelectNum;
     }
 }

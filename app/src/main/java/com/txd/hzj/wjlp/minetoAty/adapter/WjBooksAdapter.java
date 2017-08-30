@@ -36,6 +36,8 @@ public class WjBooksAdapter extends BaseAdapter {
 
     private BVH bvh;
 
+    private int selectNum = 0;
+
     /**
      * 这才是真正的够造函数
      *
@@ -72,7 +74,7 @@ public class WjBooksAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        AcademyList academyList = getItem(i);
+        final AcademyList academyList = getItem(i);
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_collect_books_lv, null);
             bvh = new BVH();
@@ -84,6 +86,13 @@ public class WjBooksAdapter extends BaseAdapter {
 
         if (canEdit) {
             bvh.books_select_iv.setVisibility(View.VISIBLE);
+
+            if (academyList.isSelect()) {
+                bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+            } else {
+                bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+            }
+
         } else {
             bvh.books_select_iv.setVisibility(View.GONE);
         }
@@ -95,7 +104,30 @@ public class WjBooksAdapter extends BaseAdapter {
 
         bvh.ac_title_tv.setText(academyList.getTitle());
 
-        bvh.other_info_tv.setText(academyList.getCollect_num()+"人收藏        "+academyList.getPage_views()+"人浏览");
+        bvh.other_info_tv.setText(academyList.getCollect_num() + "人收藏        " + academyList.getPage_views() + "人浏览");
+
+        bvh.books_select_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (academyList.isSelect()) {
+                    academyList.setSelect(false);
+                    bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                } else {
+                    academyList.setSelect(true);
+                    bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                }
+                if (forSelectNum != null) {// 设置选中个数
+                    selectNum = 0;// 首先设置选中个数为零
+                    for (AcademyList ac : academyLists) {// 遍历数组，获取选中的个数
+                        if (ac.isSelect()) {
+                            selectNum++;
+                        }
+                    }
+                    // 通过接口将个数回传给界面
+                    forSelectNum.getSelectNum(selectNum);
+                }
+            }
+        });
 
         return view;
     }
@@ -124,7 +156,15 @@ public class WjBooksAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.other_info_tv)
         private TextView other_info_tv;
+    }
 
+    public interface ForSelectNum {
+        void getSelectNum(int num);
+    }
 
+    public ForSelectNum forSelectNum;
+
+    public void setForSelectNum(ForSelectNum forSelectNum) {
+        this.forSelectNum = forSelectNum;
     }
 }

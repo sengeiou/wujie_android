@@ -30,13 +30,13 @@ import java.util.List;
 public class AddressAdapter extends BaseAdapter {
 
     private Context context;
-    private List<AddressList.Address> address;
+    private List<AddressList.Data.CommonAddress> address;
     private LayoutInflater inflater;
     private AVH avh;
 
     private AdapterTextViewClickListener adapterTextViewClickListener;
 
-    public AddressAdapter(Context context, List<AddressList.Address> address) {
+    public AddressAdapter(Context context, List<AddressList.Data.CommonAddress> address) {
         this.context = context;
         this.address = address;
         inflater = LayoutInflater.from(context);
@@ -48,7 +48,7 @@ public class AddressAdapter extends BaseAdapter {
     }
 
     @Override
-    public AddressList.Address getItem(int i) {
+    public AddressList.Data.CommonAddress getItem(int i) {
         return address.get(i);
     }
 
@@ -59,7 +59,7 @@ public class AddressAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        AddressList.Address ad = getItem(i);
+        AddressList.Data.CommonAddress ad = getItem(i);
         if (view == null) {
             view = inflater.inflate(R.layout.item_address_hzj_lv, null);
             avh = new AVH();
@@ -69,17 +69,17 @@ public class AddressAdapter extends BaseAdapter {
             avh = (AVH) view.getTag();
         }
 
-        if (ad.getIs_default().equals("1")) { // 默认地址
-            avh.address_status_iv.setImageResource(R.drawable.icon_default_address);
-            avh.address_defailt_tv.setText("默认地址");
-            avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-            avh.under_address_iv.setVisibility(View.VISIBLE);
-        } else {
-            avh.address_status_iv.setImageResource(R.drawable.icon_un_default_address);
-            avh.address_defailt_tv.setText("设为默认");
-            avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
-            avh.under_address_iv.setVisibility(View.GONE);
-        }
+//        if (ad.getIs_default().equals("1")) { // 默认地址
+//            avh.address_status_iv.setImageResource(R.drawable.icon_default_address);
+//            avh.address_defailt_tv.setText("默认地址");
+//            avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+//            avh.under_address_iv.setVisibility(View.VISIBLE);
+//        } else {
+//        }
+        avh.address_status_iv.setImageResource(R.drawable.icon_un_default_address);
+        avh.address_defailt_tv.setText("设为默认");
+        avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+        avh.under_address_iv.setVisibility(View.GONE);
         if (adapterTextViewClickListener != null) {
             // 设置为默认地址
             avh.set_address_to_default_layout.setOnClickListener(new View.OnClickListener() {
