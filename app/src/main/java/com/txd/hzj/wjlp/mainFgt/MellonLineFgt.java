@@ -52,6 +52,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -384,7 +385,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         good_luck_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(GoodLuckDetailsAty.class, null);
+                startActivity(SnatchGoodsDetailsAty.class, null);
             }
         });
         // 汽车购
@@ -403,7 +404,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 startActivity(HousDetailsChenAty.class, null);
             }
         });
+        // 拼团区
         group_shopping_lv.setAdapter(allGvLvAdapter8);
+        group_shopping_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(GoodLuckDetailsAty.class, null);
+            }
+        });
     }
 
 

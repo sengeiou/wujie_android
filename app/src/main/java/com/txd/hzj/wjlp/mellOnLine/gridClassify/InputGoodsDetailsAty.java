@@ -4,10 +4,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -20,6 +23,8 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -38,11 +43,6 @@ import cn.iwgang.countdownview.CountdownView;
  */
 public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
     /**
-     * 商品布局
-     */
-    @ViewInject(R.id.title_goods_layout)
-    public LinearLayout title_goods_layout;
-    /**
      * 商品TextView
      */
     @ViewInject(R.id.title_goods_tv)
@@ -54,11 +54,6 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @ViewInject(R.id.title_goods_view)
     public View title_goods_view;
     /**
-     * 详情布局
-     */
-    @ViewInject(R.id.title_details_layout)
-    public LinearLayout title_details_layout;
-    /**
      * 详情TextView
      */
     @ViewInject(R.id.title_details_tv)
@@ -69,11 +64,6 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
      */
     @ViewInject(R.id.title_details_view)
     public View title_details_view;
-    /**
-     * 评价布局
-     */
-    @ViewInject(R.id.title_evaluate_layout)
-    public LinearLayout title_evaluate_layout;
     /**
      * 评价TextView
      */
@@ -229,6 +219,21 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private LinearLayout second_lin_layout;
     private int clickType = 0;
 
+    /**
+     * 优惠券
+     */
+    @ViewInject(R.id.goods_trick_rv)
+    private RecyclerView goods_trick_rv;
+    private TheTrickAdapter theTrickAdapter;
+
+    /**
+     * 店铺活动列表
+     */
+    @ViewInject(R.id.promotion_lv)
+    private ListView promotion_lv;
+
+    private PromotionAdapter promotionAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,6 +250,13 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
         getHeight();
+
+        goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        goods_trick_rv.setHasFixedSize(true);
+        goods_trick_rv.setAdapter(theTrickAdapter);
+
+        promotionAdapter = new PromotionAdapter(this);
+        promotion_lv.setAdapter(promotionAdapter);
     }
 
     @Override
@@ -262,6 +274,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         image.add(R.drawable.icon_temp_goods_banner);
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
+        theTrickAdapter = new TheTrickAdapter(this);
     }
 
     @Override
