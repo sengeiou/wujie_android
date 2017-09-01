@@ -17,16 +17,24 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CateIndex;
+import com.txd.hzj.wjlp.http.category.GoodsCategoryPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.HotBrandAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.ThreeClassifyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -84,13 +92,19 @@ public class AllClassifyAty extends BaseAty {
     @ViewInject(R.id.classify_right_lv)
     private ListView classify_right_lv;
 
-    private List<String> left;
-    private List<String> right;
-    private List<String> three;
-    private List<String> hot_brand;
+    private List<CateIndex.Data.TopCateBean> left;
+    private List<CateIndex.Data.TwoCateBean> right;
 
     private LeftAdapter leftAdapter;
     private RightAdapter rightAdapter;
+
+    /**
+     * 是否加载左侧分类
+     */
+    private boolean loding = true;
+
+    private GoodsCategoryPst categoryPst;
+    private String cate_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +113,16 @@ public class AllClassifyAty extends BaseAty {
         // 设置沉浸式状态栏
         showStatusBar(R.id.search_title_layout);
 
-        classify_left_lv.setAdapter(leftAdapter);
+
         classify_left_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 leftAdapter.setSelected(i);
+                loding = false;
+                cate_id = left.get(i).getCate_id();
+                categoryPst.cateIndex(cate_id);
             }
         });
-        classify_right_lv.setAdapter(rightAdapter);
     }
 
     /**
@@ -140,16 +156,54 @@ public class AllClassifyAty extends BaseAty {
 
         left = new ArrayList<>();
         right = new ArrayList<>();
-        three = new ArrayList<>();
-        hot_brand = new ArrayList<>();
-        leftAdapter = new LeftAdapter();
-        rightAdapter = new RightAdapter();
+
+        categoryPst = new GoodsCategoryPst(this);
 
     }
 
     @Override
     protected void requestData() {
+        categoryPst.cateIndex(cate_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+//        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("cateIndex")) {
+//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//            if (ToolKit.isList(data, "topCate")) {
+//                if (loding) {
+//                    left = GsonUtil.GsonToList(data.get("topCate"), CateIndex.Data.TopCateBean.class);
+//                    leftAdapter = new LeftAdapter();
+//                    classify_left_lv.setAdapter(leftAdapter);
+//                }
+//            }
+//            if (ToolKit.isList(data, "two_cate")) {
+//                right = GsonUtil.GsonToList(data.get("two_cate"), CateIndex.Data.TwoCateBean.class);
+//                rightAdapter = new RightAdapter();
+//                classify_right_lv.setAdapter(rightAdapter);
+//            }
+
+            CateIndex cateIndex = GsonUtil.GsonToBean(jsonStr, CateIndex.class);
+
+            L.e("=====数据=====", jsonStr);
+            L.e("=====bean====", cateIndex.toString());
+
+            if (loding) {
+                left = cateIndex.getData().getTop_cate();
+                if (!ListUtils.isEmpty(left)) {
+                    leftAdapter = new LeftAdapter();
+                    classify_left_lv.setAdapter(leftAdapter);
+                }
+            }
+            right = cateIndex.getData().getTwo_cate();
+            if (!ListUtils.isEmpty(right)) {
+                rightAdapter = new RightAdapter();
+                classify_right_lv.setAdapter(rightAdapter);
+            }
+
+        }
     }
 
     /**
@@ -161,11 +215,11 @@ public class AllClassifyAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 20;
+            return left.size();
         }
 
         @Override
-        public Object getItem(int i) {
+        public CateIndex.Data.TopCateBean getItem(int i) {
             return left.get(i);
         }
 
@@ -176,6 +230,7 @@ public class AllClassifyAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            CateIndex.Data.TopCateBean topCateBean = getItem(i);
             if (null == view) {
                 view = LayoutInflater.from(AllClassifyAty.this).inflate(R.layout.item_all_classify_left_tv,
                         viewGroup, false);
@@ -197,11 +252,12 @@ public class AllClassifyAty extends BaseAty {
                 lvh.left_indicator_view.setBackgroundColor(ContextCompat.getColor(AllClassifyAty.this, R.color
                         .bg_color));
             }
+            lvh.left_classify_tv.setText(topCateBean.getName());
 
             return view;
         }
 
-        public void setSelected(int selected) {
+        void setSelected(int selected) {
             this.selected = selected;
             notifyDataSetChanged();
         }
@@ -228,11 +284,11 @@ public class AllClassifyAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 5;
+            return right.size();
         }
 
         @Override
-        public Object getItem(int i) {
+        public CateIndex.Data.TwoCateBean getItem(int i) {
             return right.get(i);
         }
 
@@ -243,6 +299,7 @@ public class AllClassifyAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            CateIndex.Data.TwoCateBean childCateBean = getItem(i);
             if (null == view) {
                 view = LayoutInflater.from(AllClassifyAty.this).inflate(R.layout.item_right_classify,
                         viewGroup, false);
@@ -252,12 +309,23 @@ public class AllClassifyAty extends BaseAty {
             } else {
                 rvh = (RightViewHolder) view.getTag();
             }
-            rvh.classify_three_level_gv.setAdapter(new ThreeClassifyAdapter(AllClassifyAty.this, right));
-            rvh.hot_brand_rv.setLayoutManager(new LinearLayoutManager(AllClassifyAty.this, LinearLayoutManager
-                    .HORIZONTAL, false));
+
+            rvh.child_cate_tv.setText(childCateBean.getName());
+
+            List<CateIndex.Data.TwoCateBean.ThreeCateBean> three = childCateBean.getThree_cate();
+            if (!ListUtils.isEmpty(three)) {
+                rvh.classify_three_level_gv.setAdapter(new ThreeClassifyAdapter(AllClassifyAty.this, three));
+            }
+
+            rvh.hot_brand_rv.setLayoutManager(new LinearLayoutManager(AllClassifyAty.this,
+                    LinearLayoutManager.HORIZONTAL, false));
             rvh.hot_brand_rv.setItemAnimator(new DefaultItemAnimator());
 
-            rvh.hot_brand_rv.setAdapter(new HotBrandAdapter(AllClassifyAty.this, hot_brand));
+            List<CateIndex.Data.TwoCateBean.HostBrandBean> host = childCateBean.getHost_brand();
+            if (!ListUtils.isEmpty(host)) {
+                rvh.hot_brand_rv.setAdapter(new HotBrandAdapter(AllClassifyAty.this, host));
+            }
+
             return view;
         }
 
@@ -267,6 +335,9 @@ public class AllClassifyAty extends BaseAty {
 
             @ViewInject(R.id.hot_brand_rv)
             private RecyclerView hot_brand_rv;
+
+            @ViewInject(R.id.child_cate_tv)
+            private TextView child_cate_tv;
 
         }
     }

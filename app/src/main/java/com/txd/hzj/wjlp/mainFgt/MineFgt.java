@@ -418,13 +418,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             // 只是layout背景透明(仿知乎滑动效果)
             mine_title_layout.setBackgroundColor(Color.argb((int) alpha, 242, 48, 48));
 
-            user_head_iv.setAlpha(alpha);
+            user_head_iv.setImageAlpha((int) alpha);
             user_name_tv.setTextColor(Color.argb((int) alpha, 255, 255, 255));
 
         } else {
             user_head_name_layout.setVisibility(View.VISIBLE);
             mine_title_layout.setBackgroundColor(Color.argb(255, 242, 48, 48));
-            user_head_iv.setAlpha(255);
+            user_head_iv.setImageAlpha(255);
             user_name_tv.setTextColor(Color.WHITE);
         }
         immersionInit();

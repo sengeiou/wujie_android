@@ -235,7 +235,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
     private void forText() {
         // 分红权
         ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+                "积分10.23", 3, Color.parseColor("#FD8214"));
 
         ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥8000.00");
 

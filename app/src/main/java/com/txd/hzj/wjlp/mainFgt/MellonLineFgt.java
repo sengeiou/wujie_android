@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,14 +27,10 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
-import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
-import com.txd.hzj.wjlp.mellOnLine.MessageAty;
-import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.WujieTopHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionGoodsDetailsAty;
@@ -58,7 +53,6 @@ import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -211,7 +205,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
 
     private int pageSize = 10;
-    private ArrayList<View> mPagerList;
     /**
      * 当前选中的第几页
      */
@@ -251,7 +244,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         // 获取总页数
         int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
         // 初始化View列表
-        mPagerList = new ArrayList<>();
+        ArrayList<View> mPagerList = new ArrayList<>();
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         for (int i = 0; i < pageCount; i++) {
             GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
@@ -548,7 +541,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             //初始化布局的控件
             TextView tv2 = moreView.findViewById(R.id.top_tv2);
 
-            /**
+            /*
              * 设置监听
              */
             tv1.setOnClickListener(new View.OnClickListener() {

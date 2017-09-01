@@ -290,7 +290,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+                "积分10.23", 3, Color.parseColor("#FD8214"));
 
         String tariff = "进口税 50元/件";
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,

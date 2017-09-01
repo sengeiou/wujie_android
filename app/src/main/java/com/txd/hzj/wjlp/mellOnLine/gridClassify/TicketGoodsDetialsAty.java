@@ -259,7 +259,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+                "积分10.23", 3, Color.parseColor("#FD8214"));
 
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
                 "运费10元", 2, Color.parseColor("#FD8214"));

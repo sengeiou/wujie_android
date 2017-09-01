@@ -20,7 +20,6 @@
         android:paddingBottom="16dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:paddingTop="16dp"
-        android:text="休闲食品"/>
+        android:paddingTop="16dp"/>
 
 </LinearLayout>

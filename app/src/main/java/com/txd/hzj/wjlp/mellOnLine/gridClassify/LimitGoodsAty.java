@@ -292,7 +292,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+                "积分10.23", 3, Color.parseColor("#FD8214"));
 
         String only = "已抢419件/剩余56件";
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only, 9, only.length() - 1,
