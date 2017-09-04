@@ -18,9 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
@@ -34,7 +31,6 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.ThreeClassifyAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -106,6 +102,12 @@ public class AllClassifyAty extends BaseAty {
     private GoodsCategoryPst categoryPst;
     private String cate_id = "";
 
+    /**
+     * 消息数量
+     */
+    @ViewInject(R.id.message_num_tv)
+    private TextView message_num_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,26 +171,17 @@ public class AllClassifyAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-//        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("cateIndex")) {
-//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-//            if (ToolKit.isList(data, "topCate")) {
-//                if (loding) {
-//                    left = GsonUtil.GsonToList(data.get("topCate"), CateIndex.Data.TopCateBean.class);
-//                    leftAdapter = new LeftAdapter();
-//                    classify_left_lv.setAdapter(leftAdapter);
-//                }
-//            }
-//            if (ToolKit.isList(data, "two_cate")) {
-//                right = GsonUtil.GsonToList(data.get("two_cate"), CateIndex.Data.TwoCateBean.class);
-//                rightAdapter = new RightAdapter();
-//                classify_right_lv.setAdapter(rightAdapter);
-//            }
-
             CateIndex cateIndex = GsonUtil.GsonToBean(jsonStr, CateIndex.class);
 
-            L.e("=====数据=====", jsonStr);
-            L.e("=====bean====", cateIndex.toString());
+            int mesNum = cateIndex.getData().getMsg_tip();
+            mesNum += getUnreadMsgCountTotal();
+            if (mesNum > 0) {
+                message_num_tv.setText(String.valueOf(mesNum));
+                message_num_tv.setVisibility(View.VISIBLE);
+            } else {
+                message_num_tv.setVisibility(View.GONE);
+            }
 
             if (loding) {
                 left = cateIndex.getData().getTop_cate();

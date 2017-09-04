@@ -11,6 +11,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.util.L;
 import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
@@ -186,5 +187,14 @@ public abstract class BaseAty extends BaseActivity {
                 }
             });
         }
+    }
+    /**
+     * get unread message count
+     * 获取未读消息数量(环信获取消息数量)
+     *
+     * @return int
+     */
+    public int getUnreadMsgCountTotal() {
+        return EMClient.getInstance().chatManager().getUnreadMessageCount();
     }
 }

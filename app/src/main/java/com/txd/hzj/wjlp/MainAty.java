@@ -688,15 +688,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //        }
     }
 
-    /**
-     * get unread message count
-     * 获取未读消息数量
-     *
-     * @return int
-     */
-    public int getUnreadMsgCountTotal() {
-        return EMClient.getInstance().chatManager().getUnreadMessageCount();
-    }
+
 
     private void registerBroadcastReceiver() {
         broadcastManager = LocalBroadcastManager.getInstance(this);
