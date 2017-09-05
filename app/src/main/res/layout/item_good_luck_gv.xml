@@ -14,9 +14,9 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
+            android:id="@+id/logo_for_country_iv"
+            android:layout_width="48dp"
+            android:layout_height="32dp"
             />
 
         <Space
@@ -28,7 +28,6 @@
             android:id="@+id/use_coupon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
             android:background="@drawable/shape_tv_bg_by_orange"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
@@ -40,17 +39,17 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_watch"/>
+        android:id="@+id/goods_pic_iv"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
+        android:id="@+id/one_buy_goods_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
-        android:text="Seagull海鸥手表男士自动机械手表飞轮男表防水皮带"/>
+        android:maxLines="2"/>
 
     <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -74,9 +73,9 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/person_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总需419人次"
             android:textColor="@color/app_text_color"
             android:textSize="13sp"/>
 
@@ -90,10 +89,10 @@
             android:textSize="13sp"/>
 
         <TextView
+            android:id="@+id/add_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="144"
             android:textColor="@color/theme_color"
             android:textSize="13sp"/>
 
@@ -123,9 +122,9 @@
             />
 
         <TextView
+            android:id="@+id/goods_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
             android:textColor="#FD8214"
             android:textSize="13sp"
             />

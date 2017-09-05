@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -12,10 +13,11 @@
         android:orientation="horizontal"
         android:padding="12dp">
 
-        <ImageView
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/out_time_head_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/icon_mine_head"/>
+            app:shape_mode="circle"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,15 +26,16 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/winer_code_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="获  得  者：D*******l"
                 android:textColor="@color/app_text_color"/>
 
             <TextView
+                android:id="@+id/other_info_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="期        号：333333000345\n揭晓时间：2017-06-15 15:27:00\n幸运号码：10000000001\n本期参与：20人次"/>
+                android:text=""/>
 
         </LinearLayout>
 

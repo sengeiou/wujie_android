@@ -104,11 +104,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private HorizontalAdapter horizontalAdapter;
 
     /**
-     * GridView分类
-     */
-    @ViewInject(R.id.on_lin_classify_gv)
-    private GridViewForScrollView on_lin_classify_gv;
-    /**
      * GridView数据列表
      */
     private List<String> gv_classify;

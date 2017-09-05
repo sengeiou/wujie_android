@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
+
     <include layout="@layout/aty_title"/>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -147,24 +149,41 @@
             </LinearLayout>
 
         </android.support.design.widget.AppBarLayout>
-
-        <!--列表-->
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/good_luck_rv"
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/bg_color"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            android:layout_height="match_parent"
+            android:id="@+id/good_luck_sr"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <!--列表-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/good_luck_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:background="@color/bg_color"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
-        <ImageView
-            android:id="@+id/snatch_be_back_top_iv"
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/be_back_top_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@drawable/icon_be_back_top"
-            android:visibility="gone"/>
+            app:fab_type="normal"
+            app:fab_shadow="false"
+            app:fab_colorPressed="@color/transparent"
+            app:fab_colorNormal="@color/transparent"
+            app:fab_colorRipple="@color/transparent"
+            android:src="@drawable/icon_be_back_top"/>
+
+        <ImageView
+            android:id="@+id/no_data_iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/icon_no_data_pic"/>
     </android.support.design.widget.CoordinatorLayout>
 
 </LinearLayout>
