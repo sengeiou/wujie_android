@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -14,9 +15,9 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
+            android:id="@+id/logo_for_country_iv"
+            android:layout_width="40dp"
+            android:layout_height="32dp"
             />
 
         <Space
@@ -35,23 +36,22 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="可使用30%购物券"
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/goods_pic_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_group_goods"/>
+        android:scaleType="centerCrop"/>
 
     <TextView
+        android:id="@+id/goods_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
-        android:text="SeaGull海鸥手表男士自动机械表飞轮男表防水皮带"/>
+        android:maxLines="2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,19 +69,19 @@
             android:textSize="13sp"/>
 
         <TextView
+            android:id="@+id/goods_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="17.00"
             android:textColor="@color/theme_color"
             android:textSize="16sp"/>
 
         <TextView
+            android:id="@+id/group_totla_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:gravity="end"
-            android:text="已团1.3万件"
             android:textColor="@color/gray_text_color"
             android:textSize="13sp"/>
 
@@ -94,17 +94,19 @@
             android:layout_width="70dp"
             android:layout_height="40dp">
 
-            <ImageView
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:id="@+id/frist_head_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="end"
-                android:src="@drawable/icon_temp_head"/>
+                app:shape_mode="circle"/>
 
-            <ImageView
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:id="@+id/sec_head_iv"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="start"
-                android:src="@drawable/icon_temp_head"/>
+                app:shape_mode="circle"/>
         </FrameLayout>
 
         <TextView
@@ -141,9 +143,9 @@
             />
 
         <TextView
+            android:id="@+id/group_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
             android:textColor="#FD8214"
             />
     </LinearLayout>

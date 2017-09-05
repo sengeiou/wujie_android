@@ -16,6 +16,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -47,7 +48,7 @@ public class GoodsInputHzjAty extends BaseAty implements ObservableScrollView.Sc
     private AllGvLvAdapter allGvAdapter;
 
     private CountryAdapter countryAdapter;
-    private List<String> list;
+    private List<AllGoodsBean> list;
     private List<String> country;
     private int type = 3;
     private Bundle bundle;

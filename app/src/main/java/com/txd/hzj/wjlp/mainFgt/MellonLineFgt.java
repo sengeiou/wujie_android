@@ -26,6 +26,7 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnLineMenuGvAdapter;
@@ -116,11 +117,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     /**
      * 误解头条数据
      */
-    private List<String> data;
+    private List<AllGoodsBean> data;
     /**
      * 无界头条View
      */
     private List<View> views;
+    private List<String> updata;
 
     @ViewInject(R.id.mell_on_line_sc)
     private ObservableScrollView mell_on_line_sc;
@@ -483,12 +485,13 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
 
         data = new ArrayList<>();
+        updata = new ArrayList<>();
         views = new ArrayList<>();
-        data.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
-        data.add("iPhone8最感人变化成真，必须买买买买!!!!");
-        data.add("简直是白菜价！日本玩家33万甩卖15万张游戏王卡");
-        data.add("iPhone7价格曝光了！看完感觉我的腰子有点疼...");
-        data.add("主人内疚逃命时没带够，回废墟狂挖30小时！");
+        updata.add("家人给2岁孩子喝这个，孩子智力倒退10岁!!!");
+        updata.add("iPhone8最感人变化成真，必须买买买买!!!!");
+        updata.add("简直是白菜价！日本玩家33万甩卖15万张游戏王卡");
+        updata.add("iPhone7价格曝光了！看完感觉我的腰子有点疼...");
+        updata.add("主人内疚逃命时没带够，回废墟狂挖30小时！");
         data_for_gv = new ArrayList<>();
         allGvLvAdapter = new AllGvLvAdapter(getActivity(), data, 0);
         allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 1);
@@ -509,7 +512,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("竞拍汇");
         gv_classify.add("汽车购");
         gv_classify.add("房产购");
-        gv_classify.add("一元夺宝");
+        gv_classify.add("积分夺宝");
     }
 
     @Override
@@ -545,11 +548,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 }
             });
             //进行对控件赋值
-            tv1.setText(data.get(i));
+            tv1.setText(updata.get(i));
 
             if (data.size() > i + 1) {
                 //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
-                tv2.setText(data.get(i + 1).toString());
+                tv2.setText(updata.get(i + 1));
             } else {
                 tv2.setVisibility(View.GONE);
             }

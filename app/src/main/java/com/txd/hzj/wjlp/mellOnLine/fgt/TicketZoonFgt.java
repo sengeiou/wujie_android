@@ -7,38 +7,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.DukeScrollView;
+import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.GroupBuyBean;
+import com.txd.hzj.wjlp.bean.TwoCateListBean;
+import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.OnLineMenuGvAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
-import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.txd.hzj.wjlp.R.id.under_banner_menu_vp;
 
 /**
  * ===============Txunda===============
@@ -48,7 +47,7 @@ import static com.txd.hzj.wjlp.R.id.under_banner_menu_vp;
  * 描述：票券区碎片
  * ===============Txunda===============
  */
-public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
+public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewListener {
     /**
      * 商品
      */
@@ -63,7 +62,7 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     /**
      * GridView数据列表
      */
-    private List<String> gv_classify;
+    private List<TwoCateListBean> gv_classify;
 
     private String title = "";
     private int type = 0;
@@ -71,7 +70,8 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     private WjMellAdapter wjMellAdapter;
 
-    private List<String> data;
+    private List<AllGoodsBean> data;
+    private List<AllGoodsBean> data2;
 
     /**
      * 回到顶部
@@ -80,13 +80,31 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     private ImageView zoom_be_back_top_iv;
 
     @ViewInject(R.id.zooom_sc)
-    private ObservableScrollView zooom_sc;
+    private DukeScrollView zooom_sc;
 
     @ViewInject(R.id.goods_menu_vp)
     private ViewPager goods_menu_vp;
     private int pageSize = 10;
     private ArrayList<View> mPagerList;
     private int curIndex = 0;
+
+    private GroupBuyPst groupBuyPst;
+
+    private int p = 1;
+
+    @ViewInject(R.id.refresh_view)
+    private PullToRefreshLayout refresh_view;
+
+    private boolean isLoding = true;
+    private int numall = 0;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
+    @ViewInject(R.id.group_ad_pic_iv)
+    private ImageView group_ad_pic_iv;
+
+    private LinearLayout.LayoutParams params;
 
     public static TicketZoonFgt getFgt(String title, int type) {
         TicketZoonFgt tzf = new TicketZoonFgt();
@@ -101,17 +119,18 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (10 == type) {
             wjMellAdapter = new WjMellAdapter(getActivity());
-        } else {
+        } else if (type != 8) {
             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
         }
 
         if (8 == type) {
             ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
             ticket_zoon_goods_gv.setVisibility(View.GONE);
-            ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
+            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
         } else {
             ticket_zoon_goods_lv.setVisibility(View.GONE);
             ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
+            ticket_zoon_goods_gv.setEmptyView(no_data_layout);
             if (10 == type) {
                 ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
             } else {
@@ -141,7 +160,33 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
         });
         zooom_sc.smoothScrollTo(0, 0);
         zooom_sc.setScrollViewListener(this);
-        forMenu();
+
+        forUpdata();
+    }
+
+    /**
+     * 更新数据
+     */
+    private void forUpdata() {
+        refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+                p = 1;
+                forData();
+            }
+
+            @Override
+            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+                if (numall <= data.size()) {
+                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    return;
+                }
+                // 加载操作
+                p++;
+                forData();
+            }
+        });
     }
 
     @Override
@@ -156,6 +201,7 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
     }
 
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fgt_ticket_zoon;
@@ -163,26 +209,75 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     protected void initialized() {
+        groupBuyPst = new GroupBuyPst(this);
         gv_classify = new ArrayList<>();
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
-        gv_classify.add("巧克力");
         data = new ArrayList<>();
+        data2 = new ArrayList<>();
     }
 
     @Override
     protected void requestData() {
+        forData();
+    }
+
+    private void forData() {
+        switch (type) {
+            case 8:
+                groupBuyPst.groupBuyIndex(p, title);
+                break;
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("groupBuyIndex")) {
+            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+            numall = groupBuyBean.getNums();
+            if (1 == p) {
+                if (isLoding) {
+                    gv_classify = groupBuyBean.getData().getTwo_cate_list();
+                    if (!ListUtils.isEmpty(gv_classify)) {
+                        if (gv_classify.size() > 5) {
+                            params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                    ToolKit.dip2px(getActivity(), 160));
+                        } else {
+                            params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                    ToolKit.dip2px(getActivity(), 80));
+                        }
+                        goods_menu_vp.setLayoutParams(params);
+                        forMenu();
+                    }
+                }
+
+                data = groupBuyBean.getData().getGroup_buy_list();
+
+                if (!ListUtils.isEmpty(data)) {
+                    allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+                    ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
+                }
+
+                GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
+                if (adsBean != null) {
+                    Glide.with(getActivity()).load(adsBean.getPicture())
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .centerCrop()
+                            .override(Settings.displayWidth, Settings.displayWidth / 2)
+                            .error(R.drawable.ic_default)
+                            .placeholder(R.drawable.ic_default)
+                            .into(group_ad_pic_iv);
+                }
+
+                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            } else {
+                data2 = groupBuyBean.getData().getGroup_buy_list();
+                if (!ListUtils.isEmpty(data2)) {
+                    data.addAll(data2);
+                    allGvLvAdapter1.notifyDataSetChanged();
+                }
+                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            }
+        }
 
     }
 
@@ -192,7 +287,7 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
+    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y < Settings.displayWidth / 2) {
             zoom_be_back_top_iv.setVisibility(View.GONE);
         } else {
@@ -209,13 +304,12 @@ public class TicketZoonFgt extends BaseFgt implements ObservableScrollView.Scrol
         for (int i = 0; i < pageCount; i++) {
             GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
                     goods_menu_vp, false);
-            gridView.setAdapter(new OnLineMenuGvAdapter(getActivity(), gv_classify, i));
+            gridView.setAdapter(new TicketZoonAdapter(getActivity(), gv_classify, i));
             mPagerList.add(gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     int itemPos = i + curIndex * pageSize;
-
                 }
             });
             // 给ViewPager设置适配器
