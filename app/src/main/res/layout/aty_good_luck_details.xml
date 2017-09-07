@@ -24,11 +24,14 @@
                 android:id="@+id/limit_goods_details_sc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
                 android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -79,21 +82,20 @@
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
                                 android:padding="8dp"
-                                android:text="别人在开团"
-                                android:textColor="@color/white"/>
+                                android:text="别人在开团"/>
 
                             <Space
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"/>
 
                             <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                                android:id="@+id/good_luck_lv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:background="@color/white"
                                 android:divider="@color/bg_color"
                                 android:dividerHeight="1dp"
-                                android:scrollbars="none"
-                                android:background="@color/white"
-                                android:id="@+id/good_luck_lv"/>
+                                android:scrollbars="none"/>
 
                         </LinearLayout>
                         <!--开始评价-->
@@ -139,6 +141,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/go_to_main_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -151,17 +154,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="8dp"
                     android:drawablePadding="4dp"
                     android:drawableTop="@drawable/icon_home_pager"
                     android:gravity="center"
+                    android:padding="8dp"
                     android:text="首页"/>
 
                 <FrameLayout
+                    android:id="@+id/to_cart_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-
                     android:gravity="center">
 
                     <TextView
@@ -175,13 +178,13 @@
                         android:text="购物车"/>
 
                     <TextView
+                        android:id="@+id/user_cart_num_tv"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/shape_search_message_num_tv"
                         android:gravity="center"
-
                         android:text="1"
                         android:textColor="@color/white"
                         />
@@ -200,6 +203,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/one_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

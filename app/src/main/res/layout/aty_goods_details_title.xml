@@ -19,7 +19,6 @@
             android:id="@+id/now_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥14.8"
             android:textColor="@color/theme_color"/>
 
         <TextView
@@ -27,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="￥28"
             android:textColor="@color/gray_text_color"/>
 
         <Space
@@ -41,16 +39,15 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
-            android:text="分红权10.23"
             android:textColor="@color/gray_text_color"
             android:textSize="12sp"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/goods_details_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:text="康尔馨五星级酒店毛巾纯棉加大厚面巾洗脸全棉吸水男女成人家用"
         android:textColor="@color/app_text_color"/>
 </LinearLayout>

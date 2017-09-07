@@ -155,7 +155,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         ticket_zoon_goods_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(GoodLuckDetailsAty.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString("group_buy_id", data.get(i).getGroup_buy_id());
+                startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
         zooom_sc.smoothScrollTo(0, 0);

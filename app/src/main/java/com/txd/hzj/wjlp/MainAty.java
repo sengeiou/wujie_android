@@ -162,6 +162,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void initialized() {
+        page_index = getIntent().getIntExtra("index", 0);
         MellonLineFgt mellonLineFgt = new MellonLineFgt();
         MellOffLineFgt mellOffLineFgt = new MellOffLineFgt();
         CartFgt cartFgt = new CartFgt();
@@ -425,8 +426,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private boolean isCurrentAccountRemoved = false;
 
     /**
-     *  check if current user account was remove
-     *  检查当前账号是否被移除
+     * check if current user account was remove
+     * 检查当前账号是否被移除
      */
     public boolean getCurrentAccountRemoved() {
         return isCurrentAccountRemoved;
@@ -687,7 +688,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //            unreadLabel.setVisibility(View.INVISIBLE);
 //        }
     }
-
 
 
     private void registerBroadcastReceiver() {

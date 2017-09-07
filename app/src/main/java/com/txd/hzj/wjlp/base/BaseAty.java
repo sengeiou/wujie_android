@@ -13,6 +13,7 @@ import com.ants.theantsgo.util.L;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.txd.hzj.wjlp.DemoHelper;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -57,7 +58,7 @@ public abstract class BaseAty extends BaseActivity {
     }
 
     /**
-     * 退出并跳转到登录页
+     * 退出登录，并跳转到登录页
      */
     public void loginoutToLogin() {
         bundle = new Bundle();
@@ -188,6 +189,7 @@ public abstract class BaseAty extends BaseActivity {
             });
         }
     }
+
     /**
      * get unread message count
      * 获取未读消息数量(环信获取消息数量)
@@ -197,4 +199,16 @@ public abstract class BaseAty extends BaseActivity {
     public int getUnreadMsgCountTotal() {
         return EMClient.getInstance().chatManager().getUnreadMessageCount();
     }
+
+    /**
+     * 回到主页
+     * @param index
+     */
+    public void backMain(int index) {
+        bundle = new Bundle();
+        bundle.putInt("index", index);
+        startActivity(MainAty.class, bundle);
+    }
+
+
 }

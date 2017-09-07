@@ -38,9 +38,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/group_goods_pic_iv"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
-                        android:src="@drawable/icon_temp_goods_banner"
                         />
 
                     <FrameLayout
@@ -49,9 +49,9 @@
                         android:layout_marginStart="8dp">
 
                         <TextView
+                            android:id="@+id/group_goods_name_tv"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人家用"/>
+                            android:layout_height="wrap_content"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -60,14 +60,14 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/group_other_info_tv"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="已团10567件·2人团"/>
+                                android:layout_height="wrap_content"/>
 
                             <TextView
+                                android:id="@+id/group_goods_price_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="￥28.9"
                                 android:textColor="#E02F25"
                                 android:textSize="18sp"/>
                         </LinearLayout>

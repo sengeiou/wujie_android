@@ -485,6 +485,8 @@
         <activity
             android:name=".minetoAty.address.AreaSelectAty"
             android:theme="@style/share_style"/>
+        <!--拼团购开团-->
+        <activity android:name=".mellOnLine.gridClassify.CreateGroupAty"/>
     </application>
 
 </manifest>

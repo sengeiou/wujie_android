@@ -7,11 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.groupbuy.GroupPager;
 
 import java.util.List;
+
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
  * ===============Txunda===============
@@ -25,12 +31,15 @@ import java.util.List;
 public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.GMViewHolder> {
 
     private Context context;
-    private List<String> list;
+    private List<GroupPager.Data.PersonBean> list;
     private LayoutInflater inflater;
 
-    public GroupMemberAdapter(Context context, List<String> list) {
+    private int size = 0;
+
+    public GroupMemberAdapter(Context context, List<GroupPager.Data.PersonBean> list) {
         this.context = context;
         this.list = list;
+        size = ToolKit.dip2px(context, 80);
         inflater = LayoutInflater.from(context);
     }
 
@@ -44,11 +53,20 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public void onBindViewHolder(GMViewHolder holder, int position) {
-        if (0 == position) {
+        GroupPager.Data.PersonBean personBean = list.get(position);
+
+        if (personBean.getIs_first().equals("1")) {
             holder.regimental_commander_tv.setVisibility(View.VISIBLE);
         } else {
             holder.regimental_commander_tv.setVisibility(View.GONE);
         }
+        Glide.with(context).load(personBean.getHead_pic())
+                .override(size, size)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .into(holder.group_member_iv);
     }
 
     @Override
@@ -60,6 +78,11 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
         @ViewInject(R.id.regimental_commander_tv)
         private TextView regimental_commander_tv;
+        /**
+         * 头像
+         */
+        @ViewInject(R.id.group_member_iv)
+        private ShapedImageView group_member_iv;
 
         public GMViewHolder(View itemView) {
             super(itemView);

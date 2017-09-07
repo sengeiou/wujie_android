@@ -5,9 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+
+import java.util.List;
 
 /**
  * ===============Txunda===============
@@ -21,9 +26,15 @@ import com.txd.hzj.wjlp.R;
 public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickViewHolder> {
 
     private Context context;
+    private List<TicketListBean> list;
 
     public TheTrickAdapter(Context context) {
         this.context = context;
+    }
+
+    public TheTrickAdapter(Context context, List<TicketListBean> list) {
+        this.context = context;
+        this.list = list;
     }
 
     @Override
@@ -37,14 +48,30 @@ public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickV
     @Override
     public void onBindViewHolder(TrickViewHolder holder, int position) {
 
+        TicketListBean ticketListBean = list.get(position);
+
+        holder.value_tv.setText(ticketListBean.getValue());
+        holder.condition_tv.setText(ticketListBean.getTicket_name());
+
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return list.size();
     }
 
     class TrickViewHolder extends RecyclerView.ViewHolder {
+
+        /**
+         * 面值
+         */
+        @ViewInject(R.id.value_tv)
+        private TextView value_tv;
+        /**
+         * 满足条件
+         */
+        @ViewInject(R.id.condition_tv)
+        private TextView condition_tv;
 
         TrickViewHolder(View itemView) {
             super(itemView);

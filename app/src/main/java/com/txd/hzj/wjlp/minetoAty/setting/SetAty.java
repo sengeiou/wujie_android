@@ -11,6 +11,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.GlideCacheUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -131,6 +132,7 @@ public class SetAty extends BaseAty {
                         switch (btnType) {
                             case MikyouCommonDialog.OK:
                                 Config.setLoginState(false);
+                                PreferencesUtils.putString(SetAty.this, "token", "");
                                 logout();
                                 break;
                             case MikyouCommonDialog.NO:
