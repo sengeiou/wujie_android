@@ -58,8 +58,10 @@ public class AuctionList {
      * 原价
      */
     private String market_price;
-
-    private boolean remind = false;
+    /**
+     * 是否已经设置提醒
+     */
+    private String is_remind;
 
     public String getAuction_id() {
         return auction_id;
@@ -141,14 +143,6 @@ public class AuctionList {
         this.ticket_buy_discount = ticket_buy_discount;
     }
 
-    public boolean isRemind() {
-        return remind;
-    }
-
-    public void setRemind(boolean remind) {
-        this.remind = remind;
-    }
-
     public String getStart_price() {
         return start_price;
     }
@@ -163,6 +157,14 @@ public class AuctionList {
 
     public void setMarket_price(String market_price) {
         this.market_price = market_price;
+    }
+
+    public String getIs_remind() {
+        return is_remind;
+    }
+
+    public void setIs_remind(String is_remind) {
+        this.is_remind = is_remind;
     }
 
     @Override
@@ -180,7 +182,7 @@ public class AuctionList {
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
                 ", start_price='" + start_price + '\'' +
                 ", market_price='" + market_price + '\'' +
-                ", remind=" + remind +
+                ", is_remind='" + is_remind + '\'' +
                 '}';
     }
 }

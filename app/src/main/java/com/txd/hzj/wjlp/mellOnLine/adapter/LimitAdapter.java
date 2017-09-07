@@ -120,7 +120,7 @@ public class LimitAdapter extends BaseAdapter {
         // 控制显示或隐藏提醒我按钮
         if (1 == type) {
             lvh.limit_remeber_me_tv.setVisibility(View.VISIBLE);
-            if (auctionList.isRemind()) {
+            if (auctionList.getIs_remind().equals("1")) {
                 lvh.limit_remeber_me_tv.setText("已提醒");
                 lvh.limit_remeber_me_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             } else {

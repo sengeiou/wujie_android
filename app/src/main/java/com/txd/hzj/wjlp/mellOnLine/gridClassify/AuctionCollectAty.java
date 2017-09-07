@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
@@ -267,10 +268,6 @@ public class AuctionCollectAty extends BaseAty {
 
                 list = index.getData().getAuction_list();
                 if (!ListUtils.isEmpty(list)) {
-                    for (AuctionList auctionList : list) {
-                        String temp_id = auctionList.getAuction_id();
-                        auctionList.setRemind(auction_ids.contains(temp_id));
-                    }
 
                     limitAdapter = new LimitAdapter(list, this, data_type, 1);
                     suction_collect_gv.setAdapter(limitAdapter);
@@ -279,6 +276,10 @@ public class AuctionCollectAty extends BaseAty {
                         public void onTextViewClick(View v, int position) {
                             switch (v.getId()) {
                                 case R.id.limit_remeber_me_tv:// 设置提醒
+                                    if (!Config.isLogin()) {
+                                        toLogin();
+                                        return;
+                                    }
                                     setRemind = position;
                                     auction_id = list.get(position).getAuction_id();
                                     auctionPst.remindMe(list.get(position).getAuction_id());
@@ -295,11 +296,6 @@ public class AuctionCollectAty extends BaseAty {
             } else {
                 list2 = index.getData().getAuction_list();
                 if (!ListUtils.isEmpty(list2)) {
-                    for (AuctionList auctionList : list2) {
-                        if (auction_ids.contains(auctionList.getAuction_id())) {
-                            auctionList.setRemind(true);
-                        }
-                    }
                     list.addAll(list2);
 
                     limitAdapter.setType(data_type);
@@ -314,7 +310,7 @@ public class AuctionCollectAty extends BaseAty {
         if (requestUrl.contains("remindMe")) {
             showRightTip("设置成功");
             if (setRemind >= 0) {
-                list.get(setRemind).setRemind(true);
+                list.get(setRemind).setIs_remind("1");
             }
             limitAdapter.setType(1);
             limitAdapter.notifyDataSetChanged();
