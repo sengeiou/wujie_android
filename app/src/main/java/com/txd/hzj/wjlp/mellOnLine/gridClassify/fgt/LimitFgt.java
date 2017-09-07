@@ -13,6 +13,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.auction.AuctionList;
 import com.txd.hzj.wjlp.mellOnLine.adapter.LimitAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -42,7 +43,7 @@ public class LimitFgt extends BaseFgt implements ObservableScrollView.ScrollView
     private GridViewForScrollView limit_gv;
 
     private LimitAdapter limiAdapter;
-    private List<String> list;
+    private List<AuctionList> list;
 
     /**
      * 可以监听滚动距离的ScrollView

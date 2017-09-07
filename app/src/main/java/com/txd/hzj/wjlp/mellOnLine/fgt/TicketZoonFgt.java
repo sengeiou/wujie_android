@@ -30,11 +30,13 @@ import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -312,6 +314,11 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     int itemPos = i + curIndex * pageSize;
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
+                    bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
+                    startActivity(GroupBuyThirdAty.class, bundle);
                 }
             });
             // 给ViewPager设置适配器

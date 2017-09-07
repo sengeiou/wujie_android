@@ -32,6 +32,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/ads_for_auction_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
@@ -95,23 +96,37 @@
             </LinearLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.widget.NestedScrollView
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:id="@+id/super_sr_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
 
-            <!--列表-->
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/suction_collect_gv"
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:verticalSpacing="4dp"/>
-        </android.support.v4.widget.NestedScrollView>
+                android:background="@color/bg_color"
+                android:scrollbars="none"
+                >
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <!--列表-->
+                    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                        android:id="@+id/suction_collect_gv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:horizontalSpacing="4dp"
+                        android:numColumns="2"
+                        android:verticalSpacing="4dp"/>
+
+                    <include layout="@layout/aty_no_data_layout"/>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
     </android.support.design.widget.CoordinatorLayout>
 
 

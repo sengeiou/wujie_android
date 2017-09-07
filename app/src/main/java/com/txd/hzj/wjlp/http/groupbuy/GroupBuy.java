@@ -55,7 +55,25 @@ public class GroupBuy {
     void goGroup(String log_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("log_id",log_id);
-        apiTool2.postApi(url+"goGroup",params,baseView);
+        params.addBodyParameter("log_id", log_id);
+        apiTool2.postApi(url + "goGroup", params, baseView);
     }
+
+    /**
+     * 三级分类商品列表
+     *
+     * @param two_cate_id   二级分类id
+     * @param p             分页
+     * @param three_cate_id 三级分类id
+     * @param baseView      回调
+     */
+    void threeList(String two_cate_id, int p, String three_cate_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("two_cate_id", two_cate_id);
+        params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("three_cate_id", three_cate_id);
+        apiTool2.postApi(url + "threeList", params, baseView);
+    }
+
 }

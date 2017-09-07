@@ -52,7 +52,7 @@ public class GoodLuckAdapter extends BaseAdapter {
     public GoodLuckAdapter(Context context, List<GroupBean> list) {
         this.context = context;
         this.list = list;
-        size = ToolKit.dip2px(context,40);
+        size = ToolKit.dip2px(context, 40);
         inflater = LayoutInflater.from(context);
     }
 
@@ -92,7 +92,7 @@ public class GoodLuckAdapter extends BaseAdapter {
         });
 
         // 当前时间
-        long now_time = Calendar.getInstance().getTimeInMillis();
+        long now_time = Calendar.getInstance().getTimeInMillis() / 1000;
         // 剩余时间
         long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
         // 倒计时Tag

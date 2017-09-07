@@ -38,14 +38,16 @@ public class SubClassifyListFgt extends BaseFgt {
 
     private int height = 0;
 
-    public SubClassifyListFgt() {
+    private String two = "";
+    private String three = "";
+
+    public static SubClassifyListFgt getFgt(String two, String three) {
+        SubClassifyListFgt subClassifyListFgt = new SubClassifyListFgt();
+        subClassifyListFgt.two = two;
+        subClassifyListFgt.three = three;
+        return subClassifyListFgt;
     }
 
-    public static SubClassifyListFgt getInstance(String title) {
-        SubClassifyListFgt sFgt = new SubClassifyListFgt();
-        sFgt.title = title;
-        return sFgt;
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

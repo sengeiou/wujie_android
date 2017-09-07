@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine;
+package com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
 
 import java.util.ArrayList;
@@ -23,12 +24,13 @@ import java.util.Map;
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
- * 日期：2017/7/6 0006
- * 时间：上午 11:34
- * 描述：子分类(1-1-2)二级分类
+ * 日期：2017/9/7 0007
+ * 时间：16:45
+ * 描述：
  * ===============Txunda===============
  */
-public class SubclassificationAty extends BaseAty {
+
+public class GroupBuyThirdAty extends BaseAty {
     /**
      * 标题
      */
@@ -95,17 +97,15 @@ public class SubclassificationAty extends BaseAty {
         if (requestUrl.contains("threeList")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
                 for (Map<String, String> title : mTitles) {
-                    mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
+                    mFragments.add(ThirdClassifyFgt.getFgt(two_cate_id, title.get("three_cate_id")));
                 }
                 sub_classify_vp.setAdapter(myPagerAdapter);
                 sub_classify_stl.setViewPager(sub_classify_vp);
                 sub_classify_vp.setCurrentItem(0);
             }
-
         }
     }
 

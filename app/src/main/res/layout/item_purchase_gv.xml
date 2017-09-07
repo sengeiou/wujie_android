@@ -16,9 +16,9 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
+            android:id="@+id/item_country_logo_tv"
+            android:layout_width="40dp"
+            android:layout_height="32dp"
             />
 
         <Space
@@ -37,7 +37,6 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="可使用30%购物券"
             android:textColor="@color/white"
             android:textSize="12sp"/>
     </LinearLayout>

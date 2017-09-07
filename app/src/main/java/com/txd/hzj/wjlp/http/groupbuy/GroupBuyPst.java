@@ -22,6 +22,7 @@ public class GroupBuyPst extends BasePresenter {
 
     // 拼团购首页
     public void groupBuyIndex(int p, String cate_id) {
+        baseView.showDialog();
         groupBuy.groupBuyIndex(p, cate_id, baseView);
     }
 
@@ -35,5 +36,12 @@ public class GroupBuyPst extends BasePresenter {
     public void goGroup(String log_id) {
         baseView.showDialog();
         groupBuy.goGroup(log_id, baseView);
+    }
+
+
+    // 三级分类商品列表
+    public void threeList(String two_cate_id, int p, String three_cate_id) {
+        baseView.showDialog();
+        groupBuy.threeList(two_cate_id, p, three_cate_id, baseView);
     }
 }

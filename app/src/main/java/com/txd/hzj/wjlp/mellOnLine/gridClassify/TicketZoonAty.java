@@ -70,7 +70,6 @@ public class TicketZoonAty extends BaseAty {
     protected void requestData() {
         switch (type) {
             case 8:// 拼团购
-                showDialog();
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
         }
