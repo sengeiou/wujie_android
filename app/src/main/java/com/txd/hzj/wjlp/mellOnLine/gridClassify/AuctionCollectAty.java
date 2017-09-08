@@ -126,7 +126,9 @@ public class AuctionCollectAty extends BaseAty {
         suction_collect_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(AuctionGoodsDetailsAty.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString("auction_id", list.get(i).getAuction_id());
+                startActivity(AuctionGoodsDetailsAty.class, bundle);
             }
         });
 
@@ -278,6 +280,10 @@ public class AuctionCollectAty extends BaseAty {
                                 case R.id.limit_remeber_me_tv:// 设置提醒
                                     if (!Config.isLogin()) {
                                         toLogin();
+                                        return;
+                                    }
+                                    if(list.get(position).getIs_remind().equals("1")){
+                                        showRightTip("您已经设置过提醒");
                                         return;
                                     }
                                     setRemind = position;

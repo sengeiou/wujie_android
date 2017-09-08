@@ -37,6 +37,7 @@
                     android:layout_height="8dp"/>
 
                 <TextView
+                    android:id="@+id/auction_status_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#F3ABA7"
@@ -55,9 +56,9 @@
                     android:padding="8dp">
 
                     <TextView
+                        android:id="@+id/action_goods_name_tv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="芬迪 FENDI包 芬迪 FENDI包 芬迪 FENDI包 芬迪 FENDI包芬迪 FENDI包 芬迪 FENDI包"/>
+                        android:layout_height="wrap_content"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -71,7 +72,6 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="当前价 ￥8000.00"
                             android:textColor="@color/colorAccent"/>
 
                         <TextView
@@ -80,7 +80,6 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/icon_send"
                             android:drawablePadding="8dp"
-                            android:text="分红权10.23"
                             android:textColor="@color/gray_text_color"
                             android:textSize="12sp"/>
                     </LinearLayout>
@@ -97,7 +96,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
-                            android:text="围观 633 次"
+                            android:text="围观  次"
                             android:textColor="@color/gray_text_color"/>
 
                         <TextView
@@ -106,7 +105,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="报名 0 人"
+                            android:text="报名  人"
                             android:textColor="@color/gray_text_color"/>
 
                         <TextView
@@ -115,7 +114,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:gravity="end"
-                            android:text="设置提醒 15 人"
+                            android:text="设置提醒  人"
                             android:textColor="@color/gray_text_color"/>
 
                     </LinearLayout>
@@ -142,28 +141,24 @@
                             android:id="@+id/left_tv_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="起拍价     ￥8000.00"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/left_tv_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="加价幅度 ￥500"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/left_tv_3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="开拍时间 06月15日 09:00"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/left_tv_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="保留价     无"
                             android:textColor="@color/app_text_color"/>
 
                     </LinearLayout>
@@ -178,28 +173,24 @@
                             android:id="@+id/righr_tv_1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="保证金     ￥500"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/righr_tv_2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="拍卖佣金 ￥500"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/righr_tv_3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="结束时间 06月15日 09:00"
                             android:textColor="@color/app_text_color"/>
 
                         <TextView
                             android:id="@+id/righr_tv_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="延时周期     无"
                             android:textColor="@color/app_text_color"/>
 
                     </LinearLayout>
@@ -219,9 +210,9 @@
                     android:padding="8dp">
 
                     <ImageView
+                        android:id="@+id/auction_mell_logo_iv"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/icon_temp_mell_head"/>
+                        android:layout_height="50dp"/>
 
                     <TextView
                         android:id="@+id/mell_name_and_grade_tv"
@@ -230,7 +221,6 @@
                         android:layout_weight="1"
                         android:lineSpacingExtra="4dp"
                         android:padding="8dp"
-                        android:text="ZARA\n评分4.5分"
                         android:textColor="@color/gray_text_color"
                         android:textSize="12sp"/>
 
@@ -352,6 +342,7 @@
                 android:layout_height="match_parent"/>
 
             <TextView
+                android:id="@+id/remind_me_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
