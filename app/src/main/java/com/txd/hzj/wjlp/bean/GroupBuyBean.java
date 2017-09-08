@@ -83,7 +83,10 @@ public class GroupBuyBean {
         private AdsBean ads;
         private List<TopNavBean> top_nav;
         private List<TwoCateListBean> two_cate_list;
+        //==========拼团购==========
         private List<AllGoodsBean> group_buy_list;
+        // ==========无界预购==========
+        private List<AllGoodsBean> pre_buy_list;
 
         public AdsBean getAds() {
             return ads;
@@ -115,6 +118,14 @@ public class GroupBuyBean {
 
         public void setGroup_buy_list(List<AllGoodsBean> group_buy_list) {
             this.group_buy_list = group_buy_list;
+        }
+
+        public List<AllGoodsBean> getPre_buy_list() {
+            return pre_buy_list;
+        }
+
+        public void setPre_buy_list(List<AllGoodsBean> pre_buy_list) {
+            this.pre_buy_list = pre_buy_list;
         }
 
         public static class AdsBean {

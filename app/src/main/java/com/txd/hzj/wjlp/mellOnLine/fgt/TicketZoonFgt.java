@@ -27,6 +27,7 @@ import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
@@ -37,6 +38,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +92,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private ArrayList<View> mPagerList;
     private int curIndex = 0;
 
+    // 拼团购
     private GroupBuyPst groupBuyPst;
+    // 无界预购
+    private PerBuyPst perBuyPst;
 
     private int p = 1;
 
@@ -135,8 +140,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             ticket_zoon_goods_gv.setEmptyView(no_data_layout);
             if (10 == type) {
                 ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
-            } else {
-                ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
             }
         }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -146,7 +149,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     case 1:// 票券区
                         startActivity(TicketGoodsDetialsAty.class, null);
                         break;
-                    case 2:// 预购
+                    case 2:// 无界预购
                         startActivity(LimitGoodsAty.class, null);
                     case 3:// 进口馆
                         startActivity(InputGoodsDetailsAty.class, null);
@@ -214,6 +217,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     @Override
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
+        perBuyPst = new PerBuyPst(this);
         gv_classify = new ArrayList<>();
         data = new ArrayList<>();
         data2 = new ArrayList<>();
@@ -226,7 +230,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
     private void forData() {
         switch (type) {
-            case 8:
+            case 2:// 无界预购
+                perBuyPst.preBuyIndex(p, title);
+                break;
+            case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
                 break;
         }
@@ -281,8 +288,63 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 }
                 refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
             }
+            return;
         }
+        if (requestUrl.contains("preBuyIndex")) {
+            forOtherData(jsonStr);
+        }
+    }
 
+    /**
+     * 非 拼团购数据
+     *
+     * @param jsonStr 原始数据
+     */
+    private void forOtherData(String jsonStr) {
+        GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+        numall = groupBuyBean.getNums();
+        if (1 == p) {
+            if (isLoding) {
+                gv_classify = groupBuyBean.getData().getTwo_cate_list();
+                if (!ListUtils.isEmpty(gv_classify)) {
+                    if (gv_classify.size() > 5) {
+                        params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                ToolKit.dip2px(getActivity(), 160));
+                    } else {
+                        params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                ToolKit.dip2px(getActivity(), 80));
+                    }
+                    goods_menu_vp.setLayoutParams(params);
+                    forMenu();
+                }
+            }
+
+            data = groupBuyBean.getData().getPre_buy_list();
+
+            if (!ListUtils.isEmpty(data)) {
+                allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+                ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+            }
+
+            GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
+            if (adsBean != null) {
+                Glide.with(getActivity()).load(adsBean.getPicture())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .centerCrop()
+                        .override(Settings.displayWidth, Settings.displayWidth / 2)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .into(group_ad_pic_iv);
+            }
+            refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+        } else {
+            data2 = groupBuyBean.getData().getGroup_buy_list();
+            if (!ListUtils.isEmpty(data2)) {
+                data.addAll(data2);
+                allGvLvAdapter1.notifyDataSetChanged();
+            }
+            refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+        }
     }
 
     @Override
@@ -318,7 +380,16 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     Bundle bundle = new Bundle();
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
-                    startActivity(GroupBuyThirdAty.class, bundle);
+                    bundle.putInt("type",type);
+                    switch (type) {
+                        case 2:// 无界预购
+                            startActivity(PreBuyThirdAty.class, bundle);
+                            break;
+                        case 8:// 拼团购
+                            startActivity(GroupBuyThirdAty.class, bundle);
+                            break;
+
+                    }
                 }
             });
             // 给ViewPager设置适配器

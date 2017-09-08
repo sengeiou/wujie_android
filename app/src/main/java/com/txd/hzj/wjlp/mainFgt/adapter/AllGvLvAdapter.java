@@ -21,6 +21,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -60,7 +61,6 @@ public class AllGvLvAdapter extends BaseAdapter {
 
     private int pic_size = 0;
     private int pic_size2 = 0;
-    private LinearLayout.LayoutParams params;
 
     public AllGvLvAdapter(Context context, List<AllGoodsBean> list, int type) {
         this.context = context;
@@ -69,9 +69,13 @@ public class AllGvLvAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
         size1 = ToolKit.dip2px(context, 40);
         size2 = ToolKit.dip2px(context, 32);
-        pic_size = Settings.displayWidth;
-        pic_size2 = Settings.displayWidth / 2;
-
+        if (8 == type) {
+            pic_size = Settings.displayWidth;
+            pic_size2 = Settings.displayWidth / 2;
+        } else {
+            pic_size = ToolKit.dip2px(context, 180);
+            pic_size2 = pic_size;
+        }
     }
 
     @Override
@@ -96,28 +100,28 @@ public class AllGvLvAdapter extends BaseAdapter {
             switch (type) {
                 case 0:// 限量购
                 case 2:// 无界预购
-                    view = inflater.inflate(R.layout.item_purchase_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_purchase_gv, viewGroup, false);
                     break;
                 case 1:// 票券区
-                    view = inflater.inflate(R.layout.item_ticket_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_ticket_gv, viewGroup, false);
                     break;
                 case 3:// 进口馆
-                    view = inflater.inflate(R.layout.item_import_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_import_gv, viewGroup, false);
                     break;
                 case 4:// 竞拍汇
-                    view = inflater.inflate(R.layout.item_auction_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_auction_gv, viewGroup, false);
                     break;
                 case 5:// 一元夺宝
-                    view = inflater.inflate(R.layout.item_good_luck_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_good_luck_gv, viewGroup, false);
                     break;
                 case 6:// 汽车购
-                    view = inflater.inflate(R.layout.item_car_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_car_gv, viewGroup, false);
                     break;
                 case 7:// 房产购
-                    view = inflater.inflate(R.layout.item_house_gv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_house_gv, viewGroup, false);
                     break;
                 case 8:// 拼好货
-                    view = inflater.inflate(R.layout.item_group_shopping_lv, viewGroup,false);
+                    view = inflater.inflate(R.layout.item_group_shopping_lv, viewGroup, false);
                     break;
             }
             vh = new ViewHolder();
@@ -127,38 +131,83 @@ public class AllGvLvAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
 
-        if (0 == type || 2 == type || 4 == type) {
-            vh.home_count_down_view.setTag("text");
-            vh.home_count_down_view.start(3600000);
+        if (4 == type) {
+            vh.home_count_down_view.setTag("countDown" + i);
+            vh.home_count_down_view.start(36000000);
         }
-        if (0 == type || 2 == type || 5 == type) {
+
+        if (5 == type) {
             // 设置进度
             vh.cpb_progresbar2.setMaxProgress(100);
             vh.cpb_progresbar2.setCurProgress(50);
         }
 
-        if (type == 0 || type == 2 || type == 4) {
+        if (type == 4) {
             vh.sold_num_tv.setVisibility(View.GONE);
-        }
-
-        if (type == 2) {
-            vh.goods_num_already_tv.setText("已预购100件");
         }
         if (type < 5) {
             vh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         switch (type) {
-            case 8:// 拼团购
-                params = new LinearLayout.LayoutParams(pic_size,pic_size2);
-                vh.goods_pic_iv.setLayoutParams(params);
-                Glide.with(context).load(allGoodsBean.getGoods_img())
-                        .override(pic_size, pic_size2)
+            case 0:// 限量购
+            case 2:// 无界预购
+                long now = System.currentTimeMillis() / 1000;
+                long end;
+                try {
+                    end = Long.parseLong(allGoodsBean.getEnd_time());
+                } catch (NumberFormatException e) {
+                    end = 0;
+                }
+                vh.home_count_down_view.setTag("countDown" + i);
+                vh.home_count_down_view.start(end - now);
+                if (type == 2) {
+                    vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
+                    vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
+                }
+
+                int max;
+                try {
+                    max = Integer.parseInt(allGoodsBean.getPre_store());
+                } catch (NumberFormatException e) {
+                    max = 0;
+                }
+                int sell_num;
+                try {
+                    sell_num = Integer.parseInt(allGoodsBean.getSell_num());
+                } catch (NumberFormatException e) {
+                    sell_num = 0;
+                }
+
+                // 设置进度
+                vh.cpb_progresbar2.setMaxProgress(max);
+                vh.cpb_progresbar2.setCurProgress(sell_num);
+
+                double d = sell_num * 100.0f / max;
+                if (sell_num >= max) {
+                    d = 100f;
+                }
+                String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+
+                vh.preferential_type_tv.setText(str + "%");
+
+                vh.sold_num_tv.setVisibility(View.GONE);
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
-                        .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .into(vh.goods_pic_iv);
+                        .into(vh.item_country_logo_tv);
+                break;
+            case 8:// 拼团购
+
+                vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.goods_price_tv.setText("￥" + allGoodsBean.getGroup_price());
+                vh.group_integral_tv.setText(allGoodsBean.getIntegral());
+
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);
+                vh.goods_pic_iv.setLayoutParams(params);
                 List<AllGoodsBean.AppendPersonBean> append_person = allGoodsBean.getAppend_person();
                 if (!ListUtils.isEmpty(append_person)) {
                     if (allGoodsBean.getAppend_person().size() >= 2) {
@@ -192,27 +241,44 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.frist_head_iv.setVisibility(View.GONE);
                     vh.sec_head_iv.setVisibility(View.GONE);
                 }
-                vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.goods_price_tv.setText(allGoodsBean.getGroup_price());
+
                 vh.group_totla_tv.setText("已团" + allGoodsBean.getTotal() + "件");
-                vh.group_integral_tv.setText(allGoodsBean.getIntegral());
+
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.logo_for_country_iv);
                 break;
         }
 
-        Glide.with(context).load(allGoodsBean.getCountry_logo())
-                .override(size1, size2)
+        Glide.with(context).load(allGoodsBean.getGoods_img())
+                .override(pic_size, pic_size2)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(vh.logo_for_country_iv);
+                .into(vh.goods_pic_iv);
 
-        if (allGoodsBean.getIntegral().equals("0")) {
+        if (8 != type) {
+            vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
+            vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+            vh.get_integral_tv.setText(allGoodsBean.getIntegral());
+        }
+
+
+
+        /*
+         * 是否可以使用优惠券
+         * 使用多少优惠
+         */
+        if (allGoodsBean.getTicket_buy_id().equals("0")) {
             vh.use_coupon_tv.setText("不可使用优惠券");
             vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
-            vh.use_coupon_tv.setText("可使用" + allGoodsBean.getIntegral() + "%优惠券");
+            vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
             vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-
         }
 
         return view;
@@ -252,6 +318,11 @@ public class AllGvLvAdapter extends BaseAdapter {
         @ViewInject(R.id.logo_for_country_iv)
         private ImageView logo_for_country_iv;
         /**
+         * 国家国旗
+         */
+        @ViewInject(R.id.item_country_logo_tv)
+        private ImageView item_country_logo_tv;
+        /**
          * 是否使用优惠券，是否能使用优惠券
          */
         @ViewInject(R.id.use_coupon_tv)
@@ -267,10 +338,20 @@ public class AllGvLvAdapter extends BaseAdapter {
         @ViewInject(R.id.goods_name_tv)
         private TextView goods_name_tv;
         /**
+         * 商品名称1-7
+         */
+        @ViewInject(R.id.item_goods_name_tv)
+        private TextView item_goods_name_tv;
+        /**
          * 商品价格
          */
         @ViewInject(R.id.goods_price_tv)
         private TextView goods_price_tv;
+        /**
+         * 商品价格(1-7)
+         */
+        @ViewInject(R.id.peice_tv)
+        private TextView peice_tv;
         /**
          * 已团件数
          */
@@ -282,6 +363,11 @@ public class AllGvLvAdapter extends BaseAdapter {
         @ViewInject(R.id.group_integral_tv)
         private TextView group_integral_tv;
         /**
+         * 积分(1-7)
+         */
+        @ViewInject(R.id.get_integral_tv)
+        private TextView get_integral_tv;
+        /**
          * 第一个头像
          */
         @ViewInject(R.id.frist_head_iv)
@@ -291,5 +377,11 @@ public class AllGvLvAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.sec_head_iv)
         private ShapedImageView sec_head_iv;
+
+        /**
+         * 售货进度
+         */
+        @ViewInject(R.id.preferential_type_tv)
+        private TextView preferential_type_tv;
     }
 }

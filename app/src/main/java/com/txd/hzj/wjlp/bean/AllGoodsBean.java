@@ -12,34 +12,88 @@ import java.util.List;
  */
 
 public class AllGoodsBean {
+    // TODO==========拼团购==========
     /**
-     * group_buy_id : 1
-     * group_price : 2.80
-     * group_num : 2
-     * total : 0
-     * integral : 0
-     * goods_name : 格力大薯片
-     * goods_img : http://wjyp.txunda.com/Uploads/Goods/2017-07-29/597c58e7c3d49.jpg
-     * country_id : 12
-     * ticket_buy_id : 3
-     * country_logo : http://wjyp.txunda.com/Uploads/Country/2017-08-15/59926545b9cbc.jpg
-     * ticket_buy_discount : 20
-     * append_person : [{"log_id":"2","user_id":"5","head_pic":"http://wjyp.txunda
-     * .com/Uploads/User/2017-07-29/597c1ad6a538e.jpg"}]
+     * 团购id
      */
-
     private String group_buy_id;
+    /**
+     * 团购价
+     */
     private String group_price;
+    /**
+     * 团购所需人数
+     */
     private String group_num;
+    /**
+     * 已经团购数量
+     */
     private String total;
-    private String integral;
-    private String goods_name;
-    private String goods_img;
-    private String country_id;
-    private String ticket_buy_id;
-    private String country_logo;
-    private String ticket_buy_discount;
+
+    /**
+     * 参团头像列表
+     */
     private List<AppendPersonBean> append_person;
+
+    // TODU========无界预购==========
+    /**
+     * 预购id
+     */
+    private String pre_buy_id;
+    /**
+     * 定金
+     */
+    private String deposit;
+    /**
+     * 预购库存
+     */
+    private String pre_store;
+    /**
+     * 销量
+     */
+    private String sell_num;
+    /**
+     * 开始时间
+     */
+    private String start_time;
+    /**
+     * 结束时间
+     */
+    private String end_time;
+    /**
+     * 市场价
+     */
+    private String market_price;
+    // TODO==========公共部分========BEGIN
+    /**
+     * 积分
+     */
+    private String integral;
+    /**
+     * 商品名称
+     */
+    private String goods_name;
+    /**
+     * 商品图片
+     */
+    private String goods_img;
+    /**
+     * 国家id
+     */
+    private String country_id;
+    /**
+     * 抵扣券id
+     */
+    private String ticket_buy_id;
+    /**
+     * 国旗
+     */
+    private String country_logo;
+    /**
+     * 折扣率
+     */
+    private String ticket_buy_discount;
+    // TODO==========公告部分==========END
 
     public String getGroup_buy_id() {
         return group_buy_id;
@@ -182,13 +236,77 @@ public class AllGoodsBean {
         }
     }
 
+    public String getPre_buy_id() {
+        return pre_buy_id;
+    }
+
+    public void setPre_buy_id(String pre_buy_id) {
+        this.pre_buy_id = pre_buy_id;
+    }
+
+    public String getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(String deposit) {
+        this.deposit = deposit;
+    }
+
+    public String getPre_store() {
+        return pre_store;
+    }
+
+    public void setPre_store(String pre_store) {
+        this.pre_store = pre_store;
+    }
+
+    public String getSell_num() {
+        return sell_num;
+    }
+
+    public void setSell_num(String sell_num) {
+        this.sell_num = sell_num;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getMarket_price() {
+        return market_price;
+    }
+
+    public void setMarket_price(String market_price) {
+        this.market_price = market_price;
+    }
+
     @Override
     public String toString() {
-        return "GroupBuyListBean{" +
+        return "AllGoodsBean{" +
                 "group_buy_id='" + group_buy_id + '\'' +
                 ", group_price='" + group_price + '\'' +
                 ", group_num='" + group_num + '\'' +
                 ", total='" + total + '\'' +
+                ", append_person=" + append_person +
+                ", pre_buy_id='" + pre_buy_id + '\'' +
+                ", deposit='" + deposit + '\'' +
+                ", pre_store='" + pre_store + '\'' +
+                ", sell_num='" + sell_num + '\'' +
+                ", start_time='" + start_time + '\'' +
+                ", end_time='" + end_time + '\'' +
+                ", market_price='" + market_price + '\'' +
                 ", integral='" + integral + '\'' +
                 ", goods_name='" + goods_name + '\'' +
                 ", goods_img='" + goods_img + '\'' +
@@ -196,7 +314,6 @@ public class AllGoodsBean {
                 ", ticket_buy_id='" + ticket_buy_id + '\'' +
                 ", country_logo='" + country_logo + '\'' +
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
-                ", append_person=" + append_person +
                 '}';
     }
 }

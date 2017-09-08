@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.mellOnLine;
+package com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -23,12 +24,13 @@ import java.util.Map;
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
- * 日期：2017/7/6 0006
- * 时间：上午 11:34
- * 描述：子分类(1-1-2)二级分类
+ * 日期：2017/9/8 0008
+ * 时间：13:53
+ * 描述：无界预购三级分类
  * ===============Txunda===============
  */
-public class SubclassificationAty extends BaseAty {
+
+public class PreBuyThirdAty extends BaseAty {
     /**
      * 标题
      */
@@ -60,6 +62,11 @@ public class SubclassificationAty extends BaseAty {
     private String two_cate_id = "";
 
     private GroupBuyPst groupBuyPst;
+    /**
+     * 数据类型
+     * 2.无界预购
+     */
+    private int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,8 @@ public class SubclassificationAty extends BaseAty {
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
+        type = getIntent().getIntExtra("type", 0);
+        L.e("Aty=====type=====",String.valueOf(type));
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     }
 
@@ -98,7 +107,7 @@ public class SubclassificationAty extends BaseAty {
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
                 for (Map<String, String> title : mTitles) {
-                    mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
+                    mFragments.add(PreBuyThirdFgt.getFgt(two_cate_id, title.get("three_cate_id"), type));
                 }
                 sub_classify_vp.setAdapter(myPagerAdapter);
                 sub_classify_stl.setViewPager(sub_classify_vp);

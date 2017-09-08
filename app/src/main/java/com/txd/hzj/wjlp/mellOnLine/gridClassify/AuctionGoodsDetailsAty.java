@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
@@ -229,7 +230,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.sing_up_tv,R.id.remind_me_tv})
+    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv})
     public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -250,7 +251,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
                 MoneyUtils.setPricePoint(auction_price_ev);
                 break;
             case R.id.remind_me_tv:// 是否提醒
-                if(is_remind.equals("1")){
+                if (is_remind.equals("1")) {
                     showRightTip("您已设置提醒");
                     break;
                 }
@@ -302,18 +303,18 @@ public class AuctionGoodsDetailsAty extends BaseAty {
             ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_2, "加价幅度 ￥" +
                     auctionInfo.get("add_price"), 5, ContextCompat.getColor(this, R.color.gray_text_color));
 
-            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_3, "开拍时间 " + auctionInfo.get("start_time"), 5,
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_3, "开拍时间 " +
+                            DateTool.timestampToStrTime(auctionInfo.get("start_time")), 5,
                     ContextCompat.getColor(this, R.color.gray_text_color));
-            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_4, "保留价     " + auctionInfo.get
-                            ("leave_price"), 8,
-                    ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_4, "保留价     " +
+                    auctionInfo.get("leave_price"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
 
-            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金     ￥" + auctionInfo.get
-                            ("base_money"), 8,
-                    ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金     ￥" +
+                    auctionInfo.get("base_money"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
             ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_2, "拍卖佣金 " + auctionInfo.get("commission"), 5,
                     ContextCompat.getColor(this, R.color.gray_text_color));
-            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_3, "结束时间 " + auctionInfo.get("end_time"), 5,
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_3, "结束时间 " +
+                            DateTool.timestampToStrTime(auctionInfo.get("end_time")), 5,
                     ContextCompat.getColor(this, R.color.gray_text_color));
             ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_4, "延时周期 " + auctionInfo.get("delay_time")
                     + "分/次", 5, ContextCompat.getColor(this, R.color.gray_text_color));
@@ -352,7 +353,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
             }
             return;
         }
-        if(requestUrl.contains("remindMe")){
+        if (requestUrl.contains("remindMe")) {
             is_remind = "1";
             remind_me_tv.setText("已提醒");
         }

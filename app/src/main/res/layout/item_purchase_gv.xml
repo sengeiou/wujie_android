@@ -30,7 +30,7 @@
             android:id="@+id/use_coupon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginStart="8dp"
             android:background="@drawable/shape_tv_bg_by_orange"
             android:paddingBottom="4dp"

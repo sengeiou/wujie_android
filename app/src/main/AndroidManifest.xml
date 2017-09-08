@@ -487,8 +487,10 @@
             android:theme="@style/share_style"/>
         <!--拼团购开团-->
         <activity android:name=".mellOnLine.gridClassify.CreateGroupAty"/>
-        <!--拼团购三级分类商品列表-->
+        <!-- 拼团购三级分类商品列表 -->
         <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty"/>
+        <!-- 无界预购三级分类商品列表 -->
+        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty"/>
     </application>
 
 </manifest>

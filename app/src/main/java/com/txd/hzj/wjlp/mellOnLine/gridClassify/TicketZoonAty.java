@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TopNavBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
 
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class TicketZoonAty extends BaseAty {
 
     private GroupBuyPst groupBuyPst;
 
+    private PerBuyPst perBuyPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +64,11 @@ public class TicketZoonAty extends BaseAty {
         type = getIntent().getIntExtra("type", 0);
         title = getIntent().getStringExtra("title");
         mFragments = new ArrayList<>();
+        // 拼团购
         groupBuyPst = new GroupBuyPst(this);
+        // 无界预购
+        perBuyPst = new PerBuyPst(this);
+
 
         mTitles = new ArrayList<>();
     }
@@ -69,6 +76,9 @@ public class TicketZoonAty extends BaseAty {
     @Override
     protected void requestData() {
         switch (type) {
+            case 2:// 无界预购
+                perBuyPst.preBuyIndex(1, "");
+                break;
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
@@ -79,6 +89,17 @@ public class TicketZoonAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("groupBuyIndex")) {
+            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+            mTitles = groupBuyBean.getData().getTop_nav();
+            for (TopNavBean title : mTitles) {
+                mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
+            }
+            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+            vp_for_title.setAdapter(myPagerAdapter);
+            title_s_tab_layout.setViewPager(vp_for_title);
+            return;
+        }
+        if(requestUrl.contains("preBuyIndex")){
             GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
             mTitles = groupBuyBean.getData().getTop_nav();
             for (TopNavBean title : mTitles) {
