@@ -49,13 +49,23 @@ public class CollectOrFootpointGoods {
         this.nums = nums;
     }
 
-    private List<CFGoodsList> list;
+    private List<CFGoodsList> data;
 
     public List<CFGoodsList> getList() {
-        return list;
+        return data;
     }
 
-    public void setList(List<CFGoodsList> list) {
-        this.list = list;
+    public void setList(List<CFGoodsList> data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "CollectOrFootpointGoods{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", nums=" + nums +
+                ", list=" + data +
+                '}';
     }
 }

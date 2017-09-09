@@ -10,36 +10,62 @@ package com.txd.hzj.wjlp.bean;
  */
 
 public class CFGoodsList {
+
     /**
      * goods_id : 商品ID
+     */
+    private String goods_id;
+    /**
      * goods_name : 商品名称
+     */
+    private String goods_name;
+    /**
      * goods_img : 商品图片
+     */
+    private String goods_img;
+    /**
      * market_price : 市场价
+     */
+    private String market_price;
+    /**
      * shop_price : 销售价
+     */
+    private String shop_price;
+    /**
      * integral : 积分
+     */
+    private String integral;
+    /**
      * sell_num : 销量
-     * ticket_buy_id :
-     * country_id : 0
+     */
+    private String sell_num;
+    /**
+     * ticket_buy_id : 优惠券id
+     */
+    private String ticket_buy_id;
+    /**
+     * country_id : 国家id
+     */
+    private String country_id;
+    /**
      * country_logo : 国家logo
-     * is_buy : 1
-     * add_time : 0
+     */
+    private String country_logo;
+    /**
+     * is_buy : 1 上架 2 下架
+     */
+    private String is_buy;
+    /**
+     * add_time : 添加时间
+     */
+    private String add_time;
+    /**
      * ticket_buy_discount : 购物券折扣
+     */
+    private String ticket_buy_discount;
+    /**
      * isSelect : 是否被选中
      */
-
-    private String goods_id;
-    private String goods_name;
-    private String goods_img;
-    private String market_price;
-    private String shop_price;
-    private String integral;
-    private String sell_num;
-    private String ticket_buy_id;
-    private String country_id;
-    private String country_logo;
-    private String is_buy;
-    private String add_time;
-    private String ticket_buy_discount;
     private boolean isSelect = false;
 
     private String collect_id;
@@ -162,5 +188,26 @@ public class CFGoodsList {
 
     public void setCollect_id(String collect_id) {
         this.collect_id = collect_id;
+    }
+
+    @Override
+    public String toString() {
+        return "CFGoodsList{" +
+                "goods_id='" + goods_id + '\'' +
+                ", goods_name='" + goods_name + '\'' +
+                ", goods_img='" + goods_img + '\'' +
+                ", market_price='" + market_price + '\'' +
+                ", shop_price='" + shop_price + '\'' +
+                ", integral='" + integral + '\'' +
+                ", sell_num='" + sell_num + '\'' +
+                ", ticket_buy_id='" + ticket_buy_id + '\'' +
+                ", country_id='" + country_id + '\'' +
+                ", country_logo='" + country_logo + '\'' +
+                ", is_buy='" + is_buy + '\'' +
+                ", add_time='" + add_time + '\'' +
+                ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
+                ", isSelect=" + isSelect +
+                ", collect_id='" + collect_id + '\'' +
+                '}';
     }
 }

@@ -98,6 +98,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     private CheckBox collect_goods_select_all_cb;
 
     private List<String> ids;
+
     public static CollectGoodsHzjFgt newInstance(boolean param1, int dataType) {
         CollectGoodsHzjFgt fragment = new CollectGoodsHzjFgt();
         fragment.status = param1;
@@ -248,8 +249,10 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("商品=====原始数据=====", jsonStr);
         if (requestUrl.contains("myfooter")) {// 足迹
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
+            L.e("商品=====解析数据=====", goods.toString());
             allNum = goods.getNums();
             if (allNum > 0) {
                 swipe_refresh.setVisibility(View.VISIBLE);
@@ -276,7 +279,6 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();
                 }
-
                 footerImageView.setVisibility(View.VISIBLE);
                 footerProgressBar.setVisibility(View.GONE);
                 swipe_refresh.setLoadMore(false);
@@ -350,8 +352,8 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 racycleAllAdapter.setShowSelect(true);
             }
         }
-        assert racycleAllAdapter != null;
-        racycleAllAdapter.notifyDataSetChanged();
+        if (racycleAllAdapter != null)
+            racycleAllAdapter.notifyDataSetChanged();
     }
 
     private View createFooterView() {

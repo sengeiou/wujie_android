@@ -156,7 +156,7 @@ public class CollectHzjAty extends BaseAty {
         mFragment = new ArrayList<>();
         mFragment.add(CollectGoodsHzjFgt.newInstance(false, 1));
         mFragment.add(CollectMellHzjFgt.newInstance(false, 1));
-        mFragment.add(CollectBooksFgt.newInstance(false));
+        mFragment.add(CollectBooksFgt.newInstance(false, 1));
     }
 
     @Override

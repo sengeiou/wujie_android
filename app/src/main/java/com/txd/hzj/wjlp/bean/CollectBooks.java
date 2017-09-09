@@ -55,4 +55,14 @@ public class CollectBooks {
     public void setData(List<AcademyList> data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "CollectBooks{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", nums=" + nums +
+                ", data=" + data +
+                '}';
+    }
 }

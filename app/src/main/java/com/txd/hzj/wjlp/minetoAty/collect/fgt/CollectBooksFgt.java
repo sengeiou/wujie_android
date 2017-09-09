@@ -12,15 +12,15 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
-import com.google.gson.Gson;
+import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.bean.CollectBooks;
-import com.txd.hzj.wjlp.http.collect.UserCollect;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.adapter.WjBooksAdapter;
 import com.txd.hzj.wjlp.minetoAty.books.BooksDetailsAty;
 
@@ -38,6 +38,7 @@ import java.util.Map;
  */
 public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelectNum {
     private boolean status;
+    private int dataType;
     /**
      * 列表
      */
@@ -80,23 +81,27 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
 
     private List<String> ids;
     private Bundle bundle;
+    private UserPst userPst;
 
-    public static CollectBooksFgt newInstance(boolean param1) {
+    public static CollectBooksFgt newInstance(boolean param1, int dataType) {
         CollectBooksFgt fragment = new CollectBooksFgt();
         fragment.status = param1;
+        fragment.dataType = dataType;
         return fragment;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         collect_bools_lv.setEmptyView(no_data_layout);
         collect_bools_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
-                collectPst.collectList(p, "3");
+                if (0 == dataType)
+                    userPst.myfooter(p, "3");
+                else
+                    collectPst.collectList(p, "3");
             }
 
             @Override
@@ -106,7 +111,10 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                     return;
                 }
                 p++;
-                collectPst.collectList(p, "3");
+                if (0 == dataType)
+                    userPst.myfooter(p, "3");
+                else
+                    collectPst.collectList(p, "3");
             }
         });
         collect_bools_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -178,11 +186,16 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
         books = new ArrayList<>();
         books2 = new ArrayList<>();
         collectPst = new UserCollectPst(this);
+        userPst = new UserPst(this);
     }
 
     @Override
     protected void requestData() {
-        collectPst.collectList(p, "3");
+        if (0 == dataType) {
+            userPst.myfooter(p, "3");
+        } else {
+            collectPst.collectList(p, "3");
+        }
     }
 
     @Override
@@ -200,6 +213,29 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
         }
         if (requestUrl.contains("collectList")) {
             CollectBooks collectBooks = GsonUtil.GsonToBean(jsonStr, CollectBooks.class);
+            allNum = collectBooks.getNums();
+            if (1 == p) {
+                books = collectBooks.getData();
+                if (!ListUtils.isEmpty(books)) {
+                    wjBooksAdapter = new WjBooksAdapter(getActivity(), books);
+                    collect_bools_lv.setAdapter(wjBooksAdapter);
+                    wjBooksAdapter.setForSelectNum(this);
+                }
+            } else {
+                books2 = collectBooks.getData();
+                if (!ListUtils.isEmpty(books2)) {
+                    books.addAll(books2);
+                }
+                wjBooksAdapter.notifyDataSetChanged();
+            }
+            collect_bools_lv.onRefreshComplete();
+            setStatus(status);
+            return;
+        }
+        if (requestUrl.contains("myfooter")) {
+            L.e("书院=====原始数据======", jsonStr);
+            CollectBooks collectBooks = GsonUtil.GsonToBean(jsonStr, CollectBooks.class);
+            L.e("书院=====解析数据======", collectBooks.toString());
             allNum = collectBooks.getNums();
             if (1 == p) {
                 books = collectBooks.getData();

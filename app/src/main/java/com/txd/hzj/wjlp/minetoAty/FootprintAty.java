@@ -12,6 +12,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.CollectBooks;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
@@ -34,15 +35,22 @@ public class FootprintAty extends BaseAty {
      */
     @ViewInject(R.id.foot_print_goods_tv)
     private TextView foot_print_goods_tv;
-    @ViewInject(R.id.foot_print_mell_tv)
-    private TextView foot_print_mell_tv;
+    @ViewInject(R.id.foot_print_goods_view)
+    private View foot_print_goods_view;
     /**
      * 商家
      */
-    @ViewInject(R.id.foot_print_goods_view)
-    private View foot_print_goods_view;
+    @ViewInject(R.id.foot_print_mell_tv)
+    private TextView foot_print_mell_tv;
     @ViewInject(R.id.foot_print_mell_view)
     private View foot_print_mell_view;
+    /**
+     * 商家
+     */
+    @ViewInject(R.id.foot_print_books_tv)
+    private TextView foot_print_books_tv;
+    @ViewInject(R.id.foot_print_books_view)
+    private View foot_print_books_view;
 
     private FragmentChangeManager fcm;
 
@@ -60,7 +68,8 @@ public class FootprintAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.title_left_layout, R.id.title_right_layout, R.id.foot_right_tv})
+    @OnClick({R.id.title_left_layout, R.id.title_right_layout, R.id.title_right_right_layout,
+            R.id.foot_right_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -70,6 +79,10 @@ public class FootprintAty extends BaseAty {
                 break;
             case R.id.title_right_layout:// 商家
                 setTvAndViewStyle(1);
+                setNewStatus(mFragment.get(selected));
+                break;
+            case R.id.title_right_right_layout:// 书院
+                setTvAndViewStyle(2);
                 setNewStatus(mFragment.get(selected));
                 break;
             case R.id.foot_right_tv:// 编辑，完成
@@ -92,6 +105,8 @@ public class FootprintAty extends BaseAty {
             ((CollectGoodsHzjFgt) f).setStatus(status);
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
+        } else {
+            ((CollectBooksFgt) f).setStatus(status);
         }
     }
 
@@ -99,8 +114,10 @@ public class FootprintAty extends BaseAty {
         selected = position;
         foot_print_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
+        foot_print_books_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         foot_print_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        foot_print_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
 
         if (0 == position) {
             foot_print_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
@@ -108,8 +125,11 @@ public class FootprintAty extends BaseAty {
         } else if ((1 == position)) {
             foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        } else{
+            foot_print_books_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            foot_print_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 2)
+        if (position < 3)
             fcm.setFragments(position);
     }
 
@@ -123,6 +143,7 @@ public class FootprintAty extends BaseAty {
         mFragment = new ArrayList<>();
         mFragment.add(CollectGoodsHzjFgt.newInstance(false, 0));
         mFragment.add(CollectMellHzjFgt.newInstance(false, 0));
+        mFragment.add(CollectBooksFgt.newInstance(false, 0));
     }
 
     @Override

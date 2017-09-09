@@ -21,8 +21,9 @@
 
             <ImageView
                 android:id="@+id/country_logo_iv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="24dp"
+                android:scaleType="centerCrop"
                 android:src="@drawable/icon_temp_han"
                 />
 
@@ -35,7 +36,7 @@
                 android:id="@+id/use_coupon_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_gravity="end|right|center_vertical"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:background="@drawable/shape_tv_bg_by_orange"

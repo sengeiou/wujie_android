@@ -2,17 +2,18 @@ package com.txd.hzj.wjlp.mainFgt.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -52,11 +53,16 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     private int goods_pic = 0;
 
+    private int logo_size1 = 0;
+    private int logo_size2 = 0;
+
     public RacycleAllAdapter(Context context, List<CFGoodsList> list) {
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
-        goods_pic = ToolKit.dip2px(context, 200);
+        goods_pic = ToolKit.dip2px(context, 180);
+        logo_size1 = ToolKit.dip2px(context, 36);
+        logo_size2 = ToolKit.dip2px(context, 24);
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -67,7 +73,6 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
     public ItemView onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view;
-        L.e("=====ViewTYpe=====", String.valueOf(viewType));
         view = inflater.inflate(R.layout.item_ticket_gv, parent, false);
 //        switch (viewType) {
 //            case 0:// 限量购
@@ -104,24 +109,15 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
     @Override
     public void onBindViewHolder(final ItemView holder, int position) {
         final CFGoodsList cfGoodsList = list.get(position);
-//        if (0 == type || 2 == type || 4 == type) {
-//            holder.home_count_down_view.setTag("text");
-//            holder.home_count_down_view.start(3600000);
-//        }
-//        if (0 == type || 2 == type || 5 == type) {
-//            // 设置进度
-//            holder.cpb_progresbar2.setMaxProgress(100);
-//            holder.cpb_progresbar2.setCurProgress(50);
-//        }
-//
+
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.sold_num_tv.setVisibility(View.VISIBLE);
-        if (position % 2 == 0) {
+        if (cfGoodsList.getTicket_buy_id().equals("0")) {
             holder.use_coupon_tv.setText("不可使用购物券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-            holder.use_coupon_tv.setText("可使用30%购物券");
+            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "购物券");
         }
 
         if (itemClickLitener != null) {
@@ -148,7 +144,13 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
             holder.collect_goods_status_iv.setVisibility(View.GONE);
         }
 
-        Glide.with(context).load(cfGoodsList.getCountry_logo()).into(holder.country_logo_iv);
+        Glide.with(context).load(cfGoodsList.getCountry_logo())
+                .centerCrop()
+                .placeholder(R.drawable.ic_default)
+                .error(R.id.ic_right_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(holder.country_logo_iv);
+
         Glide.with(context).load(cfGoodsList.getGoods_img())
                 .override(goods_pic, goods_pic)
                 .centerCrop().placeholder(R.drawable.ic_default)
