@@ -8,30 +8,52 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
+import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
+import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
+import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
+import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
@@ -86,7 +108,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private List<Map<String, String>> image;
 
     /**
      * 倒计时
@@ -142,9 +164,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.wujie_post_lv)
     private ListViewForScrollView wujie_post_lv;
-
+    /**
+     * 驿站适配器
+     */
     private PostAdapter postAdapter;
-
+    /**
+     * 驿站列表
+     */
     private List<String> posts;
 
     /**
@@ -250,27 +276,175 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private ListView promotion_lv;
 
     private PromotionAdapter promotionAdapter;
+    /**
+     * 限量购id
+     */
+    private String limit_buy_id = "";
+
+    private LimitBuyPst limitBuyPst;
+    /**
+     * 轮播图宽高
+     */
+    private int bannerSize = Settings.displayWidth;
+
+    /**
+     * 限量购状态
+     */
+    @ViewInject(R.id.limit_status_tv)
+    private TextView limit_status_tv;
+    /**
+     * 限量购进度
+     */
+    @ViewInject(R.id.limit_pro_tv)
+    private TextView limit_pro_tv;
+
+    /**
+     * 促销标识
+     */
+    @ViewInject(R.id.onle_pro_type_iv)
+    private ImageView onle_pro_type_iv;
+    /**
+     * 内容
+     */
+    @ViewInject(R.id.onle_pro_title_tv)
+    private TextView onle_pro_title_tv;
+
+    /**
+     * 促销布局
+     */
+    @ViewInject(R.id.promotion_layout)
+    private LinearLayout promotion_layout;
+
+    /**
+     * 商品条数
+     */
+    @ViewInject(R.id.all_comment_num_tv)
+    private TextView all_comment_num_tv;
+    /**
+     * 评价商品的买家头像
+     */
+    @ViewInject(R.id.comm_user_head_iv)
+    private ShapedImageView comm_user_head_iv;
+    /**
+     * 买家头像大小60dp
+     */
+    private int head_size = 0;
+    /**
+     * 买家昵称
+     */
+    @ViewInject(R.id.comm_user_name_tv)
+    private TextView comm_user_name_tv;
+    /**
+     * 评论内容
+     */
+    @ViewInject(R.id.comm_content_tv)
+    private TextView comm_content_tv;
+    /**
+     * 评论图片
+     */
+    @ViewInject(R.id.estimate_pic)
+    private GridViewForScrollView estimate_pic;
+
+    /**
+     * 评价商品布局
+     */
+    @ViewInject(R.id.goods_for_my_evaluste_layout)
+    private LinearLayout goods_for_my_evaluste_layout;
+
+    // TODO==========店铺==========
+    @ViewInject(R.id.the_logo_by_mell_iv)
+    private ImageView the_logo_by_mell_iv;
+    /**
+     * 店铺logo大小 80dp
+     */
+    private int logo_size = 0;
+    /**
+     * 店铺名称
+     */
+    @ViewInject(R.id.title_by_mell_tv)
+    private TextView title_by_mell_tv;
+    /**
+     * 等级1
+     */
+    @ViewInject(R.id.level_1_iv)
+    private ImageView level_1_iv;
+    /**
+     * 等级2
+     */
+    @ViewInject(R.id.level_2_iv)
+    private ImageView level_2_iv;
+    /**
+     * 等级3
+     */
+    @ViewInject(R.id.level_3_iv)
+    private ImageView level_3_iv;
+    /**
+     * 等级4
+     */
+    @ViewInject(R.id.level_4_iv)
+    private ImageView level_4_iv;
+    /**
+     * 等级5
+     */
+    @ViewInject(R.id.level_5_iv)
+    private ImageView level_5_iv;
+    private List<ImageView> imageViews;
+    // TODO==========店铺==========
+    /**
+     * 产品规格
+     */
+    @ViewInject(R.id.goods_common_attr_lv)
+    private ListViewForScrollView goods_common_attr_lv;
+    /**
+     * 文字描述
+     */
+    @ViewInject(R.id.goods_brief_tv)
+    private WebView goods_brief_tv;
+    /**
+     * 图文详情
+     */
+    @ViewInject(R.id.goods_desc_wv)
+    private WebView goods_desc_wv;
+
+    /**
+     * 名称
+     */
+    @ViewInject(R.id.goods_details_name_tv)
+    private TextView goods_details_name_tv;
+
+    @ViewInject(R.id.comment_layout)
+    private LinearLayout comment_layout;
+
+    /**
+     * 购物车数量
+     */
+    @ViewInject(R.id.user_cart_num_tv)
+    private TextView user_cart_num_tv;
+
+    // TODO==========收藏==========
+    @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;
+
+    @ViewInject(R.id.goods_title_collect_tv)
+    private TextView goods_title_collect_tv;
+    /**
+     * 1.收藏，0.未收藏
+     */
+    private String is_collect = "0";
+
+    private UserCollectPst collectPst;
+    private String goods_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.goods_details_title);
         setTextViewAndViewColor(0);
-
+        // 隐藏商品布局
+        goods_for_my_evaluste_layout.setVisibility(View.GONE);
         // 设置轮播图高度
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
-                Settings.displayWidth);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(bannerSize, bannerSize);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
-        // 倒计时
-        goods_count_down_view.setTag("limitGoods");
-        goods_count_down_view.start(5 * 60 * 60 * 1000);
-
-        // 进度
-        goods_custom_pb.setMaxProgress(100);
-        goods_custom_pb.setCurProgress(50);
-        TextViewChange();
-
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
         getHeight();
@@ -278,41 +452,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(LimitGoodsAty.this, LinearLayoutManager.HORIZONTAL,
                 false));
         goods_trick_rv.setHasFixedSize(true);
-        goods_trick_rv.setAdapter(theTrickAdapter);
-
-        promotion_lv.setAdapter(promotionAdapter);
-
-    }
-
-    /**
-     * 修改TextView的样式
-     */
-    private void TextViewChange() {
-
-        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
-        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "积分10.23", 3, Color.parseColor("#FD8214"));
-
-        String only = "已抢419件/剩余56件";
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only, 9, only.length() - 1,
-                ContextCompat.getColor(this, R.color.theme_color));
-        String tariff = "进口税 50元/件";
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
-                ContextCompat.getColor(this, R.color.theme_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FD8214"));
-
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
-
-
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务4.8", 2, Color.parseColor("#FD8214"));
     }
 
     @Override
@@ -322,30 +461,248 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @Override
     protected void initialized() {
+        limit_buy_id = getIntent().getStringExtra("limit_buy_id");
+        limitBuyPst = new LimitBuyPst(this);
+        collectPst = new UserCollectPst(this);
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
+        head_size = ToolKit.dip2px(this, 60);
+        logo_size = ToolKit.dip2px(this, 80);
+        // 商家等级
+        imageViews = new ArrayList<>();
 
-        theTrickAdapter = new TheTrickAdapter(this);
-
-        promotionAdapter = new PromotionAdapter(this);
-
+        imageViews.add(level_1_iv);
+        imageViews.add(level_2_iv);
+        imageViews.add(level_3_iv);
+        imageViews.add(level_4_iv);
+        imageViews.add(level_5_iv);
     }
 
     @Override
     protected void requestData() {
+        limitBuyPst.limitBuyInfo(limit_buy_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        L.e("=====链接=====",requestUrl);
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("limitBuyInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            String cart_num = data.get("cart_num");
+            if (!cart_num.equals("0")) {
+                user_cart_num_tv.setText(cart_num);
+                user_cart_num_tv.setVisibility(View.VISIBLE);
+            } else {
+                user_cart_num_tv.setVisibility(View.GONE);
+            }
+            // 是否收藏
+            is_collect = data.get("is_collect");
+
+            if ("0".equals(is_collect)) {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+                goods_title_collect_tv.setText("收藏");
+            } else {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+                goods_title_collect_tv.setText("已收藏");
+            }
+
+
+            // 轮播图
+            if (ToolKit.isList(data, "goods_banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
+                forBanner();
+            }
+            // 商品基本信息
+            Map<String, String> goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+            // 商品id
+            goods_id = goodsInfo.get("goods_id");
+            long now = System.currentTimeMillis();
+
+            long end;
+
+            String stage_status = goodsInfo.get("stage_status");
+
+            if (stage_status.equals("即将开始")) {
+                end = Long.parseLong(goodsInfo.get("start_time"));
+            } else {// 正在进行中和已结束
+                end = Long.parseLong(goodsInfo.get("end_time"));
+            }
+            long difference = end - now;
+            limit_status_tv.setText(goodsInfo.get("stage_status"));
+            // 倒计时
+            goods_count_down_view.setTag("limitGoods");
+            goods_count_down_view.start(difference);
+            // 限量购价格
+            ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("limit_price"));
+            // 市场价(原价)
+            old_price_tv.setText(goodsInfo.get("market_price"));
+            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            // 积分
+            ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+                    "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+            goods_details_name_tv.setText(goodsInfo.get("goods_name"));
+
+
+            int limit_store = 0;
+            try {
+                limit_store = Integer.parseInt(goodsInfo.get("limit_store"));
+            } catch (NumberFormatException e) {
+                limit_store = 100;
+            }
+
+            int sell_num = 0;
+            try {
+                sell_num = Integer.parseInt(goodsInfo.get("sell_num"));
+            } catch (NumberFormatException e) {
+                sell_num = 0;
+            }
+
+            // 进度
+            goods_custom_pb.setMaxProgress(limit_store);
+            goods_custom_pb.setCurProgress(sell_num);
+            double d = sell_num * 100.0f / limit_store;
+            if (sell_num >= limit_store) {
+                d = 100f;
+            }
+            // 计算百分比
+            String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            limit_pro_tv.setText(str + "%");
+
+            String only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+            ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only, 9, only.length() - 1,
+                    ContextCompat.getColor(this, R.color.theme_color));
+            String tariff = "进口税 " + goodsInfo.get("country_tax") + "元/件";
+            ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
+                    ContextCompat.getColor(this, R.color.theme_color));
+            // 运费
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费10元", 2, Color.parseColor("#FD8214"));
+
+            goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
+            goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
+
+            // 商家信息
+            Map<String, String> mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
+
+            Glide.with(this).load(mInfo.get("logo"))
+                    .override(logo_size, logo_size)
+                    .placeholder(R.drawable.ic_default)
+                    .centerCrop()
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(the_logo_by_mell_iv);
+            title_by_mell_tv.setText(mInfo.get("merchant_name"));
+            int level;
+            try {
+                level = Integer.parseInt(mInfo.get("level"));
+            } catch (NumberFormatException e) {
+                level = 0;
+            }
+            for (int i = 0; i < level; i++) {
+                imageViews.get(i).setVisibility(View.VISIBLE);
+            }
+
+            ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, mInfo.get("all_goods") + "\n全部宝贝");
+            ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, mInfo.get("view_num") + "\n人关注");
+            ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
+                    "宝贝描述" + mInfo.get("goods_score"), 4, Color.parseColor("#FD8214"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
+                    "卖家服务" + mInfo.get("merchant_score"), 4, Color.parseColor("#FD8214"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
+                    "物流服务" + mInfo.get("shipping_score"), 4, Color.parseColor("#FD8214"));
+
+            // 促销活动
+            if (ToolKit.isList(data, "promotion")) {
+                List<PromotionBean> promotionBeen = GsonUtil.getObjectList(data.get("promotion"), PromotionBean.class);
+                PromotionBean prom = promotionBeen.get(0);
+                String type = prom.getType();
+                int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
+                onle_pro_type_iv.setImageResource(imageId);
+                onle_pro_title_tv.setText(prom.getTitle());
+                promotionBeen.remove(prom);
+                if (!ListUtils.isEmpty(promotionBeen)) {// 判断移除掉一个活动之后是否为空
+                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+                    promotionAdapter = new PromotionAdapter(this, promotionBeen);
+                    promotion_lv.setAdapter(promotionAdapter);
+                    show_or_hide_iv.setEnabled(true);
+                } else {
+                    goods_bottom_lin_layout.setVisibility(View.GONE);
+                    // 此处可以设置。。不呢点击
+                    show_or_hide_iv.setEnabled(false);
+                }
+                promotion_layout.setVisibility(View.VISIBLE);
+            } else {
+                promotion_layout.setVisibility(View.GONE);
+            }
+            // 优惠券列表
+            if (ToolKit.isList(data, "ticketList")) {
+                List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"),
+                        TicketListBean.class);
+                theTrickAdapter = new TheTrickAdapter(this, ticketListBeens);
+                goods_trick_rv.setAdapter(theTrickAdapter);
+            }
+            // 评论
+            if (ToolKit.isList(data, "comment")) {
+                try {
+                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
+                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                    CommentBean.BodyBean bodyBean = comment.getBody();
+                    if (bodyBean != null) {
+                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                                .override(head_size, head_size)
+                                .placeholder(R.drawable.ic_default)
+                                .error(R.drawable.ic_default)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(comm_user_head_iv);
+                        comm_user_name_tv.setText(bodyBean.getNickname());
+                        comm_content_tv.setText(bodyBean.getContent());
+                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                        if (!ListUtils.isEmpty(pictures)) {
+                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                            estimate_pic.setAdapter(picadapter);
+                        }
+                    }
+                } catch (JsonSyntaxException e) {
+                    all_comment_num_tv.setText("商品评价(0)");
+                    comment_layout.setVisibility(View.GONE);
+                }
+
+            }
+            // TODO==========产品属性==========
+            if (ToolKit.isList(data, "goods_common_attr")) {
+                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                        GoodsCommonAttr.class);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
+                goods_common_attr_lv.setAdapter(gcaAdapter);
+            }
+            return;
+        }
+        if (requestUrl.contains("addCollect")) {// 添加收藏
+            showRightTip("收藏成功");
+            is_collect = "1";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setText("已收藏");
+            return;
+        }
+        if (requestUrl.contains("delOneCollect")) {
+            showRightTip("取消成功");
+            is_collect = "0";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setText("收藏");
+            return;
+        }
     }
 
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
+            R.id.go_to_cart_layout, R.id.to_main_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -363,7 +720,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 setTextViewAndViewColor(2);
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
-            case R.id.goods_title_collect_layout://收藏
+            case R.id.goods_title_collect_layout://收藏,取消收藏
+                if (!Config.isLogin()) {
+                    toLogin();
+                    break;
+                }
+                if (is_collect.equals("0")) {
+                    collectPst.addCollect("1", goods_id);
+                    break;
+                }
+                collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
                 toShare();
@@ -401,6 +767,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case R.id.be_back_top_iv://回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
+                break;
+            case R.id.go_to_cart_layout:// 购物车
+                backMain(2);
+                break;
+            case R.id.to_main_layout:// 首页
+                backMain(0);
                 break;
         }
     }
@@ -445,8 +817,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
     /**
@@ -455,7 +827,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+
+            Glide.with(LimitGoodsAty.this).load(image.get(position).get("path"))
+                    .centerCrop()
+                    .override(bannerSize, bannerSize)
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(imageView);
+
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };

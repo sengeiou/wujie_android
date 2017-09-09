@@ -51,6 +51,21 @@ public class UserCollect {
         apiTool2.postApi(url + "addCollect", params, baseView);
     }
 
+    /**
+     * 取消收藏
+     *
+     * @param type
+     * @param id_val
+     * @param baseView
+     */
+    void delOneCollect(String type, String id_val, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("id_val", id_val);
+        params.addBodyParameter("type", type);
+        apiTool2.postApi(url + "delOneCollect", params, baseView);
+    }
+
     void delCollect(String collect_ids, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();

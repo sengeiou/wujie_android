@@ -20,6 +20,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.auction.AuctionList;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,6 +42,8 @@ public class LimitAdapter extends BaseAdapter {
     private LimitViewHolder lvh;
     /**
      * 数据源，用于显示或者隐藏商品进度
+     * 0.限量购
+     * 1.竞拍汇
      */
     private int source = 0;
     private int type;
@@ -58,8 +61,8 @@ public class LimitAdapter extends BaseAdapter {
         this.type = type;
         this.source = source;
         inflater = LayoutInflater.from(context);
-        size1 = ToolKit.dip2px(context, 40);
-        size2 = ToolKit.dip2px(context, 32);
+        size1 = ToolKit.dip2px(context, 32);
+        size2 = ToolKit.dip2px(context, 24);
         size3 = ToolKit.dip2px(context, 200);
     }
 
@@ -132,24 +135,51 @@ public class LimitAdapter extends BaseAdapter {
         }
         // 积分
         lvh.get_integral_tv.setText(auctionList.getIntegral());
-        // 起拍价
-        lvh.peice_tv.setText(auctionList.getStart_price());
+        if (0 == source) {
+            // 限量购价格
+            lvh.peice_tv.setText("￥" + auctionList.getLimit_price());
+        } else {
+            // 起拍价
+            lvh.peice_tv.setText("￥" + auctionList.getStart_price());
+        }
 
         // 原价
-        lvh.older_price_tv.setText(auctionList.getMarket_price());
+        lvh.older_price_tv.setText("￥" + auctionList.getMarket_price());
         lvh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         if (auctionList.getTicket_buy_id().equals("0")) {
             lvh.use_coupon_tv.setText("不可使用优惠券");
             lvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
-            lvh.use_coupon_tv.setText("可用" + auctionList.getTicket_buy_id() + "%的优惠券");
+            lvh.use_coupon_tv.setText("可用" + auctionList.getTicket_buy_discount() + "%的优惠券");
         }
 
         if (0 == source) {
             lvh.goods_pross_layout.setVisibility(View.VISIBLE);
-            lvh.cpb_progresbar2.setMaxProgress(100);
-            lvh.cpb_progresbar2.setCurProgress(50);
+            lvh.goods_num_already_tv.setText("已抢" + auctionList.getSell_num() + "件");
+
+            int sell_num;
+            try {
+                sell_num = Integer.parseInt(auctionList.getSell_num());
+            } catch (NumberFormatException e) {
+                sell_num = 0;
+            }
+            int max = 0;
+            try {
+                max = Integer.parseInt(auctionList.getLimit_store());
+            } catch (NumberFormatException e) {
+                max = 100;
+            }
+
+            lvh.cpb_progresbar2.setMaxProgress(max);
+            lvh.cpb_progresbar2.setCurProgress(sell_num);
+            double d = sell_num * 100.0f / max;
+            if (sell_num >= max) {
+                d = 100f;
+            }
+            String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+            lvh.preferential_type_tv.setText(str + "%");
+
         } else {
             lvh.goods_pross_layout.setVisibility(View.GONE);
         }
@@ -234,5 +264,12 @@ public class LimitAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.limit_remeber_me_tv)
         private TextView limit_remeber_me_tv;
+
+        @ViewInject(R.id.goods_num_already_tv)
+        private TextView goods_num_already_tv;
+
+        @ViewInject(R.id.preferential_type_tv)
+        private TextView preferential_type_tv;
+
     }
 }

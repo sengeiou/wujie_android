@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/item_country_logo_tv"
-            android:layout_width="40dp"
-            android:layout_height="32dp"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
             />
 
         <Space

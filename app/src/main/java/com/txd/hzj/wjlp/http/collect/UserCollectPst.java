@@ -33,6 +33,12 @@ public class UserCollectPst extends BasePresenter {
         collect.addCollect(type, id_val, baseView);
     }
 
+    // 取消收藏
+    public void delOneCollect(String type, String id_val) {
+        baseView.showDialog();
+        collect.delOneCollect(type, id_val, baseView);
+    }
+
     // 删除收藏品
     public void delCollect(String collect_ids) {
         baseView.showDialog();

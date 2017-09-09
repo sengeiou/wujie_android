@@ -75,6 +75,9 @@ public class ChangeTextViewStyle {
         if (str.contains("￥")) {
             unit_position = str.indexOf("￥");
             end_posion = str.indexOf(".");
+            if (end_posion < 0) {
+                end_posion = str.length();
+            }
             styledText.setSpan(new TextAppearanceSpan(context, R.style.goods_price_style), unit_position + 1,
                     end_posion + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -154,8 +157,8 @@ public class ChangeTextViewStyle {
     /**
      * 修改字体颜色,上标(上标字体为默认字体的一半)
      *
-     * @param tv      TextView
-     * @param str     内容
+     * @param tv  TextView
+     * @param str 内容
      */
     public void forFeeStyle(TextView tv, String str) {
         SpannableString msp = new SpannableString(str);

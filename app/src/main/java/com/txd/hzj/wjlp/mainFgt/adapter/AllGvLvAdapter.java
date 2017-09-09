@@ -67,8 +67,8 @@ public class AllGvLvAdapter extends BaseAdapter {
         this.list = list;
         this.type = type;
         this.inflater = LayoutInflater.from(context);
-        size1 = ToolKit.dip2px(context, 40);
-        size2 = ToolKit.dip2px(context, 32);
+        size1 = ToolKit.dip2px(context, 32);
+        size2 = ToolKit.dip2px(context, 24);
         if (8 == type) {
             pic_size = Settings.displayWidth;
             pic_size2 = Settings.displayWidth / 2;

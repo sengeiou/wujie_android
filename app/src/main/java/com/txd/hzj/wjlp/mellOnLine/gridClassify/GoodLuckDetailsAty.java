@@ -24,6 +24,7 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -39,6 +40,7 @@ import com.txd.hzj.wjlp.bean.groupbuy.GroupBuyInfo;
 import com.txd.hzj.wjlp.bean.groupbuy.MellInfoBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -96,6 +98,17 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
      */
     @ViewInject(R.id.title_evaluate_view)
     public View title_evaluate_view;
+
+    /**
+     * 收藏iv
+     */
+    @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;
+    /**
+     * 收藏TV
+     */
+    @ViewInject(R.id.goods_title_collect_tv)
+    private TextView goods_title_collect_tv;
 
     /**
      * 商品轮播
@@ -404,6 +417,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.goods_desc_wv)
     private WebView goods_desc_wv;
 
+    @ViewInject(R.id.comment_layout)
+    private LinearLayout comment_layout;
+    private String is_collect = "";
+    private UserCollectPst collectPst;
+    private String goods_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -449,6 +468,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏
+
+                if(!Config.isLogin()){
+                    toLogin();
+                }
+                if("0".equals(is_collect)){
+                    collectPst.addCollect("1",goods_id);
+                    break;
+                }
+                collectPst.delOneCollect("1",goods_id);
+
                 break;
             case R.id.goods_title_share_tv://分享
                 toShare();
@@ -571,6 +600,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
+        collectPst = new UserCollectPst(this);
         group_buy_id = getIntent().getStringExtra("group_buy_id");
         image = new ArrayList<>();
         posts = new ArrayList<>();
@@ -613,6 +643,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 forBanner();
             }
             GoodsInfoBean goodsInfo = groupBuyInfo.getData().getGoodsInfo();
+            goods_id = goodsInfo.getGoods_id();
 
             // 售价
             ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
@@ -684,8 +715,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     PromotionAdapter promotionAdapter = new PromotionAdapter(this);
                     promotion_lv.setAdapter(promotionAdapter);
                     goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+                    show_or_hide_iv.setEnabled(true);
                 } else {
                     goods_bottom_lin_layout.setVisibility(View.GONE);
+                    show_or_hide_iv.setEnabled(false);
                 }
             } else {
                 promotion_layout.setVisibility(View.GONE);
@@ -698,27 +731,31 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 goods_trick_rv.setAdapter(theTrickAdapter);
             }
             // 评论
-            CommentBean comment = groupBuyInfo.getData().getComment();
-
-            if (comment != null) {
-                all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                CommentBean.BodyBean bodyBean = comment.getBody();
-                if (bodyBean != null) {
-                    Glide.with(this).load(bodyBean.getUser_head_pic())
-                            .override(mSize, mSize)
-                            .placeholder(R.drawable.ic_default)
-                            .error(R.drawable.ic_default)
-                            .centerCrop()
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                            .into(comm_user_head_iv);
-                    comm_user_name_tv.setText(bodyBean.getNickname());
-                    comm_content_tv.setText(bodyBean.getContent());
-                    List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
-                    if (!ListUtils.isEmpty(pictures)) {
-                        CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                        estimate_pic.setAdapter(picadapter);
+            try {
+                CommentBean comment = groupBuyInfo.getData().getComment();
+                if (comment != null) {
+                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                    CommentBean.BodyBean bodyBean = comment.getBody();
+                    if (bodyBean != null) {
+                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                                .override(mSize, mSize)
+                                .placeholder(R.drawable.ic_default)
+                                .error(R.drawable.ic_default)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(comm_user_head_iv);
+                        comm_user_name_tv.setText(bodyBean.getNickname());
+                        comm_content_tv.setText(bodyBean.getContent());
+                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                        if (!ListUtils.isEmpty(pictures)) {
+                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                            estimate_pic.setAdapter(picadapter);
+                        }
                     }
                 }
+            } catch (JsonSyntaxException e){
+                all_comment_num_tv.setText("商品评价(0)");
+                comment_layout.setVisibility(View.GONE);
             }
             // 一键开团
             creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
@@ -737,6 +774,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 user_cart_num_tv.setText(String.valueOf(num));
                 user_cart_num_tv.setVisibility(View.VISIBLE);
             }
+            // 是否收藏
+            is_collect = groupBuyInfo.getData().getIs_collect();
+            if ("0".equals(is_collect)) {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+                goods_title_collect_tv.setText("收藏");
+            } else {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+                goods_title_collect_tv.setText("已收藏");
+            }
+
 
             // 参团列表
             groupList = groupBuyInfo.getData().getGroup();
@@ -765,6 +812,21 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
             // ==========团购详情End===========
+            return;
+        }
+        if(requestUrl.contains("addCollect")){
+            showRightTip("收藏成功");
+            is_collect = "1";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setText("已收藏");
+            return;
+        }
+        if(requestUrl.contains("delOneCollect")){
+            showRightTip("取消成功");
+            is_collect = "0";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setText("收藏");
+            return;
         }
     }
 

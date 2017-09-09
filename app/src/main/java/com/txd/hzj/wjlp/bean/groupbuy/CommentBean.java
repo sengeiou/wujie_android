@@ -42,40 +42,71 @@ public class CommentBean {
     public static class BodyBean {
         /**
          * comment_id : 评论ID
-         * goods_id : 商品ID
-         * goods_name : 商品名称
-         * user_id : 用户ID
-         * nickname : 用户昵称
-         * pictures : [{"path":"图片路径"}]
-         * content : 评论内容
-         * all_star : 评论星级
-         * product_id : 货品ID
-         * order_goods_id : 1
-         * create_time : 创建时间
-         * user_head_pic : 用户头像
-         * good_attr : 所评价商品属性
-         * goods_num : 所买数量
-         * shop_price : 售价
-         * goods_img : 商品图片
-         * order_type : 订单类型
          */
-
         private String comment_id;
+        /**
+         * goods_id : 商品ID
+         */
         private String goods_id;
+        /**
+         * goods_name : 商品名称
+         */
         private String goods_name;
+        /**
+         * "user_id": "用户ID",
+         */
         private String user_id;
+        /**
+         * 昵称
+         */
         private String nickname;
+        /**
+         * 评论内容
+         */
         private String content;
+        /**
+         * 评论星级
+         */
         private String all_star;
+        /**
+         * 货品id
+         */
         private String product_id;
+        /**
+         *
+         */
         private String order_goods_id;
+        /**
+         * 创建时间
+         */
         private String create_time;
+        /**
+         * 用户头像
+         */
         private String user_head_pic;
+        /**
+         * 商品属性
+         */
         private String good_attr;
+        /**
+         * 商品数量
+         */
         private String goods_num;
+        /**
+         * 售价
+         */
         private String shop_price;
+        /**
+         * 商品图片
+         */
         private String goods_img;
+        /**
+         * 订单类型
+         */
         private String order_type;
+        /**
+         * 评论图片
+         */
         private List<PicturesBean> pictures;
 
         public String getComment_id() {

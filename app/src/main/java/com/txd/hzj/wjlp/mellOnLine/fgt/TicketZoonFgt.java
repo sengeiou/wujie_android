@@ -151,6 +151,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         break;
                     case 2:// 无界预购
                         startActivity(LimitGoodsAty.class, null);
+                        break;
                     case 3:// 进口馆
                         startActivity(InputGoodsDetailsAty.class, null);
                         break;
@@ -207,7 +208,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 break;
         }
     }
-
 
     @Override
     protected int getLayoutResId() {
@@ -380,7 +380,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     Bundle bundle = new Bundle();
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
-                    bundle.putInt("type",type);
+                    bundle.putInt("type", type);
                     switch (type) {
                         case 2:// 无界预购
                             startActivity(PreBuyThirdAty.class, bundle);

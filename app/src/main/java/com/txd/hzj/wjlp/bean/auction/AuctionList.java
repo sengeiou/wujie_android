@@ -63,6 +63,29 @@ public class AuctionList {
      */
     private String is_remind;
 
+    // TODO==========限量购属性==========
+    /**
+     * 限量购id
+     */
+    private String limit_buy_id;
+    /**
+     * 限量购价格
+     */
+    private String limit_price;
+    /**
+     * 库存
+     */
+    private String limit_store;
+    /**
+     * 每人限购数量
+     */
+    private String limit_num;
+    /**
+     * 积分
+     */
+    private String sell_num;
+
+
     public String getAuction_id() {
         return auction_id;
     }
@@ -167,6 +190,46 @@ public class AuctionList {
         this.is_remind = is_remind;
     }
 
+    public String getLimit_buy_id() {
+        return limit_buy_id;
+    }
+
+    public void setLimit_buy_id(String limit_buy_id) {
+        this.limit_buy_id = limit_buy_id;
+    }
+
+    public String getLimit_price() {
+        return limit_price;
+    }
+
+    public void setLimit_price(String limit_price) {
+        this.limit_price = limit_price;
+    }
+
+    public String getLimit_store() {
+        return limit_store;
+    }
+
+    public void setLimit_store(String limit_store) {
+        this.limit_store = limit_store;
+    }
+
+    public String getLimit_num() {
+        return limit_num;
+    }
+
+    public void setLimit_num(String limit_num) {
+        this.limit_num = limit_num;
+    }
+
+    public String getSell_num() {
+        return sell_num;
+    }
+
+    public void setSell_num(String sell_num) {
+        this.sell_num = sell_num;
+    }
+
     @Override
     public String toString() {
         return "AuctionList{" +
@@ -183,6 +246,11 @@ public class AuctionList {
                 ", start_price='" + start_price + '\'' +
                 ", market_price='" + market_price + '\'' +
                 ", is_remind='" + is_remind + '\'' +
+                ", limit_buy_id='" + limit_buy_id + '\'' +
+                ", limit_price='" + limit_price + '\'' +
+                ", limit_store='" + limit_store + '\'' +
+                ", limit_num='" + limit_num + '\'' +
+                ", sell_num='" + sell_num + '\'' +
                 '}';
     }
 }
