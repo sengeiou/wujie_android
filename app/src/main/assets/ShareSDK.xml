@@ -39,7 +39,7 @@
     <!--f72382d1b88d390164c29e39e72cbdee-->
     <Wechat
         AppId="wx95d5b24e8f08761a"
-        AppSecret="988bf828d09378945e97fd2ad65d30bf"
+        AppSecret="fd3d5eef52710b149f7a06afdb9526bd"
         BypassApproval="false"
         Enable="true"
         Id="4"
@@ -49,7 +49,7 @@
 
     <WechatMoments
         AppId="wx95d5b24e8f08761a"
-        AppSecret="988bf828d09378945e97fd2ad65d30bf"
+        AppSecret="fd3d5eef52710b149f7a06afdb9526bd"
         BypassApproval="false"
         Enable="true"
         Id="5"
