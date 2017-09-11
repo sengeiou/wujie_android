@@ -28,10 +28,6 @@ public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickV
     private Context context;
     private List<TicketListBean> list;
 
-    public TheTrickAdapter(Context context) {
-        this.context = context;
-    }
-
     public TheTrickAdapter(Context context, List<TicketListBean> list) {
         this.context = context;
         this.list = list;

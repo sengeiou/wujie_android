@@ -95,6 +95,16 @@ public class AllGoodsBean {
     private String ticket_buy_discount;
     // TODO==========公告部分==========END
 
+    // TODO==========票券区部分==========
+    /**
+     * 商品id
+     */
+    private String goods_id;
+    /**
+     * 售价
+     */
+    private String shop_price;
+
     public String getGroup_buy_id() {
         return group_buy_id;
     }
@@ -189,6 +199,22 @@ public class AllGoodsBean {
 
     public void setAppend_person(List<AppendPersonBean> append_person) {
         this.append_person = append_person;
+    }
+
+    public String getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
+    }
+
+    public String getShop_price() {
+        return shop_price;
+    }
+
+    public void setShop_price(String shop_price) {
+        this.shop_price = shop_price;
     }
 
     public static class AppendPersonBean {
@@ -314,6 +340,8 @@ public class AllGoodsBean {
                 ", ticket_buy_id='" + ticket_buy_id + '\'' +
                 ", country_logo='" + country_logo + '\'' +
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
+                ", goods_id='" + goods_id + '\'' +
+                ", shop_price='" + shop_price + '\'' +
                 '}';
     }
 }

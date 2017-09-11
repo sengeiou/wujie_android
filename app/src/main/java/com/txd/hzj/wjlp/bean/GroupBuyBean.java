@@ -87,6 +87,8 @@ public class GroupBuyBean {
         private List<AllGoodsBean> group_buy_list;
         // ==========无界预购==========
         private List<AllGoodsBean> pre_buy_list;
+        // ==========票券区=========
+        private List<AllGoodsBean> ticket_buy_list;
 
         public AdsBean getAds() {
             return ads;
@@ -126,6 +128,14 @@ public class GroupBuyBean {
 
         public void setPre_buy_list(List<AllGoodsBean> pre_buy_list) {
             this.pre_buy_list = pre_buy_list;
+        }
+
+        public List<AllGoodsBean> getTicket_buy_list() {
+            return ticket_buy_list;
+        }
+
+        public void setTicket_buy_list(List<AllGoodsBean> ticket_buy_list) {
+            this.ticket_buy_list = ticket_buy_list;
         }
 
         public static class AdsBean {
@@ -191,6 +201,8 @@ public class GroupBuyBean {
                     ", top_nav=" + top_nav +
                     ", two_cate_list=" + two_cate_list +
                     ", group_buy_list=" + group_buy_list +
+                    ", pre_buy_list=" + pre_buy_list +
+                    ", ticket_buy_list=" + ticket_buy_list +
                     '}';
         }
     }

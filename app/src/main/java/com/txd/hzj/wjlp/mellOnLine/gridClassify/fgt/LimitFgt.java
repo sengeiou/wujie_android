@@ -114,6 +114,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putString("limit_buy_id", list.get(i).getLimit_buy_id());
+                bundle.putInt("type",0);
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });

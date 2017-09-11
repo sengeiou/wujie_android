@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
+import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
@@ -96,7 +97,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private GroupBuyPst groupBuyPst;
     // 无界预购
     private PerBuyPst perBuyPst;
-
+    // 票券区
+    private TicketBuyPst ticketBuyPst;
     private int p = 1;
 
     @ViewInject(R.id.refresh_view)
@@ -145,12 +147,16 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
                 switch (type) {
                     case 1:// 票券区
-                        startActivity(TicketGoodsDetialsAty.class, null);
+                        bundle.putString("ticket_buy_id",data.get(i).getTicket_buy_id());
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                     case 2:// 无界预购
-                        startActivity(LimitGoodsAty.class, null);
+                        bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
+                        bundle.putInt("type",2);
+                        startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
                         startActivity(InputGoodsDetailsAty.class, null);
@@ -218,6 +224,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
         perBuyPst = new PerBuyPst(this);
+        ticketBuyPst = new TicketBuyPst(this);
         gv_classify = new ArrayList<>();
         data = new ArrayList<>();
         data2 = new ArrayList<>();
@@ -230,6 +237,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
     private void forData() {
         switch (type) {
+            case 1:// 票券区
+                ticketBuyPst.ticketBuyIndex(p, title);
+                break;
             case 2:// 无界预购
                 perBuyPst.preBuyIndex(p, title);
                 break;
@@ -290,7 +300,11 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             }
             return;
         }
-        if (requestUrl.contains("preBuyIndex")) {
+        if (requestUrl.contains("preBuyIndex")) {// 无界预购
+            forOtherData(jsonStr);
+            return;
+        }
+        if (requestUrl.contains("ticketBuyIndex")) {// 票券区
             forOtherData(jsonStr);
         }
     }
@@ -318,8 +332,14 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     forMenu();
                 }
             }
-
-            data = groupBuyBean.getData().getPre_buy_list();
+            switch (type) {
+                case 1:// 票券区
+                    data = groupBuyBean.getData().getTicket_buy_list();
+                    break;
+                case 2:// 无界预购
+                    data = groupBuyBean.getData().getPre_buy_list();
+                    break;
+            }
 
             if (!ListUtils.isEmpty(data)) {
                 allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
@@ -338,7 +358,14 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             }
             refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
         } else {
-            data2 = groupBuyBean.getData().getGroup_buy_list();
+            switch (type) {
+                case 1:// 票券区
+                    data2 = groupBuyBean.getData().getTicket_buy_list();
+                    break;
+                case 2:// 无界预购
+                    data2 = groupBuyBean.getData().getPre_buy_list();
+                    break;
+            }
             if (!ListUtils.isEmpty(data2)) {
                 data.addAll(data2);
                 allGvLvAdapter1.notifyDataSetChanged();
@@ -382,6 +409,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
                     bundle.putInt("type", type);
                     switch (type) {
+                        case 1:// 票券区
                         case 2:// 无界预购
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;

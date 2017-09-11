@@ -48,4 +48,16 @@ class PreBuy {
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 
+    /**
+     * 无界预购详情
+     * @param pre_buy_id    预购id
+     * @param baseView  回调
+     */
+    void preBuyInfo(String pre_buy_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("pre_buy_id", pre_buy_id);
+        apiTool2.postApi(url + "preBuyInfo", params, baseView);
+    }
+
 }

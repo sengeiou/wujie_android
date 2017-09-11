@@ -17,6 +17,8 @@
         android:verticalSpacing="4dp"
         app:ptrMode="both"/>
 
-    <include layout="@layout/aty_no_data_layout"/>
+    <include
+        layout="@layout/aty_no_data_layout"
+        android:visibility="gone"/>
 
 </LinearLayout>

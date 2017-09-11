@@ -199,15 +199,27 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.item_country_logo_tv);
                 break;
+            case 1:// 票券区
+                // 价格
+                vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
+                // 商品图片
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.country_logo_iv);
+
+                break;
             case 8:// 拼团购
 
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.goods_price_tv.setText("￥" + allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());
-
-
+                // 商品图片重置大小
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);
                 vh.goods_pic_iv.setLayoutParams(params);
+                // 团购两人头像(最多两人)
                 List<AllGoodsBean.AppendPersonBean> append_person = allGoodsBean.getAppend_person();
                 if (!ListUtils.isEmpty(append_person)) {
                     if (allGoodsBean.getAppend_person().size() >= 2) {
@@ -218,14 +230,14 @@ public class AllGvLvAdapter extends BaseAdapter {
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(vh.goods_pic_iv);
+                                .into(vh.frist_head_iv);
                         Glide.with(context).load(append_person.get(1).getHead_pic())
                                 .override(pic_size, pic_size2)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(vh.goods_pic_iv);
+                                .into(vh.sec_head_iv);
                     } else {
                         vh.sec_head_iv.setVisibility(View.GONE);
                         Glide.with(context).load(append_person.get(0).getHead_pic())
@@ -234,7 +246,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(vh.goods_pic_iv);
+                                .into(vh.frist_head_iv);
                     }
 
                 } else {
@@ -383,5 +395,11 @@ public class AllGvLvAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.preferential_type_tv)
         private TextView preferential_type_tv;
+
+        /**
+         * 票券区国旗
+         */
+        @ViewInject(R.id.country_logo_iv)
+        private ImageView country_logo_iv;
     }
 }

@@ -15,7 +15,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
-import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
+import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,10 +60,17 @@ public class PreBuyThirdAty extends BaseAty {
      * 二级地址
      */
     private String two_cate_id = "";
-
+    /**
+     * 无界预购
+     */
     private GroupBuyPst groupBuyPst;
     /**
+     * 票券区
+     */
+    private TicketBuyPst ticketBuyPst;
+    /**
      * 数据类型
+     * 1.票券区
      * 2.无界预购
      */
     private int type = 0;
@@ -83,18 +90,26 @@ public class PreBuyThirdAty extends BaseAty {
     @Override
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
+        ticketBuyPst = new TicketBuyPst(this);
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
         type = getIntent().getIntExtra("type", 0);
-        L.e("Aty=====type=====",String.valueOf(type));
+        L.e("Aty=====type=====", String.valueOf(type));
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     }
 
     @Override
     protected void requestData() {
-        groupBuyPst.threeList(two_cate_id, 1, "");
+        switch (type) {
+            case 1:// 票券区
+                ticketBuyPst.threeList(two_cate_id, "", 1);
+                break;
+            case 2:// 无界预购
+                groupBuyPst.threeList(two_cate_id, 1, "");
+                break;
+        }
     }
 
     @Override
@@ -113,7 +128,6 @@ public class PreBuyThirdAty extends BaseAty {
                 sub_classify_stl.setViewPager(sub_classify_vp);
                 sub_classify_vp.setCurrentItem(0);
             }
-
         }
     }
 

@@ -712,7 +712,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 promotion.remove(promotionBean);
                 if (!ListUtils.isEmpty(promotion)) {
-                    PromotionAdapter promotionAdapter = new PromotionAdapter(this);
+                    PromotionAdapter promotionAdapter = new PromotionAdapter(this,promotion);
                     promotion_lv.setAdapter(promotionAdapter);
                     goods_bottom_lin_layout.setVisibility(View.VISIBLE);
                     show_or_hide_iv.setEnabled(true);

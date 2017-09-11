@@ -32,4 +32,10 @@ public class PerBuyPst extends BasePresenter {
         preBuy.threeList(two_cate_id, p, three_cate_id, baseView);
     }
 
+    // 预购详情
+    public void preBuyInfo(String pre_buy_id) {
+        baseView.showDialog();
+        preBuy.preBuyInfo(pre_buy_id, baseView);
+    }
+
 }

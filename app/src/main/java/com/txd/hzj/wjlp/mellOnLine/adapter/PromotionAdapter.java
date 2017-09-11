@@ -31,10 +31,6 @@ public class PromotionAdapter extends BaseAdapter {
 
     private PVH pvh;
 
-    public PromotionAdapter(Context context) {
-        this.context = context;
-    }
-
     public PromotionAdapter(Context context, List<PromotionBean> list) {
         this.context = context;
         this.list = list;

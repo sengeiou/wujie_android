@@ -22,6 +22,8 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
+import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
@@ -232,7 +234,12 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @ViewInject(R.id.promotion_lv)
     private ListView promotion_lv;
 
+    private List<PromotionBean> promotionBeen;
+
     private PromotionAdapter promotionAdapter;
+
+    private List<TicketListBean> goods;
+    private List<TicketListBean> goods2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +262,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         goods_trick_rv.setHasFixedSize(true);
         goods_trick_rv.setAdapter(theTrickAdapter);
 
-        promotionAdapter = new PromotionAdapter(this);
+        promotionAdapter = new PromotionAdapter(this, promotionBeen);
         promotion_lv.setAdapter(promotionAdapter);
     }
 
@@ -274,7 +281,10 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         image.add(R.drawable.icon_temp_goods_banner);
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
-        theTrickAdapter = new TheTrickAdapter(this);
+        goods = new ArrayList<>();
+        goods2 = new ArrayList<>();
+        theTrickAdapter = new TheTrickAdapter(this, goods);
+        promotionBeen = new ArrayList<>();
     }
 
     @Override

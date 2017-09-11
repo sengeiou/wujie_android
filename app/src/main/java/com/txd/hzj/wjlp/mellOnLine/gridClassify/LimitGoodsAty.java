@@ -40,6 +40,7 @@ import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
+import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
@@ -431,9 +432,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      * 1.收藏，0.未收藏
      */
     private String is_collect = "0";
-
+    // 收藏
     private UserCollectPst collectPst;
+    /**
+     * 无界预购
+     */
+    private PerBuyPst perBuyPst;
     private String goods_id = "";
+    private int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -462,8 +468,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     protected void initialized() {
         limit_buy_id = getIntent().getStringExtra("limit_buy_id");
+        type = getIntent().getIntExtra("type", 0);
         limitBuyPst = new LimitBuyPst(this);
         collectPst = new UserCollectPst(this);
+        perBuyPst = new PerBuyPst(this);
         image = new ArrayList<>();
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
@@ -481,15 +489,22 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @Override
     protected void requestData() {
-        limitBuyPst.limitBuyInfo(limit_buy_id);
+        switch (type) {
+            case 0:// 限量购
+                limitBuyPst.limitBuyInfo(limit_buy_id);
+                break;
+            case 2:// 无界预购
+                perBuyPst.preBuyInfo(limit_buy_id);
+                break;
+
+        }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("=====链接=====",requestUrl);
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("limitBuyInfo")) {
+        if (requestUrl.contains("limitBuyInfo") || requestUrl.contains("preBuyInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             if (!cart_num.equals("0")) {
@@ -519,24 +534,31 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             Map<String, String> goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
             // 商品id
             goods_id = goodsInfo.get("goods_id");
+
             long now = System.currentTimeMillis();
-
             long end;
-
-            String stage_status = goodsInfo.get("stage_status");
-
-            if (stage_status.equals("即将开始")) {
-                end = Long.parseLong(goodsInfo.get("start_time"));
-            } else {// 正在进行中和已结束
+            if (0 == type) {
+                String stage_status = goodsInfo.get("stage_status");
+                if (stage_status.equals("即将开始")) {
+                    end = Long.parseLong(goodsInfo.get("start_time"));
+                } else {// 正在进行中和已结束
+                    end = Long.parseLong(goodsInfo.get("end_time"));
+                }
+            } else {
                 end = Long.parseLong(goodsInfo.get("end_time"));
             }
+
             long difference = end - now;
             limit_status_tv.setText(goodsInfo.get("stage_status"));
             // 倒计时
             goods_count_down_view.setTag("limitGoods");
             goods_count_down_view.start(difference);
             // 限量购价格
-            ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("limit_price"));
+            if (0 == type) {
+                ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("limit_price"));
+            } else {
+                ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
+            }
             // 市场价(原价)
             old_price_tv.setText(goodsInfo.get("market_price"));
             old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -546,14 +568,18 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             goods_details_name_tv.setText(goodsInfo.get("goods_name"));
 
 
-            int limit_store = 0;
+            int limit_store;
             try {
-                limit_store = Integer.parseInt(goodsInfo.get("limit_store"));
+                if (0 == type) {
+                    limit_store = Integer.parseInt(goodsInfo.get("limit_store"));
+                } else {
+                    limit_store = Integer.parseInt(goodsInfo.get("pre_store"));
+                }
             } catch (NumberFormatException e) {
                 limit_store = 100;
             }
 
-            int sell_num = 0;
+            int sell_num;
             try {
                 sell_num = Integer.parseInt(goodsInfo.get("sell_num"));
             } catch (NumberFormatException e) {
@@ -571,9 +597,19 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
             limit_pro_tv.setText(str + "%");
 
-            String only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
-            ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only, 9, only.length() - 1,
-                    ContextCompat.getColor(this, R.color.theme_color));
+
+            String only;
+            if (0 == type) {
+                only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+                ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
+                        6 + String.valueOf(sell_num).length(), only.length() - 1,
+                        ContextCompat.getColor(this, R.color.theme_color));
+            } else {
+                only = "已预购" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+                ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
+                        7 + String.valueOf(sell_num).length(), only.length() - 1,
+                        ContextCompat.getColor(this, R.color.theme_color));
+            }
             String tariff = "进口税 " + goodsInfo.get("country_tax") + "元/件";
             ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
                     ContextCompat.getColor(this, R.color.theme_color));

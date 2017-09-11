@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
+import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
@@ -49,8 +50,14 @@ public class PreBuyThirdFgt extends BaseFgt {
 
     private List<AllGoodsBean> data;
     private List<AllGoodsBean> data2;
-
+    /**
+     * 无界预购
+     */
     private PerBuyPst perBuyPst;
+    /**
+     * 票券区
+     */
+    private TicketBuyPst ticketBuyPst;
     private int p = 1;
     private AllGvLvAdapter allGvLvAdapter1;
 
@@ -75,13 +82,13 @@ public class PreBuyThirdFgt extends BaseFgt {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p = 1;
-                perBuyPst.threeList(two, p, three);
+                forData();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p++;
-                perBuyPst.threeList(two, p, three);
+                forData();
             }
         });
         pr_third_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,10 +97,14 @@ public class PreBuyThirdFgt extends BaseFgt {
                 Bundle bundle = new Bundle();
                 switch (type) {
                     case 1:// 票券区
-                        startActivity(TicketGoodsDetialsAty.class, null);
+                        bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                     case 2:// 无界预购
-                        startActivity(LimitGoodsAty.class, null);
+                        bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
+                        bundle.putInt("type", 2);
+                        startActivity(LimitGoodsAty.class, bundle);
+                        break;
                     case 3:// 进口馆
                         startActivity(InputGoodsDetailsAty.class, null);
                         break;
@@ -112,11 +123,23 @@ public class PreBuyThirdFgt extends BaseFgt {
         data = new ArrayList<>();
         data2 = new ArrayList<>();
         perBuyPst = new PerBuyPst(this);
+        ticketBuyPst = new TicketBuyPst(this);
     }
 
     @Override
     protected void requestData() {
-        perBuyPst.threeList(two, p, three);
+        forData();
+    }
+
+    private void forData() {
+        switch (type) {
+            case 1:// 票券区
+                ticketBuyPst.threeList(two, three, p);
+                break;
+            case 2:// 无界预购
+                perBuyPst.threeList(two, p, three);
+                break;
+        }
     }
 
     @Override
@@ -132,14 +155,29 @@ public class PreBuyThirdFgt extends BaseFgt {
             Map<String, String> datajson = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             L.e("=====数据=====", jsonStr);
             if (1 == p) {
-                data = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
+                switch (type) {
+                    case 1:// 票券区
+                        data = GsonUtil.getObjectList(datajson.get("ticket_buy_list"), AllGoodsBean.class);
+                        break;
+                    case 2:// 无界预购
+                        data = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
+                        break;
+                }
                 if (!ListUtils.isEmpty(data)) {
                     L.e("Fgt=====type=====", String.valueOf(type));
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
                     pr_third_lv.setAdapter(allGvLvAdapter1);
                 }
             } else {
-                data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
+                switch (type) {
+                    case 1:// 票券区
+                        data2 = GsonUtil.getObjectList(datajson.get("ticket_buy_list"), AllGoodsBean.class);
+                        break;
+                    case 2:// 无界预购
+                        data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
+                        break;
+                }
+//                data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     allGvLvAdapter1.notifyDataSetChanged();
