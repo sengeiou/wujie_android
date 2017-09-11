@@ -1,40 +1,44 @@
 package com.txd.hzj.wjlp.login;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.DemoApplication;
-import com.txd.hzj.wjlp.DemoHelper;
+import com.mob.tools.utils.UIHandler;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
-import com.txd.hzj.wjlp.huanxin.db.DemoDBManager;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
-import org.w3c.dom.Text;
-
+import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qzone.QZone;
+import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * ===============Txunda===============
@@ -44,7 +48,7 @@ import java.util.Map;
  * 描述：登录，注册(50-1 登录，50-5 注册)
  * ===============Txunda===============
  */
-public class LoginAty extends BaseAty {
+public class LoginAty extends BaseAty implements Handler.Callback, PlatformActionListener {
     /**
      * 登录
      */
@@ -80,6 +84,14 @@ public class LoginAty extends BaseAty {
     private LinearLayout use_trilateral_lin_layout;
     private int type = 0;
 
+    /**
+     * 三方登录方式
+     * 1.微信
+     * 2.微博
+     * 3.QQ
+     */
+    private String loginType = "";
+
     @ViewInject(R.id.for_third_layout)
     private LinearLayout for_third_layout;
 
@@ -99,7 +111,30 @@ public class LoginAty extends BaseAty {
      */
     private int skip_type = 0;
     private String password = "";
+    /**
+     * 三方登录openId
+     */
+    private String openid = "";
+    /**
+     * 昵称
+     */
+    private String nick = "";
+    /**
+     * 头像路径
+     */
+    private String head_pic = "";
 
+
+    // 三方登陆
+    private static final int MSG_USERID_FOUND = 1;
+    private static final int MSG_LOGIN = 2;
+    private static final int MSG_AUTH_CANCEL = 3;
+    private static final int MSG_AUTH_ERROR = 4;
+    private static final int MSG_AUTH_COMPLETE = 5;
+    /**
+     * 邀请码
+     */
+    private String invite_code = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,10 +181,22 @@ public class LoginAty extends BaseAty {
                 }
                 hideKeyBoard();
                 break;
-            case R.id.share_to_wachar:// 新浪微博
+            case R.id.share_to_wachar:// 微信
+                loginType = "1";
+                showDialog();
+                authorize(new Wechat(this));
+                break;
             case R.id.share_to_qq:// QQ
+                loginType = "3";
+                showDialog();
+                Platform qq = ShareSDK.getPlatform(QZone.NAME);
+                authorize(qq);
+                break;
             case R.id.share_to_sine:// 新浪微博
-                startActivity(BindAccountAty.class, null);
+                showDialog();
+                loginType = "2";
+                Platform wb = ShareSDK.getPlatform(SinaWeibo.NAME);
+                authorize(wb);
                 break;
             case R.id.terms_of_service_tv:// 服务条款
                 bundle = new Bundle();
@@ -205,7 +252,7 @@ public class LoginAty extends BaseAty {
             finish();
             return;
         }
-        if (requestUrl.contains("login")) {
+        if (requestUrl.contains("Register/login")) {
             showRightTip("登录成功");
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -223,6 +270,147 @@ public class LoginAty extends BaseAty {
                 AppManager.getInstance().killAllActivity();
             }
             finish();
+            return;
         }
+        if (requestUrl.contains("Register/otherLogin")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (data.get("is_bind_phone").equals("0")) {
+                showRightTip("请绑定手机号");
+                bundle = new Bundle();
+                bundle.putString("invite_code", invite_code);
+                bundle.putInt("skip_type", skip_type);
+                bundle.putString("bind_id", data.get("bind_id"));
+                startActivity(BindAccountAty.class, bundle);
+                finish();
+            } else {
+                showRightTip("登录成功");
+                application.setUserInfo(data);
+                Config.setLoginState(true);
+                PreferencesUtils.putString(this, "token", data.get("token"));
+                // 环信登录
+                registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
+                if (0 == skip_type) {
+                    startActivity(MainAty.class, null);
+                    AppManager.getInstance().killAllActivity();
+                }
+                finish();
+            }
+        }
+    }
+
+    private void authorize(Platform plat) {
+        // 判断指定平台是否已经完成授权
+        if (plat.isAuthValid()) {
+            if (loginType.equals("1")) {
+                openid = plat.getDb().get("unionid");
+            } else {
+                openid = plat.getDb().getUserId();
+            }
+            nick = plat.getDb().getUserName();
+            if (openid != null && nick != null) {
+                head_pic = plat.getDb().getUserIcon();
+                getHeadPicAndLogin(head_pic);
+                return;
+            }
+            // 三方登陆
+            return;
+        }
+        // 授权监听
+        plat.setPlatformActionListener(this);
+        // true不使用SSO授权，false使用SSO授权，(即true不使用客户端登录，false有客户端则使用客户端登录，没有则使用web网页登录)
+        plat.SSOSetting(false);
+        // 获取用户资料
+        plat.showUser(null);
+    }
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        if (Platform.ACTION_USER_INFOR == i) {
+            UIHandler.sendEmptyMessage(MSG_AUTH_COMPLETE, this);
+            if (loginType.equals("1")) {
+                openid = platform.getDb().get("unionid");
+            } else {
+                openid = platform.getDb().getUserId();
+            }
+            nick = platform.getDb().getUserName();
+            head_pic = platform.getDb().getUserIcon();
+            getHeadPicAndLogin(head_pic);
+            // 三方登陆
+            L.e("=====openid=====", openid);
+            L.e("=====nick=====", nick);
+            L.e("=====pic=====", head_pic);
+        }
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        removeDialog();
+        if (i == Platform.ACTION_USER_INFOR) {
+            UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
+            L.e("=====授权失败=====", throwable.toString());
+            L.e("=====授权失败=====", String.valueOf(i));
+        }
+        throwable.printStackTrace();
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        removeDialog();
+        L.e(platform.getName(), "=====取消=====");
+    }
+
+    /**
+     * 获取头像并登陆
+     *
+     * @param url 图片路径
+     */
+    private void getHeadPicAndLogin(String url) {
+        HttpUtils utils = new HttpUtils();
+        utils.download(url,
+                Environment.getExternalStorageDirectory() + "/Txunda/img_head/head.png", new RequestCallBack<File>() {
+                    @Override
+                    public void onSuccess(ResponseInfo<File> responseInfo) {
+                        File head = new File(Environment.getExternalStorageDirectory() +
+                                "/Txunda/img_head/head.png");
+                        registerPst.otherLogin(openid, loginType, head, nick);
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                    }
+                });
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case MSG_USERID_FOUND: {
+                String text = getString(com.ants.theantsgo.R.string.userid_found);
+                showRightTip(text);
+            }
+            break;
+            case MSG_LOGIN: {
+                String text = getString(com.ants.theantsgo.R.string.logining, msg.obj);
+                showRightTip(text);
+            }
+            break;
+            case MSG_AUTH_CANCEL: {
+                String text = getString(com.ants.theantsgo.R.string.auth_cancel);
+                showErrorTip(text);
+            }
+            break;
+            case MSG_AUTH_ERROR: {
+                String text = getString(com.ants.theantsgo.R.string.auth_error);
+                showErrorTip(text);
+            }
+            break;
+            case MSG_AUTH_COMPLETE: {
+                String text = getString(com.ants.theantsgo.R.string.auth_complete);
+                showRightTip(text);
+            }
+            break;
+        }
+        return false;
     }
 }

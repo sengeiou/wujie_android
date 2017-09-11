@@ -2,31 +2,32 @@
 <DevInfor>
 
     <ShareSDK
-        AppKey="1d363905fbeaf"/> <!-- androidv1101 修改成你在sharesdk后台注册的应用的appkey"-->//
+        AppKey="20e25f8941c82"/> <!-- androidv1101 修改成你在sharesdk后台注册的应用的appkey"-->//
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
+    <!-- 新浪微博一定要将RedirectUrl=""属性改成和平台一致 -->
+    <!-- 新浪微博一定要将RedirectUrl=""属性改成和平台一致 -->
+    <!-- 新浪微博一定要将RedirectUrl=""属性改成和平台一致 -->
     <SinaWeibo
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
+        AppKey="907160085"
+        AppSecret="7603d8595ee38675d60d66ee3737bbaf"
         Enable="true"
         Id="1"
-        RedirectUrl="http://www.sharesdk.cn"
+        RedirectUrl="http://wjyp.txunda.com/OAuth2.html"
         ShareByAppClient="true"
         SortId="1"/>
 
     <QZone
-        AppId="1106085523"
-        AppKey="anOXCePcQjc3uHQC"
+        AppId="1106399064"
+        AppKey="y1JV82fc5MUE1F8b"
         Enable="true"
         Id="3"
         SortId="3"/>
 
     <!-- 
     	Wechat微信和WechatMoments微信朋友圈的appid是一样的；
-    
-                       注意：开发者不能用我们这两个平台的appid,否则分享不了
-    
-       	  微信测试的时候，微信测试需要先签名打包出apk,
+        注意：开发者不能用我们这两个平台的appid,否则分享不了
+       	微信测试的时候，微信测试需要先签名打包出apk,
 		sample测试微信，要先签名打包，keystore在sample项目中，密码123456
 		
 		BypassApproval是绕过审核的标记，设置为true后AppId将被忽略，故不经过
@@ -37,7 +38,7 @@
     <!--988bf828d09378945e97fd2ad65d30bf-->
     <!--f72382d1b88d390164c29e39e72cbdee-->
     <Wechat
-        AppId="wxf715c07d036aafc6"
+        AppId="wx95d5b24e8f08761a"
         AppSecret="988bf828d09378945e97fd2ad65d30bf"
         BypassApproval="false"
         Enable="true"
@@ -47,7 +48,7 @@
         userName="gh_afb25ac019c9"/>
 
     <WechatMoments
-        AppId="wxf715c07d036aafc6"
+        AppId="wx95d5b24e8f08761a"
         AppSecret="988bf828d09378945e97fd2ad65d30bf"
         BypassApproval="false"
         Enable="true"
@@ -56,8 +57,8 @@
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <QQ
-        AppId="1106085523"
-        AppKey="anOXCePcQjc3uHQC"
+        AppId="1106399064"
+        AppKey="y1JV82fc5MUE1F8b"
         Enable="true"
         Id="7"
         ShareByAppClient="true"

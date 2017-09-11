@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -281,8 +282,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.registration_code_tv:// 注册码
                 bundle = new Bundle();
-                bundle.putString("head_pic",head_pic);
-                bundle.putString("invite_code",invite_code);
+                bundle.putString("head_pic", head_pic);
+                bundle.putString("invite_code", invite_code);
                 startActivity(RegistrationCodeAty.class, bundle);
                 break;
             case R.id.my_balance_layout:// 余额
@@ -398,6 +399,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
 
         }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        removeContent();
+        removeDialog();
     }
 
     @Override

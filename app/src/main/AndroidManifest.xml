@@ -3,6 +3,11 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.txd.hzj.wjlp">
 
+    <!-- ShareSDK添加必要的权限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <!-- 访问网络 -->
@@ -88,6 +93,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="wx95d5b24e8f08761a"/>
+            </intent-filter>
+
         </activity>
         <!-- 线上商城分类(1-1-1 首页 2) -->
         <activity android:name=".mellOnLine.MellOnLineClassifyAty"/>
@@ -313,9 +327,24 @@
         <!-- 环信聊天界面 -->
         <activity android:name=".huanxin.ui.ChatActivity"/>
 
+        <!--重置支付密码-->
+        <activity android:name=".minetoAty.setting.ResetPayPwdAty"/>
+        <!--第二步-->
+        <activity android:name=".minetoAty.setting.ResetPayPwdSecAty"/>
+        <!--书院详情-->
+        <activity android:name=".minetoAty.books.BooksDetailsAty"/>
+        <!--省市区选择-->
+        <activity
+            android:name=".minetoAty.address.AreaSelectAty"
+            android:theme="@style/share_style"/>
+        <!--拼团购开团-->
+        <activity android:name=".mellOnLine.gridClassify.CreateGroupAty"/>
+        <!-- 拼团购三级分类商品列表 -->
+        <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty"/>
+        <!-- 无界预购三级分类商品列表 -->
+        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty"/>
+
         <!-- 环信相关服务等 ↓ BEGIN -->
-
-
         <!-- 开机自启动服务 -->
         <receiver android:name="huanxin.receiver.StartServiceReceiver">
             <intent-filter android:priority="1000">
@@ -475,22 +504,56 @@
 
 
         <!-- 环信相关服务等 ↑ END -->
-        <!--重置支付密码-->
-        <activity android:name=".minetoAty.setting.ResetPayPwdAty"/>
-        <!--第二步-->
-        <activity android:name=".minetoAty.setting.ResetPayPwdSecAty"/>
-        <!--书院详情-->
-        <activity android:name=".minetoAty.books.BooksDetailsAty"/>
-        <!--省市区选择-->
+
+        <!--ShareSDK相关-->
         <activity
-            android:name=".minetoAty.address.AreaSelectAty"
-            android:theme="@style/share_style"/>
-        <!--拼团购开团-->
-        <activity android:name=".mellOnLine.gridClassify.CreateGroupAty"/>
-        <!-- 拼团购三级分类商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty"/>
-        <!-- 无界预购三级分类商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty"/>
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- QQ广播！ -->
+            <intent-filter>
+                <data android:scheme="tencent1106399064"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+            <!-- 新浪微博广播！ -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
+        <!-- 调用新浪原生SDK，需要注册的回调activity -->
+        <activity
+            android:name="cn.sharesdk.sina.weibo.SinaActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+        <!-- QQ客户端回调 2.6.3开始独立添加activity来处理QQ客户端的回调 -->
+        <activity
+            android:name="cn.sharesdk.tencent.qq.ResultReceiver"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+        </activity>
+
+        <!--ShareSDK相关-->
+
+
     </application>
 
 </manifest>

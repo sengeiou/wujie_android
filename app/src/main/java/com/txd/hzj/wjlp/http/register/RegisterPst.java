@@ -15,6 +15,8 @@ import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.huanxin.db.DemoDBManager;
 
+import java.io.File;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -228,6 +230,17 @@ public class RegisterPst extends BasePresenter {
                 L.e("=====环信登录=====", "login: onError: " + code);
             }
         });
+    }
+
+    // 三方登陆
+    public void otherLogin(String openid, String type, File head_pic, String nickname) {
+        register.otherLogin(openid, type, head_pic, nickname, baseView);
+    }
+
+    // 三方登陆绑定手机号
+    public void otherLoginBind(String bind_id, String phone, String verify, String invite_code) {
+        baseView.showDialog();
+        register.otherLoginBind(bind_id, phone, verify, invite_code, baseView);
     }
 
 }

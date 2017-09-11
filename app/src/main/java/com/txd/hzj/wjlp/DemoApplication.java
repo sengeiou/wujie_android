@@ -19,6 +19,8 @@ import android.support.multidex.MultiDex;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
 
+import cn.sharesdk.framework.ShareSDK;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -47,6 +49,8 @@ public class DemoApplication extends WeApplication {
         applicationContext = this;
         instance = this;
         DemoHelper.getInstance().init(applicationContext);
+        //初始化ShareSDK
+        ShareSDK.initSDK(getApplicationContext(),"20e25f8941c82");
     }
 
     public static DemoApplication getInstance() {

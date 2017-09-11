@@ -8,11 +8,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tools.MyCount;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -74,6 +82,18 @@ public class BindAccountAty extends BaseAty {
 
     private MyCount myCount;
 
+    private String invite_code = "";
+
+    private RegisterPst registerPst;
+    /**
+     * 三方登陆绑定手机号
+     */
+    @ViewInject(R.id.third_past_bind_phone_ev)
+    private EditText third_past_bind_phone_ev;
+    private String phone = "";
+    private String bind_id = "";
+    private int skip_type = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +113,8 @@ public class BindAccountAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.bind_get_code_tv:// 获取验证码
-                if (myCount == null) {
-                    myCount = new MyCount(60000, 1000, bind_get_code_tv);
-                }
-                myCount.start();
-                in_put_code_ev.setHint("输入验证码");
+                phone = third_past_bind_phone_ev.getText().toString();
+                registerPst.getVerify(phone, "re_bind");
                 break;
             case R.id.new_pwd_iv:// 新密码
                 if (newPwd) {
@@ -126,6 +143,8 @@ public class BindAccountAty extends BaseAty {
                 }
                 break;
             case R.id.bind_success_tv:// 完成
+                String verify = in_put_code_ev.getText().toString();
+                registerPst.otherLoginBind(bind_id, phone, verify, invite_code);
                 break;
         }
     }
@@ -137,11 +156,44 @@ public class BindAccountAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        invite_code = getIntent().getStringExtra("invite_code");
+        bind_id = getIntent().getStringExtra("bind_id");
+        skip_type = getIntent().getIntExtra("skip_type", 1);
+        registerPst = new RegisterPst(this);
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("sendVerify")) {
+            if (myCount == null) {
+                myCount = new MyCount(60000, 1000, bind_get_code_tv);
+            }
+            myCount.start();
+            in_put_code_ev.setHint("输入验证码");
+            return;
+        }
+        if (requestUrl.contains("otherLoginBind")) {
+            showRightTip("登录成功");
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            application.setUserInfo(data);
+            Config.setLoginState(true);
+
+            PreferencesUtils.putString(this, "token", data.get("token"));
+
+            // 环信登录
+            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
+            if (0 == skip_type) {
+                startActivity(MainAty.class, null);
+                AppManager.getInstance().killAllActivity();
+            }
+            finish();
+        }
     }
 }

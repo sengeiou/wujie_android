@@ -5,6 +5,8 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
+import java.io.File;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -102,7 +104,7 @@ class Register {
      * @param confirmPassword 确认密码
      * @param baseView        回调
      */
-    void resetPassword(String phone,String verify, String newPassword, String confirmPassword, BaseView baseView) {
+    void resetPassword(String phone, String verify, String newPassword, String confirmPassword, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("phone", phone);
@@ -111,4 +113,42 @@ class Register {
         params.addBodyParameter("confirmPassword", confirmPassword);
         apiTool2.postApi(url + "resetPassword", params, baseView);
     }
+
+    /**
+     * 三方登陆
+     *
+     * @param openid   openid
+     * @param type     登录类型 1 微信 2微博 3 QQ
+     * @param head_pic 头像
+     * @param nickname 昵称
+     * @param baseView 回调
+     */
+    void otherLogin(String openid, String type, File head_pic, String nickname, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("openid", openid);
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("head_pic", head_pic);
+        params.addBodyParameter("nickname", nickname);
+        apiTool2.postApi(url + "otherLogin", params, baseView);
+    }
+
+    /**
+     * 三方登录绑定手机
+     * @param bind_id   绑定id
+     * @param phone 手机号
+     * @param verify    验证码
+     * @param invite_code   邀请码
+     * @param baseView  回调
+     */
+    void  otherLoginBind(String bind_id,String phone,String verify,String invite_code,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("bind_id", bind_id);
+        params.addBodyParameter("phone", phone);
+        params.addBodyParameter("verify", verify);
+        params.addBodyParameter("invite_code", invite_code);
+        apiTool2.postApi(url + "otherLoginBind", params, baseView);
+    }
+
 }
