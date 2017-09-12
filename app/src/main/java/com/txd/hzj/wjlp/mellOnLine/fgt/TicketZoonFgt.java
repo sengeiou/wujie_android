@@ -27,6 +27,7 @@ import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
@@ -99,6 +100,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private PerBuyPst perBuyPst;
     // 票券区
     private TicketBuyPst ticketBuyPst;
+    // 无界书院
+    private IntegralBuyPst integralBuyPst;
     private int p = 1;
 
     @ViewInject(R.id.refresh_view)
@@ -125,10 +128,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if (10 == type) {
-            wjMellAdapter = new WjMellAdapter(getActivity());
-        } else if (type != 8) {
+        if (type != 8) {
             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
         }
 
@@ -140,9 +140,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             ticket_zoon_goods_lv.setVisibility(View.GONE);
             ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
             ticket_zoon_goods_gv.setEmptyView(no_data_layout);
-            if (10 == type) {
-                ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
-            }
         }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,12 +147,17 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 Bundle bundle = new Bundle();
                 switch (type) {
                     case 1:// 票券区
-                        bundle.putString("ticket_buy_id",data.get(i).getTicket_buy_id());
+                        bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                     case 2:// 无界预购
                         bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
-                        bundle.putInt("type",2);
+                        bundle.putInt("type", 2);
+                        startActivity(LimitGoodsAty.class, bundle);
+                        break;
+                    case 10:// 无界预购
+                        bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
+                        bundle.putInt("type", 10);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
@@ -225,6 +227,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         groupBuyPst = new GroupBuyPst(this);
         perBuyPst = new PerBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
+        integralBuyPst = new IntegralBuyPst(this);
         gv_classify = new ArrayList<>();
         data = new ArrayList<>();
         data2 = new ArrayList<>();
@@ -245,6 +248,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 break;
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
+                break;
+            case 10:// 无界商店
+                integralBuyPst.integralBuyIndex(p, title);
                 break;
         }
     }
@@ -307,6 +313,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         if (requestUrl.contains("ticketBuyIndex")) {// 票券区
             forOtherData(jsonStr);
         }
+        if (requestUrl.contains("integralBuyIndex")) {// 无界商店
+            forOtherData(jsonStr);
+        }
     }
 
     /**
@@ -339,11 +348,19 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 case 2:// 无界预购
                     data = groupBuyBean.getData().getPre_buy_list();
                     break;
+                case 10:// 无界商店
+                    data = groupBuyBean.getData().getIntegral_buy_list();
+                    break;
             }
 
             if (!ListUtils.isEmpty(data)) {
-                allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-                ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+                if (10 == type) {
+                    wjMellAdapter = new WjMellAdapter(getActivity(), data);
+                    ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
+                } else {
+                    allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+                    ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+                }
             }
 
             GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
@@ -365,10 +382,17 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 case 2:// 无界预购
                     data2 = groupBuyBean.getData().getPre_buy_list();
                     break;
+                case 10:// 无界商店
+                    data = groupBuyBean.getData().getIntegral_buy_list();
+                    break;
             }
             if (!ListUtils.isEmpty(data2)) {
                 data.addAll(data2);
-                allGvLvAdapter1.notifyDataSetChanged();
+                if (10 == type) {
+                    wjMellAdapter.notifyDataSetChanged();
+                } else {
+                    allGvLvAdapter1.notifyDataSetChanged();
+                }
             }
             refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
         }
@@ -411,6 +435,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     switch (type) {
                         case 1:// 票券区
                         case 2:// 无界预购
+                        case 10:// 无界商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;
                         case 8:// 拼团购

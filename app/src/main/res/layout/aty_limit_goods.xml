@@ -54,6 +54,7 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:id="@+id/count_down_layout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="#F3ABA7"
@@ -96,6 +97,7 @@
                                 <include layout="@layout/aty_goods_details_title"/>
 
                                 <FrameLayout
+                                    android:id="@+id/goods_pro_layout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
 

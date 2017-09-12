@@ -62,6 +62,8 @@ public class AllGvLvAdapter extends BaseAdapter {
     private int pic_size = 0;
     private int pic_size2 = 0;
 
+    private int group_size = 0;
+
     public AllGvLvAdapter(Context context, List<AllGoodsBean> list, int type) {
         this.context = context;
         this.list = list;
@@ -72,6 +74,7 @@ public class AllGvLvAdapter extends BaseAdapter {
         if (8 == type) {
             pic_size = Settings.displayWidth;
             pic_size2 = Settings.displayWidth / 2;
+            group_size = ToolKit.dip2px(context, 40);
         } else {
             pic_size = ToolKit.dip2px(context, 180);
             pic_size2 = pic_size;
@@ -225,28 +228,28 @@ public class AllGvLvAdapter extends BaseAdapter {
                     if (allGoodsBean.getAppend_person().size() >= 2) {
                         vh.sec_head_iv.setVisibility(View.VISIBLE);
                         Glide.with(context).load(append_person.get(0).getHead_pic())
-                                .override(size1, size2)
+                                .override(group_size, group_size)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(vh.frist_head_iv);
                         Glide.with(context).load(append_person.get(1).getHead_pic())
-                                .override(pic_size, pic_size2)
+                                .override(group_size, group_size)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(vh.sec_head_iv);
                     } else {
-                        vh.sec_head_iv.setVisibility(View.GONE);
+                        vh.frist_head_iv.setVisibility(View.GONE);
                         Glide.with(context).load(append_person.get(0).getHead_pic())
-                                .override(size1, size2)
+                                .override(group_size, group_size)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(vh.frist_head_iv);
+                                .into(vh.sec_head_iv);
                     }
 
                 } else {

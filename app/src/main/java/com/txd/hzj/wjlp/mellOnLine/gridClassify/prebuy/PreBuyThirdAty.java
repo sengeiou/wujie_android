@@ -15,6 +15,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 
 import java.util.ArrayList;
@@ -69,6 +70,10 @@ public class PreBuyThirdAty extends BaseAty {
      */
     private TicketBuyPst ticketBuyPst;
     /**
+     * 无界商店
+     */
+    private IntegralBuyPst integralBuyPst;
+    /**
      * 数据类型
      * 1.票券区
      * 2.无界预购
@@ -91,6 +96,7 @@ public class PreBuyThirdAty extends BaseAty {
     protected void initialized() {
         groupBuyPst = new GroupBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
+        integralBuyPst = new IntegralBuyPst(this);
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
@@ -108,6 +114,9 @@ public class PreBuyThirdAty extends BaseAty {
                 break;
             case 2:// 无界预购
                 groupBuyPst.threeList(two_cate_id, 1, "");
+                break;
+            case 10:// 无界商店
+                integralBuyPst.threeList(two_cate_id, "", 1);
                 break;
         }
     }

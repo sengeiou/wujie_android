@@ -105,6 +105,16 @@ public class AllGoodsBean {
      */
     private String shop_price;
 
+    // TODO==========无界商店==========
+    /**
+     * 兑换所需积分
+     */
+    private String use_integral;
+    /**
+     * 积分商品对应的id
+     */
+    private String integral_buy_id;
+
     public String getGroup_buy_id() {
         return group_buy_id;
     }
@@ -217,6 +227,14 @@ public class AllGoodsBean {
         this.shop_price = shop_price;
     }
 
+    public String getUse_integral() {
+        return use_integral;
+    }
+
+    public void setUse_integral(String use_integral) {
+        this.use_integral = use_integral;
+    }
+
     public static class AppendPersonBean {
         /**
          * log_id : 2
@@ -318,6 +336,14 @@ public class AllGoodsBean {
         this.market_price = market_price;
     }
 
+    public String getIntegral_buy_id() {
+        return integral_buy_id;
+    }
+
+    public void setIntegral_buy_id(String integral_buy_id) {
+        this.integral_buy_id = integral_buy_id;
+    }
+
     @Override
     public String toString() {
         return "AllGoodsBean{" +
@@ -342,6 +368,8 @@ public class AllGoodsBean {
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
                 ", goods_id='" + goods_id + '\'' +
                 ", shop_price='" + shop_price + '\'' +
+                ", use_integral='" + use_integral + '\'' +
+                ", integral_buy_id='" + integral_buy_id + '\'' +
                 '}';
     }
 }

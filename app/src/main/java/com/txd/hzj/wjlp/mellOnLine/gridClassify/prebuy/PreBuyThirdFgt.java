@@ -16,9 +16,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
@@ -58,8 +60,11 @@ public class PreBuyThirdFgt extends BaseFgt {
      * 票券区
      */
     private TicketBuyPst ticketBuyPst;
+
+    private IntegralBuyPst integralBuyPst;
     private int p = 1;
     private AllGvLvAdapter allGvLvAdapter1;
+    private WjMellAdapter wjAdapter;
 
     public PreBuyThirdFgt() {
     }
@@ -105,6 +110,11 @@ public class PreBuyThirdFgt extends BaseFgt {
                         bundle.putInt("type", 2);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
+                    case 10:// 无界商店
+                        bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
+                        bundle.putInt("type", 10);
+                        startActivity(LimitGoodsAty.class, bundle);
+                        break;
                     case 3:// 进口馆
                         startActivity(InputGoodsDetailsAty.class, null);
                         break;
@@ -124,6 +134,7 @@ public class PreBuyThirdFgt extends BaseFgt {
         data2 = new ArrayList<>();
         perBuyPst = new PerBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
+        integralBuyPst = new IntegralBuyPst(this);
     }
 
     @Override
@@ -138,6 +149,9 @@ public class PreBuyThirdFgt extends BaseFgt {
                 break;
             case 2:// 无界预购
                 perBuyPst.threeList(two, p, three);
+                break;
+            case 10:// 无界预购
+                integralBuyPst.threeList(two, three, p);
                 break;
         }
     }
@@ -162,11 +176,19 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 2:// 无界预购
                         data = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                         break;
+                    case 10:// 无界商店
+                        data = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
+                        break;
                 }
                 if (!ListUtils.isEmpty(data)) {
                     L.e("Fgt=====type=====", String.valueOf(type));
-                    allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-                    pr_third_lv.setAdapter(allGvLvAdapter1);
+                    if (10 == type) {
+                        wjAdapter = new WjMellAdapter(getContext(), data);
+                        pr_third_lv.setAdapter(wjAdapter);
+                    } else {
+                        allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+                        pr_third_lv.setAdapter(allGvLvAdapter1);
+                    }
                 }
             } else {
                 switch (type) {
@@ -176,11 +198,16 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 2:// 无界预购
                         data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                         break;
+                    case 10:// 无界商店
+                        data2 = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
+                        break;
                 }
-//                data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
-                    allGvLvAdapter1.notifyDataSetChanged();
+                    if (10 == type)
+                        wjAdapter.notifyDataSetChanged();
+                    else
+                        allGvLvAdapter1.notifyDataSetChanged();
                 }
             }
             pr_third_lv.onRefreshComplete();

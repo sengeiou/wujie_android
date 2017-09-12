@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TopNavBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
@@ -50,6 +51,8 @@ public class TicketZoonAty extends BaseAty {
 
     private TicketBuyPst ticketBuyPst;
 
+    private IntegralBuyPst integralBuyPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,8 @@ public class TicketZoonAty extends BaseAty {
         perBuyPst = new PerBuyPst(this);
         // 票券区
         ticketBuyPst = new TicketBuyPst(this);
-
+        // 无界商店
+        integralBuyPst = new IntegralBuyPst(this);
 
         mTitles = new ArrayList<>();
     }
@@ -90,44 +94,23 @@ public class TicketZoonAty extends BaseAty {
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
+            case 10:// 无界商店
+                integralBuyPst.integralBuyIndex(1, "");
+                break;
         }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("groupBuyIndex")) {
-            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
-            mTitles = groupBuyBean.getData().getTop_nav();
-            for (TopNavBean title : mTitles) {
-                mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
-            }
-            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            vp_for_title.setAdapter(myPagerAdapter);
-            title_s_tab_layout.setViewPager(vp_for_title);
-            return;
+        GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+        mTitles = groupBuyBean.getData().getTop_nav();
+        for (TopNavBean title : mTitles) {
+            mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
         }
-        if (requestUrl.contains("preBuyIndex")) {
-            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
-            mTitles = groupBuyBean.getData().getTop_nav();
-            for (TopNavBean title : mTitles) {
-                mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
-            }
-            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            vp_for_title.setAdapter(myPagerAdapter);
-            title_s_tab_layout.setViewPager(vp_for_title);
-            return;
-        }
-        if(requestUrl.contains("ticketBuyIndex")){
-            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
-            mTitles = groupBuyBean.getData().getTop_nav();
-            for (TopNavBean title : mTitles) {
-                mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
-            }
-            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            vp_for_title.setAdapter(myPagerAdapter);
-            title_s_tab_layout.setViewPager(vp_for_title);
-        }
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        vp_for_title.setAdapter(myPagerAdapter);
+        title_s_tab_layout.setViewPager(vp_for_title);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

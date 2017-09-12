@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -39,6 +40,7 @@ import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -438,8 +440,18 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      * 无界预购
      */
     private PerBuyPst perBuyPst;
+    /**
+     * 无界商店
+     */
+    private IntegralBuyPst integralBuyPst;
     private String goods_id = "";
     private int type = 0;
+
+    @ViewInject(R.id.count_down_layout)
+    private LinearLayout count_down_layout;
+
+    @ViewInject(R.id.goods_pro_layout)
+    private FrameLayout goods_pro_layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -472,6 +484,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         limitBuyPst = new LimitBuyPst(this);
         collectPst = new UserCollectPst(this);
         perBuyPst = new PerBuyPst(this);
+        integralBuyPst = new IntegralBuyPst(this);
         image = new ArrayList<>();
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
@@ -496,15 +509,24 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case 2:// 无界预购
                 perBuyPst.preBuyInfo(limit_buy_id);
                 break;
-
+            case 10:// 无界商店
+                L.e("==========", String.valueOf(type));
+                integralBuyPst.integralBuyInfo(limit_buy_id);
+                break;
         }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("=====连接=====", requestUrl);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("limitBuyInfo") || requestUrl.contains("preBuyInfo")) {
+        if (requestUrl.contains("limitBuyInfo") ||
+                requestUrl.contains("preBuyInfo") ||
+                requestUrl.contains("integralBuyInfo")) {
+
+            L.e("=====数据=====", jsonStr);
+
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             if (!cart_num.equals("0")) {
@@ -535,81 +557,100 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             // 商品id
             goods_id = goodsInfo.get("goods_id");
 
-            long now = System.currentTimeMillis();
-            long end;
-            if (0 == type) {
-                String stage_status = goodsInfo.get("stage_status");
-                if (stage_status.equals("即将开始")) {
-                    end = Long.parseLong(goodsInfo.get("start_time"));
-                } else {// 正在进行中和已结束
+            if (10 != type) {
+                long now = System.currentTimeMillis();
+                long end;
+                if (0 == type) {
+                    String stage_status = goodsInfo.get("stage_status");
+                    if (stage_status.equals("即将开始")) {
+                        end = Long.parseLong(goodsInfo.get("start_time"));
+                    } else {// 正在进行中和已结束
+                        end = Long.parseLong(goodsInfo.get("end_time"));
+                    }
+                } else {
                     end = Long.parseLong(goodsInfo.get("end_time"));
                 }
+
+                long difference = end - now;
+                limit_status_tv.setText(goodsInfo.get("stage_status"));
+                // 倒计时
+                goods_count_down_view.setTag("limitGoods");
+                goods_count_down_view.start(difference);
+                // 限量购价格
+                if (0 == type) {
+                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get
+                            ("limit_price"));
+                } else {
+                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
+                }
+                // 市场价(原价)
+                old_price_tv.setText(goodsInfo.get("market_price"));
+                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                // 积分
+                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+                        "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+
+                int limit_store;
+                try {
+                    if (0 == type) {
+                        limit_store = Integer.parseInt(goodsInfo.get("limit_store"));
+                    } else if (2 == type) {
+                        limit_store = Integer.parseInt(goodsInfo.get("pre_store"));
+                    } else {
+                        limit_store = Integer.parseInt(goodsInfo.get("pre_store"));
+                    }
+                } catch (NumberFormatException e) {
+                    limit_store = 100;
+                }
+                int sell_num;
+
+                try {
+                    sell_num = Integer.parseInt(goodsInfo.get("sell_num"));
+                } catch (NumberFormatException e) {
+                    sell_num = 0;
+                }
+
+                // 进度
+                goods_custom_pb.setMaxProgress(limit_store);
+                goods_custom_pb.setCurProgress(sell_num);
+                double d = sell_num * 100.0f / limit_store;
+                if (sell_num >= limit_store) {
+                    d = 100f;
+                }
+                // 计算百分比
+                String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+                limit_pro_tv.setText(str + "%");
+                String only;
+                if (0 == type) {
+                    only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+                    ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
+                            6 + String.valueOf(sell_num).length(), only.length() - 1,
+                            ContextCompat.getColor(this, R.color.theme_color));
+                } else if (2 == type) {
+                    only = "已预购" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+                    ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
+                            7 + String.valueOf(sell_num).length(), only.length() - 1,
+                            ContextCompat.getColor(this, R.color.theme_color));
+                } else {
+                    only = "已兑换" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
+                    ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
+                            7 + String.valueOf(sell_num).length(), only.length() - 1,
+                            ContextCompat.getColor(this, R.color.theme_color));
+                }
             } else {
-                end = Long.parseLong(goodsInfo.get("end_time"));
+                count_down_layout.setVisibility(View.GONE);
+                goods_pro_layout.setVisibility(View.GONE);
+                goods_profit_num_tv.setVisibility(View.GONE);
+                old_price_tv.setText("￥" + goodsInfo.get("shop_price"));
+                old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                now_price_tv.setText("兑换需要" + goodsInfo.get("use_integral") + "积分");
+                goods_residue_tv.setText("已兑换" + goodsInfo.get("exchange_num") + "件");
             }
 
-            long difference = end - now;
-            limit_status_tv.setText(goodsInfo.get("stage_status"));
-            // 倒计时
-            goods_count_down_view.setTag("limitGoods");
-            goods_count_down_view.start(difference);
-            // 限量购价格
-            if (0 == type) {
-                ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("limit_price"));
-            } else {
-                ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
-            }
-            // 市场价(原价)
-            old_price_tv.setText(goodsInfo.get("market_price"));
-            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            // 积分
-            ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                    "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+            // 商品名称
             goods_details_name_tv.setText(goodsInfo.get("goods_name"));
 
 
-            int limit_store;
-            try {
-                if (0 == type) {
-                    limit_store = Integer.parseInt(goodsInfo.get("limit_store"));
-                } else {
-                    limit_store = Integer.parseInt(goodsInfo.get("pre_store"));
-                }
-            } catch (NumberFormatException e) {
-                limit_store = 100;
-            }
-
-            int sell_num;
-            try {
-                sell_num = Integer.parseInt(goodsInfo.get("sell_num"));
-            } catch (NumberFormatException e) {
-                sell_num = 0;
-            }
-
-            // 进度
-            goods_custom_pb.setMaxProgress(limit_store);
-            goods_custom_pb.setCurProgress(sell_num);
-            double d = sell_num * 100.0f / limit_store;
-            if (sell_num >= limit_store) {
-                d = 100f;
-            }
-            // 计算百分比
-            String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-            limit_pro_tv.setText(str + "%");
-
-
-            String only;
-            if (0 == type) {
-                only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
-                ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
-                        6 + String.valueOf(sell_num).length(), only.length() - 1,
-                        ContextCompat.getColor(this, R.color.theme_color));
-            } else {
-                only = "已预购" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
-                ChangeTextViewStyle.getInstance().forTextColor(this, goods_residue_tv, only,
-                        7 + String.valueOf(sell_num).length(), only.length() - 1,
-                        ContextCompat.getColor(this, R.color.theme_color));
-            }
             String tariff = "进口税 " + goodsInfo.get("country_tax") + "元/件";
             ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
                     ContextCompat.getColor(this, R.color.theme_color));
