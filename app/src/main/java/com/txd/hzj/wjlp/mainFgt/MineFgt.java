@@ -1,7 +1,10 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
@@ -183,6 +187,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
     private String invite_code = "";
+    private String server_line = "";
 
     public MineFgt() {
     }
@@ -223,7 +228,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
             R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
-            R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv,
+            R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
             R.id.mell_goods_list_tv})
     public void onClick(View v) {
@@ -309,6 +314,24 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.books_tv:// 无界书院
                 startActivity(BooksAty.class, null);
                 break;
+            case R.id.call_service_tv:// 客服
+                new MikyouCommonDialog(getActivity(), server_line, "客服电话", "取消", "拨打").setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
+                            which) {
+                        switch (btnType) {
+                            case MikyouCommonDialog.OK:// 取消
+                                break;
+                            case MikyouCommonDialog.NO:// 拨打电话
+                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + server_line));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                break;
+                        }
+                    }
+                }).showDialog();
+                break;
             case R.id.stock_record_tv:// 进货记录
                 bundle = new Bundle();
                 bundle.putInt("from", 1);
@@ -382,6 +405,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             integral_tv.setText(data.get("integral"));
             balance_tv.setText(data.get("balance"));
             ticket_num_tv.setText(data.get("ticket_num"));
+
+            server_line = data.get("server_line");
 
             // 消息数量
             int new_msg = 0;

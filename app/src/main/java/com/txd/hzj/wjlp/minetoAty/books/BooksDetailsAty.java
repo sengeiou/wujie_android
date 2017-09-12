@@ -103,7 +103,7 @@ public class BooksDetailsAty extends BaseAty {
                 if (str.equals("收藏")) {
                     collectPst.addCollect("3", academy_id);
                 } else {
-                    showRightTip("您已收藏");
+                    collectPst.delOneCollect("3", academy_id);
                 }
                 break;
         }
@@ -141,6 +141,10 @@ public class BooksDetailsAty extends BaseAty {
         }
         if (requestUrl.contains("addCollect")) {
             titlt_right_tv.setText("已收藏");
+            return;
+        }
+        if (requestUrl.contains("delOneCollect")) {
+            titlt_right_tv.setText("收藏");
         }
     }
 }
