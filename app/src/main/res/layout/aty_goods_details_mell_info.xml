@@ -53,7 +53,17 @@
                         android:src="@drawable/icon_mell_guan"/>
 
                     <Space
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"/>
+
+                    <ImageView
                         android:id="@+id/level_2_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:src="@drawable/icon_mell_guan"/>
+
+                    <Space
                         android:layout_width="16dp"
                         android:layout_height="16dp"/>
 
@@ -61,8 +71,8 @@
                         android:id="@+id/level_3_iv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:src="@drawable/icon_mell_guan"/>
+                        android:src="@drawable/icon_mell_guan"
+                        android:visibility="gone"/>
 
                     <Space
                         android:layout_width="16dp"
@@ -81,16 +91,6 @@
 
                     <ImageView
                         android:id="@+id/level_5_iv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_mell_guan"
-                        android:visibility="gone"/>
-
-                    <Space
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"/>
-
-                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/icon_mell_guan"

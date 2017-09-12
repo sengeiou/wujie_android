@@ -517,6 +517,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         isExceptionDialogShow = false;
                         finish();
                         Intent intent = new Intent(MainAty.this, LoginAty.class);
+                        intent.putExtra("type",0);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

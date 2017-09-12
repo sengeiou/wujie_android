@@ -15,38 +15,54 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.txd.hzj.wjlp.view.ObservableScrollView
-            android:id="@+id/tg_sc"
+        <com.ants.theantsgo.view.PullToRefreshLayout
+            android:id="@+id/ptr_theme_goods_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <include layout="@layout/refresh_head"/>
+
+            <com.ants.theantsgo.view.DukeScrollView
+                android:id="@+id/tg_sc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
-                <include layout="@layout/item_theme_lv"/>
-
-                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                    android:id="@+id/theme_goods_gv"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:horizontalSpacing="4dp"
-                    android:numColumns="2"
-                    android:scrollbars="none"
-                    android:verticalSpacing="4dp"/>
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-        </com.txd.hzj.wjlp.view.ObservableScrollView>
+                    <include layout="@layout/item_theme_lv"/>
+
+                    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                        android:id="@+id/theme_goods_gv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:horizontalSpacing="4dp"
+                        android:numColumns="2"
+                        android:scrollbars="none"
+                        android:verticalSpacing="4dp"/>
+
+                    <include
+                        layout="@layout/aty_no_data_layout"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+            </com.ants.theantsgo.view.DukeScrollView>
+
+            <include layout="@layout/load_more"/>
+
+        </com.ants.theantsgo.view.PullToRefreshLayout>
+
         <ImageView
+            android:id="@+id/tg_be_back_top_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_be_back_top"
-            android:id="@+id/tg_be_back_top_iv"
             android:layout_gravity="bottom|end"
-            android:visibility="gone"
-            android:layout_margin="16dp"/>
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_be_back_top"
+            android:visibility="gone"/>
 
     </FrameLayout>
 
