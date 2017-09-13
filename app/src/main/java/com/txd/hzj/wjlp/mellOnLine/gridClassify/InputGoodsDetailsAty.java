@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -240,6 +241,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
 
     private List<TicketListBean> goods;
     private List<TicketListBean> goods2;
+    private String mell_id="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -323,7 +325,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv})
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,R.id.details_into_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -377,6 +379,11 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             case R.id.be_back_top_iv://回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
+                break;
+            case R.id.details_into_mell_tv:// 进店逛逛
+                Bundle bundle = new Bundle();
+                bundle.putString("mell_id", mell_id);
+                startActivity(MellInfoAty.class, bundle);
                 break;
         }
     }

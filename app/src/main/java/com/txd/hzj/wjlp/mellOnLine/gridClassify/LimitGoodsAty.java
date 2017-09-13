@@ -36,6 +36,7 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
@@ -452,6 +453,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.goods_pro_layout)
     private FrameLayout goods_pro_layout;
+    private String mell_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -663,7 +665,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
             // 商家信息
             Map<String, String> mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
-
+            mell_id = mInfo.get("merchant_id");
             Glide.with(this).load(mInfo.get("logo"))
                     .override(logo_size, logo_size)
                     .placeholder(R.drawable.ic_default)
@@ -779,7 +781,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.to_main_layout})
+            R.id.go_to_cart_layout, R.id.to_main_layout,R.id.details_into_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -850,6 +852,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             case R.id.to_main_layout:// 首页
                 backMain(0);
+                break;
+            case R.id.details_into_mell_tv:// 进店逛逛
+                Bundle bundle = new Bundle();
+                bundle.putString("mell_id", mell_id);
+                L.e("=====商家id======",mell_id);
+                startActivity(MellInfoAty.class, bundle);
                 break;
         }
     }

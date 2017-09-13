@@ -19,6 +19,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -389,6 +390,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @ViewInject(R.id.goods_common_attr_lv)
     private ListViewForScrollView goods_common_attr_lv;
     private UserCollectPst collectPst;
+    private String mell_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -414,7 +416,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.be_back_main_tv})
+            R.id.go_to_cart_layout, R.id.be_back_main_tv, R.id.details_into_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -483,6 +485,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.be_back_main_tv:// 首页
                 backMain(0);
+                break;
+            case R.id.details_into_mell_tv:// 进店逛逛
+                Bundle bundle = new Bundle();
+                bundle.putString("mell_id", mell_id);
+                startActivity(MellInfoAty.class, bundle);
                 break;
         }
     }
@@ -730,6 +737,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      * @param mInfo 商家信息
      */
     private void forMellInfo(Map<String, String> mInfo) {
+        mell_id = mInfo.get("merchant_id");
         Glide.with(this).load(mInfo.get("logo"))
                 .override(logo_size, logo_size)
                 .placeholder(R.drawable.ic_default)
