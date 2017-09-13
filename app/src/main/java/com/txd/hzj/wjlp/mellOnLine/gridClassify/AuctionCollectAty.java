@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.bean.auction.AuctonIndex;
 import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.LimitAdapter;
 
 import java.util.ArrayList;
@@ -115,6 +116,8 @@ public class AuctionCollectAty extends BaseAty {
      * 设置要提醒的商品
      */
     private String auction_id = "";
+    private String desc = "";
+    private String href = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,10 +221,17 @@ public class AuctionCollectAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.left_lin_layout, R.id.right_lin_layout})
+    @OnClick({R.id.ads_for_auction_iv, R.id.left_lin_layout, R.id.right_lin_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.ads_for_auction_iv:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                bundle.putString("desc", desc);
+                bundle.putString("href", href);
+                startActivity(NoticeDetailsAty.class, bundle);
+                break;
             case R.id.left_lin_layout:// 左(今日拍卖)
                 next = 1;
                 p = 1;
@@ -260,6 +270,9 @@ public class AuctionCollectAty extends BaseAty {
             AuctonIndex index = GsonUtil.GsonToBean(jsonStr, AuctonIndex.class);
             if (1 == p) {
                 AdsBean adsBean = index.getData().getAds();
+                desc = adsBean.getDesc();
+                href = adsBean.getHref();
+
                 Glide.with(this).load(adsBean.getPicture())
                         .override(Settings.displayWidth, Settings.displayWidth / 2)
                         .centerCrop()
@@ -282,7 +295,7 @@ public class AuctionCollectAty extends BaseAty {
                                         toLogin();
                                         return;
                                     }
-                                    if(list.get(position).getIs_remind().equals("1")){
+                                    if (list.get(position).getIs_remind().equals("1")) {
                                         showRightTip("您已经设置过提醒");
                                         return;
                                     }

@@ -34,6 +34,7 @@ import com.txd.hzj.wjlp.bean.OneBuyBean;
 import com.txd.hzj.wjlp.bean.OneBuyListBean;
 import com.txd.hzj.wjlp.http.onebuy.OneBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsForRvAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -373,6 +374,16 @@ public class SnatchChenAty extends BaseAty {
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("from", 2);
+                    bundle.putString("desc", image.get(position).getDesc());
+                    bundle.putString("href", image.get(position).getHref());
+                    startActivity(NoticeDetailsAty.class, bundle);
+                }
+            });
         }
     };
 
@@ -513,7 +524,7 @@ public class SnatchChenAty extends BaseAty {
                     @Override
                     public void onItemClick(View view, int position) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("one_buy_id",dataForRv.get(position).getOne_buy_id());
+                        bundle.putString("one_buy_id", dataForRv.get(position).getOne_buy_id());
                         startActivity(SnatchGoodsDetailsAty.class, bundle);
                     }
                 });

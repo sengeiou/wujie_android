@@ -214,6 +214,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .into(vh.country_logo_iv);
 
                 break;
+            case 3:// 进口馆
+                // 价格
+                vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
+                vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
+                break;
             case 8:// 拼团购
 
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());

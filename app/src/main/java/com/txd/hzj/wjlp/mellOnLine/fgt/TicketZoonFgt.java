@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
@@ -117,6 +118,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private ImageView group_ad_pic_iv;
 
     private LinearLayout.LayoutParams params;
+    private String desc = "";
+    private String href = "";
 
     public static TicketZoonFgt getFgt(String title, int type) {
         TicketZoonFgt tzf = new TicketZoonFgt();
@@ -206,10 +209,17 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     }
 
     @Override
-    @OnClick({R.id.zoom_be_back_top_iv})
+    @OnClick({R.id.group_ad_pic_iv,R.id.zoom_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.group_ad_pic_iv:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                bundle.putString("desc", desc);
+                bundle.putString("href", href);
+                startActivity(NoticeDetailsAty.class, bundle);
+                break;
             case R.id.zoom_be_back_top_iv:
                 zoom_be_back_top_iv.setVisibility(View.GONE);
                 zooom_sc.smoothScrollTo(0, 0);
@@ -293,6 +303,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                             .error(R.drawable.ic_default)
                             .placeholder(R.drawable.ic_default)
                             .into(group_ad_pic_iv);
+
+                    desc = adsBean.getDesc();
+                    href = adsBean.getHref();
+
                 }
 
                 refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功

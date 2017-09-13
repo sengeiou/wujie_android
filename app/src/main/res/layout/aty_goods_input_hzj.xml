@@ -15,67 +15,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.txd.hzj.wjlp.view.ObservableScrollView
-            android:id="@+id/input_sc"
+        <com.ants.theantsgo.view.PullToRefreshLayout
+            android:id="@+id/ptr_input_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <include layout="@layout/refresh_head"/>
+
+            <com.ants.theantsgo.view.DukeScrollView
+                android:id="@+id/input_sc"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_temp_xrbs"/>
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="16dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/icon_global_hzj"/>
-
-                    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                        android:id="@+id/global_gv"
+                        android:id="@+id/input_ads_iv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_temp_xrbs"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="16dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/icon_global_hzj"/>
+
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/goods_menu_vp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/white"/>
+                    </LinearLayout>
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="4dp"/>
+
+                    <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                        android:id="@+id/global_goods_gv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:horizontalSpacing="4dp"
-                        android:numColumns="5"
-                        android:paddingBottom="24dp"
-                        android:paddingEnd="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingTop="8dp"
+                        android:numColumns="2"
                         android:scrollbars="none"
                         android:verticalSpacing="4dp"/>
+
+                    <include layout="@layout/aty_no_data_layout"/>
+
                 </LinearLayout>
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"/>
+            </com.ants.theantsgo.view.DukeScrollView>
 
-                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                    android:id="@+id/global_goods_gv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:horizontalSpacing="4dp"
-                    android:numColumns="2"
-                    android:scrollbars="none"
-                    android:verticalSpacing="4dp"/>
+            <include layout="@layout/load_more"/>
 
-            </LinearLayout>
+        </com.ants.theantsgo.view.PullToRefreshLayout>
 
-        </com.txd.hzj.wjlp.view.ObservableScrollView>
 
         <ImageView
             android:id="@+id/input_be_back_top_iv"

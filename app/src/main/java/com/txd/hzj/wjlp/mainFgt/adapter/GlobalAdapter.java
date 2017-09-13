@@ -22,15 +22,15 @@ import java.util.Map;
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
- * 日期：2017/9/5 0005
- * 时间：13:48
- * 描述：
+ * 日期：2017/9/13 0013
+ * 时间：14:02
+ * 描述：全球馆适配器
  * ===============Txunda===============
  */
 
-public class TicketZoonAdapter extends BaseAdapter {
+public class GlobalAdapter extends BaseAdapter {
     private Context context;
-    private List<TwoCateListBean> list;
+    private List<Map<String, String>> list;
     private LayoutInflater inflater;
 
     private ViewHolder vh;
@@ -40,7 +40,7 @@ public class TicketZoonAdapter extends BaseAdapter {
 
     private int size = 0;
 
-    public TicketZoonAdapter(Context context, List<TwoCateListBean> list, int curIndex) {
+    public GlobalAdapter(Context context, List<Map<String, String>> list, int curIndex) {
         this.context = context;
         this.list = list;
         this.curIndex = curIndex;
@@ -55,7 +55,7 @@ public class TicketZoonAdapter extends BaseAdapter {
     }
 
     @Override
-    public TwoCateListBean getItem(int i) {
+    public Map<String, String> getItem(int i) {
         return list.get(i);
     }
 
@@ -70,7 +70,7 @@ public class TicketZoonAdapter extends BaseAdapter {
          * 在给View绑定显示的数据时，计算正确的position = position + curIndex * pageSize，
          */
         int pos = i + curIndex * pageSize;
-        TwoCateListBean twoCateListBean = getItem(pos);
+        Map<String, String> twoCateListBean = getItem(pos);
         if (view == null) {
             view = inflater.inflate(R.layout.item_gridview_classify, null);
             vh = new ViewHolder();
@@ -79,11 +79,8 @@ public class TicketZoonAdapter extends BaseAdapter {
         } else {
             vh = (ViewHolder) view.getTag();
         }
-
-
-        vh.all_classify_title_tv.setText(twoCateListBean.getName());
-
-        Glide.with(context).load(twoCateListBean.getCate_img())
+        vh.all_classify_title_tv.setText(twoCateListBean.get("country_name"));
+        Glide.with(context).load(twoCateListBean.get("house_img"))
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
@@ -91,46 +88,6 @@ public class TicketZoonAdapter extends BaseAdapter {
                 .into(vh.all_classify_logo_iv);
 
         return view;
-    }
-
-    /**
-     * 设置图标
-     *
-     * @param i 小标
-     */
-    private void setIcon(int i) {
-        switch (i) {
-            case 0:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_xlg);
-                break;
-            case 1:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_pqq);
-                break;
-            case 2:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_ptq_l);
-                break;
-            case 3:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_ztj);
-                break;
-            case 4:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_wjyg);
-                break;
-            case 5:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_jkg);
-                break;
-            case 6:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_jph);
-                break;
-            case 7:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_qcg);
-                break;
-            case 8:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_fcg);
-                break;
-            case 9:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_temp_yydb);
-                break;
-        }
     }
 
     class ViewHolder {

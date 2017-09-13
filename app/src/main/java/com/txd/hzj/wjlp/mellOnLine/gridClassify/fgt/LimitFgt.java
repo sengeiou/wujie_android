@@ -27,6 +27,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.auction.AuctionList;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.LimitAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 
@@ -94,6 +95,8 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
     @ViewInject(R.id.limit_status_tv)
     private TextView limit_status_tv;
     private int operation_select = -1;
+    private String href = "";
+    private String desc = "";
 
     public LimitFgt() {
     }
@@ -114,7 +117,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putString("limit_buy_id", list.get(i).getLimit_buy_id());
-                bundle.putInt("type",0);
+                bundle.putInt("type", 0);
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });
@@ -148,10 +151,17 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
     }
 
     @Override
-    @OnClick({R.id.to_be_back_iv})
+    @OnClick({R.id.top_ad_iv,R.id.to_be_back_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.top_ad_iv:
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                bundle.putString("desc", desc);
+                bundle.putString("href", href);
+                startActivity(NoticeDetailsAty.class, bundle);
+                break;
             case R.id.to_be_back_iv:
                 fgt_limit_sc.smoothScrollTo(0, 0);
                 to_be_back_iv.setVisibility(View.GONE);
@@ -221,7 +231,8 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
                         .centerCrop()
                         .override(Settings.displayWidth, height)
                         .into(top_ad_iv);
-
+                desc = ads.get("desc");
+                href = ads.get("href");
                 if (ToolKit.isList(data, "limitBuyList")) {
                     list = GsonUtil.getObjectList(data.get("limitBuyList"), AuctionList.class);
                     limiAdapter = new LimitAdapter(list, getActivity(), type, 0);
