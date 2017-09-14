@@ -16,6 +16,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TopNavBean;
+import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
@@ -53,6 +54,10 @@ public class TicketZoonAty extends BaseAty {
 
     private IntegralBuyPst integralBuyPst;
 
+    private CountryPst countryPst;
+
+    private String country_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +83,8 @@ public class TicketZoonAty extends BaseAty {
         ticketBuyPst = new TicketBuyPst(this);
         // 无界商店
         integralBuyPst = new IntegralBuyPst(this);
+        // 进口馆
+        countryPst = new CountryPst(this);
 
         mTitles = new ArrayList<>();
     }
@@ -90,6 +97,10 @@ public class TicketZoonAty extends BaseAty {
                 break;
             case 2:// 无界预购
                 perBuyPst.preBuyIndex(1, "");
+                break;
+            case 3:// 进口馆
+                country_id = getIntent().getStringExtra("country_id");
+                countryPst.countryGoods(1, country_id, "");
                 break;
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
@@ -106,7 +117,7 @@ public class TicketZoonAty extends BaseAty {
         GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
         mTitles = groupBuyBean.getData().getTop_nav();
         for (TopNavBean title : mTitles) {
-            mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type));
+            mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type, country_id));
         }
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         vp_for_title.setAdapter(myPagerAdapter);

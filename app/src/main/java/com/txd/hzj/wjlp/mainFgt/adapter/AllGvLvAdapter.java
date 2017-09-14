@@ -134,20 +134,7 @@ public class AllGvLvAdapter extends BaseAdapter {
             vh = (ViewHolder) view.getTag();
         }
 
-        if (4 == type) {
-            vh.home_count_down_view.setTag("countDown" + i);
-            vh.home_count_down_view.start(36000000);
-        }
-
-        if (5 == type) {
-            // 设置进度
-            vh.cpb_progresbar2.setMaxProgress(100);
-            vh.cpb_progresbar2.setCurProgress(50);
-        }
-
-        if (type == 4) {
-            vh.sold_num_tv.setVisibility(View.GONE);
-        }
+        // 原价删除线
         if (type < 5) {
             vh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
@@ -201,6 +188,23 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.item_country_logo_tv);
+
+                vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.get_integral_tv.setText(allGoodsBean.getIntegral());
+
+                /*
+         * 是否可以使用优惠券
+         * 使用多少优惠
+         */
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+
                 break;
             case 1:// 票券区
                 // 价格
@@ -213,14 +217,174 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.country_logo_iv);
 
+                vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.get_integral_tv.setText(allGoodsBean.getIntegral());
+                /* 是否可以使用优惠券* 使用多少优惠*/
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
                 break;
             case 3:// 进口馆
                 // 价格
                 vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
                 vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
+
+                vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.get_integral_tv.setText(allGoodsBean.getIntegral());
+                /*
+                * 是否可以使用优惠券
+                * 使用多少优惠
+                */
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+                break;
+
+            case 4://竞拍汇
+
+                // 国旗
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.logo_for_country_iv);
+
+                long now4 = System.currentTimeMillis() / 1000;
+                long end4;
+                try {
+                    end4 = Long.parseLong(allGoodsBean.getEnd_time());
+                } catch (NumberFormatException e) {
+                    end4 = 0;
+                }
+                vh.home_count_down_view.setTag("countDown" + i);
+                vh.home_count_down_view.start(end4 - now4);
+
+                vh.sold_num_tv.setVisibility(View.GONE);
+
+                vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
+                vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
+                vh.get_integral_tv.setText(allGoodsBean.getIntegral());
+                /*
+                * 是否可以使用优惠券
+                * 使用多少优惠
+                */
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+                break;
+            case 5:// 一元夺宝
+                // 国旗
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.logo_for_country_iv);
+                vh.one_buy_goods_name_tv.setText(allGoodsBean.getGoods_name());
+
+                int max5;
+                try {
+                    max5 = Integer.parseInt(allGoodsBean.getPerson_num());
+                } catch (NumberFormatException e) {
+                    max5 = 100;
+                }
+                int pro;
+                try {
+                    pro = Integer.parseInt(allGoodsBean.getAdd_num());
+                } catch (NumberFormatException e) {
+                    pro = 0;
+                }
+
+                // 设置进度
+                vh.cpb_progresbar2.setMaxProgress(max5);
+                vh.cpb_progresbar2.setCurProgress(pro);
+
+                vh.add_num_tv.setText(allGoodsBean.getDiff_num());
+
+                vh.goods_integral_tv.setText(allGoodsBean.getIntegral());
+
+                /*
+         * 是否可以使用优惠券
+         * 使用多少优惠
+         */
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+
+                break;
+            case 6:// 汽车购
+                // 距离
+                vh.distance_tv.setText(allGoodsBean.getDistance());
+
+                Glide.with(context).load(allGoodsBean.getCar_img())
+                        .override(pic_size, pic_size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.car_pic_iv);
+                // 汽车名称
+                vh.car_name_tv.setText(allGoodsBean.getCar_name());
+                // 代金券
+                vh.chit_tv.setText(allGoodsBean.getPre_money());
+                vh.car_other_info_tv.setText("可    低:" + allGoodsBean.getTrue_pre_money() + "\n全车价:" +
+                        allGoodsBean.getAll_price());
+                // 积分
+                vh.car_integral_tv.setText(allGoodsBean.getIntegral());
+                // 国旗
+                Glide.with(context).load(allGoodsBean.getBrand_logo())
+                        .override(size1, size1)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.car_logo_for_country_iv);
+
+                vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_discount() + "%优惠券");
+                vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+
+                break;
+            case 7:// 房产购
+
+                // 距离
+                vh.distance_tv.setText(allGoodsBean.getDistance());
+
+                Glide.with(context).load(allGoodsBean.getHouse_img())
+                        .override(pic_size, pic_size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.house_pic_iv);
+
+                // 名称
+                vh.house_name_tv.setText(allGoodsBean.getHouse_name());
+                vh.developer_tv.setText(allGoodsBean.getDeveloper());
+                vh.min_to_max_price_tv.setText(allGoodsBean.getMin_price() + "-" + allGoodsBean.getMax_price());
+                vh.house_now_num_tv.setText(allGoodsBean.getNow_num() + "套");
+
+
                 break;
             case 8:// 拼团购
-
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.goods_price_tv.setText("￥" + allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());
@@ -264,41 +428,39 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 vh.group_totla_tv.setText("已团" + allGoodsBean.getTotal() + "件");
 
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(size1, size2);
+                vh.logo_for_country_iv.setLayoutParams(params1);
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);
+
+                /*
+                 * 是否可以使用优惠券
+                 * 使用多少优惠
+                 */
+                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+
                 break;
         }
-
-        Glide.with(context).load(allGoodsBean.getGoods_img())
-                .override(pic_size, pic_size2)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(vh.goods_pic_iv);
-
-        if (8 != type) {
-            vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
-            vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
-            vh.get_integral_tv.setText(allGoodsBean.getIntegral());
-        }
-
-
-
-        /*
-         * 是否可以使用优惠券
-         * 使用多少优惠
-         */
-        if (allGoodsBean.getTicket_buy_id().equals("0")) {
-            vh.use_coupon_tv.setText("不可使用优惠券");
-            vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
-        } else {
-            vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
-            vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+        // 除掉汽车购，房产购
+        if (6 != type && 7 != type) {
+            Glide.with(context).load(allGoodsBean.getGoods_img())
+                    .override(pic_size, pic_size2)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(vh.goods_pic_iv);
         }
 
         return view;
@@ -409,5 +571,77 @@ public class AllGvLvAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.country_logo_iv)
         private ImageView country_logo_iv;
+        // TODO==========汽车购==========
+        /**
+         * 距离
+         */
+        @ViewInject(R.id.distance_tv)
+        private TextView distance_tv;
+        /**
+         * 汽车购图片
+         */
+        @ViewInject(R.id.car_pic_iv)
+        private ImageView car_pic_iv;
+        /**
+         * 汽车名称
+         */
+        @ViewInject(R.id.car_name_tv)
+        private TextView car_name_tv;
+        /**
+         * 代金券面值
+         */
+        @ViewInject(R.id.chit_tv)
+        private TextView chit_tv;
+        /**
+         * 其他信息
+         */
+        @ViewInject(R.id.car_other_info_tv)
+        private TextView car_other_info_tv;
+        /**
+         * 积分
+         */
+        @ViewInject(R.id.car_integral_tv)
+        private TextView car_integral_tv;
+
+        @ViewInject(R.id.car_logo_for_country_iv)
+        private ImageView car_logo_for_country_iv;
+
+        // TODO==========房产购==========
+        /**
+         * 房产图片
+         */
+        @ViewInject(R.id.house_pic_iv)
+        private ImageView house_pic_iv;
+        /**
+         * 房产名称
+         */
+        @ViewInject(R.id.house_name_tv)
+        private TextView house_name_tv;
+        /**
+         * 房产开发商
+         */
+        @ViewInject(R.id.developer_tv)
+        private TextView developer_tv;
+        /**
+         * 房产价格
+         */
+        @ViewInject(R.id.min_to_max_price_tv)
+        private TextView min_to_max_price_tv;
+        /**
+         * 在售房源
+         */
+        @ViewInject(R.id.house_now_num_tv)
+        private TextView house_now_num_tv;
+
+        // TODO==========一元夺宝=========
+
+        @ViewInject(R.id.one_buy_goods_name_tv)
+        private TextView one_buy_goods_name_tv;
+
+        @ViewInject(R.id.add_num_tv)
+        private TextView add_num_tv;
+        @ViewInject(R.id.goods_integral_tv)
+        private TextView goods_integral_tv;
+
     }
 }

@@ -16,6 +16,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
@@ -60,20 +61,29 @@ public class PreBuyThirdFgt extends BaseFgt {
      * 票券区
      */
     private TicketBuyPst ticketBuyPst;
-
+    /**
+     * 无界商店
+     */
     private IntegralBuyPst integralBuyPst;
+    /**
+     * 进口馆
+     */
+    private CountryPst countryPst;
     private int p = 1;
     private AllGvLvAdapter allGvLvAdapter1;
     private WjMellAdapter wjAdapter;
 
+    private String country_id = "";
+
     public PreBuyThirdFgt() {
     }
 
-    public static PreBuyThirdFgt getFgt(String two, String three, int type) {
+    public static PreBuyThirdFgt getFgt(String two, String three, int type, String country_id) {
         PreBuyThirdFgt subClassifyListFgt = new PreBuyThirdFgt();
         subClassifyListFgt.two = two;
         subClassifyListFgt.three = three;
         subClassifyListFgt.type = type;
+        subClassifyListFgt.country_id = country_id;
         return subClassifyListFgt;
     }
 
@@ -116,7 +126,8 @@ public class PreBuyThirdFgt extends BaseFgt {
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
-                        startActivity(InputGoodsDetailsAty.class, null);
+                        bundle.putString("goods_id", data.get(i).getGoods_id());
+                        startActivity(InputGoodsDetailsAty.class, bundle);
                         break;
                 }
             }
@@ -135,6 +146,7 @@ public class PreBuyThirdFgt extends BaseFgt {
         perBuyPst = new PerBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
         integralBuyPst = new IntegralBuyPst(this);
+        countryPst = new CountryPst(this);
     }
 
     @Override
@@ -149,6 +161,9 @@ public class PreBuyThirdFgt extends BaseFgt {
                 break;
             case 2:// 无界预购
                 perBuyPst.threeList(two, p, three);
+                break;
+            case 3:// 进口馆
+                countryPst.threeList(two, country_id, p, three);
                 break;
             case 10:// 无界预购
                 integralBuyPst.threeList(two, three, p);
@@ -176,6 +191,9 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 2:// 无界预购
                         data = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                         break;
+                    case 3:// 进口馆
+                        data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
+                        break;
                     case 10:// 无界商店
                         data = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
                         break;
@@ -197,6 +215,9 @@ public class PreBuyThirdFgt extends BaseFgt {
                         break;
                     case 2:// 无界预购
                         data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
+                        break;
+                    case 3:// 进口馆
+                        data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
                         break;
                     case 10:// 无界商店
                         data2 = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);

@@ -26,6 +26,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
+import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
@@ -34,12 +35,12 @@ import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
-import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 
@@ -92,7 +93,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     @ViewInject(R.id.goods_menu_vp)
     private ViewPager goods_menu_vp;
     private int pageSize = 10;
-    private ArrayList<View> mPagerList;
     private int curIndex = 0;
 
     // 拼团购
@@ -103,6 +103,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private TicketBuyPst ticketBuyPst;
     // 无界书院
     private IntegralBuyPst integralBuyPst;
+    // 进口馆
+    private CountryPst countryPst;
+
     private int p = 1;
 
     @ViewInject(R.id.refresh_view)
@@ -120,11 +123,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private LinearLayout.LayoutParams params;
     private String desc = "";
     private String href = "";
+    private String country_id="";
 
-    public static TicketZoonFgt getFgt(String title, int type) {
+    public static TicketZoonFgt getFgt(String title, int type,String country_id) {
         TicketZoonFgt tzf = new TicketZoonFgt();
         tzf.title = title;
         tzf.type = type;
+        tzf.country_id = country_id;
         return tzf;
     }
 
@@ -209,7 +214,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     }
 
     @Override
-    @OnClick({R.id.group_ad_pic_iv,R.id.zoom_be_back_top_iv})
+    @OnClick({R.id.group_ad_pic_iv, R.id.zoom_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -238,6 +243,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         perBuyPst = new PerBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
         integralBuyPst = new IntegralBuyPst(this);
+        countryPst = new CountryPst(this);
         gv_classify = new ArrayList<>();
         data = new ArrayList<>();
         data2 = new ArrayList<>();
@@ -255,6 +261,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 break;
             case 2:// 无界预购
                 perBuyPst.preBuyIndex(p, title);
+                break;
+            case 3:// 进口馆
+                countryPst.countryGoods(p, country_id, title);
                 break;
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
@@ -326,8 +335,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         }
         if (requestUrl.contains("ticketBuyIndex")) {// 票券区
             forOtherData(jsonStr);
+            return;
         }
         if (requestUrl.contains("integralBuyIndex")) {// 无界商店
+            forOtherData(jsonStr);
+            return;
+        }
+        if (requestUrl.contains("countryGoods")) {// 进口馆
             forOtherData(jsonStr);
         }
     }
@@ -362,6 +376,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 case 2:// 无界预购
                     data = groupBuyBean.getData().getPre_buy_list();
                     break;
+                case 3:// 进口馆
+                    data = groupBuyBean.getData().getList();
+                    break;
                 case 10:// 无界商店
                     data = groupBuyBean.getData().getIntegral_buy_list();
                     break;
@@ -386,6 +403,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
                         .into(group_ad_pic_iv);
+                desc = adsBean.getDesc();
+                href = adsBean.getHref();
             }
             refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
         } else {
@@ -395,6 +414,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     break;
                 case 2:// 无界预购
                     data2 = groupBuyBean.getData().getPre_buy_list();
+                    break;
+                case 3:// 进口馆
+                    data = groupBuyBean.getData().getList();
                     break;
                 case 10:// 无界商店
                     data = groupBuyBean.getData().getIntegral_buy_list();
@@ -430,7 +452,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         // 获取总页数
         int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
         // 初始化View列表
-        mPagerList = new ArrayList<>();
+        ArrayList<View> mPagerList = new ArrayList<>();
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         for (int i = 0; i < pageCount; i++) {
             GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
@@ -446,9 +468,12 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
                     bundle.putInt("type", type);
+                    if(3 == type)
+                        bundle.putString("country_id",country_id);
                     switch (type) {
                         case 1:// 票券区
                         case 2:// 无界预购
+                        case 3:// 进口馆
                         case 10:// 无界商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;

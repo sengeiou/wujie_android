@@ -76,10 +76,10 @@
                 android:background="@color/view_color"/>
 
             <ImageView
+                android:id="@+id/ads_by_limit_buy_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_discount"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -97,10 +97,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/ticket_buy_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -118,10 +118,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/pre_buy_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -139,10 +139,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/country_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -160,10 +160,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/auction_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -181,10 +181,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/one_buy_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -202,10 +202,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/car_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -223,10 +223,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/house_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"
@@ -244,10 +244,10 @@
                 android:verticalSpacing="4dp"/>
 
             <ImageView
+                android:id="@+id/group_buy_ads_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:layout_width="match_parent"

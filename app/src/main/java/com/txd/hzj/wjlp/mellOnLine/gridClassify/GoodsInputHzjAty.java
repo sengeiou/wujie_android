@@ -139,6 +139,16 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
                 countryPst.countryIndex(p);
             }
         });
+
+        global_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putString("goods_id", list.get(i).getGoods_id());
+                startActivity(InputGoodsDetailsAty.class, bundle);
+            }
+        });
+
     }
 
     @Override

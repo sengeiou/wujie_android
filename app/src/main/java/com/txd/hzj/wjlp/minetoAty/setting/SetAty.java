@@ -25,6 +25,12 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qzone.QZone;
+import cn.sharesdk.wechat.friends.Wechat;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -131,6 +137,16 @@ public class SetAty extends BaseAty {
                             which) {
                         switch (btnType) {
                             case MikyouCommonDialog.OK:
+                                Platform qq = ShareSDK.getPlatform(QZone.NAME);
+                                Platform wx = ShareSDK.getPlatform(Wechat.NAME);
+                                Platform sl = ShareSDK.getPlatform(SinaWeibo.NAME);
+                                if (qq.isAuthValid()) {
+                                    qq.removeAccount(true);
+                                } else if (wx.isAuthValid()) {
+                                    wx.removeAccount(true);
+                                } else if (sl.isAuthValid()) {
+                                    sl.removeAccount(true);
+                                }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
                                 logout();

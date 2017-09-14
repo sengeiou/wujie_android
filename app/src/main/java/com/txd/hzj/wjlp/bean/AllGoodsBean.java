@@ -115,6 +115,39 @@ public class AllGoodsBean {
      */
     private String integral_buy_id;
 
+    // TODO==========汽车购==========
+    private String car_id;
+    private String car_name;
+    private String car_img;
+    private String lng;
+    private String lat;
+    private String pre_money;
+    private String true_pre_money;
+    private String all_price;
+    private String distance;
+    private String brand_id;
+    private String brand_logo;
+    private String ticket_discount;
+
+
+    // TODO==========房产购==========
+
+    private String house_id;
+    private String house_name;
+    private String house_img;
+    private String min_price;
+    private String max_price;
+    private String now_num;
+    private String developer;
+
+    // TODO==========一元夺宝==========
+
+    private String one_buy_id;
+    private String person_num;
+    private String add_num;
+    private String diff_num;
+
+
     public String getGroup_buy_id() {
         return group_buy_id;
     }
@@ -344,6 +377,190 @@ public class AllGoodsBean {
         this.integral_buy_id = integral_buy_id;
     }
 
+    public String getCar_id() {
+        return car_id;
+    }
+
+    public void setCar_id(String car_id) {
+        this.car_id = car_id;
+    }
+
+    public String getCar_name() {
+        return car_name;
+    }
+
+    public void setCar_name(String car_name) {
+        this.car_name = car_name;
+    }
+
+    public String getCar_img() {
+        return car_img;
+    }
+
+    public void setCar_img(String car_img) {
+        this.car_img = car_img;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getPre_money() {
+        return pre_money;
+    }
+
+    public void setPre_money(String pre_money) {
+        this.pre_money = pre_money;
+    }
+
+    public String getTrue_pre_money() {
+        return true_pre_money;
+    }
+
+    public void setTrue_pre_money(String true_pre_money) {
+        this.true_pre_money = true_pre_money;
+    }
+
+    public String getAll_price() {
+        return all_price;
+    }
+
+    public void setAll_price(String all_price) {
+        this.all_price = all_price;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getBrand_id() {
+        return brand_id;
+    }
+
+    public void setBrand_id(String brand_id) {
+        this.brand_id = brand_id;
+    }
+
+    public String getHouse_id() {
+        return house_id;
+    }
+
+    public void setHouse_id(String house_id) {
+        this.house_id = house_id;
+    }
+
+    public String getHouse_name() {
+        return house_name;
+    }
+
+    public void setHouse_name(String house_name) {
+        this.house_name = house_name;
+    }
+
+    public String getHouse_img() {
+        return house_img;
+    }
+
+    public void setHouse_img(String house_img) {
+        this.house_img = house_img;
+    }
+
+    public String getMin_price() {
+        return min_price;
+    }
+
+    public void setMin_price(String min_price) {
+        this.min_price = min_price;
+    }
+
+    public String getMax_price() {
+        return max_price;
+    }
+
+    public void setMax_price(String max_price) {
+        this.max_price = max_price;
+    }
+
+    public String getNow_num() {
+        return now_num;
+    }
+
+    public void setNow_num(String now_num) {
+        this.now_num = now_num;
+    }
+
+    public String getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
+    }
+
+    public String getOne_buy_id() {
+        return one_buy_id;
+    }
+
+    public void setOne_buy_id(String one_buy_id) {
+        this.one_buy_id = one_buy_id;
+    }
+
+    public String getPerson_num() {
+        return person_num;
+    }
+
+    public void setPerson_num(String person_num) {
+        this.person_num = person_num;
+    }
+
+    public String getAdd_num() {
+        return add_num;
+    }
+
+    public void setAdd_num(String add_num) {
+        this.add_num = add_num;
+    }
+
+    public String getDiff_num() {
+        return diff_num;
+    }
+
+    public void setDiff_num(String diff_num) {
+        this.diff_num = diff_num;
+    }
+
+    public String getBrand_logo() {
+        return brand_logo;
+    }
+
+    public void setBrand_logo(String brand_logo) {
+        this.brand_logo = brand_logo;
+    }
+
+    public String getTicket_discount() {
+        return ticket_discount;
+    }
+
+    public void setTicket_discount(String ticket_discount) {
+        this.ticket_discount = ticket_discount;
+    }
+
     @Override
     public String toString() {
         return "AllGoodsBean{" +
@@ -370,6 +587,29 @@ public class AllGoodsBean {
                 ", shop_price='" + shop_price + '\'' +
                 ", use_integral='" + use_integral + '\'' +
                 ", integral_buy_id='" + integral_buy_id + '\'' +
+                ", car_id='" + car_id + '\'' +
+                ", car_name='" + car_name + '\'' +
+                ", car_img='" + car_img + '\'' +
+                ", lng='" + lng + '\'' +
+                ", lat='" + lat + '\'' +
+                ", pre_money='" + pre_money + '\'' +
+                ", true_pre_money='" + true_pre_money + '\'' +
+                ", all_price='" + all_price + '\'' +
+                ", distance='" + distance + '\'' +
+                ", brand_id='" + brand_id + '\'' +
+                ", brand_logo='" + brand_logo + '\'' +
+                ", ticket_discount='" + ticket_discount + '\'' +
+                ", house_id='" + house_id + '\'' +
+                ", house_name='" + house_name + '\'' +
+                ", house_img='" + house_img + '\'' +
+                ", min_price='" + min_price + '\'' +
+                ", max_price='" + max_price + '\'' +
+                ", now_num='" + now_num + '\'' +
+                ", developer='" + developer + '\'' +
+                ", one_buy_id='" + one_buy_id + '\'' +
+                ", person_num='" + person_num + '\'' +
+                ", add_num='" + add_num + '\'' +
+                ", diff_num='" + diff_num + '\'' +
                 '}';
     }
 }

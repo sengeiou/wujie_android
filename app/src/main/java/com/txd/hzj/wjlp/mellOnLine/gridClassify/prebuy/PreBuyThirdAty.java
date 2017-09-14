@@ -14,6 +14,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
@@ -74,11 +75,16 @@ public class PreBuyThirdAty extends BaseAty {
      */
     private IntegralBuyPst integralBuyPst;
     /**
+     * 进口馆
+     */
+    private CountryPst countryPst;
+    /**
      * 数据类型
      * 1.票券区
      * 2.无界预购
      */
     private int type = 0;
+    private String country_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +103,7 @@ public class PreBuyThirdAty extends BaseAty {
         groupBuyPst = new GroupBuyPst(this);
         ticketBuyPst = new TicketBuyPst(this);
         integralBuyPst = new IntegralBuyPst(this);
+        countryPst = new CountryPst(this);
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
@@ -115,6 +122,10 @@ public class PreBuyThirdAty extends BaseAty {
             case 2:// 无界预购
                 groupBuyPst.threeList(two_cate_id, 1, "");
                 break;
+            case 3:// 进口馆
+                country_id = getIntent().getStringExtra("country_id");
+                countryPst.threeList(two_cate_id, country_id, 1, "");
+                break;
             case 10:// 无界商店
                 integralBuyPst.threeList(two_cate_id, "", 1);
                 break;
@@ -131,7 +142,7 @@ public class PreBuyThirdAty extends BaseAty {
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
                 for (Map<String, String> title : mTitles) {
-                    mFragments.add(PreBuyThirdFgt.getFgt(two_cate_id, title.get("three_cate_id"), type));
+                    mFragments.add(PreBuyThirdFgt.getFgt(two_cate_id, title.get("three_cate_id"), type, country_id));
                 }
                 sub_classify_vp.setAdapter(myPagerAdapter);
                 sub_classify_stl.setViewPager(sub_classify_vp);

@@ -19,7 +19,6 @@
             android:id="@+id/item_country_logo_tv"
             android:layout_width="32dp"
             android:layout_height="24dp"
-            android:scaleType="centerCrop"
             />
 
         <Space

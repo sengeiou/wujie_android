@@ -200,7 +200,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 break;
             case R.id.terms_of_service_tv:// 服务条款
                 bundle = new Bundle();
-                bundle.putInt("from", 2);
+                bundle.putInt("from", 3);
                 startActivity(NoticeDetailsAty.class, bundle);
                 break;
         }
