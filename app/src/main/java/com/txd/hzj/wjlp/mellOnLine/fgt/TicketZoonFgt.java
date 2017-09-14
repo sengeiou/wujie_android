@@ -123,9 +123,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private LinearLayout.LayoutParams params;
     private String desc = "";
     private String href = "";
-    private String country_id="";
+    private String country_id = "";
 
-    public static TicketZoonFgt getFgt(String title, int type,String country_id) {
+    public static TicketZoonFgt getFgt(String title, int type, String country_id) {
         TicketZoonFgt tzf = new TicketZoonFgt();
         tzf.title = title;
         tzf.type = type;
@@ -169,7 +169,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
-                        startActivity(InputGoodsDetailsAty.class, null);
+                        bundle.putString("goods_id", data.get(i).getGoods_id());
+                        startActivity(InputGoodsDetailsAty.class, bundle);
                         break;
                 }
             }
@@ -468,8 +469,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
                     bundle.putInt("type", type);
-                    if(3 == type)
-                        bundle.putString("country_id",country_id);
+                    if (3 == type)
+                        bundle.putString("country_id", country_id);
                     switch (type) {
                         case 1:// 票券区
                         case 2:// 无界预购

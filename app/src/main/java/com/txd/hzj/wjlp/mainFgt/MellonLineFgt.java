@@ -318,6 +318,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private ImageView group_buy_ads_iv;
     private String group_href = "";
     private String group_desc = "";
+    private List<AllGoodsBean> groupList;
+    private List<AllGoodsBean> limit;
+    private List<AllGoodsBean> ticket;
+    private List<AllGoodsBean> per;
+    private List<AllGoodsBean> countryList;
+    private List<AllGoodsBean> auctionList;
+    private List<AllGoodsBean> one_buyList;
+    private List<AllGoodsBean> carList;
+    private List<AllGoodsBean> houseList;
 
 
     @Override
@@ -457,7 +466,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         purchase_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(LimitGoodsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("limit_buy_id", limit.get(i).getLimit_buy_id());
+                startActivity(LimitGoodsAty.class, bundle);
             }
         });
         // 票券区
@@ -465,7 +476,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(TicketGoodsDetialsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ticket.get(i).getTicket_buy_id());
+                startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
 
@@ -473,7 +486,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         limit_shopping_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(LimitGoodsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("limit_buy_id", per.get(i).getPre_buy_id());
+                startActivity(LimitGoodsAty.class, bundle);
             }
         });
 
@@ -482,21 +497,27 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         import_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(InputGoodsDetailsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("goods_id", countryList.get(i).getGoods_id());
+                startActivity(InputGoodsDetailsAty.class, bundle);
             }
         });
         // 竞拍汇
         auction_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(AuctionGoodsDetailsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("auction_id", auctionList.get(i).getAuction_id());
+                startActivity(AuctionGoodsDetailsAty.class, bundle);
             }
         });
         // 一元夺宝
         good_luck_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(SnatchGoodsDetailsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("one_buy_id",one_buyList.get(i).getOne_buy_id());
+                startActivity(SnatchGoodsDetailsAty.class, bundle);
             }
         });
         // 汽车购
@@ -518,7 +539,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         group_shopping_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(GoodLuckDetailsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("group_buy_id",one_buyList.get(i).getGroup_buy_id());
+                startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
     }
@@ -658,6 +681,16 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("汽车购");
         gv_classify.add("房产购");
         gv_classify.add("积分夺宝");
+
+        groupList = new ArrayList<>();
+        limit = new ArrayList<>();
+        ticket = new ArrayList<>();
+        per = new ArrayList<>();
+        countryList = new ArrayList<>();
+        auctionList = new ArrayList<>();
+        one_buyList = new ArrayList<>();
+        carList = new ArrayList<>();
+        houseList = new ArrayList<>();
     }
 
     @Override
@@ -729,7 +762,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         group_desc = group_buy_ads.get("desc");
 
         if (ToolKit.isList(group_buy, "goodsList")) {
-            List<AllGoodsBean> groupList = GsonUtil.getObjectList(group_buy.get("goodsList"), AllGoodsBean.class);
+            groupList = GsonUtil.getObjectList(group_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter8 = new AllGvLvAdapter(getActivity(), groupList, 8);
             group_shopping_lv.setAdapter(allGvLvAdapter8);
         }
@@ -751,7 +784,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         house_desc = house_ads.get("desc");
 
         if (ToolKit.isList(house_buy, "goodsList")) {
-            List<AllGoodsBean> houseList = GsonUtil.getObjectList(house_buy.get("goodsList"), AllGoodsBean.class);
+            houseList = GsonUtil.getObjectList(house_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter7 = new AllGvLvAdapter(getActivity(), houseList, 7);
             house_gv.setAdapter(allGvLvAdapter7);
         }
@@ -773,7 +806,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(car_buy, "goods_list")) {
             L.e("=====汽车购=====", car_buy.get("goodsList"));
-            List<AllGoodsBean> carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
+            carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), carList, 6);
             car_gv.setAdapter(allGvLvAdapter6);
         }
@@ -795,7 +828,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         one_buy_desc = one_buy_ads.get("desc");
 
         if (ToolKit.isList(one_buy, "goodsList")) {
-            List<AllGoodsBean> one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
+            one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
             good_luck_gv.setAdapter(allGvLvAdapter5);
         }
@@ -817,7 +850,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         auction_desc = auction_ads.get("desc");
 
         if (ToolKit.isList(auction, "goodsList")) {
-            List<AllGoodsBean> auctionList = GsonUtil.getObjectList(auction.get("goodsList"), AllGoodsBean.class);
+            auctionList = GsonUtil.getObjectList(auction.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter4 = new AllGvLvAdapter(getActivity(), auctionList, 4);
             auction_gv.setAdapter(allGvLvAdapter4);
         }
@@ -839,7 +872,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         country_desc = country_ads.get("desc");
 
         if (ToolKit.isList(country, "goodsList")) {
-            List<AllGoodsBean> countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
+            countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
             import_gv.setAdapter(allGvLvAdapter3);
         }
@@ -861,7 +894,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         pre_desc = pre_ads.get("desc");
 
         if (ToolKit.isList(pre_buy, "goodsList")) {
-            List<AllGoodsBean> per = GsonUtil.getObjectList(pre_buy.get("goodsList"), AllGoodsBean.class);
+            per = GsonUtil.getObjectList(pre_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter2 = new AllGvLvAdapter(getActivity(), per, 2);
             limit_shopping_gv.setAdapter(allGvLvAdapter2);
         }
@@ -887,7 +920,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         ticket_desc = ticket_ads.get("desc");
 
         if (ToolKit.isList(ticket_buy, "goodsList")) {
-            List<AllGoodsBean> ticket = GsonUtil.getObjectList(ticket_buy.get("goodsList"), AllGoodsBean.class);
+            ticket = GsonUtil.getObjectList(ticket_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), ticket, 1);
             ticket_gv.setAdapter(allGvLvAdapter1);
         }
@@ -914,7 +947,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         limit_desc = limit_ads.get("desc");
 
         if (ToolKit.isList(limit_buy, "goodsList")) {
-            List<AllGoodsBean> limit = GsonUtil.getObjectList(limit_buy.get("goodsList"), AllGoodsBean.class);
+            limit = GsonUtil.getObjectList(limit_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter = new AllGvLvAdapter(getActivity(), limit, 0);
             purchase_gv.setAdapter(allGvLvAdapter);
         }

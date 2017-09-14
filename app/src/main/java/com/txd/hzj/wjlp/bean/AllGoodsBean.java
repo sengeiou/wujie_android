@@ -105,6 +105,9 @@ public class AllGoodsBean {
      */
     private String shop_price;
 
+    private String auction_id;
+    private String start_price;
+
     // TODO==========无界商店==========
     /**
      * 兑换所需积分
@@ -146,6 +149,12 @@ public class AllGoodsBean {
     private String person_num;
     private String add_num;
     private String diff_num;
+
+    // TODO==========限量购==========
+    private String limit_buy_id;
+    private String limit_price;
+    private String limit_store;
+    private String limit_num;
 
 
     public String getGroup_buy_id() {
@@ -561,6 +570,54 @@ public class AllGoodsBean {
         this.ticket_discount = ticket_discount;
     }
 
+    public String getLimit_buy_id() {
+        return limit_buy_id;
+    }
+
+    public void setLimit_buy_id(String limit_buy_id) {
+        this.limit_buy_id = limit_buy_id;
+    }
+
+    public String getLimit_price() {
+        return limit_price;
+    }
+
+    public void setLimit_price(String limit_price) {
+        this.limit_price = limit_price;
+    }
+
+    public String getLimit_store() {
+        return limit_store;
+    }
+
+    public void setLimit_store(String limit_store) {
+        this.limit_store = limit_store;
+    }
+
+    public String getLimit_num() {
+        return limit_num;
+    }
+
+    public void setLimit_num(String limit_num) {
+        this.limit_num = limit_num;
+    }
+
+    public String getAuction_id() {
+        return auction_id;
+    }
+
+    public void setAuction_id(String auction_id) {
+        this.auction_id = auction_id;
+    }
+
+    public String getStart_price() {
+        return start_price;
+    }
+
+    public void setStart_price(String start_price) {
+        this.start_price = start_price;
+    }
+
     @Override
     public String toString() {
         return "AllGoodsBean{" +
@@ -585,6 +642,8 @@ public class AllGoodsBean {
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
                 ", goods_id='" + goods_id + '\'' +
                 ", shop_price='" + shop_price + '\'' +
+                ", auction_id='" + auction_id + '\'' +
+                ", start_price='" + start_price + '\'' +
                 ", use_integral='" + use_integral + '\'' +
                 ", integral_buy_id='" + integral_buy_id + '\'' +
                 ", car_id='" + car_id + '\'' +
@@ -610,6 +669,10 @@ public class AllGoodsBean {
                 ", person_num='" + person_num + '\'' +
                 ", add_num='" + add_num + '\'' +
                 ", diff_num='" + diff_num + '\'' +
+                ", limit_buy_id='" + limit_buy_id + '\'' +
+                ", limit_price='" + limit_price + '\'' +
+                ", limit_store='" + limit_store + '\'' +
+                ", limit_num='" + limit_num + '\'' +
                 '}';
     }
 }
