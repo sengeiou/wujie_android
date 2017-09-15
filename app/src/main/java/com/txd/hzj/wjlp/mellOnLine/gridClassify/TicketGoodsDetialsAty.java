@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
@@ -392,6 +393,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private UserCollectPst collectPst;
     private String mell_id = "";
 
+    private int from = 0;
+
+    private GoodsPst goodsPst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -565,6 +570,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         ticket_buy_id = getIntent().getStringExtra("ticket_buy_id");
         ticketBuyPst = new TicketBuyPst(this);
         collectPst = new UserCollectPst(this);
+        goodsPst = new GoodsPst(this);
+        from = getIntent().getIntExtra("from", 0);
         image = new ArrayList<>();
         posts = new ArrayList<>();
         postAdapter = new PostAdapter(this, posts);
@@ -583,8 +590,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     protected void requestData() {
-        ticketBuyPst.ticketBuyInfo(ticket_buy_id);
-
+        if (0 == from)
+            ticketBuyPst.ticketBuyInfo(ticket_buy_id);
+        else
+            goodsPst.goodsInfo(ticket_buy_id);
     }
 
     @Override
@@ -592,7 +601,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
-        if (requestUrl.contains("ticketBuyInfo")) {// 票券区详情
+        if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {// 票券区详情
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             forBase(data, cart_num);
@@ -789,6 +798,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 此处可以设置。。不呢点击
             show_or_hide_iv.setEnabled(false);
         }
+        L.e("=====优惠券=====", promotionBeen.toString());
     }
 
     private void getHeight() {

@@ -43,7 +43,7 @@ public class PromotionAdapter extends BaseAdapter {
 
     @Override
     public PromotionBean getItem(int i) {
-        return null;
+        return list.get(i);
     }
 
     @Override

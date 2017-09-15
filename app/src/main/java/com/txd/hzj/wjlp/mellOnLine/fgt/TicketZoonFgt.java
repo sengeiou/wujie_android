@@ -40,7 +40,6 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 
@@ -163,7 +162,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         bundle.putInt("type", 2);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case 10:// 无界预购
+                    case 10:// 无界商家
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
                         bundle.putInt("type", 10);
                         startActivity(LimitGoodsAty.class, bundle);

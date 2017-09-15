@@ -22,7 +22,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
+import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -170,6 +172,15 @@ public class SubClassifyListFgt extends BaseFgt {
                         goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
                         racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
                         su_classify_goods_rv.setAdapter(racycleAllAdapter);
+                        racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("ticket_buy_id", goodsLists.get(position).getGoods_id());
+                                bundle.putInt("from", 1);
+                                startActivity(TicketGoodsDetialsAty.class, bundle);
+                            }
+                        });
                     }
                     if (!frist) {
                         swipe_refresh.setRefreshing(false);
