@@ -1,31 +1,46 @@
 package com.txd.hzj.wjlp.mellOnLine.fgt;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
-import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
+import com.txd.hzj.wjlp.bean.TwoCateListBean;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -38,27 +53,55 @@ import java.util.List;
 public class ClassifyFgt extends BaseFgt {
     private String type;
 
-
     @ViewInject(R.id.classify_goods_rv)
     private RecyclerView classify_goods_rv;
 
     private RacycleAllAdapter racycleAllAdapter;
 
-    private List<CFGoodsList> data;
+    private List<CFGoodsList> goodsLists;
 
     private int height = 0;
 
+
+    @ViewInject(R.id.classify_vp)
+    private ViewPager goods_menu_vp;
+    private int pageSize = 10;
+    private int curIndex = 0;
     /**
      * GridView数据列表
      */
-    private List<String> gv_classify;
-    private GVClassifyAdapter gvClassifyAdapter;
+    private List<TwoCateListBean> gv_classify;
+
+    private GoodsPst goodsPst;
+    private int p = 1;
+    /**
+     * 广告
+     */
+    @ViewInject(R.id.classify_ads_iv)
+    private ImageView classify_ads_iv;
+
+    private int ads_h;
+    private String href = "";
+    private String desc = "";
+    private Bundle bundle;
+
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
 
     /**
-     * GridView分类
+     * 是不是第一次进入
      */
-    @ViewInject(R.id.on_lin_classify_gv)
-    private GridViewForScrollView on_lin_classify_gv;
+    private boolean frist = true;
+
+    @ViewInject(R.id.super_classify_layout)
+    private SuperSwipeRefreshLayout swipe_refresh;
 
     public static ClassifyFgt newInstance(String type) {
         ClassifyFgt fragment = new ClassifyFgt();
@@ -70,6 +113,7 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         classify_goods_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
             @Override
             public boolean canScrollVertically() {
@@ -79,15 +123,98 @@ public class ClassifyFgt extends BaseFgt {
         classify_goods_rv.setItemAnimator(new DefaultItemAnimator());
         classify_goods_rv.setHasFixedSize(true);
         classify_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
-        classify_goods_rv.setAdapter(racycleAllAdapter);
 
-        on_lin_classify_gv.setAdapter(gvClassifyAdapter);
-        on_lin_classify_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(SubclassificationAty.class, null);
+
+        ads_h = Settings.displayWidth / 2;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, ads_h);
+        classify_ads_iv.setLayoutParams(params);
+
+        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderView(createHeaderView());// add headerView
+        swipe_refresh.setFooterView(createFooterView());
+        swipe_refresh.setTargetScrollWithLayout(true);
+
+        swipe_refresh
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        frist = false;
+                        textView.setText("正在刷新");
+                        imageView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        p = 1;
+                        goodsPst.goodsList(p, type, 0);
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setRotation(enable ? 180 : 0);
+                    }
+                });
+
+        swipe_refresh
+                .setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+
+                    @Override
+                    public void onLoadMore() {
+                        frist = false;
+                        footerTextView.setText("正在加载...");
+                        footerImageView.setVisibility(View.GONE);
+                        footerProgressBar.setVisibility(View.VISIBLE);
+
+                        p++;
+                        goodsPst.goodsList(p, type, 0);
+                    }
+
+                    @Override
+                    public void onPushEnable(boolean enable) {
+                        footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                        footerImageView.setVisibility(View.VISIBLE);
+                        footerImageView.setRotation(enable ? 0 : 180);
+                    }
+
+                    @Override
+                    public void onPushDistance(int distance) {
+
+                    }
+
+                });
+
+    }
+
+    @Override
+    @OnClick({R.id.classify_ads_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.classify_ads_iv:
+                bundle = new Bundle();
+                bundle.putString("desc", desc);
+                bundle.putString("href", href);
+                bundle.putInt("from", 2);
+                startActivity(NoticeDetailsAty.class, bundle);
+                break;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            try {
+                goodsPst = new GoodsPst(this);
+                goodsPst.goodsList(p, type, 1);
+            } catch (NullPointerException e) {
+                L.e("Classify======ERROR");
             }
-        });
+        }
     }
 
     @Override
@@ -102,15 +229,162 @@ public class ClassifyFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        data = new ArrayList<>();
-        racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
+        goodsLists = new ArrayList<>();
+        goodsPst = new GoodsPst(this);
         height = ToolKit.dip2px(getActivity(), 4);
         gv_classify = new ArrayList<>();
-        gvClassifyAdapter = new GVClassifyAdapter(getActivity(), gv_classify, 1);
     }
 
     @Override
     protected void requestData() {
 
     }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("goodsList")) {
+            if (ToolKit.isList(map, "data")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+                if (1 == p) {
+                    if (ToolKit.isList(data, "ads")) {
+                        Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+                        Glide.with(getActivity()).load(ads.get("picture"))
+                                .override(Settings.displayWidth, ads_h)
+                                .error(R.drawable.ic_default)
+                                .placeholder(R.drawable.ic_default)
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(classify_ads_iv);
+                        desc = ads.get("desc");
+                        href = ads.get("href");
+                    }
+                    gv_classify = GsonUtil.getObjectList(data.get("two_cate_list"), TwoCateListBean.class);
+                    if (!ListUtils.isEmpty(gv_classify)) {
+                        LinearLayout.LayoutParams params1;
+                        if (gv_classify.size() > 5) {
+                            params1 = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                    ToolKit.dip2px(getActivity(), 160));
+                        } else {
+                            params1 = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                    ToolKit.dip2px(getActivity(), 80));
+                        }
+                        goods_menu_vp.setLayoutParams(params1);
+                        forMenu();
+                    }
+
+                    if (ToolKit.isList(data, "list")) {
+                        goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
+                        racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
+                        classify_goods_rv.setAdapter(racycleAllAdapter);
+                    }
+                    if (!frist) {
+                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+
+                    if (ToolKit.isList(data, "list")) {
+                        goodsLists.addAll(GsonUtil.getObjectList(data.get("list"), CFGoodsList.class));
+                        racycleAllAdapter.notifyDataSetChanged();
+                    }
+
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    swipe_refresh.setLoadMore(false);
+                }
+            } else {
+                if (1 == p) {
+                    if (!frist) {
+                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    swipe_refresh.setLoadMore(false);
+                }
+            }
+            // TODO==========结束==========
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+    }
+
+    private void forMenu() {
+        // 获取总页数
+        int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
+        // 初始化View列表
+        ArrayList<View> mPagerList = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        for (int i = 0; i < pageCount; i++) {
+            GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout,
+                    goods_menu_vp, false);
+            gridView.setAdapter(new TicketZoonAdapter(getActivity(), gv_classify, i));
+            mPagerList.add(gridView);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int itemPos = i + curIndex * pageSize;
+                    bundle = new Bundle();
+                    bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
+                    bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
+                    startActivity(SubclassificationAty.class, bundle);
+                }
+            });
+            // 给ViewPager设置适配器
+            goods_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
+            // 添加页面改变监听事件
+            goods_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    curIndex = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(swipe_refresh.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView
+                .findViewById(R.id.footer_pb_view);
+        footerImageView = footerView
+                .findViewById(R.id.footer_image_view);
+        footerTextView = footerView
+                .findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(swipe_refresh.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
+
 }

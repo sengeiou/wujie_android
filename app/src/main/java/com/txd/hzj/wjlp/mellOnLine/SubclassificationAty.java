@@ -13,7 +13,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
 
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class SubclassificationAty extends BaseAty {
      */
     private String two_cate_id = "";
 
-    private GroupBuyPst groupBuyPst;
+    private GoodsPst goodsPst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +75,17 @@ public class SubclassificationAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        groupBuyPst = new GroupBuyPst(this);
+        goodsPst = new GoodsPst(this);
         mFragments = new ArrayList<>();
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+
     }
 
     @Override
     protected void requestData() {
-        groupBuyPst.threeList(two_cate_id, 1, "");
+        goodsPst.threeList(two_cate_id, "", 1, 1);
     }
 
     @Override
@@ -94,17 +94,16 @@ public class SubclassificationAty extends BaseAty {
         if (requestUrl.contains("threeList")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
                 for (Map<String, String> title : mTitles) {
                     mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
                 }
+                myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
                 sub_classify_vp.setAdapter(myPagerAdapter);
                 sub_classify_stl.setViewPager(sub_classify_vp);
                 sub_classify_vp.setCurrentItem(0);
             }
-
         }
     }
 

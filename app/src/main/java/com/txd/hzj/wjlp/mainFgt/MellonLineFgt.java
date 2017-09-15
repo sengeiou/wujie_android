@@ -996,6 +996,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 }
                 Bundle bundle = new Bundle();
                 bundle.putInt("pos", position);
+                bundle.putString("cate_id",horizontal_classify.get(position).get("cate_id"));
                 startActivity(MellOnLineClassifyAty.class, bundle);
             }
         });

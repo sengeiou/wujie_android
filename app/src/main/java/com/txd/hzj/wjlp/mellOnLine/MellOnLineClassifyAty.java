@@ -8,32 +8,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mainFgt.adapter.GVClassifyAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.ClassifyFgt;
-import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
-import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -81,7 +74,7 @@ public class MellOnLineClassifyAty extends BaseAty {
     /**
      * 分类列表
      */
-    private List<String> horizontal_classify;
+    private List<Map<String, String>> horizontal_classify;
 
     /**
      * 前一页选中的分类标识
@@ -98,17 +91,14 @@ public class MellOnLineClassifyAty extends BaseAty {
 
     private MyPagerAdapter myPagerAdapter;
 
+    private GoodsPst goodsPst;
+    private String cate_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         forTitle();
         showStatusBar(R.id.search_title_layout);
-
-        vp_for_title.setAdapter(myPagerAdapter);
-
-        title_s_tab_layout.setViewPager(vp_for_title);
-
-        title_s_tab_layout.setCurrentTab(pos);
 
         title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -134,6 +124,7 @@ public class MellOnLineClassifyAty extends BaseAty {
                     finish();
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
 
@@ -165,36 +156,51 @@ public class MellOnLineClassifyAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        goodsPst = new GoodsPst(this);
         fragments = new ArrayList<>();
         pos = getIntent().getIntExtra("pos", 0);
+        cate_id = getIntent().getStringExtra("cate_id");
         top = ContextCompat.getDrawable(this, R.drawable.icon_message_gray);
         top.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());
         search_left = ContextCompat.getDrawable(this, R.drawable.icon_search_gray);
         search_left.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());
         horizontal_classify = new ArrayList<>();
-        horizontal_classify.add("推荐");
-        horizontal_classify.add("食品");
-        horizontal_classify.add("生鲜");
-        horizontal_classify.add("服饰");
-        horizontal_classify.add("家居");
-        horizontal_classify.add("进口");
-        horizontal_classify.add("美妆");
-        horizontal_classify.add("母婴");
-        horizontal_classify.add("电子");
-
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-
-        for (String title : horizontal_classify) {
-            fragments.add(ClassifyFgt.newInstance(title));
-        }
 
 
     }
 
     @Override
     protected void requestData() {
-
+        goodsPst.goodsList(1, cate_id, 0);
     }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+        if (ToolKit.isList(data, "top_nav")) {
+            horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
+            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+            for (Map<String, String> title : horizontal_classify) {
+                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
+            }
+            // ViewPager设置适配器
+            vp_for_title.setAdapter(myPagerAdapter);
+            // TabLayout绑定ViewPager
+            title_s_tab_layout.setViewPager(vp_for_title);
+            // 设置选中第pos个Tab
+            title_s_tab_layout.setCurrentTab(pos);
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("Aty======错误");
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -207,7 +213,7 @@ public class MellOnLineClassifyAty extends BaseAty {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return horizontal_classify.get(position);
+            return horizontal_classify.get(position).get("short_name");
         }
 
         @Override

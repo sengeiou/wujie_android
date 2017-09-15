@@ -5,49 +5,51 @@
     android:layout_height="match_parent"
     tools:context="com.txd.hzj.wjlp.mellOnLine.fgt.ClassifyFgt">
 
-    <android.support.v4.widget.NestedScrollView
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/super_classify_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/on_lin_classify_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:horizontalSpacing="4dp"
-                android:numColumns="5"
-                android:paddingBottom="8dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="8dp"
-                android:verticalSpacing="4dp"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_discount"/>
+                android:orientation="vertical"
+                >
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="4dp"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/classify_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/classify_goods_rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"/>
+
+                <ImageView
+                    android:id="@+id/classify_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"/>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/classify_goods_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <include
+                    layout="@layout/aty_no_data_layout"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </FrameLayout>
