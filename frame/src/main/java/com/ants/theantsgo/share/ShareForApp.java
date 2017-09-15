@@ -83,11 +83,16 @@ public class ShareForApp implements PlatformActionListener {
 
     public void toShare() {
         Platform.ShareParams sp = new Platform.ShareParams();
-        sp.setShareType(Platform.SHARE_WEBPAGE); // 非常重要：一定要设置分享属性
+
+        if (!platFormName.equals(SinaWeibo.NAME)) {
+            sp.setShareType(Platform.SHARE_WEBPAGE); // 非常重要：一定要设置分享属性
+        }
+
         sp.setTitle(title);
         sp.setText(text);// 分享文本
 
-        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME)) {
+        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME) ||
+                platFormName.equals(SinaWeibo.NAME)) {
             sp.setUrl(titleUrl);
         } else if (platFormName.equals(QQ.NAME) || platFormName.equals(QZone.NAME)) {
             sp.setTitleUrl(titleUrl);

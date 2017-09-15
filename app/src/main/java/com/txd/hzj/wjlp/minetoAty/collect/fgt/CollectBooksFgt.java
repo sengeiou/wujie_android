@@ -12,7 +12,6 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
-import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -121,7 +120,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
-                bundle.putString("academy_id", books.get(i).getAid());
+                if (0 == dataType) {
+                    bundle.putString("academy_id", books.get(i - 1).getAcademy_id());
+                } else {
+                    bundle.putString("academy_id", books.get(i - 1).getAid());
+                }
                 startActivity(BooksDetailsAty.class, bundle);
             }
         });

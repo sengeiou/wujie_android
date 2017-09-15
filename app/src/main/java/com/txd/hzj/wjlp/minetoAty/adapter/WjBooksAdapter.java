@@ -111,10 +111,8 @@ public class WjBooksAdapter extends BaseAdapter {
             public void onClick(View view) {
                 if (academyList.isSelect()) {
                     academyList.setSelect(false);
-                    bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
                 } else {
                     academyList.setSelect(true);
-                    bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
                 }
                 if (forSelectNum != null) {// 设置选中个数
                     selectNum = 0;// 首先设置选中个数为零
@@ -126,6 +124,7 @@ public class WjBooksAdapter extends BaseAdapter {
                     // 通过接口将个数回传给界面
                     forSelectNum.getSelectNum(selectNum);
                 }
+                notifyDataSetChanged();
             }
         });
 

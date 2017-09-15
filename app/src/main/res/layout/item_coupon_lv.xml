@@ -18,13 +18,12 @@
         <ImageView
             android:id="@+id/mell_logo_cou_iv"
             android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/icon_temp_goods_banner"/>
+            android:layout_height="80dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -60,6 +59,7 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
+                    android:id="@+id/begin_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥"
@@ -74,6 +74,7 @@
                     android:textSize="24sp"/>
 
                 <TextView
+                    android:id="@+id/condition_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="满100可用"
@@ -95,12 +96,13 @@
         android:paddingStart="4dp">
 
         <com.txd.hzj.wjlp.view.ArcProgress
+            android:id="@+id/cou_progress"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:arc_angle="270"
             app:arc_finished_color="@color/white"
             app:arc_max="100"
-            app:arc_progress="65"
+            app:arc_progress="60"
             app:arc_progress_suffix_text="%"
             app:arc_progress_suffix_text2="已抢"
             app:arc_progress_suffix_text_color="@color/white"

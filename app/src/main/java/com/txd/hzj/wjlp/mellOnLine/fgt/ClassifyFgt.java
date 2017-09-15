@@ -105,6 +105,9 @@ public class ClassifyFgt extends BaseFgt {
     @ViewInject(R.id.super_classify_layout)
     private SuperSwipeRefreshLayout swipe_refresh;
 
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
     public static ClassifyFgt newInstance(String type) {
         ClassifyFgt fragment = new ClassifyFgt();
         fragment.type = type;
@@ -289,6 +292,9 @@ public class ClassifyFgt extends BaseFgt {
                                 startActivity(TicketGoodsDetialsAty.class, bundle);
                             }
                         });
+                    } else {
+                        classify_goods_rv.setVisibility(View.GONE);
+                        no_data_layout.setVisibility(View.VISIBLE);
                     }
                     if (!frist) {
                         swipe_refresh.setRefreshing(false);

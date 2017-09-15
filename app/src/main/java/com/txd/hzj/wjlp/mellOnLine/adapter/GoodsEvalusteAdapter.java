@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.tool.GlideUtils;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
@@ -60,7 +59,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 5;
+        return list.size();
     }
 
     @Override

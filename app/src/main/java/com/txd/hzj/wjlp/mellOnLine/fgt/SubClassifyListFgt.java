@@ -9,6 +9,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -71,6 +72,8 @@ public class SubClassifyListFgt extends BaseFgt {
     private int p = 1;
     private GoodsPst goodsPst;
     private List<CFGoodsList> goodsLists;
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
 
     public static SubClassifyListFgt getFgt(String two, String three) {
         SubClassifyListFgt subClassifyListFgt = new SubClassifyListFgt();
@@ -181,6 +184,9 @@ public class SubClassifyListFgt extends BaseFgt {
                                 startActivity(TicketGoodsDetialsAty.class, bundle);
                             }
                         });
+                    } else {
+                        su_classify_goods_rv.setVisibility(View.GONE);
+                        no_data_layout.setVisibility(View.VISIBLE);
                     }
                     if (!frist) {
                         swipe_refresh.setRefreshing(false);
