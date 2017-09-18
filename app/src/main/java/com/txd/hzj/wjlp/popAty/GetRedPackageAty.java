@@ -8,14 +8,22 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.welfare.WelfarePst;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -56,7 +64,7 @@ public class GetRedPackageAty extends BaseAty {
     @ViewInject(R.id.ad_pic_iv)
     private ShapedImageView ad_pic_iv;
 
-    private List<Integer> pics;
+    private List<Map<String, String>> pics;
     private int pos = 0;
 
     private MyCountDown myCountDown;
@@ -64,6 +72,15 @@ public class GetRedPackageAty extends BaseAty {
     private int padding = 0;
     private int pic_w = 0;
     private int pic_h = 0;
+    private String bonus_id = "";
+
+    private WelfarePst welfarePst;
+
+    /**
+     * 广告标题
+     */
+    @ViewInject(R.id.bonus_title_tv)
+    private TextView bonus_title_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,19 +92,12 @@ public class GetRedPackageAty extends BaseAty {
         pic_h = pic_w;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_w, pic_h);
         ad_pic_iv.setLayoutParams(params);
-
-        // 设置第一张图片
-        ad_pic_iv.setImageResource(pics.get(pos));
-        // 设置图片总数量和当前位置
-        pic_num_tv.setText("1/" + pics.size());
-        // 倒计时
-        toCountDown();
-
     }
 
     private void toCountDown() {
         if (myCountDown == null) {
-            myCountDown = new MyCountDown(10000, 1000);
+            long delay_time = Long.parseLong(pics.get(pos).get("delay_time"));
+            myCountDown = new MyCountDown(delay_time, 1000);
         }
         myCountDown.start();
     }
@@ -98,7 +108,7 @@ public class GetRedPackageAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.next_pic_tv:
-                ad_pic_iv.setImageResource(pics.get(pos));
+                setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
                 toCountDown();
                 break;
             case R.id.to_share_and_get_rp_tv:// 分享
@@ -114,22 +124,54 @@ public class GetRedPackageAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        welfarePst = new WelfarePst(this);
         padding = ToolKit.dip2px(this, 64);
+        bonus_id = getIntent().getStringExtra("bonus_id");
         pics = new ArrayList<>();
-        pics.add(R.drawable.icon_temp_banner);
-        pics.add(R.drawable.icon_temp_banner);
-        pics.add(R.drawable.icon_temp_banner);
-        pics.add(R.drawable.icon_temp_banner);
     }
 
     @Override
     protected void requestData() {
+        welfarePst.bonusList(bonus_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("bonusList")) {
+            if (ToolKit.isList(map, "data")) {
+                pics = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                // 设置第一张图片
+                setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
+                // 设置图片总数量和当前位置
+                pic_num_tv.setText("1/" + pics.size());
+            }
+        }
+    }
+
+    private void setPicForAds(String bonus_title, String picUrl) {
+        bonus_title_tv.setText(bonus_title);
+        Glide.with(this).load(picUrl)
+                .error(R.drawable.ic_default)
+                .centerCrop()
+                .override(pic_w, pic_h)
+                .placeholder(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(new GlideDrawableImageViewTarget(ad_pic_iv) {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable>
+                            animation) {
+                        super.onResourceReady(resource, animation);
+                        // 倒计时
+                        toCountDown();
+                    }
+                });
     }
 
     private class MyCountDown extends CountDownTimer {
 
-        public MyCountDown(long millisInFuture, long countDownInterval) {
+        MyCountDown(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 

@@ -18,6 +18,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -47,6 +49,8 @@ public class WJHatchAty extends BaseAty {
 
     @ViewInject(R.id.wjh_sc)
     private ScrollView wjh_sc;
+
+    private List<Map<String,String>> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,8 @@ public class WJHatchAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        redPackageAdapter = new RedPackageAdapter(this, 0);
+        list = new ArrayList<>();
+        redPackageAdapter = new RedPackageAdapter(this, 0,list);
 
         image = new ArrayList<>();
         image.add(R.drawable.icon_temp_banner);
