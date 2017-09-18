@@ -12,10 +12,10 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/car_pic_iv"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/icon_car_two_chen"/>
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,9 +30,9 @@
                 android:text="提车地点距您"/>
 
             <TextView
+                android:id="@+id/car_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4.8"
                 android:textColor="@color/theme_color"/>
 
             <TextView
@@ -43,6 +43,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/car_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -51,7 +52,6 @@
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
-        android:text="新BMW 系 99元订金全价到店为准330LixDrive豪华"
         android:textColor="@color/black"
         />
 
@@ -76,6 +76,7 @@
             android:textSize="10sp"/>
 
         <TextView
+            android:id="@+id/car_pre_money_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
@@ -119,9 +120,9 @@
             android:text="积分"/>
 
         <TextView
+            android:id="@+id/car_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
             android:textColor="@color/colorOrange"/>
     </LinearLayout>
 
@@ -133,9 +134,10 @@
         android:padding="8dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
+            android:id="@+id/logo_for_cat_iv"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:scaleType="centerCrop"
             />
 
         <Space

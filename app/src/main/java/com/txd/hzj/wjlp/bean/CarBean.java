@@ -11,15 +11,46 @@ package com.txd.hzj.wjlp.bean;
 public class CarBean {
 
     private boolean selecet;
-    private int unSelectIcon;
-    private int selectIcon;
-    private String carname;
+    /**
+     * 型号名称
+     */
+    private String style_name;
+    /**
+     * 车型未选中图标
+     */
+    private String style_img;
+    /**
+     * 车型选中图片
+     */
+    private String true_style_img;
+    /**
+     * 型号id
+     */
+    private String style_id;
+    /**
+     * 品牌id
+     */
+    private String brand_id;
+    /**
+     * 品牌名称
+     */
+    private String brand_name;
 
-    public CarBean(boolean selecet, int unSelectIcon, int selectIcon, String carname) {
+    /**
+     * 品牌logo
+     */
+    private String brand_logo;
+
+    public CarBean(boolean selecet, String style_name, String style_img, String true_style_img, String style_id,
+                   String brand_id, String brand_name, String brand_logo) {
         this.selecet = selecet;
-        this.unSelectIcon = unSelectIcon;
-        this.selectIcon = selectIcon;
-        this.carname = carname;
+        this.style_name = style_name;
+        this.style_img = style_img;
+        this.true_style_img = true_style_img;
+        this.style_id = style_id;
+        this.brand_id = brand_id;
+        this.brand_name = brand_name;
+        this.brand_logo = brand_logo;
     }
 
     public boolean isSelecet() {
@@ -30,27 +61,73 @@ public class CarBean {
         this.selecet = selecet;
     }
 
-    public int getUnSelectIcon() {
-        return unSelectIcon;
+    public String getStyle_name() {
+        return style_name;
     }
 
-    public void setUnSelectIcon(int unSelectIcon) {
-        this.unSelectIcon = unSelectIcon;
+    public void setStyle_name(String style_name) {
+        this.style_name = style_name;
     }
 
-    public int getSelectIcon() {
-        return selectIcon;
+    public String getStyle_img() {
+        return style_img;
     }
 
-    public void setSelectIcon(int selectIcon) {
-        this.selectIcon = selectIcon;
+    public void setStyle_img(String style_img) {
+        this.style_img = style_img;
     }
 
-    public String getCarname() {
-        return carname;
+    public String getTrue_style_img() {
+        return true_style_img;
     }
 
-    public void setCarname(String carname) {
-        this.carname = carname;
+    public void setTrue_style_img(String true_style_img) {
+        this.true_style_img = true_style_img;
+    }
+
+    public String getStyle_id() {
+        return style_id;
+    }
+
+    public void setStyle_id(String style_id) {
+        this.style_id = style_id;
+    }
+
+    public String getBrand_id() {
+        return brand_id;
+    }
+
+    public void setBrand_id(String brand_id) {
+        this.brand_id = brand_id;
+    }
+
+    public String getBrand_name() {
+        return brand_name;
+    }
+
+    public void setBrand_name(String brand_name) {
+        this.brand_name = brand_name;
+    }
+
+    public String getBrand_logo() {
+        return brand_logo;
+    }
+
+    public void setBrand_logo(String brand_logo) {
+        this.brand_logo = brand_logo;
+    }
+
+    @Override
+    public String toString() {
+        return "CarBean{" +
+                "selecet=" + selecet +
+                ", style_name='" + style_name + '\'' +
+                ", style_img='" + style_img + '\'' +
+                ", true_style_img='" + true_style_img + '\'' +
+                ", style_id='" + style_id + '\'' +
+                ", brand_id='" + brand_id + '\'' +
+                ", brand_name='" + brand_name + '\'' +
+                ", brand_logo='" + brand_logo + '\'' +
+                '}';
     }
 }

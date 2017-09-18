@@ -6,19 +6,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
-import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.CarBean;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -32,11 +31,17 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityChenAdapter.ViewHolder> {
 
     private Context context;
+    private List<Map<String, String>> cats;
 
+    private int size = 0;
 
-    public CarCommodityChenAdapter(Context context) {
+    private int logo_size = 0;
+
+    public CarCommodityChenAdapter(Context context, List<Map<String, String>> cats) {
         this.context = context;
-
+        this.cats = cats;
+        size = ToolKit.dip2px(context, 180);
+        size = ToolKit.dip2px(context, 32);
     }
 
     @Override
@@ -50,6 +55,35 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
+        Map<String, String> map = cats.get(position);
+        // 汽车图片
+        Glide.with(context).load(map.get("car_img"))
+                .override(size, size)
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(holder.car_pic_iv);
+// 汽车名称
+        holder.car_name_tv.setText(map.get("car_name"));
+        // 代金券
+        holder.car_pre_money_tv.setText(map.get("pre_money"));
+        holder.textView2.setText("可    低:" + map.get("true_pre_money") + "\n全车价:" +
+                map.get("all_price"));
+        // 积分
+        holder.car_integral_tv.setText(map.get("integral"));
+        // 国旗
+        Glide.with(context).load(map.get("brand_logo"))
+                .override(logo_size, logo_size)
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(holder.logo_for_cat_iv);
+
+        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%优惠券");
+        holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+
+        holder.car_distance_tv.setText(map.get("distance"));
 
         /**
          * 跳转到商品详情页
@@ -59,7 +93,6 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
             public void onClick(View view) {
                 Intent intent = new Intent(context, CarDetailseAty.class);
                 context.startActivity(intent);
-
             }
         });
 
@@ -74,6 +107,47 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
 
     class ViewHolder extends RecyclerView.ViewHolder {
         View view;
+
+        /**
+         * 汽车图片
+         */
+        @ViewInject(R.id.car_pic_iv)
+        private ImageView car_pic_iv;
+        /**
+         * 距离
+         */
+        @ViewInject(R.id.car_distance_tv)
+        private TextView car_distance_tv;
+        /**
+         * 汽车名称
+         */
+        @ViewInject(R.id.car_name_tv)
+        private TextView car_name_tv;
+        /**
+         * 代金券
+         */
+        @ViewInject(R.id.car_pre_money_tv)
+        private TextView car_pre_money_tv;
+        /**
+         * 其他信息
+         */
+        @ViewInject(R.id.textView2)
+        private TextView textView2;
+        /**
+         * 积分
+         */
+        @ViewInject(R.id.car_integral_tv)
+        private TextView car_integral_tv;
+        /**
+         * 汽车图标
+         */
+        @ViewInject(R.id.logo_for_cat_iv)
+        private ImageView logo_for_cat_iv;
+        /**
+         * 是否使用优惠券
+         */
+        @ViewInject(R.id.use_coupon_tv)
+        private TextView use_coupon_tv;
 
         public ViewHolder(View itemView) {
             super(itemView);

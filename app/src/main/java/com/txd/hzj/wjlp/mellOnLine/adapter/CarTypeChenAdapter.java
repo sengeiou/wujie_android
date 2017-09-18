@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.view.roundImageView.RoundedImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.CarBean;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
  * ===============Txunda===============
@@ -39,10 +34,17 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
     private int type;//1 车型  2品牌
     private List<CarBean> listSelect;
 
+    private int img_w = 0;
+    private int img_h = 0;
+    private int img_size = 0;
+
     public CarTypeChenAdapter(Context context, int type, List<CarBean> listSelect) {
         this.context = context;
         this.type = type;
         this.listSelect = listSelect;
+        img_w = ToolKit.dip2px(context, 88);
+        img_h = ToolKit.dip2px(context, 32);
+        img_size = ToolKit.dip2px(context, 50);
     }
 
     @Override
@@ -56,14 +58,60 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final CarBean carBean = listSelect.get(position);
+
+        if (1 == type) {
+            holder.iv_brand_car.setVisibility(View.GONE);
+            holder.iv_type_car.setVisibility(View.VISIBLE);
+        } else {
+            holder.iv_brand_car.setVisibility(View.VISIBLE);
+            holder.iv_type_car.setVisibility(View.GONE);
+        }
         if (carBean.isSelecet()) {
-            holder.iv_type_car.setImageResource(carBean.getSelectIcon());
+            if (1 == type) {
+                Glide.with(context).load(carBean.getTrue_style_img())
+                        .override(img_w, img_h)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .dontAnimate()
+                        .into(holder.iv_type_car);
+            } else {
+                Glide.with(context).load(carBean.getBrand_logo())
+                        .override(img_size, img_size)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .into(holder.iv_brand_car);
+            }
             holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.theme_color));
         } else {
-            holder.iv_type_car.setImageResource(carBean.getUnSelectIcon());
+            if (1 == type) {
+                Glide.with(context).load(carBean.getStyle_img())
+                        .override(img_w, img_h)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .dontTransform()
+                        .dontAnimate()
+                        .into(holder.iv_type_car);
+            } else {
+                Glide.with(context).load(carBean.getBrand_logo())
+                        .override(img_size, img_size)
+                        .error(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .into(holder.iv_brand_car);
+            }
             holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.app_text_color));
         }
-        holder.tv_type_car.setText(carBean.getCarname());
+        if (1 == type)
+            holder.tv_type_car.setText(carBean.getStyle_name());
+        else
+            holder.tv_type_car.setText(carBean.getBrand_name());
         /*
          * 单击
          */
@@ -73,13 +121,20 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
                 if (carBean.isSelecet()) {
                     //选中
                     carBean.setSelecet(false);
-                    holder.iv_type_car.setImageResource(carBean.getUnSelectIcon());
-                    holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.app_text_color));
                 } else {
                     //未选中
                     carBean.setSelecet(true);
-                    holder.iv_type_car.setImageResource(carBean.getSelectIcon());
-                    holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.theme_color));
+                }
+                // 如果第一个被选中，则设置其他的为未选中，
+                // 如果其他的被选中，则设置第一个为未选中
+                if (0 == position) {
+                    for (int i = 0; i < listSelect.size(); i++) {
+                        if (0 != i) {
+                            listSelect.get(i).setSelecet(false);
+                        }
+                    }
+                } else {
+                    listSelect.get(0).setSelecet(false);
                 }
                 notifyDataSetChanged();
             }
@@ -88,14 +143,25 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
 
     @Override
     public int getItemCount() {
-        return 8;
+        return listSelect.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * 类型图片
+         */
         @ViewInject(R.id.iv_type_car)
         ImageView iv_type_car;
+        /**
+         * 类型，品牌名称
+         */
         @ViewInject(R.id.tv_type_car)
         TextView tv_type_car;
+        /**
+         * 品牌
+         */
+        @ViewInject(R.id.iv_brand_car)
+        private ImageView iv_brand_car;
 
         public ViewHolder(View itemView) {
             super(itemView);

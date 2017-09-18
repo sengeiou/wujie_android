@@ -11,9 +11,17 @@
 
     <ImageView
         android:id="@+id/iv_type_car"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/icon_car_chen"
+        android:layout_width="88dp"
+        android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/iv_brand_car"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_default"
+        android:visibility="gone"
         />
 
     <TextView
