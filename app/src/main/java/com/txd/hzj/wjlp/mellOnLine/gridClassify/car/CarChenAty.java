@@ -110,18 +110,18 @@ public class CarChenAty extends BaseAty {
 
                 Gson gson = new Gson();
 
-                String brand_id = gson.toJson(brandIds);
-                String style_id = gson.toJson(styleIds);
+                String brand_id = gson.toJson(brandIds).replace("[", "").replace("]", "");
+                String style_id = gson.toJson(styleIds).replace("[", "").replace("]", "");
 
+                Bundle bundle = new Bundle();
+                bundle.putString("min_price", min_price);
+                bundle.putString("max_price", max_price);
+                bundle.putString("style_id", style_id);
+                bundle.putString("brand_id", brand_id);
                 L.e("=====最低价格=====", min_price);
                 L.e("=====最高价格=====", max_price);
                 L.e("=====车型编号=====", style_id);
                 L.e("=====品牌编号=====", brand_id);
-                Bundle bundle = new Bundle();
-                bundle.putString("min_price", min_price);
-                bundle.putString("max_price", max_price);
-                bundle.putString("style_id", style_id.replace("[", "").replace("]", ""));
-                bundle.putString("brand_id", brand_id.replace("[", "").replace("]", ""));
                 startActivity(CarCommodityChenAty.class, bundle);
                 break;
         }

@@ -52,11 +52,11 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/car_details_name_tv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:paddingEnd="8dp"
                                     android:paddingStart="8dp"
-                                    android:text="康尔馨五星级酒店毛巾纯棉加大厚面巾洗脸全棉吸水男女成人家用"
                                     android:textColor="@color/app_text_color"/>
 
                                 <LinearLayout
@@ -88,10 +88,10 @@
                                         android:textSize="13sp"/>
 
                                     <TextView
+                                        android:id="@+id/car_d_pre_money_tv"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:gravity="end"
-                                        android:text="99.00"
                                         android:textColor="@color/theme_color"
                                         android:textSize="16sp"/>
 
@@ -111,20 +111,20 @@
                                             />
 
                                         <TextView
+                                            android:id="@+id/car_d_integral_tv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="10.23"
                                             android:textColor="#FD8214"
                                             />
                                     </LinearLayout>
                                 </LinearLayout>
 
                                 <TextView
+                                    android:id="@+id/car_d_other_info_tv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:lineSpacingExtra="4dp"
-                                    android:padding="8dp"
-                                    android:text="可    低:￥200车款\n全车价:￥1490000.00"/>
+                                    android:padding="8dp"/>
                             </LinearLayout>
 
                             <Space
@@ -178,6 +178,7 @@
                 android:showDividers="middle">
 
                 <TextView
+                    android:id="@+id/be_back_main_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -191,7 +192,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-
+android:id="@+id/to_user_cart_layout"
                     android:gravity="center">
 
                     <TextView
@@ -205,15 +206,15 @@
                         android:text="购物车"/>
 
                     <TextView
+                        android:id="@+id/user_cart_num_tv"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/shape_search_message_num_tv"
                         android:gravity="center"
-
-                        android:text="1"
                         android:textColor="@color/white"
+                        android:visibility="gone"
                         />
 
                 </FrameLayout>

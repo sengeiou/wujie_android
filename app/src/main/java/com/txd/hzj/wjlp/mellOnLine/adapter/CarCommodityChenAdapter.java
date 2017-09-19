@@ -57,7 +57,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-        Map<String, String> map = cats.get(position);
+        final Map<String, String> map = cats.get(position);
         // 汽车图片
         Glide.with(context).load(map.get("car_img"))
                 .override(size, size)
@@ -93,7 +93,9 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String car_id = map.get("car_id");
                 Intent intent = new Intent(context, CarDetailseAty.class);
+                intent.putExtra("car_id", car_id);
                 context.startActivity(intent);
             }
         });

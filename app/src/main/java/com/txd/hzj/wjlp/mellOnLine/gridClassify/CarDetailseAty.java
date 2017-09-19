@@ -1,38 +1,48 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
+import com.txd.hzj.wjlp.http.carbuy.CarBuyPst;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 public class CarDetailseAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
 
-    /**
-     * 商品布局
-     */
-    @ViewInject(R.id.title_goods_layout)
-    public LinearLayout title_goods_layout;
     /**
      * 商品TextView
      */
@@ -45,11 +55,6 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     @ViewInject(R.id.title_goods_view)
     public View title_goods_view;
     /**
-     * 详情布局
-     */
-    @ViewInject(R.id.title_details_layout)
-    public LinearLayout title_details_layout;
-    /**
      * 详情TextView
      */
     @ViewInject(R.id.title_details_tv)
@@ -60,11 +65,6 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      */
     @ViewInject(R.id.title_details_view)
     public View title_details_view;
-    /**
-     * 评价布局
-     */
-    @ViewInject(R.id.title_evaluate_layout)
-    public LinearLayout title_evaluate_layout;
     /**
      * 评价TextView
      */
@@ -85,7 +85,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private ArrayList<Map<String, String>> image;
 
     /**
      * 原价
@@ -137,8 +137,91 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     @ViewInject(R.id.second_lin_layout)
     private LinearLayout second_lin_layout;
 
-
     private int clickType = 0;
+
+    private int bannerSize = 0;
+
+    @ViewInject(R.id.goods_for_my_evaluste_layout)
+    private LinearLayout goods_for_my_evaluste_layout;
+    /**
+     * 汽车id
+     */
+    private String car_id = "";
+
+    private CarBuyPst carBuyPst;
+
+    @ViewInject(R.id.user_cart_num_tv)
+    private TextView user_cart_num_tv;
+
+    private String is_collect = "";
+
+    @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;
+    @ViewInject(R.id.goods_title_collect_tv)
+    private TextView goods_title_collect_tv;
+    private UserCollectPst collectPst;
+
+    @ViewInject(R.id.car_details_name_tv)
+    private TextView car_details_name_tv;
+
+    @ViewInject(R.id.car_d_pre_money_tv)
+    private TextView car_d_pre_money_tv;
+
+    @ViewInject(R.id.car_d_integral_tv)
+    private TextView car_d_integral_tv;
+
+    @ViewInject(R.id.car_d_other_info_tv)
+    private TextView car_d_other_info_tv;
+
+    /**
+     * 文字描述
+     */
+    @ViewInject(R.id.goods_brief_tv)
+    private WebView goods_brief_tv;
+    /**
+     * 图文详情
+     */
+    @ViewInject(R.id.goods_desc_wv)
+    private WebView goods_desc_wv;
+
+    /**
+     * 商品条数
+     */
+    @ViewInject(R.id.all_comment_num_tv)
+    private TextView all_comment_num_tv;
+    /**
+     * 评价商品的买家头像
+     */
+    @ViewInject(R.id.comm_user_head_iv)
+    private ShapedImageView comm_user_head_iv;
+    /**
+     * 买家头像大小60dp
+     */
+    private int head_size = 0;
+    /**
+     * 买家昵称
+     */
+    @ViewInject(R.id.comm_user_name_tv)
+    private TextView comm_user_name_tv;
+    /**
+     * 评论内容
+     */
+    @ViewInject(R.id.comm_content_tv)
+    private TextView comm_content_tv;
+    /**
+     * 评论图片
+     */
+    @ViewInject(R.id.estimate_pic)
+    private GridViewForScrollView estimate_pic;
+
+    @ViewInject(R.id.comment_layout)
+    private LinearLayout comment_layout;
+
+    /**
+     * 产品规格
+     */
+    @ViewInject(R.id.goods_common_attr_lv)
+    private ListViewForScrollView goods_common_attr_lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,10 +229,12 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
 
         showStatusBar(R.id.goods_details_title);
         // 设置轮播图高度
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
-                Settings.displayWidth);
+        bannerSize = Settings.displayWidth;
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(bannerSize, bannerSize);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
+
+        goods_for_my_evaluste_layout.setVisibility(View.GONE);
+
         // 判断是否显示回到顶部按钮
         getHeight();
 
@@ -158,7 +243,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv,
-            R.id.be_back_top_iv})
+            R.id.be_back_top_iv, R.id.to_user_cart_layout, R.id.be_back_main_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -175,12 +260,28 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏
+                if (!Config.isLogin()) {
+                    toLogin();
+                    break;
+                }
+                if (is_collect.equals("0")) {
+                    collectPst.addCollect("1", car_id);
+                    break;
+                }
+                collectPst.delOneCollect("1", car_id);
                 break;
             case R.id.goods_title_share_tv://分享
+                toShare();
                 break;
             case R.id.be_back_top_iv:// 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
+                break;
+            case R.id.to_user_cart_layout:// d购物车
+                backMain(2);
+                break;
+            case R.id.be_back_main_tv:// 首页
+                backMain(0);
                 break;
         }
     }
@@ -226,8 +327,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
     /**
@@ -236,7 +337,13 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+            Glide.with(CarDetailseAty.this).load(image.get(position).get("path"))
+                    .centerCrop()
+                    .override(bannerSize, bannerSize)
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
@@ -249,16 +356,110 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     @Override
     protected void initialized() {
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
+        car_id = getIntent().getStringExtra("car_id");
+        carBuyPst = new CarBuyPst(this);
+        head_size = ToolKit.dip2px(this, 60);
+        collectPst = new UserCollectPst(this);
     }
 
     @Override
     protected void requestData() {
+        carBuyPst.carInfo(car_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("carInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            String cart_num = data.get("cart_num");
+            if (!cart_num.equals("0")) {
+                user_cart_num_tv.setText(cart_num);
+                user_cart_num_tv.setVisibility(View.VISIBLE);
+            } else {
+                user_cart_num_tv.setVisibility(View.GONE);
+            }
+            // 是否收藏
+            is_collect = data.get("is_collect");
+
+            if ("0".equals(is_collect)) {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+                goods_title_collect_tv.setText("收藏");
+            } else {
+                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+                goods_title_collect_tv.setText("已收藏");
+            }
+
+            Map<String, String> car_info = JSONUtils.parseKeyAndValueToMap(data.get("car_info"));
+
+            // 轮播图
+            if (ToolKit.isList(car_info, "banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(car_info.get("banner"));
+                forBanner();
+            }
+            car_details_name_tv.setText(car_info.get("car_name"));
+            car_d_pre_money_tv.setText(car_info.get("pre_money"));
+            car_d_integral_tv.setText(car_info.get("integral"));
+            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "\n全车价:￥" + map.get("all_price"));
+
+
+            goods_brief_tv.loadDataWithBaseURL(null, car_info.get("content"), "text/html", "utf-8", null);
+            goods_desc_wv.loadDataWithBaseURL(null, car_info.get("car_desc"), "text/html", "utf-8", null);
+
+            // 评论
+            if (ToolKit.isList(data, "comment")) {
+                try {
+                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
+                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                    CommentBean.BodyBean bodyBean = comment.getBody();
+                    if (bodyBean != null) {
+                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                                .override(head_size, head_size)
+                                .placeholder(R.drawable.ic_default)
+                                .error(R.drawable.ic_default)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(comm_user_head_iv);
+                        comm_user_name_tv.setText(bodyBean.getNickname());
+                        comm_content_tv.setText(bodyBean.getContent());
+                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                        if (!ListUtils.isEmpty(pictures)) {
+                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                            estimate_pic.setAdapter(picadapter);
+                        }
+                    }
+                } catch (JsonSyntaxException e) {
+                    all_comment_num_tv.setText("商品评价(0)");
+                    comment_layout.setVisibility(View.GONE);
+                }
+            }
+
+            // TODO==========产品属性==========
+            if (ToolKit.isList(data, "goods_common_attr")) {
+                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                        GoodsCommonAttr.class);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
+                goods_common_attr_lv.setAdapter(gcaAdapter);
+            }
+
+            return;
+        }
+        if (requestUrl.contains("addCollect")) {// 添加收藏
+            showRightTip("收藏成功");
+            is_collect = "1";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setText("已收藏");
+            return;
+        }
+        if (requestUrl.contains("delOneCollect")) {
+            showRightTip("取消成功");
+            is_collect = "0";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setText("收藏");
+            return;
+        }
     }
 
     private void getHeight() {
