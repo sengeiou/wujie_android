@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.txd.hzj.wjlp">
-
     <!-- ShareSDK添加必要的权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -19,7 +18,7 @@
     <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- 从SDCard读取数据权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
     <!-- 震动 -->
     <uses-permission android:name="android.permission.VIBRATE"/>
     <!-- 闪光灯 -->
@@ -60,6 +59,10 @@
     <uses-permission android:name="com.txd.hzj.wjlp.permission.MIPUSH_RECEIVE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    <!--百度地图 权限 Begin-->
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <!--百度地图 权限 End-->
+
     <!-- 环信权限 ↑ -->
     <application
         android:name=".DemoApplication"
@@ -86,7 +89,20 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider"/>
         </provider>
-
+        <!-- 百度地图 Begin -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2">
+                </action>
+            </intent-filter>
+        </service>
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="bqmR8e2lhFYp0d7oUnbPmB3iOwFiePb9"/>
+        <!-- 百度地图 End-->
         <activity android:name=".MainAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -476,11 +492,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- 百度地图所需的service -->
-        <service
-            android:name="com.baidu.location.f"
-            android:enabled="true"
-            android:process=":remote"/>
         <!-- umeng appkey，可忽略 -->
         <!-- 友盟统计的暂时忽略 -->
         <!-- 友盟统计的暂时忽略 -->

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2016 Hyphenate Inc. All rights reserved.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +13,15 @@
  */
 package com.txd.hzj.wjlp;
 
+import android.app.Service;
 import android.content.Context;
+import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
+import com.baidu.mapapi.SDKInitializer;
+import com.txd.hzj.wjlp.baidu.service.LocationService;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -41,16 +45,29 @@ public class DemoApplication extends WeApplication {
      */
     public static String currentUserNick = "";
 
+    /**
+     * 百度地图服务
+     */
+    public LocationService locationService;
+    public Vibrator mVibrator;
+
     @Override
     public void onCreate() {
-        L.isDebug= BuildConfig.DEBUG;
+        L.isDebug = BuildConfig.DEBUG;
         MultiDex.install(this);
         super.onCreate();
         applicationContext = this;
         instance = this;
         DemoHelper.getInstance().init(applicationContext);
         //初始化ShareSDK
-        ShareSDK.initSDK(getApplicationContext(),"20e25f8941c82");
+        ShareSDK.initSDK(getApplicationContext(), "20e25f8941c82");
+
+        /*
+         * 初始化定位sdk，建议在Application中创建
+         */
+        locationService = new LocationService(getApplicationContext());
+        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        SDKInitializer.initialize(getApplicationContext());
     }
 
     public static DemoApplication getInstance() {

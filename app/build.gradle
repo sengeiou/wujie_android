@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
-
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.0'
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
     defaultConfig {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
@@ -39,6 +41,11 @@ android {
             signingConfig signingConfigs.releaseConfig
         }
     }
+    sourceSets {
+        main() {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -53,9 +60,6 @@ dependencies {
     /* 地址选择侧边栏 */
     compile project(':sideBar')
     /* 环信*/
-    compile project(':easeui')
-
-
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.+'
@@ -64,7 +68,6 @@ dependencies {
     compile 'com.google.zxing:core:3.1.0'
     compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
-
     compile 'cc.solart:turbo-recyclerview-helper:1.0.3-beta'
     compile 'com.parse:parse-android:1.13.1'
     /* Dex分包 */
@@ -76,4 +79,5 @@ dependencies {
     /*上拉加载下拉刷新*/
     compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
     testCompile 'junit:junit:4.12'
+    compile project(':easeui')
 }

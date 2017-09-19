@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.http.welfare;
 
 import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
-import com.baidu.platform.comapi.map.A;
 
 /**
  * ===============Txunda===============

@@ -47,7 +47,10 @@ dependencies {
 
     compile files('libs/xUtils-2.6.14.jar')// xUtils
     compile files('libs/alipaySingle-20160825.jar')// 支付宝支付
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+//    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:26.+'
+
 //    compile 'com.squareup.okhttp3:okhttp:3.4.1'// OKHttp
 //    compile 'com.squareup.okio:okio:1.10.0'// OKio
     compile 'com.android.support:recyclerview-v7:26.+'// RecyclerView

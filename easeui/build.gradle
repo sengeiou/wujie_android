@@ -5,8 +5,8 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 22
+        minSdkVersion 19
+        targetSdkVersion 26
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -24,7 +24,6 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
-
 }
 
 dependencies {
