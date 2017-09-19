@@ -381,11 +381,11 @@ public class HousChenAty extends BaseAty {
                     if (!frist) {
                         good_luck_sr.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
-                    } else {
-                        footerImageView.setVisibility(View.VISIBLE);
-                        footerProgressBar.setVisibility(View.GONE);
-                        good_luck_sr.setLoadMore(false);
                     }
+                } else {
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    good_luck_sr.setLoadMore(false);
                 }
             }
         }

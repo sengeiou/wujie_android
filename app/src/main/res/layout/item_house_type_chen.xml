@@ -11,8 +11,9 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:id="@+id/house_style_pic_iv"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_temp_house"/>
@@ -20,6 +21,7 @@
     </FrameLayout>
 
     <TextView
+        android:id="@+id/style_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
@@ -27,17 +29,16 @@
         android:paddingBottom="4dp"
         android:paddingEnd="8dp"
         android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:text="唐风公寓"/>
+        android:paddingTop="4dp"/>
 
 
     <TextView
+        android:id="@+id/style_developer_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="金星投资公司"/>
+        android:layout_marginRight="8dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +59,7 @@
             android:textSize="10sp"/>
 
         <TextView
+            android:id="@+id/style_pre_money_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
@@ -65,10 +67,14 @@
             android:textColor="@color/theme_color"/>
 
         <TextView
+            android:id="@+id/one_price_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ellipsize="middle"
             android:gravity="end"
-            android:text="1500元/平"
+            android:maxEms="5"
+            android:maxLines="1"
+            android:text="150000000元/平"
             android:textSize="12sp"/>
     </LinearLayout>
 
@@ -78,8 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:lineSpacingExtra="4dp"
-        android:paddingTop="4dp"
-        android:text="可    抵：¥200房款 \n 房全款：¥99999.00"/>
+        android:paddingTop="4dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -105,6 +110,7 @@
             android:text="积分"/>
 
         <TextView
+            android:id="@+id/style_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.23"
@@ -133,8 +139,10 @@
         android:padding="8dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/logo_for_country_iv"
+            android:layout_width="32dp"
+            android:layout_height="24dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/icon_temp_han"
             />
 
@@ -147,7 +155,7 @@
             android:id="@+id/use_coupon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:background="@drawable/shape_tv_bg_by_orange"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"

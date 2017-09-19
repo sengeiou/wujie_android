@@ -185,6 +185,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
         houseBuyPst = new HouseBuyPst(this);
         list = new ArrayList<>();
         houseList = new ArrayList<>();
+        head_size = ToolKit.dip2px(getActivity(), 60);
     }
 
     @Override

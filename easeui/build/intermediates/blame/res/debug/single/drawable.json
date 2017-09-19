@@ -40,12 +40,12 @@
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_search_clear.xml"
     },
     {
-        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_check_material.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c044915988bcbae5bf516452d3b30a8131213686\\output\\res\\drawable\\abc_btn_check_material.xml"
-    },
-    {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_common_tab_bg.xml",
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_common_tab_bg.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_check_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\c044915988bcbae5bf516452d3b30a8131213686\\output\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_bj.xml",

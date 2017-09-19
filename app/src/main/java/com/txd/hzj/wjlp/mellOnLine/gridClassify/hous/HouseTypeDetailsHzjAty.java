@@ -6,13 +6,19 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
+import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -20,10 +26,13 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -49,7 +58,7 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private ArrayList<Map<String, String>> image;
 
     /**
      * 大小
@@ -84,31 +93,43 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
     private HXAdapter hxAdapter;
 
+    private String style_id = "";
+
+    private HouseBuyPst houseBuyPst;
+
+    @ViewInject(R.id.style_name_tv)
+    private TextView style_name_tv;
+    @ViewInject(R.id.style_tags_tv)
+    private TextView style_tags_tv;
+    @ViewInject(R.id.style_pre_money_tv)
+    private TextView style_pre_money_tv;
+    @ViewInject(R.id.style_one_price_tv)
+    private TextView style_one_price_tv;
+    @ViewInject(R.id.style_integral_tv)
+    private TextView style_integral_tv;
+    private List<Map<String, String>> other_style;
+    private int size = 0;
+    private int size1 = 0;
+    private int size2 = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("95平户型");
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
                 Settings.displayWidth);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
-
-        ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可        低:￥200房款", 11,
-                ContextCompat.getColor(this, R.color.app_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房款全价:￥9999999.00", 5,
-                ContextCompat.getColor(this, R.color.app_text_color));
-        ChangeTextViewStyle.getInstance().forTextColorSub(this, house_area_tv, "建筑面积:75.00m2", 5,
-                ContextCompat.getColor(this, R.color.app_text_color));
-
-
-        ChangeTextViewStyle.getInstance().forTextColor(this, house_loc_tv, "楼        盘:大运河孔雀城学府公园", 11,
-                ContextCompat.getColor(this, R.color.app_text_color));
 
         hxd_sc.setScrollViewListener(this);
 
-        other_lp_gv.setAdapter(hxAdapter);
+        other_lp_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                style_id = other_style.get(i).get("style_id");
+                houseBuyPst.styleInfo(style_id);
+            }
+        });
 
     }
 
@@ -132,25 +153,63 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     @Override
     protected void initialized() {
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        hxAdapter = new HXAdapter();
+        houseBuyPst = new HouseBuyPst(this);
+        style_id = getIntent().getStringExtra("style_id");
+        other_style = new ArrayList<>();
+        size = ToolKit.dip2px(this, 180);
+        size1 = ToolKit.dip2px(this, 32);
+        size2 = ToolKit.dip2px(this, 24);
     }
 
     @Override
     protected void requestData() {
+        houseBuyPst.styleInfo(style_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("styleInfo")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (ToolKit.isList(data, "banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
+                forBanner();
+            }
+
+            titlt_conter_tv.setText(data.get("style_name"));
+
+            ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可        低:￥" +
+                    data.get("true_pre_money") + "房款", 11, ContextCompat.getColor(this, R.color.app_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房款全价:￥" + data.get("all_price"), 5,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            ChangeTextViewStyle.getInstance().forTextColorSub(this, house_area_tv, "建筑面积:" + data.get("area") + "m2", 5,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, house_loc_tv, "楼        盘:" +
+                    data.get("house_address"), 11, ContextCompat.getColor(this, R.color.app_text_color));
+
+            style_name_tv.setText(data.get("style_name"));
+            style_tags_tv.setText(data.get("tags"));
+            style_pre_money_tv.setText(data.get("pre_money"));
+            style_integral_tv.setText(data.get("integral"));
+            style_one_price_tv.setText(data.get("one_price") + "元/平");
+
+            if (ToolKit.isList(data, "other_style")) {
+                other_style = JSONUtils.parseKeyAndValueToMapList(data.get("other_style"));
+                hxAdapter = new HXAdapter();
+                other_lp_gv.setAdapter(hxAdapter);
+            }
+
+
+        }
     }
 
     /**
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
     /**
@@ -159,7 +218,15 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+
+            Glide.with(HouseTypeDetailsHzjAty.this).load(image.get(position).get("path"))
+                    .override(Settings.displayWidth, Settings.displayWidth)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .into(imageView);
+
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
@@ -174,16 +241,16 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     }
 
     private class HXAdapter extends BaseAdapter {
-        private HXVH hxvh;
+        private HXVH holder;
 
         @Override
         public int getCount() {
-            return 4;
+            return other_style.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public Map<String, String> getItem(int i) {
+            return other_style.get(i);
         }
 
         @Override
@@ -193,19 +260,113 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Map<String, String> map = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(HouseTypeDetailsHzjAty.this).inflate(R.layout.item_house_type_chen, null);
-                hxvh = new HXVH();
-                ViewUtils.inject(hxvh, view);
-                view.setTag(hxvh);
+                holder = new HXVH();
+                ViewUtils.inject(holder, view);
+                view.setTag(holder);
             } else {
-                hxvh = (HXVH) view.getTag();
+                holder = (HXVH) view.getTag();
             }
+
+            int total;
+            try {
+                total = Integer.parseInt(map.get("total"));
+            } catch (NumberFormatException e) {
+                total = 100;
+            }
+
+            int sell_num;
+            try {
+                sell_num = Integer.parseInt(map.get("sell_num"));
+            } catch (NumberFormatException e) {
+                sell_num = 0;
+            }
+
+            holder.house_type_cpb.setMaxProgress(total);
+            holder.house_type_cpb.setCurProgress(sell_num);
+
+            Glide.with(HouseTypeDetailsHzjAty.this).load(map.get("house_style_img"))
+                    .override(size, size)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.house_style_pic_iv);
+
+            Glide.with(HouseTypeDetailsHzjAty.this).load(map.get("country_logo"))
+                    .override(size1, size2)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.logo_for_country_iv);
+
+            holder.style_name_tv.setText(map.get("style_name"));
+
+            holder.style_developer_tv.setText(map.get("developer"));
+
+            holder.style_pre_money_tv.setText("￥" + map.get("pre_money"));
+
+            holder.textView2.setText("可    抵：￥" + map.get("true_pre_money") + "\n房全款：￥" + map.get("all_price"));
+
+            holder.one_price_tv.setText(map.get("one_price") + "元/平");
+
+            holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%购物券");
+
             return view;
         }
 
         private class HXVH {
-
+            @ViewInject(R.id.house_type_cpb)
+            private CustomProgressBar house_type_cpb;
+            /**
+             * 户型图
+             */
+            @ViewInject(R.id.house_style_pic_iv)
+            private ImageView house_style_pic_iv;
+            /**
+             * 户型名称
+             */
+            @ViewInject(R.id.style_name_tv)
+            private TextView style_name_tv;
+            /**
+             * 户型开发商
+             */
+            @ViewInject(R.id.style_developer_tv)
+            private TextView style_developer_tv;
+            /**
+             * 户型代金券
+             */
+            @ViewInject(R.id.style_pre_money_tv)
+            private TextView style_pre_money_tv;
+            /**
+             * 户型其他信息
+             */
+            @ViewInject(R.id.textView2)
+            private TextView textView2;
+            /**
+             * 户型积分
+             */
+            @ViewInject(R.id.style_integral_tv)
+            private TextView style_integral_tv;
+            /**
+             * 国旗
+             */
+            @ViewInject(R.id.logo_for_country_iv)
+            private ImageView logo_for_country_iv;
+            /**
+             * 优惠券
+             */
+            @ViewInject(R.id.use_coupon_tv)
+            private TextView use_coupon_tv;
+            /**
+             * 优惠券
+             */
+            @ViewInject(R.id.one_price_tv)
+            private TextView one_price_tv;
         }
     }
 

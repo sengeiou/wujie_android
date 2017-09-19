@@ -134,7 +134,7 @@ public class RegisterSetPwdAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("register")) {
-            showRightTip("注册并登陆成功");
+            showRightTip("注册并登录成功");
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);

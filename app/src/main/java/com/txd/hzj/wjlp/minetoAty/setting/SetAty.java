@@ -220,16 +220,16 @@ public class SetAty extends BaseAty {
         is_password = data.get("is_password");
 
         if (is_password.equals("0")) {
-            rel_editpassword.setText("修改登录密码");
-        } else {
             rel_editpassword.setText("设置登录密码");
+        } else {
+            rel_editpassword.setText("修改登录密码");
         }
 
         is_pay_password = data.get("is_pay_password");
         if (is_pay_password.equals("0")) {
-            rel_editpaypassword.setText("修改支付密码");
-        } else {
             rel_editpaypassword.setText("设置支付密码");
+        } else {
+            rel_editpaypassword.setText("修改支付密码");
         }
 
 
