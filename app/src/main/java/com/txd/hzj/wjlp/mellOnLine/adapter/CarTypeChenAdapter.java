@@ -77,12 +77,12 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
                         .dontAnimate()
                         .into(holder.iv_type_car);
             } else {
-                Glide.with(context).load(carBean.getBrand_logo())
+                Glide.with(context).load(carBean.getTrue_brand_logo())
                         .override(img_size, img_size)
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .placeholder(R.drawable.ic_default)
-                        .centerCrop()
+                        .fitCenter()
                         .into(holder.iv_brand_car);
             }
             holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.theme_color));
@@ -103,7 +103,7 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .placeholder(R.drawable.ic_default)
-                        .centerCrop()
+                        .fitCenter()
                         .into(holder.iv_brand_car);
             }
             holder.tv_type_car.setTextColor(ContextCompat.getColor(context, R.color.app_text_color));

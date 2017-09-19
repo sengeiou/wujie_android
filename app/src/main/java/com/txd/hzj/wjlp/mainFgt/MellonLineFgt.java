@@ -756,7 +756,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(group_buy_ads_iv);
         group_href = group_buy_ads.get("href");
         group_desc = group_buy_ads.get("desc");
@@ -778,7 +778,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(house_ads_iv);
         house_href = house_ads.get("href");
         house_desc = house_ads.get("desc");
@@ -799,7 +799,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(car_ads_iv);
         car_href = car_ads.get("href");
         car_desc = car_ads.get("desc");
@@ -822,7 +822,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(one_buy_ads_iv);
         one_buy_href = one_buy_ads.get("href");
         one_buy_desc = one_buy_ads.get("desc");
@@ -844,7 +844,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(auction_ads_iv);
         auction_href = auction_ads.get("href");
         auction_desc = auction_ads.get("desc");
@@ -866,7 +866,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(country_ads_iv);
         country_href = country_ads.get("href");
         country_desc = country_ads.get("desc");
@@ -888,7 +888,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(pre_buy_ads_iv);
         pre_href = pre_ads.get("href");
         pre_desc = pre_ads.get("desc");
@@ -914,7 +914,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(ticket_buy_ads_iv);
         ticket_href = ticket_ads.get("href");
         ticket_desc = ticket_ads.get("desc");
@@ -941,7 +941,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
-                .centerCrop()
+                .fitCenter()
                 .into(ads_by_limit_buy_iv);
         limit_href = limit_ads.get("href");
         limit_desc = limit_ads.get("desc");

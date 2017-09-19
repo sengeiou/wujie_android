@@ -120,8 +120,8 @@ public class CarChenAty extends BaseAty {
                 Bundle bundle = new Bundle();
                 bundle.putString("min_price", min_price);
                 bundle.putString("max_price", max_price);
-                bundle.putString("style_id", style_id);
-                bundle.putString("brand_id", brand_id);
+                bundle.putString("style_id", style_id.replace("[", "").replace("]", ""));
+                bundle.putString("brand_id", brand_id.replace("[", "").replace("]", ""));
                 startActivity(CarCommodityChenAty.class, bundle);
                 break;
         }

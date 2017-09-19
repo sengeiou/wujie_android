@@ -40,9 +40,13 @@ public class CarBean {
      * 品牌logo
      */
     private String brand_logo;
+    /**
+     * 选中logo
+     */
+    private String true_brand_logo;
 
     public CarBean(boolean selecet, String style_name, String style_img, String true_style_img, String style_id,
-                   String brand_id, String brand_name, String brand_logo) {
+                   String brand_id, String brand_name, String brand_logo, String true_brand_logo) {
         this.selecet = selecet;
         this.style_name = style_name;
         this.style_img = style_img;
@@ -51,6 +55,7 @@ public class CarBean {
         this.brand_id = brand_id;
         this.brand_name = brand_name;
         this.brand_logo = brand_logo;
+        this.true_brand_logo = true_brand_logo;
     }
 
     public boolean isSelecet() {
@@ -117,6 +122,14 @@ public class CarBean {
         this.brand_logo = brand_logo;
     }
 
+    public String getTrue_brand_logo() {
+        return true_brand_logo;
+    }
+
+    public void setTrue_brand_logo(String true_brand_logo) {
+        this.true_brand_logo = true_brand_logo;
+    }
+
     @Override
     public String toString() {
         return "CarBean{" +
@@ -128,6 +141,7 @@ public class CarBean {
                 ", brand_id='" + brand_id + '\'' +
                 ", brand_name='" + brand_name + '\'' +
                 ", brand_logo='" + brand_logo + '\'' +
+                ", true_brand_logo='" + true_brand_logo + '\'' +
                 '}';
     }
 }

@@ -39,7 +39,7 @@ public class ThreeClassifyAdapter extends BaseAdapter {
         this.context = context;
         this.data = data;
         this.inflater = LayoutInflater.from(context);
-        size = ToolKit.dip2px(context, 100);
+        size = ToolKit.dip2px(context, 80);
     }
 
     @Override

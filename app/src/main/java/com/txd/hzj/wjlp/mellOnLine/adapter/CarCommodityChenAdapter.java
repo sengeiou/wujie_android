@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
@@ -41,13 +42,14 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
         this.context = context;
         this.cats = cats;
         size = ToolKit.dip2px(context, 180);
-        size = ToolKit.dip2px(context, 32);
+        logo_size = ToolKit.dip2px(context, 32);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_car_commodity_chen, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        ViewUtils.inject(holder, view);
         return holder;
     }
 
@@ -64,7 +66,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.car_pic_iv);
-// 汽车名称
+        // 汽车名称
         holder.car_name_tv.setText(map.get("car_name"));
         // 代金券
         holder.car_pre_money_tv.setText(map.get("pre_money"));
@@ -101,7 +103,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
 
     @Override
     public int getItemCount() {
-        return 12;
+        return cats.size();
 
     }
 
