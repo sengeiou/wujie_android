@@ -516,7 +516,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
-                bundle.putString("one_buy_id",one_buyList.get(i).getOne_buy_id());
+                bundle.putString("one_buy_id", one_buyList.get(i).getOne_buy_id());
                 startActivity(SnatchGoodsDetailsAty.class, bundle);
             }
         });
@@ -524,7 +524,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         car_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(CarDetailseAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("car_id", carList.get(i).getCar_id());
+                startActivity(CarDetailseAty.class, bundle);
             }
         });
         // 房产购
@@ -532,7 +534,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         house_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(HousDetailsChenAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("house_id", houseList.get(i).getHouse_id());
+                startActivity(HousDetailsChenAty.class, bundle);
             }
         });
         // 拼团区
@@ -540,7 +544,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
-                bundle.putString("group_buy_id",one_buyList.get(i).getGroup_buy_id());
+                bundle.putString("group_buy_id", one_buyList.get(i).getGroup_buy_id());
                 startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
@@ -996,7 +1000,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 }
                 Bundle bundle = new Bundle();
                 bundle.putInt("pos", position);
-                bundle.putString("cate_id",horizontal_classify.get(position).get("cate_id"));
+                bundle.putString("cate_id", horizontal_classify.get(position).get("cate_id"));
                 startActivity(MellOnLineClassifyAty.class, bundle);
             }
         });

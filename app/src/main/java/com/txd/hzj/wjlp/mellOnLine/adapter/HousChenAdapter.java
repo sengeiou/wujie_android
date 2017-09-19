@@ -53,7 +53,7 @@ public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Map<String, String> map = house.get(position);
+        final Map<String, String> map = house.get(position);
         // 距离
         holder.house_distance_tv.setText(map.get("distance"));
         // 图片
@@ -82,6 +82,7 @@ public class HousChenAdapter extends RecyclerView.Adapter<HousChenAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intentDetail = new Intent(context, HousDetailsChenAty.class);
+                intentDetail.putExtra("house_id",map.get("house_id"));
                 context.startActivity(intentDetail);
             }
         });

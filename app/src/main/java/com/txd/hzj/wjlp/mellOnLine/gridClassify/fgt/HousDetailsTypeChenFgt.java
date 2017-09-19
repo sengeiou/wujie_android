@@ -37,6 +37,14 @@ public class HousDetailsTypeChenFgt extends BaseFgt {
     private ImageView hx_be_back_top_iv;
     private int height = 0;
 
+    private String house_id = "";
+
+    public static HousDetailsTypeChenFgt getFgt(String house_id) {
+        HousDetailsTypeChenFgt housDetailsHousesChenFgt = new HousDetailsTypeChenFgt();
+        housDetailsHousesChenFgt.house_id = house_id;
+        return housDetailsHousesChenFgt;
+    }
+
     @Override
     protected void immersionInit() {
 

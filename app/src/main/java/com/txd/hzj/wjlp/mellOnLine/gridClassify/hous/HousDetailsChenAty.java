@@ -30,7 +30,8 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
  * ===============Txunda===============
  */
 
-public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener ,HousDetailsHousesChenFgt.SkipToComment{
+public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener,
+        HousDetailsHousesChenFgt.SkipToComment, HousDetailsHousesChenFgt.SetPhone {
 
     @ViewInject(R.id.tv_detail_num)//电话号码
     private TextView tv_detail_num;
@@ -47,13 +48,22 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     private String phone;//电话号码
 
+    private String house_id = "";
+
+    @ViewInject(R.id.rb_detail_houses)
+    private RadioButton rb_detail_houses;
+
+    public HousDetailsChenAty() {
+    }
+
     @OnClick({R.id.tv_detail_phone})
     public void onClick(View v) {
         switch (v.getId()) {
             //打电话
             case R.id.tv_detail_phone:
                 phone = tv_detail_num.getText().toString().trim();
-                new AlertDialog(this).builder().setTitle("提示").setMsg(phone).setPositiveButton("拨打", new View.OnClickListener() {
+                new AlertDialog(this).builder().setTitle("提示").setMsg(phone).setPositiveButton("拨打", new View
+                        .OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
@@ -79,6 +89,9 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
          * 沉浸式解决顶部标题重叠
          */
         showStatusBar(R.id.rl_hous_detail);
+
+        rg_hous_detail.setOnCheckedChangeListener(this);
+        ((RadioButton) findViewById(R.id.rb_detail_houses)).setChecked(true);//默认选中
     }
 
     @Override
@@ -88,27 +101,16 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     @Override
     protected void initialized() {
-        rg_hous_detail.setOnCheckedChangeListener(this);
-        ((RadioButton) findViewById(R.id.rb_detail_houses)).setChecked(true);//默认选中
-        /**
-         * Fragment初始化
-         */
-        initFgt();
+        house_id = getIntent().getStringExtra("house_id");
 
+        housesFgt = HousDetailsHousesChenFgt.getFgt(house_id);//楼盘Fragment
+        typeFgt = HousDetailsTypeChenFgt.getFgt(house_id);//户型Fragment
+        commentFgt = HouseCommentFgt.getFgt(house_id);//点评Fragment
     }
 
 
     @Override
     protected void requestData() {
-
-    }
-
-
-    /**
-     * Fragment初始化
-     */
-    private void initFgt() {
-
 
     }
 
@@ -127,17 +129,14 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
         switch (i) {
             //楼盘
             case R.id.rb_detail_houses:
-                housesFgt = new HousDetailsHousesChenFgt();
+
                 transaction.add(R.id.fl_hous_detail, housesFgt);
                 break;
-
             //户型
             case R.id.rb_detail_type:
-                typeFgt = new HousDetailsTypeChenFgt();
                 transaction.add(R.id.fl_hous_detail, typeFgt);
                 break;
             case R.id.rb_comment_type:
-                commentFgt = new HouseCommentFgt();
                 transaction.add(R.id.fl_hous_detail, commentFgt);
                 break;
         }
@@ -147,8 +146,13 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     @Override
     public void beSkip(boolean skip) {
-        if(true){
+        if (skip) {
             ((RadioButton) findViewById(R.id.rb_comment_type)).setChecked(true);//默认选中
         }
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        tv_detail_num.setText(phone);
     }
 }

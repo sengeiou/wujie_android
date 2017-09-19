@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mellOnLine.adapter.HouseCommentAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
@@ -61,6 +62,14 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
      */
     @ViewInject(R.id.comment_sc)
     private ObservableScrollView comment_sc;
+
+    private String house_id = "";
+
+    public static HouseCommentFgt getFgt(String house_id) {
+        HouseCommentFgt housDetailsHousesChenFgt = new HouseCommentFgt();
+        housDetailsHousesChenFgt.house_id = house_id;
+        return housDetailsHousesChenFgt;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

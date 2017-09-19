@@ -331,12 +331,12 @@ public class HousChenAty extends BaseAty {
 
     private void getData() {
 
-        L.e("=====lng=====",lng);
-        L.e("=====lat=====",lat);
-        L.e("=====integral_sort=====",integral_sort);
-        L.e("=====distance_sort=====",distance_sort);
-        L.e("=====price_sort=====",price_sort);
-        L.e("=====sort=====",sort);
+        L.e("=====lng=====", lng);
+        L.e("=====lat=====", lat);
+        L.e("=====integral_sort=====", integral_sort);
+        L.e("=====distance_sort=====", distance_sort);
+        L.e("=====price_sort=====", price_sort);
+        L.e("=====sort=====", sort);
         houseBuyPst.houseList(p, lng, lat, integral_sort, distance_sort, price_sort, sort);
     }
 
@@ -365,6 +365,10 @@ public class HousChenAty extends BaseAty {
                     } else {
                         mRvHous.setVisibility(View.GONE);
                         no_data_iv.setVisibility(View.VISIBLE);
+                    }
+                    if (!frist) {
+                        good_luck_sr.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
                     }
                 } else {
                     if (ToolKit.isList(data, "car_list")) {
