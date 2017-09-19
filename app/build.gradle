@@ -13,6 +13,11 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
     lintOptions {
         checkReleaseBuilds false

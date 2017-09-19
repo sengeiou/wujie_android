@@ -60,7 +60,7 @@ public class EditLoginPasswordAty extends BaseAty {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        if (is_password.equals("0")) {
+        if (is_password.equals("1")) {
             titlt_conter_tv.setText("修改登录密码");
             rel_editprofile.setVisibility(View.VISIBLE);
         } else {

@@ -57,7 +57,7 @@ public class EditPayPasswordAty extends BaseAty {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        if (is_pay_password.equals("0")) {
+        if (is_pay_password.equals("1")) {
             rel_editprofile.setVisibility(View.VISIBLE);
             forget_pay_pwd_tv.setVisibility(View.VISIBLE);
             titlt_conter_tv.setText("修改支付密码");
