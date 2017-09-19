@@ -17,11 +17,20 @@ import android.app.Service;
 import android.content.Context;
 import android.os.Vibrator;
 import android.support.multidex.MultiDex;
+import android.text.TextUtils;
 
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.baidu.mapapi.SDKInitializer;
 import com.txd.hzj.wjlp.baidu.service.LocationService;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import cn.sharesdk.framework.ShareSDK;
 
@@ -51,6 +60,9 @@ public class DemoApplication extends WeApplication {
     public LocationService locationService;
     public Vibrator mVibrator;
 
+    // 用户信息
+    private Map<String, String> locationInfo;
+
     @Override
     public void onCreate() {
         L.isDebug = BuildConfig.DEBUG;
@@ -68,6 +80,46 @@ public class DemoApplication extends WeApplication {
         locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
+        initLocInfo();
+    }
+
+    /**
+     * 初始化定位信息
+     */
+    private void initLocInfo() {
+        locationInfo = new HashMap<>();
+        // 获取存在本地的定位信息信息(key)
+        String keys = PreferencesUtils.getString(this, "LocInfoKey");
+        if (!TextUtils.isEmpty(keys)) {
+            // 按照","分割keys
+            String[] userInfos = keys.split(ListUtils.DEFAULT_JOIN_SEPARATOR);
+            for (String key : userInfos) {// 获取用户信息，将其保存到Map中
+                locationInfo.put(key, PreferencesUtils.getString(this, key));
+            }
+        }
+    }
+
+    public Map<String, String> getLocInfo() {
+        return locationInfo;
+    }
+
+    public void setLocInfo(Map<String, String> userInfo) {
+        this.locationInfo = userInfo;
+        // 把用户信息存进Preferences
+        // 将userInfo Map的所有key存到列表中
+        List<String> keys = new ArrayList<>();
+        // 迭代。。。获取所有key
+        Iterator<String> iterator = this.locationInfo.keySet().iterator();
+        // 迭代遍历Key
+        while (iterator.hasNext()) {
+            String key = iterator.next();
+            keys.add(key);
+            String value = this.locationInfo.get(key);
+            // 将key和value保存到本地
+            PreferencesUtils.putString(this, key, value);
+        }
+        // 将keys转成字符串(key1,key2...)
+        PreferencesUtils.putString(this, "LocInfoKey", ListUtils.join(keys));
     }
 
     public static DemoApplication getInstance() {

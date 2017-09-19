@@ -68,7 +68,9 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -944,6 +946,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
                 /*
@@ -983,6 +986,21 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 sb.append("\nlocationdescribe: ");
                 sb.append(location.getLocationDescribe());// 位置语义化信息
                 sb.append("\nPoi: ");// POI信息
+
+                locMap.put("time", location.getTime());// 时间
+                locMap.put("description", location.getLocTypeDescription());// 定位说明
+                locMap.put("lat", String.valueOf(location.getLatitude()));// 纬度
+                locMap.put("lon", String.valueOf(location.getLongitude()));// 经度
+                locMap.put("radius", String.valueOf(location.getRadius()));// 半径
+                locMap.put("countryCode", location.getCountryCode());// 国家码
+                locMap.put("Country", location.getCountry());// 国家
+                locMap.put("cityCode", location.getCityCode());// 城市码
+                locMap.put("city", location.getCity());// 城市
+                locMap.put("district", location.getDistrict());// 区县
+                locMap.put("street", location.getStreet());// 街道
+                locMap.put("address", location.getAddrStr());// 地址
+                locMap.put("userIndoorState", String.valueOf(location.getUserIndoorState()));// 返回用户室内外判断结果
+
                 if (location.getPoiList() != null && !location.getPoiList().isEmpty()) {
                     for (int i = 0; i < location.getPoiList().size(); i++) {
                         Poi poi = location.getPoiList().get(i);
@@ -1023,7 +1041,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     sb.append("\ndescribe : ");
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
                 }
+                DemoApplication.getInstance().setLocInfo(locMap);
+                locationService.stop();
                 L.e("======定位结果=====", sb.toString());
+                L.e("======定位信息=====", DemoApplication.getInstance().getLocInfo().toString());
             }
         }
 
