@@ -68,6 +68,7 @@ public class EditPayPasswordAty extends BaseAty {
         }
     }
 
+
     @Override
     @OnClick({R.id.forget_pay_pwd_tv, R.id.to_set_pay_pwd_tv})
     public void onClick(View v) {
