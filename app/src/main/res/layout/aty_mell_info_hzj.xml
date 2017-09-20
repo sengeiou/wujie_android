@@ -113,24 +113,13 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:src="@drawable/icon_notifiy_w_package"/>
-
-                            <com.txd.hzj.wjlp.view.UPMarqueeView
-                                android:id="@+id/mell_noty_up_view"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"/>
-                        </LinearLayout>
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:id="@+id/mell_ads_tv"
+                            android:drawableStart="@drawable/icon_notifiy_w_package"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -263,7 +252,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/check_all_coupon_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:visibility="gone"
+                    android:background="@drawable/shape_coupon_layout_bg"
+                    android:gravity="center_vertical">
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2.5">
+
+                        <View
+                            android:layout_width="4dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/icon_get_coupon_view_style"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:id="@+id/ticket_tip_tv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="本店有2张优惠券可领取"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="14sp"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/bg_color"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_off_line_get_coupon_tv"
+                            android:paddingBottom="4dp"
+                            android:paddingEnd="12dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="4dp"
+                            android:text="领券"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"/>
+                    </LinearLayout>
+                </LinearLayout>
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/mell_ads_lv"
                     android:layout_width="match_parent"

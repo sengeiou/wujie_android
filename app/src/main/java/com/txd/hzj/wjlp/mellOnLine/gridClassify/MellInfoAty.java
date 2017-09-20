@@ -39,6 +39,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
+import com.txd.hzj.wjlp.mellOffLine.dialog.MellCouponDialog;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAndAdsAdapter;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -120,18 +121,13 @@ public class MellInfoAty extends BaseAty {
     @ViewInject(R.id.mell_tool_bar)
     private Toolbar mell_tool_bar;
 
-    @ViewInject(R.id.mell_noty_up_view)
-    private UPMarqueeView mell_noty_up_view;
-
-    /**
-     * 误解头条数据
-     */
-    private List<Map<String, String>> announce;
     /**
      * 无界头条View
      */
     private List<View> views;
     private NoticeDialog noticeDialog;
+
+    private TextView notice_content_tv;
 
     private List<String> aty_type;
 
@@ -215,6 +211,21 @@ public class MellInfoAty extends BaseAty {
     private ImageView footerImageView;
     private boolean frist = true;
     private List<Map<String, String>> ads_list;
+
+    @ViewInject(R.id.mell_ads_tv)
+    private TextView mell_ads_tv;
+    private String announce = "";
+
+    /**
+     * 优惠券布局
+     */
+    @ViewInject(R.id.check_all_coupon_tv)
+    private LinearLayout check_all_coupon_tv;
+
+    @ViewInject(R.id.ticket_tip_tv)
+    private TextView ticket_tip_tv;
+    private List<Map<String, String>> ticket_list;
+    private MellCouponDialog mellCouponDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -310,7 +321,8 @@ public class MellInfoAty extends BaseAty {
 
     @Override
     @OnClick({R.id.popularity_tv, R.id.mell_price_tv, R.id.sales_tv, R.id.at_laster_tv,
-            R.id.all_classify_tv, R.id.mell_info_by_off_line, R.id.off_line_mell_collect_layout})
+            R.id.all_classify_tv, R.id.mell_info_by_off_line, R.id.off_line_mell_collect_layout, R.id.mell_ads_tv,
+            R.id.check_all_coupon_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -349,6 +361,8 @@ public class MellInfoAty extends BaseAty {
             case R.id.mell_info_by_off_line:// 详情
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 1);
+                bundle.putString("merchant_id", mell_id);
+                bundle.putString("merchant_name", merchant_name);
                 startActivity(OffLineMellInfoAty.class, bundle);
                 break;
             case R.id.off_line_mell_collect_layout:// 收藏取消收藏
@@ -362,6 +376,21 @@ public class MellInfoAty extends BaseAty {
                 }
                 collectPst.delOneCollect("2", mell_id);
                 break;
+            case R.id.mell_ads_tv:// 公告
+                noticeDialog = new NoticeDialog(MellInfoAty.this);
+                noticeDialog.show();
+                notice_content_tv = noticeDialog.findViewById(R.id.notice_content_tv);
+                notice_content_tv.setText(announce);
+                break;
+            case R.id.check_all_coupon_tv:
+                mellCouponDialog = new MellCouponDialog(this, ticket_list, new MellCouponDialog.ItemClick() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                });
+                mellCouponDialog.show();
+                break;
         }
     }
 
@@ -373,7 +402,6 @@ public class MellInfoAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        announce = new ArrayList<>();
         views = new ArrayList<>();
         merchantPst = new MerchantPst(this);
         collectPst = new UserCollectPst(this);
@@ -386,6 +414,7 @@ public class MellInfoAty extends BaseAty {
         aty_type.add("积分夺宝");
         mell_id = getIntent().getStringExtra("mell_id");
         size = ToolKit.dip2px(this, 80);
+        ticket_list = new ArrayList<>();
     }
 
     @Override
@@ -403,9 +432,21 @@ public class MellInfoAty extends BaseAty {
                     ads_list.clear();
                     // 顶部数据
                     forBaseTitle(data);
+
                     if (requestUrl.contains("merIndex"))// 首页(广告)
+                    {
+                        String ticket_num = data.get("ticket_num");
+                        if (ticket_num.equals("0")) {
+                            check_all_coupon_tv.setVisibility(View.GONE);
+                        } else {
+                            check_all_coupon_tv.setVisibility(View.VISIBLE);
+                            ticket_tip_tv.setText("本店有" + ticket_num + "张优惠券可领取");
+                        }
+                        if (ToolKit.isList(data, "ticket_list")) {
+                            ticket_list = JSONUtils.parseKeyAndValueToMapList(data.get("ticket_list"));
+                        }
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
-                    else if (requestUrl.contains("goodsList"))// 商品
+                    } else if (requestUrl.contains("goodsList"))// 商品
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                     if (!ListUtils.isEmpty(ads_list)) {
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
@@ -581,10 +622,8 @@ public class MellInfoAty extends BaseAty {
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mell_logo_pic_iv);
         if (ToolKit.isList(data, "announce")) {
-            announce = JSONUtils.parseKeyAndValueToMapList(data.get("announce"));
-            // 公告
-            setView();
-            mell_noty_up_view.setViews(views);
+            announce = data.get("announce");
+            mell_ads_tv.setText(announce);
         }
     }
 
@@ -600,11 +639,11 @@ public class MellInfoAty extends BaseAty {
         at_laster_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
         // 活动商品
         all_classify_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+        p = 1;
         if (0 == type) {
             popularity_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             data_type = 0;
             // 店铺首页
-            p = 1;
         } else if (1 == type) {
             mell_price_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             data_type = 1;
@@ -789,38 +828,6 @@ public class MellInfoAty extends BaseAty {
             @ViewInject(R.id.classify_text_tv)
             private TextView classify_text_tv;
 
-        }
-    }
-
-    /**
-     * 初始化需要循环的View
-     * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
-     * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
-     */
-    private void setView() {
-        for (int i = 0; i < announce.size(); i++) {
-            //设置滚动的单个布局
-            LinearLayout moreView = (LinearLayout) LayoutInflater.from(MellInfoAty.this).inflate(
-                    R.layout.item_view, null);
-            //初始化布局的控件
-            TextView tv1 = moreView.findViewById(R.id.tv1);
-            tv1.setTextColor(Color.WHITE);
-            tv1.setGravity(Gravity.CENTER_VERTICAL);
-            tv1.setTextSize(10);
-            /*
-             * 设置监听
-             */
-            tv1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    noticeDialog = new NoticeDialog(MellInfoAty.this);
-                    noticeDialog.show();
-                }
-            });
-            //进行对控件赋值
-            tv1.setText(announce.get(i).get("title"));
-            //添加到循环滚动数组里面去
-            views.add(moreView);
         }
     }
 

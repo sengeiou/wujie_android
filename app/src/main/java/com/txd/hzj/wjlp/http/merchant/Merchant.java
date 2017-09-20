@@ -185,5 +185,10 @@ class Merchant {
         apiTool2.postApi(url + "report", params, baseView);
     }
 
+    void reportType(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "reportType", params, baseView);
+    }
 
 }

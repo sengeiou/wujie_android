@@ -87,4 +87,9 @@ public class MerchantPst extends BasePresenter {
         merchant.report(report_type_id, report_content, merchant_id, baseView);
     }
 
+    public void reportType(){
+        baseView.showDialog();
+        merchant.reportType(baseView);
+    }
+
 }

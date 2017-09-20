@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:divider="@drawable/lin_layout_vertical_line_shape"
-    android:showDividers="middle"
     android:orientation="vertical"
+    android:showDividers="middle"
     tools:context="com.txd.hzj.wjlp.mellOffLine.MellAptitudeAty">
 
     <include layout="@layout/aty_title"/>
@@ -24,15 +24,17 @@
             android:layout_weight="1"
             android:padding="12dp"
             android:text="营业执照"
-            android:textSize="16sp"
             android:textColor="@color/app_text_color"
+            android:textSize="16sp"
             />
+
         <TextView
+            android:id="@+id/id_card_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:textSize="12sp"
-            android:text="未认证"/>
+            android:text="未认证"
+            android:textSize="12sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,6 +53,7 @@
             />
 
         <TextView
+            android:id="@+id/food_license_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -70,10 +73,12 @@
             android:layout_weight="1"
             android:padding="12dp"
             android:text="卫生许可证"
-            android:textSize="16sp"
             android:textColor="@color/app_text_color"
+            android:textSize="16sp"
             />
+
         <TextView
+            android:id="@+id/business_license_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -81,6 +86,7 @@
             android:textColor="@color/theme_color"
             android:textSize="12sp"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,10 +98,12 @@
             android:layout_weight="1"
             android:padding="12dp"
             android:text="身份证"
-            android:textSize="16sp"
             android:textColor="@color/app_text_color"
+            android:textSize="16sp"
             />
+
         <TextView
+            android:id="@+id/health_license_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
