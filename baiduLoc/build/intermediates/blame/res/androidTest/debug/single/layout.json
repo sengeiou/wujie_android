@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\function_list.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\function_list.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\locationconfig.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\locationconfig.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\location.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\location.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_location.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_location.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\hotwifi.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\hotwifi.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\quest_activity.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\quest_activity.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\autonotifyconfig.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\autonotifyconfig.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\locationalarm.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\locationalarm.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\locationfilter.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\locationfilter.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\notify.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\notify.xml"
+    },
+    {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\activity_main.xml",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\baiduLoc\\build\\intermediates\\bundles\\debug\\res\\layout\\activity_main.xml"
+    }
+]

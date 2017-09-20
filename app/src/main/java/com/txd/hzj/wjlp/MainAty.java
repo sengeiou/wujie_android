@@ -37,6 +37,7 @@ import com.ants.theantsgo.util.L;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
+import com.baidu.location.service.LocationService;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.EMMessageListener;
@@ -47,7 +48,6 @@ import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.maning.updatelibrary.InstallUtils;
-import com.txd.hzj.wjlp.baidu.service.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
@@ -988,6 +988,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 sb.append("\nPoi: ");// POI信息
 
                 locMap.put("time", location.getTime());// 时间
+                locMap.put("locType", String.valueOf(location.getLocType()));// 类型
                 locMap.put("description", location.getLocTypeDescription());// 定位说明
                 locMap.put("lat", String.valueOf(location.getLatitude()));// 纬度
                 locMap.put("lon", String.valueOf(location.getLongitude()));// 经度

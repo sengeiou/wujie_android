@@ -156,6 +156,8 @@ public class GoodsForRvAdapter extends RecyclerView.Adapter<GoodsForRvAdapter.It
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .placeholder(R.drawable.ic_default)
                 .override(size2, size3)
+                .dontAnimate()
+                .fitCenter()
                 .into(holder.logo_for_country_iv);
         Glide.with(context).load(bean.getGoods_img())
                 .error(R.drawable.ic_default)

@@ -61,8 +61,8 @@ public class LimitAdapter extends BaseAdapter {
         this.type = type;
         this.source = source;
         inflater = LayoutInflater.from(context);
-        size1 = ToolKit.dip2px(context, 32);
-        size2 = ToolKit.dip2px(context, 24);
+        size1 = ToolKit.dip2px(context, 36);
+        size2 = ToolKit.dip2px(context, 23);
         size3 = ToolKit.dip2px(context, 200);
     }
 
@@ -101,7 +101,8 @@ public class LimitAdapter extends BaseAdapter {
                 .override(size1, size2)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .centerCrop()
+                .dontAnimate()
+                .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(lvh.item_country_logo_tv);
         // 商品详情

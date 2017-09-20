@@ -242,7 +242,8 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .override(logo_size1, logo_size2)
                     .placeholder(R.drawable.ic_default)
-                    .centerCrop()
+                    .dontAnimate()
+                    .fitCenter()
                     .into(tgvh.logo_for_country_iv);
             // 商品图片
             Glide.with(ThemeGoodsListAty.this).load(goods.get("goods_img"))

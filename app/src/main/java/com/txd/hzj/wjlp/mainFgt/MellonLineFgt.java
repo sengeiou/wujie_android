@@ -248,6 +248,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     /**
      * 广告高度
      */
+    private int ads_w = 0;
     private int ads_h = 0;
     /**
      * 限量购广告图
@@ -349,8 +350,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         three_image_center_iv.setLayoutParams(params);
         three_image_right_iv.setLayoutParams(params);
         // 广告宽高
-        ads_h = Settings.displayWidth / 2;
-        LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(Settings.displayWidth, ads_h);
+        ads_h = Settings.displayWidth * 300 / 1242;
+        ads_w = Settings.displayWidth;
+        LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(ads_w, ads_h);
         ads_by_limit_buy_iv.setLayoutParams(adsParam);
         ticket_buy_ads_iv.setLayoutParams(adsParam);
         pre_buy_ads_iv.setLayoutParams(adsParam);
@@ -756,7 +758,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> group_buy = JSONUtils.parseKeyAndValueToMap(data.get("group_buy"));
         Map<String, String> group_buy_ads = JSONUtils.parseKeyAndValueToMap(group_buy.get("ads"));
         Glide.with(getActivity()).load(group_buy_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -778,7 +780,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> house_ads = JSONUtils.parseKeyAndValueToMap(house_buy.get("ads"));
 
         Glide.with(getActivity()).load(house_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -799,7 +801,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> car_ads = JSONUtils.parseKeyAndValueToMap(car_buy.get("ads"));
 
         Glide.with(getActivity()).load(car_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -822,7 +824,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
         Glide.with(getActivity()).load(one_buy_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -844,7 +846,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> auction_ads = JSONUtils.parseKeyAndValueToMap(auction.get("ads"));
 
         Glide.with(getActivity()).load(auction_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -866,7 +868,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
 
         Glide.with(getActivity()).load(country_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -888,7 +890,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));
 
         Glide.with(getActivity()).load(pre_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -914,7 +916,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> ticket_ads = JSONUtils.parseKeyAndValueToMap(ticket_buy.get("ads"));
 
         Glide.with(getActivity()).load(ticket_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
@@ -941,7 +943,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(limit_buy.get("ads"));
 
         Glide.with(getActivity()).load(limit_ads.get("picture"))
-                .override(img_w, img_h)
+                .override(ads_w, ads_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)

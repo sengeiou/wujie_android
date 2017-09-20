@@ -23,8 +23,8 @@ import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.baidu.location.service.LocationService;
 import com.baidu.mapapi.SDKInitializer;
-import com.txd.hzj.wjlp.baidu.service.LocationService;
 
 import java.util.ArrayList;
 import java.util.HashMap;

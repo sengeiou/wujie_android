@@ -69,8 +69,8 @@ public class AllGvLvAdapter extends BaseAdapter {
         this.list = list;
         this.type = type;
         this.inflater = LayoutInflater.from(context);
-        size1 = ToolKit.dip2px(context, 32);
-        size2 = ToolKit.dip2px(context, 24);
+        size1 = ToolKit.dip2px(context, 36);
+        size2 = ToolKit.dip2px(context, 23);
         if (8 == type) {
             pic_size = Settings.displayWidth;
             pic_size2 = Settings.displayWidth / 2;
@@ -187,16 +187,15 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .dontAnimate()
+                        .fitCenter()
                         .into(vh.item_country_logo_tv);
 
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
 
-                /*
-         * 是否可以使用优惠券
-         * 使用多少优惠
-         */
+                /*是否可以使用优惠券使用多少优惠*/
                 if (allGoodsBean.getTicket_buy_id().equals("0")) {
                     vh.use_coupon_tv.setText("不可使用优惠券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
@@ -214,6 +213,8 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.country_logo_iv);
 
@@ -248,6 +249,15 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%优惠券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
+                // 国旗
+                Glide.with(context).load(allGoodsBean.getCountry_logo())
+                        .override(size1, size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .dontAnimate()
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.country_logo_iv);
                 break;
 
             case 4://竞拍汇
@@ -257,6 +267,8 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .fitCenter()
+                        .dontAnimate()
                         .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);
@@ -294,6 +306,8 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);
                 vh.one_buy_goods_name_tv.setText(allGoodsBean.getGoods_name());
@@ -434,6 +448,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .override(size1, size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .dontAnimate()
                         .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);

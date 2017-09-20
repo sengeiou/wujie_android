@@ -13,11 +13,6 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a','x86', 'x86_64', 'mips', 'mips64'
-            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
-        }
     }
     lintOptions {
         checkReleaseBuilds false
@@ -44,11 +39,6 @@ android {
             zipAlignEnabled false
             shrinkResources false
             signingConfig signingConfigs.releaseConfig
-        }
-    }
-    sourceSets {
-        main() {
-            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -84,5 +74,4 @@ dependencies {
     /*上拉加载下拉刷新*/
     compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
     testCompile 'junit:junit:4.12'
-    compile project(':easeui')
 }
