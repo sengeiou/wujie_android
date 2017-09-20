@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -113,6 +114,7 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("选择经营范围")) {
             userPst.getRange();
         } else if (title.equals("举报类型")) {
+            L.e("执行了");
             merchantPst.reportType();
         }
     }
@@ -133,8 +135,9 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
             return;
         }
-        if (requestUrl.equals("reportType")) {
+        if (requestUrl.contains("reportType")) {
             dataList = (List<Map<String, String>>) map.get("data");
+            L.e(dataList.toString());
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
         }

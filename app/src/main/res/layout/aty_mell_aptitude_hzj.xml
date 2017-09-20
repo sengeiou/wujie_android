@@ -29,7 +29,7 @@
             />
 
         <TextView
-            android:id="@+id/id_card_tv"
+            android:id="@+id/business_license_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -78,7 +78,7 @@
             />
 
         <TextView
-            android:id="@+id/business_license_tv"
+            android:id="@+id/health_license_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -103,7 +103,7 @@
             />
 
         <TextView
-            android:id="@+id/health_license_tv"
+            android:id="@+id/id_card_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"

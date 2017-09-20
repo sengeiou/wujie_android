@@ -248,7 +248,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         sdkHelper.pushActivity(this);
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
-
+        // 前一次若没定位成功则再次定位，否则再次不定位。。。。。161标识定位成功，162标识对应so包导入出错
+        if (!DemoApplication.getInstance().getLocInfo().get("locType").equals("161")) {
+            locationService.start();
+        }
     }
 
     @Override
@@ -538,11 +541,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         dialog.dismiss();
                         exceptionBuilder = null;
                         isExceptionDialogShow = false;
-                        finish();
+                        Config.setLoginState(false);
                         Intent intent = new Intent(MainAty.this, LoginAty.class);
                         intent.putExtra("type", 0);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finish();
                     }
                 });
                 exceptionBuilder.setCancelable(false);
