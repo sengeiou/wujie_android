@@ -80,5 +80,4 @@ dependencies {
     /*FloatingActionButton*/
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile project(':easeui')
-    compile project(':baiduLoc')
 }

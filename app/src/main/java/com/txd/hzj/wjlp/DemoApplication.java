@@ -23,8 +23,8 @@ import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
-import com.baidu.location.service.LocationService;
 import com.baidu.mapapi.SDKInitializer;
+import com.txd.hzj.wjlp.baidu.LocationService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public class DemoApplication extends WeApplication {
          */
         locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        SDKInitializer.initialize(getApplicationContext());
+//        SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
     }
 

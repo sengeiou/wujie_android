@@ -146,6 +146,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .placeholder(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .fitCenter()
+                        .dontAnimate()
                         .into(holder.logo_for_country_iv);
 
                 Glide.with(context).load(map.get("goods_img"))
@@ -221,6 +222,8 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .override(logo_size1, logo_size2)
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
+                        .dontAnimate()
+                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(holder.logo_for_country_iv);
                 break;
@@ -243,6 +246,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .placeholder(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .fitCenter()
+                        .dontAnimate()
                         .into(holder.item_country_logo_tv);
                 Glide.with(context).load(map.get("goods_img"))
                         .override(pic_size, pic_size)

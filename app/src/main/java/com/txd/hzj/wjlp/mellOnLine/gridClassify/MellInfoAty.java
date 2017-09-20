@@ -532,6 +532,24 @@ public class MellInfoAty extends BaseAty {
         }
     }
 
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (1 == p) {
+            ads_list.clear();
+            if (!frist) {
+                // 加载完成
+                mell_super_sr_layout.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+            }
+        } else {
+            // 加载完成
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            mell_super_sr_layout.setLoadMore(false);
+        }
+    }
+
     /**
      * 顶部(头部公共部分)
      *
