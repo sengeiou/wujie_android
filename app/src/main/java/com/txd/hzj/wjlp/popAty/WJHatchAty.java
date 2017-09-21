@@ -9,12 +9,20 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.companyDevelop.CompanyDevelopPst;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
 
 import java.util.ArrayList;
@@ -40,7 +48,7 @@ public class WJHatchAty extends BaseAty {
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private ArrayList<Map<String, String>> image;
 
     @ViewInject(R.id.hatch_lv)
     private ListViewForScrollView hatch_lv;
@@ -48,9 +56,15 @@ public class WJHatchAty extends BaseAty {
     private RedPackageAdapter redPackageAdapter;
 
     @ViewInject(R.id.wjh_sc)
-    private ScrollView wjh_sc;
+    private PullToRefreshScrollView wjh_sc;
 
-    private List<Map<String,String>> list;
+    private List<Map<String, String>> list;
+    private int p = 1;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
+    private CompanyDevelopPst companyDevelopPst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +79,32 @@ public class WJHatchAty extends BaseAty {
 
         forBanner();
 
-        hatch_lv.setAdapter(redPackageAdapter);
+        hatch_lv.setEmptyView(no_data_layout);
+
+
         hatch_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(HatchDetailsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("company_id", list.get(i).get("company_id"));
+                startActivity(HatchDetailsAty.class, bundle);
             }
         });
+
+        wjh_sc.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                p = 1;
+                companyDevelopPst.companyList(p, 0);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                p++;
+                companyDevelopPst.companyList(p, 0);
+            }
+        });
+
         wjh_sc.scrollTo(0, 0);
     }
 
@@ -83,35 +116,78 @@ public class WJHatchAty extends BaseAty {
     @Override
     protected void initialized() {
         list = new ArrayList<>();
-        redPackageAdapter = new RedPackageAdapter(this, 0,list);
-
+        companyDevelopPst = new CompanyDevelopPst(this);
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
     }
 
     @Override
     protected void requestData() {
+        companyDevelopPst.companyList(p, 0);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("companyList")) {
+            if (ToolKit.isList(map, "data")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                if (1 == p) {
+                    if (ToolKit.isList(data, "ads")) {
+                        image = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
+                        forBanner();
+                    }
+                    if (ToolKit.isList(data, "mer_list")) {
+                        list = JSONUtils.parseKeyAndValueToMapList(data.get("mer_list"));
+                        redPackageAdapter = new RedPackageAdapter(this, 0, list);
+                        hatch_lv.setAdapter(redPackageAdapter);
+                    }
+                } else {
+                    if (ToolKit.isList(data, "mer_list")) {
+                        list.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("mer_list")));
+                        redPackageAdapter.notifyDataSetChanged();
+                    }
+                }
+
+            }
+            wjh_sc.onRefreshComplete();
+        }
     }
 
     /**
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
+    private Bundle bundle;
     /**
      * 轮播图的点击事件
      */
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+
+            Glide.with(WJHatchAty.this).load(image.get(position).get("picture"))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .override(Settings.displayWidth, Settings.displayWidth / 2)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bundle = new Bundle();
+                    bundle.putString("desc", image.get(position).get("desc"));
+                    bundle.putString("href", image.get(position).get("href"));
+                    bundle.putInt("from", 2);
+                    startActivity(NoticeDetailsAty.class, bundle);
+                }
+            });
         }
     };
 }

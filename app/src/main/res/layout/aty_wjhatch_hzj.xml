@@ -11,10 +11,11 @@
 
     <include layout="@layout/aty_title"/>
 
-    <ScrollView
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView
         android:id="@+id/wjh_sc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:ptrMode="both"
         >
 
         <LinearLayout
@@ -31,7 +32,9 @@
                 android:divider="@color/bg_color"
                 android:dividerHeight="8dp"
                 android:padding="8dp"/>
+
+            <include layout="@layout/aty_no_data_layout"/>
         </LinearLayout>
-    </ScrollView>
+    </com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView>
 
 </LinearLayout>

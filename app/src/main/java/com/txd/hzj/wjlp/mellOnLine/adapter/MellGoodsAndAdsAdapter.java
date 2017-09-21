@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
@@ -71,9 +73,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
             logo_size1 = ToolKit.dip2px(context, 36);
             logo_size2 = ToolKit.dip2px(context, 24);
             pic_size = ToolKit.dip2px(context, 180);
-            if (3 == type) {
-                group_size = ToolKit.dip2px(context, 40);
-            }
+            group_size = ToolKit.dip2px(context, 40);
         }
         mInflayer = LayoutInflater.from(context);
     }
@@ -113,9 +113,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     break;
                 case 5:// 竞拍汇
                     view = mInflayer.inflate(R.layout.item_auction_gv, parent, false);
-                    break;
-                case 6:// 一元夺宝
-                    view = mInflayer.inflate(R.layout.item_good_luck_gv, parent, false);
                     break;
             }
             holder = new MellGAVH();
@@ -162,12 +159,14 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.now_price_tv.setText("￥" + map.get("shop_price"));
                 // 积分
                 holder.integral_tv.setText(map.get("integral"));
+                // 价格
+                holder.peice_tv.setText("￥" + map.get("shop_price"));
                 break;
             case 3:// TODO==========拼团购==========
                 // 商品名
                 holder.goods_name_tv.setText(map.get("goods_name"));
                 // 商品团购价格
-                holder.goods_price_tv.setText("￥" + map.get("group_price"));
+                holder.goods_price_tv.setText(map.get("group_price"));
                 // 商品积分
                 holder.group_integral_tv.setText(map.get("integral"));
                 // 已团。。。。。件
@@ -181,42 +180,48 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .centerCrop()
                         .into(holder.goods_pic_iv);
                 // 团购两人头像(最多两人)
-                List<AllGoodsBean.AppendPersonBean> append_person = GsonUtil.GsonToList(map.get("append_person"),
-                        AllGoodsBean.AppendPersonBean.class);
-                if (!ListUtils.isEmpty(append_person)) {
-                    if (append_person.size() >= 2) {
-                        holder.sec_head_iv.setVisibility(View.VISIBLE);
-                        Glide.with(context).load(append_person.get(0).getHead_pic())
-                                .override(group_size, group_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(holder.frist_head_iv);
-                        Glide.with(context).load(append_person.get(1).getHead_pic())
-                                .override(group_size, group_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(holder.sec_head_iv);
+
+                if (ToolKit.isList(map, "append_person")) {
+                    List<Map<String, String>> append_person = JSONUtils.parseKeyAndValueToMapList(
+                            map.get("append_person"));
+                    L.e("=====拼团=====", append_person.toString());
+                    if (!ListUtils.isEmpty(append_person)) {
+                        if (append_person.size() >= 2) {
+                            holder.sec_head_iv.setVisibility(View.VISIBLE);
+                            Glide.with(context).load(append_person.get(0).get("head_pic"))
+                                    .override(group_size, group_size)
+                                    .placeholder(R.drawable.ic_default)
+                                    .error(R.drawable.ic_default)
+                                    .centerCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(holder.frist_head_iv);
+                            Glide.with(context).load(append_person.get(1).get("head_pic"))
+                                    .override(group_size, group_size)
+                                    .placeholder(R.drawable.ic_default)
+                                    .error(R.drawable.ic_default)
+                                    .centerCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(holder.sec_head_iv);
+                        } else {
+                            holder.frist_head_iv.setVisibility(View.GONE);
+                            Glide.with(context).load(append_person.get(0).get("head_pic"))
+                                    .override(group_size, group_size)
+                                    .placeholder(R.drawable.ic_default)
+                                    .error(R.drawable.ic_default)
+                                    .centerCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(holder.sec_head_iv);
+                        }
+
                     } else {
                         holder.frist_head_iv.setVisibility(View.GONE);
-                        Glide.with(context).load(append_person.get(0).getHead_pic())
-                                .override(group_size, group_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(holder.sec_head_iv);
+                        holder.sec_head_iv.setVisibility(View.GONE);
                     }
-
                 } else {
                     holder.frist_head_iv.setVisibility(View.GONE);
                     holder.sec_head_iv.setVisibility(View.GONE);
                 }
-
-                holder.group_totla_tv.setText("已团" + map.get("total") + "件");
+                holder.group_already_tv.setText("已团" + map.get("total") + "件");
 
                 Glide.with(context).load(map.get("country_logo"))
                         .override(logo_size1, logo_size2)
@@ -227,15 +232,24 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(holder.logo_for_country_iv);
                 break;
-            case 2:
+            case 2:// TODO==========限量购，无界预购
             case 4:
                 if (2 == type) {
                     holder.sold_num_tv.setText("已抢购" + map.get("sell_num") + "件");
                     holder.goods_num_already_tv.setText("已抢购" + map.get("sell_num") + "件");
+                    holder.peice_tv.setText("￥" + map.get("limit_price"));
                 } else {
                     holder.sold_num_tv.setText("已预购" + map.get("sell_num") + "件");
                     holder.goods_num_already_tv.setText("已预购" + map.get("sell_num") + "件");
+                    holder.peice_tv.setText("￥" + map.get("deposit"));
                 }
+                break;
+            case 5:// TODO==========竞拍汇
+                holder.peice_tv.setText("￥" + map.get("start_price"));
+                break;
+            case 6:// TODO==========一元夺宝
+                // 价格
+                holder.peice_tv.setText(map.get("integral"));
                 break;
         }
         if (0 != type) {
@@ -257,8 +271,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .into(holder.goods_pic_iv);
                 // 商品名称
                 holder.item_goods_name_tv.setText(map.get("goods_name"));
-                // 价格
-                holder.peice_tv.setText("￥" + map.get("shop_price"));
                 // 积分
                 holder.get_integral_tv.setText(map.get("integral"));
             }

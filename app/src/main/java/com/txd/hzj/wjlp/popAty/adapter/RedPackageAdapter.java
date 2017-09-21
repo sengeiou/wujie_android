@@ -95,13 +95,15 @@ public class RedPackageAdapter extends BaseAdapter {
         } else {
             rpvh = (RPVH) view.getTag();
         }
-
+        String picUrl;
         if (0 == type) {
             rpvh.image_for_mell.setShapeRadius(0);
+            picUrl = map.get("face_img");
         } else {
+            picUrl = map.get("bonus_face");
             rpvh.image_for_mell.setShapeRadius(size);
         }
-        Glide.with(context).load(map.get("bonus_face"))
+        Glide.with(context).load(picUrl)
                 .override(wight, height)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)

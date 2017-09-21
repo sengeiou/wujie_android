@@ -413,6 +413,7 @@ public class MellInfoAty extends BaseAty {
         aty_type.add("竞拍汇");
         aty_type.add("积分夺宝");
         mell_id = getIntent().getStringExtra("mell_id");
+        L.e("=====商家id=====", mell_id);
         size = ToolKit.dip2px(this, 80);
         ticket_list = new ArrayList<>();
     }
@@ -507,6 +508,8 @@ public class MellInfoAty extends BaseAty {
         if (requestUrl.contains("limitList") || requestUrl.contains("groupList") || requestUrl.contains("preList")
                 || requestUrl.contains("auctionList") || requestUrl.contains("oneBuyList")) {
 
+            L.e("=====链接=====", requestUrl);
+
             mell_ads_lv.setVisibility(View.GONE);
             mell_goods_gv.setVisibility(View.VISIBLE);
 
@@ -516,12 +519,14 @@ public class MellInfoAty extends BaseAty {
                     ads_list.clear();
                     forBaseTitle(data);
                     if (ToolKit.isList(data, "goods_list")) {
-                        if (mellGoodsAndAdsAdapter != null)
-                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
-                        else {
-                            mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
-                            mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
-                        }
+                        ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+                        L.e("=====数据=====", ads_list.toString());
+//                        if (mellGoodsAndAdsAdapter != null)
+//                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
+//                        else {
+//                        }
+                        mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
+                        mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
                     }
                     if (!frist) {
                         // 加载完成
@@ -553,8 +558,6 @@ public class MellInfoAty extends BaseAty {
                     footerProgressBar.setVisibility(View.GONE);
                     mell_super_sr_layout.setLoadMore(false);
                 }
-                if (mellGoodsAndAdsAdapter != null)
-                    mellGoodsAndAdsAdapter.notifyDataSetChanged();
             }
             return;
         }

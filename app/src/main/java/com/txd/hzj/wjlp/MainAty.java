@@ -34,6 +34,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.StringUtils;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
@@ -249,7 +250,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
         // 前一次若没定位成功则再次定位，否则再次不定位。。。。。161标识定位成功，162标识对应so包导入出错
-        if (!DemoApplication.getInstance().getLocInfo().get("locType").equals("161")) {
+        String locType = StringUtils.nullStrToEmpty(DemoApplication.getInstance().getLocInfo().get("locType"));
+        if (!locType.equals("161")) {
             locationService.start();
         }
     }
