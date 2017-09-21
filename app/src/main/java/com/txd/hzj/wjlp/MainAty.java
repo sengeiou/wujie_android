@@ -383,6 +383,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 startActivity(TicketZoonAty.class, mBundle);
 
                 popupWindow.dismiss();
+                mCurPopupWindow = null;
             }
         });
         /*
@@ -394,6 +395,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 setMoreStatus();
                 startActivity(WelfareServiceAty.class, null);
                 popupWindow.dismiss();
+                mCurPopupWindow = null;
             }
         });
         /*
@@ -405,6 +407,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 setMoreStatus();
                 startActivity(WJHatchAty.class, null);
                 popupWindow.dismiss();
+                mCurPopupWindow = null;
             }
         });
         /*
@@ -415,6 +418,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             public void onClick(View view) {
                 setMoreStatus();
                 popupWindow.dismiss();
+                mCurPopupWindow = null;
             }
         });
         popupWindow.showAsDropDown(anchorView);
