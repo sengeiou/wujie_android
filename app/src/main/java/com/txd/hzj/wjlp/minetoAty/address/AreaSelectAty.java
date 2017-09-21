@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.bigkoo.pickerview.lib.WheelView;
 import com.bigkoo.pickerview.listener.OnItemSelectedListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -21,6 +22,7 @@ import com.txd.hzj.wjlp.minetoAty.address.adapter.AreaAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * ===============Txunda===============
@@ -107,6 +109,8 @@ public class AreaSelectAty extends BaseAty {
                 province_id = pros.get(index).getRegion_id();
                 L.e("=====省id=====", province_id);
                 prov_select = true;
+                city_select = false;
+                area_select = false;
                 addressPst.getRegion(province_id);
 
             }
@@ -117,6 +121,7 @@ public class AreaSelectAty extends BaseAty {
                 city = citys.get(index).getRegion_name();
                 city_id = citys.get(index).getRegion_id();
                 city_select = true;
+                area_select = false;
                 addressPst.getRegion(city_id);
             }
         });
@@ -182,21 +187,31 @@ public class AreaSelectAty extends BaseAty {
 
         if (!prov_select) {// 省
             pros = getArea.getData().getProvince_list();
+            L.e("=====省=====", pros.toString());
             province_wv.setAdapter(new AreaAdapter<>(pros));
             province = pros.get(0).getRegion_name();
             province_id = pros.get(0).getRegion_id();
         }
-
+        L.e("=====市=====", citys.toString());
         if (!city_select) {// 市
             city_id = citys.get(0).getRegion_id();
             city = citys.get(0).getRegion_name();
+            if (!ListUtils.isEmpty(citys)) {
+                city_wv.setAdapter(new AreaAdapter<>(citys));
+                city_wv.setCurrentItem(0);
+            }
         }
 
+        L.e("=====区=====", areas.toString());
         if (!area_select) {// 区
             area_id = areas.get(0).getRegion_id();
             area = areas.get(0).getRegion_name();
+            if (!ListUtils.isEmpty(areas)) {
+                area_wv.setAdapter(new AreaAdapter<>(areas));
+                area_wv.setCurrentItem(0);
+            }
         }
-        city_wv.setAdapter(new AreaAdapter<>(citys));
-        area_wv.setAdapter(new AreaAdapter<>(areas));
+
     }
+
 }

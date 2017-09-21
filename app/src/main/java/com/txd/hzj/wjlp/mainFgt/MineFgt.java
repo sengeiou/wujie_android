@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -151,6 +152,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     private int tit_size = 0;
 
+    private int icon_size = 0;
 
     /**
      * 普通用户
@@ -158,11 +160,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.mine_member_type_tv)
     private TextView mine_member_type_tv;
 
+    @ViewInject(R.id.level_icon_iv)
+    private ImageView level_icon_iv;
+
     /**
      * 金牌会员
      */
     @ViewInject(R.id.grade_of_member_tv)
     private TextView grade_of_member_tv;
+
+    @ViewInject(R.id.rank_icon_iv)
+    private ImageView rank_icon_iv;
 
     /**
      * 积分
@@ -359,6 +367,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         userPst = new UserPst(this);
         size = ToolKit.dip2px(getActivity(), 80);
         tit_size = ToolKit.dip2px(getActivity(), 40);
+        icon_size = ToolKit.dip2px(getActivity(), 20);
     }
 
     @Override
@@ -417,12 +426,26 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     message_num_tv.setVisibility(View.GONE);
                 } else {
                     message_num_tv.setVisibility(View.VISIBLE);
+                    message_num_tv.setText(String.valueOf(new_msg));
                 }
             } catch (NumberFormatException e) {
                 new_msg = 0;
                 message_num_tv.setVisibility(View.GONE);
             }
-
+            mine_member_type_tv.setText(data.get("level"));
+            grade_of_member_tv.setText(data.get("rank"));
+            Glide.with(getActivity()).load(data.get("rank_icon"))
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .fitCenter()
+                    .override(icon_size, icon_size)
+                    .into(rank_icon_iv);
+            Glide.with(getActivity()).load(data.get("level_icon"))
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .fitCenter()
+                    .override(icon_size, icon_size)
+                    .into(level_icon_iv);
         }
     }
 

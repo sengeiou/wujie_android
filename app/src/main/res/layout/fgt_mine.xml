@@ -93,6 +93,7 @@
                                 android:paddingTop="4dp">
 
                                 <ImageView
+                                    android:id="@+id/level_icon_iv"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_marginEnd="8dp"
@@ -118,6 +119,7 @@
                                 android:paddingTop="4dp">
 
                                 <ImageView
+                                    android:id="@+id/rank_icon_iv"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_marginEnd="8dp"
@@ -161,7 +163,8 @@
                         android:drawableStart="@drawable/icon_wj_exponent_hzj"
                         android:text="无界指数8999"
                         android:textColor="@color/white"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:visibility="invisible"/>
                 </LinearLayout>
 
             </RelativeLayout>

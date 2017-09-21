@@ -327,4 +327,107 @@ public class User {
         apiTool2.postApi(url + "referList", params, baseView);
     }
 
+    /**
+     * 会员成长
+     *
+     * @param baseView 回调
+     */
+    void userDevelop(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userDevelop", params, baseView);
+    }
+
+    /**
+     * 会员成长值明细
+     *
+     * @param baseView 回调
+     */
+    void userDevelopLog(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userDevelopLog", params, baseView);
+    }
+
+    /**
+     * 增加成长值
+     *
+     * @param reason    原因
+     * @param get_point 成长值
+     * @param baseView  回调
+     */
+    void addPoint(String reason, String get_point, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("reason", reason);
+        params.addBodyParameter("get_point", get_point);
+        apiTool2.postApi(url + "addPoint", params, baseView);
+    }
+
+    /**
+     * 会员等级
+     *
+     * @param baseView 回调
+     */
+    void userRank(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userRank", params, baseView);
+    }
+
+    /**
+     * 工作成绩
+     *
+     * @param baseView 回调
+     */
+    void gradeRank(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "gradeRank", params, baseView);
+    }
+
+    /**
+     * 我的分享
+     *
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void myShare(int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "myShare", params, baseView);
+    }
+
+    /**
+     * 我的推荐
+     *
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void myRecommend(int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "myRecommend", params, baseView);
+    }
+
+    /**
+     * 忘记支付密码
+     *
+     * @param phone     手机号
+     * @param verify    验证码 验证码标识 type=re_pay_pwd
+     * @param newPayPwd 新密码
+     * @param rePayPwd  确认密码
+     * @param baseView  回调
+     */
+    void resetPayPwd(String phone, String verify, String newPayPwd, String rePayPwd, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("phone", phone);
+        params.addBodyParameter("verify", verify);
+        params.addBodyParameter("newPayPwd", newPayPwd);
+        params.addBodyParameter("rePayPwd", rePayPwd);
+        apiTool2.postApi(url + "myRecommend", params, baseView);
+    }
 }

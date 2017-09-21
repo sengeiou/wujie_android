@@ -137,5 +137,6 @@ public class FeedbackFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         showRightTip("反馈成功");
+        getActivity().finish();
     }
 }

@@ -83,7 +83,7 @@ public class RedPacagerFgt extends BaseFgt {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("bonus_id", list.get(i).get("bonus_id"));
+                bundle.putString("bonus_id", list.get(i - 1).get("bonus_id"));
                 startActivity(GetRedPackageAty.class, bundle);
             }
         });

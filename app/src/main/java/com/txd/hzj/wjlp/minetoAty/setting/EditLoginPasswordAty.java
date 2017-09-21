@@ -77,7 +77,7 @@ public class EditLoginPasswordAty extends BaseAty {
             case R.id.to_change_pwd_tv:// 修改密码
                 newPassword = new_pwd_tv.getText().toString();
                 String rePassword = re_pwd_tv.getText().toString();
-                if (is_password.equals("0")) {
+                if (is_password.equals("1")) {
                     String oldPassword = old_pwd_tv.getText().toString();
                     userPst.changePassword(oldPassword, newPassword, rePassword);
                 } else {
@@ -116,6 +116,7 @@ public class EditLoginPasswordAty extends BaseAty {
         if (requestUrl.contains("setPassword")) {
             showRightTip("设置成功");
             PreferencesUtils.putString(this, "pwd", newPassword);
+            finish();
         }
     }
 
