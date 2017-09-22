@@ -343,9 +343,10 @@ public class User {
      *
      * @param baseView 回调
      */
-    void userDevelopLog(BaseView baseView) {
+    void userDevelopLog(int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "userDevelopLog", params, baseView);
     }
 
@@ -380,9 +381,13 @@ public class User {
      *
      * @param baseView 回调
      */
-    void gradeRank(BaseView baseView) {
+    void gradeRank(int p, String city_id, String type, String city_name, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("city_id", city_id);
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("city_name", city_name);
         apiTool2.postApi(url + "gradeRank", params, baseView);
     }
 
@@ -430,6 +435,7 @@ public class User {
         params.addBodyParameter("rePayPwd", rePayPwd);
         apiTool2.postApi(url + "myRecommend", params, baseView);
     }
+
     /**
      * 积分说明
      *
@@ -440,6 +446,7 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "integralLog", params, baseView);
     }
+
     /**
      * 分享好友
      *

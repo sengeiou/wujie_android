@@ -36,7 +36,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
      */
     private int type = 1;
 
-    public StickyExampleAdapter(Context context, List<TricketDetailks> recyclerViewModels,int type) {
+    public StickyExampleAdapter(Context context, List<TricketDetailks> recyclerViewModels, int type) {
         this.context = context;
         this.stickyExampleModels = recyclerViewModels;
         this.type = type;
@@ -86,13 +86,21 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                     context.startActivity(new Intent(context, RechargeOffLineAty.class));
                 }
             });
-            if(1 == type){// 购物券
-
+            if (1 == type) {// 购物券
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-
-                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable",
+                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
+                                (), "drawable",
                         context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+            } else if (2 == type) {
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
+                                (), "drawable",
+                        context.getPackageName());
+                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+            } else if (4 == type) {
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_part_details_cheng);
             }
         }
     }

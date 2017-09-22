@@ -17,11 +17,11 @@
             android:id="@+id/sh_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/icon_mine_bg"
             app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
             app:contentScrim="@color/colorAccent"
             app:expandedTitleMarginEnd="48dp"
             app:expandedTitleMarginStart="48dp"
-            android:background="@drawable/icon_mine_bg"
             app:expandedTitleTextAppearance="@style/transparentText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             >
@@ -30,9 +30,9 @@
                 android:id="@+id/grade_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/icon_share_grade_bg_hzj"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin"
-                android:background="@drawable/icon_share_grade_bg_hzj"
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <LinearLayout
@@ -42,13 +42,16 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                        android:id="@+id/user_head_iv"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_margin="24dp"
-                        android:src="@drawable/icon_mine_head"/>
+                        android:src="@drawable/icon_mine_head"
+                        app:shape_mode="circle"/>
 
                     <TextView
+                        android:id="@+id/nick_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -77,10 +80,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/share_num_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="35"
                             android:textColor="#E60012"
                             android:textSize="18sp"/>
 
@@ -106,10 +109,10 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/recommend_num_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="35"
                             android:textColor="#E60012"
                             android:textSize="18sp"/>
 
@@ -235,23 +238,37 @@
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/grade_ssr_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
-        <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-            android:id="@+id/my_share_grade_lv"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:divider="@color/view_color"
-            android:dividerHeight="1dp"
             android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </android.support.v4.widget.NestedScrollView>
+            android:scrollbars="none">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                    android:id="@+id/my_share_grade_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/bg_color"
+                    android:divider="@color/view_color"
+                    android:dividerHeight="1dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+                <include layout="@layout/aty_no_data_layout"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

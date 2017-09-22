@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:gravity="top"
     android:orientation="horizontal">
 
-    <ImageView
+    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+        android:id="@+id/my_recommend_pic_iv"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="12dp"
-        android:src="@drawable/icon_mine_head"/>
+        app:shape_mode="circle"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,30 +38,31 @@
                     android:gravity="center_vertical">
 
                     <TextView
+                        android:id="@+id/my_recommend_nick_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="景甜"
                         android:textColor="@color/app_text_color"
                         android:textSize="18sp"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/icon_general_member_hzj"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/icon_glod_hjz"/>
 
                     <TextView
+                        android:id="@+id/recommend_num_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="成功推荐10人"
                         android:textSize="14sp"/>
                 </LinearLayout>
 
@@ -70,25 +73,25 @@
                     android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/user_phone_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="186****6632"
                     android:textSize="16sp"/>
 
             </LinearLayout>
 
             <TextView
+                android:id="@+id/my_recommend_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="12dp"
                 android:gravity="end|bottom"
                 android:lineSpacingExtra="8dp"
                 android:paddingEnd="12dp"
-                android:paddingStart="4dp"
-                android:text="分享时间\n2017-05-08"/>
+                android:paddingStart="4dp"/>
 
         </LinearLayout>
 

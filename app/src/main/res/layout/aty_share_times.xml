@@ -15,12 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
-    <ListView
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
         android:id="@+id/share_times_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0dp"
+        android:background="@color/white"
         android:divider="@null"
-        android:background="@color/white"/>
+        android:dividerHeight="0dp"
+        app:ptrMode="both"/>
+
+    <include layout="@layout/aty_no_data_layout"/>
 
 </LinearLayout>

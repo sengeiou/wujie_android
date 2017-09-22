@@ -84,7 +84,6 @@ public class ParticularsUsedByTricketAty extends BaseAty {
      */
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
-    private int allNum = 0;
 
     /**
      * 列表视图
@@ -163,7 +162,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        userPst.vouchersLog(p);
+                        getData();
                     }
 
                     @Override
@@ -189,7 +188,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        userPst.vouchersLog(p);
+                        getData();
                     }
 
                     @Override
@@ -222,11 +221,19 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        getData();
+    }
 
-        if (1 == from) {
-            userPst.vouchersLog(p);
+    private void getData() {
+        switch (from) {
+            case 1:// 优惠券使用明细
+                userPst.vouchersLog(p);
+                break;
+            case 2:// 积分明细
+                break;
+            case 4:// 成长明细
+                userPst.userDevelopLog(p);
         }
-
     }
 
     @Override
@@ -301,22 +308,119 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 footerProgressBar.setVisibility(View.GONE);
                 swipe_refresh.setLoadMore(false);
             }
+            return;
+        }
+        if (requestUrl.contains("userDevelopLog")) {
+            if (1 == p) {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
+                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), ""));
+                        }
+                    }
+                    stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
+                    tricket_rv.setAdapter(stickyExampleAdapter);
 
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                } else {
+                    lv_layout.setVisibility(View.GONE);
+                    no_data_layout.setVisibility(View.VISIBLE);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            } else {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
+                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), ""));
+                        }
+                    }
+                    stickyExampleAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
+            return;
+        }
+        if (requestUrl.contains("integralLog")) {
+            if (1 == p) {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
+                                    temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
+                                    temp2.get("act_type")));
+                        }
+                    }
+                    stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
+                    tricket_rv.setAdapter(stickyExampleAdapter);
+
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                } else {
+                    lv_layout.setVisibility(View.GONE);
+                    no_data_layout.setVisibility(View.VISIBLE);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            } else {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
+                                    temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
+                                    temp2.get("act_type")));
+                        }
+                    }
+                    stickyExampleAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
         }
     }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        if (requestUrl.contains("vouchersLog")) {
-            if (1 == p) {
-                lv_layout.setVisibility(View.GONE);
-                no_data_layout.setVisibility(View.VISIBLE);
-            } else {
-                footerImageView.setVisibility(View.VISIBLE);
-                footerProgressBar.setVisibility(View.GONE);
-                swipe_refresh.setLoadMore(false);
+        if (1 == p) {
+            lv_layout.setVisibility(View.GONE);
+            no_data_layout.setVisibility(View.VISIBLE);
+            if (!frist) {
+                swipe_refresh.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
             }
+        } else {
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            swipe_refresh.setLoadMore(false);
         }
     }
 

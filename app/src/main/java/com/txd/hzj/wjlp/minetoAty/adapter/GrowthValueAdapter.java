@@ -76,6 +76,11 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
                 holder.under_title_tv.setText(map.get("min_points") + "-" + map.get("max_points") + "成长值");
                 holder.value_title_tv.setText(map.get("level_name"));
             }
+            if (map.get("is_get").equals("1")) {// 已获得
+                holder.get_value_tv.setText("已获得");
+            } else {// 未获得
+                holder.get_value_tv.setText("未获得");
+            }
         } else {
             holder.value_title_tv.setText(map.get("rank_name"));
             holder.under_title_tv.setText(map.get("desc"));

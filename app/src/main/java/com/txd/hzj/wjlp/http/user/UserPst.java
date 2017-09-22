@@ -225,9 +225,9 @@ public class UserPst extends BasePresenter {
     }
 
     // 成长明细
-    public void userDevelopLog() {
+    public void userDevelopLog(int p) {
         baseView.showDialog();
-        user.userDevelopLog(baseView);
+        user.userDevelopLog(p, baseView);
     }
 
     // 增加明细
@@ -236,15 +236,17 @@ public class UserPst extends BasePresenter {
         user.addPoint(reason, get_point, baseView);
     }
 
+    // 会员等级
     public void userRank() {
         baseView.showDialog();
         user.userRank(baseView);
     }
 
     // 工作成绩
-    public void gradeRank() {
-        baseView.showDialog();
-        user.gradeRank(baseView);
+    public void gradeRank(int p, String city_id, String type, String city_name, boolean show) {
+        if (show)
+            baseView.showDialog();
+        user.gradeRank(p, city_id, type, city_name, baseView);
     }
 
     // 我的分享

@@ -16,7 +16,6 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;

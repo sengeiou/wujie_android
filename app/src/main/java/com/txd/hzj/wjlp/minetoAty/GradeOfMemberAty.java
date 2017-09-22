@@ -161,14 +161,8 @@ public class GradeOfMemberAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-
-        L.e("=====数据=====",jsonStr);
-
         if (requestUrl.contains("userDevelop")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-
-            L.e("=====11111=====",data.get("level_list"));
-
             member_growth_value_tv.setText(data.get("year") + "年度成长值：" + data.get("my_point"));
             grade_of_member_tv.setText(data.get("level"));
             Glide.with(this).load(data.get("head_pic"))
