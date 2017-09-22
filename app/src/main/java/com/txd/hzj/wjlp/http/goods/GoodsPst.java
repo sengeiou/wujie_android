@@ -43,4 +43,12 @@ public class GoodsPst extends BasePresenter {
         goods.threeList(two_cate_id, three_cate_id, p, baseView);
     }
 
+    // 搜索
+    public void search(String type, String name, int p, boolean show) {
+        if (show) {
+            baseView.showDialog();
+        }
+        goods.search(type, name, p, baseView);
+    }
+
 }

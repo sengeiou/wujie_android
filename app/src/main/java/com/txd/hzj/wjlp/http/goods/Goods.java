@@ -63,4 +63,21 @@ class Goods {
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 
+    /**
+     * 搜索
+     *
+     * @param type     类型，1商品，2商家
+     * @param name     搜索关键字
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void search(String type, String name, int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("name", name);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "search", params, baseView);
+    }
+
 }

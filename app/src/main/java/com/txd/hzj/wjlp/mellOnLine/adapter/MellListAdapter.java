@@ -146,7 +146,7 @@ public class MellListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, MellInfoAty.class);
-                intent.putExtra("merchant_id", merchant_id);
+                intent.putExtra("mell_id", merchant_id);
                 context.startActivity(intent);
             }
         });
