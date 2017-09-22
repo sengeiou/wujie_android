@@ -1,19 +1,13 @@
 package com.txd.hzj.wjlp.popAty.fgt;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -77,18 +71,18 @@ public class CouponListFgt extends BaseFgt {
         });
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-            try {
-                welfarePst = new WelfarePst(this);
-                welfarePst.ticketList(p, type, 1);
-            } catch (NullPointerException e) {
-                L.e("Coupon======Error");
-            }
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (getUserVisibleHint()) {
+//            try {
+//                welfarePst = new WelfarePst(this);
+//                welfarePst.ticketList(p, type, 1);
+//            } catch (NullPointerException e) {
+//                L.e("Coupon======Error");
+//            }
+//        }
+//    }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -133,6 +127,13 @@ public class CouponListFgt extends BaseFgt {
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        removeContent();
+        removeDialog();
+
+    }
+
+    @Override
     protected int getLayoutResId() {
         return R.layout.fgt_coupon_list_hzj;
     }
@@ -145,7 +146,7 @@ public class CouponListFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-
+        welfarePst.ticketList(p, type, 1);
     }
 
     @Override

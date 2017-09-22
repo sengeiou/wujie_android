@@ -432,15 +432,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 new_msg = 0;
                 message_num_tv.setVisibility(View.GONE);
             }
-            mine_member_type_tv.setText(data.get("level"));
-            grade_of_member_tv.setText(data.get("rank"));
-            Glide.with(getActivity()).load(data.get("rank_icon"))
+            mine_member_type_tv.setText(data.get("rank"));
+            grade_of_member_tv.setText(data.get("level"));
+            Glide.with(getActivity()).load(data.get("level_icon"))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
                     .fitCenter()
                     .override(icon_size, icon_size)
                     .into(rank_icon_iv);
-            Glide.with(getActivity()).load(data.get("level_icon"))
+            Glide.with(getActivity()).load(data.get("rank_icon"))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
                     .fitCenter()

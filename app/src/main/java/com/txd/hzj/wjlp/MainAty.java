@@ -552,6 +552,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         intent.putExtra("type", 0);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        Map<String, String> map = application.getUserInfo();
+                        map.clear();
+                        application.setUserInfo(map);
                         finish();
                     }
                 });

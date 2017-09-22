@@ -196,7 +196,7 @@ public class UserPst extends BasePresenter {
         }
 
 
-        if (product_pic.isEmpty() || product_pic == null) {
+        if (product_pic.isEmpty()) {
             baseView.onErrorTip("请上传商品图片");
             return;
         }
@@ -206,7 +206,7 @@ public class UserPst extends BasePresenter {
             return;
         }
 
-        L.e("=====产品=====",product_pic.toString());
+        L.e("=====产品=====", product_pic.toString());
 
         user.merchantRefer(name, range_id, link_man, link_phone, job, tmail_url, jd_url,
                 other_url, product_desc, product_pic, business_license, other_license, baseView);
@@ -218,4 +218,66 @@ public class UserPst extends BasePresenter {
         user.referList(baseView);
     }
 
+    // 会员成长
+    public void userDevelop() {
+        baseView.showDialog();
+        user.userDevelop(baseView);
+    }
+
+    // 成长明细
+    public void userDevelopLog() {
+        baseView.showDialog();
+        user.userDevelopLog(baseView);
+    }
+
+    // 增加明细
+    public void addPoint(String reason, String get_point) {
+        baseView.showDialog();
+        user.addPoint(reason, get_point, baseView);
+    }
+
+    public void userRank() {
+        baseView.showDialog();
+        user.userRank(baseView);
+    }
+
+    // 工作成绩
+    public void gradeRank() {
+        baseView.showDialog();
+        user.gradeRank(baseView);
+    }
+
+    // 我的分享
+    public void myShare(int p, boolean show) {
+        if (show) {
+            baseView.showDialog();
+        }
+        user.myShare(p, baseView);
+    }
+
+    // 我的推荐
+    public void myRecommend(int p, boolean show) {
+        if (show) {
+            baseView.showDialog();
+        }
+        user.myRecommend(p, baseView);
+    }
+
+    // 忘记支付密码
+    public void resetPayPwd(String phone, String verify, String newPayPwd, String rePayPwd) {
+        baseView.showDialog();
+        user.resetPayPwd(phone, verify, newPayPwd, rePayPwd, baseView);
+    }
+
+    // 积分说明
+    public void integralLog() {
+        baseView.showDialog();
+        user.integralLog(baseView);
+    }
+
+    // 分享好友
+    public void shareFriend() {
+        baseView.showDialog();
+        user.shareFriend(baseView);
+    }
 }

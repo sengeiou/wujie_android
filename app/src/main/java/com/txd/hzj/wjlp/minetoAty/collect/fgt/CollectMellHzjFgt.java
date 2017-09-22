@@ -12,14 +12,14 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.bean.CollectOrFootpointMell;
 import com.txd.hzj.wjlp.bean.MellInfoList;
+import com.txd.hzj.wjlp.bean.footPoint.FootMellsBan;
+import com.txd.hzj.wjlp.bean.footPoint.FootPointBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
@@ -50,6 +50,9 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
 
     private MellListAdapter mellListAdapter;
 
+    private List<FootMellsBan> mellsFoot;
+    private List<FootMellsBan> mellsFoot2;
+    private List<FootMellsBan> mellsFoot3;
     private List<MellInfoList> mells;
     private List<MellInfoList> mells2;
     private List<MellInfoList> mells3;
@@ -71,7 +74,6 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
 
     @ViewInject(R.id.cart_select_all_cb)
     private CheckBox cart_select_all_cb;
-    private ArrayList<String> ids;
 
     public static CollectMellHzjFgt newInstance(boolean param1, int dataType) {
         CollectMellHzjFgt fragment = new CollectMellHzjFgt();
@@ -129,7 +131,7 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                 if (0 == dataType) {
 
                 } else {
-                    ids = new ArrayList<>();
+                    ArrayList<String> ids = new ArrayList<>();
                     mells3 = new ArrayList<>();
                     for (MellInfoList ms : mells) {
                         if (ms.isSelect()) {
@@ -154,6 +156,8 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     protected void initialized() {
         mells = new ArrayList<>();
         mells2 = new ArrayList<>();
+        mellsFoot = new ArrayList<>();
+        mellsFoot2 = new ArrayList<>();
         userPst = new UserPst(this);
         collectPst = new UserCollectPst(this);
         L.e("====data22222=====", String.valueOf(dataType));
@@ -195,46 +199,55 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
         if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
             removeContent();
             removeDialog();
-            collect_mell_lv.onRefreshComplete();
         } else {
             super.onError(requestUrl, error);
         }
+        collect_mell_lv.onRefreshComplete();
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("myfooter")) {
-            CollectOrFootpointMell mell = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointMell.class);
-            allNum = mell.getNums();
+            FootPointBean foot = GsonUtil.GsonToBean(jsonStr, FootPointBean.class);
+            allNum = foot.getNums();
             if (1 == p) {
-                mells = mell.getData();
-                mellListAdapter = new MellListAdapter(getActivity(), mells);
-                collect_mell_lv.setAdapter(mellListAdapter);
+                mellsFoot = foot.getData();
+                if (!ListUtils.isEmpty(mellsFoot)) {
+                    mellListAdapter = new MellListAdapter(getActivity(), mellsFoot, 1);
+                    collect_mell_lv.setAdapter(mellListAdapter);
+                    // 设置选中数量的监听
+                    mellListAdapter.setForSelectNum(this);
+                }
             } else {
-                mells2 = mell.getData();
-                mells.addAll(mells2);
-                mellListAdapter.notifyDataSetChanged();
+                mellsFoot2 = foot.getData();
+                if (!ListUtils.isEmpty(mellsFoot2)) {
+                    mellsFoot.addAll(mellsFoot2);
+                    mellListAdapter.notifyDataSetChanged();
+                }
             }
-            mellListAdapter.setForSelectNum(this);
             collect_mell_lv.onRefreshComplete();
             setStatus(status);
             return;
         }
         if (requestUrl.contains("collectList")) {
-            L.e("=====商家=====", "收藏");
             CollectOrFootpointMell mell = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointMell.class);
             allNum = mell.getNums();
             if (1 == p) {
                 mells = mell.getData();
-                mellListAdapter = new MellListAdapter(getActivity(), mells);
-                collect_mell_lv.setAdapter(mellListAdapter);
+                if (!ListUtils.isEmpty(mells)) {
+                    mellListAdapter = new MellListAdapter(getActivity(), mells);
+                    collect_mell_lv.setAdapter(mellListAdapter);
+                    // 设置选中数量的监听
+                    mellListAdapter.setForSelectNum(this);
+                }
             } else {
                 mells2 = mell.getData();
-                mells.addAll(mells2);
-                mellListAdapter.notifyDataSetChanged();
+                if (!ListUtils.isEmpty(mells2)) {
+                    mells.addAll(mells2);
+                    mellListAdapter.notifyDataSetChanged();
+                }
             }
-            mellListAdapter.setForSelectNum(this);
             collect_mell_lv.onRefreshComplete();
             setStatus(status);
             return;

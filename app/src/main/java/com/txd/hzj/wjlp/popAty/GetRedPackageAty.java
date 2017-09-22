@@ -10,6 +10,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -142,10 +143,15 @@ public class GetRedPackageAty extends BaseAty {
         if (requestUrl.contains("bonusList")) {
             if (ToolKit.isList(map, "data")) {
                 pics = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                // 设置第一张图片
-                setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
-                // 设置图片总数量和当前位置
-                pic_num_tv.setText("1/" + pics.size());
+                if(!ListUtils.isEmpty(pics)){
+                    // 设置第一张图片
+                    setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
+                    // 设置图片总数量和当前位置
+                    pic_num_tv.setText("1/" + pics.size());
+                } else {
+                    to_share_rp_layout.setVisibility(View.VISIBLE);
+                    pic_lin_layout.setVisibility(View.GONE);
+                }
             }
         }
     }

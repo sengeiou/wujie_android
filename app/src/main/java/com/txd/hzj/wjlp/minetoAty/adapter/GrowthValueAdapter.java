@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.StringUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -15,6 +16,7 @@ import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -28,7 +30,7 @@ import java.util.List;
 public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.GVViewHolder> {
 
     private Context context;
-    private List<String> list;
+    private List<Map<String, String>> list;
     /**
      * 0.会员成长
      * 1.会员等级
@@ -38,7 +40,7 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
 
     private ItemClickForRecyclerView itemClickForRecyclerView;
 
-    public GrowthValueAdapter(Context context, List<String> list, int type) {
+    public GrowthValueAdapter(Context context, List<Map<String, String>> list, int type) {
         this.context = context;
         this.list = list;
         this.type = type;
@@ -59,11 +61,7 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
 
     @Override
     public void onBindViewHolder(final GVViewHolder holder, int position) {
-        if (0 == position) {
-            holder.get_value_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
-        } else {
-            holder.get_value_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-        }
+        Map<String, String> map = list.get(position);
         // 最后一条隐藏分割线
         if (position == (getItemCount() - 1)) {
             holder.bottom_view.setVisibility(View.GONE);
@@ -71,57 +69,39 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
             holder.bottom_view.setVisibility(View.VISIBLE);
         }
         if (0 == type) {
-            switch (position) {
-                case 0:
-                    holder.under_title_tv.setText("无");
-                    holder.value_title_tv.setText("注册");
-                    holder.get_value_tv.setText("已获得");
-                    break;
-                case 1:
-                    holder.under_title_tv.setText("0-1999成长值");
-                    holder.value_title_tv.setText("铜牌会员");
-                    holder.get_value_tv.setText("未获得");
-                    break;
-                case 2:
-                    holder.under_title_tv.setText("2000-9999成长值");
-                    holder.value_title_tv.setText("银牌会员");
-                    holder.get_value_tv.setText("未获得");
-                    break;
-                case 3:
-                    holder.under_title_tv.setText("10000-29999成长值");
-                    holder.value_title_tv.setText("金牌会员");
-                    holder.get_value_tv.setText("未获得");
-                    break;
-                case 4:
-                    holder.under_title_tv.setText("30000以上成长值");
-                    holder.value_title_tv.setText("钻石会员");
-                    holder.get_value_tv.setText("未获得");
-                    break;
+            if (map.get("level_name").equals("注册")) {
+                holder.under_title_tv.setText("无");
+                holder.value_title_tv.setText("注册");
+            } else {
+                holder.under_title_tv.setText(map.get("min_points") + "-" + map.get("max_points") + "成长值");
+                holder.value_title_tv.setText(map.get("level_name"));
             }
         } else {
-            switch (position) {
-                case 0:
-                    holder.value_title_tv.setText("普通会员");
-                    holder.under_title_tv.setText("享受购物送爱心，利润分红权益");
+            holder.value_title_tv.setText(map.get("rank_name"));
+            holder.under_title_tv.setText(map.get("desc"));
+
+            if (map.get("is_get").equals("1")) {// 已获得
+                if (StringUtils.nullStrToEmpty(map.get("fee")).equals("")) {
                     holder.get_value_tv.setText("已获得");
-                    break;
-                case 1:
-                    holder.value_title_tv.setText("铜牌会员");
-                    holder.under_title_tv.setText("消费99元，享受一度推荐奖金权益");
+                } else {
+                    holder.get_value_tv.setText(map.get("fee") + "/年");
+                }
+            } else {// 未获得
+                if (StringUtils.nullStrToEmpty(map.get("fee")).equals("")) {
                     holder.get_value_tv.setText("未获得");
-                    break;
-                case 2:
-                    holder.value_title_tv.setText("银牌会员");
-                    holder.under_title_tv.setText("享受二度推荐奖金权益，并获得价值365元商品礼包");
-                    ChangeTextViewStyle.getInstance().forMemberGrade(context, holder.get_value_tv, "365元/年", 3);
-                    break;
-                case 3:
-                    holder.value_title_tv.setText("金牌会员");
-                    holder.under_title_tv.setText("享受三度推荐奖金权益，并获得价值1980元商品礼包");
-                    ChangeTextViewStyle.getInstance().forMemberGrade(context, holder.get_value_tv, "1980元/年", 4);
-                    break;
+                } else {
+                    holder.get_value_tv.setText(map.get("fee") + "/年");
+                }
             }
         }
+
+        //设置右边文本框的字体颜色
+        if (map.get("is_get").equals("1")) {// 已获得
+            holder.get_value_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+        } else {// 未获得
+            holder.get_value_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,10 +116,7 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
 
     @Override
     public int getItemCount() {
-        if (0 == type) {
-            return 5;
-        }
-        return 4;
+        return list.size();
     }
 
     class GVViewHolder extends RecyclerView.ViewHolder {

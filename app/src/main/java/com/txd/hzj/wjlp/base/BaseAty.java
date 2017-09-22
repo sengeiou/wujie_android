@@ -63,6 +63,9 @@ public abstract class BaseAty extends BaseActivity {
     public void loginoutToLogin() {
         bundle = new Bundle();
         bundle.putInt("type", 0);
+        Map<String, String> map = application.getUserInfo();
+        map.clear();
+        application.setUserInfo(map);
         startActivity(LoginAty.class, bundle);
     }
 
@@ -202,6 +205,7 @@ public abstract class BaseAty extends BaseActivity {
 
     /**
      * 回到主页
+     *
      * @param index
      */
     public void backMain(int index) {

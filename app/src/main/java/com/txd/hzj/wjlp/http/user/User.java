@@ -430,4 +430,24 @@ public class User {
         params.addBodyParameter("rePayPwd", rePayPwd);
         apiTool2.postApi(url + "myRecommend", params, baseView);
     }
+    /**
+     * 积分说明
+     *
+     * @param baseView 回调
+     */
+    void integralLog(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "integralLog", params, baseView);
+    }
+    /**
+     * 分享好友
+     *
+     * @param baseView 回调
+     */
+    void shareFriend(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "shareFriend", params, baseView);
+    }
 }

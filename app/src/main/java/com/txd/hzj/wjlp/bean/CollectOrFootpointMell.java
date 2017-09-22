@@ -59,4 +59,14 @@ public class CollectOrFootpointMell {
     public void setData(List<MellInfoList> data) {
         this.data = data;
     }
+
+    @Override
+    public String toString() {
+        return "CollectOrFootpointMell{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", nums=" + nums +
+                ", data=" + data +
+                '}';
+    }
 }
