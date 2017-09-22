@@ -22,20 +22,29 @@ public class ResetPayPwdAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
+    @ViewInject(R.id.user_phone_tv)
+    private TextView user_phone_tv;
+    private String phone = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("重置支付密码");
+        user_phone_tv.setText("手机号    " + phone);
     }
 
     @Override
     @OnClick({R.id.find_pay_pwd_next_tv})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.find_pay_pwd_next_tv:// 下一步
-startActivity(ResetPayPwdSecAty.class,null);
+                Bundle bundle = new Bundle();
+                bundle.putString("phone", phone);
+                startActivity(ResetPayPwdSecAty.class, bundle);
+                finish();
                 break;
         }
     }
@@ -47,7 +56,7 @@ startActivity(ResetPayPwdSecAty.class,null);
 
     @Override
     protected void initialized() {
-
+        phone = getIntent().getStringExtra("phone");
     }
 
     @Override

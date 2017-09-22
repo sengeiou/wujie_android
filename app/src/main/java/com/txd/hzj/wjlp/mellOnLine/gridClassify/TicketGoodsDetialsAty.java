@@ -396,6 +396,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private int from = 0;
 
     private GoodsPst goodsPst;
+    private String share_url = "";
+    private String share_img = "";
+    private String share_content = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -449,7 +452,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -605,6 +608,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             forBase(data, cart_num);
+
+            share_url = data.get("share_url");
+            share_img = data.get("share_img");
+            share_content = data.get("share_content");
+
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));

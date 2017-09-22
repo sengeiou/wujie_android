@@ -118,6 +118,10 @@ public class GroupBuyInfo {
         private List<GroupBean> group;
         private List<GoodsCommonAttr> goods_common_attr;
 
+        private String share_url;
+        private String share_img;//": "分享图片",
+        private String share_content;//": "分享内容"
+
         public int getMsg_tip() {
             return msg_tip;
         }
@@ -246,6 +250,30 @@ public class GroupBuyInfo {
             this.goods_common_attr = goods_common_attr;
         }
 
+        public String getShare_url() {
+            return share_url;
+        }
+
+        public void setShare_url(String share_url) {
+            this.share_url = share_url;
+        }
+
+        public String getShare_img() {
+            return share_img;
+        }
+
+        public void setShare_img(String share_img) {
+            this.share_img = share_img;
+        }
+
+        public String getShare_content() {
+            return share_content;
+        }
+
+        public void setShare_content(String share_content) {
+            this.share_content = share_content;
+        }
+
         @Override
         public String toString() {
             return "Data{" +
@@ -265,6 +293,9 @@ public class GroupBuyInfo {
                     ", product=" + product +
                     ", group=" + group +
                     ", goods_common_attr=" + goods_common_attr +
+                    ", share_url='" + share_url + '\'' +
+                    ", share_img='" + share_img + '\'' +
+                    ", share_content='" + share_content + '\'' +
                     '}';
         }
     }

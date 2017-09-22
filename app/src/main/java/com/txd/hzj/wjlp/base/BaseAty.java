@@ -150,8 +150,15 @@ public abstract class BaseAty extends BaseActivity {
     /**
      * 分享
      */
-    public void toShare() {
-        startActivity(ToShareAty.class, null);
+    public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("pic", pic);
+        bundle.putString("url", url);
+        bundle.putString("context", context);
+        bundle.putString("id", id);
+        bundle.putString("Shapetype", Shapetype);
+        startActivity(ToShareAty.class, bundle);
     }
 
     /**

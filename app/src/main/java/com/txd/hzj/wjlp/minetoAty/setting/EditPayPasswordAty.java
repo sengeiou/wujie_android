@@ -52,6 +52,7 @@ public class EditPayPasswordAty extends BaseAty {
      */
     @ViewInject(R.id.re_pay_pwd_tv)
     private EditText re_pay_pwd_tv;
+    private String phone = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +76,13 @@ public class EditPayPasswordAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.forget_pay_pwd_tv://忘记支付密码
-                startActivity(ResetPayPwdAty.class, null);
+                Bundle bundle = new Bundle();
+                if (phone.equals("")) {
+                    bundle.putInt("from", 1);
+                    startActivity(BindNewPhoneAty.class, bundle);
+                }
+                bundle.putString("phone", phone);
+                startActivity(ResetPayPwdAty.class, bundle);
                 break;
             case R.id.to_set_pay_pwd_tv:
                 String newPayPwd = new_pay_pwd_ev.getText().toString();
@@ -99,6 +106,7 @@ public class EditPayPasswordAty extends BaseAty {
     @Override
     protected void initialized() {
         is_pay_password = getIntent().getStringExtra("is_pay_password");
+        phone = getIntent().getStringExtra("phone");
         userPst = new UserPst(this);
     }
 

@@ -424,6 +424,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private UserCollectPst collectPst;
     private String goods_id = "";
     private String mell_id = "";
+    private String share_url = "";
+    private String share_content = "";
+    private String share_img = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -482,7 +485,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -645,6 +648,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         if (requestUrl.contains("groupBuyInfo")) {
             GroupBuyInfo groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GroupBuyInfo.class);
             image = groupBuyInfo.getData().getGoods_banner();
+            share_url = groupBuyInfo.getData().getShare_url();
+            share_img = groupBuyInfo.getData().getShare_img();
+            share_content = groupBuyInfo.getData().getShare_content();
             // 团购商品轮播图
             if (!ListUtils.isEmpty(image)) {
                 forBanner();

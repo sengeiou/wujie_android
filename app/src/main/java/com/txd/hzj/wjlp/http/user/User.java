@@ -441,9 +441,10 @@ public class User {
      *
      * @param baseView 回调
      */
-    void integralLog(BaseView baseView) {
+    void integralLog(int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "integralLog", params, baseView);
     }
 
@@ -457,4 +458,24 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "shareFriend", params, baseView);
     }
+
+    /**
+     * @param type       分享类型 1微信 2微博 3qq
+     * @param content    分享内容
+     * @param id_val     对应的id 商品传商品id 依次.... 个人中心的分享id我给你们
+     * @param share_type 1 商品 2商家 3书院 4红包 5其他(个人中心)
+     * @param share_url  分享链接
+     * @param baseView   回调
+     */
+    void shareBack(String type, String content, String id_val, String share_type, String share_url, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("type", type);
+        params.addBodyParameter("content", content);
+        params.addBodyParameter("id_val", id_val);
+        params.addBodyParameter("share_type", share_type);
+        params.addBodyParameter("url", share_url);
+        apiTool2.postApi(url + "shareBack", params, baseView);
+    }
+
 }

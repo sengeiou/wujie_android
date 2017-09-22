@@ -113,7 +113,7 @@ public class GetRedPackageAty extends BaseAty {
                 toCountDown();
                 break;
             case R.id.to_share_and_get_rp_tv:// 分享
-                toShare();
+                toShare("无界优品","","","","","4");
                 break;
         }
     }

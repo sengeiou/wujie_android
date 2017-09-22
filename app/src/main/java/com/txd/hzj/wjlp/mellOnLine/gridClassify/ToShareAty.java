@@ -1,16 +1,16 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.share.ShareBeBackListener;
 import com.ants.theantsgo.share.ShareForApp;
 import com.ants.theantsgo.tools.CheckAppExist;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.UserPst;
 
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
@@ -26,12 +26,21 @@ import cn.sharesdk.wechat.friends.Wechat;
  */
 public class ToShareAty extends BaseAty {
 
-    private String link = "www.baidu.com";
-    private Bitmap bitmap;
-    private String uid = "";
-    private String from = "1";
-    private String title = "欢迎下载无界优品";
+    private String link = Config.BASE_URL;
+    private String title = "无界优品";
+    private String pic = "";
+    private String context = "无界优品";
+    private String id = "";
 
+    private String shareType = "";
+
+    private UserPst userPst;
+
+    private String shapetype = "";
+    /**
+     * 1 商品 2商家 3书院 4红包 5其他(个人中心)
+     */
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,7 @@ public class ToShareAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.share_to_wachar:// 微信
+                shareType = "1";
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -51,6 +61,7 @@ public class ToShareAty extends BaseAty {
                 shareForApp(Wechat.NAME);
                 break;
             case R.id.share_to_qq:// QQ
+                shareType = "3";
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mobileqq")) {
                     showErrorTip("请安装QQ");
                     break;
@@ -58,6 +69,7 @@ public class ToShareAty extends BaseAty {
                 shareForApp(QQ.NAME);
                 break;
             case R.id.share_to_sine:// 新浪
+                shareType = "2";
                 shareForApp(SinaWeibo.NAME);
                 break;
         }
@@ -70,7 +82,13 @@ public class ToShareAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        bitmap = BitmapFactory.decodeResource(this.getResources(), R.mipmap.ic_launcher);
+        title = getIntent().getStringExtra("title");
+        pic = getIntent().getStringExtra("pic");
+        link = getIntent().getStringExtra("url");
+        context = getIntent().getStringExtra("context");
+        type = getIntent().getStringExtra("Shapetype");
+        id = getIntent().getStringExtra("id");
+        userPst = new UserPst(this);
     }
 
     @Override
@@ -84,16 +102,15 @@ public class ToShareAty extends BaseAty {
      * @param name 分享平台
      */
     private void shareForApp(String name) {
-        if (from.equals("3")) {
-            title = getIntent().getStringExtra("title");
-        }
-        ShareForApp shareForApp = new ShareForApp(name, bitmap, "来自无界优品的分享", title,
+
+        ShareForApp shareForApp = new ShareForApp(name, pic, title, context,
                 link, new ShareBeBackListener() {
             @Override
             public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare
                     statusForShare, int code) {
                 switch (statusForShare) {
                     case Success:
+                        userPst.shareBack(shareType, context, id, type, link);
                         showRightTip("分享成功");
                         finish();
                         break;
@@ -106,6 +123,6 @@ public class ToShareAty extends BaseAty {
                 }
             }
         });
-        shareForApp.toShare();
+        shareForApp.toShareWithPicUrl();
     }
 }

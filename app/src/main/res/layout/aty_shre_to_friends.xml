@@ -26,12 +26,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/share_frind_iv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_temp_discount"/>
 
             <TextView
+                android:id="@+id/share_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -47,6 +49,7 @@
                 android:textColor="@color/app_text_color"/>
 
             <EditText
+                android:id="@+id/share_context_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

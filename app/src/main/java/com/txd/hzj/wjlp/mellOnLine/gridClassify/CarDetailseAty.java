@@ -222,6 +222,9 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      */
     @ViewInject(R.id.goods_common_attr_lv)
     private ListViewForScrollView goods_common_attr_lv;
+    private String share_url;
+    private String share_img;
+    private String share_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,7 +274,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 collectPst.delOneCollect("1", car_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_url, share_content,car_id,"1");
                 break;
             case R.id.be_back_top_iv:// 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
@@ -390,6 +393,14 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
                 goods_title_collect_tv.setText("已收藏");
             }
+
+            // "share_url": "http://wjyp.txunda.com",//分享链接
+            // "share_img": "分享图片",
+            // "share_content": "分享内容"
+
+            share_url = data.get("share_url");
+            share_img = data.get("share_img");
+            share_content = data.get("share_content");
 
             Map<String, String> car_info = JSONUtils.parseKeyAndValueToMap(data.get("car_info"));
 

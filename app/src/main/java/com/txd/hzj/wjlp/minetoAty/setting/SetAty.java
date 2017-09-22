@@ -107,6 +107,7 @@ public class SetAty extends BaseAty {
             case R.id.rel_editpaypassword:// 修改支付密码
                 bundle = new Bundle();
                 bundle.putString("is_pay_password", is_pay_password);
+                bundle.putString("phone",phone);
                 startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证

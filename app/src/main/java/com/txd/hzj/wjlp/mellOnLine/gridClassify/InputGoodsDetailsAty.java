@@ -396,6 +396,9 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
 
     private int cou_size = 0;
     private int cou_size2 = 0;
+    private String share_url = "";
+    private String share_img = "";
+    private String share_content = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,8 +453,8 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         head_size = ToolKit.dip2px(this, 60);
         logo_size = ToolKit.dip2px(this, 80);
 
-        cou_size = ToolKit.dip2px(this,36);
-        cou_size2 = ToolKit.dip2px(this,24);
+        cou_size = ToolKit.dip2px(this, 36);
+        cou_size2 = ToolKit.dip2px(this, 24);
     }
 
     @Override
@@ -467,6 +470,11 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         if (requestUrl.contains("goodsInfo")) {// 票券区详情
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
+
+            share_url = data.get("share_url");
+            share_img = data.get("share_img");
+            share_content = data.get("share_content");
+
             forBase(data, cart_num);
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
@@ -705,7 +713,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.details_into_mell_tv,R.id.to_user_cart_layout,R.id.to_main_layout})
+            R.id.details_into_mell_tv, R.id.to_user_cart_layout, R.id.to_main_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -733,7 +741,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_img, share_content,goods_id,"1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度

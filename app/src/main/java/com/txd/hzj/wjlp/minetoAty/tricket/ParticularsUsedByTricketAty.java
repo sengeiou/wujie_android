@@ -230,6 +230,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 userPst.vouchersLog(p);
                 break;
             case 2:// 积分明细
+                userPst.integralLog(p);
                 break;
             case 4:// 成长明细
                 userPst.userDevelopLog(p);

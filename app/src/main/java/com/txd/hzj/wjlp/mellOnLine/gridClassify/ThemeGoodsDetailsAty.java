@@ -379,6 +379,9 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     @ViewInject(R.id.comment_layout)
     private LinearLayout comment_layout;
     private UserCollectPst collectPst;
+    private String share_content = "";
+    private String share_url = "";
+    private String share_img = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -441,6 +444,15 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             // 基本信息
             forBase(data);
+
+//            "share_url": "http://wjyp.txunda.com",//分享链接
+//                    "share_img": "分享图片",
+//                    "share_content": "分享内容"
+
+            share_url = data.get("share_url");
+            share_img = data.get("share_img");
+            share_content = data.get("share_content");
+
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -682,7 +694,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度

@@ -454,6 +454,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.goods_pro_layout)
     private FrameLayout goods_pro_layout;
     private String mell_id = "";
+    private String share_content = "";
+    private String share_img = "";
+    private String share_url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -547,6 +550,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
                 goods_title_collect_tv.setText("已收藏");
             }
+//            "share_url": "http://wjyp.txunda.com",//分享链接
+//                    "share_img": "分享图片",
+//                    "share_content": "分享内容"
+
+            share_url = data.get("share_url");
+            share_img = data.get("share_img");
+            share_content = data.get("share_content");
 
 
             // 轮播图
@@ -781,7 +791,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.to_main_layout,R.id.details_into_mell_tv})
+            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -811,7 +821,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare();
+                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -856,7 +866,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case R.id.details_into_mell_tv:// 进店逛逛
                 Bundle bundle = new Bundle();
                 bundle.putString("mell_id", mell_id);
-                L.e("=====商家id======",mell_id);
+                L.e("=====商家id======", mell_id);
                 startActivity(MellInfoAty.class, bundle);
                 break;
         }

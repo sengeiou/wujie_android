@@ -272,14 +272,20 @@ public class UserPst extends BasePresenter {
     }
 
     // 积分说明
-    public void integralLog() {
+    public void integralLog(int p) {
         baseView.showDialog();
-        user.integralLog(baseView);
+        user.integralLog(p, baseView);
     }
 
     // 分享好友
     public void shareFriend() {
         baseView.showDialog();
         user.shareFriend(baseView);
+    }
+
+    // 分享回调
+    public void shareBack(String type, String content, String id_val, String share_type, String share_url) {
+        baseView.showDialog();
+        user.shareBack(type, content, id_val, share_type, share_url, baseView);
     }
 }

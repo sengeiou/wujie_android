@@ -81,6 +81,7 @@
             app:passwordToggleTint="#FBB7B7">
 
             <EditText
+                android:id="@+id/new_pay_pwd_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -122,6 +123,7 @@
             >
 
             <EditText
+                android:id="@+id/re_pay_pwd_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
@@ -134,6 +136,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/reset_pay_pwd_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
