@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.PullToRefreshLayout;
@@ -84,6 +85,7 @@ public class ThemeStreetHzjAty extends BaseAty implements DukeScrollView.ScrollV
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putString("theme_id", list.get(i).get("theme_id"));
+                L.e("=====主题街id=====", list.get(i).get("theme_id"));
                 startActivity(ThemeGoodsListAty.class, bundle);
             }
         });

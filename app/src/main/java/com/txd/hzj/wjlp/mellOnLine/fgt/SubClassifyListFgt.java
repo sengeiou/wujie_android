@@ -152,16 +152,15 @@ public class SubClassifyListFgt extends BaseFgt {
 
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        try {
-            goodsPst = new GoodsPst(this);
-            goodsPst.threeList(two, three, p, 1);
-        } catch (NullPointerException e) {
-            L.e("Sub==========Error");
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        try {
+//
+//        } catch (NullPointerException e) {
+//            L.e("Sub==========Error");
+//        }
+//    }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -227,11 +226,12 @@ public class SubClassifyListFgt extends BaseFgt {
     protected void initialized() {
         height = ToolKit.dip2px(getActivity(), 4);
         goodsLists = new ArrayList<>();
+        goodsPst = new GoodsPst(this);
     }
 
     @Override
     protected void requestData() {
-
+        goodsPst.threeList(two, three, p, 1);
     }
 
     @Override

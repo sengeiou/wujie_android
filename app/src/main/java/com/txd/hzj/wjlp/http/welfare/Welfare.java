@@ -88,4 +88,16 @@ class Welfare {
         apiTool2.postApi(url + "getBonus", params, baseView);
     }
 
+    /**
+     * 获取分享红包的内容
+     * @param bonus_id  红包id
+     * @param baseView  回调
+     */
+    void shareContent(String bonus_id,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("bonus_id", bonus_id);
+        apiTool2.postApi(url + "shareContent", params, baseView);
+    }
+
 }

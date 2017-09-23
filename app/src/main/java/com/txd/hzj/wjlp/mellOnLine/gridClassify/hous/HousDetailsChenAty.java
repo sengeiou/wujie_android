@@ -5,14 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.AlertDialog;
+import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -20,6 +20,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.fgt.HouseCommentFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsHousesChenFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
+
+import java.util.ArrayList;
 
 /**
  * ===============Txunda===============
@@ -38,23 +40,12 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
     @ViewInject(R.id.rg_hous_detail)//RadioGroup
     private RadioGroup rg_hous_detail;
 
-    /**
-     * Fragment
-     */
-    private HousDetailsHousesChenFgt housesFgt;//楼盘Fragment
-    private HousDetailsTypeChenFgt typeFgt;//户型Fragment
-    private HouseCommentFgt commentFgt;//点评Fragment
-
-
     private String phone;//电话号码
 
-    private String house_id = "";
+    private FragmentChangeManager fcm;
 
-    @ViewInject(R.id.rb_detail_houses)
-    private RadioButton rb_detail_houses;
+    private ArrayList<Fragment> fragments;
 
-    public HousDetailsChenAty() {
-    }
 
     @OnClick({R.id.tv_detail_phone})
     public void onClick(View v) {
@@ -85,12 +76,13 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
+        /*
          * 沉浸式解决顶部标题重叠
          */
         showStatusBar(R.id.rl_hous_detail);
 
         rg_hous_detail.setOnCheckedChangeListener(this);
+        fcm = new FragmentChangeManager(getSupportFragmentManager(), R.id.fl_hous_detail, fragments);
         ((RadioButton) findViewById(R.id.rb_detail_houses)).setChecked(true);//默认选中
     }
 
@@ -101,11 +93,13 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     @Override
     protected void initialized() {
-        house_id = getIntent().getStringExtra("house_id");
+        String house_id = getIntent().getStringExtra("house_id");
 
-        housesFgt = HousDetailsHousesChenFgt.getFgt(house_id);//楼盘Fragment
-        typeFgt = HousDetailsTypeChenFgt.getFgt(house_id);//户型Fragment
-        commentFgt = HouseCommentFgt.getFgt(house_id);//点评Fragment
+        fragments = new ArrayList<>();
+        fragments.add(HousDetailsHousesChenFgt.getFgt(house_id));
+        fragments.add(HousDetailsTypeChenFgt.getFgt(house_id));
+        fragments.add(HouseCommentFgt.getFgt(house_id));
+
     }
 
 
@@ -117,30 +111,24 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
     /**
      * RaidioGroup 监听
      *
-     * @param radioGroup
-     * @param i
+     * @param radioGroup RadioGroup
+     * @param i          id
      */
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        FragmentManager fm = getSupportFragmentManager();
-        //开启Fragment事务
-        FragmentTransaction transaction = fm.beginTransaction();
-
         switch (i) {
             //楼盘
             case R.id.rb_detail_houses:
-
-                transaction.add(R.id.fl_hous_detail, housesFgt);
+                fcm.setFragments(0);
                 break;
             //户型
             case R.id.rb_detail_type:
-                transaction.add(R.id.fl_hous_detail, typeFgt);
+                fcm.setFragments(1);
                 break;
             case R.id.rb_comment_type:
-                transaction.add(R.id.fl_hous_detail, commentFgt);
+                fcm.setFragments(2);
                 break;
         }
-        transaction.commit();
 
     }
 

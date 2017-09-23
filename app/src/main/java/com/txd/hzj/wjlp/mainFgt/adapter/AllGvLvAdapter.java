@@ -154,6 +154,8 @@ public class AllGvLvAdapter extends BaseAdapter {
                 if (type == 2) {
                     vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
                     vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
+                } else {
+                    vh.peice_tv.setText("￥" + allGoodsBean.getLimit_price());
                 }
 
                 int max;
@@ -328,7 +330,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 // 设置进度
                 vh.cpb_progresbar2.setMaxProgress(max5);
                 vh.cpb_progresbar2.setCurProgress(pro);
-
+                // 剩余...人
                 vh.add_num_tv.setText(allGoodsBean.getDiff_num());
 
                 vh.goods_integral_tv.setText(allGoodsBean.getIntegral());
@@ -400,7 +402,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 break;
             case 8:// 拼团购
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
-                vh.goods_price_tv.setText("￥" + allGoodsBean.getGroup_price());
+                vh.goods_price_tv.setText(allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());
                 // 商品图片重置大小
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);

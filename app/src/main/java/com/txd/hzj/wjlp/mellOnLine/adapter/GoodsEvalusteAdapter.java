@@ -201,7 +201,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return 4;
+            return pic.size();
         }
 
         @Override

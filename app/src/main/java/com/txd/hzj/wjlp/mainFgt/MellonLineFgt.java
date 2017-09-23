@@ -546,7 +546,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
-                bundle.putString("group_buy_id", one_buyList.get(i).getGroup_buy_id());
+                bundle.putString("group_buy_id", groupList.get(i).getGroup_buy_id());
                 startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
@@ -810,7 +810,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         car_href = car_ads.get("href");
         car_desc = car_ads.get("desc");
 
-        if (ToolKit.isList(car_buy, "goods_list")) {
+        if (ToolKit.isList(car_buy, "goodsList")) {
             L.e("=====汽车购=====", car_buy.get("goodsList"));
             carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), carList, 6);
@@ -820,7 +820,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 积分夺宝
     private void forOneBuy(Map<String, String> data) {
-        Map<String, String> one_buy = JSONUtils.parseKeyAndValueToMap(data.get("auction"));
+        Map<String, String> one_buy = JSONUtils.parseKeyAndValueToMap(data.get("one_buy"));
         Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
         Glide.with(getActivity()).load(one_buy_ads.get("picture"))
@@ -834,6 +834,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         one_buy_desc = one_buy_ads.get("desc");
 
         if (ToolKit.isList(one_buy, "goodsList")) {
+
+            L.e("=====数据=====",one_buy.get("goodsList"));
+
             one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
             allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
             good_luck_gv.setAdapter(allGvLvAdapter5);
@@ -982,6 +985,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (horizontalAdapter != null) {
+            horizontalAdapter.setSelected(0);
+            horizontalAdapter.notifyDataSetChanged();
+        }
+    }
 
     /**
      * 横向菜单

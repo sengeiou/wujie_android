@@ -96,7 +96,6 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(size1, size2);
         theme_piv_iv.setLayoutParams(params);
 
-        theme_goods_gv.setAdapter(themeGoodsAdapter);
         theme_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -172,14 +171,18 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                         .centerCrop()
                         .into(theme_piv_iv);
                 if (1 == p) {
-                    if (ToolKit.isList(data, "list"))
+                    if (ToolKit.isList(data, "list")){
                         list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
+                        theme_goods_gv.setAdapter(themeGoodsAdapter);
+                    }
                     ptr_theme_goods_layout.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
                 } else {
                     if (ToolKit.isList(data, "list")) {
                         List<Map<String, String>> list2 = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-                        if (!ListUtils.isEmpty(list2))
+                        if (!ListUtils.isEmpty(list2)){
                             list.addAll(list2);
+                            themeGoodsAdapter.notifyDataSetChanged();
+                        }
                     }
                     ptr_theme_goods_layout.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
                     themeGoodsAdapter.notifyDataSetChanged();

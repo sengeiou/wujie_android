@@ -57,7 +57,6 @@ public class WelfareServiceAty extends BaseAty {
         setTvAndViewStyle(0);
     }
 
-
     @Override
     @OnClick({R.id.ws_title_left_layout, R.id.ws_title_right_layout})
     public void onClick(View v) {

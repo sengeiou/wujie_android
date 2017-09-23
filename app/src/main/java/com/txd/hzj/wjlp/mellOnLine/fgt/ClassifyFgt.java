@@ -329,7 +329,8 @@ public class ClassifyFgt extends BaseFgt {
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
+        if (!type.equals("0") && !type.equals(""))
+            super.onError(requestUrl, error);
     }
 
     private void forMenu() {

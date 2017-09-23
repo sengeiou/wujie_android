@@ -83,6 +83,14 @@ public class GetRedPackageAty extends BaseAty {
     @ViewInject(R.id.bonus_title_tv)
     private TextView bonus_title_tv;
 
+    @ViewInject(R.id.mell_logo_iv)
+    private ShapedImageView mell_logo_iv;
+
+    @ViewInject(R.id.merchant_name_tv)
+    private TextView merchant_name_tv;
+
+    private int size = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +105,7 @@ public class GetRedPackageAty extends BaseAty {
 
     private void toCountDown() {
         if (myCountDown == null) {
-            long delay_time = Long.parseLong(pics.get(pos).get("delay_time"));
+            long delay_time = Long.parseLong(pics.get(pos).get("delay_time")) * 1000;
             myCountDown = new MyCountDown(delay_time, 1000);
         }
         myCountDown.start();
@@ -109,11 +117,16 @@ public class GetRedPackageAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.next_pic_tv:
+                if (pos < pics.size() - 1) {
+                    pos += 1;
+                    pic_num_tv.setText((pos + 1) + "/" + pics.size());
+                }
                 setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
-                toCountDown();
                 break;
             case R.id.to_share_and_get_rp_tv:// 分享
-                toShare("无界优品","","","","","4");
+                welfarePst.shareContent(bonus_id);
+
+//                toShare("无界优品", "", "", "", "", "4");
                 break;
         }
     }
@@ -129,6 +142,7 @@ public class GetRedPackageAty extends BaseAty {
         padding = ToolKit.dip2px(this, 64);
         bonus_id = getIntent().getStringExtra("bonus_id");
         pics = new ArrayList<>();
+        size = ToolKit.dip2px(this, 80);
     }
 
     @Override
@@ -142,17 +156,44 @@ public class GetRedPackageAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("bonusList")) {
             if (ToolKit.isList(map, "data")) {
-                pics = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                if(!ListUtils.isEmpty(pics)){
-                    // 设置第一张图片
-                    setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
-                    // 设置图片总数量和当前位置
-                    pic_num_tv.setText("1/" + pics.size());
-                } else {
-                    to_share_rp_layout.setVisibility(View.VISIBLE);
-                    pic_lin_layout.setVisibility(View.GONE);
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                bonus_id = data.get("bonus_id");
+                if (ToolKit.isList(data, "ads_list")) {
+
+                    L.e("======数据长度=====", data.toString());
+
+                    pics = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
+                    if (!ListUtils.isEmpty(pics)) {
+                        // 设置第一张图片
+                        setPicForAds(pics.get(pos).get("bonus_title"), pics.get(pos).get("bonus_ads"));
+                        // 设置图片总数量和当前位置
+                        pic_num_tv.setText("1/" + pics.size());
+                    } else {
+                        to_share_rp_layout.setVisibility(View.VISIBLE);
+                        pic_lin_layout.setVisibility(View.GONE);
+                    }
                 }
+
+                Glide.with(this).load(data.get("logo"))
+                        .override(size, size)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(mell_logo_iv);
+                merchant_name_tv.setText(data.get("merchant_name"));
             }
+            return;
+        }
+        if (requestUrl.contains("shareContent")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+            String title = data.get("title");
+            String content = data.get("content");
+            String pic = data.get("pic");
+            String url = data.get("url");
+            toShare(title, pic, url, content, bonus_id, "4");
+
         }
     }
 
@@ -207,10 +248,7 @@ public class GetRedPackageAty extends BaseAty {
             next_pic_tv.setBackgroundResource(R.drawable.shape_rp_click_next_tv);
             count_down_tv.setText("00:00");
             L.e("=====下标=====", String.valueOf(pos));
-            if (pos < pics.size() - 1) {
-                pos += 1;
-                pic_num_tv.setText((pos + 1) + "/" + pics.size());
-            } else {
+            if (pos >= pics.size() - 1) {
                 to_share_rp_layout.setVisibility(View.VISIBLE);
                 pic_lin_layout.setVisibility(View.GONE);
             }

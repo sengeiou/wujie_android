@@ -55,4 +55,10 @@ public class WelfarePst extends BasePresenter {
         welfare.getBonus(bonus_id, bonus_val, baseView);
     }
 
+    // 分享内容
+    public void shareContent(String bonus_id) {
+        baseView.showDialog();
+        welfare.shareContent(bonus_id, baseView);
+    }
+
 }

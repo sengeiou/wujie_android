@@ -15,9 +15,13 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.setting.ResetPayPwdAty;
 
 /**
- * Created by lienchao on 2017/7/14 0014.
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/9/23 0023
+ * 时间：上午 10:03
+ * 描述：支付密码(修改，设置)
+ * ===============Txunda===============
  */
-
 public class EditPayPasswordAty extends BaseAty {
     /**
      * 设置标题
@@ -87,7 +91,7 @@ public class EditPayPasswordAty extends BaseAty {
             case R.id.to_set_pay_pwd_tv:
                 String newPayPwd = new_pay_pwd_ev.getText().toString();
                 String rePayPwd = re_pay_pwd_tv.getText().toString();
-                if (is_pay_password.equals("0")) {// 修改支付密码
+                if (is_pay_password.equals("1")) {// 修改支付密码
                     String oldPayPwd = old_pay_pwd_ev.getText().toString();
                     userPst.rePayPwd(newPayPwd, rePayPwd, oldPayPwd);
                 } else {

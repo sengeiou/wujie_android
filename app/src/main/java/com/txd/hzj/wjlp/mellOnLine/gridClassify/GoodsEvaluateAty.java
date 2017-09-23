@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -202,6 +204,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("=====数据-=====",jsonStr);
         if (requestUrl.contains("myCommentList")) {
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
@@ -209,13 +212,17 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
             if (1 == p) {
                 data.clear();
                 data = comment.getData();
-                goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, from);
-                goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
+                if (!ListUtils.isEmpty(data)) {
+                    goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, from);
+                    goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
+                }
                 refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
             } else {
                 data2 = comment.getData();
-                data.addAll(data2);
-                goodsEvalusteAdapter.notifyDataSetChanged();
+                if (!ListUtils.isEmpty(data2)) {
+                    data.addAll(data2);
+                    goodsEvalusteAdapter.notifyDataSetChanged();
+                }
                 refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
             }
         }

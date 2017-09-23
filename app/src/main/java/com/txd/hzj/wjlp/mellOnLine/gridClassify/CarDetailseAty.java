@@ -274,7 +274,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 collectPst.delOneCollect("1", car_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content,car_id,"1");
+                toShare("无界优品", share_img, share_url, share_content, car_id, "1");
                 break;
             case R.id.be_back_top_iv:// 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
@@ -412,11 +412,12 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             car_details_name_tv.setText(car_info.get("car_name"));
             car_d_pre_money_tv.setText(car_info.get("pre_money"));
             car_d_integral_tv.setText(car_info.get("integral"));
-            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "\n全车价:￥" + map.get("all_price"));
+            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "\n全车价:￥" + car_info.get
+                    ("all_price"));
 
 
-            goods_brief_tv.loadDataWithBaseURL(null, car_info.get("content"), "text/html", "utf-8", null);
-            goods_desc_wv.loadDataWithBaseURL(null, car_info.get("car_desc"), "text/html", "utf-8", null);
+            goods_brief_tv.loadDataWithBaseURL(null, car_info.get("car_desc"), "text/html", "utf-8", null);
+            goods_desc_wv.loadDataWithBaseURL(null, car_info.get("content"), "text/html", "utf-8", null);
 
             // 评论
             if (ToolKit.isList(data, "comment")) {
