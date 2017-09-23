@@ -18,6 +18,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.address.AddressPst;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
@@ -52,6 +53,8 @@ public class TextListAty extends BaseAty {
 
     private MerchantPst merchantPst;
 
+    private BalancePst balancePst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +82,8 @@ public class TextListAty extends BaseAty {
                     data.putExtra("type", dataList.get(i).get("title"));
                     data.putExtra("report_type_id", dataList.get(i).get("report_type_id"));
                 } else if (title.equals("银行卡类型")) {
-                    data.putExtra("card_type", "工商银行");
+                    data.putExtra("card_type", dataList.get(i).get("bank_name"));
+                    data.putExtra("bank_type_id", dataList.get(i).get("bank_type_id"));
                 }
                 setResult(RESULT_OK, data);
                 finish();
@@ -104,6 +108,8 @@ public class TextListAty extends BaseAty {
 
         merchantPst = new MerchantPst(this);
 
+        balancePst = new BalancePst(this);
+
     }
 
     @Override
@@ -114,8 +120,9 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("选择经营范围")) {
             userPst.getRange();
         } else if (title.equals("举报类型")) {
-            L.e("执行了");
             merchantPst.reportType();
+        } else if (title.equals("银行卡类型")) {
+            balancePst.getBankType();
         }
     }
 
@@ -138,6 +145,12 @@ public class TextListAty extends BaseAty {
         if (requestUrl.contains("reportType")) {
             dataList = (List<Map<String, String>>) map.get("data");
             L.e(dataList.toString());
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+            return;
+        }
+        if (requestUrl.contains("getBankType")) {
+            dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
         }
@@ -192,7 +205,7 @@ public class TextListAty extends BaseAty {
             } else if (title.equals("举报类型")) {
                 tvvh.text_context_tv.setText(map.get("title"));
             } else if (title.equals("银行卡类型")) {
-                tvvh.text_context_tv.setText("工商银行");
+                tvvh.text_context_tv.setText(map.get("bank_name"));
             }
 
             return view;

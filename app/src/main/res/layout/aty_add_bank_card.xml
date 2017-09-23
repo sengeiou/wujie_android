@@ -39,6 +39,7 @@
                 android:text="持卡人"/>
 
             <EditText
+                android:id="@+id/card_name_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -80,6 +81,7 @@
                 android:text="开户行"/>
 
             <EditText
+                android:id="@+id/open_card_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -99,6 +101,7 @@
                 android:text="卡号    "/>
 
             <EditText
+                android:id="@+id/card_num_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -119,6 +122,7 @@
                 android:text="手机号"/>
 
             <EditText
+                android:id="@+id/phone_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -132,6 +136,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/add_bank_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="48dp"

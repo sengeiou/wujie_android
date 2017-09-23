@@ -120,6 +120,12 @@ public class AddNewAddressAty extends BaseAty {
     private String aStr = "";
     private int times = 0;
 
+    // TODO==========百度地图根据具体地址获取经纬度==========
+    // TODO==========百度地图根据具体地址获取经纬度==========
+    // TODO==========百度地图根据具体地址获取经纬度==========
+    // TODO==========百度地图根据具体地址获取经纬度==========
+    // TODO==========百度地图根据具体地址获取经纬度==========
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

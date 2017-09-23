@@ -4,23 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_bank_card_bg_hzj"
-    android:padding="16dp"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_bank_logo_hzj"/>
+        android:id="@+id/card_logo_iv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"/>
 
     <TextView
+        android:id="@+id/card_info_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="12dp"
         android:gravity="center_vertical"
         android:lineSpacingExtra="8dp"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:text="中国建设银行 CCB \n6227 0000 6147 1881 701"/>
+        android:textSize="18sp"/>
 
 </LinearLayout>

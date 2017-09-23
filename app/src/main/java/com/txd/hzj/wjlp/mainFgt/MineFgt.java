@@ -288,8 +288,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 String s = center_tv.getText().toString();
                 if (s.equals("积分")) {
                     startActivity(IntegralAty.class, null);
-                } else {
-
                 }
                 break;
             case R.id.registration_code_tv:// 注册码

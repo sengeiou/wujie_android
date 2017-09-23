@@ -25,4 +25,6 @@
         android:padding="12dp"
         android:scrollbars="none"/>
 
+    <include layout="@layout/aty_no_data_layout"/>
+
 </LinearLayout>

@@ -44,6 +44,7 @@
                 android:src="@drawable/icon_exchange_hzj"/>
 
             <EditText
+                android:id="@+id/money_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_bg_foe_edit_hzj"
@@ -89,6 +90,7 @@
             android:text="积分转余额，手续费率"/>
 
         <TextView
+            android:id="@+id/rate_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -111,7 +113,7 @@
             android:paddingEnd="12dp"
             android:paddingStart="16dp"
             android:paddingTop="12dp"
-            android:text="中国农业银行"
+            android:text="请选择银行卡"
             android:textColor="@color/app_text_color"/>
 
         <TextView
@@ -119,13 +121,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/icon_turn_right_g"
-            android:padding="12dp"
-            android:text="**** **** **** 1701"/>
+            android:padding="12dp"/>
 
     </LinearLayout>
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -152,6 +155,7 @@
             android:padding="12dp"
             android:textColor="@color/app_text_color"/>
     </LinearLayout>
+
     <TextView
         android:id="@+id/submit_op_tv"
         android:layout_width="match_parent"
@@ -180,6 +184,7 @@
             android:text="提现到账周期为"/>
 
         <TextView
+            android:id="@+id/delay_time_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
