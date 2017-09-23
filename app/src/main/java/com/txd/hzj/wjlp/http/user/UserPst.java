@@ -288,4 +288,9 @@ public class UserPst extends BasePresenter {
         baseView.showDialog();
         user.shareBack(type, content, id_val, share_type, share_url, baseView);
     }
+
+    public void delFooter(String footer_ids) {
+        baseView.showDialog();
+        user.delFooter(footer_ids, baseView);
+    }
 }

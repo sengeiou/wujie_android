@@ -78,7 +78,6 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     @ViewInject(R.id.collect_books_select_all_cb)
     private CheckBox collect_books_select_all_cb;
 
-    private List<String> ids;
     private Bundle bundle;
     private UserPst userPst;
 
@@ -143,17 +142,32 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                 wjBooksAdapter.notifyDataSetChanged();
                 break;
             case R.id.operation_books_tv:// 删除
-                ids = new ArrayList<>();
-                books3 = new ArrayList<>();
-                for (AcademyList book : books) {
-                    if (book.isSelect()) {
-                        ids.add(book.getCollect_id());
-                        books3.add(book);
+                List<String> ids;
+                if (0 == dataType) {
+                    ids = new ArrayList<>();
+                    books3 = new ArrayList<>();
+                    for (AcademyList book : books) {
+                        if (book.isSelect()) {
+                            ids.add(book.getFooter_id());
+                            books3.add(book);
+                        }
                     }
+                    String collect_ids = ListUtils.join(ids).replace("[", "").replace("]", "");
+                    L.e("=====List转Json", collect_ids);
+                    userPst.delFooter(collect_ids);
+                } else {
+                    ids = new ArrayList<>();
+                    books3 = new ArrayList<>();
+                    for (AcademyList book : books) {
+                        if (book.isSelect()) {
+                            ids.add(book.getCollect_id());
+                            books3.add(book);
+                        }
+                    }
+                    String collect_ids = ListUtils.join(ids);
+                    L.e("=====List转Json", collect_ids);
+                    collectPst.delCollect(collect_ids);
                 }
-                String collect_ids = ListUtils.join(ids);
-                L.e("=====List转Json", collect_ids);
-                collectPst.delCollect(collect_ids);
                 break;
         }
     }
@@ -214,6 +228,18 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
             }
             return;
         }
+
+        if (requestUrl.contains("delFooter")) {
+            books.removeAll(books3);
+            allNum -= books3.size();
+            wjBooksAdapter.notifyDataSetChanged();
+            if (ListUtils.isEmpty(books)) {
+                L.e("=====书院=====", "收藏");
+                operation_book_collect_layout.setVisibility(View.GONE);
+            }
+            return;
+        }
+
         if (requestUrl.contains("collectList")) {
             CollectBooks collectBooks = GsonUtil.GsonToBean(jsonStr, CollectBooks.class);
             allNum = collectBooks.getNums();

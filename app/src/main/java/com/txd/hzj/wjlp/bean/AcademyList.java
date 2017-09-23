@@ -24,6 +24,8 @@ public class AcademyList {
     private String page_views;
     private String collect_num;
 
+    private String footer_id;
+
     private boolean select = false;
 
     /**
@@ -99,6 +101,14 @@ public class AcademyList {
         this.aid = aid;
     }
 
+    public String getFooter_id() {
+        return footer_id;
+    }
+
+    public void setFooter_id(String footer_id) {
+        this.footer_id = footer_id;
+    }
+
     @Override
     public String toString() {
         return "AcademyList{" +
@@ -107,6 +117,7 @@ public class AcademyList {
                 ", logo='" + logo + '\'' +
                 ", page_views='" + page_views + '\'' +
                 ", collect_num='" + collect_num + '\'' +
+                ", footer_id='" + footer_id + '\'' +
                 ", select=" + select +
                 ", collect_id='" + collect_id + '\'' +
                 ", aid='" + aid + '\'' +

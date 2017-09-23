@@ -20,6 +20,8 @@ public class FootMellsBan {
     private MerInfoBean merInfo;
     private List<GoodsListBean> goodsList;
 
+    private String footer_id;
+
     private boolean select = false;
 
     public MerInfoBean getMerInfo() {
@@ -44,6 +46,14 @@ public class FootMellsBan {
 
     public void setSelect(boolean select) {
         this.select = select;
+    }
+
+    public String getFooter_id() {
+        return footer_id;
+    }
+
+    public void setFooter_id(String footer_id) {
+        this.footer_id = footer_id;
     }
 
     public static class MerInfoBean {
@@ -118,6 +128,7 @@ public class FootMellsBan {
         return "FootMellsBan{" +
                 "merInfo=" + merInfo +
                 ", goodsList=" + goodsList +
+                ", footer_id='" + footer_id + '\'' +
                 ", select=" + select +
                 '}';
     }

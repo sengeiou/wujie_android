@@ -478,4 +478,17 @@ public class User {
         apiTool2.postApi(url + "shareBack", params, baseView);
     }
 
+    /**
+     * 删除足迹
+     *
+     * @param footer_ids 足迹id
+     * @param baseView   回调
+     */
+    void delFooter(String footer_ids, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("footer_ids", footer_ids);
+        apiTool2.postApi(url + "delFooter", params, baseView);
+    }
+
 }

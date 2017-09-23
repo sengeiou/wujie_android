@@ -70,6 +70,8 @@ public class CFGoodsList {
 
     private String collect_id;
 
+    private String footer_id;
+
     public String getGoods_id() {
         return goods_id;
     }
@@ -190,6 +192,14 @@ public class CFGoodsList {
         this.collect_id = collect_id;
     }
 
+    public String getFooter_id() {
+        return footer_id;
+    }
+
+    public void setFooter_id(String footer_id) {
+        this.footer_id = footer_id;
+    }
+
     @Override
     public String toString() {
         return "CFGoodsList{" +
@@ -208,6 +218,7 @@ public class CFGoodsList {
                 ", ticket_buy_discount='" + ticket_buy_discount + '\'' +
                 ", isSelect=" + isSelect +
                 ", collect_id='" + collect_id + '\'' +
+                ", footer_id='" + footer_id + '\'' +
                 '}';
     }
 }

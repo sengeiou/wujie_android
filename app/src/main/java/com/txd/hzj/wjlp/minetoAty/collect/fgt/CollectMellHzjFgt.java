@@ -122,14 +122,29 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
         switch (v.getId()) {
             case R.id.cart_select_all_cb:// 全选，取消全选
                 boolean select = cart_select_all_cb.isChecked();
-                for (MellInfoList ms : mells) {
-                    ms.setSelect(select);
+                if (0 == dataType) {
+                    for (FootMellsBan ft : mellsFoot) {
+                        ft.setSelect(select);
+                    }
+                } else {
+                    for (MellInfoList ms : mells) {
+                        ms.setSelect(select);
+                    }
                 }
                 mellListAdapter.notifyDataSetChanged();
                 break;
             case R.id.operation_goods_tv://删除
                 if (0 == dataType) {
-
+                    ArrayList<String> ids = new ArrayList<>();
+                    mellsFoot3 = new ArrayList<>();
+                    for (FootMellsBan ms : mellsFoot) {
+                        if (ms.isSelect()) {
+                            ids.add(ms.getFooter_id());
+                            mellsFoot3.add(ms);
+                        }
+                    }
+                    String collect_ids = ListUtils.join(ids).replace("[", "").replace("]", "");
+                    userPst.delFooter(collect_ids);
                 } else {
                     ArrayList<String> ids = new ArrayList<>();
                     mells3 = new ArrayList<>();
@@ -260,14 +275,31 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                 operation_mell_collect_layout.setVisibility(View.GONE);
             }
         }
+        if (requestUrl.contains("delFooter")) {
+            mellsFoot.removeAll(mellsFoot3);
+            allNum -= mellsFoot3.size();
+            mellListAdapter.notifyDataSetChanged();
+            if (ListUtils.isEmpty(mellsFoot)) {
+                operation_mell_collect_layout.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
     public void selectNum(int num) {
-        if (num >= mells.size()) {// 全部选中
-            cart_select_all_cb.setChecked(true);
-        } else {// 非全部选中
-            cart_select_all_cb.setChecked(false);
+        if (0 == dataType) {// 足迹
+            if (num >= mellsFoot.size()) {// 全部选中
+                cart_select_all_cb.setChecked(true);
+            } else {// 非全部选中
+                cart_select_all_cb.setChecked(false);
+            }
+        } else {// 收藏
+            if (num >= mells.size()) {// 全部选中
+                cart_select_all_cb.setChecked(true);
+            } else {// 非全部选中
+                cart_select_all_cb.setChecked(false);
+            }
         }
+
     }
 }

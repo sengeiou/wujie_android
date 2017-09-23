@@ -2,11 +2,9 @@ package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -30,7 +28,6 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
-import com.txd.hzj.wjlp.view.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,8 +94,6 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @ViewInject(R.id.collect_goods_select_all_cb)
     private CheckBox collect_goods_select_all_cb;
 
-    private List<String> ids;
-
     public static CollectGoodsHzjFgt newInstance(boolean param1, int dataType) {
         CollectGoodsHzjFgt fragment = new CollectGoodsHzjFgt();
         fragment.status = param1;
@@ -109,7 +104,6 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         // 布局
         collect_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         collect_goods_rv.setItemAnimator(new DefaultItemAnimator());
@@ -194,8 +188,18 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 racycleAllAdapter.notifyDataSetChanged();
                 break;
             case R.id.operation_goods_tv:
+                List<String> ids;
                 if (0 == dataType) {// 足迹
-
+                    ids = new ArrayList<>();
+                    data3 = new ArrayList<>();
+                    for (CFGoodsList cg : data) {
+                        if (cg.getIsSelect()) {
+                            ids.add(cg.getFooter_id());
+                            data3.add(cg);
+                        }
+                    }
+                    String collect_ids = ListUtils.join(ids).replace("[", "").replace("]", "");
+                    userPst.delFooter(collect_ids);
                 } else {// 收藏
                     ids = new ArrayList<>();
                     data3 = new ArrayList<>();
@@ -268,6 +272,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     // 适配器初始化
                     racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
                     collect_goods_rv.setAdapter(racycleAllAdapter);
+                    racycleAllAdapter.setSelectNum(this);
                 }
                 if (!frist) {
                     swipe_refresh.setRefreshing(false);
@@ -303,6 +308,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     // 适配器初始化
                     racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
                     collect_goods_rv.setAdapter(racycleAllAdapter);
+                    racycleAllAdapter.setSelectNum(this);
                 }
                 if (!frist) {
                     swipe_refresh.setRefreshing(false);
@@ -326,8 +332,22 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             data.removeAll(data3);
             allNum -= data3.size();
             racycleAllAdapter.notifyDataSetChanged();
-            if (ListUtils.isEmpty(data))
+            if (ListUtils.isEmpty(data)) {
                 collect_operation_layout.setVisibility(View.GONE);
+                swipe_refresh.setVisibility(View.VISIBLE);
+                no_data_layout.setVisibility(View.GONE);
+            }
+            return;
+        }
+        if (requestUrl.contains("delFooter")) {
+            data.removeAll(data3);
+            allNum -= data3.size();
+            racycleAllAdapter.notifyDataSetChanged();
+            if (ListUtils.isEmpty(data)) {
+                collect_operation_layout.setVisibility(View.GONE);
+                swipe_refresh.setVisibility(View.VISIBLE);
+                no_data_layout.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -72,8 +72,6 @@ public class MellListAdapter extends BaseAdapter {
         this.showSelect = showSelect;
     }
 
-    private MellViewHolder mvh;
-
     @Override
     public int getCount() {
 
@@ -96,6 +94,7 @@ public class MellListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
 
+        MellViewHolder mvh;
         if (null == view) {
             view = LayoutInflater.from(context).inflate(R.layout.item_mell_lv, viewGroup, false);
             mvh = new MellViewHolder();
@@ -113,7 +112,7 @@ public class MellListAdapter extends BaseAdapter {
         final boolean itemSelect;
 
         List<GoodsListBean> goods;
-        if (0 == type) {
+        if (0 == type) {// 收藏
             mellInfoList = (MellInfoList) getItem(i);
             logo = mellInfoList.getMerchantFace().getMerInfo().getLogo();
             mellName = mellInfoList.getMerchantFace().getMerInfo().getMerchant_name();
@@ -122,7 +121,7 @@ public class MellListAdapter extends BaseAdapter {
             merchant_id = mellInfoList.getMerchantFace().getMerInfo().getMerchant_id();
             itemSelect = mellInfoList.isSelect();
             goods = mellInfoList.getMerchantFace().getGoodsList();
-        } else {
+        } else {// 足迹
             footMellsBan = (FootMellsBan) getItem(i);
             logo = footMellsBan.getMerInfo().getLogo();
             mellName = footMellsBan.getMerInfo().getMerchant_name();
@@ -154,9 +153,9 @@ public class MellListAdapter extends BaseAdapter {
         if (showSelect) {
             mvh.operation_mell_iv.setVisibility(View.VISIBLE);
             if (itemSelect) {
-                mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
             } else {
-                mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
             }
         } else {
             mvh.operation_mell_iv.setVisibility(View.GONE);
@@ -167,32 +166,36 @@ public class MellListAdapter extends BaseAdapter {
         mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemSelect) {
-                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_selected);
-                } else {
-                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
-                }
-                selectNum = 0;
-
                 if (0 == type) {
                     mellInfoList.setSelect(!itemSelect);
-
+                } else {
+                    footMellsBan.setSelect(!itemSelect);
+                }
+//                if (itemSelect) {
+//                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
+//                } else {
+//                    if (0 == type) {
+//                        mellInfoList.setSelect(true);
+//                    } else {
+//                        footMellsBan.setSelect(true);
+//                    }
+//                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
+//                }
+                selectNum = 0;
+                if (0 == type) {
                     for (MellInfoList mell : mells) {
                         if (mell.isSelect()) {
                             selectNum++;
                         }
                     }
-
                 } else {
-                    footMellsBan.setSelect(!itemSelect);
                     for (FootMellsBan foot : mellsFoot) {
                         if (foot.isSelect()) {
                             selectNum++;
                         }
                     }
                 }
-
-
+                notifyDataSetChanged();
                 if (forSelectNum != null) {
                     forSelectNum.selectNum(selectNum);
                 }
@@ -244,7 +247,9 @@ public class MellListAdapter extends BaseAdapter {
         private ImageView operation_mell_iv;
     }
 
-
+    /**
+     * 商家商品列表
+     */
     private class MellProdectAdapter extends BaseAdapter {
         private MPViewHolder mpvh;
 
