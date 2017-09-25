@@ -39,6 +39,32 @@ public class BalancePst extends BasePresenter {
     // 线下充值
     public void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
                            String pay_password) {
+
+        if (bank_card_id.equals("")) {
+            baseView.onErrorTip("请选择银行");
+            return;
+        }
+        if (act_time.equals("")) {
+            baseView.onErrorTip("请选择汇款时间");
+            return;
+        }
+        if (money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
+            baseView.onErrorTip("请输入汇款金额");
+            return;
+        }
+        if (name.equals("")) {
+            baseView.onErrorTip("请输入汇款人");
+            return;
+        }
+        if (pic == null || !pic.exists()) {
+            baseView.onErrorTip("请上传凭证");
+            return;
+        }
+        if (pay_password.equals("")) {
+            baseView.onErrorTip("请输入密码");
+            return;
+        }
+
         baseView.showDialog();
         userBalance.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_password, baseView);
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,10 +9,6 @@
     tools:context="com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty">
 
     <include layout="@layout/aty_title"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,6 +34,7 @@
                     android:textColor="@color/app_text_color"/>
 
                 <TextView
+                    android:id="@+id/status_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="end"
@@ -63,6 +59,7 @@
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/bank_card_number_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
@@ -78,9 +75,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="户名    "/>
+                        android:text="户    名:"/>
 
                     <TextView
+                        android:id="@+id/card_owner_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="刘某某"
@@ -98,9 +96,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="开户行"/>
+                        android:text="开户行:"/>
 
                     <TextView
+                        android:id="@+id/card_open_ban_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="建设银行南开分行"
@@ -115,6 +114,7 @@
                 android:text="汇款时间"/>
 
             <TextView
+                android:id="@+id/act_time_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -128,6 +128,7 @@
                 android:text="汇款金额(元)"/>
 
             <TextView
+                android:id="@+id/money_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -141,6 +142,7 @@
                 android:text="汇款人姓名"/>
 
             <TextView
+                android:id="@+id/name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -161,8 +163,9 @@
                 android:padding="12dp">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/pic_iv"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
                     android:src="@drawable/icon_temp_goods_banner"/>
 
             </LinearLayout>
@@ -174,6 +177,7 @@
                 android:text="汇款说明"/>
 
             <TextView
+                android:id="@+id/desc_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -183,6 +187,10 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
 
 </LinearLayout>

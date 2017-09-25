@@ -7,13 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class BankInfoForReChargeAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
@@ -24,18 +32,26 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     private BankInfoAdapter bankInfoAdapter;
 
+    private BalancePst balancePst;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout layout;
+
+    private List<Map<String, String>> list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("选择银行卡号");
-        bank_info_lv.setAdapter(bankInfoAdapter);
+        bank_info_lv.setEmptyView(layout);
         bank_info_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
                 // 卡号
-                intent.putExtra("card_num", "6227 0000 6147 1881 700");
+                intent.putExtra("card_num", list.get(i).get("bank_card_code"));
+                intent.putExtra("bank_card_id", list.get(i).get("bank_card_id"));
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -49,12 +65,26 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        list = new ArrayList<>();
+        balancePst = new BalancePst(this);
         bankInfoAdapter = new BankInfoAdapter();
     }
 
     @Override
     protected void requestData() {
+        balancePst.bankList();
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("bankList")) {
+            if (ToolKit.isList(map, "data")) {
+                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                bank_info_lv.setAdapter(bankInfoAdapter);
+            }
+        }
     }
 
     /**
@@ -66,12 +96,12 @@ public class BankInfoForReChargeAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 10;
+            return list.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return null;
+        public Map<String, String> getItem(int i) {
+            return list.get(i);
         }
 
         @Override
@@ -81,6 +111,7 @@ public class BankInfoForReChargeAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Map<String, String> bank = getItem(i);
             if (null == view) {
                 view = LayoutInflater.from(BankInfoForReChargeAty.this).inflate(R.layout.item_bank_info_lv, null);
                 bivh = new BIVH();
@@ -89,10 +120,30 @@ public class BankInfoForReChargeAty extends BaseAty {
             } else {
                 bivh = (BIVH) view.getTag();
             }
+
+            bivh.bank_card_num_tv.setText(bank.get("bank_card_code"));
+            bivh.bank_card_owner_name.setText(bank.get("name"));
+            bivh.create_card_bank_name_tv.setText(bank.get("open_bank"));
+
             return view;
         }
 
         private class BIVH {
+            /**
+             * 银行卡号
+             */
+            @ViewInject(R.id.bank_card_num_tv)
+            private TextView bank_card_num_tv;
+            /**
+             * 持卡人
+             */
+            @ViewInject(R.id.bank_card_owner_name)
+            private TextView bank_card_owner_name;
+            /**
+             * 开户行
+             */
+            @ViewInject(R.id.create_card_bank_name_tv)
+            private TextView create_card_bank_name_tv;
 
         }
 

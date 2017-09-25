@@ -230,10 +230,12 @@
                             android:textColor="@color/app_text_color"/>
 
                         <EditText
+                            android:id="@+id/off_line_recharge_money_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@color/white"
                             android:hint="请填写"
+                            android:inputType="numberDecimal"
                             android:padding="12dp"
                             android:textColor="@color/app_text_color"
                             android:textSize="14sp"/>
@@ -251,13 +253,15 @@
                             android:text="汇款人姓名    "
                             android:textColor="@color/app_text_color"/>
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/off_line_recharge_name_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:drawableEnd="@drawable/icon_turn_right_g"
-                            android:hint="请选择"
+                            android:background="@color/white"
+                            android:hint="请输入"
                             android:padding="12dp"
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color"
+                            android:textSize="14sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -274,6 +278,7 @@
                             android:textColor="@color/app_text_color"/>
 
                         <ImageView
+                            android:id="@+id/off_line_recharge_pic_iv"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
                             android:layout_marginBottom="12dp"
@@ -300,6 +305,7 @@
                         android:textColor="@color/app_text_color"/>
 
                     <EditText
+                        android:id="@+id/off_line_recharge_desc_ev"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
@@ -329,17 +335,19 @@
                         android:textColor="@color/app_text_color"/>
 
                     <EditText
+                        android:id="@+id/off_line_recharge_pwd_ev"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:drawableEnd="@drawable/icon_turn_right_g"
                         android:hint="请填写"
+                        android:inputType="textPassword"
                         android:padding="12dp"
                         android:textColor="@color/app_text_color"
                         android:textSize="14sp"/>
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/off_line_recharge_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="48dp"

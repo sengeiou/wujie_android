@@ -137,6 +137,12 @@ public class ExchangeMoneyAty extends BaseAty {
 
             case R.id.submit_op_tv:// 确认，提交
                 String money = money_ev.getText().toString();
+
+                if (money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
+                    showErrorTip("请输入有效数字");
+                    break;
+                }
+
                 BigDecimal input = new BigDecimal(money);
                 // 输入的比余额达
                 if (input.compareTo(bal) == 1) {
@@ -172,10 +178,10 @@ public class ExchangeMoneyAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("cashIndex")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            balance = data.get("balance");
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
+            balance = data != null ? data.get("balance") : "0.00";
             bal = new BigDecimal(balance);
-            my_bal_tv1.setText("我的余额" + data.get("balance") + " ");
+            my_bal_tv1.setText("我的余额" + (data != null ? data.get("balance") : "0.00") + " ");
             rate_tv.setText(data.get("rate") + "%");
             delay_time_tv.setText(data.get("delay_time"));
         }

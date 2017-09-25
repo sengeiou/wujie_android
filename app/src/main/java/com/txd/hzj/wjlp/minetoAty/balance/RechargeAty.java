@@ -5,25 +5,37 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
+import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.tool.DateTool;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.TimePickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lzy.imagepicker.ImagePicker;
+import com.lzy.imagepicker.bean.ImageItem;
+import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
 
-import org.w3c.dom.Text;
-
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -96,6 +108,40 @@ public class RechargeAty extends BaseAty {
     private TextView picker_time_tv;
 
     private TimePickerView pvCustomTime;
+    /**
+     * 银行卡id
+     */
+    private String bank_card_id = "";
+    /**
+     * 线下充值金额
+     */
+    @ViewInject(R.id.off_line_recharge_money_tv)
+    private EditText off_line_recharge_money_tv;
+    /**
+     * 线下充值汇款人
+     */
+    @ViewInject(R.id.off_line_recharge_name_tv)
+    private EditText off_line_recharge_name_tv;
+    /**
+     * 汇款凭证
+     */
+    @ViewInject(R.id.off_line_recharge_pic_iv)
+    private ImageView off_line_recharge_pic_iv;
+    /**
+     * 汇款说明
+     */
+    @ViewInject(R.id.off_line_recharge_desc_ev)
+    private EditText off_line_recharge_desc_ev;
+    /**
+     * 密码
+     */
+    @ViewInject(R.id.off_line_recharge_pwd_ev)
+    private EditText off_line_recharge_pwd_ev;
+
+    private int picSize = 0;
+    private File pic;
+
+    private BalancePst balancePst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +201,8 @@ public class RechargeAty extends BaseAty {
 
     @Override
     @OnClick({R.id.re_left_layout, R.id.re_right_layout, R.id.pay_by_wechat_cb,
-            R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout})
+            R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout,
+            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -179,10 +226,31 @@ public class RechargeAty extends BaseAty {
                 startActivityForResult(BankInfoForReChargeAty.class, null, 100);
                 break;
             case R.id.picker_time_layout:// 线下支付，选择汇款时间
-
                 if (pvCustomTime != null) {
                     pvCustomTime.show(picker_time_tv);
                 }
+                break;
+            case R.id.off_line_recharge_pic_iv:// 汇款凭证(选择图片)
+                startActivityForResult(ImageGridActivity.class, null, 101);
+                break;
+            case R.id.off_line_recharge_tv:// 线下充值
+
+                // 将 2017-09-25 13:10(或其他数据) 转成时间戳，精确到秒
+                String act_time = DateTool.date2TimeStamp(picker_time_tv.getText().toString(),
+                        "yyy-MM-dd HH:mm");
+                String money = off_line_recharge_money_tv.getText().toString().trim();
+                String name = off_line_recharge_name_tv.getText().toString().trim();
+                String desc = off_line_recharge_desc_ev.getText().toString().trim();
+                String pay_pwd = off_line_recharge_pwd_ev.getText().toString();
+
+                L.e("======时间=====", act_time);
+                L.e("======金额=====", money);
+                L.e("======名称=====", name);
+                L.e("======凭证=====", pic.getAbsolutePath());
+                L.e("======说明=====", desc);
+                L.e("======密码=====", pay_pwd);
+
+                balancePst.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_pwd);
 
                 break;
         }
@@ -196,6 +264,14 @@ public class RechargeAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        picSize = ToolKit.dip2px(this, 100);
+
+        ImagePicker imagePicker = ImagePicker.getInstance();
+        imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
+        imagePicker.setCrop(false);// 不裁剪
+        imagePicker.setMultiMode(false);// 单选
+        imagePicker.setShowCamera(true);// 显示拍照按钮
+        balancePst = new BalancePst(this);
 
     }
 
@@ -205,18 +281,47 @@ public class RechargeAty extends BaseAty {
     }
 
     @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("underMoney")) {
+            showRightTip(map.get("message"));
+            finish();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null) {
             return;
         }
-
+        // 选择银行卡号
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 银行卡号
                     String card_num = data.getStringExtra("card_num");
                     bank_cart_num_tv.setText(card_num);
+                    bank_card_id = data.getStringExtra("bank_card_id");
+                    break;
+            }
+            return;
+        }
+        // 上传汇款凭证图片
+        if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
+            ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(
+                    ImagePicker.EXTRA_RESULT_ITEMS);
+            String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
+            switch (requestCode) {
+                case 101:
+                    pic = new File(pic_path);
+                    Glide.with(this).load(pic).override(picSize, picSize)
+                            .centerCrop()
+                            .error(R.drawable.ic_default)
+                            .placeholder(R.drawable.ic_default)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(off_line_recharge_pic_iv);
                     break;
             }
         }
@@ -229,9 +334,13 @@ public class RechargeAty extends BaseAty {
         Calendar selectedDate = Calendar.getInstance();
         Calendar startDate = Calendar.getInstance();
         startDate.setTimeInMillis(System.currentTimeMillis());
+        // 开始年份
         int start_year = startDate.get(Calendar.YEAR) - 1;
+        // 结束年份
         int end_year = start_year + 100;
+        // 月份
         int mon = startDate.get(Calendar.MONTH);
+        // 日期
         int day = startDate.get(Calendar.DAY_OF_MONTH);
 
         startDate.set(start_year, mon, day);
@@ -250,9 +359,8 @@ public class RechargeAty extends BaseAty {
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("年", "月", "日", "点", "分", "")
                 .isCenterLabel(false)
-                .setContentSize(12)
                 .setDividerColor(Color.DKGRAY)
-                .setContentSize(21)
+                .setContentSize(18)
                 .setDate(selectedDate)
                 .setRangDate(startDate, endDate)
                 .setBackgroundId(0x00FFFFFF) //设置外部遮罩颜色
@@ -262,11 +370,17 @@ public class RechargeAty extends BaseAty {
                 .setTitleText("选择时间")
                 .setTitleColor(ContextCompat.getColor(RechargeAty.this, R.color.app_text_color))
                 .build();
-
     }
 
+    /**
+     * 设置选中的汇款时间
+     *
+     * @param date 时间
+     * @return String
+     */
     private String getTime(Date date) {//可根据需要自行截取数据显示
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        // 中国时区格式化时间
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return format.format(date);
     }
 

@@ -1,13 +1,22 @@
 package com.txd.hzj.wjlp.minetoAty.balance;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.MoneyUtils;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -25,12 +34,63 @@ public class TransferAccountsAty extends BaseAty {
     @ViewInject(R.id.tr_acc_money_et)
     private EditText tr_acc_money_et;
 
+    @ViewInject(R.id.can_use_money_tv)
+    private TextView can_use_money_tv;
+    private String balance = "0.00";
+    /**
+     * 对方账号信息
+     */
+    @ViewInject(R.id.opposite_side_ev)
+    private EditText opposite_side_ev;
+
+    @ViewInject(R.id.opposite_real_name_tv)
+    private TextView opposite_real_name_tv;
+
+    private BalancePst balancePst;
+
+    private String code = "";
+
+    @ViewInject(R.id.pay_pwd_ev)
+    private EditText pay_pwd_ev;
+    private String real_name = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("转账");
         MoneyUtils.setPricePoint(tr_acc_money_et);
+        can_use_money_tv.setText(balance);
+
+        opposite_side_ev.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND || (keyEvent != null &&
+                        keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    code = opposite_side_ev.getText().toString();
+                    balancePst.getUserName(code);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    @Override
+    @OnClick({R.id.change_money_tv})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.change_money_tv:
+                String money = tr_acc_money_et.getText().toString();
+                String pay_pwd = pay_pwd_ev.getText().toString();
+                if (money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
+                    showErrorTip("请输入有效金额");
+                    break;
+                }
+                balancePst.changeMoney(code, money, real_name, pay_pwd);
+                break;
+        }
     }
 
     @Override
@@ -40,11 +100,31 @@ public class TransferAccountsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        balancePst = new BalancePst(this);
+        balance = getIntent().getStringExtra("balance");
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("getUserName")) {// 获取真实姓名
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            real_name = data != null ? data.get("real_name") : "您查找到账号不存在，请核对账号";
+            if (real_name.equals("您查找到账号不存在，请核对账号")) {
+                opposite_real_name_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
+            }
+            opposite_real_name_tv.setText(real_name);
+            return;
+        }
+        if (requestUrl.contains("changeMoney")) {// 转账成功
+            showRightTip(map != null ? map.get("message") : "转账申请中，请耐心等待");
+            finish();
+        }
     }
 }

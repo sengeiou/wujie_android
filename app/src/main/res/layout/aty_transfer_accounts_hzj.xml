@@ -26,6 +26,7 @@
             android:textColor="@color/app_text_color"/>
 
         <TextView
+            android:id="@+id/can_use_money_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -47,10 +48,14 @@
             android:textColor="@color/app_text_color"/>
 
         <EditText
+            android:id="@+id/opposite_side_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:hint="请输入对方会员编号或者手机号"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
             android:textSize="14sp"/>
@@ -69,6 +74,7 @@
             android:textColor="@color/app_text_color"/>
 
         <TextView
+            android:id="@+id/opposite_real_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -94,9 +100,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:hint="0"
             android:inputType="numberDecimal"
             android:padding="12dp"
-            android:text="0"
             android:textColor="@color/app_text_color"
             android:textSize="14sp"/>
     </LinearLayout>
@@ -114,23 +120,25 @@
             android:textColor="@color/app_text_color"/>
 
         <EditText
+            android:id="@+id/pay_pwd_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:inputType="numberPassword"
+            android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
             android:textSize="14sp"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/change_money_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="转账"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:padding="12dp"
         android:layout_margin="64dp"
-        android:background="@drawable/shape_to_login_tv_shape"/>
+        android:background="@drawable/shape_to_login_tv_shape"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="转账"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

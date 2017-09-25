@@ -733,7 +733,7 @@ public class DateTool {
      *
      * @param date_str 字符串日期
      * @param format   如：yyyy-MM-dd HH:mm:ss
-     * @return String
+     * @return String  返回时间戳，精确到秒
      */
     public static String date2TimeStamp(String date_str, String format) {
         try {

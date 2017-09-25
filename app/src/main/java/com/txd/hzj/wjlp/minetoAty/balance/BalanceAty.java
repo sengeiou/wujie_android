@@ -49,6 +49,7 @@ public class BalanceAty extends BaseAty {
     private Bundle bundle;
 
     private BalancePst balancePst;
+    private String balance = "0.00";
 
 
     @Override
@@ -75,7 +76,9 @@ public class BalanceAty extends BaseAty {
                 startActivity(ExchangeMoneyAty.class, bundle);
                 break;
             case R.id.transfer_accounts_tv:// 转账给用户
-                startActivity(TransferAccountsAty.class, null);
+                bundle = new Bundle();
+                bundle.putString("balance", balance);
+                startActivity(TransferAccountsAty.class, bundle);
                 break;
             case R.id.balance_details_tv:// 余额明细
                 Bundle bundle = new Bundle();
@@ -111,7 +114,8 @@ public class BalanceAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            layout_bottom_tv.setText(data.get("balance"));
+            balance = data != null ? data.get("balance") : "0.00";
+            layout_bottom_tv.setText(balance);
         }
     }
 }
