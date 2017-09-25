@@ -18,6 +18,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.adapter.StickyExampleAdapter;
 
@@ -59,6 +60,8 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     private int from = 1;
 
     private UserPst userPst;
+
+    private BalancePst balancePst;
 
     @ViewInject(R.id.part_swipe_refresh)
     private SuperSwipeRefreshLayout swipe_refresh;
@@ -217,6 +220,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         from = getIntent().getIntExtra("from", 1);
         list = new ArrayList<>();
         userPst = new UserPst(this);
+        balancePst = new BalancePst(this);
     }
 
     @Override
@@ -231,6 +235,9 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 break;
             case 2:// 积分明细
                 userPst.integralLog(p);
+                break;
+            case 3:// 积分明细
+                balancePst.balanceLog(p);
                 break;
             case 4:// 成长明细
                 userPst.userDevelopLog(p);
@@ -253,15 +260,15 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                             if (temp2.get("act_type").equals("1")) {
                                 list.add(new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type")));
+                                        ("act_type"), ""));
                             } else if (temp2.get("act_type").equals("2")) {
                                 list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type")));
+                                        ("act_type"), ""));
                             } else {
                                 list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type")));
+                                        ("act_type"), ""));
                             }
                         }
                     }
@@ -290,15 +297,15 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                             if (temp2.get("act_type").equals("1")) {
                                 list.add(new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
-                                        temp2.get("act_type")));
+                                        temp2.get("act_type"), ""));
                             } else if (temp2.get("act_type").equals("2")) {
                                 list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
-                                        temp2.get("act_type")));
+                                        temp2.get("act_type"), ""));
                             } else {
                                 list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
-                                        temp2.get("act_type")));
+                                        temp2.get("act_type"), ""));
                             }
                         }
                     }
@@ -321,7 +328,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                                 ("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
-                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), ""));
+                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", ""));
                         }
                     }
                     stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
@@ -346,7 +353,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                                 ("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
-                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), ""));
+                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();
@@ -369,7 +376,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
-                                    temp2.get("act_type")));
+                                    temp2.get("act_type"), ""));
                         }
                     }
                     stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
@@ -395,7 +402,58 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
-                                    temp2.get("act_type")));
+                                    temp2.get("act_type"), ""));
+                        }
+                    }
+                    stickyExampleAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
+            return;
+        }
+        if (requestUrl.contains("balanceLog")) {
+            if (1 == p) {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            String name = ActTypeForName(temp2);
+                            list.add(new TricketDetailks(time, name, temp2.get("create_time"),
+                                    temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+                                    temp2.get("act_type"), ""));
+                        }
+                    }
+                    stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
+                    tricket_rv.setAdapter(stickyExampleAdapter);
+
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                } else {
+                    lv_layout.setVisibility(View.GONE);
+                    no_data_layout.setVisibility(View.VISIBLE);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            } else {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            String name = ActTypeForName(temp2);
+                            list.add(new TricketDetailks(time, name, temp2.get("create_time"),
+                                    temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+                                    temp2.get("act_type"), ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();
@@ -406,6 +464,43 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 swipe_refresh.setLoadMore(false);
             }
         }
+    }
+
+    /**
+     * 类型转换成名字
+     *
+     * @param temp2 数据
+     * @return 返回字段
+     */
+    private String ActTypeForName(Map<String, String> temp2) {
+        String name = "";
+        switch (Integer.parseInt(temp2.get("act_type"))) {
+            case 1://线上充值
+                name = "线上充值";
+                break;
+            case 2://线下充值
+                name = "线下充值";
+                break;
+            case 3://消费
+                name = "消费";
+                break;
+            case 4://提现
+                name = "提现";
+                break;
+            case 5://退款
+                name = "退款";
+                break;
+            case 6://转账出
+                name = "转账出";
+                break;
+            case 7://转账收入
+                name = "转账收入";
+                break;
+            case 8://积分兑换余额
+                name = "积分兑换余额";
+                break;
+        }
+        return name;
     }
 
     @Override

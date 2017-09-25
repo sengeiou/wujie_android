@@ -44,9 +44,13 @@ public class TricketDetailks {
      * 操作类型
      */
     public String act_type;
+    /**
+     * 对应的操作对象id  只有线下充值的有用
+     */
+    public String act_id;
 
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-            log_id, String act_type) {
+            log_id, String act_type,String act_id) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
@@ -54,6 +58,7 @@ public class TricketDetailks {
         this.reason = reason;
         this.log_id = log_id;
         this.act_type = act_type;
+        this.act_id = act_id;
     }
 
     public String getSticky() {
@@ -110,5 +115,27 @@ public class TricketDetailks {
 
     public void setAct_type(String act_type) {
         this.act_type = act_type;
+    }
+
+    public String getAct_id() {
+        return act_id;
+    }
+
+    public void setAct_id(String act_id) {
+        this.act_id = act_id;
+    }
+
+    @Override
+    public String toString() {
+        return "TricketDetailks{" +
+                "sticky='" + sticky + '\'' +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", profession='" + profession + '\'' +
+                ", reason='" + reason + '\'' +
+                ", log_id='" + log_id + '\'' +
+                ", act_type='" + act_type + '\'' +
+                ", act_id='" + act_id + '\'' +
+                '}';
     }
 }

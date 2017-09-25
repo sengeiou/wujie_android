@@ -56,7 +56,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 获取ViewHolder
             RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) viewHolder;
             // 获取明细实体类
-            TricketDetailks stickyExampleModel = stickyExampleModels.get(position);
+            final TricketDetailks stickyExampleModel = stickyExampleModels.get(position);
             // 费吸顶文本标题
             recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
             // 交易记录时间
@@ -80,26 +80,35 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
+            // 查看详情
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(new Intent(context, RechargeOffLineAty.class));
+                    Intent intent = new Intent(context, RechargeOffLineAty.class);
+                    intent.putExtra("act_id", stickyExampleModel.act_id);
+                    context.startActivity(intent);
                 }
             });
+            // 查看线下充值详情----隐藏
+            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
             if (1 == type) {// 购物券
-                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
-                                (), "drawable",
-                        context.getPackageName());
+                        (), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (2 == type) {
-                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
-                                (), "drawable",
-                        context.getPackageName());
+                        (), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+            } else if (3 == type) {
+                int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type
+                        (), "drawable", context.getPackageName());
+                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+                // 查看线下充值详情----显示
+                if (stickyExampleModel.getAct_type().equals("2")) {
+                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+                }
+
             } else if (4 == type) {
-                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_part_details_cheng);
             }
         }
