@@ -276,7 +276,7 @@
         <!-- 地址列表 -->
         <activity android:name=".minetoAty.address.AddressListAty"/>
         <!-- 添加地址 -->
-        <activity android:name=".minetoAty.address.AddNewAddressAty"/>
+        <activity android:name=".minetoAty.address.AddNewAddressAty2"/>
         <!-- 意见反馈 -->
         <activity android:name=".minetoAty.feedback.FeedBackAty"/>
         <!-- 分享给好友 -->
@@ -350,9 +350,6 @@
         <!--书院详情-->
         <activity android:name=".minetoAty.books.BooksDetailsAty"/>
         <!--省市区选择-->
-        <activity
-            android:name=".minetoAty.address.AreaSelectAty"
-            android:theme="@style/share_style"/>
         <!--拼团购开团-->
         <activity android:name=".mellOnLine.gridClassify.CreateGroupAty"/>
         <!-- 拼团购三级分类商品列表 -->

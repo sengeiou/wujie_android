@@ -110,13 +110,13 @@ public class AddressListAty extends BaseAty {
             case R.id.add_address_tv:// 新增地址
                 bundle = new Bundle();
                 bundle.putInt("type", 0);
-                startActivity(AddNewAddressAty.class, bundle);
+                startActivity(AddNewAddressAty2.class, bundle);
                 break;
             case R.id.edit_address_tv://编辑
                 bundle = new Bundle();
                 bundle.putInt("type", 1);
                 bundle.putString("address_id", defaultAddress.getAddress_id());
-                startActivity(AddNewAddressAty.class, bundle);
+                startActivity(AddNewAddressAty2.class, bundle);
                 break;
             case R.id.delete_address_tv://删除
                 new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
@@ -221,7 +221,7 @@ public class AddressListAty extends BaseAty {
                         bundle = new Bundle();
                         bundle.putInt("type", 1);
                         bundle.putString("address_id", address_id);
-                        startActivity(AddNewAddressAty.class, bundle);
+                        startActivity(AddNewAddressAty2.class, bundle);
                         break;
                     case R.id.delete_address_tv://删除
                         new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener

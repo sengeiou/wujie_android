@@ -31,12 +31,9 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.Area;
-import com.txd.hzj.wjlp.bean.AreaList;
-import com.txd.hzj.wjlp.bean.CityList;
-import com.txd.hzj.wjlp.bean.JsonBean;
-import com.txd.hzj.wjlp.bean.ProvinceList;
-import com.txd.hzj.wjlp.http.address.AddressPst;
+import com.txd.hzj.wjlp.bean.addres.CityForTxd;
+import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
+import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
@@ -46,7 +43,6 @@ import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -113,8 +109,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      */
     private String area = "";
 
-    private AddressPst addressPst;
-
     /**
      * 省id
      */
@@ -132,10 +126,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      * 街道id
      */
     private String street_id = "";
-    /**
-     * 街道
-     */
-    private String street = "";
 
     private UserPst userPst;
 
@@ -189,11 +179,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      * 昵称
      */
     private String nickname = "";
-    private boolean isLoaded = false;
-    private String pStr = "";
-    private String cStr = "";
-    private String aStr = "";
-    private int times = 0;
 
 
     @Override
@@ -229,9 +214,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-
-        addressPst = new AddressPst(this);
-
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
@@ -286,49 +268,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             super.onComplete(requestUrl, jsonStr);
             showRightTip("修改成功");
             finish();
-            return;
-        }
-        if (requestUrl.contains("getRegion")) {
-            Area getArea = GsonUtil.GsonToBean(jsonStr, Area.class);
-            if (1 == times) {// 省
-                List<ProvinceList> pros = getArea.getData().getProvince_list();
-                for (ProvinceList pl : pros) {
-                    if (pl.getRegion_name().contains(pStr) || pStr.contains(pl.getRegion_name())) {
-                        province_id = pl.getRegion_id();
-                        province = pl.getRegion_name();
-                        break;
-                    }
-                }
-                times = 2;
-                addressPst.getRegion(province_id);
-                return;
-            }
-            if (2 == times) {// 市
-                List<CityList> citys = getArea.getData().getCity_list();
-                for (CityList cl : citys) {
-                    if (cl.getRegion_name().contains(cStr) || cStr.contains(cl.getRegion_name())) {
-                        city_id = cl.getRegion_id();
-                        city = cl.getRegion_name();
-                        break;
-                    }
-                }
-                times = 3;
-                addressPst.getRegion(city_id);
-                return;
-            }
-            if (3 == times) {// 区(移除加载框)
-                super.onComplete(requestUrl, jsonStr);
-                List<AreaList> areas = getArea.getData().getArea_list();
-                for (AreaList al : areas) {
-                    if (al.getRegion_name().contains(aStr) || aStr.contains(al.getRegion_name())) {
-                        area_id = al.getRegion_id();
-                        area = al.getRegion_name();
-                        break;
-                    }
-                }
-                String tx = province + city + area;
-                user_select_zoon_tv.setText(tx);
-            }
         }
     }
 
@@ -421,8 +360,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker
-                        .EXTRA_RESULT_ITEMS);
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(
+                        ImagePicker.EXTRA_RESULT_ITEMS);
                 String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                 switch (requestCode) {
                     case 100:
@@ -437,24 +376,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             if (data != null) {
                 switch (requestCode) {
                     case 101:
-                        street = data.getStringExtra("street");
+                        /*街道*/
+                        String street = data.getStringExtra("street");
                         street_id = data.getStringExtra("street_id");
                         user_select_street_tv.setText(street);
-                        break;
-                    case 102:// 省市区
-                        province = data.getStringExtra("province");
-                        city = data.getStringExtra("city");
-                        area = data.getStringExtra("area");
-
-                        province_id = data.getStringExtra("province_id");
-                        city_id = data.getStringExtra("city_id");
-                        area_id = data.getStringExtra("area_id");
-                        L.e("province_id=====", province_id);
-                        L.e("city_id=====", city_id);
-                        L.e("area_id=====", area_id);
-                        // 省市区
-                        String tx = province + city + area;
-                        user_select_zoon_tv.setText(tx);
                         break;
                 }
 
@@ -467,9 +392,9 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
     // TODO==========城市选择==========
     // TODO==========城市选择==========
 
-    private ArrayList<JsonBean> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<String>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<String>>> options3Items = new ArrayList<>();
+    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
     private Thread thread;
     private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
@@ -477,38 +402,35 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
 
     private void ShowPickerView() {// 弹出选择器
-
         OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
                 .OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                //返回的分别是三个级别的选中位置
-//                String tx = options1Items.get(options1).getPickerViewText() +
-//                        options2Items.get(options1).get(options2) +
-//                        options3Items.get(options1).get(options2).get(options3);
-                pStr = options1Items.get(options1).getPickerViewText();
-                cStr = options2Items.get(options1).get(options2);
-                aStr = options3Items.get(options1).get(options2).get(options3);
-                // 第一次获取省的信息
-                times = 1;
-                addressPst.getRegion("");
-
+                // 省
+                province = options1Items.get(options1).getPickerViewText();
+                province_id = options1Items.get(options1).getProvince_id();
+                // 市
+                city = options2Items.get(options1).get(options2).getPickerViewText();
+                city_id = options2Items.get(options1).get(options2).getCity_id();
+                // 区
+                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                // 设置省市区
+                String tx = province + city + area;
+                user_select_zoon_tv.setText(tx);
             }
-        })
-
-                .setTitleText("城市选择")
+        }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
                 .setOutSideCancelable(false)// default is true
                 .build();
 
-        /*pvOptions.setPicker(options1Items);//一级选择器
-        pvOptions.setPicker(options1Items, options2Items);//二级选择器*/
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
 
+    private boolean isLoaded = false;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -541,16 +463,14 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
     private void initJsonData() {//解析数据
 
-        /**
+        /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
-         *
-         * */
-        String JsonData = new GetJsonDataUtil().getJson(this, "province.json");//获取assets目录下的json文件数据
+         */
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
-        ArrayList<JsonBean> jsonBean = parseData(JsonData);//用Gson 转成实体
-
-        /**
+        /*
          * 添加省份数据
          *
          * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
@@ -559,36 +479,31 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         options1Items = jsonBean;
 
         for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<String> CityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<String>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
 
-            for (int c = 0; c < jsonBean.get(i).getCityList().size(); c++) {//遍历该省份的所有城市
-                String CityName = jsonBean.get(i).getCityList().get(c).getName();
-                CityList.add(CityName);//添加城市
+            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
 
-                ArrayList<String> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
 
+                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
                 //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCityList().get(c).getArea() == null
-                        || jsonBean.get(i).getCityList().get(c).getArea().size() == 0) {
-                    City_AreaList.add("");
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                    City_AreaList.add(new DistrictsForTxd("", ""));
                 } else {
-
-                    for (int d = 0; d < jsonBean.get(i).getCityList().get(c).getArea().size(); d++) {//该城市对应地区所有数据
-                        String AreaName = jsonBean.get(i).getCityList().get(c).getArea().get(d);
-
+                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
                         City_AreaList.add(AreaName);//添加该城市所有地区数据
                     }
                 }
                 Province_AreaList.add(City_AreaList);//添加该省所有地区数据
             }
-
-            /**
+            /*
              * 添加城市数据
              */
             options2Items.add(CityList);
-
-            /**
+            /*
              * 添加地区数据
              */
             options3Items.add(Province_AreaList);
@@ -599,16 +514,17 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
     }
 
 
-    public ArrayList<JsonBean> parseData(String result) {//Gson 解析
-        ArrayList<JsonBean> detail = new ArrayList<>();
+    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
         try {
             JSONArray data = new JSONArray(result);
             Gson gson = new Gson();
             for (int i = 0; i < data.length(); i++) {
-                JsonBean entity = gson.fromJson(data.optJSONObject(i).toString(), JsonBean.class);
+                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
                 detail.add(entity);
             }
         } catch (Exception e) {
+            L.e("=====异常=====", e.getMessage());
             e.printStackTrace();
             mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
         }
