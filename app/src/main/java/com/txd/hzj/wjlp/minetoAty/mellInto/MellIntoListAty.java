@@ -66,7 +66,9 @@ public class MellIntoListAty extends BaseAty {
         mell_into_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(MellIntoInfoAty.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString("refer_id", data.get(i).get("refer_id"));
+                startActivity(MellIntoInfoAty.class, bundle);
             }
         });
         mell_into_lv.setEmptyView(no_data_layout);

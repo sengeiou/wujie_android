@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,6 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg_color"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <Space
@@ -43,9 +44,9 @@
                     android:padding="12dp">
 
                     <ImageView
+                        android:id="@+id/mell_logo_iv"
                         android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/icon_temp_mell_head"/>
+                        android:layout_height="80dp"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -58,41 +59,41 @@
                             android:layout_height="wrap_content">
 
                             <TextView
+                                android:id="@+id/mell_name_tv"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="康尔馨酒店家纺"
                                 android:textColor="@color/app_text_color"
                                 android:textSize="18sp"/>
 
                             <TextView
+                                android:id="@+id/mell_status_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
-                                android:text="推荐成功"
                                 android:textColor="@color/colorAccent"
                                 android:textSize="12sp"/>
 
                         </LinearLayout>
 
                         <TextView
+                            android:id="@+id/mell_desc_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
                             android:layout_marginTop="8dp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍"
                             android:textColor="@color/gray_text_color"/>
 
                         <TextView
+                            android:id="@+id/mell_score_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:text="评分4.5分"
                             android:textColor="@color/gray_text_color"
                             android:textSize="18sp"/>
                     </LinearLayout>
@@ -117,12 +118,12 @@
                             />
 
                         <TextView
+                            android:id="@+id/mell_range_tv"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center_vertical|end"
                             android:padding="12dp"
-                            android:text="纺织类商品"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"
                             />
@@ -149,13 +150,13 @@
                             />
 
                         <TextView
+                            android:id="@+id/job_for_mell_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|end"
                             android:paddingBottom="6dp"
                             android:paddingEnd="12dp"
                             android:paddingTop="6dp"
-                            android:text="店长"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"
                             />
@@ -175,6 +176,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/mell_phone_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -182,7 +184,6 @@
                             android:paddingBottom="6dp"
                             android:paddingEnd="12dp"
                             android:paddingTop="6dp"
-                            android:text="12345678910"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"
                             />
@@ -202,13 +203,13 @@
                             />
 
                         <TextView
+                            android:id="@+id/tmail_url_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|end"
                             android:paddingBottom="6dp"
                             android:paddingEnd="12dp"
                             android:paddingTop="6dp"
-                            android:text="www.taobao.com"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"
                             />
@@ -228,13 +229,39 @@
                             />
 
                         <TextView
+                            android:id="@+id/jd_url_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|end"
                             android:paddingBottom="6dp"
                             android:paddingEnd="12dp"
                             android:paddingTop="6dp"
-                            android:text="www.jingdong.com"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp"
+                            />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="其他网店"
+                            android:textSize="16sp"
+                            />
+
+                        <TextView
+                            android:id="@+id/other_url_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"
                             />
@@ -255,6 +282,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/product_desc_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -291,6 +319,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/create_time_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|end"

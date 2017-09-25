@@ -3,9 +3,7 @@ package com.txd.hzj.wjlp.http.user;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
-import com.txd.hzj.wjlp.base.BaseAty;
 
 import java.io.File;
 import java.util.List;
@@ -489,6 +487,19 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("footer_ids", footer_ids);
         apiTool2.postApi(url + "delFooter", params, baseView);
+    }
+
+    /**
+     * 推荐商家详情
+     *
+     * @param refer_id 推荐商家id
+     * @param baseView 回调
+     */
+    void referInfo(String refer_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("refer_id", refer_id);
+        apiTool2.postApi(url + "referInfo", params, baseView);
     }
 
 }

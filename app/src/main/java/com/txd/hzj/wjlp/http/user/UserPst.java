@@ -293,4 +293,10 @@ public class UserPst extends BasePresenter {
         baseView.showDialog();
         user.delFooter(footer_ids, baseView);
     }
+
+    public void referInfo(String refer_id) {
+        baseView.showDialog();
+        user.referInfo(refer_id, baseView);
+    }
+
 }
