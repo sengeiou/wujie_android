@@ -342,6 +342,8 @@
 
         <!-- 环信聊天界面 -->
         <activity android:name=".huanxin.ui.ChatActivity"/>
+        <!--环信查看图片-->
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
 
         <!--重置支付密码-->
         <activity android:name=".minetoAty.setting.ResetPayPwdAty"/>

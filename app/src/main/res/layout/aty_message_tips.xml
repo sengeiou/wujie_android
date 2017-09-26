@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/message_lin_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,12 +16,13 @@
         android:layout_height="60dp"
         android:padding="4dp">
 
-        <ImageView
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
             android:id="@+id/message_type_icon_iv"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/icon_message_for_order"/>
+            android:src="@drawable/icon_message_for_order"
+            app:shape_mode="circle"/>
 
         <TextView
             android:id="@+id/new_message_num_tv"
@@ -58,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
+                android:padding="4dp"
                 android:text="昨天下午"
                 android:textColor="@color/gray_text_color"
                 android:textSize="12sp"/>

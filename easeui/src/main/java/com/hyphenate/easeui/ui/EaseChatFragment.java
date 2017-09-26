@@ -103,10 +103,15 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     static final int ITEM_PICTURE = 2;
     static final int ITEM_LOCATION = 3;
     // 拍照，图片，位置
-    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture, R.string.attach_location};
+    protected int[] itemStrings = {R.string.attach_take_pic, R.string.attach_picture,
+//            R.string.attach_location
+    };
     protected int[] itemdrawables = {R.drawable.ease_chat_takepic_selector, R.drawable.ease_chat_image_selector,
-            R.drawable.ease_chat_location_selector};
-    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE, ITEM_LOCATION};
+//            R.drawable.ease_chat_location_selector
+    };
+    protected int[] itemIds = {ITEM_TAKE_PICTURE, ITEM_PICTURE,
+//            ITEM_LOCATION
+    };
     private boolean isMessageListInited;
     protected MyItemClickListener extendMenuItemClickListener;
 
@@ -185,9 +190,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title
             if (EaseUserUtils.getUserInfo(toChatUsername) != null) {
-                EaseUser user = EaseUserUtils.getUserInfo(toChatUsername);
+                String user = fragmentArgs.getString("userName");
                 if (user != null) {
-                    titleBar.setTitle(user.getNick());
+                    titleBar.setTitle(user);
                 }
             }
             titleBar.setRightImageResource(R.drawable.ease_mm_title_remove);
@@ -270,8 +275,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
     }
 
     protected void onMessageListInit() {
-        messageList.init(toChatUsername, chatType, chatFragmentHelper != null ?
-                chatFragmentHelper.onSetCustomChatRowProvider() : null);
+        messageList.init(toChatUsername, chatType, fragmentArgs.getString("myHead"),
+                fragmentArgs.getString("userHead"),
+                chatFragmentHelper != null ? chatFragmentHelper.onSetCustomChatRowProvider() : null);
         setListItemClickListener();
 
         messageList.getListView().setOnTouchListener(new OnTouchListener() {
@@ -308,14 +314,14 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             public void onResendClick(final EMMessage message) {
                 new EaseAlertDialog(getActivity(), R.string.resend, R.string.confirm_resend, null, new
                         AlertDialogUser() {
-                    @Override
-                    public void onResult(boolean confirmed, Bundle bundle) {
-                        if (!confirmed) {
-                            return;
-                        }
-                        resendMessage(message);
-                    }
-                }, true).show();
+                            @Override
+                            public void onResult(boolean confirmed, Bundle bundle) {
+                                if (!confirmed) {
+                                    return;
+                                }
+                                resendMessage(message);
+                            }
+                        }, true).show();
             }
 
             @Override
@@ -564,7 +570,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             // ============================= group_reform new add api end
 
         };
-        
+
         EMClient.getInstance().chatroomManager().addChatRoomChangeListener(chatRoomChangeListener);
         */
     }
@@ -771,6 +777,11 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             message.setChatType(ChatType.ChatRoom);
         }
         //send message
+        message.setAttribute("re_head", fragmentArgs.getString("userHead"));// 对方头像
+        message.setAttribute("re_name", fragmentArgs.getString("userName"));// 对方名称
+        message.setAttribute("head", fragmentArgs.getString("myHead"));// 我的头像
+        message.setAttribute("name", fragmentArgs.getString("myName"));// 我的昵称
+
         EMClient.getInstance().chatManager().sendMessage(message);
         //refresh ui
         if (isMessageListInited) {

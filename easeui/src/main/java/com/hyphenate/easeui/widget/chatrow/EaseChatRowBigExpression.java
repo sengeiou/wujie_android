@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.R;
@@ -20,11 +21,20 @@ public class EaseChatRowBigExpression extends EaseChatRowText{
 
     private ImageView imageView;
 
+    private String myHead;
+    private String userHead;
 
     public EaseChatRowBigExpression(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
     }
-    
+
+    public EaseChatRowBigExpression(Context context, EMMessage message, int position, BaseAdapter adapter, String
+            myHead, String userHead) {
+        super(context, message, position, adapter);
+        this.myHead = myHead;
+        this.userHead = userHead;
+    }
+
     @Override
     protected void onInflateView() {
         inflater.inflate(message.direct() == EMMessage.Direct.RECEIVE ? 
@@ -45,6 +55,21 @@ public class EaseChatRowBigExpression extends EaseChatRowText{
         if(EaseUI.getInstance().getEmojiconInfoProvider() != null){
             emojicon =  EaseUI.getInstance().getEmojiconInfoProvider().getEmojiconInfo(emojiconId);
         }
+
+        if (message.direct() == EMMessage.Direct.RECEIVE) {
+            Glide.with(context).load(userHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        } else {
+            Glide.with(context).load(myHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        }
+
         if(emojicon != null){
             if(emojicon.getBigIcon() != 0){
                 Glide.with(activity).load(emojicon.getBigIcon()).placeholder(R.drawable.ease_default_expression).into(imageView);

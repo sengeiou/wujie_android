@@ -7,10 +7,13 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
-
 /**
- * chat activity，EaseChatFragment was used {@link #EaseChatFragment}
- *
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj
+ * 日期：2017/9/26 0026
+ * 时间：下午 3:02
+ * 描述：环信聊天
+ * ===============Txunda===============
  */
 public class ChatActivity extends BaseActivity{
     public static ChatActivity activityInstance;
@@ -22,7 +25,6 @@ public class ChatActivity extends BaseActivity{
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
         activityInstance = this;
-        //get user id or group id
         // 获取用户id或者群组id
         toChatUsername = getIntent().getExtras().getString("userId");
         //use EaseChatFratFragment

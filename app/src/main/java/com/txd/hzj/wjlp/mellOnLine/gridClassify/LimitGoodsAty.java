@@ -44,6 +44,7 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
@@ -791,7 +792,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv})
+            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv,R.id.relation_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -868,6 +869,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 bundle.putString("mell_id", mell_id);
                 L.e("=====商家id======", mell_id);
                 startActivity(MellInfoAty.class, bundle);
+                break;
+            case R.id.relation_mell_tv:// 客服
+                bundle = new Bundle();
+                bundle.putString("userId","150469168337711");// 对方环信账号
+                bundle.putString("userHead","http://www.txunda.com/wjyp");// 对方头像
+                bundle.putString("userName","聊天测试");// 对方昵称
+                bundle.putString("myName",application.getUserInfo().get("nickname"));// 我的昵称
+                bundle.putString("myHead",application.getUserInfo().get("head_pic"));// 我的头像
+                startActivity(ChatActivity.class,bundle);
                 break;
         }
     }

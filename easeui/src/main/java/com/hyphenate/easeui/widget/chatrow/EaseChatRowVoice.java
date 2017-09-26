@@ -1,5 +1,7 @@
 package com.hyphenate.easeui.widget.chatrow;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMVoiceMessageBody;
@@ -13,14 +15,24 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class EaseChatRowVoice extends EaseChatRowFile{
+public class EaseChatRowVoice extends EaseChatRowFile {
 
     private ImageView voiceImageView;
     private TextView voiceLengthView;
     private ImageView readStatusView;
 
+    private String myHead;
+    private String userHead;
+
     public EaseChatRowVoice(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
+    }
+
+    public EaseChatRowVoice(Context context, EMMessage message, int position, BaseAdapter adapter, String myHead,
+                            String userHead) {
+        super(context, message, position, adapter);
+        this.myHead = myHead;
+        this.userHead = userHead;
     }
 
     @Override
@@ -40,19 +52,20 @@ public class EaseChatRowVoice extends EaseChatRowFile{
     protected void onSetUpView() {
         EMVoiceMessageBody voiceBody = (EMVoiceMessageBody) message.getBody();
         int len = voiceBody.getLength();
-        if(len>0){
+        if (len > 0) {
             voiceLengthView.setText(voiceBody.getLength() + "\"");
             voiceLengthView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             voiceLengthView.setVisibility(View.INVISIBLE);
         }
         if (EaseChatRowVoicePlayClickListener.playMsgId != null
-                && EaseChatRowVoicePlayClickListener.playMsgId.equals(message.getMsgId()) && EaseChatRowVoicePlayClickListener.isPlaying) {
+                && EaseChatRowVoicePlayClickListener.playMsgId.equals(message.getMsgId()) &&
+                EaseChatRowVoicePlayClickListener.isPlaying) {
             AnimationDrawable voiceAnimation;
             if (message.direct() == EMMessage.Direct.RECEIVE) {
-                voiceImageView.setImageResource(R.anim.voice_from_icon);
+                voiceImageView.setImageResource(R.drawable.voice_from_icon);
             } else {
-                voiceImageView.setImageResource(R.anim.voice_to_icon);
+                voiceImageView.setImageResource(R.drawable.voice_to_icon);
             }
             voiceAnimation = (AnimationDrawable) voiceImageView.getDrawable();
             voiceAnimation.start();
@@ -63,7 +76,21 @@ public class EaseChatRowVoice extends EaseChatRowFile{
                 voiceImageView.setImageResource(R.drawable.ease_chatto_voice_playing);
             }
         }
-        
+
+        if (message.direct() == EMMessage.Direct.RECEIVE) {
+            Glide.with(context).load(userHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        } else {
+            Glide.with(context).load(myHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        }
+
         if (message.direct() == EMMessage.Direct.RECEIVE) {
             if (message.isListened()) {
                 // hide the unread icon
@@ -94,15 +121,17 @@ public class EaseChatRowVoice extends EaseChatRowFile{
 
     @Override
     protected void onBubbleClick() {
-        new EaseChatRowVoicePlayClickListener(message, voiceImageView, readStatusView, adapter, activity).onClick(bubbleLayout);
+        new EaseChatRowVoicePlayClickListener(message, voiceImageView, readStatusView, adapter, activity).onClick
+                (bubbleLayout);
     }
-    
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (EaseChatRowVoicePlayClickListener.currentPlayListener != null && EaseChatRowVoicePlayClickListener.isPlaying) {
+        if (EaseChatRowVoicePlayClickListener.currentPlayListener != null && EaseChatRowVoicePlayClickListener
+                .isPlaying) {
             EaseChatRowVoicePlayClickListener.currentPlayListener.stopPlayVoice();
         }
     }
-    
+
 }

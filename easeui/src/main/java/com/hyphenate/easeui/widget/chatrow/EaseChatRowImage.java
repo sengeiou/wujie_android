@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMFileMessageBody;
 import com.hyphenate.chat.EMImageMessageBody;
@@ -26,8 +29,18 @@ public class EaseChatRowImage extends EaseChatRowFile{
     protected ImageView imageView;
     private EMImageMessageBody imgBody;
 
+    private String myHead;
+    private String userHead;
+
     public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter) {
         super(context, message, position, adapter);
+    }
+
+    public EaseChatRowImage(Context context, EMMessage message, int position, BaseAdapter adapter, String myHead,
+                            String userHead) {
+        super(context, message, position, adapter);
+        this.myHead = myHead;
+        this.userHead = userHead;
     }
 
     @Override
@@ -45,6 +58,21 @@ public class EaseChatRowImage extends EaseChatRowFile{
     @Override
     protected void onSetUpView() {
         imgBody = (EMImageMessageBody) message.getBody();
+
+        if (message.direct() == EMMessage.Direct.RECEIVE) {
+            Glide.with(context).load(userHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        } else {
+            Glide.with(context).load(myHead)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(userAvatarView);
+        }
+
         // received messages
         if (message.direct() == EMMessage.Direct.RECEIVE) {
             if (imgBody.thumbnailDownloadStatus() == EMFileMessageBody.EMDownloadStatus.DOWNLOADING ||

@@ -1,23 +1,32 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Pair;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.lidroid.xutils.ViewUtils;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.util.DateUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
+import com.txd.hzj.wjlp.mellOnLine.adapter.HXAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -31,22 +40,103 @@ public class MessageAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
-    @ViewInject(R.id.system_lv)
-    private ListViewForScrollView system_lv;
     @ViewInject(R.id.dialogue_lv)
     private ListViewForScrollView dialogue_lv;
 
-    private MssageAdapter mssageAdapter;
-    private List<String> data;
     private Bundle bundle;
+
+    /**
+     * 订单消息数量
+     */
+    @ViewInject(R.id.new_message_num_tv1)
+    private TextView order_message_num_tv;
+    /**
+     * 订单消息时间
+     */
+    @ViewInject(R.id.order_message_time_tv1)
+    private TextView order_message_time_tv;
+    /**
+     * 消息内容
+     */
+    @ViewInject(R.id.message_content_tv1)
+    private TextView order_message_content_tv;
+    /**
+     * 通知消息数量
+     */
+    @ViewInject(R.id.new_message_num_tv2)
+    private TextView notice_message_num_tv;
+    /**
+     * 通知消息时间
+     */
+    @ViewInject(R.id.order_message_time_tv2)
+    private TextView notice_message_time_tv;
+    /**
+     * 通知消息内容
+     */
+    @ViewInject(R.id.message_content_tv2)
+    private TextView notice_message_content_tv;
+    /**
+     * 公告数量
+     */
+    @ViewInject(R.id.new_message_num_tv3)
+    private TextView anno_message_num_tv;
+    /**
+     * 公告发布时间
+     */
+    @ViewInject(R.id.order_message_time_tv3)
+    private TextView anno_message_time_tv;
+    /**
+     * 消息内容
+     */
+    @ViewInject(R.id.message_content_tv3)
+    private TextView anno_message_content_tv;
+
+    private List<Map<String,String>> fridends;
+
+    private String account_json = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         titlt_conter_tv.setText("消息");
         showStatusBar(R.id.title_re_layout);
-        system_lv.setAdapter(new MssageAdapter(1, data));
-        dialogue_lv.setAdapter(new MssageAdapter(2, data));
+        dialogue_lv.setAdapter(new HXAdapter(this, fridends));
+
+        dialogue_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bundle = new Bundle();
+                bundle.putString("userId",fridends.get(i).get("easemob_account"));// 对方环信账号
+                bundle.putString("userHead",fridends.get(i).get("head_pic"));// 对方头像
+                bundle.putString("userName",fridends.get(i).get("nickname"));// 对方昵称
+                bundle.putString("myName",application.getUserInfo().get("nickname"));// 我的昵称
+                bundle.putString("myHead",application.getUserInfo().get("head_pic"));// 我的头像
+                startActivity(ChatActivity.class,bundle);
+            }
+        });
+    }
+
+    @Override
+    @OnClick({R.id.order_message_layout, R.id.noty_message_layout, R.id.annou_message_layout})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.order_message_layout:// 订单消息
+                bundle = new Bundle();
+                bundle.putInt("type", 0);
+                startActivity(OrderAndInformMessageListAty.class, bundle);
+                break;
+            case R.id.noty_message_layout:// 通知消息
+                bundle = new Bundle();
+                bundle.putInt("type", 1);
+                startActivity(OrderAndInformMessageListAty.class, bundle);
+                break;
+            case R.id.annou_message_layout:// 公告
+                bundle = new Bundle();
+                bundle.putInt("type", 2);
+                startActivity(OrderAndInformMessageListAty.class, bundle);
+                break;
+        }
     }
 
     @Override
@@ -56,7 +146,8 @@ public class MessageAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        data = new ArrayList<>();
+        // 环信上获取最近会话列表(即聊天记录)
+        fridends = getFriends();
     }
 
     @Override
@@ -64,111 +155,79 @@ public class MessageAty extends BaseAty {
 
     }
 
-    private class MssageAdapter extends BaseAdapter {
-        private int type;
-        private List<String> list;
+    private List<Map<String, String>> getFriends() {
+        List<EMConversation> list = loadConversationList();
 
-        private MessageViewHolder mvh;
+        List<Map<String, String>> friends = new ArrayList<>();
+        for (EMConversation ecm : list) {
+            EMMessage lastMessage = ecm.getLastMessage();
 
-        public MssageAdapter(int type, List<String> list) {
-            this.type = type;
-            this.list = list;
+            Map<String, String> map = new HashMap<>();
+            // 环信账号
+            map.put("easemob_account", ecm.conversationId());
+            // 消息数量
+            map.put("msg_count", String.valueOf(ecm.getUnreadMsgCount()));
+            // 最后一条内容
+            map.put("last_content", EaseCommonUtils.getMessageDigest(lastMessage, this));
+            // 最后一条消息时间
+            map.put("last_time", DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
+            friends.add(map);
         }
+        return friends;
+    }
 
-        @Override
-        public int getCount() {
-            if (1 == type) {
-                return 3;
-            }
-            return 10;
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return list.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(final int i, View view, ViewGroup viewGroup) {
-            if (null == view) {
-                view = LayoutInflater.from(MessageAty.this).inflate(R.layout.aty_message_tips, viewGroup, false);
-                mvh = new MessageViewHolder();
-                ViewUtils.inject(mvh, view);
-                view.setTag(mvh);
-            } else {
-                mvh = (MessageViewHolder) view.getTag();
-            }
-
-            if (1 == type) {
-                switch (i) {
-                    case 0:
-                        mvh.message_type_icon_iv.setImageResource(R.drawable.icon_message_for_order);
-                        mvh.message_type_tv.setText("订单消息");
-                        mvh.message_content_tv.setText("订单已签收！");
-                        break;
-                    case 1:
-                        mvh.message_type_icon_iv.setImageResource(R.drawable.icon_message_for_inform);
-                        mvh.message_type_tv.setText("通知消息");
-                        mvh.message_content_tv.setText("第233期iPhone7一元夺宝已失效");
-                        break;
-                    case 2:
-                        mvh.message_type_icon_iv.setImageResource(R.drawable.icon_message_for_notice);
-                        mvh.message_type_tv.setText("公告");
-                        mvh.message_content_tv.setText("第233期iPhone7一元夺宝已失效");
-                        break;
+    protected List<EMConversation> loadConversationList() {
+        // get all conversations(获取所有会话)
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<>();
+        /*
+         * lastMsgTime will change if there is new message during sorting
+         * so use synchronized to make sure timestamp of last message won't change.
+         *
+         * 如果在排序过程中有新消息，那么lastMsgTime将会发生变化，
+         * 因此使用synchronized来确保最后消息的时间戳不会改变。
+         */
+        synchronized (conversations) {
+            for (EMConversation conversation : conversations.values()) {
+                if (conversation.getAllMessages().size() != 0) {
+                    sortList.add(new Pair<>(conversation.getLastMessage().getMsgTime(), conversation));
                 }
-            } else {
-                mvh.message_type_icon_iv.setImageResource(R.drawable.icon_temp_head);
-                mvh.message_type_tv.setText("太平鸟");
-                mvh.message_content_tv.setText("亲，您看下您的地址是这个么？");
             }
-            mvh.message_lin_layout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (1 == type) {
-                        bundle = new Bundle();
-                        bundle.putInt("type", i);
-                        startActivity(OrderAndInformMessageListAty.class, bundle);
-                    } else {
+        }
+        try {
+            // Internal is TimSort algorithm, has bug
+            // 根据时间排序，有bug
+            sortConversationByLastChatTime(sortList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<EMConversation> list = new ArrayList<>();
+        for (Pair<Long, EMConversation> sortItem : sortList) {
+            list.add(sortItem.second);
+        }
+        return list;
+    }
 
-                    }
+    /**
+     * sort conversations according time stamp of last message
+     *
+     * @param conversationList 列表
+     */
+    private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
+        Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
+            @Override
+            public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
+
+                if (con1.first.equals(con2.first)) {
+                    return 0;
+                } else if (con2.first.longValue() > con1.first.longValue()) {
+                    return 1;
+                } else {
+                    return -1;
                 }
-            });
-            return view;
-        }
+            }
 
-        private class MessageViewHolder {
-
-            @ViewInject(R.id.message_lin_layout)
-            private LinearLayout message_lin_layout;
-            /**
-             * 头像
-             */
-            @ViewInject(R.id.message_type_icon_iv)
-            private ImageView message_type_icon_iv;
-            /**
-             * 消息来源
-             */
-            @ViewInject(R.id.message_type_tv)
-            private TextView message_type_tv;
-            /**
-             * 消息时间
-             */
-            @ViewInject(R.id.order_message_time_tv)
-            private TextView order_message_time_tv;
-            /**
-             * 消息内容
-             */
-            @ViewInject(R.id.message_content_tv)
-            private TextView message_content_tv;
-
-        }
-
+        });
     }
 
 }
