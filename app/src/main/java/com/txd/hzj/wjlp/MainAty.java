@@ -908,7 +908,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private void requestSomePermission() {
 
         // 先判断是否有权限。
-        // !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
         if (!AndPermission.hasPermission(MainAty.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.READ_PHONE_STATE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||
@@ -919,13 +918,20 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             // 申请权限。
             AndPermission.with(MainAty.this)
                     .requestCode(100)
-                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA,
-                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_PHONE_STATE,
+                            Manifest.permission.CALL_PHONE,
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION)
                     .send();
         }
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+    }
     private PermissionListener listener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {

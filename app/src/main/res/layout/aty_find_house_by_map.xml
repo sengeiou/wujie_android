@@ -5,6 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty">
-<include layout="@layout/aty_title"/>
+
+    <include layout="@layout/aty_title"/>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/baidu_map_for_house"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"/>
+
 </LinearLayout>

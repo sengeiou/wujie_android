@@ -33,7 +33,6 @@ import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.HouseArrtAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -128,6 +127,8 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
 
     @ViewInject(R.id.house_address_tv)
     private TextView house_address_tv;
+    private String lat = "";
+    private String lng = "";
 
     public static HousDetailsHousesChenFgt getFgt(String house_id) {
         HousDetailsHousesChenFgt housDetailsHousesChenFgt = new HousDetailsHousesChenFgt();
@@ -163,7 +164,10 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
                 }
                 break;
             case R.id.to_check_location_layout:// 查看地图
-                startActivity(FindHouseByMapAty.class, null);
+                Bundle bundle = new Bundle();
+                bundle.putString("lng", lng);
+                bundle.putString("lat", lat);
+                startActivity(FindHouseByMapAty.class, bundle);
                 break;
             case R.id.hd_be_back_top_iv:// 回到顶部
                 scrollView.smoothScrollTo(0, 0);
@@ -214,6 +218,9 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
 
             house_address_tv.setText(data.get("province_name") + data.get("city_name") + data.get("area_name") +
                     data.get("address"));
+
+            lng = data.get("lng");
+            lat = data.get("lat");
 
             if (ToolKit.isList(data, "house_attr")) {
                 houseList = JSONUtils.parseKeyAndValueToMapList(data.get("house_attr"));

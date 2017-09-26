@@ -298,11 +298,20 @@ public class ShareGradeAty extends BaseAty {
                         rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
                     }
+
+                    if (!frist) {
+                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+
                 } else {
                     if (ToolKit.isList(data, "rank_list")) {
                         rankList.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
                     }
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    swipe_refresh.setLoadMore(false);
                 }
             } else {
                 if (1 == p) {

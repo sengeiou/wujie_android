@@ -178,15 +178,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.group_shopping_lv)
     private ListViewForScrollView group_shopping_lv;
 
-    private AllGvLvAdapter allGvLvAdapter;
-    private AllGvLvAdapter allGvLvAdapter1;
-    private AllGvLvAdapter allGvLvAdapter2;
-    private AllGvLvAdapter allGvLvAdapter3;
-    private AllGvLvAdapter allGvLvAdapter4;
-    private AllGvLvAdapter allGvLvAdapter5;
-    private AllGvLvAdapter allGvLvAdapter6;
-    private AllGvLvAdapter allGvLvAdapter7;
-    private AllGvLvAdapter allGvLvAdapter8;
     private Bundle bundle;
 
     /**
@@ -209,8 +200,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * 当前选中的第几页
      */
     private int curIndex = 0;
-
-    private ViewPagerAdapter viewPagerAdapter;
 
     private IndexPst indexPst;
     /**
@@ -605,7 +594,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 forShowAds(cent_desc, cent_href);
                 break;
             case R.id.three_image_right_iv://右边
-                forShowAds(right_desc, right_desc);
+                forShowAds(right_desc, right_href);
                 break;
             case R.id.ads_by_limit_buy_iv://限量购
                 forShowAds(limit_desc, limit_href);
@@ -769,7 +758,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(group_buy, "goodsList")) {
             groupList = GsonUtil.getObjectList(group_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter8 = new AllGvLvAdapter(getActivity(), groupList, 8);
+            AllGvLvAdapter allGvLvAdapter8 = new AllGvLvAdapter(getActivity(), groupList, 8);
             group_shopping_lv.setAdapter(allGvLvAdapter8);
         }
     }
@@ -791,7 +780,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(house_buy, "goodsList")) {
             houseList = GsonUtil.getObjectList(house_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter7 = new AllGvLvAdapter(getActivity(), houseList, 7);
+            AllGvLvAdapter allGvLvAdapter7 = new AllGvLvAdapter(getActivity(), houseList, 7);
             house_gv.setAdapter(allGvLvAdapter7);
         }
     }
@@ -813,7 +802,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (ToolKit.isList(car_buy, "goodsList")) {
             L.e("=====汽车购=====", car_buy.get("goodsList"));
             carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), carList, 6);
+            AllGvLvAdapter allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), carList, 6);
             car_gv.setAdapter(allGvLvAdapter6);
         }
     }
@@ -835,10 +824,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(one_buy, "goodsList")) {
 
-            L.e("=====数据=====",one_buy.get("goodsList"));
+            L.e("=====数据=====", one_buy.get("goodsList"));
 
             one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
+            AllGvLvAdapter allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
             good_luck_gv.setAdapter(allGvLvAdapter5);
         }
     }
@@ -860,7 +849,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(auction, "goodsList")) {
             auctionList = GsonUtil.getObjectList(auction.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter4 = new AllGvLvAdapter(getActivity(), auctionList, 4);
+            AllGvLvAdapter allGvLvAdapter4 = new AllGvLvAdapter(getActivity(), auctionList, 4);
             auction_gv.setAdapter(allGvLvAdapter4);
         }
     }
@@ -882,7 +871,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(country, "goodsList")) {
             countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
+            AllGvLvAdapter allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
             import_gv.setAdapter(allGvLvAdapter3);
         }
     }
@@ -904,7 +893,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(pre_buy, "goodsList")) {
             per = GsonUtil.getObjectList(pre_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter2 = new AllGvLvAdapter(getActivity(), per, 2);
+            AllGvLvAdapter allGvLvAdapter2 = new AllGvLvAdapter(getActivity(), per, 2);
             limit_shopping_gv.setAdapter(allGvLvAdapter2);
         }
     }
@@ -930,7 +919,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(ticket_buy, "goodsList")) {
             ticket = GsonUtil.getObjectList(ticket_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), ticket, 1);
+            AllGvLvAdapter allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), ticket, 1);
             ticket_gv.setAdapter(allGvLvAdapter1);
         }
     }
@@ -957,7 +946,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(limit_buy, "goodsList")) {
             limit = GsonUtil.getObjectList(limit_buy.get("goodsList"), AllGoodsBean.class);
-            allGvLvAdapter = new AllGvLvAdapter(getActivity(), limit, 0);
+            AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), limit, 0);
             purchase_gv.setAdapter(allGvLvAdapter);
         }
     }
