@@ -458,6 +458,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private String share_content = "";
     private String share_img = "";
     private String share_url = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+    private String easemob_account = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -551,9 +554,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
                 goods_title_collect_tv.setText("已收藏");
             }
-//            "share_url": "http://wjyp.txunda.com",//分享链接
-//                    "share_img": "分享图片",
-//                    "share_content": "分享内容"
 
             share_url = data.get("share_url");
             share_img = data.get("share_img");
@@ -677,7 +677,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             // 商家信息
             Map<String, String> mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
             mell_id = mInfo.get("merchant_id");
-            Glide.with(this).load(mInfo.get("logo"))
+
+            easemob_account = mInfo.get("easemob_account");
+            merchant_name = mInfo.get("merchant_name");
+            merchant_logo = mInfo.get("logo");
+            Glide.with(this).load(merchant_logo)
                     .override(logo_size, logo_size)
                     .placeholder(R.drawable.ic_default)
                     .centerCrop()
@@ -792,7 +796,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv,R.id.relation_mell_tv})
+            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv, R.id.relation_mell_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -822,7 +826,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
+                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -871,13 +875,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.relation_mell_tv:// 客服
-                bundle = new Bundle();
-                bundle.putString("userId","150469168337711");// 对方环信账号
-                bundle.putString("userHead","http://www.txunda.com/wjyp");// 对方头像
-                bundle.putString("userName","聊天测试");// 对方昵称
-                bundle.putString("myName",application.getUserInfo().get("nickname"));// 我的昵称
-                bundle.putString("myHead",application.getUserInfo().get("head_pic"));// 我的头像
-                startActivity(ChatActivity.class,bundle);
+                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
         }
     }

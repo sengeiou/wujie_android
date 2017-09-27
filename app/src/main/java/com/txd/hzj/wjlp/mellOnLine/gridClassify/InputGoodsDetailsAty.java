@@ -400,6 +400,10 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private String share_img = "";
     private String share_content = "";
 
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -410,8 +414,6 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(bannerSize, bannerSize);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
-        TextViewChange();
 
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
@@ -627,7 +629,12 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
      */
     private void forMellInfo(Map<String, String> mInfo) {
         mell_id = mInfo.get("merchant_id");
-        Glide.with(this).load(mInfo.get("logo"))
+
+        easemob_account = mInfo.get("easemob_account");
+        merchant_logo = mInfo.get("logo");
+        merchant_name = mInfo.get("merchant_name");
+
+        Glide.with(this).load(merchant_logo)
                 .override(logo_size, logo_size)
                 .placeholder(R.drawable.ic_default)
                 .centerCrop()
@@ -684,36 +691,35 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     /**
      * 修改TextView的样式
      */
-    private void TextViewChange() {
-
-        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
-        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "积分10.23", 3, Color.parseColor("#FD8214"));
-
-        String tariff = "进口税 50元/件";
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
-                ContextCompat.getColor(this, R.color.theme_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FD8214"));
-
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
-        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
-
-
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
-        ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务4.8", 2, Color.parseColor("#FD8214"));
-    }
-
+//    private void TextViewChange() {
+//
+//        ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
+//        old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+//                "积分10.23", 3, Color.parseColor("#FD8214"));
+//
+//        String tariff = "进口税 50元/件";
+//        ChangeTextViewStyle.getInstance().forTextColor(this, goods_tariff_tv, tariff, 4, tariff.length() - 3,
+//                ContextCompat.getColor(this, R.color.theme_color));
+//        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+//                "运费10元", 2, Color.parseColor("#FD8214"));
+//
+//        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
+//        ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
+//
+//
+//        ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
+//                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
+//        ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
+//                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
+//        ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
+//                "物流服务4.8", 2, Color.parseColor("#FD8214"));
+//    }
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.details_into_mell_tv, R.id.to_user_cart_layout, R.id.to_main_layout})
+            R.id.details_into_mell_tv, R.id.to_user_cart_layout, R.id.to_main_layout, R.id.to_chat_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -741,7 +747,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_img, share_content,goods_id,"1");
+                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -787,6 +793,9 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 break;
             case R.id.to_main_layout:// 首页
                 backMain(0);
+                break;
+            case R.id.to_chat_tv:// 首页
+                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
         }
     }

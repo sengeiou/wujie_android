@@ -1,5 +1,9 @@
 [
     {
+        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxxhdpi-v4\\ic_default.png",
+        "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xxxhdpi-v4\\ic_default.png"
+    },
+    {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_48dp.png",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\c044915988bcbae5bf516452d3b30a8131213686\\output\\res\\drawable-xxxhdpi-v4\\abc_ic_star_half_black_48dp.png"
     },

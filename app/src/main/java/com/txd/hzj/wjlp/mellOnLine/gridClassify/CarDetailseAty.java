@@ -226,6 +226,10 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     private String share_img;
     private String share_content;
 
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -246,7 +250,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv,
-            R.id.be_back_top_iv, R.id.to_user_cart_layout, R.id.be_back_main_tv})
+            R.id.be_back_top_iv, R.id.to_user_cart_layout, R.id.be_back_main_tv, R.id.to_chat_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -285,6 +289,9 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 break;
             case R.id.be_back_main_tv:// 首页
                 backMain(0);
+                break;
+            case R.id.to_chat_tv:// 首页
+                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
         }
     }
@@ -376,6 +383,11 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("carInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+            easemob_account = data.get("easemob_account");
+            merchant_logo = data.get("server_head_pic");
+            merchant_name = data.get("server_name");
+
             String cart_num = data.get("cart_num");
             if (!cart_num.equals("0")) {
                 user_cart_num_tv.setText(cart_num);

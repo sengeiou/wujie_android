@@ -34,8 +34,6 @@ public final class R {
         public static int slide_in_from_right=0x7f040016;
         public static int slide_out_to_left=0x7f040017;
         public static int slide_out_to_right=0x7f040018;
-        public static int voice_from_icon=0x7f040019;
-        public static int voice_to_icon=0x7f04001a;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -2259,8 +2257,11 @@ containing a value of this type.
         public static int ee_7=0x7f0200f6;
         public static int ee_8=0x7f0200f7;
         public static int ee_9=0x7f0200f8;
-        public static int ic_launcher=0x7f0200f9;
-        public static int notification_template_icon_bg=0x7f0200fa;
+        public static int ic_default=0x7f0200f9;
+        public static int ic_launcher=0x7f0200fa;
+        public static int notification_template_icon_bg=0x7f0200fd;
+        public static int voice_from_icon=0x7f0200fb;
+        public static int voice_to_icon=0x7f0200fc;
     }
     public static final class id {
         public static int action0=0x7f0a00ba;

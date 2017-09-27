@@ -91,7 +91,7 @@ public class MessageAty extends BaseAty {
     @ViewInject(R.id.message_content_tv3)
     private TextView anno_message_content_tv;
 
-    private List<Map<String,String>> fridends;
+    private List<Map<String, String>> fridends;
 
     private String account_json = "";
 
@@ -105,13 +105,8 @@ public class MessageAty extends BaseAty {
         dialogue_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                bundle = new Bundle();
-                bundle.putString("userId",fridends.get(i).get("easemob_account"));// 对方环信账号
-                bundle.putString("userHead",fridends.get(i).get("head_pic"));// 对方头像
-                bundle.putString("userName",fridends.get(i).get("nickname"));// 对方昵称
-                bundle.putString("myName",application.getUserInfo().get("nickname"));// 我的昵称
-                bundle.putString("myHead",application.getUserInfo().get("head_pic"));// 我的头像
-                startActivity(ChatActivity.class,bundle);
+                toChat(fridends.get(i).get("easemob_account"), fridends.get(i).get("head_pic"),
+                        fridends.get(i).get("nickname"));
             }
         });
     }

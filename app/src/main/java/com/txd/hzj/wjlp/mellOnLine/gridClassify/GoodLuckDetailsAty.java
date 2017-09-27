@@ -19,6 +19,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -54,6 +55,7 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -428,6 +430,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String share_content = "";
     private String share_img = "";
 
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -456,7 +462,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layout,
-            R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv})
+            R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -485,7 +491,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
+                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -536,6 +542,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 Bundle bundle = new Bundle();
                 bundle.putString("mell_id", mell_id);
                 startActivity(MellInfoAty.class, bundle);
+                break;
+            case R.id.to_chat_tv:// 进店逛逛
+                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
         }
     }
@@ -645,7 +654,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("groupBuyInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             GroupBuyInfo groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GroupBuyInfo.class);
             image = groupBuyInfo.getData().getGoods_banner();
             share_url = groupBuyInfo.getData().getShare_url();
@@ -681,6 +692,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
             // 店铺信息
             MellInfoBean mellInfoBean = groupBuyInfo.getData().getMInfo();
+            easemob_account = mellInfoBean.getEasemob_account();
+            merchant_logo = mellInfoBean.getLogo();
+            merchant_name = mellInfoBean.getMerchant_name();
             mell_id = mellInfoBean.getMerchant_id();
             Glide.with(this).load(mellInfoBean.getLogo())
                     .override(size, size)

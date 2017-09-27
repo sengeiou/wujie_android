@@ -16,6 +16,7 @@ import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
@@ -126,6 +127,10 @@ public abstract class BaseAty extends BaseActivity {
      * @param v View
      */
     public void toMessage(View v) {
+        if(!Config.isLogin()){
+            toLogin();
+            return;
+        }
         startActivity(MessageAty.class, null);
     }
 
@@ -151,6 +156,10 @@ public abstract class BaseAty extends BaseActivity {
      * 分享
      */
     public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
+        if(Config.isLogin()){
+            toLogin();
+            return;
+        }
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("pic", pic);
@@ -221,5 +230,25 @@ public abstract class BaseAty extends BaseActivity {
         startActivity(MainAty.class, bundle);
     }
 
+    /**
+     * 聊天界面
+     *
+     * @param easemob_account 环信账号
+     * @param head_pic        头像
+     * @param nickname        昵称
+     */
+    public void toChat(String easemob_account, String head_pic, String nickname) {
+        if(!Config.isLogin()){
+            toLogin();
+            return;
+        }
+        bundle = new Bundle();
+        bundle.putString("userId", easemob_account);// 对方环信账号
+        bundle.putString("userHead", head_pic);// 对方头像
+        bundle.putString("userName", nickname);// 对方昵称
+        bundle.putString("myName", application.getUserInfo().get("nickname"));// 我的昵称
+        bundle.putString("myHead", application.getUserInfo().get("head_pic"));// 我的头像
+        startActivity(ChatActivity.class, bundle);
+    }
 
 }

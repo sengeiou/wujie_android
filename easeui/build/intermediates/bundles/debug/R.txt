@@ -23,8 +23,6 @@ int anim slide_in_from_left 0x7f040015
 int anim slide_in_from_right 0x7f040016
 int anim slide_out_to_left 0x7f040017
 int anim slide_out_to_right 0x7f040018
-int anim voice_from_icon 0x7f040019
-int anim voice_to_icon 0x7f04001a
 int attr actionBarDivider 0x7f010040
 int attr actionBarItemBackground 0x7f010041
 int attr actionBarPopupTheme 0x7f01003a
@@ -753,8 +751,11 @@ int drawable ee_6 0x7f0200f5
 int drawable ee_7 0x7f0200f6
 int drawable ee_8 0x7f0200f7
 int drawable ee_9 0x7f0200f8
-int drawable ic_launcher 0x7f0200f9
-int drawable notification_template_icon_bg 0x7f0200fa
+int drawable ic_default 0x7f0200f9
+int drawable ic_launcher 0x7f0200fa
+int drawable notification_template_icon_bg 0x7f0200fd
+int drawable voice_from_icon 0x7f0200fb
+int drawable voice_to_icon 0x7f0200fc
 int id action0 0x7f0a00ba
 int id action_bar 0x7f0a0049
 int id action_bar_activity_content 0x7f0a0000

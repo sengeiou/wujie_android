@@ -32,6 +32,7 @@ public class MellInfoBean {
     private String goods_score;
     private String merchant_score;
     private String shipping_score;
+    private String easemob_account;
 
     public String getMerchant_id() {
         return merchant_id;
@@ -105,6 +106,14 @@ public class MellInfoBean {
         this.shipping_score = shipping_score;
     }
 
+    public String getEasemob_account() {
+        return easemob_account;
+    }
+
+    public void setEasemob_account(String easemob_account) {
+        this.easemob_account = easemob_account;
+    }
+
     @Override
     public String toString() {
         return "MellInfoBean{" +
@@ -117,6 +126,7 @@ public class MellInfoBean {
                 ", goods_score='" + goods_score + '\'' +
                 ", merchant_score='" + merchant_score + '\'' +
                 ", shipping_score='" + shipping_score + '\'' +
+                ", easemob_account='" + easemob_account + '\'' +
                 '}';
     }
 }
