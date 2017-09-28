@@ -25,8 +25,10 @@ public class AddressPst extends BasePresenter {
      *
      * @param p 分页
      */
-    public void addressList(int p) {
-        baseView.showDialog();
+    public void addressList(int p, boolean show) {
+        if (show) {
+            baseView.showDialog();
+        }
         address.addressList(p, baseView);
     }
 

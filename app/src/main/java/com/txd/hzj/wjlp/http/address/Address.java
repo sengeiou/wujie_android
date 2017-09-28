@@ -149,7 +149,7 @@ public class Address {
     void delAddress(String address_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("address", address_id);
+        params.addBodyParameter("address_id", address_id);
         apiTool2.postApi(url + "delAddress", params, baseView);
     }
 

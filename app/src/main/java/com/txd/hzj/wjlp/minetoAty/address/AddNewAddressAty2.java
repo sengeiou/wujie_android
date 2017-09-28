@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.google.gson.Gson;
@@ -145,12 +145,10 @@ public class AddNewAddressAty2 extends BaseAty {
                 }
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
-
+                hideKeyBoard();
                 if (isLoaded) {
                     ShowPickerView();
                 }
-
-//                startActivityForResult(AreaSelectAty.class, null, 101);
                 break;
             case R.id.street_layout:// 解析数据，弹出城市选择弹窗
                 if (area_id.equals("")) {
@@ -189,12 +187,12 @@ public class AddNewAddressAty2 extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         if (requestUrl.contains("getOneAddress")) {// 获取一条地址
             super.onComplete(requestUrl, jsonStr);
-            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
-            Map<String, String> data = (Map<String, String>) map.get("data");
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
             address_name_tv.setText(data.get("receiver"));
             address_phone_tv.setText(data.get("phone"));
-            zore_tv.setText(data.get("province" + data.get("city") + data.get("area")));
+            zore_tv.setText(data.get("province") + data.get("city") + data.get("area"));
             street_tv.setText(data.get("street"));
             province_id = data.get("province_id");
             city_id = data.get("city_id");
