@@ -2,14 +2,23 @@ package com.txd.hzj.wjlp.mellOffLine;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,14 +37,12 @@ public class MellAptitudeAty extends BaseAty {
     private MerchantPst merchantPst;
     private String merchant_id = "";
 
-    @ViewInject(R.id.id_card_tv)
-    private TextView id_card_tv;
-    @ViewInject(R.id.food_license_tv)
-    private TextView food_license_tv;
-    @ViewInject(R.id.business_license_tv)
-    private TextView business_license_tv;
-    @ViewInject(R.id.health_license_tv)
-    private TextView health_license_tv;
+    @ViewInject(R.id.aptitude_lv)
+    private ListView aptitude_lv;
+
+    private List<Map<String, String>> list;
+
+    private ApAdapter apAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +60,7 @@ public class MellAptitudeAty extends BaseAty {
     protected void initialized() {
         merchant_id = getIntent().getStringExtra("merchant_id");
         merchantPst = new MerchantPst(this);
+        list = new ArrayList<>();
     }
 
     @Override
@@ -65,35 +73,65 @@ public class MellAptitudeAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("license")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            if (data.get("id_card").equals("1")) {
-                id_card_tv.setText("已认证");
-                id_card_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            } else {
-                id_card_tv.setText("未认证");
-                id_card_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
-            }
-            if (data.get("food_license").equals("1")) {
-                food_license_tv.setText("已认证");
-                food_license_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            } else {
-                food_license_tv.setText("未认证");
-                food_license_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
-            }
-            if (data.get("business_license").equals("1")) {
-                business_license_tv.setText("已认证");
-                business_license_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            } else {
-                business_license_tv.setText("未认证");
-                business_license_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
-            }
-            if (data.get("health_license").equals("1")) {
-                health_license_tv.setText("已认证");
-                health_license_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            } else {
-                health_license_tv.setText("未认证");
-                health_license_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
+            if (ToolKit.isList(map, "data")) {
+                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                apAdapter = new ApAdapter();
+                aptitude_lv.setAdapter(apAdapter);
             }
         }
     }
+
+    private class ApAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Map<String, String> getItem(int i) {
+            return list.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ApVH apVH;
+            Map<String, String> map = getItem(i);
+            if (view == null) {
+                view = LayoutInflater.from(MellAptitudeAty.this).inflate(R.layout.item_aptitude_lv, viewGroup, false);
+                apVH = new ApVH();
+                ViewUtils.inject(apVH, view);
+                view.setTag(apVH);
+            } else {
+                apVH = (ApVH) view.getTag();
+            }
+
+            if (map.get("status").equals("1")) {
+                apVH.business_license_tv.setText("已认证");
+                apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
+                        R.color.theme_color));
+            } else {
+                apVH.business_license_tv.setText("未认证");
+                apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
+                        R.color.gray_text_color));
+            }
+            apVH.apt_type_name_tv.setText(map.get("name"));
+            return view;
+        }
+
+        class ApVH {
+            @ViewInject(R.id.apt_type_name_tv)
+            private TextView apt_type_name_tv;
+
+            @ViewInject(R.id.business_license_tv)
+            private TextView business_license_tv;
+        }
+
+    }
+
 }
