@@ -239,7 +239,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
                     Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
                     CommentBean.BodyBean bodyBean = comment.getBody();
                     if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                        Glide.with(this).load(bodyBean.getHead_pic())
                                 .override(head_size, head_size)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)

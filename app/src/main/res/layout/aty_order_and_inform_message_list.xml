@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:divider="@color/bg_color"
         android:dividerHeight="8dp"
-        android:padding="16dp"
         android:scrollbars="none"
         app:ptrMode="both"/>
 

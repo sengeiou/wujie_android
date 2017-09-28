@@ -8,16 +8,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
- * @author 刘座山
- * @mail 361186482@qq.com
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj整理，原作者刘座山
+ * 日期：2017/9/28 0028
+ * 时间：下午 4:05
+ * 描述：361186482@qq.com(原作者邮箱)
+ * ===============Txunda===============
  */
 public class Bazi {
     public static final String tg[] = {"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"};
     public static final String dz[] = {"子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"};
     final static SolarTerm st = new SolarTerm();
-    public static DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+    public static DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.CHINA);
     private Date date = new Date();
 
     public Date getDate() {
@@ -30,9 +35,6 @@ public class Bazi {
 
     int year = 0, yue = 0;
 
-    public Bazi() {
-    }
-
     public Bazi(Date d0) {
         date = d0;
     }
@@ -40,7 +42,7 @@ public class Bazi {
     /**
      * 获取农历年 需要另加1900
      */
-    public int getyear() throws Exception {
+    private int getyear() throws Exception {
 
         Date lichun = st.JQtest(date.getYear() - 3)[21];
         long lctime = lichun.getTime();
@@ -56,7 +58,7 @@ public class Bazi {
     /**
      * 取节气
      */
-    public static Date[] getjq(int year) throws Exception {
+    static Date[] getjq(int year) throws Exception {
         Date d0[] = new Date[24];
         for (int i = 0; i < 24; i++) {
 
@@ -72,7 +74,7 @@ public class Bazi {
     /**
      * 获取农历月份 0~11
      */
-    public int getyue() throws Exception {
+    private int getyue() throws Exception {
         int yue = 0;
         int year = getyear() + 1900;
         Date d0[] = getjq(year);
@@ -90,24 +92,22 @@ public class Bazi {
     /**
      * 求年天干数
      */
-    public int getyeartg() throws Exception {
-        int ts = (getyear() + 6) % 10;
-        return ts;
+    private int getyeartg() throws Exception {
+        return (getyear() + 6) % 10;
     }
 
     /**
      * 求年地支数
      */
-    public int getyeardz() throws Exception {
-        int dz = getyear() % 12;
-        return dz;
+    private int getyeardz() throws Exception {
+        return getyear() % 12;
     }
 
     /**
      * 获取年干支
      */
-    public String getyeargz() throws Exception {
-        String bz = "";
+    private String getyeargz() throws Exception {
+        String bz;
         bz = tg[getyeartg()] + dz[getyeardz()];
         return bz;
     }
@@ -115,24 +115,22 @@ public class Bazi {
     /**
      * 求月天干数
      */
-    public int getyuetg() throws Exception {
-        int ts = (getyear() * 12 + getyue() + 4) % 10;
-        return ts;
+    private int getyuetg() throws Exception {
+        return (getyear() * 12 + getyue() + 4) % 10;
     }
 
     /**
      * 求月地支数
      */
-    public int getyuedz() throws Exception {
-        int dz = (getyear() * 12 + getyue() + 2) % 12;
-        return dz;
+    private int getyuedz() throws Exception {
+        return (getyear() * 12 + getyue() + 2) % 12;
     }
 
     /**
      * 获取月八字
      */
-    public String getyuegz() throws Exception {
-        String gz = "";
+    private String getyuegz() throws Exception {
+        String gz;
         gz = tg[getyuetg()] + dz[getyuedz()];
         return gz;
     }
@@ -140,7 +138,7 @@ public class Bazi {
     /**
      * 日期距离1900天数
      */
-    public int tian2(Date date) throws Exception {
+    private int tian2(Date date) throws Exception {
         Date date2 = df.parse("1900-1-1 00:00:00");
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -154,7 +152,7 @@ public class Bazi {
     /**
      * 求日天干数
      */
-    public int getritg() throws Exception {
+    private int getritg() throws Exception {
         int shi = date.getHours();
         if (shi == 23) {
             Calendar calendar = new GregorianCalendar();
@@ -162,14 +160,13 @@ public class Bazi {
             calendar.add(calendar.DATE, 1);//把日期往后增加一天.整数往后推,负数往前移动
             date = calendar.getTime();   //这个时间就是日期往后推一天的结果
         }
-        int ts = tian2(date) % 10;
-        return ts;
+        return tian2(date) % 10;
     }
 
     /**
      * 求日地支数
      */
-    public int getridz() throws Exception {
+    private int getridz() throws Exception {
         int shi = date.getHours();
         if (shi == 23) {
             Calendar calendar = new GregorianCalendar();
@@ -177,15 +174,14 @@ public class Bazi {
             calendar.add(calendar.DATE, 1);//把日期往后增加一天.整数往后推,负数往前移动
             date = calendar.getTime();   //这个时间就是日期往后推一天的结果
         }
-        int dz = (tian2(date) + 10) % 12;
-        return dz;
+        return (tian2(date) + 10) % 12;
     }
 
     /**
      * 获取日八字
      */
-    public String getrigz() throws Exception {
-        String gz = "";
+    private String getrigz() throws Exception {
+        String gz;
         gz = tg[getritg()] + dz[getridz()];
         return gz;
     }
@@ -193,28 +189,26 @@ public class Bazi {
     /**
      * 求时间天干数
      */
-    public int getshitg() throws Exception {
+    private int getshitg() throws Exception {
         int shi = date.getHours();
         shi = (shi + 1) / 2;
-        int ts = (shi + tian2(date) * 12) % 10;
-        return ts;
+        return (shi + tian2(date) * 12) % 10;
     }
 
     /**
      * 求时间地支数
      */
-    public int getshidz() throws Exception {
+    private int getshidz() throws Exception {
         int shi = date.getHours();
         shi = (shi + 1) / 2;
-        int ds = shi % 12;
-        return ds;
+        return shi % 12;
     }
 
     /**
      * 获取时间八字
      */
-    public String getshigz() throws Exception {
-        String gz = "";
+    private String getshigz() throws Exception {
+        String gz;
         gz = tg[getshitg()] + dz[getshidz()];
         return gz;
     }
@@ -223,8 +217,7 @@ public class Bazi {
      * 获取完整八字
      */
     public String getbazi() throws Exception {
-        String bz = getyeargz() + getyuegz() + getrigz() + getshigz();
-        return bz;
+        return getyeargz() + "年" + getyuegz() + "月" + getrigz() + "日" + getshigz() + "时";
     }
 
     /**

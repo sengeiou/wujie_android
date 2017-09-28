@@ -85,6 +85,10 @@ public class CommentBean {
          */
         private String user_head_pic;
         /**
+         * 用户头像
+         */
+        private String head_pic;
+        /**
          * 商品属性
          */
         private String good_attr;
@@ -197,6 +201,14 @@ public class CommentBean {
             this.user_head_pic = user_head_pic;
         }
 
+        public String getHead_pic() {
+            return head_pic;
+        }
+
+        public void setHead_pic(String head_pic) {
+            this.head_pic = head_pic;
+        }
+
         public String getGood_attr() {
             return good_attr;
         }
@@ -282,6 +294,7 @@ public class CommentBean {
                     ", order_goods_id='" + order_goods_id + '\'' +
                     ", create_time='" + create_time + '\'' +
                     ", user_head_pic='" + user_head_pic + '\'' +
+                    ", head_pic='" + head_pic + '\'' +
                     ", good_attr='" + good_attr + '\'' +
                     ", goods_num='" + goods_num + '\'' +
                     ", shop_price='" + shop_price + '\'' +

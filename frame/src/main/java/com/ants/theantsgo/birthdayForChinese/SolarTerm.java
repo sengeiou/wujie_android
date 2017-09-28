@@ -3,10 +3,15 @@ package com.ants.theantsgo.birthdayForChinese;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
- * @author lxslove
- * @mail moodlxs@163.com
+ * ===============Txunda===============
+ * 作者：DUKE_HwangZj 整理 lxslove写作
+ * 日期：2017/9/28 0028
+ * 时间：下午 4:19
+ * 描述：lxslove邮箱moodlxs@163.com
+ * ===============Txunda===============
  */
 public class SolarTerm {
     // ========角度变换===============
@@ -735,16 +740,18 @@ public class SolarTerm {
     }
 
     //==================节气计算===================
-    public static final String jqB[] = { //节气表
-            "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露",
-            "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰"};
+    private static final String jqB[] = { //节气表
+            "春分", "清明", "谷雨", "立夏", "小满", "芒种",
+            "夏至", "小暑", "大暑", "立秋", "处暑", "白露",
+            "秋分", "寒露", "霜降", "立冬", "小雪", "大雪",
+            "冬至", "小寒", "大寒", "立春", "雨水", "惊蛰"};
 
-    public Date[] JQtest(int y) throws Exception { // 节气使计算范例,y是年分,这是个测试函数
-        Date[] date = new Date[24];
+    Date[] JQtest(int y) throws Exception { // 节气使计算范例,y是年分,这是个测试函数
+        Date[] date = new Date[24];// 二十四节气对应的日期
         // String []jieqi =new String [24];
         double jd = 365.2422 * (y - 2000), q;
         String s1;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.CHINA);
         for (int i = 0; i < 24; i++) {
             q = jiaoCal(jd + i * 15.2, i * 15, 0);
             q = q + J2000 + (double) 8 / 24; // 计算第i个节气(i=0是春风),结果转为北京时
@@ -764,7 +771,7 @@ public class SolarTerm {
         // String []jieqi =new String [24];
         double jd = 365.2422 * (y - 2000), q;
         String s1;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss",Locale.CHINA);
         for (int i = 0; i < 24; i++) {
             q = jiaoCal(jd + i * 15.2, i * 15, 0);
             q = q + J2000 + (double) 8 / 24; // 计算第i个节气(i=0是春风),结果转为北京时
@@ -879,11 +886,11 @@ public class SolarTerm {
         System.out.println(out);
     }
 
-    public static void main(String[] argv) throws Exception {
-        SolarTerm st = new SolarTerm();
-        for (int i = 0; i < 24; i++)
-            System.out.println(jqB[i] + Bazi.df.format(Bazi.getjq(2015)[i]));
-        //st.paiYue(2500);
-
-    }
+    // 此main函数只是对 二十四节 气对应的日期做输出
+//    public static void main(String[] argv) throws Exception {
+//        SolarTerm st = new SolarTerm();
+//        for (int i = 0; i < 24; i++)
+//            System.out.println(jqB[i] + Bazi.df.format(Bazi.getjq(2015)[i]));
+//        //st.paiYue(2500);
+//    }
 }
