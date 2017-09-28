@@ -41,7 +41,7 @@
                 android:id="@+id/mell_offline_rb"
                 style="@style/main_tab_bottom_style"
                 android:drawableTop="@drawable/selector_tab_main_bottom_mell_offline"
-                android:text="线下点铺"
+                android:text="线下店铺"
                 />
 
             <RadioButton

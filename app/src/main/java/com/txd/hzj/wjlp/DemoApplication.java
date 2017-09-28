@@ -24,6 +24,10 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.baidu.mapapi.SDKInitializer;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.baidu.LocationService;
 
 import java.util.ArrayList;
@@ -42,7 +46,7 @@ import cn.sharesdk.framework.ShareSDK;
  * 描述：环信Demo的Application
  * ===============Txunda===============
  */
-public class DemoApplication extends WeApplication {
+public class DemoApplication extends WeApplication implements EMMessageListener {
 
     public static Context applicationContext;
     private static DemoApplication instance;
@@ -63,6 +67,8 @@ public class DemoApplication extends WeApplication {
     // 用户信息
     private Map<String, String> locationInfo;
 
+    private ChatListener chatListener;
+
     @Override
     public void onCreate() {
         L.isDebug = BuildConfig.DEBUG;
@@ -81,6 +87,7 @@ public class DemoApplication extends WeApplication {
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
+        EMClient.getInstance().chatManager().addMessageListener(this);
     }
 
     /**
@@ -130,5 +137,39 @@ public class DemoApplication extends WeApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    @Override
+    public void onMessageReceived(List<EMMessage> list) {
+        if (chatListener != null)
+            chatListener.onMessageReceived(list);
+    }
+
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> list) {
+        if (chatListener != null)
+            chatListener.onMessageReceived(list);
+    }
+
+    @Override
+    public void onMessageRead(List<EMMessage> list) {
+        if (chatListener != null)
+            chatListener.onMessageRead(list);
+    }
+
+    @Override
+    public void onMessageDelivered(List<EMMessage> list) {
+        if (chatListener != null)
+            chatListener.onMessageDelivered(list);
+    }
+
+    @Override
+    public void onMessageChanged(EMMessage emMessage, Object o) {
+        if (chatListener != null)
+            chatListener.onMessageChanged(emMessage, o);
+    }
+
+    public void setChatListener(ChatListener chatListener) {
+        this.chatListener = chatListener;
     }
 }

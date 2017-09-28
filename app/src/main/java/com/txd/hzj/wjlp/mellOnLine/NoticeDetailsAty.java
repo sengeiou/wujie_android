@@ -1,22 +1,18 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
 import android.annotation.SuppressLint;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.academy.AcademyPst;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
+import com.txd.hzj.wjlp.http.message.UserMessagePst;
 
 import java.util.Map;
 
@@ -50,6 +46,8 @@ public class NoticeDetailsAty extends BaseAty {
 
     private ArticlePst articlePst;
 
+    private UserMessagePst userMessagePst;
+
     private String url = "http://game.huanqiu.com/gamenews/2017-07/10942781.html";
 
     @Override
@@ -58,7 +56,8 @@ public class NoticeDetailsAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         if (0 == from) {
             titlt_conter_tv.setText("详情");
-            initWebView();
+            String id = getIntent().getStringExtra("id");
+            userMessagePst.announceInfo(id);
         } else if (1 == from) {
             titlt_conter_tv.setText("无界头条");
             initWebView();
@@ -108,6 +107,7 @@ public class NoticeDetailsAty extends BaseAty {
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
         articlePst = new ArticlePst(this);
+        userMessagePst = new UserMessagePst(this);
     }
 
     @Override
@@ -118,10 +118,15 @@ public class NoticeDetailsAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("getArticle")) {
-            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
-            Map<String, String> data = (Map<String, String>) map.get("data");
-            notice_details_wv.loadDataWithBaseURL(null, data.get("content"), "text/html", "utf-8", null);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
+            return;
+        }
+        if(requestUrl.contains("announceInfo")){
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
         }
     }
 }

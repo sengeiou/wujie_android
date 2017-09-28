@@ -80,10 +80,6 @@
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_7.png"
     },
     {
-        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatfrom_bg_normal.9.png",
-        "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatfrom_bg_normal.9.png"
-    },
-    {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_15.png",
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_15.png"
     },
@@ -134,10 +130,6 @@
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_conversation_normal.png",
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_conversation_normal.png"
-    },
-    {
-        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatto_bg_normal.9.png",
-        "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatto_bg_normal.9.png"
     },
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_video_recorder_start_btn.png",
@@ -298,10 +290,6 @@
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_input_bar_bg_active.9.png",
         "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_input_bar_bg_active.9.png"
-    },
-    {
-        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatto_bg_focused.9.png",
-        "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatto_bg_focused.9.png"
     },
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_textfield_search_activated_mtrl_alpha.9.png",
@@ -626,10 +614,6 @@
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\c044915988bcbae5bf516452d3b30a8131213686\\output\\res\\drawable-hdpi-v4\\abc_btn_switch_to_on_mtrl_00001.9.png"
-    },
-    {
-        "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatfrom_bg_focused.9.png",
-        "source": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatfrom_bg_focused.9.png"
     },
     {
         "merged": "D:\\AndroidProgectForStudio\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_switch_track_mtrl_alpha.9.png",

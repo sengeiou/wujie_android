@@ -19,6 +19,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Map;
 
@@ -186,7 +187,8 @@ public class BindAccountAty extends BaseAty {
             Config.setLoginState(true);
 
             PreferencesUtils.putString(this, "token", data.get("token"));
-
+            // 友盟统计
+            MobclickAgent.onProfileSignIn(data.get("user_id"));
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             if (0 == skip_type) {

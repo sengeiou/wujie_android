@@ -10,12 +10,13 @@ import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
-import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
@@ -25,7 +26,9 @@ import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.umeng.analytics.MobclickAgent;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +40,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 
-public abstract class BaseAty extends BaseActivity {
+public abstract class BaseAty extends BaseActivity implements ChatListener {
     private Bundle bundle;
 
     /**
@@ -73,7 +76,7 @@ public abstract class BaseAty extends BaseActivity {
     /**
      * 修改StatusBar颜色
      *
-     * @param vid
+     * @param vid 标题栏
      */
     public void showStatusBar(int vid) {
         String name = android.os.Build.BRAND;
@@ -127,7 +130,7 @@ public abstract class BaseAty extends BaseActivity {
      * @param v View
      */
     public void toMessage(View v) {
-        if(!Config.isLogin()){
+        if (!Config.isLogin()) {
             toLogin();
             return;
         }
@@ -156,7 +159,7 @@ public abstract class BaseAty extends BaseActivity {
      * 分享
      */
     public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
-        if(Config.isLogin()){
+        if (Config.isLogin()) {
             toLogin();
             return;
         }
@@ -181,6 +184,11 @@ public abstract class BaseAty extends BaseActivity {
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
         if (error.get("code").equals("-1")) {// 登录失效
+            // 清除掉本地的token
+            PreferencesUtils.putString(this, "token", "");
+            // 友盟统计signout统计
+            MobclickAgent.onProfileSignOff();
+            Config.setLoginState(false);
             // 环信退出登录
             DemoHelper.getInstance().logout(true, new EMCallBack() {
 
@@ -191,7 +199,6 @@ public abstract class BaseAty extends BaseActivity {
                         @Override
                         public void run() {
                             toLogin();
-                            Config.setLoginState(false);
                         }
                     });
                 }
@@ -222,7 +229,7 @@ public abstract class BaseAty extends BaseActivity {
     /**
      * 回到主页
      *
-     * @param index
+     * @param index 第几页，从0开始
      */
     public void backMain(int index) {
         bundle = new Bundle();
@@ -238,8 +245,13 @@ public abstract class BaseAty extends BaseActivity {
      * @param nickname        昵称
      */
     public void toChat(String easemob_account, String head_pic, String nickname) {
-        if(!Config.isLogin()){
+        if (!Config.isLogin()) {
             toLogin();
+            return;
+        }
+        String my_easemob_account = application.getUserInfo().get("easemob_account");
+        if (easemob_account.equals(my_easemob_account)) {
+            showErrorTip("自己不能和自己聊天");
             return;
         }
         bundle = new Bundle();
@@ -251,4 +263,42 @@ public abstract class BaseAty extends BaseActivity {
         startActivity(ChatActivity.class, bundle);
     }
 
+
+    @Override
+    public void onMessageReceived(List<EMMessage> var1) {
+    }
+
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> var1) {
+
+    }
+
+    @Override
+    public void onMessageRead(List<EMMessage> var1) {
+
+    }
+
+    @Override
+    public void onMessageDelivered(List<EMMessage> var1) {
+
+    }
+
+    @Override
+    public void onMessageChanged(EMMessage var1, Object var2) {
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+        MobclickAgent.onPause(this);
+    }
 }

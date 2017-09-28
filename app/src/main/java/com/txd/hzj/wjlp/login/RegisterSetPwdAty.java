@@ -16,6 +16,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Map;
 
@@ -143,7 +144,8 @@ public class RegisterSetPwdAty extends BaseAty {
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
-
+            // 友盟统计
+            MobclickAgent.onProfileSignIn(data.get("user_id"));
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             finish();
         }

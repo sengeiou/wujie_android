@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.login;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CodeCountDown;
 
 /**

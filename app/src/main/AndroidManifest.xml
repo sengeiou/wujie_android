@@ -65,7 +65,7 @@
 
     <!-- 环信权限 ↑ -->
     <application
-        android:name=".DemoApplication"
+        android:name="com.txd.hzj.wjlp.DemoApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -101,7 +101,7 @@
         </service>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="bqmR8e2lhFYp0d7oUnbPmB3iOwFiePb9"/>
+            android:value="b1UKT3NV7vCEPFWojdSA3DESUIuixKgK"/>
         <!-- 百度地图 End-->
         <activity android:name=".MainAty">
             <intent-filter>
@@ -345,6 +345,12 @@
         <!--环信查看图片-->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
 
+        <activity android:name=".huanxin.ui.ContextMenuActivity"/>
+        <activity android:name=".huanxin.ui.UserProfileActivity"/>
+        <activity android:name=".huanxin.ui.PickAtUserActivity"/>
+        <activity android:name=".huanxin.ui.ForwardMessageActivity"/>
+        <activity android:name=".huanxin.ui.PickContactNoCheckboxActivity"/>
+
         <!--重置支付密码-->
         <activity android:name=".minetoAty.setting.ResetPayPwdAty"/>
         <!--第二步-->
@@ -563,7 +569,14 @@
 
         <!--ShareSDK相关-->
 
-
+        <!-- 友盟统计 -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59cc4d7e8f4a9d2d43000015"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng"/>
+        <!-- 友盟统计 -->
     </application>
 
 </manifest>

@@ -16,9 +16,14 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.user.UserPst;
@@ -46,6 +51,7 @@ import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -187,7 +193,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     @ViewInject(R.id.ticket_num_tv)
     private TextView ticket_num_tv;
-    private String nickname = "";
     private String head_pic = "";
 
 
@@ -195,9 +200,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private TextView message_num_tv;
     private String invite_code = "";
     private String server_line = "";
-
-    public MineFgt() {
-    }
+    /**
+     * 系统消息数量
+     */
+    private int new_msg = 0;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -228,7 +234,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             uset_other_info_layout.setVisibility(View.VISIBLE);
             center_tv.setText("积分");
         }
-
     }
 
     @Override
@@ -386,7 +391,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             Map<String, String> data = (Map<String, String>) map.get("data");
 
             // 昵称
-            nickname = data.get("nickname");
+            String nickname = data.get("nickname");
             // 头像
             head_pic = data.get("head_pic");
             // 邀请码
@@ -413,22 +418,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             ticket_num_tv.setText(data.get("ticket_num"));
 
             server_line = data.get("server_line");
+            // 消息
+            forMsg(data);
 
-            // 消息数量
-            int new_msg = 0;
-            try {
-                new_msg = Integer.parseInt(data.get("new_msg"));
-                if (new_msg <= 0) {
-                    new_msg = 0;
-                    message_num_tv.setVisibility(View.GONE);
-                } else {
-                    message_num_tv.setVisibility(View.VISIBLE);
-                    message_num_tv.setText(String.valueOf(new_msg));
-                }
-            } catch (NumberFormatException e) {
-                new_msg = 0;
-                message_num_tv.setVisibility(View.GONE);
-            }
+
             mine_member_type_tv.setText(data.get("rank"));
             grade_of_member_tv.setText(data.get("level"));
             Glide.with(getActivity()).load(data.get("level_icon"))
@@ -443,6 +436,28 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .fitCenter()
                     .override(icon_size, icon_size)
                     .into(level_icon_iv);
+        }
+    }
+
+    private void forMsg(Map<String, String> data) {
+        // 消息数量
+        try {
+            new_msg = Integer.parseInt(data.get("new_msg"));
+
+        } catch (NumberFormatException e) {
+            new_msg = 0;
+        }
+        int hxNum = (new MainAty()).getUnreadMsgCountTotal();
+        showOrHindMsg(hxNum);
+    }
+
+    public void showOrHindMsg(int hxNum) {
+        int all = new_msg + hxNum;
+        if (all <= 0) {
+            message_num_tv.setVisibility(View.GONE);
+        } else {
+            message_num_tv.setVisibility(View.VISIBLE);
+            message_num_tv.setText(String.valueOf(all));
         }
     }
 

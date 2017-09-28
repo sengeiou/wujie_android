@@ -317,6 +317,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private List<AllGoodsBean> one_buyList;
     private List<AllGoodsBean> carList;
     private List<AllGoodsBean> houseList;
+    /**
+     * 系统消息数量
+     */
+    private int msg_tip = 0;
 
 
     @Override
@@ -359,7 +363,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
         goodsAdapter();
-
     }
 
     private void forMenu() {
@@ -958,19 +961,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     private void forMes(Map<String, String> data) {
         // 消息数量
-        int msg_tip;
         try {
             msg_tip = Integer.parseInt(data.get("msg_tip"));
         } catch (NumberFormatException e) {
             msg_tip = 0;
         }
-        msg_tip += (new MainAty()).getUnreadMsgCountTotal();
+
+        int hxNum = (new MainAty()).getUnreadMsgCountTotal();
+
+        showOrHindNum(hxNum);
+    }
+
+    public void showOrHindNum(int hxNum) {
+        int all = msg_tip + hxNum;
         // 根据数量设置消息数量气泡是否显示
-        if (msg_tip <= 0) {
+        if (all <= 0) {
             message_num_tv.setVisibility(View.GONE);
         } else {
             message_num_tv.setVisibility(View.VISIBLE);
-            message_num_tv.setText(String.valueOf(msg_tip));
+            message_num_tv.setText(String.valueOf(all));
         }
     }
 

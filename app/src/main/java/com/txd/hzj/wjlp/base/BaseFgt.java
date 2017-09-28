@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.base;
 
-import android.graphics.Color;
 import android.os.Build;
 
 import com.ants.theantsgo.base.BaseFragment;
-import com.ants.theantsgo.systemBarUtil.FlymeOSStatusBarFontUtils;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
-import com.txd.hzj.wjlp.R;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * ===============Txunda===============
@@ -39,5 +37,15 @@ public abstract class BaseFgt extends BaseFragment {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
 }

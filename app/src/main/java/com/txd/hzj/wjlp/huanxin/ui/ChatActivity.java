@@ -2,8 +2,8 @@ package com.txd.hzj.wjlp.huanxin.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import com.hyphenate.easeui.ui.EaseChatFragment;
+
+import com.txd.hzj.wjlp.base.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;

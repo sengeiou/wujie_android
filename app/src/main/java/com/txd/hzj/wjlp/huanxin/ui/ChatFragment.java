@@ -16,16 +16,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Toast;
 
-import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
-import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.hyphenate.easeui.ui.EaseChatFragment.EaseChatFragmentHelper;
+import com.txd.hzj.wjlp.base.EaseChatFragment;
+import com.txd.hzj.wjlp.base.EaseChatFragment.EaseChatFragmentHelper;
 import com.hyphenate.easeui.widget.chatrow.EaseChatRow;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
 import com.hyphenate.easeui.widget.emojicon.EaseEmojiconMenu;
@@ -34,7 +31,6 @@ import com.hyphenate.util.PathUtil;
 import com.txd.hzj.wjlp.Constant;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
-import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.huanxin.domain.EmojiconExampleGroupData;
 import com.txd.hzj.wjlp.huanxin.domain.RobotUser;
 
@@ -212,9 +208,9 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public void onAvatarClick(String username) {
         //handling when user click avatar
-//        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-//        intent.putExtra("username", username);
-//        startActivity(intent);
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 
     @Override

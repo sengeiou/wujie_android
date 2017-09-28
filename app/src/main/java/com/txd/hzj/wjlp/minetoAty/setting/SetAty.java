@@ -20,6 +20,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.RealnameAty;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.Map;
 import java.util.Timer;
@@ -150,6 +151,8 @@ public class SetAty extends BaseAty {
                                 }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
+                                // 友盟统计signout统计
+                                MobclickAgent.onProfileSignOff();
                                 logout();
                                 break;
                             case MikyouCommonDialog.NO:

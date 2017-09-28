@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/hd_be_back_top_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/icon_be_back_top"
-        android:visibility="gone"/>
-
     <com.txd.hzj.wjlp.view.ObservableScrollView
 
         android:id="@+id/scrollView"
@@ -159,4 +150,13 @@
             <include layout="@layout/aty_estimate_layout"/>
         </LinearLayout>
     </com.txd.hzj.wjlp.view.ObservableScrollView>
+
+    <ImageView
+        android:id="@+id/hd_be_back_top_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_be_back_top"
+        android:visibility="gone"/>
 </FrameLayout>

@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.util.HashMap;
@@ -263,6 +264,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
 
+            // 友盟统计
+            MobclickAgent.onProfileSignIn(data.get("user_id"));
+
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             if (0 == skip_type) {
@@ -288,6 +292,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 application.setUserInfo(data);
                 Config.setLoginState(true);
                 PreferencesUtils.putString(this, "token", data.get("token"));
+                // 友盟统计
+                MobclickAgent.onProfileSignIn(data.get("user_id"));
                 // 环信登录
                 registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
                 if (0 == skip_type) {

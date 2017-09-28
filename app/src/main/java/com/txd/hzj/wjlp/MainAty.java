@@ -177,6 +177,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
         locationService.start();// 定位SDK
 
+        DemoApplication.getInstance().setChatListener(this);
     }
 
     @Override
@@ -717,13 +718,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      */
     public void updateUnreadLabel() {
         int count = getUnreadMsgCountTotal();
-
-//        if (count > 0) {// 显示消息数量TextView
-//            unreadLabel.setText(String.valueOf(count));
-//            unreadLabel.setVisibility(View.VISIBLE);
-//        } else {
-//            unreadLabel.setVisibility(View.INVISIBLE);
-//        }
     }
 
 
@@ -1069,4 +1063,26 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
 
     };
+
+    @Override
+    public void onMessageReceived(List<EMMessage> var1) {
+        super.onMessageReceived(var1);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                L.e("=====主页=====","回调");
+                if(0 == page_index){
+                    ((MellonLineFgt) fragments.get(0)).showOrHindNum(getUnreadMsgCountTotal());
+                    return;
+                }
+                if(1 == page_index){
+//                    ((MellOffLineFgt) fragments.get(1)).showOrHindNum(getUnreadMsgCountTotal());
+                    return;
+                }
+                if(3 == page_index){
+                    ((MineFgt) fragments.get(3)).showOrHindMsg(getUnreadMsgCountTotal());
+                }
+            }
+        });
+    }
 }
