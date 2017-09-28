@@ -80,4 +80,6 @@ dependencies {
     compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
     testCompile 'junit:junit:4.12'
     compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/jcore-android-1.1.7.jar')
+    compile files('libs/jpush-android-3.0.9.jar')
 }

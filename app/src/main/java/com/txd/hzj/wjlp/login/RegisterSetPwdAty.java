@@ -16,6 +16,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.Map;
@@ -146,6 +147,10 @@ public class RegisterSetPwdAty extends BaseAty {
             PreferencesUtils.putString(this, "token", data.get("token"));
             // 友盟统计
             MobclickAgent.onProfileSignIn(data.get("user_id"));
+            // 极光设置Tag或者别名
+            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+            // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             finish();
         }

@@ -18,6 +18,7 @@ import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
+import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
@@ -184,6 +185,9 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
         if (error.get("code").equals("-1")) {// 登录失效
+            // 删除极光推送之前设置好的Tag或Alias
+            JpushSetTagAndAlias.getInstance().delAlias(getApplicationContext());
+            JpushSetTagAndAlias.getInstance().delTag(getApplicationContext());
             // 清除掉本地的token
             PreferencesUtils.putString(this, "token", "");
             // 友盟统计signout统计

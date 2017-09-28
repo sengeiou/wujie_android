@@ -19,6 +19,7 @@ import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.minetoAty.RealnameAty;
 import com.umeng.analytics.MobclickAgent;
 
@@ -108,7 +109,7 @@ public class SetAty extends BaseAty {
             case R.id.rel_editpaypassword:// 修改支付密码
                 bundle = new Bundle();
                 bundle.putString("is_pay_password", is_pay_password);
-                bundle.putString("phone",phone);
+                bundle.putString("phone", phone);
                 startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证
@@ -153,6 +154,10 @@ public class SetAty extends BaseAty {
                                 PreferencesUtils.putString(SetAty.this, "token", "");
                                 // 友盟统计signout统计
                                 MobclickAgent.onProfileSignOff();
+                                // 删除极光推送之前设置好的Tag或Alias
+                                JpushSetTagAndAlias.getInstance().delAlias(getApplicationContext());
+                                JpushSetTagAndAlias.getInstance().delTag(getApplicationContext());
+
                                 logout();
                                 break;
                             case MikyouCommonDialog.NO:

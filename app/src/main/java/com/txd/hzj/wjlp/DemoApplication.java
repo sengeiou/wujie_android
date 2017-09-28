@@ -36,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 
 /**
@@ -79,6 +80,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         DemoHelper.getInstance().init(applicationContext);
         //初始化ShareSDK
         ShareSDK.initSDK(getApplicationContext(), "20e25f8941c82");
+        // 极光推送初始化
+        JPushInterface.init(this);
 
         /*
          * 初始化定位sdk，建议在Application中创建

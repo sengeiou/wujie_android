@@ -55,6 +55,7 @@ import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.huanxin.db.InviteMessgeDao;
 import com.txd.hzj.wjlp.huanxin.db.UserDao;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
+import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.login.LoginAty;
 import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
@@ -178,6 +179,14 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         locationService.start();// 定位SDK
 
         DemoApplication.getInstance().setChatListener(this);
+
+        // 极光设置Tag或者别名
+        if (Config.isLogin()) {
+            L.e("=====token=====",Config.getToken());
+            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+        }
+
     }
 
     @Override
@@ -921,11 +930,13 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     .send();
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
     }
+
     private PermissionListener listener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {
@@ -1070,16 +1081,16 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                L.e("=====主页=====","回调");
-                if(0 == page_index){
+                L.e("=====主页=====", "回调");
+                if (0 == page_index) {
                     ((MellonLineFgt) fragments.get(0)).showOrHindNum(getUnreadMsgCountTotal());
                     return;
                 }
-                if(1 == page_index){
+                if (1 == page_index) {
 //                    ((MellOffLineFgt) fragments.get(1)).showOrHindNum(getUnreadMsgCountTotal());
                     return;
                 }
-                if(3 == page_index){
+                if (3 == page_index) {
                     ((MineFgt) fragments.get(3)).showOrHindMsg(getUnreadMsgCountTotal());
                 }
             }
