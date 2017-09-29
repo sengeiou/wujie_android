@@ -90,7 +90,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         //向用户展示信息前的准备工作在这个方法中处理
         preliminary();
         // 清掉图片缓存
-        GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
+//        GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
         if (changeStatusBar) {
             ImmersionBar.with(this).init();
         }

@@ -326,7 +326,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private int head_size = 0;
     @ViewInject(R.id.goods_brief_tv)
     private WebView goods_brief_tv;
-    @ViewInject(R.id.goods_brief_tv)
+    @ViewInject(R.id.goods_desc_wv)
     private WebView goods_desc_wv;
 
     @ViewInject(R.id.ticket_goods_tv)

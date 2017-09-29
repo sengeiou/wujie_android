@@ -1,13 +1,11 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,7 +40,6 @@ import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.MellCouponDialog;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAndAdsAdapter;
-import com.txd.hzj.wjlp.view.UPMarqueeView;
 
 import java.util.ArrayList;
 import java.util.List;
