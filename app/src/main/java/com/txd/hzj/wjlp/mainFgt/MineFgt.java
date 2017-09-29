@@ -16,13 +16,9 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -51,7 +47,6 @@ import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
-import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -242,7 +237,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv})
+            R.id.mell_goods_list_tv,R.id.grade_for_app_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -354,6 +349,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 break;
             case R.id.mell_goods_list_tv:// 商品列表
                 startActivity(MellGoodsListAty.class, null);
+                break;
+            case R.id.grade_for_app_tv:// 评分鼓励
+
+                Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
         }
     }
