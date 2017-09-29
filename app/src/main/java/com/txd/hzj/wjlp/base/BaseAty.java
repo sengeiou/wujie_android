@@ -15,6 +15,7 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
@@ -297,6 +298,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         super.onResume();
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
         MobclickAgent.onResume(this);
+        DemoApplication.getInstance().setChatListener(this);
     }
 
     @Override
@@ -304,5 +306,11 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        DemoApplication.getInstance().removeLisetener();
     }
 }

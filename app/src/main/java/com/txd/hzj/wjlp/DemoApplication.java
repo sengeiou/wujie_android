@@ -175,4 +175,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void setChatListener(ChatListener chatListener) {
         this.chatListener = chatListener;
     }
+    public void removeLisetener(){
+        EMClient.getInstance().chatManager().removeMessageListener(this);
+    }
 }

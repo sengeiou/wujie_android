@@ -40,7 +40,6 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.Poi;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.hyphenate.EMContactListener;
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMMultiDeviceListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -178,8 +177,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
         locationService.start();// 定位SDK
 
-        DemoApplication.getInstance().setChatListener(this);
-
         // 极光设置Tag或者别名
         if (Config.isLogin()) {
             L.e("=====token=====",Config.getToken());
@@ -258,7 +255,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         DemoHelper sdkHelper = DemoHelper.getInstance();
         sdkHelper.pushActivity(this);
 
-        EMClient.getInstance().chatManager().addMessageListener(messageListener);
+//        EMClient.getInstance().chatManager().addMessageListener(messageListener);
+
+//        DemoApplication.getInstance().setChatListener(this);
+
         // 前一次若没定位成功则再次定位，否则再次不定位。。。。。161标识定位成功，162标识对应so包导入出错
         String locType = StringUtils.nullStrToEmpty(DemoApplication.getInstance().getLocInfo().get("locType"));
         if (!locType.equals("161")) {
@@ -594,6 +594,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         return reid;
     }
 
+    /**
+     * 环信联系人监听
+     */
     private class MyContactListener implements EMContactListener {
         @Override
         public void onContactAdded(String username) {
@@ -654,71 +657,18 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * 获取全部新朋友数量(通讯录)
      */
     public void updateUnreadAddressLable() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                int count = getUnreadAddressCountTotal();
-//                if (count > 0) {
-//                    unreadAddressLable.setVisibility(View.VISIBLE);
-//                } else {
-//                    unreadAddressLable.setVisibility(View.INVISIBLE);
-//                }
-            }
-        });
+        int count = getUnreadAddressCountTotal();
     }
 
     /**
      * get unread event notification count, including application, accepted, etc
-     *
+     * 获取未读的事件通知数，包括应用程序、消息等
      * @return int
      */
     public int getUnreadAddressCountTotal() {
         int unreadAddressCountTotal;
         unreadAddressCountTotal = inviteMessgeDao.getUnreadMessagesCount();
         return unreadAddressCountTotal;
-    }
-
-
-    EMMessageListener messageListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> messages) {
-            // notify new message
-            for (EMMessage message : messages) {
-                DemoHelper.getInstance().getNotifier().onNewMsg(message);
-            }
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> messages) {
-            refreshUIWithMessage();
-        }
-
-        @Override
-        public void onMessageRead(List<EMMessage> messages) {
-        }
-
-        @Override
-        public void onMessageDelivered(List<EMMessage> message) {
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage message, Object change) {
-        }
-    };
-
-    /**
-     * 刷新UI
-     */
-    private void refreshUIWithMessage() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                // refresh unread count
-                // 刷新未读消息数量
-                updateUnreadLabel();
-
-            }
-        });
     }
 
     /**
@@ -750,10 +700,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void onStop() {
-        EMClient.getInstance().chatManager().removeMessageListener(messageListener);
         DemoHelper sdkHelper = DemoHelper.getInstance();
         sdkHelper.popActivity(this);
-
         super.onStop();
     }
 
@@ -932,7 +880,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
     }
@@ -1076,11 +1024,18 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     };
 
     @Override
-    public void onMessageReceived(List<EMMessage> var1) {
-        super.onMessageReceived(var1);
+    public void onMessageReceived(List<EMMessage> messages) {
+        super.onMessageReceived(messages);
+
+        for (EMMessage message : messages) {
+            DemoHelper.getInstance().getNotifier().onNewMsg(message);
+        }
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                // 刷新未读消息数量
+                updateUnreadLabel();
                 L.e("=====主页=====", "回调");
                 if (0 == page_index) {
                     ((MellonLineFgt) fragments.get(0)).showOrHindNum(getUnreadMsgCountTotal());
@@ -1095,5 +1050,28 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 }
             }
         });
+    }
+    @Override
+    public void onCmdMessageReceived(List<EMMessage> messages) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                // refresh unread count
+                // 刷新未读消息数量
+                updateUnreadLabel();
+
+            }
+        });
+    }
+
+    @Override
+    public void onMessageRead(List<EMMessage> messages) {
+    }
+
+    @Override
+    public void onMessageDelivered(List<EMMessage> message) {
+    }
+
+    @Override
+    public void onMessageChanged(EMMessage message, Object change) {
     }
 }
