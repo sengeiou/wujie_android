@@ -2,14 +2,12 @@ package com.txd.hzj.wjlp.minetoAty.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -92,14 +90,37 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 查看线下充值详情----隐藏
             recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
             if (1 == type) {// 购物券
+
+                // 获得，消费积分(转出，消费)
+                if (stickyExampleModel.getAct_type().equals("2")) {
+                    recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+                } else {
+                    recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
+                }
+
                 int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
                         (), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (2 == type) {
+                // 获得，消费积分
+                if (stickyExampleModel.getAct_type().equals("1") || stickyExampleModel.getAct_type().equals("3")) {
+                    recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+                } else {
+                    recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
+                }
+
                 int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
                         (), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (3 == type) {
+
+                // 获得，消费积分(转出，消费)
+                if (stickyExampleModel.getAct_type().equals("6") || stickyExampleModel.getAct_type().equals("3")) {
+                    recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+                } else {
+                    recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
+                }
+
                 int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type
                         (), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
@@ -131,6 +152,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @ViewInject(R.id.t_details_logo_tv)
         ImageView t_details_logo_tv;
+
+        @ViewInject(R.id.t_details_price_tv)
+        TextView t_details_price_tv;
 
         RecyclerViewHolder(View itemView) {
             super(itemView);

@@ -74,6 +74,17 @@ public class TransferAccountsAty extends BaseAty {
                 return false;
             }
         });
+
+        opposite_side_ev.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    code = opposite_side_ev.getText().toString();
+                    balancePst.getUserName(code);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -125,6 +136,14 @@ public class TransferAccountsAty extends BaseAty {
         if (requestUrl.contains("changeMoney")) {// 转账成功
             showRightTip(map != null ? map.get("message") : "转账申请中，请耐心等待");
             finish();
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (requestUrl.contains("getUserName")) {
+            opposite_real_name_tv.setText("");
         }
     }
 }

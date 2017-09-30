@@ -251,6 +251,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         if (requestUrl.contains("vouchersLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
+                    list.clear();
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");
@@ -321,6 +322,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         if (requestUrl.contains("userDevelopLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
+                    list.clear();
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");// 悬浮部分
@@ -368,6 +370,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         if (requestUrl.contains("integralLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
+                    list.clear();
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");// 悬浮部分
@@ -417,6 +420,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         if (requestUrl.contains("balanceLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
+                    list.clear();
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");// 悬浮部分

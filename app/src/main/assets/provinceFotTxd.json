@@ -3229,82 +3229,162 @@
       },
       {
         "city_id": "121",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3409",
+            "districtName": "三亚市"
+          }
+        ],
         "cityName": "三亚"
       },
       {
         "city_id": "122",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3410",
+            "districtName": "白沙市"
+          }
+        ],
         "cityName": "白沙"
       },
       {
         "city_id": "123",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3411",
+            "districtName": "保亭市"
+          }
+        ],
         "cityName": "保亭"
       },
       {
         "city_id": "124",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3412",
+            "districtName": "昌江市"
+          }
+        ],
         "cityName": "昌江"
       },
       {
         "city_id": "125",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3413",
+            "districtName": "澄迈县"
+          }
+        ],
         "cityName": "澄迈县"
       },
       {
         "city_id": "126",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3414",
+            "districtName": "定安县"
+          }
+        ],
         "cityName": "定安县"
       },
       {
         "city_id": "127",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3415",
+            "districtName": "东方市"
+          }
+        ],
         "cityName": "东方"
       },
       {
         "city_id": "128",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3416",
+            "districtName": "乐东市"
+          }
+        ],
         "cityName": "乐东"
       },
       {
         "city_id": "129",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3417",
+            "districtName": "临高县"
+          }
+        ],
         "cityName": "临高县"
       },
       {
         "city_id": "130",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3418",
+            "districtName": "陵水市"
+          }
+        ],
         "cityName": "陵水"
       },
       {
         "city_id": "131",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3419",
+            "districtName": "琼海市"
+          }
+        ],
         "cityName": "琼海"
       },
       {
         "city_id": "132",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3420",
+            "districtName": "琼中市"
+          }
+        ],
         "cityName": "琼中"
       },
       {
         "city_id": "133",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3421",
+            "districtName": "屯昌县"
+          }
+        ],
         "cityName": "屯昌县"
       },
       {
         "city_id": "134",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3422",
+            "districtName": "万宁市"
+          }
+        ],
         "cityName": "万宁"
       },
       {
         "city_id": "135",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3423",
+            "districtName": "文昌市"
+          }
+        ],
         "cityName": "文昌"
       },
       {
         "city_id": "136",
-        "districts": [],
+        "districts": [
+          {
+            "district_id": "3424",
+            "districtName": "五指山市"
+          }
+        ],
         "cityName": "五指山"
       },
       {
@@ -12056,11 +12136,6 @@
           }
         ],
         "cityName": "泸州"
-      },
-      {
-        "city_id": "3409",
-        "districts": [],
-        "cityName": "峨眉山"
       }
     ],
     "provinceName": "四川",
