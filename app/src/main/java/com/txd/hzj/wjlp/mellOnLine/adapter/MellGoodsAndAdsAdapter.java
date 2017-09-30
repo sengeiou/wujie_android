@@ -11,10 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
@@ -22,7 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -58,9 +55,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
 
     private int pic_size = 0;
 
-    private MellGAVH holder;
     private int group_size = 0;
-    private LinearLayout.LayoutParams params;
 
     public MellGoodsAndAdsAdapter(Context context, int type, List<Map<String, String>> list) {
         this.type = type;
@@ -96,6 +91,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup parent) {
         Map<String, String> map = getItem(i);
+        MellGAVH holder;
         if (view == null) {
             switch (type) {
                 case 0:// 店铺首页
@@ -114,6 +110,9 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 case 5:// 竞拍汇
                     view = mInflayer.inflate(R.layout.item_auction_gv, parent, false);
                     break;
+                case 6:// 一元夺宝(积分夺宝)
+                    view = mInflayer.inflate(R.layout.item_good_luck_gv, parent, false);
+                    break;
             }
             holder = new MellGAVH();
             ViewUtils.inject(holder, view);
@@ -123,7 +122,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         }
         switch (type) {
             case 0:// TODO==========店铺首页==========
-                params = new LinearLayout.LayoutParams(adsSize, adsSize1);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adsSize, adsSize1);
                 holder.image_for_mell.setLayoutParams(params);
 
                 Glide.with(context).load(map.get("ads_pic"))
@@ -159,8 +158,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.now_price_tv.setText("￥" + map.get("shop_price"));
                 // 积分
                 holder.integral_tv.setText(map.get("integral"));
-                // 价格
-                holder.peice_tv.setText("￥" + map.get("shop_price"));
                 break;
             case 3:// TODO==========拼团购==========
                 // 商品名
@@ -184,7 +181,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 if (ToolKit.isList(map, "append_person")) {
                     List<Map<String, String>> append_person = JSONUtils.parseKeyAndValueToMapList(
                             map.get("append_person"));
-                    L.e("=====拼团=====", append_person.toString());
                     if (!ListUtils.isEmpty(append_person)) {
                         if (append_person.size() >= 2) {
                             holder.sec_head_iv.setVisibility(View.VISIBLE);
@@ -243,17 +239,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     holder.goods_num_already_tv.setText("已预购" + map.get("sell_num") + "件");
                     holder.peice_tv.setText("￥" + map.get("deposit"));
                 }
-                break;
-            case 5:// TODO==========竞拍汇
-                holder.peice_tv.setText("￥" + map.get("start_price"));
-                break;
-            case 6:// TODO==========一元夺宝
-                // 价格
-                holder.peice_tv.setText(map.get("integral"));
-                break;
-        }
-        if (0 != type) {
-            if (1 != type && 3 != type) {
+
                 Glide.with(context).load(map.get("country_logo"))
                         .override(logo_size1, logo_size2)
                         .error(R.drawable.ic_default)
@@ -262,6 +248,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .fitCenter()
                         .dontAnimate()
                         .into(holder.item_country_logo_tv);
+
                 Glide.with(context).load(map.get("goods_img"))
                         .override(pic_size, pic_size)
                         .error(R.drawable.ic_default)
@@ -269,11 +256,73 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .centerCrop()
                         .into(holder.goods_pic_iv);
+
                 // 商品名称
                 holder.item_goods_name_tv.setText(map.get("goods_name"));
                 // 积分
                 holder.get_integral_tv.setText(map.get("integral"));
-            }
+                break;
+            case 5:// TODO==========竞拍汇
+                Glide.with(context).load(map.get("country_logo"))
+                        .override(logo_size1, logo_size2)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .fitCenter()
+                        .dontAnimate()
+                        .into(holder.item_country_logo_tv);
+
+                Glide.with(context).load(map.get("goods_img"))
+                        .override(pic_size, pic_size)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .centerCrop()
+                        .into(holder.goods_pic_iv);
+
+                holder.peice_tv.setText("￥" + map.get("start_price"));
+                // 商品名称
+                holder.item_goods_name_tv.setText(map.get("goods_name"));
+                // 积分
+                holder.get_integral_tv.setText(map.get("integral"));
+
+                break;
+            case 6:// TODO==========一元夺宝
+                Glide.with(context).load(map.get("country_logo"))
+                        .override(logo_size1, logo_size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .dontAnimate()
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(holder.logo_for_country_iv);
+
+                Glide.with(context).load(map.get("goods_img"))
+                        .override(pic_size, pic_size)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .centerCrop()
+                        .into(holder.goods_pic_iv);
+
+                holder.one_buy_goods_name_tv.setText(map.get("goods_name"));
+
+                holder.goods_integral_tv.setText(map.get("integral"));
+
+                /*
+                * 是否可以使用优惠券
+                * 使用多少优惠
+                */
+                if (map.get("ticket_buy_id").equals("0")) {
+                    holder.use_coupon_tv.setText("不可使用优惠券");
+                    holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%优惠券");
+                    holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+                break;
+        }
+        if (0 != type) {
             if (map.get("ticket_buy_id").equals("0")) {
                 holder.use_coupon_tv.setText("不可使用购物券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
@@ -339,8 +388,8 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.add_num_tv.setText(String.valueOf(max - sell_num));
             }
         }
-        // 商家广告,拼团购没有原价
-        if (0 != type && 3 != type) {
+        // 商家广告,拼团购,一元夺宝(积分夺宝)没有原价
+        if (0 != type && 3 != type && 6 != type) {
             // 原价
             holder.older_price_tv.setText("￥" + map.get("market_price"));
             holder.older_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -357,18 +406,11 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         private ShapedImageView image_for_mell;
 
 
-        // =========== 全部商品，热销商品，最近新上
-        @ViewInject(R.id.bottom_layout_for_goods)
-        private LinearLayout bottom_layout_for_goods;
         /**
          * 原价
          */
         @ViewInject(R.id.older_price_tv)
         private TextView older_price_tv;
-
-        @ViewInject(R.id.coupon_layout)
-        private LinearLayout coupon_layout;
-
 
         /**
          * 倒计时(type=2,4,5)
@@ -464,8 +506,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         private TextView goods_name_tv;
         @ViewInject(R.id.goods_price_tv)
         private TextView goods_price_tv;
-        @ViewInject(R.id.group_totla_tv)
-        private TextView group_totla_tv;
         /**
          * 积分
          */
@@ -486,6 +526,18 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.group_already_tv)
         private TextView group_already_tv;
+
+        /**
+         * 一元夺宝 商品名称
+         */
+        @ViewInject(R.id.one_buy_goods_name_tv)
+        private TextView one_buy_goods_name_tv;
+        /**
+         * 一元夺宝 积分
+         */
+        @ViewInject(R.id.goods_integral_tv)
+        private TextView goods_integral_tv;
+
     }
 
 }
