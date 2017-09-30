@@ -192,12 +192,18 @@ public class OrderAndInformMessageListAty extends BaseAty {
             }
 
             mvh.msg_time_tv.setText(msg.get("create_time"));
-            mvh.item_message_content_tv.setText(msg.get("title"));
 
-            if (msg.get("status").equals("0")) {
+            if(2 == type){
+                mvh.item_message_content_tv.setText(msg.get("title"));
+            } else {
+                mvh.item_message_content_tv.setText(msg.get("content"));
+            }
+
+
+            if (msg.get("status").equals("0")) {// 未读
                 mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(OrderAndInformMessageListAty.this,
                         R.color.app_text_color));
-            } else {
+            } else {// 已读
                 mvh.item_message_content_tv.setTextColor(ContextCompat.getColor(OrderAndInformMessageListAty.this,
                         R.color.gray_text_color));
             }
