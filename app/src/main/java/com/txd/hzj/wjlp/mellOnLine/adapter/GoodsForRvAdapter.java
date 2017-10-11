@@ -173,11 +173,11 @@ public class GoodsForRvAdapter extends RecyclerView.Adapter<GoodsForRvAdapter.It
 
         // 是否可以使用优惠券，是用多少的优惠券
         if (bean.getTicket_buy_id().equals("0")) {
-            holder.use_coupon_tv.setText("不可使用购物券");
+            holder.use_coupon_tv.setText("不可使用代金券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-            holder.use_coupon_tv.setText("可使用" + bean.getTicket_buy_id() + "%购物券");
+            holder.use_coupon_tv.setText("可使用" + bean.getTicket_buy_id() + "%代金券");
         }
 
     }

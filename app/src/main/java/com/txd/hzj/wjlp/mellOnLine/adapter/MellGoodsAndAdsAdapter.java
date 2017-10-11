@@ -310,24 +310,24 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.goods_integral_tv.setText(map.get("integral"));
 
                 /*
-                * 是否可以使用优惠券
+                * 是否可以使用代金券
                 * 使用多少优惠
                 */
                 if (map.get("ticket_buy_id").equals("0")) {
-                    holder.use_coupon_tv.setText("不可使用优惠券");
+                    holder.use_coupon_tv.setText("不可使用代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%优惠券");
+                    holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
         }
         if (0 != type) {
             if (map.get("ticket_buy_id").equals("0")) {
-                holder.use_coupon_tv.setText("不可使用购物券");
+                holder.use_coupon_tv.setText("不可使用代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             } else {
-                holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "购物券");
+                holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
             }
         }
@@ -429,7 +429,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         @ViewInject(R.id.logo_for_country_iv)
         private ImageView logo_for_country_iv;
         /**
-         * 是否使用优惠券
+         * 是否使用代金券
          */
         @ViewInject(R.id.use_coupon_tv)
         private TextView use_coupon_tv;

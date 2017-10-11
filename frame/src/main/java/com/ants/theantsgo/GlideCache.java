@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
+import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.module.GlideModule;
@@ -32,11 +33,12 @@ public class GlideCache implements GlideModule {
         // 设置图片的显示格式ARGB_8888(指图片大小为32bit)
         builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
         String downloadDirectoryPath = Settings.cacheCompressPath;// 设置缓存路径
-        int cacheSize = 100 * 1000 * 1000;// 设置缓存的大小为100M
+        int cacheSize = 104857600;// 设置缓存的大小为100M(100*1024*1024)
         builder.setBitmapPool(new LruBitmapPool(memoryCacheSize));
 
         L.e("=====设置的缓存路径=====", downloadDirectoryPath);
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, downloadDirectoryPath, cacheSize));
+//        builder.setDiskCache(new DiskLruCacheFactory(downloadDirectoryPath, "glideCache", cacheSize));
     }
 
     @Override

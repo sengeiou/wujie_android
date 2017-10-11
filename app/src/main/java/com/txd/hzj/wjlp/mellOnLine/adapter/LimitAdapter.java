@@ -149,10 +149,10 @@ public class LimitAdapter extends BaseAdapter {
         lvh.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         if (auctionList.getTicket_buy_id().equals("0")) {
-            lvh.use_coupon_tv.setText("不可使用优惠券");
+            lvh.use_coupon_tv.setText("不可使用代金券");
             lvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
-            lvh.use_coupon_tv.setText("可用" + auctionList.getTicket_buy_discount() + "%的优惠券");
+            lvh.use_coupon_tv.setText("可用" + auctionList.getTicket_buy_discount() + "%的代金券");
         }
 
         if (0 == source) {

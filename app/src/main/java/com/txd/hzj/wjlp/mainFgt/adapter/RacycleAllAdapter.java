@@ -7,11 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
@@ -62,7 +60,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         this.inflater = LayoutInflater.from(context);
         goods_pic = ToolKit.dip2px(context, 180);
         logo_size1 = ToolKit.dip2px(context, 36);
-        logo_size2 = ToolKit.dip2px(context, 24);
+        logo_size2 = ToolKit.dip2px(context, 23);
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -113,11 +111,11 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.sold_num_tv.setVisibility(View.VISIBLE);
         if (cfGoodsList.getTicket_buy_id().equals("0")) {
-            holder.use_coupon_tv.setText("不可使用购物券");
+            holder.use_coupon_tv.setText("不可使用代金券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "购物券");
+            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "%代金券");
         }
 
         if (itemClickLitener != null) {
@@ -146,6 +144,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         Glide.with(context).load(cfGoodsList.getCountry_logo())
                 .centerCrop()
+                .override(logo_size1, logo_size2)
                 .placeholder(R.drawable.ic_default)
                 .error(R.id.ic_right_arrow)
                 .dontAnimate()

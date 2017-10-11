@@ -29,7 +29,6 @@ import com.ants.theantsgo.R;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.tips.ToastTip;
-import com.ants.theantsgo.tool.GlideCacheUtil;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 

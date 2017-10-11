@@ -82,7 +82,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.logo_for_cat_iv);
 
-        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%优惠券");
+        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%代金券");
         holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
 
         holder.car_distance_tv.setText(map.get("distance"));

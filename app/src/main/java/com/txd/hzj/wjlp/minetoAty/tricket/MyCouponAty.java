@@ -62,7 +62,7 @@ public class MyCouponAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("购物券");
+        titlt_conter_tv.setText("代金券");
         titlt_right_tv.setText("明细");
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));

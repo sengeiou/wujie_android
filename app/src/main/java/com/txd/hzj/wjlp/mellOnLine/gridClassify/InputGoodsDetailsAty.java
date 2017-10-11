@@ -342,12 +342,6 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private TextView onle_pro_title_tv;
 
     /**
-     * 评价商品布局
-     */
-    @ViewInject(R.id.goods_for_my_evaluste_layout)
-    private LinearLayout goods_for_my_evaluste_layout;
-
-    /**
      * 商品条数
      */
     @ViewInject(R.id.all_comment_num_tv)
@@ -595,7 +589,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         // 商品价格
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
         // 商品原价
-        old_price_tv.setText(goodsInfo.get("market_price"));
+        old_price_tv.setText("￥"+goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
@@ -614,6 +608,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 .override(cou_size, cou_size2)
                 .placeholder(R.drawable.ic_default)
                 .centerCrop()
+                .dontAnimate()
                 .error(R.drawable.ic_default)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(goods_cou_logo_iv);

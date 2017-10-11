@@ -597,7 +597,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
                 }
                 // 市场价(原价)
-                old_price_tv.setText(goodsInfo.get("market_price"));
+                old_price_tv.setText("￥"+goodsInfo.get("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 // 积分
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
-import com.ants.theantsgo.tool.GlideCacheUtil;
+import com.ants.theantsgo.tool.glide.GlideCacheUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;

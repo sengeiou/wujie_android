@@ -99,7 +99,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         if (1 == from) {
-            titlt_conter_tv.setText("购物券使用明细");
+            titlt_conter_tv.setText("代金券使用明细");
         } else if (2 == from) {
             titlt_conter_tv.setText("积分明细");
         } else if (3 == from) {

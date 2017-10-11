@@ -238,7 +238,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private int clickType = 0;
 
     /**
-     * 优惠券
+     * 代金券
      */
     @ViewInject(R.id.goods_trick_rv)
     private RecyclerView goods_trick_rv;
@@ -641,7 +641,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 promotion_layout.setVisibility(View.GONE);
             }
 
-            // 优惠券列表
+            // 代金券列表
             if (ToolKit.isList(data, "ticketList")) {
                 List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"),
                         TicketListBean.class);
@@ -737,7 +737,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         // 商品价格
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
         // 商品原价
-        old_price_tv.setText(goodsInfo.get("market_price"));
+        old_price_tv.setText("￥"+goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
@@ -751,7 +751,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
 
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));
-        ticket_goods_tv.setText("可使用" + goodsInfo.get("ticket_buy_discount") + "%优惠券");
+        ticket_goods_tv.setText("可使用" + goodsInfo.get("ticket_buy_discount") + "%代金券");
     }
 
     /**
@@ -817,7 +817,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 此处可以设置。。不呢点击
             show_or_hide_iv.setEnabled(false);
         }
-        L.e("=====优惠券=====", promotionBeen.toString());
+        L.e("=====代金券=====", promotionBeen.toString());
     }
 
     private void getHeight() {

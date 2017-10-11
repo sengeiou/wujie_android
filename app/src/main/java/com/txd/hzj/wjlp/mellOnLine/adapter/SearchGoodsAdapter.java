@@ -81,11 +81,11 @@ public class SearchGoodsAdapter extends BaseAdapter {
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.sold_num_tv.setVisibility(View.VISIBLE);
         if (cfGoodsList.getTicket_buy_id().equals("0")) {
-            holder.use_coupon_tv.setText("不可使用购物券");
+            holder.use_coupon_tv.setText("不可使用代金券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "购物券");
+            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "代金券");
         }
         Glide.with(context).load(cfGoodsList.getCountry_logo())
                 .centerCrop()

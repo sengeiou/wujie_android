@@ -107,7 +107,7 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
 
         holder.one_price_tv.setText(map.get("one_price") + "元/平");
 
-        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%购物券");
+        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%代金券");
 
         /**
          * 点击事件

@@ -1,10 +1,8 @@
-package com.ants.theantsgo.tool;
+package com.ants.theantsgo.tool.glide;
 
 import java.io.File;
 import java.math.BigDecimal;
 
-import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
