@@ -90,7 +90,11 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
-        EMClient.getInstance().chatManager().addMessageListener(this);
+        try{
+            EMClient.getInstance().chatManager().addMessageListener(this);
+        } catch (NullPointerException e ){
+            L.e("=====Application=====");
+        }
     }
 
     /**

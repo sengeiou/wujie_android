@@ -26,4 +26,17 @@ public class IndexPst extends BasePresenter {
         indexPage.index(baseView);
     }
 
+    // 头条列表
+    public void headLineList(int p, boolean show) {
+        if (show)
+            baseView.showDialog();
+        indexPage.headLineList(p, baseView);
+    }
+
+    // 头条信息
+    public void headInfo(String headlines_id) {
+        baseView.showDialog();
+        indexPage.headInfo(headlines_id, baseView);
+    }
+
 }

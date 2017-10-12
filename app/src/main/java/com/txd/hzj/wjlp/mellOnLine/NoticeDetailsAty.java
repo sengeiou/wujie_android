@@ -2,16 +2,22 @@ package com.txd.hzj.wjlp.mellOnLine;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
+import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 
 import java.util.Map;
@@ -50,21 +56,54 @@ public class NoticeDetailsAty extends BaseAty {
 
     private String url = "http://game.huanqiu.com/gamenews/2017-07/10942781.html";
 
+    private IndexPst indexPst;
+
+    @ViewInject(R.id.only_for_top_layout)
+    private LinearLayout only_for_top_layout;
+
+    /**
+     * 标题
+     */
+    @ViewInject(R.id.books_title_tv)
+    private TextView books_title_tv;
+    /**
+     * 来源
+     */
+    @ViewInject(R.id.books_source_tv)
+    private TextView books_source_tv;
+    /**
+     * 其他信息
+     */
+    @ViewInject(R.id.books_other_info_tv)
+    private TextView books_other_info_tv;
+
+    /**
+     * logo
+     */
+    @ViewInject(R.id.books_logo_iv)
+    private ImageView books_logo_iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         if (0 == from) {
+            only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("详情");
             String id = getIntent().getStringExtra("id");
             userMessagePst.announceInfo(id);
         } else if (1 == from) {
+            only_for_top_layout.setVisibility(View.VISIBLE);
             titlt_conter_tv.setText("无界头条");
-            initWebView();
+            String headlines_id = getIntent().getStringExtra("headlines_id");
+            indexPst.headInfo(headlines_id);
+//            initWebView();
         } else if (3 == from) {
+            only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("服务条款");
             articlePst.getArticle("1");
         } else if (2 == from) {
+            only_for_top_layout.setVisibility(View.GONE);
             String desc = getIntent().getStringExtra("desc");
             titlt_conter_tv.setText(desc);
             url = getIntent().getStringExtra("href");
@@ -108,6 +147,7 @@ public class NoticeDetailsAty extends BaseAty {
         from = getIntent().getIntExtra("from", 0);
         articlePst = new ArticlePst(this);
         userMessagePst = new UserMessagePst(this);
+        indexPst = new IndexPst(this);
     }
 
     @Override
@@ -121,12 +161,42 @@ public class NoticeDetailsAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("getArticle")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
-            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
+                    "utf-8", null);
             return;
         }
-        if(requestUrl.contains("announceInfo")){
+        if (requestUrl.contains("announceInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
-            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
+                    "utf-8", null);
+            return;
         }
+        if (requestUrl.contains("headInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
+
+            books_title_tv.setText(data.get("title"));
+
+            books_source_tv.setText("来源：" + data.get("source"));
+
+            books_other_info_tv.setText("创建时间：" + data.get("create_time") + "\n修改时间：" + data.get("update_time"));
+
+            Glide.with(this).load(data.get("logo")).centerCrop()
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .override(Settings.displayWidth, Settings.displayWidth)
+                    .into(books_logo_iv);
+
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
+                    "utf-8", null);
+        }
+    }
+
+    @Override
+    public void finish() {
+        if (notice_details_wv.canGoBack()) {
+            notice_details_wv.goBack();
+            return;
+        }
+        super.finish();
     }
 }

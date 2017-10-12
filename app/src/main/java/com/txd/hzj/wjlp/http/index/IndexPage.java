@@ -24,4 +24,29 @@ class IndexPage {
         apiTool2.postApi(url + "index", params, baseView);
     }
 
+    /**
+     * 头条列表
+     *
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void headLineList(int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "headLineList", params, baseView);
+    }
+
+    /**
+     * 头条详情
+     *
+     * @param headlines_id id
+     * @param baseView     回调
+     */
+    void headInfo(String headlines_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("headlines_id", headlines_id);
+        apiTool2.postApi(url + "headInfo", params, baseView);
+    }
 }

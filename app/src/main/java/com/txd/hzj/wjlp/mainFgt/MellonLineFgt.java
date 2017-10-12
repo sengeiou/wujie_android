@@ -1082,20 +1082,29 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             //初始化布局的控件
             TextView tv2 = moreView.findViewById(R.id.top_tv2);
 
-            /*
-             * 设置监听
-             */
-            tv1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
+//            /*
+//             * 设置监听
+//             */
+//            final int finalI = i;
+//            tv1.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
 //                    bundle = new Bundle();
-//                    bundle.putString("headlines_id",updata.get(i).get("headlines_id"));
+//                    bundle.putString("headlines_id",updata.get(finalI).get("headlines_id"));
 //                    bundle.putInt("from", 1);
 //                    startActivity(NoticeDetailsAty.class, bundle);
-
-                }
-            });
+//
+//                }
+//            });
+//            tv2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    bundle = new Bundle();
+//                    bundle.putString("headlines_id",updata.get(finalI+1).get("headlines_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(NoticeDetailsAty.class, bundle);
+//                }
+//            });
             //进行对控件赋值
             tv1.setText(updata.get(i).get("title"));
 
