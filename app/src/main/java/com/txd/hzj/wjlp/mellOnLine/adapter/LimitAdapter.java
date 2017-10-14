@@ -152,7 +152,7 @@ public class LimitAdapter extends BaseAdapter {
             lvh.use_coupon_tv.setText("不可使用代金券");
             lvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
-            lvh.use_coupon_tv.setText("可用" + auctionList.getTicket_buy_discount() + "%的代金券");
+            lvh.use_coupon_tv.setText("最多可用" + auctionList.getTicket_buy_discount() + "%的代金券");
         }
 
         if (0 == source) {

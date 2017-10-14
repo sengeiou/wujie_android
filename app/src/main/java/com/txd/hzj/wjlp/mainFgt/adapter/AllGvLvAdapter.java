@@ -202,7 +202,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
 
@@ -228,7 +228,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
@@ -248,7 +248,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 // 国旗
@@ -298,7 +298,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
@@ -343,7 +343,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
 
@@ -375,7 +375,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.car_logo_for_country_iv);
 
-                vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_discount() + "%代金券");
+                vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_discount() + "%代金券");
                 vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
 
                 break;
@@ -463,7 +463,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    vh.use_coupon_tv.setText("可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
 

@@ -317,7 +317,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     holder.use_coupon_tv.setText("不可使用代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
-                    holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%代金券");
+                    holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_buy_discount") + "%代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
@@ -327,7 +327,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.use_coupon_tv.setText("不可使用代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             } else {
-                holder.use_coupon_tv.setText("可使用" + map.get("ticket_buy_discount") + "%代金券");
+                holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_buy_discount") + "%代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
             }
         }

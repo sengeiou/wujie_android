@@ -31,22 +31,36 @@ public class WaveSideBarView extends View {
     private static final double ANGLE_R = Math.PI * 90 / 180;
     private OnTouchLetterChangeListener listener;
 
-    // 渲染字母表
+    /**
+     * 渲染字母表
+     */
     private List<String> mLetters;
 
-    // 当前选中的位置
+    /**
+     * 当前选中的位置
+     */
     private int mChoose = -1;
+    /**
+     * 上次选中的
+     */
+    private int oldChoose;
+    /**
+     * 新选中的
+     */
+    private int newChoose;
 
-    private int oldChoose ;
-
-    private int newChoose ;
-
-    // 字母列表画笔
+    /**
+     * 字母列表画笔
+     */
     private Paint mLettersPaint = new Paint();
 
-    // 提示字母画笔
+    /**
+     * 提示字母画笔
+     */
     private Paint mTextPaint = new Paint();
-    // 波浪画笔
+    /**
+     * 波浪画笔
+     */
     private Paint mWavePaint = new Paint();
 
     private float mTextSize;
@@ -114,8 +128,10 @@ public class WaveSideBarView extends View {
             mTextSize = a.getFloat(R.styleable.WaveSideBarView_sidebarTextSize, mTextSize);
             mLargeTextSize = a.getFloat(R.styleable.WaveSideBarView_sidebarLargeTextSize, mLargeTextSize);
             mWaveColor = a.getColor(R.styleable.WaveSideBarView_sidebarBackgroundColor, mWaveColor);
-            mRadius = a.getInt(R.styleable.WaveSideBarView_sidebarRadius, context.getResources().getDimensionPixelSize(R.dimen.radius_sidebar));
-            mBallRadius = a.getInt(R.styleable.WaveSideBarView_sidebarBallRadius, context.getResources().getDimensionPixelSize(R.dimen.ball_radius_sidebar));
+            mRadius = a.getInt(R.styleable.WaveSideBarView_sidebarRadius, context.getResources()
+                    .getDimensionPixelSize(R.dimen.radius_sidebar));
+            mBallRadius = a.getInt(R.styleable.WaveSideBarView_sidebarBallRadius, context.getResources()
+                    .getDimensionPixelSize(R.dimen.ball_radius_sidebar));
             a.recycle();
         }
 
@@ -300,7 +316,7 @@ public class WaveSideBarView extends View {
 
         mBallPath.reset();
         mBallPath.addCircle(mBallCentreX, mCenterY, mBallRadius, Path.Direction.CW);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mBallPath.op(mWavePath, Path.Op.DIFFERENCE);
         }
 
@@ -322,7 +338,7 @@ public class WaveSideBarView extends View {
 
                 mRatio = (float) value.getAnimatedValue();
                 //球弹到位的时候，并且点击的位置变了，即点击的时候显示当前选择位置
-                if (mRatio==1f&&oldChoose != newChoose){
+                if (mRatio == 1f && oldChoose != newChoose) {
                     if (newChoose >= 0 && newChoose < mLetters.size()) {
                         mChoose = newChoose;
                         if (listener != null) {

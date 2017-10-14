@@ -233,11 +233,11 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
 
             tgvh.theme_layout.setVisibility(View.VISIBLE);
             if (goods.get("ticket_buy_id").equals("0")) {
-                tgvh.use_coupon_tv.setText("不可使用购物券");
+                tgvh.use_coupon_tv.setText("不可使用代金券");
                 tgvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             } else {
                 tgvh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-                tgvh.use_coupon_tv.setText("可使用" + goods.get("ticket_buy_discount") + "%购物券");
+                tgvh.use_coupon_tv.setText("最多可使用" + goods.get("ticket_buy_discount") + "%代金券");
             }
             // 国旗
             Glide.with(ThemeGoodsListAty.this).load(goods.get("country_logo"))

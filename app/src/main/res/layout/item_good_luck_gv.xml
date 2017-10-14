@@ -36,7 +36,7 @@
             android:paddingTop="4dp"
             android:text="可使用30%购物券"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="10sp"/>
     </LinearLayout>
 
     <ImageView
