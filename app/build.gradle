@@ -22,7 +22,7 @@ android {
         releaseConfig {
             keyAlias 'wjlpkey'
             keyPassword 'android'
-            storeFile file('D:/AndroidProgectForStudio/wjlp/wjlp.jks')
+            storeFile file('D:/Txunda/KeyStore/wjlp.jks')
             storePassword 'android'
         }
     }

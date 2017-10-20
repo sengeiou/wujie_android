@@ -5,6 +5,7 @@ import android.os.Vibrator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -70,11 +71,17 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
      */
     @Override
     public void onScanQRCodeSuccess(String result) {
-        showRightTip(result);
+        //  showRightTip(result);
+        L.e(result);
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", 4);
+        bundle.putString("href", result);
+        startActivity(NoticeDetailsAty.class, bundle);
         //震动
         vibrate();
         //停止预览
         mQR.stopCamera();
+        finish();
     }
 
     @Override

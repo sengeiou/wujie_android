@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOnLine;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -47,6 +48,7 @@ public class NoticeDetailsAty extends BaseAty {
      * 1.无界头条
      * 2.带url的轮播
      * 3.服务条款
+     * 4.扫一扫出来的网页
      */
     private int from = 0;
 
@@ -108,6 +110,10 @@ public class NoticeDetailsAty extends BaseAty {
             titlt_conter_tv.setText(desc);
             url = getIntent().getStringExtra("href");
             initWebView();
+        } else if (4 == from) {
+            only_for_top_layout.setVisibility(View.GONE);
+            url = getIntent().getStringExtra("href");
+            initWebView();
         }
     }
 
@@ -135,6 +141,16 @@ public class NoticeDetailsAty extends BaseAty {
                 return true;
             }
         });
+        if(from==4){
+            WebChromeClient wvcc = new WebChromeClient() {
+                @Override
+                public void onReceivedTitle(WebView view, String title) {
+                    super.onReceivedTitle(view, title);
+                    titlt_conter_tv.setText(title);
+                }
+            };
+            notice_details_wv.setWebChromeClient(wvcc);
+        }
     }
 
     @Override
