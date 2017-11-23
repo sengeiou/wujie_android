@@ -144,8 +144,9 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
-                bundle.putString("goods_id", list.get(i).getGoods_id());
-                startActivity(InputGoodsDetailsAty.class, bundle);
+                bundle.putString("ticket_buy_id", list.get(i).getGoods_id());
+                bundle.putInt("from",1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
 

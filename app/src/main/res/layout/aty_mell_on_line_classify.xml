@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_color"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".mellOnLine.MellOnLineClassifyAty">
 
-    <include layout="@layout/aty_search_title"/>
+    <include layout="@layout/aty_search_title" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/title_s_tab_layout"
@@ -27,11 +26,11 @@
         app:tl_textUnselectColor="@color/app_text_color"
         app:tl_textsize="14sp"
         app:tl_underline_color="@color/white"
-        app:tl_underline_height="1dp"/>
+        app:tl_underline_height="1dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_for_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

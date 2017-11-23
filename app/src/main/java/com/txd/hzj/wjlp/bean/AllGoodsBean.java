@@ -117,6 +117,10 @@ public class AllGoodsBean {
      * 积分商品对应的id
      */
     private String integral_buy_id;
+    /**
+     * 总数
+     */
+    private String success_max_num;
 
     // TODO==========汽车购==========
     private String car_id;
@@ -155,6 +159,7 @@ public class AllGoodsBean {
     private String limit_price;
     private String limit_store;
     private String limit_num;
+    //private String shop_price;
 
 
     public String getGroup_buy_id() {
@@ -275,6 +280,14 @@ public class AllGoodsBean {
 
     public void setUse_integral(String use_integral) {
         this.use_integral = use_integral;
+    }
+
+    public String getSuccess_max_num() {
+        return success_max_num;
+    }
+
+    public void setSuccess_max_num(String success_max_num) {
+        this.success_max_num = success_max_num;
     }
 
     public static class AppendPersonBean {

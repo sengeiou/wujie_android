@@ -27,9 +27,9 @@ public class IntegralBuyPst extends BasePresenter {
     }
 
     // 无界商店详情
-    public void integralBuyInfo(String integral_buy_id) {
+    public void integralBuyInfo(String integral_buy_id,int page) {
         baseView.showDialog();
-        integralBuy.integralBuyInfo(integral_buy_id, baseView);
+        integralBuy.integralBuyInfo(integral_buy_id, page,baseView);
     }
 
     // 三级分类

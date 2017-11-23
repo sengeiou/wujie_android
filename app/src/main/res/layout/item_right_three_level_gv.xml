@@ -10,6 +10,7 @@
     <ImageView
         android:id="@+id/third_cate_iv"
         android:layout_width="80dp"
+        android:background="@android:color/white"
         android:layout_height="80dp"
         android:scaleType="centerCrop"/>
 

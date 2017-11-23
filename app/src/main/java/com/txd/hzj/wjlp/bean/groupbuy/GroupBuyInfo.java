@@ -105,7 +105,7 @@ public class GroupBuyInfo {
         private String is_collect;
         private String cart_num;
         private GoodsInfoBean goodsInfo;
-        private MellInfoBean mInfo;
+        private MInfoBean mInfo;
         private CommentBean comment;
         private String group_price;
         private String one_price;
@@ -154,11 +154,11 @@ public class GroupBuyInfo {
             this.goodsInfo = goodsInfo;
         }
 
-        public MellInfoBean getMInfo() {
+        public MInfoBean getMInfo() {
             return mInfo;
         }
 
-        public void setMInfo(MellInfoBean mInfo) {
+        public void setMInfo(MInfoBean mInfo) {
             this.mInfo = mInfo;
         }
 

@@ -28,9 +28,7 @@
             <ImageView
                 android:id="@+id/share_frind_iv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_discount"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/share_title_tv"

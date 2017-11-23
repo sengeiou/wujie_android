@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="8dp"/>
+        android:layout_height="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,22 +26,22 @@
                 android:gravity="center_vertical"
                 android:padding="8dp"
                 android:text="无界驿站"
-                android:textColor="@color/app_text_color"/>
+                android:textColor="@color/app_text_color" />
 
             <ImageView
                 android:id="@+id/show_or_hide_lv_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:src="@drawable/icon_show_other_layout"/>
+                android:src="@mipmap/icon_more" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1dp"
             android:layout_marginEnd="-8dp"
             android:layout_marginStart="-8dp"
-            android:background="@drawable/icon_cut_off_rule"/>
+            android:background="#f6f6f6" />
 
         <com.ants.theantsgo.view.inScroll.ListViewForScrollView
             android:id="@+id/wujie_post_lv"
@@ -51,11 +50,11 @@
             android:divider="@color/white"
             android:dividerHeight="4dp"
             android:padding="8dp"
-            android:scrollbars="none"/>
+            android:scrollbars="none" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="8dp"/>
+        android:layout_height="8dp" />
 
 </LinearLayout>

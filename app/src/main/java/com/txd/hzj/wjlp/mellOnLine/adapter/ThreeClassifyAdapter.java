@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,8 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.CateIndex;
+import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 
 import java.util.List;
 
@@ -34,6 +38,7 @@ public class ThreeClassifyAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private ThreeViewHolder tvh;
     private int size = 0;
+    CateIndex.Data.TwoCateBean.ThreeCateBean threeCateBean;
 
     public ThreeClassifyAdapter(Context context, List<CateIndex.Data.TwoCateBean.ThreeCateBean> data) {
         this.context = context;
@@ -58,8 +63,8 @@ public class ThreeClassifyAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        CateIndex.Data.TwoCateBean.ThreeCateBean threeCateBean = getItem(i);
+    public View getView(final int i, View view, ViewGroup viewGroup) {
+        threeCateBean = getItem(i);
         if (view == null) {
             view = inflater.inflate(R.layout.item_right_three_level_gv, viewGroup, false);
             tvh = new ThreeViewHolder();
@@ -69,7 +74,8 @@ public class ThreeClassifyAdapter extends BaseAdapter {
             tvh = (ThreeViewHolder) view.getTag();
         }
         tvh.third_cate_name_tv.setText(threeCateBean.getName());
-        Glide.with(context).load(threeCateBean.getCate_img()).centerCrop()
+        Glide.with(context).load(threeCateBean.getCate_img())
+                .centerCrop()
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
                 .override(size, size)

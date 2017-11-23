@@ -123,7 +123,7 @@ public class AuctionCollectAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("竞拍汇");
+        titlt_conter_tv.setText("比价购");
         changeViewStatus(0);
         suction_collect_gv.setEmptyView(no_data_layout);
         suction_collect_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

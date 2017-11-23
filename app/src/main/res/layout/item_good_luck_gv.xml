@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -17,13 +16,12 @@
         <ImageView
             android:id="@+id/logo_for_country_iv"
             android:layout_width="36dp"
-            android:layout_height="23dp"
-            />
+            android:layout_height="23dp" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/use_coupon_tv"
@@ -36,14 +34,14 @@
             android:paddingTop="4dp"
             android:text="可使用30%购物券"
             android:textColor="@color/white"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/goods_pic_iv"
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/one_buy_goods_name_tv"
@@ -51,10 +49,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1" />
 
-    <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cpb_progresbar2"
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -64,7 +61,7 @@
         app:borderWidth="0dp"
         app:isShowDesc="false"
         app:progressColor="@color/theme_color"
-        app:progressRadius="4dp"/>
+        app:progressRadius="4dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/app_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -88,7 +85,7 @@
             android:gravity="end"
             android:text="剩余"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/add_num_tv"
@@ -96,7 +93,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/theme_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,7 +101,7 @@
             android:gravity="end"
             android:text="人次"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -120,16 +117,30 @@
             android:drawablePadding="8dp"
             android:text="积分"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"
-            />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/goods_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#FD8214"
-            android:textSize="13sp"
-            />
+            android:textSize="13sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="距结束 "
+            android:textColor="@color/gray_text_color" />
+
+        <include layout="@layout/aty_count_down_view" />
+    </LinearLayout>
 </LinearLayout>

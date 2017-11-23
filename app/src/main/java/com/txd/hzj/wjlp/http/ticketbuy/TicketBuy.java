@@ -38,10 +38,11 @@ class TicketBuy {
      * @param ticket_buy_id 票券区id
      * @param baseView      回调
      */
-    void ticketBuyInfo(String ticket_buy_id, BaseView baseView) {
+    void ticketBuyInfo(String ticket_buy_id, int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("ticket_buy_id", ticket_buy_id);
+        params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "ticketBuyInfo", params, baseView);
     }
 

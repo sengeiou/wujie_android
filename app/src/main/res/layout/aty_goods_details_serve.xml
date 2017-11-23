@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="送至"
-                android:textColor="@color/gray_text_color"/>
+                android:textColor="@color/gray_text_color" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -32,7 +30,7 @@
                 android:drawableEnd="@drawable/icon_edit_point"
                 android:drawablePadding="8dp"
                 android:text="天津市 南开区"
-                android:textColor="@color/app_text_color"/>
+                android:textColor="@color/app_text_color" />
 
             <TextView
                 android:id="@+id/freight_tv"
@@ -40,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="end"
                 android:text="运费10元"
-                android:textColor="@color/gray_text_color"/>
+                android:textColor="@color/gray_text_color" />
 
         </LinearLayout>
 
@@ -48,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginStart="44dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="服务"/>
+                android:text="服务" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -77,14 +75,14 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/icon_goods_zp"/>
+                        android:src="@drawable/icon_goods_zp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="正品保证：该商品无界优品已经进行商家资质审核"
-                        android:textColor="@color/gray_text_color"/>
+                        android:textColor="@color/gray_text_color" />
 
                 </LinearLayout>
 
@@ -104,14 +102,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_goods_qi"/>
+                            android:src="@drawable/icon_goods_qi" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="7天无理由退换货：自实际收货日期的次日起7天内，商品完好无损，可进行无理由退换货，产生多余运费由买家承担"
-                            android:textColor="@color/gray_text_color"/>
+                            android:textColor="@color/gray_text_color" />
 
                     </LinearLayout>
 
@@ -123,14 +121,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_goods_sh"/>
+                            android:src="@drawable/icon_goods_sh" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="店铺发货和售后：由“店铺名称”从“天津市”直接销售和发货，并提供售后服务"
-                            android:textColor="@color/gray_text_color"/>
+                            android:textColor="@color/gray_text_color" />
 
                     </LinearLayout>
 
@@ -144,14 +142,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_goods_fp"/>
+                            android:src="@drawable/icon_goods_fp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="发票保证：根据用户需要，由“店铺名称”开具商品销售发票。产生快递费用由买家承担"
-                            android:textColor="@color/gray_text_color"/>
+                            android:textColor="@color/gray_text_color" />
 
                     </LinearLayout>
 
@@ -163,14 +161,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_goods_sh"/>
+                            android:src="@drawable/icon_goods_sh" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="公益宝贝：够阿米该商品，每笔成交都会有相应金额捐赠给公益。感谢您的支持，愿公益的快乐伴随您每一天"
-                            android:textColor="@color/gray_text_color"/>
+                            android:textColor="@color/gray_text_color" />
 
                     </LinearLayout>
 
@@ -183,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:src="@drawable/icon_show_other_layout"/>
+                android:src="@drawable/icon_show_other_layout" />
         </LinearLayout>
     </LinearLayout>
 

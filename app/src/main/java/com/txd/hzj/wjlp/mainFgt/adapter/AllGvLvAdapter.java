@@ -71,14 +71,15 @@ public class AllGvLvAdapter extends BaseAdapter {
         this.inflater = LayoutInflater.from(context);
         size1 = ToolKit.dip2px(context, 36);
         size2 = ToolKit.dip2px(context, 23);
-        if (8 == type) {
-            pic_size = Settings.displayWidth;
-            pic_size2 = Settings.displayWidth / 2;
-            group_size = ToolKit.dip2px(context, 40);
-        } else {
-            pic_size = ToolKit.dip2px(context, 180);
-            pic_size2 = pic_size;
-        }
+//        if (8 == type) {
+//            pic_size = Settings.displayWidth;
+//            pic_size2 = Settings.displayWidth / 2;
+//            group_size = ToolKit.dip2px(context, 40);
+//        } else {
+        pic_size = ToolKit.dip2px(context, 180);
+        pic_size2 = pic_size;
+        group_size = ToolKit.dip2px(context, 40);
+//        }
     }
 
     @Override
@@ -150,7 +151,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     end = 0;
                 }
                 vh.home_count_down_view.setTag("countDown" + i);
-                vh.home_count_down_view.start(end - now);
+                vh.home_count_down_view.start((end - now)*1000);
                 if (type == 2) {
                     vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
                     vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
@@ -160,7 +161,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 int max;
                 try {
-                    max = Integer.parseInt(allGoodsBean.getPre_store());
+                    max = Integer.parseInt(allGoodsBean.getSuccess_max_num());
                 } catch (NumberFormatException e) {
                     max = 0;
                 }
@@ -302,7 +303,17 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
-            case 5:// 一元夺宝
+            case 5:   // 一元夺宝
+                long now_time = System.currentTimeMillis() / 1000;
+                long end_time;
+                try {
+                    end_time = Long.parseLong(allGoodsBean.getEnd_time());
+                } catch (NumberFormatException e) {
+                    end_time = 0;
+                }
+                vh.home_count_down_view.setTag("countDown" + i);
+                vh.home_count_down_view.start(end_time - now_time);
+
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
                         .override(size1, size2)
@@ -346,8 +357,9 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
-
                 break;
+
+
             case 6:// 汽车购
                 // 距离
                 vh.distance_tv.setText(allGoodsBean.getDistance());
@@ -404,9 +416,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.goods_price_tv.setText(allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());
+                vh.tv_shop_price.setText("单买价：¥" + allGoodsBean.getShop_price());
+                vh.group_num.setText("(" + allGoodsBean.getGroup_num() + "人拼单价)");
                 // 商品图片重置大小
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);
-                vh.goods_pic_iv.setLayoutParams(params);
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);
+//                vh.goods_pic_iv.setLayoutParams(params);
                 // 团购两人头像(最多两人)
                 List<AllGoodsBean.AppendPersonBean> append_person = allGoodsBean.getAppend_person();
                 if (!ListUtils.isEmpty(append_person)) {
@@ -442,7 +456,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.sec_head_iv.setVisibility(View.GONE);
                 }
 
-                vh.group_totla_tv.setText("已团" + allGoodsBean.getTotal() + "件");
+                vh.group_totla_tv.setText("已    拼：" + allGoodsBean.getTotal() + "件");
 
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(size1, size2);
                 vh.logo_for_country_iv.setLayoutParams(params1);
@@ -659,6 +673,11 @@ public class AllGvLvAdapter extends BaseAdapter {
         private TextView add_num_tv;
         @ViewInject(R.id.goods_integral_tv)
         private TextView goods_integral_tv;
+
+        @ViewInject(R.id.group_num)
+        private TextView group_num;
+        @ViewInject(R.id.tv_shop_price)
+        private TextView tv_shop_price;
 
     }
 }

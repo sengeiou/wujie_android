@@ -18,6 +18,7 @@ import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
+import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -30,6 +31,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -122,8 +124,13 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      *
      * @param v View
      */
-    public void toAttrs(View v) {
-        startActivity(GoodsAttributeAty.class, null);
+    public void toAttrs(View v, String imageurl, String price, ArrayList<GoodsAttrs> list) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", 1);
+        bundle.putString("imageurl", imageurl);
+        bundle.putString("price", price);
+        bundle.putParcelableArrayList("list", list);
+        startActivity(GoodsAttributeAty.class, bundle);
     }
 
     /**
@@ -161,7 +168,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      * 分享
      */
     public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
-        if (Config.isLogin()) {
+        if (!Config.isLogin()) {
             toLogin();
             return;
         }

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -291,8 +292,8 @@ public class AllClassifyAty extends BaseAty {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            CateIndex.Data.TwoCateBean childCateBean = getItem(i);
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            final CateIndex.Data.TwoCateBean childCateBean = getItem(i);
             if (null == view) {
                 view = LayoutInflater.from(AllClassifyAty.this).inflate(R.layout.item_right_classify,
                         viewGroup, false);
@@ -308,8 +309,17 @@ public class AllClassifyAty extends BaseAty {
             List<CateIndex.Data.TwoCateBean.ThreeCateBean> three = childCateBean.getThree_cate();
             if (!ListUtils.isEmpty(three)) {
                 rvh.classify_three_level_gv.setAdapter(new ThreeClassifyAdapter(AllClassifyAty.this, three));
+                rvh.classify_three_level_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                        Intent intent = new Intent();
+                        intent.putExtra("appBarTitle", getItem(i).getThree_cate().get(position).getName());
+                        intent.putExtra("two_cate_id", getItem(i).getCate_id());
+                        intent.setClass(AllClassifyAty.this, SubclassificationAty.class);
+                        startActivity(intent);
+                    }
+                });
             }
-
             rvh.hot_brand_rv.setLayoutManager(new LinearLayoutManager(AllClassifyAty.this,
                     LinearLayoutManager.HORIZONTAL, false));
             rvh.hot_brand_rv.setItemAnimator(new DefaultItemAnimator());
@@ -317,12 +327,18 @@ public class AllClassifyAty extends BaseAty {
             List<CateIndex.Data.TwoCateBean.HostBrandBean> host = childCateBean.getHost_brand();
             if (!ListUtils.isEmpty(host)) {
                 rvh.hot_brand_rv.setAdapter(new HotBrandAdapter(AllClassifyAty.this, host));
+                rvh.tv_host_brand.setVisibility(View.VISIBLE);
+            } else {
+                rvh.tv_host_brand.setVisibility(View.GONE);
+
             }
 
             return view;
         }
 
         class RightViewHolder {
+            @ViewInject(R.id.tv_host_brand)
+            private TextView tv_host_brand;
             @ViewInject(R.id.classify_three_level_gv)
             private GridViewForScrollView classify_three_level_gv;
 

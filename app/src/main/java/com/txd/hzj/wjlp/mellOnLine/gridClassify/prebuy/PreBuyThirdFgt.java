@@ -126,8 +126,9 @@ public class PreBuyThirdFgt extends BaseFgt {
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
-                        bundle.putString("goods_id", data.get(i).getGoods_id());
-                        startActivity(InputGoodsDetailsAty.class, bundle);
+                        bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
+                        bundle.putInt("from",1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                 }
             }

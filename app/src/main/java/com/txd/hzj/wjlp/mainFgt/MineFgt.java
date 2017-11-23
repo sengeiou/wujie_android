@@ -200,11 +200,26 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
      */
     private int new_msg = 0;
 
+    /**
+     * 金银铜钢铁
+     */
+    @ViewInject(R.id.im_jin)
+    private ImageView im_jin;
+    @ViewInject(R.id.im_yin)
+    private ImageView im_yin;
+    @ViewInject(R.id.im_tong)
+    private ImageView im_tong;
+    @ViewInject(R.id.im_gang)
+    private ImageView im_gang;
+    @ViewInject(R.id.im_tie)
+    private ImageView im_tie;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mine_title_layout.setBackgroundColor(Color.TRANSPARENT);
         allHeight = Settings.displayWidth * 2 / 3;
+        //allHeight = allHeight + 20;//烦人的金银铜钢铁，加点高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         rel_head_back.setLayoutParams(layoutParams);
 
@@ -237,7 +252,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv,R.id.grade_for_app_tv})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -353,7 +368,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.grade_for_app_tv:// 评分鼓励
 
                 Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
@@ -401,6 +416,28 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
             user_name_tv.setText(nickname);
             user_nick_tv.setText(nickname);
+            /**
+             *  "is_gold": "0"//金，0不点亮 1点亮,
+             "is_silver": "0",//银，0不点亮 1点亮,
+             "is_copper": "0",//铜，0不点亮 1点亮,
+             "is_masonry": "0",//钢，0不点亮 1点亮,
+             "is_iron": "0",//铁，0不点亮 1点亮,
+             */
+            if (data.get("is_gold").equals("1")) {
+                im_jin.setImageResource(R.mipmap.icon_mine_jin1);
+            }
+            if (data.get("is_silver").equals("1")) {
+                im_yin.setImageResource(R.mipmap.icon_mine_yin1);
+            }
+            if (data.get("is_copper").equals("1")) {
+                im_tong.setImageResource(R.mipmap.icon_mine_tong1);
+            }
+            if (data.get("is_masonry").equals("1")) {
+                im_gang.setImageResource(R.mipmap.icon_mine_gang1);
+            }
+            if (data.get("is_iron").equals("1")) {
+                im_tie.setImageResource(R.mipmap.icon_mine_tie1);
+            }
 
             Glide.with(getActivity()).load(head_pic)
                     .override(size, size)

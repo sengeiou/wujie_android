@@ -1,5 +1,4 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,20 +23,19 @@
                 android:id="@+id/rel_head_back"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/icon_mine_bg"
-                >
+                android:background="@mipmap/icon_bg_mine">
 
                 <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                     android:id="@+id/img_head"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="24dp"
                     android:layout_marginRight="24dp"
                     android:visibility="invisible"
                     app:shape_mode="circle"
                     app:stroke_color="@color/white"
-                    app:stroke_width="2dp"/>
+                    app:stroke_width="2dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -51,7 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -73,7 +71,7 @@
                             android:paddingStart="8dp"
                             android:paddingTop="4dp"
                             android:text="无界驿站"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <LinearLayout
                             android:id="@+id/member_type_layout"
@@ -97,14 +95,14 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_marginEnd="8dp"
-                                    android:src="@drawable/icon_putong"/>
+                                    android:src="@drawable/icon_putong" />
 
                                 <TextView
                                     android:id="@+id/mine_member_type_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="普通用户"/>
+                                    android:text="普通用户" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -123,7 +121,7 @@
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_marginEnd="8dp"
-                                    android:src="@drawable/icon_jinpai"/>
+                                    android:src="@drawable/icon_jinpai" />
 
                                 <TextView
                                     android:id="@+id/grade_of_member_tv"
@@ -131,7 +129,7 @@
                                     android:layout_height="wrap_content"
                                     android:drawablePadding="8dp"
                                     android:gravity="center"
-                                    android:text="金牌会员"/>
+                                    android:text="金牌会员" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -146,15 +144,15 @@
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="20dp"
-                    >
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2017.06.23"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -164,8 +162,54 @@
                         android:text="无界指数8999"
                         android:textColor="@color/white"
                         android:textSize="18sp"
-                        android:visibility="invisible"/>
+                        android:visibility="gone" />
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/im_jin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/icon_mine_jin0" />
+
+                    <ImageView
+                        android:id="@+id/im_yin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/icon_mine_yin0" />
+
+                    <ImageView
+                        android:id="@+id/im_tong"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/icon_mine_tong0" />
+
+                    <ImageView
+                        android:id="@+id/im_gang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/icon_mine_gang0" />
+
+                    <ImageView
+                        android:id="@+id/im_tie"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/icon_mine_tie0" />
+                </LinearLayout>
+
 
             </RelativeLayout>
 
@@ -192,14 +236,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
                         android:textColor="#000000"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/center_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="积分"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -216,13 +260,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
                         android:textColor="#000000"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="余额"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -239,20 +283,20 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="6dp"
                         android:textColor="@color/app_text_color"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="代金券"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:background="@color/bg_color"/>
+                android:background="@color/bg_color" />
 
             <LinearLayout
                 android:id="@+id/member_lin_layout"
@@ -271,14 +315,14 @@
                     android:drawableStart="@drawable/icon_mine_wallet"
                     android:padding="12dp"
                     android:text="卡券包"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/tv_order_center"
@@ -290,14 +334,14 @@
                     android:drawableStart="@drawable/icon_mine_dingdan"
                     android:padding="12dp"
                     android:text="订单中心"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/collect_tv"
@@ -309,14 +353,14 @@
                     android:drawableStart="@drawable/icon_mine_collection"
                     android:padding="12dp"
                     android:text="我的收藏"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/footprint_tv"
@@ -328,14 +372,14 @@
                     android:drawableStart="@drawable/icon_mine_zuji"
                     android:padding="12dp"
                     android:text="我的足迹"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/address_tv"
@@ -347,14 +391,14 @@
                     android:drawableStart="@drawable/icon_mine_dizhi"
                     android:padding="12dp"
                     android:text="收货地址"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/evaluate_tv"
@@ -366,12 +410,12 @@
                     android:drawableStart="@drawable/icon_mine_pingjia"
                     android:padding="12dp"
                     android:text="我的评价"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
 
                 <TextView
@@ -384,14 +428,14 @@
                     android:drawableStart="@drawable/icon_mine_shuyuan"
                     android:padding="12dp"
                     android:text="无界书院"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/registration_code_tv"
@@ -403,14 +447,14 @@
                     android:drawableStart="@drawable/icon_mine_erweima"
                     android:padding="12dp"
                     android:text="注册码"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/shre_to_friends_tv"
@@ -422,14 +466,14 @@
                     android:drawableStart="@drawable/icon_mine_share"
                     android:padding="12dp"
                     android:text="分享好友"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/share_grade_tv"
@@ -441,14 +485,14 @@
                     android:drawableStart="@drawable/icon_mine_tuijian"
                     android:padding="12dp"
                     android:text="分享成绩"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/merchant_will_move_into_tv"
@@ -460,12 +504,12 @@
                     android:drawableStart="@drawable/icon_mine_ruzhu"
                     android:padding="12dp"
                     android:text="商家推荐"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/tv_help_center"
@@ -477,14 +521,14 @@
                     android:drawableStart="@drawable/icon_mine_help"
                     android:padding="12dp"
                     android:text="帮助中心"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/feedBack_tv"
@@ -496,14 +540,14 @@
                     android:drawableStart="@drawable/icon_mine_fankui"
                     android:padding="12dp"
                     android:text="意见反馈"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/grade_for_app_tv"
@@ -515,14 +559,14 @@
                     android:drawableStart="@drawable/icon_mine_guli"
                     android:padding="12dp"
                     android:text="评分鼓励"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/rel_mine_about"
@@ -534,14 +578,14 @@
                     android:drawableStart="@drawable/icon_mine_about"
                     android:padding="12dp"
                     android:text="关于我们"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:background="@color/bg_color"/>
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/call_service_tv"
@@ -553,7 +597,7 @@
                     android:drawableStart="@drawable/icon_mine_kefu"
                     android:padding="12dp"
                     android:text="在线客服"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
             </LinearLayout>
 
             <LinearLayout
@@ -577,7 +621,7 @@
                     android:paddingEnd="12dp"
                     android:paddingTop="12dp"
                     android:text="进货记录"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <TextView
                     android:id="@+id/sales_record_tv"
@@ -591,7 +635,7 @@
                     android:paddingEnd="12dp"
                     android:paddingTop="12dp"
                     android:text="销货记录"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <TextView
                     android:id="@+id/mell_goods_list_tv"
@@ -605,7 +649,7 @@
                     android:paddingEnd="12dp"
                     android:paddingTop="12dp"
                     android:text="货品列表"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
             </LinearLayout>
 
@@ -613,5 +657,5 @@
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
 
-    <include layout="@layout/mine_title"/>
+    <include layout="@layout/mine_title" />
 </FrameLayout>

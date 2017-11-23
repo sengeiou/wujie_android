@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="12dp"
-                        android:text="今日拍卖"
+                        android:text="今日比价"
                         android:textColor="@color/white"/>
 
                     <View
@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="12dp"
-                        android:text="拍卖预展"
+                        android:text="比价预展"
                         android:textColor="#FFC8C9"/>
 
                     <View

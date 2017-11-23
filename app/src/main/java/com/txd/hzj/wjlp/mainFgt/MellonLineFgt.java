@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -74,7 +76,12 @@ import java.util.Map;
  */
 public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 
-
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+    @ViewInject(R.id.super_layout)
+    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
     @ViewInject(R.id.search_title_layout)
     private RelativeLayout search_title_layout;
 
@@ -176,7 +183,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * 拼团区
      */
     @ViewInject(R.id.group_shopping_lv)
-    private ListViewForScrollView group_shopping_lv;
+    private GridViewForScrollView group_shopping_lv;
 
     private Bundle bundle;
 
@@ -355,12 +362,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         car_ads_iv.setLayoutParams(adsParam);
         house_ads_iv.setLayoutParams(adsParam);
         group_buy_ads_iv.setLayoutParams(adsParam);
-
-
         forHorizontalItem();
-
         forMenu();
-
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
         goodsAdapter();
     }
@@ -393,7 +396,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         case 2:// 拼团购
                             bundle = new Bundle();
                             bundle.putInt("type", 8);
-                            bundle.putString("title", "拼团购");
+                            bundle.putString("title", "拼单购");
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 3:// 主题街
@@ -414,7 +417,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         case 6:// 竞拍汇
                             bundle = new Bundle();
                             bundle.putInt("type", 3);
-                            bundle.putString("title", "竞拍汇");
+                            bundle.putString("title", "比价购");
                             startActivity(AuctionCollectAty.class, bundle);
                             break;
                         case 7://汽车购
@@ -462,6 +465,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
                 bundle.putString("limit_buy_id", limit.get(i).getLimit_buy_id());
+                bundle.putInt("type", 0);
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });
@@ -482,6 +486,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
                 bundle.putString("limit_buy_id", per.get(i).getPre_buy_id());
+                bundle.putInt("type", 2);
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });
@@ -492,8 +497,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 bundle = new Bundle();
-                bundle.putString("goods_id", countryList.get(i).getGoods_id());
-                startActivity(InputGoodsDetailsAty.class, bundle);
+                bundle.putString("ticket_buy_id", countryList.get(i).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
         // 竞拍汇
@@ -562,8 +568,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             Glide.with(getActivity()).load(image.get(position).get("picture"))
                     .override(Settings.displayWidth, allHeight)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .error(R.drawable.ic_default)
-                    .placeholder(R.drawable.ic_default)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -580,7 +586,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv, R.id.three_image_left_iv,
             R.id.three_image_center_iv, R.id.three_image_right_iv, R.id.ads_by_limit_buy_iv,
             R.id.ticket_buy_ads_iv, R.id.pre_buy_ads_iv, R.id.country_ads_iv, R.id.auction_ads_iv,
-            R.id.one_buy_ads_iv, R.id.car_ads_iv, R.id.house_ads_iv, R.id.group_buy_ads_iv})
+            R.id.one_buy_ads_iv, R.id.car_ads_iv, R.id.house_ads_iv,
+            R.id.group_buy_ads_iv
+    })
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -671,14 +679,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         views = new ArrayList<>();
         gv_classify.add("限量购");
         gv_classify.add("票券区");
-        gv_classify.add("拼团购");
+        gv_classify.add("拼单购");
         gv_classify.add("主题街");
         gv_classify.add("无界预购");
         gv_classify.add("进口馆");
-        gv_classify.add("竞拍汇");
+        gv_classify.add("比价购");
         gv_classify.add("汽车购");
         gv_classify.add("房产购");
-        gv_classify.add("积分夺宝");
+        gv_classify.add("积分抽奖");
 
         groupList = new ArrayList<>();
         limit = new ArrayList<>();
@@ -694,6 +702,34 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     protected void requestData() {
         indexPst.index();
+
+
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
+        superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        superSwipeRefreshLayout.setTargetScrollWithLayout(true);
+
+        superSwipeRefreshLayout
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        textView.setText("正在刷新");
+                        imageView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        indexPst.index();
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setRotation(enable ? 180 : 0);
+                    }
+                });
     }
 
     @Override
@@ -741,28 +777,32 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             // 拼团购
             forGroup(data);
 
-
         }
+
+        superSwipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     // 拼团购
     private void forGroup(Map<String, String> data) {
         Map<String, String> group_buy = JSONUtils.parseKeyAndValueToMap(data.get("group_buy"));
         Map<String, String> group_buy_ads = JSONUtils.parseKeyAndValueToMap(group_buy.get("ads"));
-        Glide.with(getActivity()).load(group_buy_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(group_buy_ads_iv);
-        group_href = group_buy_ads.get("href");
-        group_desc = group_buy_ads.get("desc");
 
         if (ToolKit.isList(group_buy, "goodsList")) {
             groupList = GsonUtil.getObjectList(group_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter8 = new AllGvLvAdapter(getActivity(), groupList, 8);
             group_shopping_lv.setAdapter(allGvLvAdapter8);
+        }
+        if (group_buy_ads != null) {
+            Glide.with(getActivity()).load(group_buy_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(group_buy_ads_iv);
+            group_href = group_buy_ads.get("href");
+            group_desc = group_buy_ads.get("desc");
         }
     }
 
@@ -770,17 +810,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void forHouse(Map<String, String> data) {
         Map<String, String> house_buy = JSONUtils.parseKeyAndValueToMap(data.get("house"));
         Map<String, String> house_ads = JSONUtils.parseKeyAndValueToMap(house_buy.get("ads"));
-
-        Glide.with(getActivity()).load(house_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(house_ads_iv);
-        house_href = house_ads.get("href");
-        house_desc = house_ads.get("desc");
-
+        if (house_ads != null) {
+            Glide.with(getActivity()).load(house_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(house_ads_iv);
+            house_href = house_ads.get("href");
+            house_desc = house_ads.get("desc");
+        }
         if (ToolKit.isList(house_buy, "goodsList")) {
             houseList = GsonUtil.getObjectList(house_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter7 = new AllGvLvAdapter(getActivity(), houseList, 7);
@@ -791,17 +831,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void forCar(Map<String, String> data) {
         Map<String, String> car_buy = JSONUtils.parseKeyAndValueToMap(data.get("car"));
         Map<String, String> car_ads = JSONUtils.parseKeyAndValueToMap(car_buy.get("ads"));
-
-        Glide.with(getActivity()).load(car_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(car_ads_iv);
-        car_href = car_ads.get("href");
-        car_desc = car_ads.get("desc");
-
+        if (car_ads != null) {
+            Glide.with(getActivity()).load(car_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(car_ads_iv);
+            car_href = car_ads.get("href");
+            car_desc = car_ads.get("desc");
+        }
         if (ToolKit.isList(car_buy, "goodsList")) {
             L.e("=====汽车购=====", car_buy.get("goodsList"));
             carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
@@ -815,16 +855,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> one_buy = JSONUtils.parseKeyAndValueToMap(data.get("one_buy"));
         Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
-        Glide.with(getActivity()).load(one_buy_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(one_buy_ads_iv);
-        one_buy_href = one_buy_ads.get("href");
-        one_buy_desc = one_buy_ads.get("desc");
-
         if (ToolKit.isList(one_buy, "goodsList")) {
 
             L.e("=====数据=====", one_buy.get("goodsList"));
@@ -833,6 +863,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             AllGvLvAdapter allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
             good_luck_gv.setAdapter(allGvLvAdapter5);
         }
+        if (one_buy_ads != null) {
+            Glide.with(getActivity()).load(one_buy_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(one_buy_ads_iv);
+            one_buy_href = one_buy_ads.get("href");
+            one_buy_desc = one_buy_ads.get("desc");
+        }
     }
 
     // 竞拍汇
@@ -840,20 +881,21 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> auction = JSONUtils.parseKeyAndValueToMap(data.get("auction"));
         Map<String, String> auction_ads = JSONUtils.parseKeyAndValueToMap(auction.get("ads"));
 
-        Glide.with(getActivity()).load(auction_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(auction_ads_iv);
-        auction_href = auction_ads.get("href");
-        auction_desc = auction_ads.get("desc");
-
         if (ToolKit.isList(auction, "goodsList")) {
             auctionList = GsonUtil.getObjectList(auction.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter4 = new AllGvLvAdapter(getActivity(), auctionList, 4);
             auction_gv.setAdapter(allGvLvAdapter4);
+        }
+        if (auction_ads != null) {
+            Glide.with(getActivity()).load(auction_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(auction_ads_iv);
+            auction_href = auction_ads.get("href");
+            auction_desc = auction_ads.get("desc");
         }
     }
 
@@ -862,20 +904,21 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> country = JSONUtils.parseKeyAndValueToMap(data.get("country"));
         Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
 
-        Glide.with(getActivity()).load(country_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(country_ads_iv);
-        country_href = country_ads.get("href");
-        country_desc = country_ads.get("desc");
-
         if (ToolKit.isList(country, "goodsList")) {
             countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
             import_gv.setAdapter(allGvLvAdapter3);
+        }
+        if (country_ads != null) {
+            Glide.with(getActivity()).load(country_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(country_ads_iv);
+            country_href = country_ads.get("href");
+            country_desc = country_ads.get("desc");
         }
     }
 
@@ -883,21 +926,21 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void orPre(Map<String, String> data) {
         Map<String, String> pre_buy = JSONUtils.parseKeyAndValueToMap(data.get("pre_buy"));
         Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));
-
-        Glide.with(getActivity()).load(pre_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(pre_buy_ads_iv);
-        pre_href = pre_ads.get("href");
-        pre_desc = pre_ads.get("desc");
-
         if (ToolKit.isList(pre_buy, "goodsList")) {
             per = GsonUtil.getObjectList(pre_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter2 = new AllGvLvAdapter(getActivity(), per, 2);
             limit_shopping_gv.setAdapter(allGvLvAdapter2);
+        }
+        if (pre_ads != null) {
+            Glide.with(getActivity()).load(pre_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(pre_buy_ads_iv);
+            pre_href = pre_ads.get("href");
+            pre_desc = pre_ads.get("desc");
         }
     }
 
@@ -908,22 +951,22 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      */
     private void forTicket(Map<String, String> data) {
         Map<String, String> ticket_buy = JSONUtils.parseKeyAndValueToMap(data.get("ticket_buy"));
-        Map<String, String> ticket_ads = JSONUtils.parseKeyAndValueToMap(ticket_buy.get("ads"));
-
-        Glide.with(getActivity()).load(ticket_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(ticket_buy_ads_iv);
-        ticket_href = ticket_ads.get("href");
-        ticket_desc = ticket_ads.get("desc");
-
         if (ToolKit.isList(ticket_buy, "goodsList")) {
             ticket = GsonUtil.getObjectList(ticket_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), ticket, 1);
             ticket_gv.setAdapter(allGvLvAdapter1);
+        }
+        Map<String, String> ticket_ads = JSONUtils.parseKeyAndValueToMap(ticket_buy.get("ads"));
+        if (ticket_ads != null) {
+            Glide.with(getActivity()).load(ticket_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(ticket_buy_ads_iv);
+            ticket_href = ticket_ads.get("href");
+            ticket_desc = ticket_ads.get("desc");
         }
     }
 
@@ -936,21 +979,22 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         // 限量购
         Map<String, String> limit_buy = JSONUtils.parseKeyAndValueToMap(data.get("limit_buy"));
         Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(limit_buy.get("ads"));
-
-        Glide.with(getActivity()).load(limit_ads.get("picture"))
-                .override(ads_w, ads_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .fitCenter()
-                .into(ads_by_limit_buy_iv);
-        limit_href = limit_ads.get("href");
-        limit_desc = limit_ads.get("desc");
-
         if (ToolKit.isList(limit_buy, "goodsList")) {
             limit = GsonUtil.getObjectList(limit_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), limit, 0);
             purchase_gv.setAdapter(allGvLvAdapter);
+        }
+        if (limit_ads != null) {
+            Glide.with(getActivity()).load(limit_ads.get("picture"))
+                    .override(ads_w, ads_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(ads_by_limit_buy_iv);
+            limit_href = limit_ads.get("href");
+            limit_desc = limit_ads.get("desc");
+
         }
     }
 
@@ -1026,23 +1070,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Map<String, String> three_img = JSONUtils.parseKeyAndValueToMap(data.get("three_img"));
         // 品牌图(左边)
         Map<String, String> brand = JSONUtils.parseKeyAndValueToMap(three_img.get("brand"));
-        Glide.with(getActivity()).load(brand.get("picture"))
-                .override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
-                .centerCrop()
-                .into(three_image_left_iv);
-        left_desc = brand.get("desc");
-        left_href = brand.get("href");
-
+        if (brand != null) {
+            Glide.with(getActivity()).load(brand.get("picture"))
+                    .override(img_w, img_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop()
+                    .into(three_image_left_iv);
+            left_desc = brand.get("desc");
+            left_href = brand.get("href");
+        }
         // 中国制造(中间)
         Map<String, String> china = JSONUtils.parseKeyAndValueToMap(three_img.get("china"));
         Glide.with(getActivity()).load(china.get("picture"))
                 .override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_center_iv);
 
@@ -1054,8 +1099,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         Glide.with(getActivity()).load(science.get("picture"))
                 .override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.drawable.ic_default)
-                .placeholder(R.drawable.ic_default)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_right_iv);
         right_desc = science.get("desc");
@@ -1136,6 +1181,19 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             on_line_be_back_top_iv.setVisibility(View.VISIBLE);
         }
         immersionInit();
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
 }

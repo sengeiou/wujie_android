@@ -9,18 +9,18 @@ package com.txd.hzj.wjlp.bean.groupbuy;
  * ===============Txunda===============
  */
 
-public class MellInfoBean {
-
+public class MInfoBean {
     /**
-     * merchant_id : 店铺id
-     * merchant_name : 店铺名称
-     * level : 店铺等级
-     * logo : 店铺logo
-     * view_num : 关注人数
-     * all_goods : 宝贝总数
-     * goods_score : 宝贝评分
-     * merchant_score : 卖家评分
-     * shipping_score : 物流评分
+     * merchant_id : 1
+     * merchant_name : 第一家店
+     * level : 1
+     * logo : http://wjyp.txunda.com/Uploads/Merchant/2017-09-18/59bf96e145a92.jpg
+     * view_num : 4
+     * easemob_account : 150632770313199
+     * all_goods : 9
+     * goods_score : 4.7
+     * merchant_score : 4.8
+     * shipping_score : 4.7
      */
 
     private String merchant_id;
@@ -28,11 +28,11 @@ public class MellInfoBean {
     private String level;
     private String logo;
     private String view_num;
+    private String easemob_account;
     private String all_goods;
     private String goods_score;
     private String merchant_score;
     private String shipping_score;
-    private String easemob_account;
 
     public String getMerchant_id() {
         return merchant_id;
@@ -74,6 +74,14 @@ public class MellInfoBean {
         this.view_num = view_num;
     }
 
+    public String getEasemob_account() {
+        return easemob_account;
+    }
+
+    public void setEasemob_account(String easemob_account) {
+        this.easemob_account = easemob_account;
+    }
+
     public String getAll_goods() {
         return all_goods;
     }
@@ -104,29 +112,5 @@ public class MellInfoBean {
 
     public void setShipping_score(String shipping_score) {
         this.shipping_score = shipping_score;
-    }
-
-    public String getEasemob_account() {
-        return easemob_account;
-    }
-
-    public void setEasemob_account(String easemob_account) {
-        this.easemob_account = easemob_account;
-    }
-
-    @Override
-    public String toString() {
-        return "MellInfoBean{" +
-                "merchant_id='" + merchant_id + '\'' +
-                ", merchant_name='" + merchant_name + '\'' +
-                ", level='" + level + '\'' +
-                ", logo='" + logo + '\'' +
-                ", view_num='" + view_num + '\'' +
-                ", all_goods='" + all_goods + '\'' +
-                ", goods_score='" + goods_score + '\'' +
-                ", merchant_score='" + merchant_score + '\'' +
-                ", shipping_score='" + shipping_score + '\'' +
-                ", easemob_account='" + easemob_account + '\'' +
-                '}';
     }
 }

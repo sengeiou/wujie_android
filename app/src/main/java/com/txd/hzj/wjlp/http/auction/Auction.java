@@ -39,10 +39,11 @@ public class Auction {
      * @param auction_id 竞拍id
      * @param baseView   回调
      */
-    void auctionInfo(String auction_id, BaseView baseView) {
+    void auctionInfo(String auction_id, int page, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("auction_id", auction_id);
+        params.addBodyParameter("p", String.valueOf(page));
         apiTool2.postApi(url + "auctionInfo", params, baseView);
     }
 

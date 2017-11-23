@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty">
 
-    <include layout="@layout/aty_title_for_goods_details"/>
+    <include layout="@layout/aty_title_for_goods_details" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -43,7 +42,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <include layout="@layout/aty_banner"/>
+                            <include layout="@layout/aty_banner" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -57,7 +56,7 @@
                                     android:layout_height="wrap_content"
                                     android:paddingEnd="8dp"
                                     android:paddingStart="8dp"
-                                    android:textColor="@color/app_text_color"/>
+                                    android:textColor="@color/app_text_color" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -76,7 +75,7 @@
                                         android:paddingTop="4dp"
                                         android:text="代金券"
                                         android:textColor="@color/white"
-                                        android:textSize="16sp"/>
+                                        android:textSize="16sp" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -85,7 +84,7 @@
                                         android:gravity="end"
                                         android:text="￥"
                                         android:textColor="@color/theme_color"
-                                        android:textSize="13sp"/>
+                                        android:textSize="13sp" />
 
                                     <TextView
                                         android:id="@+id/car_d_pre_money_tv"
@@ -93,7 +92,7 @@
                                         android:layout_height="wrap_content"
                                         android:gravity="end"
                                         android:textColor="@color/theme_color"
-                                        android:textSize="16sp"/>
+                                        android:textSize="16sp" />
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -107,15 +106,13 @@
                                             android:drawableLeft="@drawable/icon_send"
                                             android:drawablePadding="8dp"
                                             android:text="积分"
-                                            android:textColor="@color/gray_text_color"
-                                            />
+                                            android:textColor="@color/gray_text_color" />
 
                                         <TextView
                                             android:id="@+id/car_d_integral_tv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="#FD8214"
-                                            />
+                                            android:textColor="#FD8214" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -124,27 +121,32 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:lineSpacingExtra="4dp"
-                                    android:padding="8dp"/>
+                                    android:padding="8dp" />
                             </LinearLayout>
 
                             <Space
                                 android:layout_width="match_parent"
-                                android:layout_height="8dp"/>
+                                android:layout_height="8dp" />
 
                         </LinearLayout>
                         <!--开始评价-->
                         <Space
                             android:layout_width="match_parent"
-                            android:layout_height="8dp"/>
+                            android:layout_height="8dp" />
 
-                        <include layout="@layout/aty_goods_details_estimate"/>
+                        <include layout="@layout/aty_goods_details_estimate" />
 
                         <Space
                             android:layout_width="match_parent"
-                            android:layout_height="8dp"/>
+                            android:layout_height="8dp" />
                     </LinearLayout>
 
-                    <include layout="@layout/aty_goods_details_other_info"/>
+                    <include layout="@layout/aty_goods_details_other_info" />
+
+                    <WebView
+                        android:id="@+id/goods_desc_wv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </com.txd.hzj.wjlp.view.ObservableScrollView>
@@ -156,7 +158,7 @@
                 android:layout_gravity="bottom|end"
                 android:padding="16dp"
                 android:src="@drawable/icon_be_back_top"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </FrameLayout>
 
         <LinearLayout
@@ -186,13 +188,13 @@
                     android:drawableTop="@drawable/icon_home_pager"
                     android:gravity="center"
                     android:padding="8dp"
-                    android:text="首页"/>
+                    android:text="首页" />
 
                 <FrameLayout
+                    android:id="@+id/to_user_cart_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-android:id="@+id/to_user_cart_layout"
                     android:gravity="center">
 
                     <TextView
@@ -203,7 +205,7 @@ android:id="@+id/to_user_cart_layout"
                         android:drawableTop="@drawable/icon_goods_cart"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="购物车"/>
+                        android:text="购物车" />
 
                     <TextView
                         android:id="@+id/user_cart_num_tv"
@@ -214,8 +216,7 @@ android:id="@+id/to_user_cart_layout"
                         android:background="@drawable/shape_search_message_num_tv"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:visibility="gone"
-                        />
+                        android:visibility="gone" />
 
                 </FrameLayout>
 
@@ -227,7 +228,7 @@ android:id="@+id/to_user_cart_layout"
                     android:drawablePadding="4dp"
                     android:drawableTop="@drawable/icon_goods_kf"
                     android:gravity="center"
-                    android:text="客服"/>
+                    android:text="客服" />
 
             </LinearLayout>
 
@@ -240,7 +241,7 @@ android:id="@+id/to_user_cart_layout"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
                 android:text="加入购物车"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/creat_group_tv"
@@ -252,7 +253,7 @@ android:id="@+id/to_user_cart_layout"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
                 android:text="立即购买"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>
 

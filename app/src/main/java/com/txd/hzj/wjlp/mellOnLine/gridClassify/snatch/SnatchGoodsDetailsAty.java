@@ -149,7 +149,7 @@ public class SnatchGoodsDetailsAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("一元夺宝");
+        titlt_conter_tv.setText("积分夺宝");
 
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,

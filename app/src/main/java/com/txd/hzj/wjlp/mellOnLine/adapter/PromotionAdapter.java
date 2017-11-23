@@ -66,7 +66,6 @@ public class PromotionAdapter extends BaseAdapter {
         int imageId = context.getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", context
                 .getPackageName());
         pvh.pro_type_iv.setImageResource(imageId);
-
         pvh.pro_title_tv.setText(promotionBean.getTitle());
 
         return view;

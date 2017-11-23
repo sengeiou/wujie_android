@@ -28,9 +28,9 @@ public class LimitBuyPst extends BasePresenter {
     }
 
     // 限量购详情
-    public void limitBuyInfo(String limit_buy_id) {
+    public void limitBuyInfo(String limit_buy_id, int p) {
         baseView.showDialog();
-        limitBuy.limitBuyInfo(limit_buy_id, baseView);
+        limitBuy.limitBuyInfo(limit_buy_id, p, baseView);
     }
 
     // 设置提醒

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -59,6 +60,7 @@ public class HotBrandAdapter extends RecyclerView.Adapter<HotBrandAdapter.HotAda
         Glide.with(context).load(hostBrandBean.getBrand_logo())
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)//是将图片原尺寸缓存到本地。
                 .centerCrop()
                 .override(size, size)
                 .into(holder.host_cate_iv);

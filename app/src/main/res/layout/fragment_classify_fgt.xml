@@ -1,5 +1,4 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,37 +17,35 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/classify_vp"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"/>
+                    android:layout_height="160dp" />
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="4dp"/>
+                    android:layout_height="4dp" />
 
                 <ImageView
                     android:id="@+id/classify_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop" />
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="4dp"/>
+                    android:layout_height="4dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/classify_goods_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="match_parent" />
 
                 <include
                     layout="@layout/aty_no_data_layout"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>

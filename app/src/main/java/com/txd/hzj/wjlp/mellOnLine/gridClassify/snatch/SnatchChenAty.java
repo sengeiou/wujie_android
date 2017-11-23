@@ -215,7 +215,7 @@ public class SnatchChenAty extends BaseAty {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("积分夺宝");
+        titlt_conter_tv.setText("积分抽奖");
         // 轮播图高度
         allHeight = Settings.displayWidth / 2;
         // 设置轮播图高度

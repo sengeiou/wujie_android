@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         app:isHideTimeBackground="false"
-        app:isShowDay="false"
+        app:isShowDay="true"
         app:isShowHour="true"
         app:isShowMillisecond="false"
         app:isShowMinute="true"

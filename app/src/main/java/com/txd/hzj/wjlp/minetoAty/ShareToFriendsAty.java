@@ -47,9 +47,9 @@ public class ShareToFriendsAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("分享好友");
 
-        img_h = Settings.displayWidth / 2;
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, img_h);
-        share_frind_iv.setLayoutParams(params);
+//        img_h = Settings.displayWidth / 2;
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, img_h);
+//        share_frind_iv.setLayoutParams(params);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ShareToFriendsAty extends BaseAty {
             share_id = data.get("share_id");
             share_img = data.get("share_img");
             Glide.with(this).load(share_img)
-                    .override(Settings.displayWidth, img_h)
+                   // .override(Settings.displayWidth, img_h)
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)

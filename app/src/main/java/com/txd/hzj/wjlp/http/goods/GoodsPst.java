@@ -30,9 +30,9 @@ public class GoodsPst extends BasePresenter {
     }
 
     // 商品详情
-    public void goodsInfo(String goods_id) {
+    public void goodsInfo(String goods_id,int p) {
         baseView.showDialog();
-        goods.goodsInfo(goods_id, baseView);
+        goods.goodsInfo(goods_id,p, baseView);
     }
 
     // 三级分类商品列表

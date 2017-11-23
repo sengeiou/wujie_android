@@ -1,14 +1,25 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,37 +31,34 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.GoodLuckBean;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
-import com.txd.hzj.wjlp.bean.groupbuy.GoodsBannerBean;
-import com.txd.hzj.wjlp.bean.groupbuy.GoodsInfoBean;
-import com.txd.hzj.wjlp.bean.groupbuy.GroupBean;
-import com.txd.hzj.wjlp.bean.groupbuy.GroupBuyInfo;
-import com.txd.hzj.wjlp.bean.groupbuy.MellInfoBean;
+import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -67,7 +75,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
     /**
      * 商品TextView
      */
@@ -121,7 +129,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     /**
      * 轮播图图片
      */
-    private List<GoodsBannerBean> image;
+    private List<GoodLuckBean.DataBean.GoodsBannerBean> image;
 
     /**
      * 现价
@@ -255,15 +263,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
      */
     @ViewInject(R.id.good_luck_lv)
     private ListViewForScrollView good_luck_lv;
-
+    @ViewInject(R.id.layout_pt)
+    private LinearLayout layout_pt;
     private Bundle bundle;
     private int clickType = 0;
 
-    /**
-     * 优惠券
-     */
-    @ViewInject(R.id.goods_trick_rv)
-    private RecyclerView goods_trick_rv;
 
     /**
      * 店铺活动列表
@@ -323,7 +327,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     /**
      * 优惠券列表
      */
-    private List<TicketListBean> ticketList;
+    private List<GoodLuckBean.DataBean.TicketListBean> ticketList;
     /**
      * 店铺活动
      */
@@ -401,7 +405,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     /**
      * 别人在开团列表
      */
-    private List<GroupBean> groupList;
+    private List<GoodLuckBean.DataBean.GroupBean> groupList;
 
     /**
      * 产品规格列表
@@ -434,6 +438,105 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String merchant_logo = "";
     private String merchant_name = "";
 
+
+    private String vouchers_desc = "";//代金券弹窗下面的提示文字
+    @ViewInject(R.id.tv_expirationdate)
+    private TextView tv_expirationdate;//保质期提示
+
+    @ViewInject(R.id.layout_djq)
+    private LinearLayout layout_djq;//代金券布局
+    @ViewInject(R.id.layout_djq0)
+    private LinearLayout layout_djq0;
+    @ViewInject(R.id.layout_djq1)
+    private LinearLayout layout_djq1;
+    @ViewInject(R.id.layout_djq2)
+    private LinearLayout layout_djq2;
+    @ViewInject(R.id.tv_djq_color0)
+    private TextView tv_djq_color0;
+    @ViewInject(R.id.tv_djq_color1)
+    private TextView tv_djq_color1;
+    @ViewInject(R.id.tv_djq_color2)
+    private TextView tv_djq_color2;
+    @ViewInject(R.id.tv_djq_desc0)
+    private TextView tv_djq_desc0;
+    @ViewInject(R.id.tv_djq_desc1)
+    private TextView tv_djq_desc1;
+    @ViewInject(R.id.tv_djq_desc2)
+    private TextView tv_djq_desc2;
+
+
+    @ViewInject(R.id.lv_qkk)
+    private ListViewForScrollView lv_qkk;//去看看列表
+
+    /**
+     * 代金券
+     */
+    @ViewInject(R.id.goods_trick_rv)
+    private RecyclerView goods_trick_rv;
+    @ViewInject(R.id.get_a_coupon_lin_layout)
+    private LinearLayout get_a_coupon_lin_layout;
+    private TheTrickAdapter theTrickAdapter;
+
+    @ViewInject(R.id.layout_service)
+    private LinearLayout layout_service;//服务布局
+    @ViewInject(R.id.rv_service)
+    private RecyclerView rv_service;
+
+    ArrayList<Map<String, String>> ser_list;//服务的列表
+    ArrayList<Map<String, String>> goods_price_desc;//价格的列表
+
+
+    @ViewInject(R.id.im_country_logo)
+    private ImageView im_country_logo;//国旗
+    @ViewInject(R.id.tv_country_desc)
+    private TextView tv_country_desc;//国家
+    @ViewInject(R.id.tv_country_tax)
+    private TextView tv_country_tax;//进口税
+    @ViewInject(R.id.layou_jinkoushui)//进口税的布局 0的话就隐藏
+    private LinearLayout layou_jinkoushui;
+
+
+    @ViewInject(R.id.tv_tab_1)
+    private TextView tv_tab_1;
+    @ViewInject(R.id.tv_tab_2)
+    private TextView tv_tab_2;
+    @ViewInject(R.id.tv_tab_3)
+    private TextView tv_tab_3;
+    @ViewInject(R.id.layout_aftersale)
+    private LinearLayout layout_aftersale;//包装售后
+    @ViewInject(R.id.tv_bzqd)
+    private TextView tv_bzqd;//包装清单
+    @ViewInject(R.id.tv_shfw)
+    private TextView tv_shfw;//售后服务
+    @ViewInject(R.id.tv_jgsm)
+    private TextView tv_jgsm;//价格说明
+    @ViewInject(R.id.ticket_gv)
+    private GridViewForScrollView ticket_gv;
+    private AllGvLvAdapter allGvLvAdapter1;
+    @ViewInject(R.id.layout_cheap_group)
+    private LinearLayout layout_cheap_group;//搭配购
+    @ViewInject(R.id.tv_ticket_buy_discount)
+    private TextView tv_ticket_buy_discount;//最多可使用多少代金券
+    @ViewInject(R.id.tv_group_price)
+    private TextView tv_group_price;//最多可使用多少代金券
+    @ViewInject(R.id.tv_group_integral)
+    private TextView tv_group_integral;//送多少积分
+    @ViewInject(R.id.tv_goods_price)
+    private TextView tv_goods_price;//省多少
+    @ViewInject(R.id.rv_cheap_group)
+    private RecyclerView rv_cheap_group;
+
+
+    private List<AllGoodsBean> ticket = new ArrayList<>();
+    private List<AllGoodsBean> more = new ArrayList<>();
+
+    private boolean is_f = true;//判断刷新
+    private int page = 1;
+    private Map<String, String> goodsInfos;
+
+    private List<GoodsAttrs> goodsAttrs;
+    private ArrayList<Map<String, String>> dj_ticket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -452,7 +555,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
         getHeight();
-
+        rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         // 优惠券
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
@@ -462,10 +565,20 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layout,
-            R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv})
+            R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv,
+            R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.im_toarrs,R.id.layout_djq
+    })
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_showClassify:
+                Intent intent = new Intent();
+                intent.putExtra("appBarTitle", goodsInfos.get("two_cate_name"));
+                intent.putExtra("two_cate_id", goodsInfos.get("cate_id"));
+                intent.setClass(this, SubclassificationAty.class);
+                startActivity(intent);
+                break;
             case R.id.title_goods_layout://商品
                 clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
@@ -545,6 +658,47 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.to_chat_tv:// 进店逛逛
                 toChat(easemob_account, merchant_logo, merchant_name);
+                break;
+            case R.id.tv_tab_1:
+                goods_desc_wv.setVisibility(View.VISIBLE);
+                goods_common_attr_lv.setVisibility(View.GONE);
+                layout_aftersale.setVisibility(View.GONE);
+                tv_tab_1.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_2.setTextColor(Color.parseColor("#666666"));
+                tv_tab_3.setTextColor(Color.parseColor("#666666"));
+                break;
+            case R.id.tv_tab_2:
+                layout_aftersale.setVisibility(View.GONE);
+                goods_desc_wv.setVisibility(View.GONE);
+                goods_common_attr_lv.setVisibility(View.VISIBLE);
+                tv_tab_2.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_1.setTextColor(Color.parseColor("#666666"));
+                tv_tab_3.setTextColor(Color.parseColor("#666666"));
+                break;
+            case R.id.tv_tab_3:
+                tv_tab_3.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_1.setTextColor(Color.parseColor("#666666"));
+                tv_tab_2.setTextColor(Color.parseColor("#666666"));
+                goods_desc_wv.setVisibility(View.GONE);
+                goods_common_attr_lv.setVisibility(View.GONE);
+                layout_aftersale.setVisibility(View.VISIBLE);
+                break;
+            case R.id.im_service_more:
+                if (ser_list != null) {
+                    showPop(v, "服务说明", ser_list, 1);
+                }
+                break;
+            case R.id.tv_quxiao://促销弹框
+                showCXPop(v);
+                break;
+            case R.id.tv_lingquan:
+                showLQPop(v, "领券");
+                break;
+            case R.id.im_toarrs:
+                toAttrs(v, goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs);
+                break;
+            case R.id.layout_djq:
+                showDjqPop(v, dj_ticket);
                 break;
         }
     }
@@ -648,7 +802,179 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     protected void requestData() {
-        groupBuyPst.groupBuyInfo(group_buy_id);
+        groupBuyPst.groupBuyInfo(group_buy_id, page);
+    }
+
+    CommonPopupWindow commonPopupWindow;
+
+    /**
+     * 领券
+     */
+    public void showLQPop(View view, final String title) {//
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_layout)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+                        recyclerview.setLayoutManager(new GridLayoutManager(GoodLuckDetailsAty.this, 2));
+                        recyclerview.setAdapter(theTrickAdapter);
+                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+                        tv_title.setText(title);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+    /**
+     * 代金券的弹窗
+     *
+     * @param view
+     */
+    public void showDjqPop(final View view, final List<Map<String, String>> list) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.layout_popp_djq)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+                        tv_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        tv_desc.setText(vouchers_desc);
+                        for (int i = 0; i < list.size(); i++) {
+
+                            switch (i) {
+                                case 0: {
+                                    layout_djq0.setVisibility(View.VISIBLE);
+                                    tv_djq_desc0.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 1: {
+                                    layout_djq1.setVisibility(View.VISIBLE);
+                                    tv_djq_desc1.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 2: {
+                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    tv_djq_desc2.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                            }
+
+                            switch (list.get(i).get("type")) {
+                                case "0": {
+                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                                }
+                                break;
+                                case "1": {
+                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                                }
+                                break;
+                                case "2": {
+                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                                }
+
+                                break;
+                            }
+                        }
+
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+
+    public void showPop(View view, final String title, final List<Map<String, String>> list, final int type) {//
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_layout)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+                        recyclerview.setLayoutManager(new LinearLayoutManager(GoodLuckDetailsAty.this, 1, false));
+                        recyclerview.setAdapter(new service_adp(list, type));
+                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+                        tv_title.setText(title);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    /**
+     * 促销
+     *
+     * @param view
+     */
+    public void showCXPop(View view) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.layou_popp_cuxiao)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
+                        PromotionAdapter promotionAdapter = new PromotionAdapter(GoodLuckDetailsAty.this, promotion);
+                        promotion_lv.setAdapter(promotionAdapter);
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
@@ -657,7 +983,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("groupBuyInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            GroupBuyInfo groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GroupBuyInfo.class);
+            goodsInfos = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+            GoodLuckBean groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GoodLuckBean.class);
             image = groupBuyInfo.getData().getGoods_banner();
             share_url = groupBuyInfo.getData().getShare_url();
             share_img = groupBuyInfo.getData().getShare_img();
@@ -666,14 +993,34 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (!ListUtils.isEmpty(image)) {
                 forBanner();
             }
-            GoodsInfoBean goodsInfo = groupBuyInfo.getData().getGoodsInfo();
+
+            vouchers_desc = data.get("vouchers_desc");
+            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
+            GoodLuckBean.DataBean.GoodsInfoBean goodsInfo = groupBuyInfo.getData().getGoodsInfo();
             goods_id = goodsInfo.getGoods_id();
 
+            /**判断这块儿显示和隐藏
+             * "is_new_goods": "1",//是否是新品  0不是 1是
+             "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
+             "is_end": "0",//是否临期 0未临期 1临期
+             "is_end_desc": "此商品属于临期商品，商品保质期到期日为2017-20-30",//临期描述
+             */
+            if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
+                tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
+            } else if (goodsInfo.getIs_new_goods_desc().equals("0")) {
+                tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc());
+            } else if (goodsInfo.getIs_end().equals("1")) {
+                tv_expirationdate.setText(goodsInfo.getIs_end_desc());
+            } else {
+                tv_expirationdate.setVisibility(View.GONE);
+            }
             // 售价
-            ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
-            // 市场价
-            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
-            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
+            now_price_tv.setText(goodsInfo.getShop_price());
+            old_price_tv.setText("已团" + data.get("total") + "件");
+//            // 市场价
+//            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
+//            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
             // 积分
             ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
@@ -686,12 +1033,138 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
                     "运费10元", 2, Color.parseColor("#FD8214"));
 
-
             goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
-            goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
+            goods_desc_wv.loadDataWithBaseURL(null, goodsInfos.get("goods_desc"), "text/html", "utf-8", null);
+
+
+            if (Double.parseDouble(goodsInfos.get("country_tax")) > 0) {
+                Glide.with(this).load(goodsInfos.get("country_logo")).into(im_country_logo);
+                tv_country_desc.setText(goodsInfos.get("country_desc"));
+                tv_country_tax.setText(goodsInfos.get("country_tax") + "元");
+            } else {
+                layou_jinkoushui.setVisibility(View.GONE);
+            }
+
+            if (ToolKit.isList(goodsInfos, "dj_ticket")) {
+                dj_ticket = JSONUtils.parseKeyAndValueToMapList(goodsInfos.get("dj_ticket"));
+                for (int i = 0; i < dj_ticket.size(); i++) {
+                    if (i == 2) {
+                        break;
+                    }
+                    switch (i) {
+                        case 0: {
+                            layout_djq0.setVisibility(View.VISIBLE);
+                            tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                        case 1: {
+                            layout_djq1.setVisibility(View.VISIBLE);
+                            tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                        case 2: {
+                            layout_djq2.setVisibility(View.VISIBLE);
+                            tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                    }
+
+                    switch (dj_ticket.get(i).get("type")) {
+                        case "0": {
+                            //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                            tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                        }
+                        break;
+                        case "1": {
+                            tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                        }
+                        break;
+                        case "2": {
+                            tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                        }
+
+                        break;
+                    }
+
+                }
+            } else {
+                layout_djq.setVisibility(View.GONE);
+            }
+
+            if (ToolKit.isList(goodsInfos, "goods_active")) {
+                final ArrayList<Map<String, String>> qkk_list = JSONUtils.parseKeyAndValueToMapList(goodsInfos.get("goods_active"));
+                lv_qkk.setAdapter(new qkk_adapter(qkk_list));
+                lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        switch (qkk_list.get(i).get("act_type")) {
+                            case "1": {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("one_buy_id", qkk_list.get(i).get("act_id"));
+                                startActivity(SnatchGoodsDetailsAty.class, bundle);
+                            }
+                            break;
+                            case "2": {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("limit_buy_id", qkk_list.get(i).get("act_id"));
+                                bundle.putInt("type", 2);
+                                startActivity(LimitGoodsAty.class, bundle);
+
+                            }
+                            break;
+                            case "3": {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("auction_id", qkk_list.get(i).get("act_id"));
+                                startActivity(AuctionGoodsDetailsAty.class, bundle);
+                            }
+                            break;
+                            case "4": {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("limit_buy_id", qkk_list.get(i).get("act_id"));
+                                bundle.putInt("type", 0);
+                                startActivity(LimitGoodsAty.class, bundle);
+                            }
+
+                            break;
+                            case "5": {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("group_buy_id", qkk_list.get(i).get("act_id"));
+                                startActivity(GoodLuckDetailsAty.class, bundle);
+                            }
+
+                            break;
+
+
+                        }
+                    }
+                });
+            }
+
+            // 代金券列表
+            if (ToolKit.isList(data, "ticketList")) {
+                List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"),
+                        TicketListBean.class);
+                theTrickAdapter = new TheTrickAdapter(this, ticketListBeens);
+                goods_trick_rv.setAdapter(theTrickAdapter);
+            } else {
+                get_a_coupon_lin_layout.setVisibility(View.GONE);
+            }
+
+            if (ToolKit.isList(data, "goods_price_desc")) {
+                goods_price_desc = JSONUtils.parseKeyAndValueToMapList(data.get("goods_price_desc"));
+            }
+            if (ToolKit.isList(data, "goods_server")) {
+                ser_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_server"));
+                rv_service.setAdapter(new
+                        service_adp(ser_list, 3));
+            } else {
+                layout_service.setVisibility(View.GONE);
+            }
+
 
             // 店铺信息
-            MellInfoBean mellInfoBean = groupBuyInfo.getData().getMInfo();
+            GoodLuckBean.DataBean.MInfoBean mellInfoBean = groupBuyInfo.getData().getMInfo();
             easemob_account = mellInfoBean.getEasemob_account();
             merchant_logo = mellInfoBean.getLogo();
             merchant_name = mellInfoBean.getMerchant_name();
@@ -728,25 +1201,22 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             // 店铺活动
             promotion = groupBuyInfo.getData().getPromotion();
             if (!ListUtils.isEmpty(promotion)) {
-
                 promotion_layout.setVisibility(View.VISIBLE);
-
-                PromotionBean promotionBean = promotion.get(0);
+                //PromotionBean promotionBean = promotion.get(0);
                 // =====单个活动设置
-                String type = promotionBean.getType();
-                int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
-                onle_pro_type_iv.setImageResource(imageId);
-                onle_pro_title_tv.setText(promotionBean.getTitle());
-
-                promotion.remove(promotionBean);
+//                String type = promotionBean.getType();
+//                int imageId = getResources().getIdentifier("icon_get_coupon_hzj_" + type, "drawable", getPackageName());
+//                onle_pro_type_iv.setImageResource(imageId);
+//                onle_pro_title_tv.setText(promotionBean.getTitle());
+                //  promotion.remove(promotionBean);
                 if (!ListUtils.isEmpty(promotion)) {
                     PromotionAdapter promotionAdapter = new PromotionAdapter(this, promotion);
                     promotion_lv.setAdapter(promotionAdapter);
-                    goods_bottom_lin_layout.setVisibility(View.VISIBLE);
-                    show_or_hide_iv.setEnabled(true);
+                    //  goods_bottom_lin_layout.setVisibility(View.VISIBLE);
+                    ///  show_or_hide_iv.setEnabled(true);
                 } else {
-                    goods_bottom_lin_layout.setVisibility(View.GONE);
-                    show_or_hide_iv.setEnabled(false);
+                    //  goods_bottom_lin_layout.setVisibility(View.GONE);
+                    //show_or_hide_iv.setEnabled(false);
                 }
             } else {
                 promotion_layout.setVisibility(View.GONE);
@@ -754,41 +1224,75 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
             // 优惠券列表
             ticketList = groupBuyInfo.getData().getTicketList();
-            if (!ListUtils.isEmpty(ticketList)) {
-                TheTrickAdapter theTrickAdapter = new TheTrickAdapter(this, ticketList);
-                goods_trick_rv.setAdapter(theTrickAdapter);
-            }
+//            if (!ListUtils.isEmpty(ticketList)) {
+//                TheTrickAdapter theTrickAdapter = new TheTrickAdapter(this, ticketList);
+//                goods_trick_rv.setAdapter(theTrickAdapter);
+//            }
             // 评论
-            try {
-                CommentBean comment = groupBuyInfo.getData().getComment();
-                if (comment != null) {
-                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                    CommentBean.BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getUser_head_pic())
-                                .override(mSize, mSize)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                            estimate_pic.setAdapter(picadapter);
-                        }
-                    }
+//            try {
+//                GoodLuckBean.DataBean.CommentBean comment = groupBuyInfo.getData().getComment();
+//                if (comment != null) {
+//                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+//                    CommentBean.BodyBean bodyBean = comment.getBody();
+//                    if (bodyBean != null) {
+//                        Glide.with(this).load(bodyBean.getUser_head_pic())
+//                                .override(mSize, mSize)
+//                                .placeholder(R.drawable.ic_default)
+//                                .error(R.drawable.ic_default)
+//                                .centerCrop()
+//                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                                .into(comm_user_head_iv);
+//                        comm_user_name_tv.setText(bodyBean.getNickname());
+//                        comm_content_tv.setText(bodyBean.getContent());
+//                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+//                        if (!ListUtils.isEmpty(pictures)) {
+//                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+//                            estimate_pic.setAdapter(picadapter);
+//                        }
+//                    }
+//                }
+//            } catch (JsonSyntaxException e) {
+//                all_comment_num_tv.setText("商品评价(0)");
+//                comment_layout.setVisibility(View.GONE);
+//            }
+
+            tv_bzqd.setText(goodsInfos.get("package_list")); //包装清单
+            tv_shfw.setText(goodsInfos.get("after_sale_service")); //售后服务
+            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+
+            //搭配购
+            Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
+            if (cheap_group != null) {
+                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "代金券");
+                tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
+                tv_group_integral.setText(cheap_group.get("integral"));
+                double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
+                tv_goods_price.setText("立省¥" + price);
+                ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
+                rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                rv_cheap_group.setAdapter(new cg_adp(maps));
+            } else {
+                layout_cheap_group.setVisibility(View.GONE);
+
+            }
+            if (ToolKit.isList(data, "guess_goods_list")) {
+                if (page == 1) {
+                    ticket = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+                    allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
+                    ticket_gv.setAdapter(allGvLvAdapter1);
+                } else {
+                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+                    ticket.addAll(more);
+                    allGvLvAdapter1.notifyDataSetChanged();
                 }
-            } catch (JsonSyntaxException e) {
-                all_comment_num_tv.setText("商品评价(0)");
-                comment_layout.setVisibility(View.GONE);
+            } else {
+                is_f = false;
             }
             // 一键开团
-            creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
+            creat_group_tv.setText("立即购买");
+            //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
             // 单独购买
-            one_price_tv.setText("￥" + groupBuyInfo.getData().getGroup_price() + "\n单独购买");
+            one_price_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n独立购买");
 
             int num;
             try {
@@ -817,7 +1321,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             groupList = groupBuyInfo.getData().getGroup();
             if (!ListUtils.isEmpty(groupList)) {
                 // 拼团列表
-                GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(this, groupList);
+                GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, groupList);
                 good_luck_lv.setAdapter(goodLuckAdapter);
                 // 去参团
                 goodLuckAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
@@ -832,13 +1336,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         startActivity(CreateGroupAty.class, bundle);
                     }
                 });
+            } else {
+                layout_pt.setVisibility(View.GONE);
             }
-            // 产品属性
-            List<GoodsCommonAttr> gca = groupBuyInfo.getData().getGoods_common_attr();
-            if (!ListUtils.isEmpty(gca)) {
-                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
-                goods_common_attr_lv.setAdapter(gcaAdapter);
-            }
+//            // 产品属性GoodsCommonAttr
+//            List<GoodLuckBean.DataBean.GoodsCommonAttrBean> gca = groupBuyInfo.getData().getGoods_common_attr();
+//            if (!ListUtils.isEmpty(gca)) {
+//                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
+//                goods_common_attr_lv.setAdapter(gcaAdapter);
+//            }
             // ==========团购详情End===========
             return;
         }
@@ -892,4 +1398,145 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             clickType = 0;
         }
     }
+
+    @Override
+    public void onBottom() {
+        if (is_f) {
+            page++;
+            groupBuyPst.groupBuyInfo(group_buy_id, page);
+        }
+    }
+
+    class cg_adp extends RecyclerView.Adapter<cg_adp.ViewHolder> {
+        ArrayList<Map<String, String>> list;
+
+        public cg_adp(ArrayList<Map<String, String>> list) {
+            this.list = list;
+
+        }
+
+        @Override
+        public cg_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new cg_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_dpg, null));
+        }
+
+        @Override
+        public void onBindViewHolder(cg_adp.ViewHolder holder, int position) {
+            Glide.with(GoodLuckDetailsAty.this).load(list.get(position).get("goods_img")).into(holder.imageview);
+            holder.tv_price.setText("¥" + list.get(position).get("shop_price"));
+            if (position == list.size() - 1) {
+                holder.im_jiahao.setVisibility(View.GONE);
+            } else {
+                holder.im_jiahao.setVisibility(View.VISIBLE);
+
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imageview;
+            TextView tv_price;
+            ImageView im_jiahao;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                imageview = (ImageView) itemView.findViewById(R.id.imageview);
+                im_jiahao = (ImageView) itemView.findViewById(R.id.imageView3);
+                tv_price = (TextView) itemView.findViewById(R.id.tv_price);
+            }
+        }
+    }
+
+    class qkk_adapter extends BaseAdapter {
+        ArrayList<Map<String, String>> list;
+
+        public qkk_adapter(ArrayList<Map<String, String>> list) {
+            this.list = list;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            view = View.inflate(GoodLuckDetailsAty.this, R.layout.item_lh_qkk, null);
+            TextView act_desc = (TextView) view.findViewById(R.id.tv_qkk);
+            act_desc.setText(list.get(i).get("act_desc"));
+            return view;
+        }
+    }
+
+
+    class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
+        List<Map<String, String>> list;
+        int tpye = 0;
+
+        public service_adp(List<Map<String, String>> list, int type) {
+            this.list = list;
+            this.tpye = type;
+        }
+
+        @Override
+        public service_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new service_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lh_service, null));
+        }
+
+        @Override
+        public void onBindViewHolder(service_adp.ViewHolder holder, int position) {
+            String name = "";
+            String desc = "";
+            if (this.tpye == 0) {
+                name = list.get(position).get("price_name") + "：";
+                desc = list.get(position).get("desc");
+                SpannableString msp = new SpannableString(name + desc);
+                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
+                holder.tv_text.setText(msp);
+            } else if (this.tpye == 1) {
+                name = list.get(position).get("server_name") + "：";
+                desc = list.get(position).get("desc");
+                SpannableString msp = new SpannableString(name + desc);
+                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
+                holder.tv_text.setText(msp);
+            } else {
+                holder.tv_text.setText(list.get(position).get("server_name"));
+                holder.tv_text.setTextColor(Color.parseColor("#F23030"));
+            }
+            Glide.with(GoodLuckDetailsAty.this).load(list.get(position).get("icon")).into(holder.im_logo);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView im_logo;
+            TextView tv_text;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                im_logo = (ImageView) itemView.findViewById(R.id.im_logo);
+                tv_text = (TextView) itemView.findViewById(R.id.tv_text);
+            }
+        }
+    }
+
+
 }

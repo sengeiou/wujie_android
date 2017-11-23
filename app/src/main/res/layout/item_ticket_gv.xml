@@ -55,7 +55,6 @@
         android:id="@+id/collect_goods_status_iv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
         android:src="@drawable/icon_collect_goods_unselect"
         android:visibility="gone"/>
 </FrameLayout>

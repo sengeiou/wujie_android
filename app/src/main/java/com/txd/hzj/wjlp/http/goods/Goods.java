@@ -39,10 +39,11 @@ class Goods {
      * @param goods_id 商品id
      * @param baseView 回调
      */
-    void goodsInfo(String goods_id, BaseView baseView) {
+    void goodsInfo(String goods_id, int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "goodsInfo", params, baseView);
     }
 
@@ -79,5 +80,6 @@ class Goods {
         params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "search", params, baseView);
     }
+
 
 }

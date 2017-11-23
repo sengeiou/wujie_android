@@ -34,6 +34,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.util.StringUtils;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -179,7 +180,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         // 极光设置Tag或者别名
         if (Config.isLogin()) {
-            L.e("=====token=====",Config.getToken());
+            L.e("=====token=====", Config.getToken());
             JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
         }
@@ -543,6 +544,13 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         isExceptionDialogShow = true;
         DemoHelper.getInstance().logout(false, null);
         String st = getResources().getString(R.string.Logoff_notification);
+        Config.setLoginState(false);
+        PreferencesUtils.putString(MainAty.this, "token", "");
+        Map<String, String> map = application.getUserInfo();
+        map.clear();
+        application.setUserInfo(map);
+        exceptionBuilder = null;
+        isExceptionDialogShow = false;
         if (!MainAty.this.isFinishing()) {// 主页没有被销毁
             // clear up global variables
             try {
@@ -555,16 +563,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        exceptionBuilder = null;
-                        isExceptionDialogShow = false;
-                        Config.setLoginState(false);
                         Intent intent = new Intent(MainAty.this, LoginAty.class);
                         intent.putExtra("type", 0);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
-                        Map<String, String> map = application.getUserInfo();
-                        map.clear();
-                        application.setUserInfo(map);
+
                         finish();
                     }
                 });
@@ -609,9 +612,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
                             username.equals(ChatActivity.activityInstance.toChatUsername)) {
                         String st10 = getResources().getString(R.string.have_you_removed);
-                        Toast.makeText(MainAty.this, ChatActivity.activityInstance.getToChatUsername() + st10,
-                                Toast.LENGTH_LONG)
-                                .show();
+//                        Toast.makeText(MainAty.this, ChatActivity.activityInstance.getToChatUsername() + st10,
+//                                Toast.LENGTH_LONG)
+                        //  .show();
                         ChatActivity.activityInstance.finish();
                     }
                 }
@@ -663,6 +666,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     /**
      * get unread event notification count, including application, accepted, etc
      * 获取未读的事件通知数，包括应用程序、消息等
+     *
      * @return int
      */
     public int getUnreadAddressCountTotal() {
@@ -1051,6 +1055,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             }
         });
     }
+
     @Override
     public void onCmdMessageReceived(List<EMMessage> messages) {
         runOnUiThread(new Runnable() {

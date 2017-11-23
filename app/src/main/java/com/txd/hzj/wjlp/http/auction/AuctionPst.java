@@ -28,9 +28,9 @@ public class AuctionPst extends BasePresenter {
     }
 
     // 竞拍汇商品详情页
-    public void auctionInfo(String auction_id) {
+    public void auctionInfo(String auction_id,int page) {
         baseView.showDialog();
-        auction.auctionInfo(auction_id, baseView);
+        auction.auctionInfo(auction_id,page, baseView);
     }
 
     // 设置提醒

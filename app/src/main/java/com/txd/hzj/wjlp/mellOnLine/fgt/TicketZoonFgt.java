@@ -135,19 +135,19 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (type != 8) {
+//        if (type != 8) {
             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-        }
+//        }
 
-        if (8 == type) {
-            ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
-            ticket_zoon_goods_gv.setVisibility(View.GONE);
-            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
-        } else {
+//        if (8 == type) {
+//            ticket_zoon_goods_lv.setVisibility(View.VISIBLE);
+//            ticket_zoon_goods_gv.setVisibility(View.GONE);
+//            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
+//        } else {
             ticket_zoon_goods_lv.setVisibility(View.GONE);
             ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
             ticket_zoon_goods_gv.setEmptyView(no_data_layout);
-        }
+//        }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -168,8 +168,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
                     case 3:// 进口馆
-                        bundle.putString("goods_id", data.get(i).getGoods_id());
-                        startActivity(InputGoodsDetailsAty.class, bundle);
+                        bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
+                        bundle.putInt("from",1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                        break;
+                    case 8:
+                        bundle.putString("group_buy_id", data.get(i).getGroup_buy_id());
+                        startActivity(GoodLuckDetailsAty.class, bundle);
                         break;
                 }
             }
@@ -300,7 +305,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
                 if (!ListUtils.isEmpty(data)) {
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-                    ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
+                   // ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
+                    ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
                 }
 
                 GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();

@@ -38,10 +38,11 @@ class LimitBuy {
      * @param limit_buy_id 限量购id
      * @param baseView     回调
      */
-    void limitBuyInfo(String limit_buy_id, BaseView baseView) {
+    void limitBuyInfo(String limit_buy_id,int page ,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("limit_buy_id", limit_buy_id);
+        params.addBodyParameter("p", String.valueOf(page));
         apiTool2.postApi(url + "limitBuyInfo", params, baseView);
     }
 

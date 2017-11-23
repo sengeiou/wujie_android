@@ -39,10 +39,11 @@ public class GroupBuy {
      * @param group_buy_id 团购id
      * @param baseView     回调
      */
-    void groupBuyInfo(String group_buy_id, BaseView baseView) {
+    void groupBuyInfo(String group_buy_id,int page, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("group_buy_id", group_buy_id);
+        params.addBodyParameter("p", String.valueOf(page));
         apiTool2.postApi(url + "groupBuyInfo", params, baseView);
     }
 

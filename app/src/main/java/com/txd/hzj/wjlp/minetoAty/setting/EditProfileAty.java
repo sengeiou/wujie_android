@@ -222,6 +222,15 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         userPst.userInfo();
     }
 
+    @ViewInject(R.id.parent_alliance_merchant_name)
+    private TextView parent_alliance_merchant_name;
+    @ViewInject(R.id.parent_alliance_merchant_sn)
+    private TextView parent_alliance_merchant_sn;
+    @ViewInject(R.id.hidden_parent_name)
+    private TextView hidden_parent_name;
+    @ViewInject(R.id.hidden_parent_phone)
+    private TextView hidden_parent_phone;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         if (requestUrl.contains("userInfo")) {
@@ -262,6 +271,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
             user_parent_name_tv.setText(data.get("parent_name"));
             user_parent_phone_tv.setText(data.get("parent_phone"));
+            parent_alliance_merchant_name.setText(data.get("parent_alliance_merchant_name"));
+            parent_alliance_merchant_sn.setText(data.get("parent_alliance_merchant_sn"));
+            hidden_parent_name.setText(data.get("hidden_parent_name"));
+            hidden_parent_phone.setText(data.get("hidden_parent_phone"));
             return;
         }
         if (requestUrl.contains("editInfo")) {

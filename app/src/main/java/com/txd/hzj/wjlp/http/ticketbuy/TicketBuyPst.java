@@ -28,9 +28,9 @@ public class TicketBuyPst extends BasePresenter {
     }
 
     // 详情
-    public void ticketBuyInfo(String ticket_buy_id) {
+    public void ticketBuyInfo(String ticket_buy_id, int p) {
         baseView.showDialog();
-        ticketBuy.ticketBuyInfo(ticket_buy_id, baseView);
+        ticketBuy.ticketBuyInfo(ticket_buy_id, p, baseView);
     }
 
     // 三级分类商品

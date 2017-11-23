@@ -405,10 +405,10 @@ public class MellInfoAty extends BaseAty {
         aty_type = new ArrayList<>();
         ads_list = new ArrayList<>();
         aty_type.add("限量购");
-        aty_type.add("拼团购");
+        aty_type.add("拼单购");
         aty_type.add("无界预购");
-        aty_type.add("竞拍汇");
-        aty_type.add("积分夺宝");
+        aty_type.add("比价购");
+        aty_type.add("积分抽奖");
         mell_id = getIntent().getStringExtra("mell_id");
         L.e("=====商家id=====", mell_id);
         size = ToolKit.dip2px(this, 80);

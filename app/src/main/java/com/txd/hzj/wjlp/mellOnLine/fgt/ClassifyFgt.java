@@ -212,14 +212,14 @@ public class ClassifyFgt extends BaseFgt {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (getUserVisibleHint()) {
-            try {
-                goodsPst = new GoodsPst(this);
-                goodsPst.goodsList(p, type, 1);
-            } catch (NullPointerException e) {
-                L.e("Classify======ERROR");
-            }
-        }
+//        if (getUserVisibleHint()) {
+//            try {
+//                goodsPst = new GoodsPst(this);
+//                goodsPst.goodsList(p, type, 1);
+//            } catch (NullPointerException e) {
+//                L.e("Classify======ERROR");
+//            }
+//        }
     }
 
     @Override
@@ -242,7 +242,8 @@ public class ClassifyFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-
+        goodsPst = new GoodsPst(this);
+        goodsPst.goodsList(p, type, 0);
     }
 
     @Override

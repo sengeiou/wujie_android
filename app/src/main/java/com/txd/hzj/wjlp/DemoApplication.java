@@ -72,7 +72,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     @Override
     public void onCreate() {
-        L.isDebug = BuildConfig.DEBUG;
+//        //  L.isDebug = BuildConfig.DEBUG;
+        L.isDebug = false;
         MultiDex.install(this);
         super.onCreate();
         applicationContext = this;
@@ -90,9 +91,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
         initLocInfo();
-        try{
+        try {
             EMClient.getInstance().chatManager().addMessageListener(this);
-        } catch (NullPointerException e ){
+        } catch (NullPointerException e) {
             L.e("=====Application=====");
         }
     }
@@ -179,7 +180,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void setChatListener(ChatListener chatListener) {
         this.chatListener = chatListener;
     }
-    public void removeLisetener(){
+
+    public void removeLisetener() {
         EMClient.getInstance().chatManager().removeMessageListener(this);
     }
 }

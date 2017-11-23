@@ -27,9 +27,9 @@ public class GroupBuyPst extends BasePresenter {
     }
 
     // 拼团购详情
-    public void groupBuyInfo(String group_buy_id) {
+    public void groupBuyInfo(String group_buy_id,int page) {
         baseView.showDialog();
-        groupBuy.groupBuyInfo(group_buy_id, baseView);
+        groupBuy.groupBuyInfo(group_buy_id,page, baseView);
     }
 
     // 参团页

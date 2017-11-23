@@ -39,10 +39,11 @@ public class IntegralBuy {
      * @param integral_buy_id 商店商品编号
      * @param baseView        回调
      */
-    void integralBuyInfo(String integral_buy_id, BaseView baseView) {
+    void integralBuyInfo(String integral_buy_id, int page,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("integral_buy_id", integral_buy_id);
+        params.addBodyParameter("p", String.valueOf(page));
         apiTool2.postApi(url + "integralBuyInfo", params, baseView);
     }
 

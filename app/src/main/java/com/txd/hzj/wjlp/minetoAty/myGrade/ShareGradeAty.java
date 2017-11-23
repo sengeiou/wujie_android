@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,8 +94,8 @@ public class ShareGradeAty extends BaseAty {
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
-    @ViewInject(R.id.grade_ssr_layout)
-    private SuperSwipeRefreshLayout swipe_refresh;
+//    @ViewInject(R.id.grade_ssr_layout)
+//    private SuperSwipeRefreshLayout swipe_refresh;
 
     // Header View
     private ProgressBar progressBar;
@@ -126,6 +127,8 @@ public class ShareGradeAty extends BaseAty {
     private TextView share_num_tv;
     @ViewInject(R.id.recommend_num_tv)
     private TextView recommend_num_tv;
+    @ViewInject(R.id.nestedScrollView)
+    private NestedScrollView nestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,64 +158,76 @@ public class ShareGradeAty extends BaseAty {
         my_share_grade_lv.setEmptyView(no_data_layout);
 
         changeViewStatus(0);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) ) {
+                    frist = false;
+                    p++;
+                    userPst.gradeRank(p, city_id, type, city_name, false);
+                    showProgressDialog();
+                }
+            }
 
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
-        swipe_refresh.setHeaderView(createHeaderView());// add headerView
-        swipe_refresh.setFooterView(createFooterView());
-        swipe_refresh.setTargetScrollWithLayout(true);
 
-        swipe_refresh
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
-
-                    @Override
-                    public void onRefresh() {
-                        frist = false;
-                        textView.setText("正在刷新");
-                        imageView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        p = 1;
-                        userPst.gradeRank(p, city_id, type, city_name, false);
-                    }
-
-                    @Override
-                    public void onPullDistance(int distance) {
-                    }
-
-                    @Override
-                    public void onPullEnable(boolean enable) {
-                        textView.setText(enable ? "松开刷新" : "下拉刷新");
-                        imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);
-                    }
-                });
-
-        swipe_refresh
-                .setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
-
-                    @Override
-                    public void onLoadMore() {
-                        frist = false;
-                        footerTextView.setText("正在加载...");
-                        footerImageView.setVisibility(View.GONE);
-                        footerProgressBar.setVisibility(View.VISIBLE);
-
-                        p++;
-                        userPst.gradeRank(p, city_id, type, city_name, false);
-                    }
-
-                    @Override
-                    public void onPushEnable(boolean enable) {
-                        footerTextView.setText(enable ? "松开加载" : "上拉加载");
-                        footerImageView.setVisibility(View.VISIBLE);
-                        footerImageView.setRotation(enable ? 0 : 180);
-                    }
-
-                    @Override
-                    public void onPushDistance(int distance) {
-
-                    }
-
-                });
+        });
+//        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+//        swipe_refresh.setHeaderView(createHeaderView());// add headerView
+//        swipe_refresh.setFooterView(createFooterView());
+//        swipe_refresh.setTargetScrollWithLayout(true);
+//
+//        swipe_refresh
+//                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+//
+//                    @Override
+//                    public void onRefresh() {
+//                        frist = false;
+//                        textView.setText("正在刷新");
+//                        imageView.setVisibility(View.GONE);
+//                        progressBar.setVisibility(View.VISIBLE);
+//                        p = 1;
+//                        userPst.gradeRank(p, city_id, type, city_name, false);
+//                    }
+//
+//                    @Override
+//                    public void onPullDistance(int distance) {
+//                    }
+//
+//                    @Override
+//                    public void onPullEnable(boolean enable) {
+//                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+//                        imageView.setVisibility(View.VISIBLE);
+//                        imageView.setRotation(enable ? 180 : 0);
+//                    }
+//                });
+//
+//        swipe_refresh
+//                .setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+//
+//                    @Override
+//                    public void onLoadMore() {
+//                        frist = false;
+//                        footerTextView.setText("正在加载...");
+//                        footerImageView.setVisibility(View.GONE);
+//                        footerProgressBar.setVisibility(View.VISIBLE);
+//
+//                        p++;
+//                        userPst.gradeRank(p, city_id, type, city_name, false);
+//                    }
+//
+//                    @Override
+//                    public void onPushEnable(boolean enable) {
+//                        footerTextView.setText(enable ? "松开加载" : "上拉加载");
+//                        footerImageView.setVisibility(View.VISIBLE);
+//                        footerImageView.setRotation(enable ? 0 : 180);
+//                    }
+//
+//                    @Override
+//                    public void onPushDistance(int distance) {
+//
+//                    }
+//
+//                });
 
     }
 
@@ -300,7 +315,7 @@ public class ShareGradeAty extends BaseAty {
                     }
 
                     if (!frist) {
-                        swipe_refresh.setRefreshing(false);
+//                        swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
 
@@ -311,18 +326,18 @@ public class ShareGradeAty extends BaseAty {
                     }
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
-                    swipe_refresh.setLoadMore(false);
+//                    swipe_refresh.setLoadMore(false);
                 }
             } else {
                 if (1 == p) {
                     if (!frist) {
-                        swipe_refresh.setRefreshing(false);
+//                        swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
                 } else {
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
-                    swipe_refresh.setLoadMore(false);
+//                    swipe_refresh.setLoadMore(false);
                 }
             }
         }
@@ -419,29 +434,29 @@ public class ShareGradeAty extends BaseAty {
         }
     }
 
-    private View createFooterView() {
-        View footerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_footer, null);
-        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
-        footerImageView = footerView.findViewById(R.id.footer_image_view);
-        footerTextView = footerView.findViewById(R.id.footer_text_view);
-        footerProgressBar.setVisibility(View.GONE);
-        footerImageView.setVisibility(View.VISIBLE);
-        footerImageView.setImageResource(R.drawable.down_arrow);
-        footerTextView.setText("上拉加载更多...");
-        return footerView;
-    }
-
-    private View createHeaderView() {
-        View headerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_head, null);
-        progressBar = headerView.findViewById(R.id.pb_view);
-        textView = headerView.findViewById(R.id.text_view);
-        textView.setText("下拉刷新");
-        imageView = headerView.findViewById(R.id.image_view);
-        imageView.setVisibility(View.VISIBLE);
-        imageView.setImageResource(R.drawable.down_arrow);
-        progressBar.setVisibility(View.GONE);
-        return headerView;
-    }
+//    private View createFooterView() {
+//        View footerView = LayoutInflater.from(swipe_refresh.getContext())
+//                .inflate(R.layout.layout_footer, null);
+//        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+//        footerImageView = footerView.findViewById(R.id.footer_image_view);
+//        footerTextView = footerView.findViewById(R.id.footer_text_view);
+//        footerProgressBar.setVisibility(View.GONE);
+//        footerImageView.setVisibility(View.VISIBLE);
+//        footerImageView.setImageResource(R.drawable.down_arrow);
+//        footerTextView.setText("上拉加载更多...");
+//        return footerView;
+//    }
+//
+//    private View createHeaderView() {
+//        View headerView = LayoutInflater.from(swipe_refresh.getContext())
+//                .inflate(R.layout.layout_head, null);
+//        progressBar = headerView.findViewById(R.id.pb_view);
+//        textView = headerView.findViewById(R.id.text_view);
+//        textView.setText("下拉刷新");
+//        imageView = headerView.findViewById(R.id.image_view);
+//        imageView.setVisibility(View.VISIBLE);
+//        imageView.setImageResource(R.drawable.down_arrow);
+//        progressBar.setVisibility(View.GONE);
+//        return headerView;
+//    }
 }

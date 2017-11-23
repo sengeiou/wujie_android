@@ -33,9 +33,9 @@ public class PerBuyPst extends BasePresenter {
     }
 
     // 预购详情
-    public void preBuyInfo(String pre_buy_id) {
+    public void preBuyInfo(String pre_buy_id,int page) {
         baseView.showDialog();
-        preBuy.preBuyInfo(pre_buy_id, baseView);
+        preBuy.preBuyInfo(pre_buy_id,page, baseView);
     }
 
 }

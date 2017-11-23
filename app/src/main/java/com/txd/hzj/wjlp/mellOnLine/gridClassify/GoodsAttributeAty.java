@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -61,21 +63,18 @@ public class GoodsAttributeAty extends BaseAty {
      */
     @ViewInject(R.id.to_buy_must_tv)
     private TextView to_buy_must_tv;
-
-    private List<String> attrGroup;
-    private List<GoodsAttrs> attrs;
-    private List<GoodsAttrs> attrs2;
-
+    @ViewInject(R.id.imageview)
+    private ImageView imageview;
     private GoodsAttrsAdapter goodsAttrsAdapter;
 
-    private List<GoodsAttrs> selectAttrs;
+    private List<GoodsAttrs> selectAttrs=new ArrayList<GoodsAttrs>();
     private int from = 0;
+    private String price = "";
+    private String imageurl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥49.00");
-        goods_attr_lv.setAdapter(goodsAttrsAdapter);
         if (1 == from) {
             to_buy_must_tv.setText("确定");
             goods_into_cart_tv.setVisibility(View.GONE);
@@ -101,28 +100,19 @@ public class GoodsAttributeAty extends BaseAty {
     @Override
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
-        attrGroup = new ArrayList<>();
-        attrs = new ArrayList<>();
-        attrs2 = new ArrayList<>();
-        selectAttrs = new ArrayList<>();
-        attrs.add(new GoodsAttrs("S"));
-        attrs.add(new GoodsAttrs("M"));
-        attrs.add(new GoodsAttrs("L"));
-        attrs.add(new GoodsAttrs("XL"));
-        attrs.add(new GoodsAttrs("XXL"));
-        attrs.add(new GoodsAttrs("XXXL"));
-        attrs2.add(new GoodsAttrs("红色"));
-        attrs2.add(new GoodsAttrs("藏青色"));
-        attrs2.add(new GoodsAttrs("白色"));
-        attrs2.add(new GoodsAttrs("蓝色"));
-        attrs2.add(new GoodsAttrs("军绿色"));
-        attrs2.add(new GoodsAttrs("黑色"));
-        goodsAttrsAdapter = new GoodsAttrsAdapter();
+
     }
 
     @Override
     protected void requestData() {
-
+        imageurl = getIntent().getStringExtra("imageurl");
+        price = getIntent().getStringExtra("price");
+        Glide.with(this).load(imageurl).into(imageview);
+        ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
+        selectAttrs = getIntent().getParcelableArrayListExtra("list");
+        goodsAttrsAdapter = new GoodsAttrsAdapter();
+        goods_attr_lv.setAdapter(goodsAttrsAdapter);
+        L.e(selectAttrs.toString());
     }
 
     private class GoodsAttrsAdapter extends BaseAdapter {
@@ -131,12 +121,12 @@ public class GoodsAttributeAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 2;
+            return selectAttrs.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return attrGroup.get(i);
+        public GoodsAttrs getItem(int i) {
+            return selectAttrs.get(i);
         }
 
         @Override
@@ -146,49 +136,35 @@ public class GoodsAttributeAty extends BaseAty {
 
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
-
             if (null == view) {
                 view = LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout.item_goods_attr_lv, null);
                 avh = new AttrsVh();
-                ViewUtils.inject(avh, view);
                 view.setTag(avh);
+                ViewUtils.inject(avh, view);
             } else {
                 avh = (AttrsVh) view.getTag();
             }
-            if (0 == i) {
-                avh.goods_attrs_title.setText("尺寸");
-                avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs>(attrs) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, GoodsAttrs goodsAttrses) {
-                        TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
-                                        .item_goods_attrs_tfl,
-                                parent, false);
-                        tv.setText(goodsAttrses.getValues());
-                        return tv;
-                    }
-                });
-            } else {
-                avh.goods_attrs_title.setText("颜色");
-                avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs>(attrs2) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, GoodsAttrs goodsAttrses) {
-                        TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
-                                        .item_goods_attrs_tfl,
-                                parent, false);
-                        tv.setText(goodsAttrses.getValues());
-                        return tv;
-                    }
-                });
-            }
+            avh.goods_attrs_title.setText(getItem(i).getAttr_name());
+            avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs.AttrListBean>(selectAttrs.get(i).getAttr_list()) {
+                @Override
+                public View getView(FlowLayout parent, int position, GoodsAttrs.AttrListBean goodsAttrses) {
+                 TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
+                                    .item_goods_attrs_tfl,
+                            parent, false);
+                    tv.setText(goodsAttrses.getAttr_value());
+                    return tv;
+                }
+            });
+
             avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
 //                    get(i).get(position).getXXX();
-                    if (0 == i) {
-                        showRightTip(attrs.get(position).getValues());
-                    } else {
-                        showRightTip(attrs2.get(position).getValues());
-                    }
+//                    if (0 == i) {
+//                        showRightTip(attrs.get(position).getValues());
+//                    } else {
+//                        showRightTip(attrs2.get(position).getValues());
+//                    }
                     return true;
                 }
             });
