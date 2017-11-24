@@ -436,7 +436,6 @@
                                 android:layout_height="8dp" />
 
                             <LinearLayout
-                                android:id="@+id/layou_jinkoushui"
                                 android:layout_width="match_parent"
                                 android:layout_height="38dp"
                                 android:layout_marginBottom="10dp"
@@ -460,28 +459,35 @@
                                     android:gravity="center_vertical"
                                     android:textSize="14sp" />
 
-                                <TextView
+                                <LinearLayout
+                                    android:id="@+id/layou_jinkoushui"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="进口税"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="14sp" />
+                                    android:layout_height="wrap_content">
 
-                                <TextView
-                                    android:id="@+id/tv_country_tax"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="#F23030"
-                                    android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@+id/tv_jks"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="进口税"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="10dp"
-                                    android:text="/件"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@+id/tv_country_tax"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:textColor="#F23030"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="10dp"
+                                        android:text="/件"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
                             </LinearLayout>
 
                             <Space
@@ -544,7 +550,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp" />
 
-                        <include layout="@layout/aty_goods_details_estimate"   android:visibility="gone"  />
+                        <include
+                            layout="@layout/aty_goods_details_estimate"
+                            android:visibility="gone" />
 
                         <Space
                             android:layout_width="match_parent"

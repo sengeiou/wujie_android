@@ -330,13 +330,6 @@ public class HousChenAty extends BaseAty {
     }
 
     private void getData() {
-
-        L.e("=====lng=====", lng);
-        L.e("=====lat=====", lat);
-        L.e("=====integral_sort=====", integral_sort);
-        L.e("=====distance_sort=====", distance_sort);
-        L.e("=====price_sort=====", price_sort);
-        L.e("=====sort=====", sort);
         houseBuyPst.houseList(p, lng, lat, integral_sort, distance_sort, price_sort, sort);
     }
 

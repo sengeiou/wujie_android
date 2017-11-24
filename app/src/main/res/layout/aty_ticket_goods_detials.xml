@@ -184,11 +184,11 @@
                                     android:textSize="10sp" />
 
                                 <TextView
+                                    android:id="@+id/tv_wjsd"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:padding="10dp"
                                     android:text="点击查看"
-                                    android:id="@+id/tv_wjsd"
                                     android:textColor="@android:color/holo_red_dark"
                                     android:textSize="10sp" />
                             </LinearLayout>
@@ -350,7 +350,6 @@
                                 android:scrollbars="none" />
 
                             <LinearLayout
-                                android:id="@+id/layou_jinkoushui"
                                 android:layout_width="match_parent"
                                 android:layout_height="38dp"
                                 android:layout_marginBottom="10dp"
@@ -374,37 +373,43 @@
                                     android:gravity="center_vertical"
                                     android:textSize="14sp" />
 
-                                <TextView
+                                <LinearLayout
+                                    android:id="@+id/layou_jinkoushui"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="进口税"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="14sp" />
+                                    android:layout_height="wrap_content">
 
-                                <TextView
-                                    android:id="@+id/tv_country_tax"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="10dp"
-                                    android:textColor="#F23030"
-                                    android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@+id/tv_jks"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="进口税"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="10dp"
-                                    android:text="/件"
-                                    android:textColor="@android:color/black"
-                                    android:textSize="14sp" />
+                                    <TextView
+                                        android:id="@+id/tv_country_tax"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="10dp"
+                                        android:textColor="#F23030"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="10dp"
+                                        android:text="/件"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="14sp" />
+                                </LinearLayout>
                             </LinearLayout>
 
+                            <include layout="@layout/aty_goods_details_sales_promotion" />
+
+
                             <include
-                                layout="@layout/aty_goods_details_sales_promotion" />
-
-
-                            <include layout="@layout/aty_goods_details_wujie_post"
-                                android:visibility="gone"
-                                />
+                                layout="@layout/aty_goods_details_wujie_post"
+                                android:visibility="gone" />
                             <!--服务-->
                             <include
                                 layout="@layout/aty_goods_details_serve"
@@ -413,8 +418,8 @@
                             <LinearLayout
                                 android:id="@+id/layout_service"
                                 android:layout_width="match_parent"
-                                android:layout_marginTop="10dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
                                 android:background="@android:color/white"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
@@ -451,7 +456,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp" />
 
-                        <include layout="@layout/aty_goods_details_estimate" android:visibility="gone"/>
+                        <include
+                            layout="@layout/aty_goods_details_estimate"
+                            android:visibility="gone" />
 
                         <Space
                             android:layout_width="match_parent"

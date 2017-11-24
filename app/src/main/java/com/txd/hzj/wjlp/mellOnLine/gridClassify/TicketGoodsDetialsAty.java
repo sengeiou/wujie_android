@@ -728,10 +728,20 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     protected void requestData() {
-        if (0 == from)
+        if (0 == from) {
             ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-        else
+        } else {
             goodsPst.goodsInfo(ticket_buy_id, page);
+        }
+        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
     }
 
 
@@ -1106,13 +1116,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
             });
         }
-        if (Double.parseDouble(goodsInfo.get("country_tax")) > 0) {
-            Glide.with(this).load(goodsInfo.get("country_logo")).into(im_country_logo);
-            tv_country_desc.setText(goodsInfo.get("country_desc"));
-            tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
-        } else {
+        Glide.with(this).load(goodsInfo.get("country_logo")).into(im_country_logo);
+        tv_country_desc.setText(goodsInfo.get("country_desc"));
+        tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
+        if (Double.parseDouble(goodsInfo.get("country_tax")) <= 0) {
             layou_jinkoushui.setVisibility(View.GONE);
         }
+
         tv_bzqd.setText(goodsInfo.get("package_list")); //包装清单
         tv_shfw.setText(goodsInfo.get("after_sale_service")); //售后服务
 

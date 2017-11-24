@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -669,6 +670,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 break;
         }
+
+        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
     }
 
     @Override
@@ -723,11 +734,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
             tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
             tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
-            if (Double.parseDouble(goodsInfo.get("country_tax")) > 0) {
-                Glide.with(this).load(goodsInfo.get("country_logo")).into(im_country_logo);
-                tv_country_desc.setText(goodsInfo.get("country_desc"));
-                tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
-            } else {
+            Glide.with(this).load(goodsInfo.get("country_logo")).into(im_country_logo);
+            tv_country_desc.setText(goodsInfo.get("country_desc"));
+            tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
+            if (Double.parseDouble(goodsInfo.get("country_tax")) <= 0) {
                 layou_jinkoushui.setVisibility(View.GONE);
             }
 
@@ -1084,7 +1094,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
             R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv,
             R.id.relation_mell_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_lingquan,
-            R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao,R.id.im_toarrs})
+            R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao, R.id.im_toarrs})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -1209,7 +1219,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 showLQPop(v, "领券");
                 break;
             case R.id.im_toarrs:
-                toAttrs(v,goodsInfo.get("goods_img"),goodsInfo.get("shop_price"),(ArrayList)goodsAttrs);
+                toAttrs(v, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs);
                 break;
         }
     }

@@ -567,7 +567,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layout,
             R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.im_toarrs,R.id.layout_djq
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.im_toarrs, R.id.layout_djq
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -803,6 +803,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     protected void requestData() {
         groupBuyPst.groupBuyInfo(group_buy_id, page);
+        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
     }
 
     CommonPopupWindow commonPopupWindow;
@@ -838,6 +847,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
+
     /**
      * 代金券的弹窗
      *
@@ -1035,13 +1045,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
             goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
             goods_desc_wv.loadDataWithBaseURL(null, goodsInfos.get("goods_desc"), "text/html", "utf-8", null);
-
-
-            if (Double.parseDouble(goodsInfos.get("country_tax")) > 0) {
-                Glide.with(this).load(goodsInfos.get("country_logo")).into(im_country_logo);
-                tv_country_desc.setText(goodsInfos.get("country_desc"));
-                tv_country_tax.setText(goodsInfos.get("country_tax") + "元");
-            } else {
+            Glide.with(this).load(goodsInfos.get("country_logo")).into(im_country_logo);
+            tv_country_desc.setText(goodsInfos.get("country_desc"));
+            tv_country_tax.setText(goodsInfos.get("country_tax") + "元");
+            if (Double.parseDouble(goodsInfos.get("country_tax")) <= 0) {
                 layou_jinkoushui.setVisibility(View.GONE);
             }
 
