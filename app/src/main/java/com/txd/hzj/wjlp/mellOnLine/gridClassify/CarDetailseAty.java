@@ -178,6 +178,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      */
     @ViewInject(R.id.goods_brief_tv)
     private WebView goods_brief_tv;
+    @ViewInject(R.id.tv_desc)
+    private TextView tv_desc;
     /**
      * 图文详情
      */
@@ -222,6 +224,9 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      */
     @ViewInject(R.id.goods_common_attr_lv)
     private ListViewForScrollView goods_common_attr_lv;
+    @ViewInject(R.id.goods_title_collect_layout)
+    private LinearLayout goods_title_collect_layout;
+
     private String share_url;
     private String share_img;
     private String share_content;
@@ -365,6 +370,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
+        goods_title_collect_layout.setVisibility(View.GONE);
         image = new ArrayList<>();
         car_id = getIntent().getStringExtra("car_id");
         carBuyPst = new CarBuyPst(this);
@@ -398,13 +404,13 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             // 是否收藏
             is_collect = data.get("is_collect");
 
-            if ("0".equals(is_collect)) {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
-                goods_title_collect_tv.setText("收藏");
-            } else {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
-                goods_title_collect_tv.setText("已收藏");
-            }
+//            if ("0".equals(is_collect)) {
+//                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+//                goods_title_collect_tv.setText("收藏");
+//            } else {
+//                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+//                goods_title_collect_tv.setText("已收藏");
+//            }
 
             // "share_url": "http://wjyp.txunda.com",//分享链接
             // "share_img": "分享图片",
@@ -424,10 +430,11 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             car_details_name_tv.setText(car_info.get("car_name"));
             car_d_pre_money_tv.setText(car_info.get("pre_money"));
             car_d_integral_tv.setText(car_info.get("integral"));
-            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "\n全车价:￥" + car_info.get
+            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "车款\n全车价:￥" + car_info.get
                     ("all_price"));
 
-
+            tv_desc.setText(car_info.get("car_desc"));
+            goods_brief_tv.setVisibility(View.GONE);
             goods_brief_tv.loadDataWithBaseURL(null, car_info.get("car_desc"), "text/html", "utf-8", null);
             goods_desc_wv.loadDataWithBaseURL(null, car_info.get("content"), "text/html", "utf-8", null);
 
@@ -459,10 +466,9 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                     comment_layout.setVisibility(View.GONE);
                 }
             }
-
             // TODO==========产品属性==========
-            if (ToolKit.isList(data, "goods_common_attr")) {
-                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+            if (ToolKit.isList(data, "attr")) {
+                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("attr"),
                         GoodsCommonAttr.class);
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);

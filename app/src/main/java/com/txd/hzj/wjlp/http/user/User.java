@@ -50,7 +50,7 @@ public class User {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("nickname", nickname);
-        params.addBodyParameter("sex", sex);
+      //  params.addBodyParameter("sex", sex);
         params.addBodyParameter("email", email);
         params.addBodyParameter("province_id", province_id);
         params.addBodyParameter("city_id", city_id);

@@ -31,6 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -328,6 +329,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * 系统消息数量
      */
     private int msg_tip = 0;
+    private String lat;
+    private String lng;
 
 
     @Override
@@ -701,9 +704,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     protected void requestData() {
-        indexPst.index();
-
-
+        lat = DemoApplication.getInstance().getLocInfo().get("lat");
+        lng = DemoApplication.getInstance().getLocInfo().get("lon");
+        indexPst.index(lng, lat);
         superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
@@ -716,7 +719,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         textView.setText("正在刷新");
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
-                        indexPst.index();
+                        indexPst.index(lng, lat);
                     }
 
                     @Override

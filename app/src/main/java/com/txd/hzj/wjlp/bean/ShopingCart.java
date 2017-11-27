@@ -15,67 +15,59 @@ public class ShopingCart {
     /**
      * 商家名称
      */
-    private String mellName;
+    private String merchant_name;
     /**
      * 商家Id
      */
-    private String mellId;
+    private String merchant_id;
     /**
      * 是否被选中
      */
-    private boolean mellAllCheck;
+    private boolean  AllCheck;
     /**
      * 商品
      */
-    private List<CartGoods> goodsInfo;
+    private List<CartGoods> goods;
 
-    public ShopingCart(String mellName, String mellId, boolean mellAllCheck, List<CartGoods> goodsInfo) {
-        this.mellName = mellName;
-        this.mellId = mellId;
-        this.mellAllCheck = mellAllCheck;
-        this.goodsInfo = goodsInfo;
+    public String getMerchant_name() {
+        return merchant_name;
     }
 
-    public String getMellName() {
-        return mellName;
+    public void setMerchant_name(String merchant_name) {
+        this.merchant_name = merchant_name;
     }
 
-    public void setMellName(String mellName) {
-        this.mellName = mellName;
+    public String getMerchant_id() {
+        return merchant_id;
     }
 
-    public String getMellId() {
-        return mellId;
+    public void setMerchant_id(String merchant_id) {
+        this.merchant_id = merchant_id;
     }
 
-    public void setMellId(String mellId) {
-        this.mellId = mellId;
+    public boolean isAllCheck() {
+        return AllCheck;
     }
 
-    public boolean isMellAllCheck() {
-        return mellAllCheck;
-    }
-
-    public void setMellAllCheck(boolean mellAllCheck) {
-        this.mellAllCheck = mellAllCheck;
+    public void setAllCheck(boolean allCheck) {
+        AllCheck = allCheck;
     }
 
     public List<CartGoods> getGoodsInfo() {
-        return goodsInfo;
+        return goods;
     }
 
     public void setGoodsInfo(List<CartGoods> goodsInfo) {
-        this.goodsInfo = goodsInfo;
+        this.goods = goodsInfo;
     }
 
     @Override
     public String toString() {
         return "ShopingCart{" +
-                "mellName='" + mellName + '\'' +
-                ", mellId='" + mellId + '\'' +
-                ", mellAllCheck=" + mellAllCheck +
-                ", goodsInfo=" + goodsInfo +
+                "merchant_name='" + merchant_name + '\'' +
+                ", merchant_id='" + merchant_id + '\'' +
+                ", AllCheck=" + AllCheck +
+                ", goods=" + goods +
                 '}';
     }
-
 }

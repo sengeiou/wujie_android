@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
@@ -45,7 +46,7 @@ public class GlobalAdapter extends BaseAdapter {
         this.list = list;
         this.curIndex = curIndex;
         pageSize = 10;
-        size = ToolKit.dip2px(context, 48);
+        size = ToolKit.dip2px(context, 72);
         inflater = LayoutInflater.from(context);
     }
 
@@ -79,12 +80,16 @@ public class GlobalAdapter extends BaseAdapter {
         } else {
             vh = (ViewHolder) view.getTag();
         }
-        vh.all_classify_title_tv.setText(twoCateListBean.get("country_name"));
+//       vh.all_classify_title_tv.setText(twoCateListBean.get("country_name"));
+        vh.all_classify_title_tv.setVisibility(View.GONE);
+        LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(size,size);
+        vh.all_classify_logo_iv.setLayoutParams(layoutParams);
         Glide.with(context).load(twoCateListBean.get("house_img"))
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
-                .override(size, size)
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .placeholder(R.drawable.ic_default)
+//                .error(R.drawable.ic_default)
+//                .override(size, size)
+                .centerCrop()
                 .into(vh.all_classify_logo_iv);
 
         return view;

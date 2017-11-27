@@ -18,8 +18,7 @@
         <ImageView
             android:id="@+id/item_country_logo_tv"
             android:layout_width="36dp"
-            android:layout_height="24dp"
-            android:src="@drawable/icon_temp_han"
+            android:layout_height="23dp"
             />
 
         <Space

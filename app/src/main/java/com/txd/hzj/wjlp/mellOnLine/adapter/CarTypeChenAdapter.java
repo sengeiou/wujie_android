@@ -58,7 +58,9 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final CarBean carBean = listSelect.get(position);
-
+        if (position == 0) {
+            carBean.setSelecet(true);
+        }
         if (1 == type) {
             holder.iv_brand_car.setVisibility(View.GONE);
             holder.iv_type_car.setVisibility(View.VISIBLE);
@@ -70,18 +72,18 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
             if (1 == type) {
                 Glide.with(context).load(carBean.getTrue_style_img())
                         .override(img_w, img_h)
-                        .error(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.drawable.ic_default)
+//                        .placeholder(R.drawable.ic_default)
                         .centerCrop()
                         .dontAnimate()
                         .into(holder.iv_type_car);
             } else {
                 Glide.with(context).load(carBean.getTrue_brand_logo())
                         .override(img_size, img_size)
-                        .error(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.drawable.ic_default)
+//                        .placeholder(R.drawable.ic_default)
                         .fitCenter()
                         .into(holder.iv_brand_car);
             }
@@ -90,9 +92,9 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
             if (1 == type) {
                 Glide.with(context).load(carBean.getStyle_img())
                         .override(img_w, img_h)
-                        .error(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.drawable.ic_default)
+//                        .placeholder(R.drawable.ic_default)
                         .centerCrop()
                         .dontTransform()
                         .dontAnimate()
@@ -100,9 +102,9 @@ public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.
             } else {
                 Glide.with(context).load(carBean.getBrand_logo())
                         .override(img_size, img_size)
-                        .error(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .placeholder(R.drawable.ic_default)
+//                        .placeholder(R.drawable.ic_default)
                         .fitCenter()
                         .into(holder.iv_brand_car);
             }

@@ -415,7 +415,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
         } else {
             switch (type) {
+
                 case 1:// 票券区
+
                     data2 = groupBuyBean.getData().getTicket_buy_list();
                     break;
                 case 2:// 无界预购

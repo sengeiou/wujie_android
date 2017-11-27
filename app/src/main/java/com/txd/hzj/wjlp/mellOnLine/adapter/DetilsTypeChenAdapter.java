@@ -18,6 +18,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty;
+import com.txd.hzj.wjlp.txunda_lh.RoundTransformation;
 
 import java.util.List;
 import java.util.Map;
@@ -81,19 +82,20 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
         holder.house_type_cpb.setCurProgress(sell_num);
 
         Glide.with(context).load(map.get("house_style_img"))
-                .override(size, size)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
+//                .override(size, size)
+//                .placeholder(R.drawable.ic_default)
+//                .error(R.drawable.ic_default)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.house_style_pic_iv);
 
         Glide.with(context).load(map.get("country_logo"))
-                .override(size1, size2)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
-                .centerCrop()
+//                .override(size1, size2)
+//                .placeholder(R.drawable.ic_default)
+//                .error(R.drawable.ic_default)
+                .bitmapTransform(new RoundTransformation(context,3))
                 .dontAnimate()
+                .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.logo_for_country_iv);
 
@@ -118,7 +120,7 @@ public class DetilsTypeChenAdapter extends RecyclerView.Adapter<DetilsTypeChenAd
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HouseTypeDetailsHzjAty.class);
-                intent.putExtra("style_id",map.get("style_id"));
+                intent.putExtra("style_id", map.get("style_id"));
                 context.startActivity(intent);
             }
         });

@@ -83,7 +83,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
-
+    private Bundle bundle;
     @ViewInject(R.id.app_main_rg)
     private RadioGroup app_main_rg;
 
@@ -145,27 +145,20 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
-        L.e("=====手机厂商=====", android.os.Build.BRAND);
-
         //申请权限
         requestSomePermission();
-
         // 电源管理
         forPowerManager();
         // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
         keepActivity();
         // 意外弹窗
         showExceptionDialogFromIntent(getIntent());
-
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
-
         // 注册DemoHelper的广播接收器
         registerBroadcastReceiver();
-
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
-
         locationService = DemoApplication.getInstance().locationService;
         //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
         locationService.registerListener(mListener);
@@ -211,6 +204,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void requestData() {
         updataPst.toUpdata();
+
     }
 
     @Override
@@ -1079,4 +1073,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onMessageChanged(EMMessage message, Object change) {
     }
+
+
 }

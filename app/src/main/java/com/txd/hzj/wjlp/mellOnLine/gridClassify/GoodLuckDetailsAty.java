@@ -59,8 +59,10 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -535,6 +537,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private Map<String, String> goodsInfos;
 
     private List<GoodsAttrs> goodsAttrs;
+    private List<GoodsAttrs.product> goods_produc;
     private ArrayList<Map<String, String>> dj_ticket;
 
     @Override
@@ -563,7 +566,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
-            R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
+            R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv, R.id.tv_dpg,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layout,
             R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
@@ -695,10 +698,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 showLQPop(v, "领券");
                 break;
             case R.id.im_toarrs:
-                toAttrs(v, goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs);
+                toAttrs(v, goods_id,goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
+                break;
+            case R.id.tv_dpg:
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("goods_id", goods_id);
+                startActivity(aty_collocations.class, bundle1);
                 break;
         }
     }
@@ -1006,6 +1014,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
             vouchers_desc = data.get("vouchers_desc");
             goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
+            goods_produc = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
             GoodLuckBean.DataBean.GoodsInfoBean goodsInfo = groupBuyInfo.getData().getGoodsInfo();
             goods_id = goodsInfo.getGoods_id();
 
@@ -1270,11 +1279,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             //搭配购
             Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
             if (cheap_group != null) {
-                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "代金券");
+                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
                 tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
                 tv_group_integral.setText(cheap_group.get("integral"));
                 double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
-                tv_goods_price.setText("立省¥" + price);
+                DecimalFormat df = new DecimalFormat("#.00");
+                tv_goods_price.setText("立省¥" + df.format(price));
                 ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
                 rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 rv_cheap_group.setAdapter(new cg_adp(maps));

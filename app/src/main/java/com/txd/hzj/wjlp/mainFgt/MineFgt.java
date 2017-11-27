@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
@@ -23,6 +24,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
@@ -213,6 +215,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private ImageView im_gang;
     @ViewInject(R.id.im_tie)
     private ImageView im_tie;
+    private String service_easemob_account;
+    private String service_head_pic;
+    private String service_nickname;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -335,22 +340,24 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(BooksAty.class, null);
                 break;
             case R.id.call_service_tv:// 客服
-                new MikyouCommonDialog(getActivity(), server_line, "客服电话", "取消", "拨打").setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+//                new MikyouCommonDialog(getActivity(), server_line, "客服电话", "取消", "拨打").setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+//
+//                    @Override
+//                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
+//                            which) {
+//                        switch (btnType) {
+//                            case MikyouCommonDialog.OK:// 取消
+//                                break;
+//                            case MikyouCommonDialog.NO:// 拨打电话
+//                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + server_line));
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                startActivity(intent);
+//                                break;
+//                        }
+//                    }
+//                }).showDialog();
+                toChat(service_easemob_account, service_head_pic, service_nickname);
 
-                    @Override
-                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
-                            which) {
-                        switch (btnType) {
-                            case MikyouCommonDialog.OK:// 取消
-                                break;
-                            case MikyouCommonDialog.NO:// 拨打电话
-                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + server_line));
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                break;
-                        }
-                    }
-                }).showDialog();
                 break;
             case R.id.stock_record_tv:// 进货记录
                 bundle = new Bundle();
@@ -413,7 +420,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             head_pic = data.get("head_pic");
             // 邀请码
             invite_code = data.get("invite_code");
-
+            service_easemob_account = data.get("service_easemob_account");
+            service_head_pic = data.get("service_head_pic");
+            service_nickname = data.get("service_nickname");
             user_name_tv.setText(nickname);
             user_nick_tv.setText(nickname);
             /**
@@ -533,5 +542,25 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             user_name_tv.setTextColor(Color.WHITE);
         }
         immersionInit();
+    }
+
+
+    public void toChat(String easemob_account, String head_pic, String nickname) {
+        if (!Config.isLogin()) {
+            toLogin();
+            return;
+        }
+//        String my_easemob_account = application.getUserInfo().get("easemob_account");
+//        if (easemob_account.equals(my_easemob_account)) {
+//            showErrorTip("自己不能和自己聊天");
+//            return;
+//        }
+        Bundle bundle = new Bundle();
+        bundle.putString("userId", easemob_account);// 对方环信账号
+        bundle.putString("userHead", head_pic);// 对方头像
+        bundle.putString("userName", nickname);// 对方昵称
+        bundle.putString("myName", application.getUserInfo().get("nickname"));// 我的昵称
+        bundle.putString("myHead", application.getUserInfo().get("head_pic"));// 我的头像
+        startActivity(ChatActivity.class, bundle);
     }
 }

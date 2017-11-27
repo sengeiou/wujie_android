@@ -66,8 +66,10 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -456,6 +458,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String vouchers_desc = "";//代金券弹窗下面的提示文字
     private List<PromotionBean> promotionBeen;
     private List<GoodsAttrs> goodsAttrs;
+    private List<GoodsAttrs.product> goods_product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -483,7 +486,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             R.id.go_to_cart_layout, R.id.be_back_main_tv, R.id.details_into_mell_tv,
             R.id.to_chat_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.im_toarrs,
             R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm, R.id.im_service_more, R.id.tv_lingquan,
-            R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd})
+            R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -587,11 +590,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.tv_gwc:
                 //购物车
-                toAttrs(v, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs);
+                toAttrs(v, goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product);
                 break;
             case R.id.tv_ljgm:
                 //直接购买
-                toAttrs(v, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs);
+                toAttrs(v, goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product);
                 break;
             case R.id.btn_jgsm:
                 if (ser_list != null) {
@@ -604,7 +607,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 break;
             case R.id.im_toarrs:
-                toAttrs(v, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs);
+                toAttrs(v, goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -627,6 +630,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 mBundle.putInt("type", 10);
                 mBundle.putString("title", "无界商店");
                 startActivity(TicketZoonAty.class, mBundle);
+                break;
+            case R.id.tv_dpg:
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("goods_id", goods_id);
+                startActivity(aty_collocations.class, bundle1);
                 break;
         }
     }
@@ -766,6 +774,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 forBanner();
             }
             goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
+            goods_product = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
@@ -815,11 +824,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             //搭配购
             Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
             if (cheap_group != null) {
-                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "代金券");
+                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
                 tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
                 tv_group_integral.setText(cheap_group.get("integral"));
                 double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
-                tv_goods_price.setText("立省¥" + price);
+                DecimalFormat df = new DecimalFormat("#.00");
+                tv_goods_price.setText("立省¥" + df.format(price));
                 ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
                 rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 rv_cheap_group.setAdapter(new cg_adp(maps));

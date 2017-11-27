@@ -64,9 +64,11 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -609,6 +611,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     private List<GoodsAttrs> goodsAttrs;
 
+    private List<GoodsAttrs.product> goods_produc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -666,7 +670,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 perBuyPst.preBuyInfo(limit_buy_id, page);
                 break;
             case 10:// 无界商店
-                L.e("==========", String.valueOf(type));
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 break;
         }
@@ -698,6 +701,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 user_cart_num_tv.setVisibility(View.GONE);
             }
             goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
+            goods_produc = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
+
             vouchers_desc = data.get("vouchers_desc");
             // 是否收藏
             is_collect = data.get("is_collect");
@@ -1057,11 +1062,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             //搭配购
             Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
             if (cheap_group != null) {
-                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "代金券");
+                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
                 tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
                 tv_group_integral.setText(cheap_group.get("integral"));
                 double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
-                tv_goods_price.setText("立省¥" + price);
+                DecimalFormat df = new DecimalFormat("#.00");
+                tv_goods_price.setText("立省¥" + df.format(price));
                 ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
                 rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 rv_cheap_group.setAdapter(new cg_adp(maps));
@@ -1092,7 +1098,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
-            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv,
+            R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv, R.id.tv_dpg,
             R.id.relation_mell_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_lingquan,
             R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao, R.id.im_toarrs})
     public void onClick(View v) {
@@ -1219,7 +1225,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 showLQPop(v, "领券");
                 break;
             case R.id.im_toarrs:
-                toAttrs(v, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs);
+                toAttrs(v, goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"),
+                        (ArrayList) goodsAttrs,
+                        (ArrayList) goods_produc
+                );
+                break;
+            case R.id.tv_dpg:
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("goods_id", goods_id);
+                startActivity(aty_collocations.class, bundle1);
                 break;
         }
     }

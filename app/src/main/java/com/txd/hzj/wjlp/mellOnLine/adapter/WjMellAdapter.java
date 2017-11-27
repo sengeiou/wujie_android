@@ -87,12 +87,13 @@ public class WjMellAdapter extends BaseAdapter {
         wjmvh.jf_layout.setVisibility(View.GONE);
         // 国旗
         Glide.with(context).load(allGoodsBean.getCountry_logo())
-                .override(logo_size1, logo_size2)
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
+//                .override(logo_size1, logo_size2)
+//                .fitCenter()
+//                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                .placeholder(R.drawable.ic_default)
+//                .error(R.drawable.ic_default)
                 .into(wjmvh.country_logo_iv);
+
         // 商品图片
         Glide.with(context).load(allGoodsBean.getGoods_img())
                 .override(size, size)

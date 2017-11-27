@@ -124,12 +124,14 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      *
      * @param v View
      */
-    public void toAttrs(View v, String imageurl, String price, ArrayList<GoodsAttrs> list) {
+    public void toAttrs(View v,String goods_id, String imageurl, String price, ArrayList<GoodsAttrs> list,ArrayList<GoodsAttrs.product>list_p) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", 1);
+        bundle.putString("goods_id", goods_id);
         bundle.putString("imageurl", imageurl);
         bundle.putString("price", price);
         bundle.putParcelableArrayList("list", list);
+        bundle.putParcelableArrayList("list_p", list_p);
         startActivity(GoodsAttributeAty.class, bundle);
     }
 

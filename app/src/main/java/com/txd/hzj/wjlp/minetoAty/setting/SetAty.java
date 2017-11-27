@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.minetoAty.RealnameAty;
+import com.txd.hzj.wjlp.txunda_lh.aty_authentication;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -63,7 +64,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     public TextView titlt_conter_tv;
 
     private UserPst userPst;
-    private String auth_status = "0";
+    private String auth_status = "";
+    private String comp_auth_status = "";
 
     /**
      * 缓存
@@ -137,13 +139,17 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证
-                if (auth_status.equals("2")) {
-                    showRightTip("已认证成功");
-                    break;
-                }
-                bundle = new Bundle();
-                bundle.putString("auth_status", auth_status);
-                startActivity(RealnameAty.class, bundle);
+//                if (auth_status.equals("2")) {
+//                    showRightTip("已认证成功");
+//                    break;
+//                }
+//                bundle = new Bundle();
+//                bundle.putString("auth_status", auth_status);
+//                startActivity(RealnameAty.class, bundle);
+                Bundle bb = new Bundle();
+                bb.putString("auth_status",auth_status);
+                bb.putString("comp_auth_status",comp_auth_status);
+                startActivity(aty_authentication.class, bb);
                 break;
             case R.id.rel_bind_phone:// 绑定手机号
                 if (phone.equals("")) {
@@ -351,8 +357,9 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
         }
         Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
         Map<String, String> data = (Map<String, String>) map.get("data");
-        // 认证状态 0 未认证 1认证中 2 已认证
+        // 认证状态 0 未认证 1认证中 2 已认证 3被拒绝 "
         auth_status = data.get("auth_status");
+        comp_auth_status = data.get("comp_auth_status");
         phone = data.get("phone");
         user_bind_phone_tv.setText(phone);
         is_password = data.get("is_password");

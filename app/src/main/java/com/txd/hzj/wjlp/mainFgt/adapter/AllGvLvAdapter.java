@@ -151,7 +151,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     end = 0;
                 }
                 vh.home_count_down_view.setTag("countDown" + i);
-                vh.home_count_down_view.start((end - now)*1000);
+                vh.home_count_down_view.start((end - now) * 1000);
                 if (type == 2) {
                     vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
                     vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
@@ -186,12 +186,12 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 vh.sold_num_tv.setVisibility(View.GONE);
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
-                        .override(size1, size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
+//                        .override(size1, size2)
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .dontAnimate()
-                        .fitCenter()
+//                        .dontAnimate()
+//                        .fitCenter()
                         .into(vh.item_country_logo_tv);
 
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
@@ -213,11 +213,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
                 // 商品图片
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
-                        .override(size1, size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .dontAnimate()
-                        .fitCenter()
+//                        .override(size1, size2)
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .dontAnimate()
+//                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.country_logo_iv);
 
@@ -254,11 +254,11 @@ public class AllGvLvAdapter extends BaseAdapter {
                 }
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
-                        .override(size1, size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .dontAnimate()
-                        .fitCenter()
+//                        .override(size1, size2)
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .dontAnimate()
+//                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.country_logo_iv);
                 break;
@@ -267,12 +267,12 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
-                        .override(size1, size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .fitCenter()
-                        .dontAnimate()
-                        .fitCenter()
+//                        .override(size1, size2)
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .fitCenter()
+//                        .dontAnimate()
+//                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);
 
@@ -316,11 +316,11 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
-                        .override(size1, size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .dontAnimate()
-                        .fitCenter()
+//                        .override(size1, size2)
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .dontAnimate()
+//                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.logo_for_country_iv);
                 vh.one_buy_goods_name_tv.setText(allGoodsBean.getGoods_name());
@@ -366,16 +366,16 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 Glide.with(context).load(allGoodsBean.getCar_img())
                         .override(pic_size, pic_size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .centerCrop()
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.car_pic_iv);
                 // 汽车名称
                 vh.car_name_tv.setText(allGoodsBean.getCar_name());
                 // 代金券
                 vh.chit_tv.setText(allGoodsBean.getPre_money());
-                vh.car_other_info_tv.setText("可    低:" + allGoodsBean.getTrue_pre_money() + "\n全车价:" +
+                vh.car_other_info_tv.setText("可    抵：¥" + allGoodsBean.getTrue_pre_money() + "车款\n车全价：¥" +
                         allGoodsBean.getAll_price());
                 // 积分
                 vh.car_integral_tv.setText(allGoodsBean.getIntegral());
@@ -387,8 +387,15 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.car_logo_for_country_iv);
 
-                vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_discount() + "%代金券");
-                vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+
+                if (allGoodsBean.getTicket_discount().equals("0")) {
+                    vh.use_coupon_tv.setText("不可使用代金券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                } else {
+                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_discount() + "%代金券");
+                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                }
+
 
                 break;
             case 7:// 房产购
@@ -398,9 +405,9 @@ public class AllGvLvAdapter extends BaseAdapter {
 
                 Glide.with(context).load(allGoodsBean.getHouse_img())
                         .override(pic_size, pic_size2)
-                        .placeholder(R.drawable.ic_default)
-                        .error(R.drawable.ic_default)
-                        .centerCrop()
+//                        .placeholder(R.drawable.ic_default)
+//                        .error(R.drawable.ic_default)
+//                        .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.house_pic_iv);
 

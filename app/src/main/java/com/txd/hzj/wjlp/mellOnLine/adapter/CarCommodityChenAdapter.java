@@ -70,7 +70,7 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
         holder.car_name_tv.setText(map.get("car_name"));
         // 代金券
         holder.car_pre_money_tv.setText(map.get("pre_money"));
-        holder.textView2.setText("可    低:" + map.get("true_pre_money") + "\n全车价:" +
+        holder.textView2.setText("可    抵：¥" + map.get("true_pre_money") + "车款\n车全价：¥" +
                 map.get("all_price"));
         // 积分
         holder.car_integral_tv.setText(map.get("integral"));
@@ -81,10 +81,13 @@ public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityCh
                 .error(R.drawable.ic_default)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.logo_for_cat_iv);
-
-        holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%代金券");
-        holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-
+        if (map.get("ticket_discount").equals("0")) {
+            holder.use_coupon_tv.setText("不可使用代金券");
+            holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+        } else {
+            holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%代金券");
+            holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+        }
         holder.car_distance_tv.setText(map.get("distance"));
 
         /**

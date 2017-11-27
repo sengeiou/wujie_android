@@ -142,7 +142,6 @@
             android:id="@+id/logo_for_country_iv"
             android:layout_width="32dp"
             android:layout_height="24dp"
-            android:scaleType="centerCrop"
             android:src="@drawable/icon_temp_han"
             />
 

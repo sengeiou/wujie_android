@@ -1,7 +1,11 @@
 package com.txd.hzj.wjlp.bean.addres;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.bigkoo.pickerview.model.IPickerViewData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +17,8 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class ProvinceForTxd implements IPickerViewData{
+public class ProvinceForTxd implements IPickerViewData, Parcelable {
+
 
     /**
      * cities : [{"city_id":"52","districts":[{"districtName":"东城区","district_id":"500"},{"districtName":"西城区",
@@ -60,4 +65,38 @@ public class ProvinceForTxd implements IPickerViewData{
     public String getPickerViewText() {
         return getProvinceName();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.provinceName);
+        dest.writeString(this.province_id);
+        dest.writeList(this.cities);
+    }
+
+    public ProvinceForTxd() {
+    }
+
+    protected ProvinceForTxd(Parcel in) {
+        this.provinceName = in.readString();
+        this.province_id = in.readString();
+        this.cities = new ArrayList<CityForTxd>();
+        in.readList(this.cities, CityForTxd.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ProvinceForTxd> CREATOR = new Parcelable.Creator<ProvinceForTxd>() {
+        @Override
+        public ProvinceForTxd createFromParcel(Parcel source) {
+            return new ProvinceForTxd(source);
+        }
+
+        @Override
+        public ProvinceForTxd[] newArray(int size) {
+            return new ProvinceForTxd[size];
+        }
+    };
 }

@@ -21,7 +21,6 @@
         android:maxEms="6"
         android:maxLines="1"
         android:padding="4dp"
-        android:text="限量购"
         android:textColor="#777777"
         android:textSize="12sp"/>
 

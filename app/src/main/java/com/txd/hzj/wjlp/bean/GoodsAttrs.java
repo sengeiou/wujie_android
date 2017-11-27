@@ -184,4 +184,89 @@ public class GoodsAttrs implements Parcelable {
                 ", attr_list=" + attr_list +
                 '}';
     }
+
+    public static class product implements Parcelable {
+        String id;
+        String goods_id;
+        String goods_attr_str;
+        String product_sn;
+        String product_number;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getGoods_attr_str() {
+            return goods_attr_str;
+        }
+
+        public void setGoods_attr_str(String goods_attr_str) {
+            this.goods_attr_str = goods_attr_str;
+        }
+
+        public String getProduct_sn() {
+            return product_sn;
+        }
+
+        public void setProduct_sn(String product_sn) {
+            this.product_sn = product_sn;
+        }
+
+        public String getProduct_number() {
+            return product_number;
+        }
+
+        public void setProduct_number(String product_number) {
+            this.product_number = product_number;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.id);
+            dest.writeString(this.goods_id);
+            dest.writeString(this.goods_attr_str);
+            dest.writeString(this.product_sn);
+            dest.writeString(this.product_number);
+        }
+
+        public product() {
+        }
+
+        protected product(Parcel in) {
+            this.id = in.readString();
+            this.goods_id = in.readString();
+            this.goods_attr_str = in.readString();
+            this.product_sn = in.readString();
+            this.product_number = in.readString();
+        }
+
+        public static final Parcelable.Creator<product> CREATOR = new Parcelable.Creator<product>() {
+            @Override
+            public product createFromParcel(Parcel source) {
+                return new product(source);
+            }
+
+            @Override
+            public product[] newArray(int size) {
+                return new product[size];
+            }
+        };
+    }
 }

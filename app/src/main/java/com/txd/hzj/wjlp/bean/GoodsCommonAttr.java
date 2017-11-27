@@ -19,7 +19,7 @@ public class GoodsCommonAttr {
 
     private String id;
     private String attr_name;
-    private String attr_value;
+    private String attr_val;
 
     public String getId() {
         return id;
@@ -38,10 +38,10 @@ public class GoodsCommonAttr {
     }
 
     public String getAttr_value() {
-        return attr_value;
+        return attr_val;
     }
 
     public void setAttr_value(String attr_value) {
-        this.attr_value = attr_value;
+        this.attr_val = attr_value;
     }
 }

@@ -70,8 +70,6 @@ public class CarChenAty extends BaseAty {
         mAtDragView.setData(price, new ATDragView.OnDragFinishedListener() {
             @Override
             public void dragFinished(int leftPostion, int rightPostion) {
-                Log.e("==========返回数据==========", "回调数据Left-->" + leftPostion + "--Right-->" + rightPostion);
-
                 if (leftPostion < 0) {
                     leftPostion = 0;
                 }
@@ -109,19 +107,13 @@ public class CarChenAty extends BaseAty {
                 }
 
                 Gson gson = new Gson();
-
                 String brand_id = gson.toJson(brandIds).replace("[", "").replace("]", "");
                 String style_id = gson.toJson(styleIds).replace("[", "").replace("]", "");
-
                 Bundle bundle = new Bundle();
                 bundle.putString("min_price", min_price);
                 bundle.putString("max_price", max_price);
                 bundle.putString("style_id", style_id);
                 bundle.putString("brand_id", brand_id);
-                L.e("=====最低价格=====", min_price);
-                L.e("=====最高价格=====", max_price);
-                L.e("=====车型编号=====", style_id);
-                L.e("=====品牌编号=====", brand_id);
                 startActivity(CarCommodityChenAty.class, bundle);
                 break;
         }
@@ -139,7 +131,6 @@ public class CarChenAty extends BaseAty {
         titlt_conter_tv.setText("汽车购");
         carBeens = new ArrayList<>();
         carBeens2 = new ArrayList<>();
-
         price = new ArrayList<>();
         price.add("0");
         price.add("10");
@@ -182,7 +173,6 @@ public class CarChenAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (ToolKit.isList(data, "style_list")) {
                 carBeens = GsonUtil.getObjectList(data.get("style_list"), CarBean.class);
-                L.e("=====数据=====", carBeens.toString());
                 CarTypeChenAdapter typeAdapter = new CarTypeChenAdapter(this, 1, carBeens);
                 mRvCarType.setAdapter(typeAdapter);
             }

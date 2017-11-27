@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
+import com.txd.hzj.wjlp.txunda_lh.aty_authentication;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
 import org.json.JSONArray;
@@ -242,6 +243,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     .placeholder(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .override(size, size).into(img_head_edit);
+            auth_status = data.get("auth_status");
+            comp_auth_status = data.get("comp_auth_status");
             // 用户id
             user_id_tv.setText(data.get("user_id"));
             // 昵称
@@ -251,13 +254,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             user_real_name_tv.setText(data.get("real_name"));
             // 身份证号
             user_card_num_tv.setText(data.get("id_card_num"));
-
-            sex = data.get("sex");
-            if (sex.equals("2")) {
-                tv_Sex.setText("女");
-            } else {
-                tv_Sex.setText("男");
-            }
+            tv_Sex.setText(data.get("sex"));
             // 邮箱
             email = data.get("email");
             user_email_ev.setText(email);
@@ -265,10 +262,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             city_id = data.get("city_id");
             area_id = data.get("area_id");
             street_id = data.get("street_id");
-
             user_select_zoon_tv.setText(data.get("province_name") + data.get("city_name") + data.get("area_name"));
             user_select_street_tv.setText(data.get("street_name"));
-
             user_parent_name_tv.setText(data.get("parent_name"));
             user_parent_phone_tv.setText(data.get("parent_phone"));
             parent_alliance_merchant_name.setText(data.get("parent_alliance_merchant_name"));
@@ -284,17 +279,46 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         }
     }
 
+    String auth_status, comp_auth_status;
+
     @Override
-    @OnClick({R.id.img_head_edit, R.id.rel_Sex, R.id.user_select_zoon_layout, R.id.user_select_street_layout,
-            R.id.titlt_right_tv})
+    @OnClick({R.id.img_head_edit, R.id.rel_Sex, R.id.user_select_zoon_layout, R.id.user_select_street_layout
+            , R.id.user_real_name_tv, R.id.user_card_num_tv, R.id.titlt_right_tv})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_head_edit:// 头像
                 startActivityForResult(ImageGridActivity.class, null, 100);
                 break;
-            case R.id.rel_Sex:// 性别
-                show();
+            case R.id.rel_Sex: {// 性别
+//                show();
+                if (!auth_status.equals("2")) {
+                    Bundle b = new Bundle();
+                    b.putString("auth_status", auth_status);
+                    b.putString("comp_auth_status", comp_auth_status);
+                    startActivity(aty_authentication.class, b);
+                }
                 break;
+            }
+            case R.id.user_card_num_tv: {
+
+                if (!auth_status.equals("2")) {
+                    Bundle b = new Bundle();
+                    b.putString("auth_status", auth_status);
+                    b.putString("comp_auth_status", comp_auth_status);
+                    startActivity(aty_authentication.class, b);
+                }
+                break;
+            }
+            case R.id.user_real_name_tv: {
+
+                if (!auth_status.equals("2")) {
+                    Bundle b = new Bundle();
+                    b.putString("auth_status", auth_status);
+                    b.putString("comp_auth_status", comp_auth_status);
+                    startActivity(aty_authentication.class, b);
+                }
+                break;
+            }
             case R.id.user_select_zoon_layout:// 区域选择
                 if (isLoaded) {
                     ShowPickerView();
@@ -304,7 +328,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             case R.id.user_select_street_layout:// 选择街道
                 if (area_id.equals("")) {
                     showErrorTip("请选择省市区");
-                    break;
+                    return;
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "选择街道");
@@ -399,11 +423,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             }
         }
     }
-    // TODO==========城市选择==========
-    // TODO==========城市选择==========
-    // TODO==========城市选择==========
-    // TODO==========城市选择==========
-    // TODO==========城市选择==========
 
     private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();

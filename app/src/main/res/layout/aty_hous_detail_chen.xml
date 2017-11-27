@@ -102,6 +102,7 @@
             android:drawableTop="@mipmap/icon_heart_chen"
             android:gravity="center"
             android:padding="8dp"
+            android:visibility="gone"
             android:text="收藏"
             android:textColor="@color/white"
             />

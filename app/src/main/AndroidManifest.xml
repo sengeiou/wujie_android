@@ -612,6 +612,10 @@
                 <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
         </activity>
+        <!--搭配购-->
+        <activity android:name=".txunda_lh.aty_collocations" />
+        <!--实名认证-->
+        <activity android:name=".txunda_lh.aty_authentication" />
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->

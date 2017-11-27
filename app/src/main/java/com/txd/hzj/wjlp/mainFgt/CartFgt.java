@@ -2,7 +2,11 @@ package com.txd.hzj.wjlp.mainFgt;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.httpTools.ApiTool;
+import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.MapUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -26,10 +39,12 @@ import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.txunda_lh.Card_bean;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -85,16 +100,20 @@ public class CartFgt extends BaseFgt {
 
     @ViewInject(R.id.cart_lv)
     private ListView cart_lv;
-
-    private List<ShopingCart> shopingCarts;
-
+    private List<ShopingCart> shopingCarts = new ArrayList<>();
+    @ViewInject(R.id.textview)
+    private TextView textview;
     private CartAdapter cartAdapter;
     private int all = 0;
-
+    private int position = 0;
     /**
      * 选中的商品价格
      */
     private BigDecimal all_price;
+    private ArrayList<Card_bean> json_list;
+
+    @ViewInject(R.id.swipe_layout)
+    private SwipeRefreshLayout swipe_layout;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -103,7 +122,6 @@ public class CartFgt extends BaseFgt {
         title_be_back_iv.setVisibility(View.GONE);
         titlt_right_tv.setVisibility(View.VISIBLE);
         toChangePrice();
-        cart_lv.setAdapter(cartAdapter);
     }
 
     /**
@@ -120,44 +138,79 @@ public class CartFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        shopingCarts = new ArrayList<>();
-        getDate();
         cartAdapter = new CartAdapter();
         all_price = new BigDecimal("0.00");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, this);
+    }
+
     private void getDate() {
-
-        CartGoods cartGoods1 = new CartGoods("1", "1", "", "M 黑色", "太平鸟女装2017夏季新款短胶印红色宽松T恤女短袖",
-                "120.00", 1, false);
-        CartGoods cartGoods2 = new CartGoods("2", "1", "", "S 黑色", "太平鸟女装2017夏季新款短袖后背印花纯棉T恤",
-                "170.00", 1, false);
-        List<CartGoods> cartGoodses1 = new ArrayList<>();
-        cartGoodses1.add(cartGoods1);
-        cartGoodses1.add(cartGoods2);
-        ShopingCart shopingCart1 = new ShopingCart("太平鸟", "1", false, cartGoodses1);
-
-
-        CartGoods cartGoods3 = new CartGoods("3", "2", "", "S 黑色", "春晓折扣ZARA女装侧边花朵刺绣中腰牛仔裤",
-                "150.00", 1, false);
-        CartGoods cartGoods4 = new CartGoods("4", "2", "", "L 黑色", "春季折扣ZARA 女装 补丁加大码衬衫",
-                "120.00", 1, false);
-        List<CartGoods> cartGoodses2 = new ArrayList<>();
-        cartGoodses2.add(cartGoods3);
-        cartGoodses2.add(cartGoods4);
-        ShopingCart shopingCart2 = new ShopingCart("ZARA", "2", false, cartGoodses2);
-
-        shopingCarts.add(shopingCart1);
-        shopingCarts.add(shopingCart2);
+        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                RequestParams params = new RequestParams();
+                ApiTool2 apiTool2 = new ApiTool2();
+                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+            }
+        });
     }
 
     @Override
     protected void requestData() {
+        getDate();
+    }
+
+    Map<String, String> map;
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        //  super.onError(requestUrl, error);
+        removeContent();
+        removeDialog();
+        swipe_layout.setRefreshing(false);
+        if (requestUrl.contains("Cart/cartList")) {
+            textview.setText(error.get("message"));
+            textview.setVisibility(View.VISIBLE);
+            shopingCarts.clear();
+            cartAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        swipe_layout.setRefreshing(false);
+        if (requestUrl.contains("Cart/cartList")) {
+            map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
+            cart_lv.setAdapter(cartAdapter);
+        }
+        if (requestUrl.contains("Cart/delCart")) {
+            showToast("删除成功！");
+            RequestParams params = new RequestParams();
+            ApiTool2 apiTool2 = new ApiTool2();
+            apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, this);
+        }
+        if (requestUrl.contains("Cart/addCollect")) {
+            showToast("移入成功！");
+            RequestParams params = new RequestParams();
+            ApiTool2 apiTool2 = new ApiTool2();
+            apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, this);
+        }
+        if (requestUrl.contains("Cart/editCart")) {
+            showToast("修改成功！");
+        }
 
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv, R.id.operation_goods_tv, R.id.cart_select_all_cb})
+    @OnClick({R.id.titlt_right_tv, R.id.operation_goods_tv, R.id.cart_select_all_cb, R.id.collect_goods_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -179,6 +232,8 @@ public class CartFgt extends BaseFgt {
                     } else {
                         cart_select_all_cb.setChecked(false);
                     }
+
+
                 } else {// 之前是可编辑状态，点击之后是不可编辑状态
                     canEdit = false;
                     titlt_right_tv.setText("编辑");
@@ -189,6 +244,20 @@ public class CartFgt extends BaseFgt {
                     // 隐藏移入收藏夹
                     collect_goods_tv.setVisibility(View.INVISIBLE);
                     operation_goods_tv.setText("去结算");
+                    json_list = new ArrayList<>();
+                    Gson gson = new Gson();
+                    RequestParams params = new RequestParams();
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    //    params.addBodyParameter("cart_json", json);
+                    apiTool2.postApi(Config.BASE_URL + "Cart/editCart", params, this);
+                    for (ShopingCart sc : shopingCarts) {
+                        for (int i = 0; i < sc.getGoodsInfo().size(); i++) {
+                            String product_id = null;
+//                                    =sc.getGoodsInfo().get(i).getProduct().get()
+                            json_list.add(new Card_bean(sc.getGoodsInfo().get(i).getCart_id(), sc.getGoodsInfo().get(i).getGoods_id(), product_id, sc.getGoodsInfo().get(i).getNum()));
+
+                        }
+                    }
                 }
                 cartAdapter.notifyDataSetChanged();
                 break;
@@ -202,6 +271,17 @@ public class CartFgt extends BaseFgt {
                                 which) {
                             switch (btnType) {
                                 case MikyouCommonDialog.OK:// 确定
+                                    json_list = new ArrayList<Card_bean>();
+                                    for (ShopingCart shopingCart : shopingCarts) {
+                                        for (CartGoods cartGoods : shopingCart.getGoodsInfo()) {
+                                            if (cartGoods.isCheck()) {
+                                                json_list.add(new Card_bean(cartGoods.getCart_id()));
+                                            }
+                                        }
+                                    }
+                                    Gson gson = new Gson();
+                                    String json = gson.toJson(json_list);
+                                    toJson(1, json);
                                     break;
                                 case MikyouCommonDialog.NO:// 取消
                                     break;
@@ -221,12 +301,12 @@ public class CartFgt extends BaseFgt {
                 }
                 all_price = new BigDecimal("0.00");
                 for (ShopingCart sc : shopingCarts) {
-                    sc.setMellAllCheck(b);
+                    sc.setAllCheck(b);
                     List<CartGoods> cartGoodses = sc.getGoodsInfo();
                     for (CartGoods cg : cartGoodses) {
-                        cg.setSelect(b);
+                        cg.setCheck(b);
                         if (b) {
-                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            BigDecimal price = new BigDecimal(cg.getShop_price());
                             price = price.multiply(new BigDecimal(cg.getNum()));
                             all_price = all_price.add(price);
                         }
@@ -236,12 +316,47 @@ public class CartFgt extends BaseFgt {
                 cartAdapter.notifyDataSetChanged();
 
                 break;
+            case R.id.collect_goods_tv:
+                json_list = new ArrayList<Card_bean>();
+                for (ShopingCart shopingCart : shopingCarts) {
+                    for (CartGoods cartGoods : shopingCart.getGoodsInfo()) {
+                        if (cartGoods.isCheck()) {
+                            json_list.add(new Card_bean(
+                                    cartGoods.getCart_id())
+
+                            );
+                        }
+                    }
+                }
+                Gson gson = new Gson();
+                String json = gson.toJson(json_list);
+                toJson(2, json);
+                break;
         }
     }
 
     @Override
     protected void immersionInit() {
         showStatusBar(R.id.title_re_layout);
+    }
+
+    private void toJson(int type, String json) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("cart_id_json", json);
+        if (type == 1) {
+            apiTool2.postApi(Config.BASE_URL + "Cart/delCart", params, this);
+        } else {
+            apiTool2.postApi(Config.BASE_URL + "Cart/addCollect", params, this);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 8888) {
+
+        }
     }
 
     private class CartAdapter extends BaseAdapter {
@@ -276,23 +391,23 @@ public class CartFgt extends BaseFgt {
             }
 
             // 判断店铺中的商品是否被全部选中
-            if (sc.isMellAllCheck()) {
+            if (sc.isAllCheck()) {
                 cartVh.mell_goods_all_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
             } else {
                 cartVh.mell_goods_all_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
             }
 
-            cartVh.cart_mell_name_tv.setText(sc.getMellName());
+            cartVh.cart_mell_name_tv.setText(sc.getMerchant_name());
             cartVh.cart_mell_goods_lv.setAdapter(new CartGoodsAdapter(shopingCarts, i));
 
             cartVh.mell_goods_all_select_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (sc.isMellAllCheck()) {
-                        sc.setMellAllCheck(false);
+                    if (sc.isAllCheck()) {
+                        sc.setAllCheck(false);
                         for (CartGoods cg : sc.getGoodsInfo()) {
-                            cg.setSelect(false);
-                            BigDecimal price = new BigDecimal(cg.getPrice());
+                            cg.setCheck(false);
+                            BigDecimal price = new BigDecimal(cg.getShop_price());
                             price = price.multiply(new BigDecimal(cg.getNum()));
                             all_price = all_price.subtract(price);
                             if (all_price.compareTo(new BigDecimal("0.00")) <= 0) {
@@ -307,11 +422,11 @@ public class CartFgt extends BaseFgt {
                         // 取消全选
                         cart_select_all_cb.setChecked(false);
                     } else {
-                        sc.setMellAllCheck(true);
+                        sc.setAllCheck(true);
                         for (CartGoods cg : sc.getGoodsInfo()) {
-                            if (!cg.isSelect()) {
-                                cg.setSelect(true);
-                                BigDecimal price = new BigDecimal(cg.getPrice());
+                            if (!cg.isCheck()) {
+                                cg.setCheck(true);
+                                BigDecimal price = new BigDecimal(cg.getShop_price());
                                 price = price.multiply(new BigDecimal(cg.getNum()));
                                 all_price = all_price.add(price);
                             }
@@ -364,12 +479,11 @@ public class CartFgt extends BaseFgt {
         private List<CartGoods> cartGoodses;
         private CGVH cgvh;
         private int select_num = 0;
-
         private int groupPosion = 0;
 
         public CartGoodsAdapter(List<ShopingCart> list, int groupPosion) {
             this.list = list;
-            cartGoodses = list.get(groupPosion).getGoodsInfo();
+            this.cartGoodses = list.get(groupPosion).getGoodsInfo();
             this.groupPosion = groupPosion;
         }
 
@@ -389,7 +503,7 @@ public class CartFgt extends BaseFgt {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             final CartGoods cg = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(getActivity()).inflate(R.layout.item_child_cart_lv_hzj, null);
@@ -399,17 +513,17 @@ public class CartFgt extends BaseFgt {
             } else {
                 cgvh = (CGVH) view.getTag();
             }
-
-            if (cg.isSelect()) {
+            if (cg.isCheck()) {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
             } else {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
             }
-            cgvh.goods_name_tv.setText(cg.getTitle());
+            Glide.with(getActivity()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
+            cgvh.goods_name_tv.setText(cg.getGoods_name());
             // 属性
-            cgvh.goods_attrs_tv.setText(cg.getAttrs());
-            cgvh.reset_goods_attrs_tv.setText(cg.getAttrs());
-            cgvh.cart_goods_price_tv.setText(cg.getPrice());
+            cgvh.goods_attrs_tv.setText(cg.getAttr_group());
+            cgvh.reset_goods_attrs_tv.setText(cg.getAttr_group());
+            cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
             // 数量
             cgvh.cart_goods_num_tv.setText("x" + String.valueOf(cg.getNum()));
@@ -426,10 +540,10 @@ public class CartFgt extends BaseFgt {
             cgvh.cart_goods_select_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (cg.isSelect()) {
-                        cg.setSelect(false);
+                    if (cg.isCheck()) {
+                        cg.setCheck(false);
                         // 获取价格
-                        BigDecimal price = new BigDecimal(cg.getPrice());
+                        BigDecimal price = new BigDecimal(cg.getShop_price());
                         // 计算选中商品价格
                         price = price.multiply(new BigDecimal(cg.getNum()));
                         // 计算总价
@@ -438,9 +552,9 @@ public class CartFgt extends BaseFgt {
                             all_price = new BigDecimal("0.00");
                         }
                     } else {
-                        cg.setSelect(true);
+                        cg.setCheck(true);
                         // 获取价格
-                        BigDecimal price = new BigDecimal(cg.getPrice());
+                        BigDecimal price = new BigDecimal(cg.getShop_price());
                         // 计算单件商品价格
                         price = price.multiply(new BigDecimal(cg.getNum()));
                         // 计算总价
@@ -448,14 +562,14 @@ public class CartFgt extends BaseFgt {
                     }
                     // 重新加载数据
                     for (CartGoods cartGoods : list.get(groupPosion).getGoodsInfo()) {
-                        if (cartGoods.isSelect()) {
+                        if (cartGoods.isCheck()) {
                             select_num++;
                         }
                     }
                     if (select_num >= getCount()) {
-                        list.get(groupPosion).setMellAllCheck(true);
+                        list.get(groupPosion).setAllCheck(true);
                     } else {
-                        list.get(groupPosion).setMellAllCheck(false);
+                        list.get(groupPosion).setAllCheck(false);
                     }
                     toChangePrice();
                     cartAdapter.notifyDataSetChanged();
@@ -466,9 +580,9 @@ public class CartFgt extends BaseFgt {
             cgvh.goods_num_increase_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int num = cg.getNum();
+                    int num = Integer.parseInt(cg.getNum());
                     num++;
-                    cg.setNum(num);
+                    cg.setNum(String.valueOf(num));
                     notifyDataSetChanged();
                 }
             });
@@ -476,10 +590,10 @@ public class CartFgt extends BaseFgt {
             cgvh.goods_num_reduce.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int num = cg.getNum();
+                    int num = Integer.parseInt(cg.getNum());
                     if (num > 1) {
                         num--;
-                        cg.setNum(num);
+                        cg.setNum(String.valueOf(num));
                         notifyDataSetChanged();
                     }
                 }
@@ -489,9 +603,16 @@ public class CartFgt extends BaseFgt {
             cgvh.reset_goods_attrs_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("from", 1);
-                    startActivity(GoodsAttributeAty.class, bundle);
+                    position = i;
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), GoodsAttributeAty.class);
+                    intent.putExtra("from", 2);
+                    intent.putExtra("imageurl", getItem(i).getGoods_img());
+                    intent.putExtra("num", getItem(i).getNum());
+                    intent.putExtra("price", cg.getShop_price());
+                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
+                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
+                    startActivityForResult(intent, 8888);
                 }
             });
             return view;
@@ -555,6 +676,8 @@ public class CartFgt extends BaseFgt {
 
             @ViewInject(R.id.reset_goods_attrs_tv)
             private TextView reset_goods_attrs_tv;
+            @ViewInject(R.id.im_goods)
+            private ImageView im_goods;
         }
 
     }

@@ -21,9 +21,9 @@ public class IndexPst extends BasePresenter {
     }
 
     // 首页
-    public void index() {
+    public void index(String lng ,String lat) {
         baseView.showDialog();
-        indexPage.index(baseView);
+        indexPage.index(lng,lat,baseView);
     }
 
     // 头条列表

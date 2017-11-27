@@ -270,7 +270,6 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     int itemPos = i + curIndex * pageSize;
-
                     Bundle bundle = new Bundle();
                     bundle.putString("title", country.get(itemPos).get("country_name"));
                     bundle.putString("country_id", country.get(itemPos).get("country_id"));

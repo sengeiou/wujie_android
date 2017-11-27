@@ -1,7 +1,11 @@
 package com.txd.hzj.wjlp.bean.addres;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.bigkoo.pickerview.model.IPickerViewData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +17,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class CityForTxd implements IPickerViewData{
+public class CityForTxd implements IPickerViewData, Parcelable {
 
     private String city_id;
     private String cityName;
@@ -54,4 +58,34 @@ public class CityForTxd implements IPickerViewData{
         return getCityName();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.city_id);
+        dest.writeString(this.cityName);
+        dest.writeList(this.districts);
+    }
+
+    protected CityForTxd(Parcel in) {
+        this.city_id = in.readString();
+        this.cityName = in.readString();
+        this.districts = new ArrayList<DistrictsForTxd>();
+        in.readList(this.districts, DistrictsForTxd.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<CityForTxd> CREATOR = new Parcelable.Creator<CityForTxd>() {
+        @Override
+        public CityForTxd createFromParcel(Parcel source) {
+            return new CityForTxd(source);
+        }
+
+        @Override
+        public CityForTxd[] newArray(int size) {
+            return new CityForTxd[size];
+        }
+    };
 }

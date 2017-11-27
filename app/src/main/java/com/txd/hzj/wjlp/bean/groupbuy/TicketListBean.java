@@ -29,6 +29,15 @@ public class TicketListBean {
     private String condition;
     private String start_time;
     private String end_time;
+    private String get_receive;
+
+    public String getGet_receive() {
+        return get_receive;
+    }
+
+    public void setGet_receive(String get_receive) {
+        this.get_receive = get_receive;
+    }
 
     public String getTicket_id() {
         return ticket_id;

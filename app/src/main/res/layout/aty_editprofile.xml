@@ -170,8 +170,7 @@
                     style="@style/mine_text_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:drawableEnd="@drawable/icon_turn_right_gray" />
+                    android:layout_marginStart="12dp" />
             </LinearLayout>
 
             <View

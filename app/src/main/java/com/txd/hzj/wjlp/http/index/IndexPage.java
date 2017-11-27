@@ -18,9 +18,11 @@ class IndexPage {
 
     private String url = Config.BASE_URL + "Index/";
 
-    void index(BaseView baseView) {
+    void index(String lng,String lat,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("lng",lng);
+        params.addBodyParameter("lat",lat);
         apiTool2.postApi(url + "index", params, baseView);
     }
 

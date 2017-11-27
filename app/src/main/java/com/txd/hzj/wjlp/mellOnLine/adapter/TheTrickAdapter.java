@@ -58,6 +58,12 @@ public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickV
     public void onBindViewHolder(TrickViewHolder holder, final int position) {
         holder.tv_title.setText("¥" + getItem(position).getValue() + "优惠券");
         holder.tv_desc.setText(getItem(position).getTicket_name());
+        if (getItem(position).getGet_receive().equals("0")) {
+            holder.layout.setBackgroundResource(R.mipmap.icon_yhq_bg);
+        } else {
+
+            holder.layout.setBackgroundResource(R.mipmap.icon_yhq_bg_1);
+        }
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +125,9 @@ public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickV
 
                     @Override
                     public void onComplete(String requestUrl, String jsonStr) {
+                        getItem(position).setGet_receive("1");
                         Toast.makeText(context, "领取成功！", Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
                     }
 
                     @Override
