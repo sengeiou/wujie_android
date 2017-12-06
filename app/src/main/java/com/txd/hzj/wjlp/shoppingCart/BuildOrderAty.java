@@ -7,17 +7,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.txunda_lh.http.Order;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -61,10 +67,10 @@ public class BuildOrderAty extends BaseAty {
     @ViewInject(R.id.near_by_point_layout)
     private LinearLayout near_by_point_layout;
 
-    @ViewInject(R.id.point_near_by_lv)
-    private ListViewForScrollView point_near_by_lv;
+//    @ViewInject(R.id.point_near_by_lv)
+//    private ListViewForScrollView point_near_by_lv;
 
-    private PostAdapter postAdapter;
+//    private PostAdapter postAdapter;
 
     /**
      * 所有商品价格(不含邮费)
@@ -74,27 +80,34 @@ public class BuildOrderAty extends BaseAty {
     /**
      * 订单最终价格
      */
-    @ViewInject(R.id.order_price_at_last_tv)
-    private TextView order_price_at_last_tv;
-    private ArrayList<String> points;
+//    @ViewInject(R.id.order_price_at_last_tv)
+//    private TextView order_price_at_last_tv;
+    private String mid = "";
+    private String cart_id = "";
+    private int p = 1;
+    @ViewInject(R.id.tv_name)
+    private TextView tv_name;
+    @ViewInject(R.id.tv_tel)
+    private TextView tv_tel;
+    @ViewInject(R.id.tv_address)
+    private TextView tv_address;
+    @ViewInject(R.id.tv_merchant_name)
+    private TextView tv_merchant_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("确认订单");
-
         goods_fot_order_lv.setAdapter(goodsAdapter);
-        point_near_by_lv.setAdapter(postAdapter);
-
+//        point_near_by_lv.setAdapter(postAdapter);
         setStyle(order_type);
         ChangeTextViewStyle.getInstance().forOrderPrice2(this, price_for_all_goods_tv, "共1件商品  合计￥14.80");
-        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
-
+//        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
     }
 
     @Override
-    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv})
+    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -110,6 +123,11 @@ public class BuildOrderAty extends BaseAty {
                 Bundle bundle = new Bundle();
                 bundle.putInt("order_type", 1);
                 startActivity(PayForAppAty.class, bundle);
+                break;
+            case R.id.layout_choose_address:
+                bundle = new Bundle();
+                bundle.putInt("type", 2);
+                startActivity(AddressListAty.class, bundle);
                 break;
         }
     }
@@ -140,13 +158,44 @@ public class BuildOrderAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        points = new ArrayList<>();
-        goodsAdapter = new GoodsByOrderAdapter(this);
-        postAdapter = new PostAdapter(this, points);
+//        postAdapter = new PostAdapter(this, points);
     }
 
     @Override
     protected void requestData() {
+        mid = getIntent().getStringExtra("mid");
+        cart_id = getIntent().getStringExtra("json");
+        Order.shoppingCart(cart_id, p, mid, this);
+        showProgressDialog();
 
     }
+
+    Map<String, String> map;
+    List<Map<String, String>> data;
+    List<Map<String, String>> more;
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+        if (map.get("is_default").equals("1")) {
+            tv_name.setText("收货人：" + map.get("receiver"));
+            tv_tel.setText(map.get("phone"));
+            tv_address.setText("收货地址：" + map.get("address"));
+        } else {
+            tv_address.setText("请选择收货地址");
+        }
+        tv_merchant_name.setText(map.get("tv_merchant_name"));
+        if (p == 1) {
+            data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
+            goodsAdapter = new GoodsByOrderAdapter(this, data);
+        } else {
+            more = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
+            data.addAll(more);
+            goodsAdapter.notifyDataSetChanged();
+        }
+
+    }
+
 }

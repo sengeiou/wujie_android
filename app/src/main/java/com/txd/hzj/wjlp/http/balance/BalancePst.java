@@ -77,7 +77,7 @@ public class BalancePst extends BasePresenter {
 
     // 添加银行卡类型
     public void addBank(String name, String bank_type_id, String open_bank, String card_number, String phone) {
-        baseView.showDialog();
+
 
         if (bank_type_id.equals("")) {
             baseView.onErrorTip("请选择卡类型");
@@ -96,7 +96,7 @@ public class BalancePst extends BasePresenter {
             baseView.onErrorTip("请核对手机号");
             return;
         }
-
+        baseView.showDialog();
         userBalance.addBank(name, bank_type_id, open_bank, card_number, phone, baseView);
     }
 

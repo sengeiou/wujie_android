@@ -36,8 +36,8 @@ public class FindHouseByMapAty extends BaseAty {
 
     private BaiduMap baiduMap;
 
-    private String lat = "39.915071";
-    private String lng = "116.403907";
+    private String lat = "";
+    private String lng = "";
 
 
     @Override
@@ -57,7 +57,7 @@ public class FindHouseByMapAty extends BaseAty {
         LatLng convertLatLng = converter.convert();
         OverlayOptions options = new MarkerOptions().position(convertLatLng).icon(bitmapDescriptor).zIndex(4).draggable(true);
         baiduMap.addOverlay(options);
-		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 17.0f);
+		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 14.6f);
 		baiduMap.animateMapStatus(u);
     }
 

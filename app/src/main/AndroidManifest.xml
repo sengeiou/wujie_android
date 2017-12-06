@@ -616,6 +616,9 @@
         <activity android:name=".txunda_lh.aty_collocations" />
         <!--实名认证-->
         <activity android:name=".txunda_lh.aty_authentication" />
+        <!--房产和车辆的订单-->
+        <activity android:name=".txunda_lh.aty_submit_order" />
+        <activity android:name=".txunda_lh.aty_pay" />
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -710,6 +713,23 @@
         <meta-data
             android:name="com.txd.hzj.wjlp.tool.GlideConfiguration"
             android:value="GlideModule" />
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!--汽车购详情-->
+        <activity android:name=".txunda_lh.CarOrderInfo" />
+        <!--提交评价-->
+        <activity android:name=".txunda_lh.aty_comment" />
     </application>
 
 </manifest>

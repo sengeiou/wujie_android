@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.txunda_lh.aty_submit_order;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -111,6 +112,7 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     private int size = 0;
     private int size1 = 0;
     private int size2 = 0;
+    private Map<String, String> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,12 +137,24 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
 
     @Override
-    @OnClick({R.id.hxd_be_back_top_iv})
+    @OnClick({R.id.hxd_be_back_top_iv, R.id.submit})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.hxd_be_back_top_iv:
                 hxd_sc.smoothScrollTo(0, 0);
+                break;
+            case R.id.submit:
+                Bundle bundle = new Bundle();
+                bundle.putString("id", data.get("id"));
+                bundle.putString("image", data.get("house_style_img"));
+                bundle.putString("title", data.get("house_name"));
+                bundle.putString("price", data.get("pre_money"));
+                bundle.putString("money", toltal_payment_tv.getText().toString() + "\n" + counteract_price_tv.getText().toString());
+                bundle.putString("developer", data.get("developer") + "\t\t" + data.get("one_price") + "元/平");
+                bundle.putString("type", "2");
+                startActivity(aty_submit_order.class, bundle);
+
                 break;
         }
     }
@@ -170,8 +184,8 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("styleInfo")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             if (ToolKit.isList(data, "banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
                 forBanner();
@@ -179,9 +193,9 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
             titlt_conter_tv.setText(data.get("style_name"));
 
-            ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可        低:￥" +
+            ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可抵:￥" +
                     data.get("true_pre_money") + "房款", 11, ContextCompat.getColor(this, R.color.app_text_color));
-            ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房款全价:￥" + data.get("all_price"), 5,
+            ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房全款:￥" + data.get("all_price"), 5,
                     ContextCompat.getColor(this, R.color.app_text_color));
             ChangeTextViewStyle.getInstance().forTextColorSub(this, house_area_tv, "建筑面积:" + data.get("area") + "m2", 5,
                     ContextCompat.getColor(this, R.color.app_text_color));

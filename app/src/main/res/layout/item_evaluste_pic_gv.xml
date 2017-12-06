@@ -9,7 +9,6 @@
     <ImageView
         android:id="@+id/comm_pic_iv"
         android:layout_width="88dp"
-        android:layout_height="88dp"
-        android:src="@drawable/icon_temp_goods_banner"/>
+        android:layout_height="88dp" />
 
 </LinearLayout>

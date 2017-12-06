@@ -1,5 +1,7 @@
 package com.ants.theantsgo.tool;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -22,6 +24,7 @@ import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Pattern;
@@ -34,6 +37,17 @@ import java.util.regex.Pattern;
  */
 @SuppressWarnings("deprecation")
 public class ToolKit {
+    /**
+     * 获取当前类名
+     */
+    public static String getClassName(Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> runningTasks = manager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo cinfo = runningTasks.get(0);
+        ComponentName component = cinfo.topActivity;
+        return component.getClassName();
+
+    }
 
     /**
      * 得到手机IP地址
@@ -363,10 +377,10 @@ public class ToolKit {
      * @return boolean
      */
     private static boolean checkList(Map<String, String> map, String type) {
-        try{
+        try {
             return !map.get(type).equals("") && !map.get(type).equals("null") && !map.get(type).equals("[]")
                     && map.get(type) != null && !map.get(type).equals("[null]");
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return false;
         }
     }
@@ -440,8 +454,8 @@ public class ToolKit {
     /**
      * 将px值转换为sp值，保证文字大小不变
      *
-     * @param context   上下文
-     * @param pxValue   px
+     * @param context 上下文
+     * @param pxValue px
      * @return int
      */
     public static int px2sp(Context context, float pxValue) {

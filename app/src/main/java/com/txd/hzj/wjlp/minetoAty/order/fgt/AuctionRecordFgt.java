@@ -43,7 +43,7 @@ public class AuctionRecordFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // 1.竞拍中，2.竞拍成功，3.竞拍结束
-        order_on_line_lv.setAdapter(adapter);//显示竞拍中list
+    //    order_on_line_lv.setAdapter(adapter);//显示竞拍中list
     }
 
     @Override
@@ -58,18 +58,8 @@ public class AuctionRecordFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        list = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Order order1 = new Order(1, "宝马官方旗舰店");
-            list.add(order1);
-            Order order2 = new Order(1, "奔驰官方旗舰店");
-            list.add(order2);
-            Order order3 = new Order(2, "兰博官方旗舰店");
-            list.add(order3);
-            Order order4 = new Order(3, "玛莎官方旗舰店");
-            list.add(order4);
-        }
-        adapter = new AuctionRecordAdapter(getActivity(), list, Integer.parseInt(type) + 1);
+
+     //   adapter = new AuctionRecordAdapter(getActivity(), list, Integer.parseInt(type) + 1);
     }
 
     @Override

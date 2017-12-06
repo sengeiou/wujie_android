@@ -40,12 +40,20 @@ public class MellIntoInfoAty extends BaseAty {
 
     @ViewInject(R.id.pic_for_mell_into_gv)
     private GridViewForScrollView pic_for_mell_into_gv;
+    @ViewInject(R.id.pic_for_mell_into_gv2)
+    private GridViewForScrollView pic_for_mell_into_gv2;
+    @ViewInject(R.id.pic_for_mell_into_gv3)
+    private GridViewForScrollView pic_for_mell_into_gv3;
 
     private PicAdapter padapter;
+    private PicAdapter padapter2;
+    private PicAdapter padapter3;
 
     private UserPst userPst;
     private String refer_id = "";
     private List<Map<String, String>> pic;
+    private List<Map<String, String>> pic2;
+    private List<Map<String, String>> pic3;
 
     private int picSize = 0;
     private int size = 0;
@@ -131,8 +139,10 @@ public class MellIntoInfoAty extends BaseAty {
     protected void initialized() {
         userPst = new UserPst(this);
         refer_id = getIntent().getStringExtra("refer_id");
-        padapter = new PicAdapter();
+
         pic = new ArrayList<>();
+        pic2 = new ArrayList<>();
+        pic3 = new ArrayList<>();
         picSize = ToolKit.dip2px(this, 108);
         size = ToolKit.dip2px(this, 80);
     }
@@ -188,18 +198,29 @@ public class MellIntoInfoAty extends BaseAty {
             if (ToolKit.isList(data, "business_license")) {// 营业执照
                 Map<String, String> tempPic = new HashMap<>();
                 tempPic.put("path", data.get("business_license"));
-                pic.add(tempPic);
+                pic2.add(tempPic);
             }
             if (ToolKit.isList(data, "other_license")) {// 商品图片
-                pic.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("other_license")));
+                pic3 = JSONUtils.parseKeyAndValueToMapList(data.get("other_license"));
             }
             if (!ListUtils.isEmpty(pic)) {
+                padapter = new PicAdapter(pic);
+                padapter2 = new PicAdapter(pic2);
+                padapter3 = new PicAdapter(pic3);
                 pic_for_mell_into_gv.setAdapter(padapter);
+                pic_for_mell_into_gv2.setAdapter(padapter2);
+                pic_for_mell_into_gv3.setAdapter(padapter3);
             }
         }
     }
 
     private class PicAdapter extends BaseAdapter {
+
+        List<Map<String, String>> pic;
+
+        public PicAdapter(List<Map<String, String>> pic) {
+            this.pic = pic;
+        }
 
         private PicVh pvh;
 

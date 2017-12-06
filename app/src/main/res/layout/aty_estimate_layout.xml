@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/comment_layout"
     android:layout_width="match_parent"
@@ -13,14 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
             android:id="@+id/comm_user_head_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            app:shape_mode="circle"/>
+            app:shape_mode="circle" />
 
         <TextView
             android:id="@+id/comm_user_name_tv"
@@ -29,7 +27,21 @@
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
+
+        <RatingBar
+            android:id="@+id/rb"
+            style="@style/foodRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="0.0"
+            android:stepSize="1" />
 
     </LinearLayout>
 
@@ -39,7 +51,14 @@
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textColor="@color/app_text_color"/>
+        android:textColor="@color/app_text_color" />
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp" />
 
     <com.ants.theantsgo.view.inScroll.GridViewForScrollView
         android:id="@+id/estimate_pic"
@@ -48,8 +67,15 @@
         android:horizontalSpacing="4dp"
         android:numColumns="4"
         android:scrollbars="none"
-        android:verticalSpacing="4dp"/>
+        android:verticalSpacing="4dp" />
 
-    <include layout="@layout/aty_order_goods_info_hzj"/>
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp" />
+
+    <include layout="@layout/aty_order_goods_info_hzj" />
 
 </LinearLayout>

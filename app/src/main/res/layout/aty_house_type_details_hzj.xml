@@ -348,7 +348,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:divider="@drawable/lin_layout_horizontal_line_shape"
             android:gravity="center"
             android:orientation="horizontal"
@@ -395,6 +395,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -402,7 +403,7 @@
                 android:drawableTop="@drawable/icon_goods_kf"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="客服"/>
+                android:text="客服" />
 
         </LinearLayout>
 
@@ -417,6 +418,7 @@
             android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -25,17 +25,17 @@ public class IndianaRecordAdapter extends BaseAdapter {
     private List<Order>list;
     private LayoutInflater mInflater;
     public IndianaRecordAdapter(Context context, List<Order> list,int type){
-        List<Order>orderlist=new ArrayList<>();
-        if(type==0){
-            this.list=list;
-        }else{
-            for(int i=0;i<list.size();i++){
-                if(type==list.get(i).getType()){
-                    orderlist.add(list.get(i));
-                }
-            }
-            this.list=orderlist;
-        }
+//        List<Order>orderlist=new ArrayList<>();
+//        if(type==0){
+//            this.list=list;
+//        }else{
+//            for(int i=0;i<list.size();i++){
+//                if(type==list.get(i).getType()){
+//                    orderlist.add(list.get(i));
+//                }
+//            }
+//            this.list=orderlist;
+//        }
 
 
         this.context=context;
@@ -67,14 +67,14 @@ public class IndianaRecordAdapter extends BaseAdapter {
             convertView.setTag(holder);//绑定ViewHolder对象
         }else{
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
-            if(list.get(i).getType()==1){
-                holder.state.setText("进行中");
-                holder.rel_bottom.setVisibility(View.VISIBLE);
-            }else if(list.get(i).getType()==2){
-                holder.state.setText("已揭晓");
-            }else {
-                holder.state.setText("中奖记录");
-            }
+//            if(list.get(i).getType()==1){
+//                holder.state.setText("进行中");
+//                holder.rel_bottom.setVisibility(View.VISIBLE);
+//            }else if(list.get(i).getType()==2){
+//                holder.state.setText("已揭晓");
+//            }else {
+//                holder.state.setText("中奖记录");
+//            }
         }
         return convertView;
     }

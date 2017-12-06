@@ -84,7 +84,7 @@ public class OrderTitleUtils {
         for (int i = 0; i < title5.length; i++) {
             Map<String, String> map = new HashMap<>();
             map.put("title", title5[i]);
-            map.put("type", String.valueOf(i));
+            map.put("type", String.valueOf(i+1));
             list.add(map);
         }
         return list;

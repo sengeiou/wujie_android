@@ -30,14 +30,14 @@ public class AuctionRecordAdapter extends BaseAdapter {
     private List<Order> list;
 
     public AuctionRecordAdapter(Context context, List<Order> list, int type) {
-        List<Order> orderlist = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (type == list.get(i).getType()) {
-                orderlist.add(list.get(i));
-            }
-        }
-        this.list = orderlist;
-        this.context = context;
+//        List<Order> orderlist = new ArrayList<>();
+//        for (int i = 0; i < list.size(); i++) {
+//            if (type == list.get(i).getType()) {
+//                orderlist.add(list.get(i));
+//            }
+//        }
+//        this.list = orderlist;
+//        this.context = context;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -67,13 +67,13 @@ public class AuctionRecordAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
-        if (list.get(i).getType() == 1) {
-            holder.state.setText("正在进行 今天21:00结束");
-        } else if (list.get(i).getType() == 2) {
-            holder.state.setText("竞拍成功");
-        } else {
-            holder.state.setText("竞拍结束");
-        }
+//        if (list.get(i).getType() == 1) {
+//            holder.state.setText("正在进行 今天21:00结束");
+//        } else if (list.get(i).getType() == 2) {
+//            holder.state.setText("竞拍成功");
+//        } else {
+//            holder.state.setText("竞拍结束");
+//        }
         holder.goods_for_aution_lv.setAdapter(new GAAdapter());
         return convertView;
     }

@@ -144,7 +144,7 @@ public class GoodsAttributeAty extends BaseAty {
             to_buy_must_tv.setText("修改");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
-            num = getIntent().getIntExtra("num", 0);
+            num = getIntent().getIntExtra("num", 1);
             tv_num.setText(String.valueOf(num));
         }
     }

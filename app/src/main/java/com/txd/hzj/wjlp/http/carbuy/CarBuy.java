@@ -14,7 +14,7 @@ import com.lidroid.xutils.http.RequestParams;
  * ===============Txunda===============
  */
 
-class CarBuy {
+public class CarBuy {
 
     private String url = Config.BASE_URL + "CarBuy/";
 
@@ -61,6 +61,24 @@ class CarBuy {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("car_id", car_id);
         apiTool2.postApi(url + "carInfo", params, baseView);
+    }
+
+    /**
+     * 评价列表【/CarBuy/commentList】
+     *
+     * @param car_id
+     * @param label_id
+     * @param p
+     * @param baseView
+     */
+    public static void commentList(String car_id, String label_id, int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("car_id", car_id);
+        params.addBodyParameter("label_id", label_id);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(Config.BASE_URL + "CarBuy/commentList", params, baseView);
+
     }
 
 }

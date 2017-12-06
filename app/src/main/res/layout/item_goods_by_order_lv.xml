@@ -6,15 +6,7 @@
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/icon_cart_mell_left_hzj"
-        android:padding="12dp"
-        android:text="汇融果业生鲜专营店"
-        android:textColor="@color/app_text_color"/>
+
 
     <include layout="@layout/aty_order_goods_info_hzj"/>
 
@@ -22,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

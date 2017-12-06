@@ -33,6 +33,8 @@ import com.txd.hzj.wjlp.http.carbuy.CarBuyPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
+import com.txd.hzj.wjlp.txunda_lh.BeanComment;
+import com.txd.hzj.wjlp.txunda_lh.aty_submit_order;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -185,7 +187,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
      */
     @ViewInject(R.id.goods_desc_wv)
     private WebView goods_desc_wv;
-
+    @ViewInject(R.id.layout_comment)
+    private LinearLayout layout_comment;
     /**
      * 商品条数
      */
@@ -234,6 +237,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     private String easemob_account = "";
     private String merchant_logo = "";
     private String merchant_name = "";
+    private Map<String, String> car_info;
+    private String car_num = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -254,7 +259,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
 
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
-            R.id.goods_title_collect_layout, R.id.goods_title_share_tv,
+            R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.creat_group_tv, R.id.all_evaluate_tv,
             R.id.be_back_top_iv, R.id.to_user_cart_layout, R.id.be_back_main_tv, R.id.to_chat_tv})
     public void onClick(View v) {
         super.onClick(v);
@@ -298,6 +303,25 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             case R.id.to_chat_tv:// 首页
                 toChat(easemob_account, merchant_logo, merchant_name);
                 break;
+            case R.id.creat_group_tv: {
+                Bundle bundle = new Bundle();
+                bundle.putString("id", car_info.get("car_id"));
+                bundle.putString("image", car_info.get("car_img"));
+                bundle.putString("title", car_info.get("car_name"));
+                bundle.putString("price", car_info.get("pre_money"));
+                bundle.putString("money", car_d_other_info_tv.getText().toString());
+                bundle.putString("type", "1");
+                startActivity(aty_submit_order.class, bundle);
+            }
+            break;
+            case R.id.all_evaluate_tv: {
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 0);
+                bundle.putString("id", car_id);
+                bundle.putString("num", car_num);
+                startActivity(GoodsEvaluateAty.class, bundle);
+            }
+            break;
         }
     }
 
@@ -420,7 +444,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             share_img = data.get("share_img");
             share_content = data.get("share_content");
 
-            Map<String, String> car_info = JSONUtils.parseKeyAndValueToMap(data.get("car_info"));
+            car_info = JSONUtils.parseKeyAndValueToMap(data.get("car_info"));
 
             // 轮播图
             if (ToolKit.isList(car_info, "banner")) {
@@ -430,42 +454,56 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             car_details_name_tv.setText(car_info.get("car_name"));
             car_d_pre_money_tv.setText(car_info.get("pre_money"));
             car_d_integral_tv.setText(car_info.get("integral"));
-            car_d_other_info_tv.setText("可    抵:￥" + car_info.get("true_pre_money") + "车款\n全车价:￥" + car_info.get
-                    ("all_price"));
+            car_d_other_info_tv.setText("车全款：￥" + car_info.get
+                    ("all_price") + "\n可    抵：￥" + car_info.get("true_pre_money") + "车款");
 
             tv_desc.setText(car_info.get("car_desc"));
             goods_brief_tv.setVisibility(View.GONE);
             goods_brief_tv.loadDataWithBaseURL(null, car_info.get("car_desc"), "text/html", "utf-8", null);
             goods_desc_wv.loadDataWithBaseURL(null, car_info.get("content"), "text/html", "utf-8", null);
 
-            // 评论
-            if (ToolKit.isList(data, "comment")) {
-                try {
-                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
-                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                    CommentBean.BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getHead_pic())
-                                .override(head_size, head_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                            estimate_pic.setAdapter(picadapter);
-                        }
-                    }
-                } catch (JsonSyntaxException e) {
-                    all_comment_num_tv.setText("商品评价(0)");
-                    comment_layout.setVisibility(View.GONE);
-                }
+            if (!data.get("comment_num").equals("0")) {
+                car_num = data.get("comment_num");
+                all_comment_num_tv.setText("商品评价(" + data.get("comment_num") + ")");
+                List<BeanComment> comment = GsonUtil.getObjectList(data.get("comment_new"), BeanComment.class);
+                Glide.with(this).load(comment.get(0).getHead_pic()).into(comm_user_head_iv);
+                comm_user_name_tv.setText(comment.get(0).getNickname());
+                comm_content_tv.setText(comment.get(0).getContent());
+                List<CommentBean.BodyBean.PicturesBean> pic = comment.get(0).getPictures_arr();
+                CommentPicAdapter picadapter = new CommentPicAdapter(this, pic);
+                estimate_pic.setAdapter(picadapter);
+            } else {
+                layout_comment.setVisibility(View.GONE);
             }
+
+//            // 评论
+//            if (ToolKit.isList(data, "comment")) {
+//                try {
+//                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
+//                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+//                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+//                    CommentBean.BodyBean bodyBean = comment.getBody();
+//                    if (bodyBean != null) {
+//                        Glide.with(this).load(bodyBean.getHead_pic())
+//                                .override(head_size, head_size)
+//                                .placeholder(R.drawable.ic_default)
+//                                .error(R.drawable.ic_default)
+//                                .centerCrop()
+//                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                                .into(comm_user_head_iv);
+//                        comm_user_name_tv.setText(bodyBean.getNickname());
+//                        comm_content_tv.setText(bodyBean.getContent());
+//                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+//                        if (!ListUtils.isEmpty(pictures)) {
+//                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+//                            estimate_pic.setAdapter(picadapter);
+//                        }
+//                    }
+//                } catch (JsonSyntaxException e) {
+//                    all_comment_num_tv.setText("商品评价(0)");
+//                    comment_layout.setVisibility(View.GONE);
+//                }
+//            }
             // TODO==========产品属性==========
             if (ToolKit.isList(data, "attr")) {
                 List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("attr"),

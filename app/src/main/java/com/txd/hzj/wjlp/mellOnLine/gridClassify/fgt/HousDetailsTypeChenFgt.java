@@ -148,6 +148,12 @@ public class HousDetailsTypeChenFgt extends BaseFgt {
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        //super.onError(requestUrl, error);
+        removeProgressDialog();
+    }
+
+    @Override
     @OnClick({R.id.hx_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);

@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import com.lidroid.xutils.ViewUtils;
 import com.txd.hzj.wjlp.R;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -23,15 +26,17 @@ public class GoodsByOrderAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private GOVH govh;
+    List<Map<String, String>> data;
 
-    public GoodsByOrderAdapter(Context context) {
+    public GoodsByOrderAdapter(Context context,List<Map<String, String>> data) {
+        this.data = data;
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return data.size();
     }
 
     @Override

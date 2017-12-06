@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:background="@color/bg_color">
+    android:background="@color/bg_color"
+    android:padding="8dp">
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/icon_temp_goods_banner"/>
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="花季K569日系甜美系带棉麻阔腿裤 女纯色简约休闲裤微分裤0424"
-            android:textColor="@color/app_text_color"/>
+            android:layout_margin="10dp"
+            android:textColor="@color/app_text_color" />
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="颜色分类：卡其色，尺寸：M"
-            android:textColor="@color/gray_text_color"/>
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:textColor="@color/gray_text_color" />
 
     </LinearLayout>
 
@@ -43,20 +46,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥98.00"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="￥98.00"
-            android:textColor="@color/gray_text_color"/>
+            android:textColor="@color/gray_text_color"
+            android:visibility="invisible" />
 
         <TextView
+            android:id="@+id/num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="x1"
-            android:textColor="@color/gray_text_color"/>
+            android:layout_margin="10dp"
+            android:textColor="@color/gray_text_color" />
 
     </LinearLayout>
 </LinearLayout>

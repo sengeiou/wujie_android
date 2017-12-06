@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mainFgt.adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -7,18 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Order;
-import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
+import com.txd.hzj.wjlp.txunda_lh.CarOrderInfo;
+import com.txd.hzj.wjlp.txunda_lh.aty_comment;
+import com.txd.hzj.wjlp.txunda_lh.aty_pay;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,23 +39,30 @@ public class MyOrderAdapter extends BaseAdapter {
     private Context context;
     private List<Order> list;
     private LayoutInflater mInflater;
-    private int type;
+    private ProgressDialog progressDialog;
+    private String type;
+    private int index;
 
-    public MyOrderAdapter(Context context, List<Order> list, int type) {
+    public MyOrderAdapter(Context context, List<Order> list, String type) {
         this.context = context;
-        List<Order> orderlist = new ArrayList<>();
-        if (type == 0) {
-            this.list = list;
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                if (type == list.get(i).getType()) {
-                    orderlist.add(list.get(i));
-                }
-            }
-            this.list = orderlist;
-        }
+//        List<Order> orderlist = new ArrayList<>();
+//        if (type == 0) {
+//            this.list = list;
+//        } else {
+//            for (int i = 0; i < list.size(); i++) {
+//                if (type == list.get(i).getType()) {
+//                    orderlist.add(list.get(i));
+//                }
+//            }
+//            this.list = orderlist;
+//        }
         this.type = type;
+        this.list = list;
         mInflater = LayoutInflater.from(context);
+        progressDialog = new ProgressDialog(context, com.ants.theantsgo.R.style.loading_dialog);// 初始化progressDialog，设置样式
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);// 点击返回消失
+        progressDialog.setCanceledOnTouchOutside(false);// 点击外部消失
     }
 
     @Override
@@ -65,7 +81,7 @@ public class MyOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
+    public View getView(final int i, View convertView, ViewGroup viewGroup) {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -75,35 +91,105 @@ public class MyOrderAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
         }
-        holder.title.setText(list.get(i).getName());
-        if (list.get(i).getType() == 1) {
-            holder.state.setText("待付款");
-            holder.tv_btn_left.setText("取消订单");
-            holder.tv_btn_right.setText("付款");
-        } else if (list.get(i).getType() == 2) {
-            holder.state.setText("买家已付款");
-            holder.tv_btn_left.setVisibility(View.GONE);
-            holder.tv_btn_right.setVisibility(View.GONE);
-        } else if (list.get(i).getType() == 3) {
-            holder.state.setText("卖家已发货");
-            holder.tv_btn_left.setText("查看物流");
-            holder.tv_btn_right.setText("确认收货");
-        } else if (list.get(i).getType() == 4) {
-            holder.state.setText("交易成功");
-            holder.tv_btn_left.setText("查看物流");
-            holder.tv_btn_right.setText("评价");
-        } else {
+        holder.title.setText(type.equals("1") ? list.get(i).getShop_name() : list.get(i).getHouse_name());
+        switch (list.get(i).getStatus()) {
+            case "0":
+                holder.state.setText("待付款");
+                holder.tv_btn_left.setText("取消订单");
+                holder.tv_btn_right.setText("付款");
+                holder.tv_btn_left.setVisibility(View.VISIBLE);
+                holder.tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "1":
+                holder.state.setText("办理手续中");
+                holder.tv_btn_left.setVisibility(View.GONE);
+                holder.tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "2":
+                holder.state.setText("待评价");
+                //holder.tv_btn_left.setText("查看物流");
+                holder.tv_btn_right.setText("评价");
+                holder.tv_btn_left.setVisibility(View.GONE);
+                holder.tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "3":
+//                holder.state.setText("卖家已发货");
+//                holder.tv_btn_left.setText("查看物流");
+//                holder.tv_btn_right.setText("确认收货");
+                break;
+            case "4":
+                holder.state.setText("已完成");
+                holder.tv_btn_right.setText("删除");
+                holder.tv_btn_left.setVisibility(View.GONE);
+                holder.tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "5":
+                holder.state.setText("已取消");
+                holder.tv_btn_left.setVisibility(View.GONE);
+                holder.tv_btn_right.setVisibility(View.VISIBLE);
+                holder.tv_btn_right.setText("删除");
+                break;
         }
+        holder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, FindHouseByMapAty.class);
+                intent.putExtra("lng", list.get(i).getLng());
+                intent.putExtra("lat", list.get(i).getLat());
+                context.startActivity(intent);
+            }
+        });
+        holder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (list.get(i).getStatus().equals("0")) {
+                    index = i;
+                    RequestParams params = new RequestParams();
+                    params.addBodyParameter("order_id", list.get(i).getOrder_id());
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/cancelOrder" : "HouseOrder/cancelOrder"), params, baseView);
+                }
+            }
+        });
+        holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (list.get(i).getStatus().equals("0")) {
+                    RequestParams params = new RequestParams();
+                    params.addBodyParameter("order_id", list.get(i).getOrder_id());
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/addOrder" : "HouseOrder/addOrder"), params, baseView);
+                    progressDialog.show();
+                    progressDialog.setContentView(com.ants.theantsgo.R.layout.loading_dialog);
+                } else if (list.get(i).getStatus().equals("2")) {
+                    Intent intent = new Intent(context, aty_comment.class);
+                    intent.putExtra("id", list.get(i).getOrder_id());
+                    intent.putExtra("type",type);
+                    context.startActivity(intent);
+                } else {
+                    index = i;
+                    RequestParams params = new RequestParams();
+                    params.addBodyParameter("order_id", list.get(i).getOrder_id());
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/deleteOrder" : "HouseOrder/deleteOrder"), params, baseView);
+                }
+            }
+        });
 
-        ChangeTextViewStyle.getInstance().forOrderPrice(context,
-                holder.goods_price_info_tv,
-                "共2件商品 合计：￥190.00(含运费￥10.00)");
-
-        holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter());
+//        ChangeTextViewStyle.getInstance().forOrderPrice(context,
+//                holder.goods_price_info_tv,
+//                "共2件商品 合计：￥190.00(含运费￥10.00)");
+        holder.goods_price_info_tv.setText("总计：¥" + list.get(i).getOrder_price());
+        holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(i));
         holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                context.startActivity(new Intent(context, OrderDetailsAty.class));
+            public void onItemClick(AdapterView<?> adapterView, View view, int a, long l) {
+                Intent intent = new Intent();
+                intent.setClass(context, CarOrderInfo.class);
+                intent.putExtra("id", list.get(i).getOrder_id());
+                intent.putExtra("type", type);
+                context.startActivity(intent);
             }
         });
         return convertView;
@@ -130,12 +216,17 @@ public class MyOrderAdapter extends BaseAdapter {
     }
 
     private class GoodsForOrderAdapter extends BaseAdapter {
+        private int p;
+
+        public GoodsForOrderAdapter(int i) {
+            this.p = i;
+        }
 
         private GOVH goVh;
 
         @Override
         public int getCount() {
-            return 2;
+            return 1;
         }
 
         @Override
@@ -158,12 +249,110 @@ public class MyOrderAdapter extends BaseAdapter {
             } else {
                 goVh = (GOVH) view.getTag();
             }
+            Glide.with(context).load(type.equals("1") ? list.get(p).getCar_img() : list.get(p).getHouse_style_img()).into(goVh.image);
+            goVh.name.setText(type.equals("1") ? list.get(p).getCar_name() : list.get(p).getStyle_name() + list.get(p).getTags());
+            goVh.num.setText("x" + list.get(p).getNum());
+            goVh.title.setText("可抵：¥" + list.get(p).getPre_money());
             return view;
         }
 
         private class GOVH {
+            @ViewInject(R.id.image)
+            private ImageView image;
+            @ViewInject(R.id.name)
+            private TextView name;
+            @ViewInject(R.id.num)
+            private TextView num;
+            @ViewInject(R.id.title)
+            private TextView title;
+        }
+
+    }
+
+    BaseView baseView = new BaseView() {
+        @Override
+        public void showDialog() {
 
         }
-    }
+
+        @Override
+        public void showDialog(String text) {
+
+        }
+
+        @Override
+        public void showContent() {
+
+        }
+
+        @Override
+        public void removeDialog() {
+
+        }
+
+        @Override
+        public void removeContent() {
+
+        }
+
+        @Override
+        public void onStarted() {
+
+        }
+
+        @Override
+        public void onCancelled() {
+
+        }
+
+        @Override
+        public void onLoading(long total, long current, boolean isUploading) {
+
+        }
+
+        @Override
+        public void onException(Exception exception) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            Toast.makeText(context, "网络连接失败...", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onComplete(String requestUrl, String jsonStr) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            if (requestUrl.contains("addOrder")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                Intent i = new Intent();
+                i.setClass(context, aty_pay.class);
+                i.putExtra("data", data.get("data"));
+                i.putExtra("type", type);
+                context.startActivity(i);
+            }
+            if (requestUrl.contains("cancelOrder")) {
+                list.get(index).setStatus("5");
+                notifyDataSetChanged();
+            }
+            if (requestUrl.contains("deleteOrder")) {
+                list.remove(index);
+                notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onError(String requestUrl, Map<String, String> error) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+            Toast.makeText(context, error.get("message"), Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onErrorTip(String tips) {
+
+        }
+    };
 
 }

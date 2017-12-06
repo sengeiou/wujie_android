@@ -62,6 +62,7 @@ import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
+import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
@@ -183,6 +184,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_main;
+
     }
 
     @Override
@@ -204,7 +206,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void requestData() {
         updataPst.toUpdata();
-
     }
 
     @Override

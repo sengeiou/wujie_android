@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.ants.theantsgo.httpTools.ApiTool;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.MapUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
@@ -111,9 +113,12 @@ public class CartFgt extends BaseFgt {
      */
     private BigDecimal all_price;
     private ArrayList<Card_bean> json_list;
+//
+//    @ViewInject(R.id.swipe_layout)
+//    private SwipeRefreshLayout swipe_layout;
 
-    @ViewInject(R.id.swipe_layout)
-    private SwipeRefreshLayout swipe_layout;
+
+    private boolean is_all = false;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -151,14 +156,14 @@ public class CartFgt extends BaseFgt {
     }
 
     private void getDate() {
-        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                RequestParams params = new RequestParams();
-                ApiTool2 apiTool2 = new ApiTool2();
-                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
-            }
-        });
+//        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                RequestParams params = new RequestParams();
+//                ApiTool2 apiTool2 = new ApiTool2();
+//                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+//            }
+//        });
     }
 
     @Override
@@ -173,7 +178,7 @@ public class CartFgt extends BaseFgt {
         //  super.onError(requestUrl, error);
         removeContent();
         removeDialog();
-        swipe_layout.setRefreshing(false);
+//        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
             textview.setText(error.get("message"));
             textview.setVisibility(View.VISIBLE);
@@ -185,7 +190,7 @@ public class CartFgt extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        swipe_layout.setRefreshing(false);
+//        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
@@ -289,7 +294,32 @@ public class CartFgt extends BaseFgt {
                         }
                     }).showDialog();
                 } else {// 去结算
-                    startActivity(BuildOrderAty.class, null);
+                    String mId = "";
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for (ShopingCart shopingCart : shopingCarts) {
+                        for (CartGoods cartGoods : shopingCart.getGoodsInfo()) {
+                            if (cartGoods.isCheck()) {
+                                stringBuffer.append(cartGoods.getCart_id());
+                                stringBuffer.append(",");
+//                                if (!ListUtils.isEmpty(json_list)) {
+//                                    break;
+//                                }
+                            }
+                        }
+                        if (!TextUtils.isEmpty(stringBuffer.toString())) {
+                            is_all = true;
+                            mId = shopingCart.getMerchant_id();
+                        //    showToast("请选择同商店的商品");
+                            break;
+                        }
+                    }
+                    if (is_all) {
+                        is_all = false;
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mid", mId);
+                        bundle.putString("json", stringBuffer.toString());
+                        startActivity(BuildOrderAty.class, bundle);
+                    }
                 }
                 break;
             case R.id.cart_select_all_cb:// 全选
@@ -346,8 +376,10 @@ public class CartFgt extends BaseFgt {
         params.addBodyParameter("cart_id_json", json);
         if (type == 1) {
             apiTool2.postApi(Config.BASE_URL + "Cart/delCart", params, this);
-        } else {
+        } else if (type == 3) {
             apiTool2.postApi(Config.BASE_URL + "Cart/addCollect", params, this);
+        } else if (type == 3) {
+
         }
     }
 
@@ -405,6 +437,8 @@ public class CartFgt extends BaseFgt {
                 public void onClick(View view) {
                     if (sc.isAllCheck()) {
                         sc.setAllCheck(false);
+
+
                         for (CartGoods cg : sc.getGoodsInfo()) {
                             cg.setCheck(false);
                             BigDecimal price = new BigDecimal(cg.getShop_price());

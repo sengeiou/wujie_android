@@ -14,7 +14,7 @@ import com.lidroid.xutils.http.RequestParams;
  * ===============Txunda===============
  */
 
-class HouseBuy {
+public class HouseBuy {
 
     private String url = Config.BASE_URL + "HouseBuy/";
 
@@ -83,6 +83,21 @@ class HouseBuy {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("style_id", style_id);
         apiTool2.postApi(url + "styleInfo", params, baseView);
+    }
+
+    /**
+     * @param house_id
+     * @param p
+     * @param label_id
+     * @param baseView
+     */
+    public static void commentList(String house_id, int p, String label_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("house_id", house_id);
+        params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("label_id", label_id);
+        apiTool2.postApi(Config.BASE_URL + "HouseBuy/commentList", params, baseView);
     }
 
 }

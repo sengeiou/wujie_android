@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -18,14 +17,14 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.Comment;
+import com.txd.hzj.wjlp.http.carbuy.CarBuy;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
+import com.txd.hzj.wjlp.txunda_lh.BeanCommentList;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +50,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     @ViewInject(R.id.goods_evaluste_lv)
     private ListViewForScrollView goods_evaluste_lv;
 
-    private List<Comment.CommentList> data;
-    private List<Comment.CommentList> data2;
+
     /**
      * 0.商品全部评价
      * 1.我的全部评价
@@ -65,7 +63,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
 
     private GoodsEvalusteAdapter goodsEvalusteAdapter;
 
-    private List<String> goodsTypes;
+    List<BeanCommentList.DataBean.LabelListBean> label_list;
 
     /**
      * 滚动监听
@@ -93,36 +91,38 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
+    @ViewInject(R.id.tv_composite)
+    private TextView tv_composite;
+    @ViewInject(R.id.rb)
+    private RatingBar rb;
+    @ViewInject(R.id.tv_cmm)
+    private TextView tv_cmm;
+    private String label_id = "";
+
+    List<BeanCommentList.DataBean.CommentListBean> comment_list;
+    private TagAdapter<BeanCommentList.DataBean.LabelListBean> tagAdapter;
+    private List<BeanCommentList.DataBean.CommentListBean> Comment_list;
+    private List<BeanCommentList.DataBean.CommentListBean> Comment_more;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         if (0 == from) {
-            titlt_conter_tv.setText("全部评价(45)");
+            titlt_conter_tv.setText("全部评价" + getIntent().getStringExtra("num"));
             evaluate_lin_layout.setVisibility(View.GONE);
             goods_comment_tag.setVisibility(View.VISIBLE);
-        } else if (1 == from) {
-            titlt_conter_tv.setText("我的评价");
-            evaluate_lin_layout.setVisibility(View.VISIBLE);
-            goods_comment_tag.setVisibility(View.GONE);
-        } else {
-            titlt_conter_tv.setText("店铺评价");
-            evaluate_lin_layout.setVisibility(View.VISIBLE);
-            goods_comment_tag.setVisibility(View.GONE);
         }
+//        else if (1 == from) {
+//            titlt_conter_tv.setText("我的评价");
+//            evaluate_lin_layout.setVisibility(View.VISIBLE);
+//            goods_comment_tag.setVisibility(View.GONE);
+//        } else {
+//            titlt_conter_tv.setText("店铺评价");
+//            evaluate_lin_layout.setVisibility(View.VISIBLE);
+//            goods_comment_tag.setVisibility(View.GONE);
+//        }
 
-        TagAdapter<String> tagAdapter = new TagAdapter<String>(goodsTypes) {
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView tv = (TextView) LayoutInflater.from(GoodsEvaluateAty.this).inflate(R.layout
-                                .item_goods_attrs_tfl,
-                        parent, false);
-                tv.setText(s);
-                return tv;
-            }
-        };
-        goods_comment_tag.setAdapter(tagAdapter);
-        tagAdapter.setSelectedList(0);
 
         // 滚动到顶部
         goods_comment_sc.smoothScrollTo(0, 0);
@@ -136,18 +136,16 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
                 p = 1;
-                userPst.myCommentList(p);
+                CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
+
             }
 
             @Override
             public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-                if (numall >= data.size()) {
-                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
-                    return;
-                }
+
                 // 加载操作
                 p++;
-                userPst.myCommentList(p);
+                CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
             }
         });
 
@@ -172,25 +170,9 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     @Override
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
-
         userPst = new UserPst(this);
 
-        data = new ArrayList<>();
-        data2 = new ArrayList<>();
 
-        goodsTypes = new ArrayList<>();
-        goodsTypes.add("全部(198)");
-        goodsTypes.add("精华(98)");
-        goodsTypes.add("有图(18)");
-        goodsTypes.add("户型(19)");
-        goodsTypes.add("5星(98)");
-        goodsTypes.add("4星(18)");
-        goodsTypes.add("3星(98)");
-        goodsTypes.add("2星(18)");
-        goodsTypes.add("1星(18)");
-        goodsTypes.add("交通便利(18)");
-        goodsTypes.add("工程质量好(8)");
-        goodsTypes.add("户型完美(98)");
     }
 
     @Override
@@ -199,33 +181,80 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
             p = 1;
             userPst.myCommentList(p);
         }
+        CarBuy.commentList(getIntent().getStringExtra("id"), "", p, this);
+        showProgressDialog();
+
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("=====数据-=====",jsonStr);
-        if (requestUrl.contains("myCommentList")) {
-            Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
-            numall = comment.getNums();
-            evaluate_num_tv.setText("已有 " + numall + "条评价");
-            if (1 == p) {
-                data.clear();
-                data = comment.getData();
-                if (!ListUtils.isEmpty(data)) {
-                    goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, from);
-                    goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
+        if (requestUrl.contains("commentList")) {
+            BeanCommentList list = GsonUtil.GsonToBean(jsonStr, BeanCommentList.class);
+            BeanCommentList.DataBean data = list.getData();
+            float num = Float.parseFloat(data.getComposite());
+            tv_composite.setText(String.valueOf((int) num));
+            rb.setRating(Float.parseFloat(data.getComposite()));
+            tv_cmm.setText("外观内饰" + data.getExterior() + "分\t" + "控件舒适" + data.getSpace() + "分\t"
+                    + "操控性能" + data.getControllability() + "分\t" + "油耗动力" + data.getConsumption() + "分");
+            label_list = data.getLabel_list();
+            tagAdapter = new TagAdapter<BeanCommentList.DataBean.LabelListBean>(label_list) {
+                @Override
+                public View getView(FlowLayout parent, final int position, final BeanCommentList.DataBean.LabelListBean labelListBean) {
+                    TextView tv = (TextView) LayoutInflater.from(GoodsEvaluateAty.this).inflate(R.layout
+                                    .item_goods_attrs_tfl,
+                            parent, false);
+                    tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           // tagAdapter.setSelectedList(position);
+                            label_id = labelListBean.getLabel_id();
+                            CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
+                        }
+                    });
+                    tv.setText(labelListBean.getLabel_name());
+                    return tv;
                 }
-                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+
+
+            };
+           // tagAdapter.setSelectedList(0);
+            goods_comment_tag.setAdapter(tagAdapter);
+
+            if (p == 1) {
+                Comment_list = data.getComment_list();
+                goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data.getComment_list(), from);
+                goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
             } else {
-                data2 = comment.getData();
-                if (!ListUtils.isEmpty(data2)) {
-                    data.addAll(data2);
-                    goodsEvalusteAdapter.notifyDataSetChanged();
-                }
-                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                Comment_more = data.getComment_list();
+                Comment_list.addAll(Comment_more);
+                goodsEvalusteAdapter.notifyDataSetChanged();
             }
+
         }
+
+//        L.e("=====数据-=====", jsonStr);
+//        if (requestUrl.contains("myCommentList")) {
+//            Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
+//            numall = comment.getNums();
+//            evaluate_num_tv.setText("已有 " + numall + "条评价");
+//            if (1 == p) {
+//                data.clear();
+//                data = comment.getData();
+//                if (!ListUtils.isEmpty(data)) {
+//                    goodsEvalusteAdapter = new GoodsEvalusteAdapter(this, data, from);
+//                    goods_evaluste_lv.setAdapter(goodsEvalusteAdapter);
+//                }
+//                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+//            } else {
+//                data2 = comment.getData();
+//                if (!ListUtils.isEmpty(data2)) {
+//                    data.addAll(data2);
+//                    goodsEvalusteAdapter.notifyDataSetChanged();
+//                }
+//                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+//            }
+//        }
     }
 
     @Override

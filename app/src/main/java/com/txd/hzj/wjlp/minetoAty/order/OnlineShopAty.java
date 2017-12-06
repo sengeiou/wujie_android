@@ -102,7 +102,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         }
         // 添加碎片
         for (Map<String, String> fgt : mTitleList) {
-            mFragment.add(OrderOnLineFgt.getFgt(title, fgt.get("type")));
+            mFragment.add(OrderOnLineFgt.getFgt(title, fgt.get("type"),getIntent().getStringExtra("type")));
         }
     }
 

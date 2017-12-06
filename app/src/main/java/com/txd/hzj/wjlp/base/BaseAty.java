@@ -1,14 +1,20 @@
 package com.txd.hzj.wjlp.base;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
@@ -46,6 +52,16 @@ import java.util.Map;
 
 public abstract class BaseAty extends BaseActivity implements ChatListener {
     private Bundle bundle;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (L.isDebug) {
+            rootText.setText(ToolKit.getClassName(this));
+        }else{
+            rootText.setVisibility(View.GONE);
+        }
+    }
 
     /**
      * 返回
@@ -113,18 +129,16 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      *
      * @param v View
      */
-    public void toEvaluate(View v) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("from", 0);
-        startActivity(GoodsEvaluateAty.class, bundle);
-    }
+//    public void toEvaluate(View v) {
+//
+//    }
 
     /**
      * 商品属性
      *
      * @param v View
      */
-    public void toAttrs(View v,String goods_id, String imageurl, String price, ArrayList<GoodsAttrs> list,ArrayList<GoodsAttrs.product>list_p) {
+    public void toAttrs(View v, String goods_id, String imageurl, String price, ArrayList<GoodsAttrs> list, ArrayList<GoodsAttrs.product> list_p) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", 1);
         bundle.putString("goods_id", goods_id);
@@ -321,5 +335,12 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     protected void onStop() {
         super.onStop();
         DemoApplication.getInstance().removeLisetener();
+    }
+
+    public void call(String tel) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        Uri data = Uri.parse("tel:" + tel);
+        intent.setData(data);
+        startActivity(intent);
     }
 }

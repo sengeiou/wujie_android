@@ -98,14 +98,12 @@ public class EvaluationReleaseAty extends BaseAty {
     protected void initialized() {
         goodsEvalustionAdapter = new GoodsEvalustionAdapter();
         goodsEvaluations = new ArrayList<>();
-
         imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 使用Glide加载
         imagePicker.setMultiMode(true);// 多选
         imagePicker.setCrop(false);// 是否裁剪
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
-
         for (int i = 0; i < 2; i++) {
             goodsEvaluations.add(new GoodsEvaluation("", (i + 1) + "", "0", "", new ArrayList<File>()));
         }

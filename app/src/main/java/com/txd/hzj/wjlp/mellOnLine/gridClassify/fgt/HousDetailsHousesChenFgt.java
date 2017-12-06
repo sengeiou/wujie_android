@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -33,6 +34,7 @@ import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.HouseArrtAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
+import com.txd.hzj.wjlp.txunda_lh.BeanComment;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -129,6 +131,13 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
     private TextView house_address_tv;
     private String lat = "";
     private String lng = "";
+
+    @ViewInject(R.id.tv_houses_evaluate)
+    private TextView tv_houses_evaluate;
+    @ViewInject(R.id.layout_cmm)
+    private RelativeLayout layout_cmm;
+    @ViewInject(R.id.layout_comment)
+    private LinearLayout layout_comment;
 
     public static HousDetailsHousesChenFgt getFgt(String house_id) {
         HousDetailsHousesChenFgt housDetailsHousesChenFgt = new HousDetailsHousesChenFgt();
@@ -231,34 +240,48 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
                 setPhone.setPhone(data.get("link_phone"));
             }
 
-            // 评论
-            if (ToolKit.isList(data, "comment")) {
-                try {
-                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
-//                    all_comment_num_tv.setText("更多评价(" + comment.getTotal() + ")");
-                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                    CommentBean.BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getHead_pic())
-                                .override(head_size, head_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(getActivity(), pictures);
-                            estimate_pic.setAdapter(picadapter);
-                        }
-                    }
-                } catch (JsonSyntaxException e) {
-                    all_comment_num_tv.setText("商品评价(0)");
-                    comment_layout.setVisibility(View.GONE);
-                }
+            if (!data.get("comment_num").equals("0")) {
+                tv_houses_evaluate.setText("更多评价(" + data.get("comment_num")+")");
+                //     all_comment_num_tv.setText("商品评价(" + data.get("comment_num") + ")");
+                List<BeanComment> comment = GsonUtil.getObjectList(data.get("comment_new"), BeanComment.class);
+                Glide.with(this).load(comment.get(0).getHead_pic()).into(comm_user_head_iv);
+                comm_user_name_tv.setText(comment.get(0).getNickname());
+                comm_content_tv.setText(comment.get(0).getContent());
+                List<CommentBean.BodyBean.PicturesBean> pic = comment.get(0).getPictures_arr();
+                CommentPicAdapter picadapter = new CommentPicAdapter(getActivity(), pic);
+                estimate_pic.setAdapter(picadapter);
+            } else {
+                layout_cmm.setVisibility(View.GONE);
+                layout_comment.setVisibility(View.GONE);
             }
+//            // 评论
+//            if (ToolKit.isList(data, "comment")) {
+//                try {
+//                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
+////                    all_comment_num_tv.setText("更多评价(" + comment.getTotal() + ")");
+//                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+//                    CommentBean.BodyBean bodyBean = comment.getBody();
+//                    if (bodyBean != null) {
+//                        Glide.with(this).load(bodyBean.getHead_pic())
+//                                .override(head_size, head_size)
+//                                .placeholder(R.drawable.ic_default)
+//                                .error(R.drawable.ic_default)
+//                                .centerCrop()
+//                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                                .into(comm_user_head_iv);
+//                        comm_user_name_tv.setText(bodyBean.getNickname());
+//                        comm_content_tv.setText(bodyBean.getContent());
+//                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+//                        if (!ListUtils.isEmpty(pictures)) {
+//                            CommentPicAdapter picadapter = new CommentPicAdapter(getActivity(), pictures);
+//                            estimate_pic.setAdapter(picadapter);
+//                        }
+//                    }
+//                } catch (JsonSyntaxException e) {
+//                    all_comment_num_tv.setText("商品评价(0)");
+//                    comment_layout.setVisibility(View.GONE);
+//                }
+//            }
 
         }
     }

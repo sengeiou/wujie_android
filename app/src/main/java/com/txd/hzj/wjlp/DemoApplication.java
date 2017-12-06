@@ -72,10 +72,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     @Override
     public void onCreate() {
-//        //  L.isDebug = BuildConfig.DEBUG;
-        L.isDebug = false;
-        MultiDex.install(this);
         super.onCreate();
+        L.isDebug = true;
+        MultiDex.install(this);
         applicationContext = this;
         instance = this;
         DemoHelper.getInstance().init(applicationContext);

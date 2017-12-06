@@ -96,6 +96,13 @@ public class AddressListAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (2 == type) {// 地址选择
+                    Map<String, String> ad = getItem(i);
+                    String phone = ad.get("phone");
+                    String receiver = ad.get("receiver");
+                    String ads = ad.get("province") + ad.get("city") + ad.get("area") + ad.get("street") +
+                            ad.get("address");
+
+
 
                 }
             }
@@ -116,6 +123,10 @@ public class AddressListAty extends BaseAty {
         });
 
         address_lv.setEmptyView(no_data_layout);
+    }
+
+    public Map<String, String> getItem(int i) {
+        return addresses.get(i);
     }
 
     @Override
@@ -205,7 +216,7 @@ public class AddressListAty extends BaseAty {
                     address_lv.setAdapter(addressAdapter);
                     toOperationAddress();
                 } else {
-                    if(addressAdapter!=null){
+                    if (addressAdapter != null) {
                         addressAdapter.notifyDataSetChanged();
                     }
                 }

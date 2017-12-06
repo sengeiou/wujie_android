@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bot_for_order"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="end|center"
@@ -13,8 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_gray_btn_li"
         android:gravity="center"
-        android:text="取消订单"
-        />
+        android:text="取消订单" />
 
     <TextView
         android:id="@+id/tv_btn_right"
@@ -24,6 +22,5 @@
         android:background="@drawable/shape_red_btn_01_li"
         android:gravity="center"
         android:text="付款"
-        android:textColor="@color/colorRed"
-        />
+        android:textColor="@color/colorRed" />
 </LinearLayout>

@@ -73,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 默认设置
      */
     public boolean changeStatusBar = true;
+    public TextView rootText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (changeStatusBar) {
             ImmersionBar.with(this).init();
         }
+
     }
 
     @Override
@@ -166,6 +168,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
                 RelativeLayout.LayoutParams.MATCH_PARENT);
         main.setLayoutParams(layoutParams);
         content.addView(main);
+        rootText = new TextView(this);
+        rootText.setTextSize(20);
+        content.addView(rootText);
     }
 
     /**

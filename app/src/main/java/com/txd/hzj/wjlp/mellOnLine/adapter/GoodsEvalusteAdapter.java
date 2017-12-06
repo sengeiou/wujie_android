@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
@@ -19,6 +20,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Comment;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.txunda_lh.BeanCommentList;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 public class GoodsEvalusteAdapter extends BaseAdapter {
     private Context context;
-    private List<Comment.CommentList> list;
+    List<BeanCommentList.DataBean.CommentListBean> comment_list;
     private LayoutInflater inflater;
     private GEVH gevh;
     private int r = 0;
@@ -45,9 +47,9 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
     private int type;
 
-    public GoodsEvalusteAdapter(Context context, List<Comment.CommentList> list, int type) {
+    public GoodsEvalusteAdapter(Context context, List<BeanCommentList.DataBean.CommentListBean> comment_list, int type) {
         this.context = context;
-        this.list = list;
+        this.comment_list = comment_list;
         this.type = type;
         if (1 == type) {
             r = ToolKit.dip2px(context, 4);
@@ -59,12 +61,12 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return comment_list.size();
     }
 
     @Override
-    public Comment.CommentList getItem(int i) {
-        return list.get(i);
+    public BeanCommentList.DataBean.CommentListBean getItem(int i) {
+        return comment_list.get(i);
     }
 
     @Override
@@ -74,7 +76,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Comment.CommentList commentList = getItem(i);
+        BeanCommentList.DataBean.CommentListBean commentList = getItem(i);
         if (view == null) {
             view = inflater.inflate(R.layout.aty_estimate_layout, viewGroup, false);
             gevh = new GEVH();
@@ -83,61 +85,70 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
         } else {
             gevh = (GEVH) view.getTag();
         }
-        List<Comment.CommentList.Pictures> pic = commentList.getPictures();
-        if (pic != null) {
+        List<BeanCommentList.DataBean.CommentListBean.PicturesArrBean> pictures_arr = commentList.getPictures_arr();
+        if (pictures_arr != null) {
             gevh.estimate_pic.setVisibility(View.VISIBLE);
-            gevh.estimate_pic.setAdapter(new PICAdapter(pic, context));
+            gevh.estimate_pic.setAdapter(new PICAdapter(pictures_arr, context));
         } else {
             gevh.estimate_pic.setVisibility(View.GONE);
         }
 
         Glide.with(context)
-                .load(commentList.getUser_head_pic())
+                .load(commentList.getHead_pic())
                 .error(R.drawable.ic_default)
                 .placeholder(R.drawable.ic_default)
                 .override(head_size, head_size)
                 .into(gevh.comm_user_head_iv);
-
         gevh.comm_user_name_tv.setText(commentList.getNickname());
         gevh.comm_content_tv.setText(commentList.getContent());
-
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("标签：");
+        for (BeanCommentList.DataBean.CommentListBean.LabelArrBean labelArrBean : getItem(i).getLabel_arr()) {
+            stringBuffer.append(labelArrBean.getLabel());
+            stringBuffer.append("、");
+        }
+        gevh.tv_label.setText(stringBuffer.toString());
+        gevh.tv_date.setText(getItem(i).getCreate_time());
+        gevh.ratingBar.setRating(Float.parseFloat(getItem(i).getComment_star()));
+        gevh.ratingBar.setVisibility(View.VISIBLE);
         if (0 == type) {
             gevh.goods_for_my_evaluste_layout.setVisibility(View.GONE);
-        } else {
-
-            Glide.with(context)
-                    .load(commentList.getGoods_img())
-                    .error(R.drawable.ic_default)
-                    .placeholder(R.drawable.ic_default)
-                    .override(head_size, head_size)
-                    .into(gevh.goods_comment_pic);
-            String type = "";
-            switch (commentList.getOrder_type()) {
-                case "0":
-                case "6":
-                case "7":
-                case "8":
-                    type = "";
-                    break;
-                case "1":
-                    type = "拼团";
-                    break;
-                case "2":
-                    type = "预购";
-                    break;
-                case "3":
-                    type = "竞拍";
-                    break;
-                case "4":
-                    type = "夺宝";
-                    break;
-            }
-            gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
-            TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
-                    Color.parseColor("#47CEF7"), r);
-            ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.price_for_goods_tv,
-                    "￥" + commentList.getShop_price());
         }
+// else {
+//
+//            Glide.with(context)
+//                    .load(commentList.getGoods_img())
+//                    .error(R.drawable.ic_default)
+//                    .placeholder(R.drawable.ic_default)
+//                    .override(head_size, head_size)
+//                    .into(gevh.goods_comment_pic);
+//            String type = "";
+//            switch (commentList.getOrder_type()) {
+//                case "0":
+//                case "6":
+//                case "7":
+//                case "8":
+//                    type = "";
+//                    break;
+//                case "1":
+//                    type = "拼团";
+//                    break;
+//                case "2":
+//                    type = "预购";
+//                    break;
+//                case "3":
+//                    type = "竞拍";
+//                    break;
+//                case "4":
+//                    type = "夺宝";
+//                    break;
+//            }
+//            gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
+//            TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
+//                    Color.parseColor("#47CEF7"), r);
+//            ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.price_for_goods_tv,
+//                    "￥" + commentList.getShop_price());
+//        }
 
         return view;
     }
@@ -182,17 +193,24 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
         @ViewInject(R.id.price_for_goods_tv)
         private TextView price_for_goods_tv;
 
+        @ViewInject(R.id.tv_label)
+        private TextView tv_label;
+        @ViewInject(R.id.tv_date)
+        private TextView tv_date;
+        @ViewInject(R.id.rb)
+        private RatingBar ratingBar;
+
     }
 
     private class PICAdapter extends BaseAdapter {
-        private List<Comment.CommentList.Pictures> pic;
+        private List<BeanCommentList.DataBean.CommentListBean.PicturesArrBean> pic;
         private Context context;
         private LayoutInflater inflater;
         private PicVh pvh;
 
         private int pic_size = 0;
 
-        public PICAdapter(List<Comment.CommentList.Pictures> pic, Context context) {
+        public PICAdapter(List<BeanCommentList.DataBean.CommentListBean.PicturesArrBean> pic, Context context) {
             this.pic = pic;
             this.context = context;
             pic_size = ToolKit.dip2px(context, 88);
@@ -205,7 +223,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
         }
 
         @Override
-        public Comment.CommentList.Pictures getItem(int i) {
+        public BeanCommentList.DataBean.CommentListBean.PicturesArrBean getItem(int i) {
             return pic.get(i);
         }
 
@@ -216,7 +234,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Comment.CommentList.Pictures pictures = getItem(i);
+            BeanCommentList.DataBean.CommentListBean.PicturesArrBean pictures = getItem(i);
             if (view == null) {
                 view = inflater.inflate(R.layout.item_evaluste_pic_gv, viewGroup, false);
                 pvh = new PicVh();

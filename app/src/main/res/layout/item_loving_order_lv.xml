@@ -55,10 +55,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="共2件商品 合计："
+            android:text="共1件商品 合计："
             android:textColor="@color/app_text_color"/>
 
         <TextView
+            android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
@@ -72,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="(含运费￥10.00)"
             android:textColor="@color/app_text_color"/>
     </LinearLayout>
 
