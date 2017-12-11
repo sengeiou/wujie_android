@@ -94,7 +94,6 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
     @Override
     protected void initialized() {
         String house_id = getIntent().getStringExtra("house_id");
-
         fragments = new ArrayList<>();
         fragments.add(HousDetailsHousesChenFgt.getFgt(house_id));
         fragments.add(HousDetailsTypeChenFgt.getFgt(house_id));

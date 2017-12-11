@@ -10,7 +10,7 @@ import com.lidroid.xutils.http.RequestParams;
  */
 
 public class Pay {
-    private static String url = "/Pay/";
+    private static String url = "Pay/";
 
     /**
      * 获取支付宝支付参数

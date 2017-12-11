@@ -5,8 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 import java.util.List;
@@ -28,7 +32,7 @@ public class GoodsByOrderAdapter extends BaseAdapter {
     private GOVH govh;
     List<Map<String, String>> data;
 
-    public GoodsByOrderAdapter(Context context,List<Map<String, String>> data) {
+    public GoodsByOrderAdapter(Context context, List<Map<String, String>> data) {
         this.data = data;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -40,8 +44,8 @@ public class GoodsByOrderAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public Map<String, String> getItem(int i) {
+        return data.get(i);
     }
 
     @Override
@@ -51,7 +55,6 @@ public class GoodsByOrderAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
         if (view == null) {
             view = inflater.inflate(R.layout.item_goods_by_order_lv, null);
             govh = new GOVH();
@@ -60,10 +63,21 @@ public class GoodsByOrderAdapter extends BaseAdapter {
         } else {
             govh = (GOVH) view.getTag();
         }
+        Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
+        govh.tv_number.setText("x" + getItem(i).get("num"));
+        govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
+        govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
         return view;
     }
 
     class GOVH {
-
+        @ViewInject(R.id.goods_comment_pic)
+        private ImageView goods_comment_pic;
+        @ViewInject(R.id.goods_title_for_evaluate_tv)
+        private TextView goods_title_for_evaluate_tv;
+        @ViewInject(R.id.price_for_goods_tv)
+        private TextView price_for_goods_tv;
+        @ViewInject(R.id.tv_number)
+        private TextView tv_number;
     }
 }

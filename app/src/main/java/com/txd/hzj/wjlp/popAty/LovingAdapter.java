@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.popAty;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Order;
-import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
-import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

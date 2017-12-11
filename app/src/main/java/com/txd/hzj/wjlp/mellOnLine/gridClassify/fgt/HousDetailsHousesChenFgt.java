@@ -136,7 +136,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
     private TextView tv_houses_evaluate;
     @ViewInject(R.id.layout_cmm)
     private RelativeLayout layout_cmm;
-    @ViewInject(R.id.layout_comment)
+    @ViewInject(R.id.comment_layout)
     private LinearLayout layout_comment;
 
     public static HousDetailsHousesChenFgt getFgt(String house_id) {
@@ -210,9 +210,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-
         L.e("======执行了======", jsonStr);
-
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("houseInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -224,10 +222,8 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
             }
             house_name_tv.setText(data.get("house_name"));
             house_prive_tv.setText(data.get("min_price") + "-" + data.get("max_price"));
-
             house_address_tv.setText(data.get("province_name") + data.get("city_name") + data.get("area_name") +
                     data.get("address"));
-
             lng = data.get("lng");
             lat = data.get("lat");
 
@@ -239,8 +235,9 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
             if (setPhone != null) {
                 setPhone.setPhone(data.get("link_phone"));
             }
-
             if (!data.get("comment_num").equals("0")) {
+                layout_cmm.setVisibility(View.VISIBLE);
+                layout_comment.setVisibility(View.VISIBLE);
                 tv_houses_evaluate.setText("更多评价(" + data.get("comment_num")+")");
                 //     all_comment_num_tv.setText("商品评价(" + data.get("comment_num") + ")");
                 List<BeanComment> comment = GsonUtil.getObjectList(data.get("comment_new"), BeanComment.class);

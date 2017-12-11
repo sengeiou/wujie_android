@@ -304,6 +304,10 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.creat_group_tv: {
+                if (!Config.isLogin()) {
+                    toLogin();
+                    break;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("id", car_info.get("car_id"));
                 bundle.putString("image", car_info.get("car_img"));

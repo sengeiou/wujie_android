@@ -316,6 +316,7 @@ public class CartFgt extends BaseFgt {
                     if (is_all) {
                         is_all = false;
                         Bundle bundle = new Bundle();
+                        bundle.putString("type", "1");
                         bundle.putString("mid", mId);
                         bundle.putString("json", stringBuffer.toString());
                         startActivity(BuildOrderAty.class, bundle);

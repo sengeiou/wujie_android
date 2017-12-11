@@ -612,6 +612,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private List<GoodsAttrs> goodsAttrs;
 
     private List<GoodsAttrs.product> goods_produc;
+    private Map<String, String> mInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -683,6 +684,18 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
+        tv_ljgm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (0 == type) {
+                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"),
+                            (ArrayList) goodsAttrs,
+                            (ArrayList) goods_produc, limit_buy_id);
+                }
+
+
+            }
+        });
     }
 
     @Override
@@ -751,6 +764,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 long now = System.currentTimeMillis() / 1000;//获取当前系统时间
                 long end;
                 if (0 == type) {
+                    tv_jrgwc.setVisibility(View.GONE);
                     String stage_status = goodsInfo.get("stage_status");
                     if (stage_status.equals("即将开始")) {
                         end = Long.parseLong(goodsInfo.get("start_time"));
@@ -881,7 +895,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
 
             // 商家信息
-            Map<String, String> mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
+            mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
             mell_id = mInfo.get("merchant_id");
 
             easemob_account = mInfo.get("easemob_account");
@@ -1225,10 +1239,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 showLQPop(v, "领券");
                 break;
             case R.id.im_toarrs:
-                toAttrs(v, goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"),
-                        (ArrayList) goodsAttrs,
-                        (ArrayList) goods_produc
-                );
+//                toAttrs(v, 1, "  ", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"),
+//                        (ArrayList) goodsAttrs,
+//                        (ArrayList) goods_produc,
+//                        ""
+//                );
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();

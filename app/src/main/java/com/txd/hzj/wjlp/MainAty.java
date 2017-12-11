@@ -199,8 +199,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragments.add(mellOffLineFgt);
         fragments.add(cartFgt);
         fragments.add(mineFgt);
-
         updataPst = new UpdataPst(this);
+
     }
 
     @Override

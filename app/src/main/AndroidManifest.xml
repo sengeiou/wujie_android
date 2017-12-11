@@ -730,6 +730,7 @@
         <activity android:name=".txunda_lh.CarOrderInfo" />
         <!--提交评价-->
         <activity android:name=".txunda_lh.aty_comment" />
+        <activity android:name=".txunda_lh.aty_commentindex" />
     </application>
 
 </manifest>

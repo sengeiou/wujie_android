@@ -66,6 +66,7 @@ public class GsonUtil {
      * @param gsonString 需要解析的String
      * @param cls        需要解析成的Bean
      * @return List<T>
+     * @deprecated
      */
     public static <T> List<T> GsonToList(String gsonString, Class<T> cls) {
         List<T> list = null;

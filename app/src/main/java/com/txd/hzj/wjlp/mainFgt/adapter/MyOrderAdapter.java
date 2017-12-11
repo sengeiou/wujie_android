@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
@@ -45,17 +46,6 @@ public class MyOrderAdapter extends BaseAdapter {
 
     public MyOrderAdapter(Context context, List<Order> list, String type) {
         this.context = context;
-//        List<Order> orderlist = new ArrayList<>();
-//        if (type == 0) {
-//            this.list = list;
-//        } else {
-//            for (int i = 0; i < list.size(); i++) {
-//                if (type == list.get(i).getType()) {
-//                    orderlist.add(list.get(i));
-//                }
-//            }
-//            this.list = orderlist;
-//        }
         this.type = type;
         this.list = list;
         mInflater = LayoutInflater.from(context);
@@ -144,11 +134,22 @@ public class MyOrderAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (list.get(i).getStatus().equals("0")) {
-                    index = i;
-                    RequestParams params = new RequestParams();
-                    params.addBodyParameter("order_id", list.get(i).getOrder_id());
-                    ApiTool2 apiTool2 = new ApiTool2();
-                    apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/cancelOrder" : "HouseOrder/cancelOrder"), params, baseView);
+                    new AlertDialog(context).builder().setTitle("提示").setMsg("取消订单").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            index = i;
+                            RequestParams params = new RequestParams();
+                            params.addBodyParameter("order_id", list.get(i).getOrder_id());
+                            ApiTool2 apiTool2 = new ApiTool2();
+                            apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/cancelOrder" : "HouseOrder/cancelOrder"), params, baseView);
+                        }
+                    }).setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }).show();
+
                 }
             }
         });
@@ -165,14 +166,26 @@ public class MyOrderAdapter extends BaseAdapter {
                 } else if (list.get(i).getStatus().equals("2")) {
                     Intent intent = new Intent(context, aty_comment.class);
                     intent.putExtra("id", list.get(i).getOrder_id());
-                    intent.putExtra("type",type);
+                    intent.putExtra("type", type);
                     context.startActivity(intent);
                 } else {
-                    index = i;
-                    RequestParams params = new RequestParams();
-                    params.addBodyParameter("order_id", list.get(i).getOrder_id());
-                    ApiTool2 apiTool2 = new ApiTool2();
-                    apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/deleteOrder" : "HouseOrder/deleteOrder"), params, baseView);
+
+                    new AlertDialog(context).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            index = i;
+                            RequestParams params = new RequestParams();
+                            params.addBodyParameter("order_id", list.get(i).getOrder_id());
+                            ApiTool2 apiTool2 = new ApiTool2();
+                            apiTool2.postApi(Config.BASE_URL + (type.equals("1") ? "CarOrder/deleteOrder" : "HouseOrder/deleteOrder"), params, baseView);
+                        }
+                    }).setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }).show();
+
                 }
             }
         });

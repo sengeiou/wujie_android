@@ -56,6 +56,8 @@ public class CarChenAty extends BaseAty {
 
     private List<Integer> brandIds;
     private List<Integer> styleIds;
+    @ViewInject(R.id.tv_price)
+    private TextView tv_price;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class CarChenAty extends BaseAty {
                     min_price = "0.0001";
                 }
                 max_price = price.get(rightPostion);
-
+                tv_price.setText(price.get(leftPostion)+"-"+price.get(rightPostion)+"万");
             }
         });
         // RecycleView设置布局样式

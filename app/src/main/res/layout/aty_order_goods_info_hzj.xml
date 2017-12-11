@@ -11,8 +11,7 @@
     <ImageView
         android:id="@+id/goods_comment_pic"
         android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/icon_temp_goods_banner"/>
+        android:layout_height="100dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -24,7 +23,6 @@
             android:id="@+id/goods_title_for_evaluate_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="【EMS空运】广西小台农芒果5斤 单果50-100g|多汁"
             android:textColor="@color/app_text_color"
             android:textSize="16sp"/>
 
@@ -37,13 +35,12 @@
                 android:id="@+id/price_for_goods_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="￥14.80"/>
+                android:layout_weight="1" />
 
             <TextView
+                android:id="@+id/tv_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="x1"
                 android:textColor="@color/app_text_color"/>
         </LinearLayout>
     </FrameLayout>

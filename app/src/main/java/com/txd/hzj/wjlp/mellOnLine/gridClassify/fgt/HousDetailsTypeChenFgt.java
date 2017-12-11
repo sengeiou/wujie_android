@@ -80,9 +80,7 @@ public class HousDetailsTypeChenFgt extends BaseFgt {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initRecyclerView();//RecyclerView初始化
-
         good_luck_sr.setHeaderViewBackgroundColor(0xff888888);
         good_luck_sr.setHeaderView(createHeaderView());// add headerView
         good_luck_sr.setFooterView(createFooterView());

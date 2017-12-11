@@ -16,6 +16,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.groupbuy.GroupPager;
 
 import java.util.List;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -31,12 +32,12 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.GMViewHolder> {
 
     private Context context;
-    private List<GroupPager.Data.PersonBean> list;
+    private List<Map<String, String>> list;
     private LayoutInflater inflater;
 
     private int size = 0;
 
-    public GroupMemberAdapter(Context context, List<GroupPager.Data.PersonBean> list) {
+    public GroupMemberAdapter(Context context, List<Map<String, String>> list) {
         this.context = context;
         this.list = list;
         size = ToolKit.dip2px(context, 80);
@@ -53,14 +54,13 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public void onBindViewHolder(GMViewHolder holder, int position) {
-        GroupPager.Data.PersonBean personBean = list.get(position);
-
-        if (personBean.getIs_first().equals("1")) {
+        Map<String, String> map = list.get(position);
+        if (map.get("type").equals("1")) {
             holder.regimental_commander_tv.setVisibility(View.VISIBLE);
         } else {
             holder.regimental_commander_tv.setVisibility(View.GONE);
         }
-        Glide.with(context).load(personBean.getHead_pic())
+        Glide.with(context).load(map.get("pic"))
                 .override(size, size)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -71,7 +71,7 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public int getItemCount() {
-        return 2;
+        return list.size();
     }
 
     class GMViewHolder extends RecyclerView.ViewHolder {

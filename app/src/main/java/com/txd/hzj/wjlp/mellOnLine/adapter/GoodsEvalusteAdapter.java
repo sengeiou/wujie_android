@@ -92,7 +92,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
         } else {
             gevh.estimate_pic.setVisibility(View.GONE);
         }
-
+        gevh.comment_layout.setVisibility(View.VISIBLE);
         Glide.with(context)
                 .load(commentList.getHead_pic())
                 .error(R.drawable.ic_default)
@@ -154,6 +154,8 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
     }
 
     class GEVH {
+        @ViewInject(R.id.comment_layout)
+        private LinearLayout comment_layout;
         @ViewInject(R.id.estimate_pic)
         private GridViewForScrollView estimate_pic;
 

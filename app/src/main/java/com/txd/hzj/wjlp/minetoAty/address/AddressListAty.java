@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.address;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -96,14 +97,19 @@ public class AddressListAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (2 == type) {// 地址选择
-                    Map<String, String> ad = getItem(i);
+                    Map<String, String> ad = getItem(i-1);
                     String phone = ad.get("phone");
                     String receiver = ad.get("receiver");
                     String ads = ad.get("province") + ad.get("city") + ad.get("area") + ad.get("street") +
                             ad.get("address");
-
-
-
+                    String address_id = ad.get("address_id");
+                    Intent intent = new Intent();
+                    intent.putExtra("phone", phone);
+                    intent.putExtra("receiver", receiver);
+                    intent.putExtra("ads", ads);
+                    intent.putExtra("id", address_id);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });

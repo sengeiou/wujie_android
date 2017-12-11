@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:visibility="gone"
                 android:divider="@drawable/lin_layout_vertical_line_shape"
                 android:orientation="vertical"
                 android:padding="8dp"
@@ -100,17 +101,18 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:id="@+id/tv_shopname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="太平鸟女装"
                     android:textColor="@color/colorAccent"/>
 
                 <TextView
+                    android:id="@+id/tv_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="￥44.5"
+                    android:text="￥0.00"
                     android:textColor="@color/app_text_color"/>
 
             </LinearLayout>

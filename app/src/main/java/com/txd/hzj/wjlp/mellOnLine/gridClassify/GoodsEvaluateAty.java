@@ -212,7 +212,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                             CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                         }
                     });
-                    tv.setText(labelListBean.getLabel_name());
+                    tv.setText(labelListBean.getLabel_name()+"("+labelListBean.getNum()+")");
                     return tv;
                 }
 

@@ -58,7 +58,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         super.onCreate(savedInstanceState);
         if (L.isDebug) {
             rootText.setText(ToolKit.getClassName(this));
-        }else{
+        } else {
             rootText.setVisibility(View.GONE);
         }
     }
@@ -135,13 +135,16 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
     /**
      * 商品属性
-     *
+     * goods_id - minfo_id
      * @param v View
      */
-    public void toAttrs(View v, String goods_id, String imageurl, String price, ArrayList<GoodsAttrs> list, ArrayList<GoodsAttrs.product> list_p) {
+    public void toAttrs(View v, int from, String type,String goods_id, String imageurl,
+                        String price, ArrayList<GoodsAttrs> list, ArrayList<GoodsAttrs.product> list_p,String group_buy_id) {
         Bundle bundle = new Bundle();
-        bundle.putInt("from", 1);
+        bundle.putInt("from", from);
+        bundle.putString("type", type);
         bundle.putString("goods_id", goods_id);
+        bundle.putString("group_buy_id", group_buy_id);
         bundle.putString("imageurl", imageurl);
         bundle.putString("price", price);
         bundle.putParcelableArrayList("list", list);

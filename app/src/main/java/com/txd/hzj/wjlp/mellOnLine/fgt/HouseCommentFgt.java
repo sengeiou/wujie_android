@@ -151,7 +151,7 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
                             HouseBuy.commentList(house_id, p, label_id, HouseCommentFgt.this);
                         }
                     });
-                    tv.setText(labelListBean.getLabel_name());
+                    tv.setText(labelListBean.getLabel_name()+"("+labelListBean.getNum()+")");
                     return tv;
                 }
 

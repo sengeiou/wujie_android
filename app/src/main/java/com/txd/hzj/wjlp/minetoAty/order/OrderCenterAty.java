@@ -105,9 +105,9 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-
             case R.id.tv_online_shops:
                 mBundle.putString("title","线上商城");
+                mBundle.putString("type","0");
                 startActivity(OnlineShopAty.class,mBundle);
                 break;
             case R.id.tv_offline_shop:
@@ -120,6 +120,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
                 break;
             case R.id.tv_pintuan:
                 mBundle.putString("title","拼团区");
+                mBundle.putString("type","3");
                 startActivity(OnlineShopAty.class,mBundle);
                 break;
             case R.id.tv_wjyg:

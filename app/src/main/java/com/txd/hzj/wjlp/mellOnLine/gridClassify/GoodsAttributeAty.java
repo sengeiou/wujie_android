@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -23,6 +22,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
@@ -75,6 +75,11 @@ public class GoodsAttributeAty extends BaseAty {
     @ViewInject(R.id.tv_num)
     private TextView tv_num;
     private int num = 1;
+    private boolean is_go = false;
+    private String goods_id = "";
+    private String mid = "";
+    private String group_buy_id = "";
+    private String type;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -135,14 +140,32 @@ public class GoodsAttributeAty extends BaseAty {
     @Override
     protected void initialized() {
         from = getIntent().getIntExtra("from", 0);
-        if (1 == from) {
-            to_buy_must_tv.setText("加入购物车");
+        goods_id = getIntent().getStringExtra("goods_id");
+        type = getIntent().getStringExtra("type");
+        group_buy_id = getIntent().getStringExtra("group_buy_id");
+        if (1 == from || 0 == from) {
+            if (0 == from) {
+                is_go = true;
+                to_buy_must_tv.setText("立即购买");
+                from = 1;
+                String a[] = goods_id.split("-");
+                goods_id = a[0];
+                mid = a[1];
+            } else {
+                to_buy_must_tv.setText("加入购物车");
+            }
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
         }
         if (2 == from) {
             to_buy_must_tv.setText("修改");
             goods_into_cart_tv.setVisibility(View.GONE);
+            at_left_lin_layout.setVisibility(View.GONE);
+            num = getIntent().getIntExtra("num", 1);
+            tv_num.setText(String.valueOf(num));
+        }
+        if (3 == from) {
+            to_buy_must_tv.setText("参团"); goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 1);
             tv_num.setText(String.valueOf(num));
@@ -171,9 +194,21 @@ public class GoodsAttributeAty extends BaseAty {
 
     private void goodAttChange() {
         if (ListUtils.isEmpty(goods_product)) {
+            if (is_go) {
+                Intent intent = new Intent();
+                intent.putExtra("type", type);
+                intent.putExtra("mid", mid);
+                intent.putExtra("goods_id", goods_id);
+                intent.putExtra("group_buy_id", group_buy_id);
+                intent.putExtra("num", String.valueOf(num));
+                intent.setClass(this, BuildOrderAty.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
             RequestParams params = new RequestParams();
             ApiTool2 apiTool2 = new ApiTool2();
-            params.addBodyParameter("goods_id", getIntent().getStringExtra("goods_id"));
+            params.addBodyParameter("goods_id", goods_id);
             params.addBodyParameter("num", String.valueOf(num));
             apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
         }
@@ -186,7 +221,23 @@ public class GoodsAttributeAty extends BaseAty {
                     goods_str.append(pos.get(j) + "|");
                 }
             }
+
             if (goods_product.get(i).getGoods_attr_str().equals(goods_str.toString())) {
+                if (is_go) {
+                    Intent intent = new Intent();
+                    intent.putExtra("mid", mid);
+                    intent.putExtra("type", type);
+                    intent.putExtra("goods_id", goods_id);
+                    intent.putExtra("group_buy_id", group_buy_id);
+                    intent.putExtra("num", String.valueOf(num));
+                    intent.putExtra("product_id", goods_product.get(i).getId());
+                    intent.setClass(this, BuildOrderAty.class);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+
+
                 RequestParams params = new RequestParams();
                 ApiTool2 apiTool2 = new ApiTool2();
                 params.addBodyParameter("goods_id", goods_product.get(i).getGoods_id());

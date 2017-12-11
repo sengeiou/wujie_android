@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class HouseOrder {
-    private static String url = "/HouseOrder/";
+    private static String url = "HouseOrder/";
 
     /**
      * 余额支付

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
@@ -114,6 +115,12 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
     private int size2 = 0;
     private Map<String, String> data;
 
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+    @ViewInject(R.id.tv_car_num)
+    private TextView tv_car_num;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,12 +139,13 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 houseBuyPst.styleInfo(style_id);
             }
         });
+        titlt_conter_tv.setText("户型");
 
     }
 
 
     @Override
-    @OnClick({R.id.hxd_be_back_top_iv, R.id.submit})
+    @OnClick({R.id.hxd_be_back_top_iv, R.id.submit, R.id.be_back_main_tv, R.id.go_to_cart_layout, R.id.to_chat_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -145,6 +153,10 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 hxd_sc.smoothScrollTo(0, 0);
                 break;
             case R.id.submit:
+                if (!Config.isLogin()) {
+                    toLogin();
+                    break;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("id", data.get("id"));
                 bundle.putString("image", data.get("house_style_img"));
@@ -155,6 +167,15 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 bundle.putString("type", "2");
                 startActivity(aty_submit_order.class, bundle);
 
+                break;
+            case R.id.be_back_main_tv:// 首页
+                backMain(0);
+                break;
+            case R.id.go_to_cart_layout:// 购物车
+                backMain(2);
+                break;
+            case R.id.to_chat_tv:// 客服
+                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
         }
     }
@@ -190,9 +211,11 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
                 forBanner();
             }
-
-            titlt_conter_tv.setText(data.get("style_name"));
-
+            easemob_account = data.get("easemob_account");
+            merchant_logo = data.get("server_head_pic");
+            merchant_name = data.get("server_name");
+//            titlt_conter_tv.setText(data.get("style_name"));
+            tv_car_num.setText(data.get("cart_num"));
             ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可抵:￥" +
                     data.get("true_pre_money") + "房款", 11, ContextCompat.getColor(this, R.color.app_text_color));
             ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房全款:￥" + data.get("all_price"), 5,

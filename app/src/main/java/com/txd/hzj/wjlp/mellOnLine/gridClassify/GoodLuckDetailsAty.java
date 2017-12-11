@@ -539,6 +539,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private List<GoodsAttrs> goodsAttrs;
     private List<GoodsAttrs.product> goods_produc;
     private ArrayList<Map<String, String>> dj_ticket;
+    private GoodLuckBean.DataBean.MInfoBean mellInfoBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -698,7 +699,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 showLQPop(v, "领券");
                 break;
             case R.id.im_toarrs:
-                toAttrs(v, goods_id,goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc);
+//                toAttrs(v, 1, "3",goods_id, goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -1011,7 +1012,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (!ListUtils.isEmpty(image)) {
                 forBanner();
             }
-
             vouchers_desc = data.get("vouchers_desc");
             goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
             goods_produc = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
@@ -1180,7 +1180,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
 
             // 店铺信息
-            GoodLuckBean.DataBean.MInfoBean mellInfoBean = groupBuyInfo.getData().getMInfo();
+            mellInfoBean = groupBuyInfo.getData().getMInfo();
             easemob_account = mellInfoBean.getEasemob_account();
             merchant_logo = mellInfoBean.getLogo();
             merchant_name = mellInfoBean.getMerchant_name();
@@ -1306,10 +1306,24 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 is_f = false;
             }
             // 一键开团
-            creat_group_tv.setText("立即购买");
+            creat_group_tv.setText("我要开团");
+            creat_group_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
+                            goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc, group_buy_id);
+                }
+            });
             //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
             // 单独购买
             one_price_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n独立购买");
+            one_price_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
+                            goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc, group_buy_id);
+                }
+            });
 
             int num;
             try {
@@ -1349,7 +1363,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         }
                         bundle = new Bundle();
                         bundle.putInt("status", 0);
-                        bundle.putString("log_id", groupList.get(position).getId());
+                        bundle.putString("goods_id", goods_id + "-" + mellInfoBean.getMerchant_id());
+                        bundle.putParcelableArrayList("list", (ArrayList) goodsAttrs);
+                        bundle.putParcelableArrayList("list_p", (ArrayList) goods_produc);
+                        bundle.putString("group_buy_id", group_buy_id);
+                        bundle.putString("id", groupList.get(position).getId());
                         startActivity(CreateGroupAty.class, bundle);
                     }
                 });

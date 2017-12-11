@@ -7,21 +7,28 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tools.ConstantUtils;
 import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.baidu.mapapi.map.Text;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -33,10 +40,14 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsEvaluation;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.txunda_lh.CommentindexBean;
+import com.txd.hzj.wjlp.txunda_lh.aty_commentindex;
+import com.txd.hzj.wjlp.txunda_lh.http.Order;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -55,9 +66,10 @@ public class EvaluationReleaseAty extends BaseAty {
     @ViewInject(R.id.for_goods_evaluste_lv)
     private ListView for_goods_evaluste_lv;
 
-    private GoodsEvalustionAdapter goodsEvalustionAdapter;
-
-    private List<GoodsEvaluation> goodsEvaluations;
+    //    private GoodsEvalustionAdapter goodsEvalustionAdapter;
+    private MyAdapter Adapter;
+    private CommentindexBean commentindexBean;
+    private List<CommentindexBean.GoodsListBean> goodsEvaluations;
 
     private ImagePicker imagePicker;
     private int selectPicNum = 9;
@@ -65,17 +77,17 @@ public class EvaluationReleaseAty extends BaseAty {
      * 当前评价的商品
      */
     private int goods_pos = 0;
+    private String order_id;
+    @ViewInject(R.id.rb_1)
+    RatingBar ratingBar1;
+    @ViewInject(R.id.rb_2)
+    RatingBar ratingBar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("发布评价");
-        titlt_right_tv.setVisibility(View.VISIBLE);
-        titlt_right_tv.setText("提交");
-        titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-
-        for_goods_evaluste_lv.setAdapter(goodsEvalustionAdapter);
+        titlt_conter_tv.setText("评价列表");
     }
 
     @Override
@@ -84,7 +96,8 @@ public class EvaluationReleaseAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.titlt_right_tv:
-                L.e("=====最终数据=====", goodsEvaluations.toString());
+                Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), "1", this);
+                showProgressDialog();
                 break;
         }
     }
@@ -96,27 +109,63 @@ public class EvaluationReleaseAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        goodsEvalustionAdapter = new GoodsEvalustionAdapter();
-        goodsEvaluations = new ArrayList<>();
         imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 使用Glide加载
         imagePicker.setMultiMode(true);// 多选
         imagePicker.setCrop(false);// 是否裁剪
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
-        for (int i = 0; i < 2; i++) {
-            goodsEvaluations.add(new GoodsEvaluation("", (i + 1) + "", "0", "", new ArrayList<File>()));
-        }
+
     }
 
     @Override
     protected void requestData() {
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (TextUtils.isEmpty(order_id)) {
+            order_id = getIntent().getStringExtra("order_id");
+        }
+        Order.Commentindex(order_id, this);
+        showProgressDialog();
+    }
+
+    Map<String, String> map;
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+        if (requestUrl.contains("CommentOrder")) {
+            Order.Commentindex(order_id, this);
+            showProgressDialog();
+        }
+        if (requestUrl.contains("Commentindex")) {
+            goodsEvaluations = GsonUtil.getObjectList(map.get("goods_list"), CommentindexBean.GoodsListBean.class);
+            Adapter = new MyAdapter();
+            for_goods_evaluste_lv.setAdapter(Adapter);
+            if (map.get("order_status").equals("0")) {
+                titlt_right_tv.setVisibility(View.VISIBLE);
+                titlt_right_tv.setText("提交");
+                titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            }else{
+                titlt_right_tv.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     private class GoodsEvalustionAdapter extends BaseAdapter {
+
+
         private GEVVH gevvh;
         private GridImageAdapter gridImageAdapter;
         private FullyGridLayoutManager manager;
+
 
         @Override
         public int getCount() {
@@ -124,7 +173,7 @@ public class EvaluationReleaseAty extends BaseAty {
         }
 
         @Override
-        public GoodsEvaluation getItem(int i) {
+        public CommentindexBean.GoodsListBean getItem(int i) {
             return goodsEvaluations.get(i);
         }
 
@@ -135,7 +184,7 @@ public class EvaluationReleaseAty extends BaseAty {
 
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
-            final GoodsEvaluation ge = getItem(i);
+            final CommentindexBean.GoodsListBean ge = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_for_goods_evaluste_lv,
                         null);
@@ -145,7 +194,7 @@ public class EvaluationReleaseAty extends BaseAty {
             } else {
                 gevvh = (GEVVH) view.getTag();
             }
-
+            Glide.with(EvaluationReleaseAty.this).load(ge.getGoods_img()).into(gevvh.imageview);
             manager = new FullyGridLayoutManager(EvaluationReleaseAty.this, 3, GridLayoutManager.VERTICAL, false);
             gevvh.updata_pic_rv.setLayoutManager(manager);
             gridImageAdapter = new GridImageAdapter(EvaluationReleaseAty.this,
@@ -156,18 +205,21 @@ public class EvaluationReleaseAty extends BaseAty {
                             if (0 == type) {
                                 startActivityForResult(ImageGridActivity.class, null, 100);
                             } else {
-                                ge.getGoodsPicByBuyer().remove(position);
-                                ge.setGoodsPicByBuyer(ge.getGoodsPicByBuyer());
-                                notifyDataSetChanged();
+
                             }
                         }
                     });
-            gridImageAdapter.setList(ge.getGoodsPicByBuyer());
+//            gridImageAdapter.setList(ge.getFileList());
             gridImageAdapter.setSelectMax(selectPicNum);
             gevvh.updata_pic_rv.setAdapter(gridImageAdapter);
-
-            gevvh.goods_grade_rb.setRating(Float.parseFloat(ge.getGoodsGrade()));
-            gevvh.evalusete_context_tv.setText(ge.getGoodsContent());
+            gevvh.goods_grade_rb.setRating(Float.parseFloat(ge.getAll_star()));
+            gevvh.goods_grade_rb.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    ge.setAll_star(String.valueOf(rating));
+                }
+            });
+            gevvh.evalusete_context_tv.setText(ge.getContent());
             // 获取到每个商品的评价内容
             gevvh.evalusete_context_tv.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -181,13 +233,14 @@ public class EvaluationReleaseAty extends BaseAty {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    ge.setGoodsContent(editable.toString());
+                    ge.setContent(editable.toString());
                     L.e("========", editable.toString());
                 }
             });
 
             return view;
         }
+
 
         class GEVVH {
             /**
@@ -205,9 +258,12 @@ public class EvaluationReleaseAty extends BaseAty {
              */
             @ViewInject(R.id.updata_pic_rv)
             private RecyclerView updata_pic_rv;
+            @ViewInject(R.id.imageview)
+            private ImageView imageview;
 
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -219,8 +275,8 @@ public class EvaluationReleaseAty extends BaseAty {
                 for (ImageItem img : images) {
                     String pic_path = CompressionUtil.compressionBitmap(img.path);
                     File file = new File(pic_path);
-                    goodsEvaluations.get(goods_pos).getGoodsPicByBuyer().add(file);
-                    goodsEvalustionAdapter.notifyDataSetChanged();
+//                    goodsEvaluations.get(goods_pos).getFileList().add(file);
+//                    goodsEvalustionAdapter.notifyDataSetChanged();
                 }
 
             } else {
@@ -228,4 +284,72 @@ public class EvaluationReleaseAty extends BaseAty {
             }
         }
     }
+
+    class MyAdapter extends BaseAdapter {
+        ViewHolder viewHolder;
+
+        @Override
+        public int getCount() {
+            return goodsEvaluations.size();
+        }
+
+        @Override
+        public CommentindexBean.GoodsListBean getItem(int i) {
+            return goodsEvaluations.get(i);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View convertView, ViewGroup parent) {
+            final CommentindexBean.GoodsListBean bean = getItem(i);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_commentindex, null);
+                viewHolder = new ViewHolder();
+                convertView.setTag(viewHolder);
+                ViewUtils.inject(viewHolder, convertView);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            if (bean.getStatus().equals("1")) {
+                viewHolder.tv_btn_right.setVisibility(View.GONE);
+                viewHolder.goods_grade_rb.setRating(Float.parseFloat(bean.getAll_star()));
+                viewHolder.goods_grade_rb.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.tv_btn_right.setVisibility(View.VISIBLE);
+                viewHolder.goods_grade_rb.setVisibility(View.GONE);
+            }
+            Glide.with(EvaluationReleaseAty.this).load(bean.getGoods_img()).into(viewHolder.imageview);
+            viewHolder.tv_goods_name.setText(bean.getGoods_name());
+            viewHolder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (bean.getStatus().equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_goods_id", bean.getOrder_goods_id());
+                        bundle.putString("goods_img", bean.getGoods_img());
+                        bundle.putString("order_id", order_id);
+                        startActivity(aty_commentindex.class, bundle);
+                    }
+                }
+            });
+            return convertView;
+        }
+
+        class ViewHolder {
+            @ViewInject(R.id.imageview)
+            private ImageView imageview;
+            @ViewInject(R.id.tv_goods_name)
+            private TextView tv_goods_name;
+            @ViewInject(R.id.goods_grade_rb)
+            private RatingBar goods_grade_rb;
+            @ViewInject(R.id.tv_btn_right)
+            private TextView tv_btn_right;
+        }
+    }
+
+
 }
