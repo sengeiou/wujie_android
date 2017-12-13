@@ -24,7 +24,9 @@ import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
+import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +209,10 @@ public class BuildOrderAty extends BaseAty {
             GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, this);
         } else if (type.equals("3") || type.equals("4")) {
             GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, this);
+        } else if (type.equals("6")) {
+            PreOrder.preShoppingCart(group_buy_id, num, this);
+        } else if (type.equals("7")) {
+            IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
         }
         showProgressDialog();
 

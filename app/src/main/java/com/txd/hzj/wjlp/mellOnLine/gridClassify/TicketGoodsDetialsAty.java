@@ -590,11 +590,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.tv_gwc:
                 //购物车
-                toAttrs(v, 1,"1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product,"");
+                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product, "");
                 break;
             case R.id.tv_ljgm:
                 //直接购买
-                toAttrs(v, 0,"1", goods_id+"-"+mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product,"");
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product, "");
                 break;
             case R.id.btn_jgsm:
                 if (ser_list != null) {
@@ -607,7 +607,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 break;
             case R.id.im_toarrs:
-//                toAttrs(v, 1, "1",goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product);
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product, "");
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);

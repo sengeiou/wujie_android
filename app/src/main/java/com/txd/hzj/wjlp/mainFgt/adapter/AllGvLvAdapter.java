@@ -220,7 +220,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 //                        .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.country_logo_iv);
-
+                vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
                 vh.item_goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());

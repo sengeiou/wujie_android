@@ -22,6 +22,7 @@ import com.ants.theantsgo.util.L;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.carbuy.CarBuyPst;
@@ -95,6 +96,9 @@ public class CarCommodityChenAty extends BaseAty {
     private List<Map<String, String>> list;
     private CarCommodityChenAdapter gridAdapter;
 
+
+    private String lat;
+    private String lng;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,7 +133,7 @@ public class CarCommodityChenAty extends BaseAty {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id);
+                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
                     }
 
                     @Override
@@ -155,7 +159,7 @@ public class CarCommodityChenAty extends BaseAty {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id);
+                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
                     }
 
                     @Override
@@ -194,6 +198,8 @@ public class CarCommodityChenAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        lat = DemoApplication.getInstance().getLocInfo().get("lat");
+        lng = DemoApplication.getInstance().getLocInfo().get("lon");
         titlt_conter_tv.setText("汽车购");
         carBuyPst = new CarBuyPst(this);
         height = ToolKit.dip2px(this, 4);
@@ -207,7 +213,7 @@ public class CarCommodityChenAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        carBuyPst.carList(min_price, max_price, p, style_id, brand_id);
+        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
     }
 
     @Override

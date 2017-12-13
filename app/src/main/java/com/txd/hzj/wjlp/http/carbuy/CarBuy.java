@@ -39,7 +39,7 @@ public class CarBuy {
      * @param brand_id  品牌id
      * @param baseView  回调
      */
-    void carList(String min_price, String max_price, int p, String style_id, String brand_id, BaseView baseView) {
+    void carList(String min_price, String max_price, int p, String style_id, String brand_id, BaseView baseView, String lng, String lat) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("min_price", min_price);
@@ -47,6 +47,8 @@ public class CarBuy {
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("style_id", style_id);
         params.addBodyParameter("brand_id", brand_id);
+        params.addBodyParameter("lng", lng);
+        params.addBodyParameter("lat", lat);
         apiTool2.postApi(url + "carList", params, baseView);
     }
 

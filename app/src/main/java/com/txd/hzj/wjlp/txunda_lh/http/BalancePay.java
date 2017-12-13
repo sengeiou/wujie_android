@@ -20,7 +20,7 @@ public class BalancePay {
      * @param discount_type 使用代金券：0不使用代金券 1使用红券 2使用黄券 3使用蓝(多个选择用','隔开)
      * @param baseView
      */
-    public static void BalancePay(String order_id, String order_type, String discount_type, BaseView baseView) {
+    public static void BalancePay(String order_id, String order_type, String discount_type, String inte_id, BaseView baseView) {
         if (TextUtils.isEmpty(order_type)) {
             order_type = "1";
         }
@@ -29,6 +29,7 @@ public class BalancePay {
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("order_type", order_type);
         params.addBodyParameter("discount_type", discount_type);
+        params.addBodyParameter("inte_id", inte_id);
         apiTool2.postApi(url + "BalancePay", params, baseView);
 
     }

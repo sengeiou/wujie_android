@@ -165,7 +165,8 @@ public class GoodsAttributeAty extends BaseAty {
             tv_num.setText(String.valueOf(num));
         }
         if (3 == from) {
-            to_buy_must_tv.setText("参团"); goods_into_cart_tv.setVisibility(View.GONE);
+            to_buy_must_tv.setText("参团");
+            goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 1);
             tv_num.setText(String.valueOf(num));
@@ -180,9 +181,10 @@ public class GoodsAttributeAty extends BaseAty {
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         selectAttrs = getIntent().getParcelableArrayListExtra("list");
         goods_product = getIntent().getParcelableArrayListExtra("list_p");
-        goodsAttrsAdapter = new GoodsAttrsAdapter();
-        goods_attr_lv.setAdapter(goodsAttrsAdapter);
-
+        if (!ListUtils.isEmpty(selectAttrs)) {
+            goodsAttrsAdapter = new GoodsAttrsAdapter();
+            goods_attr_lv.setAdapter(goodsAttrsAdapter);
+        }
     }
 
     @Override

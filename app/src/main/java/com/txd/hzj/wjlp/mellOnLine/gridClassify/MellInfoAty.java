@@ -223,6 +223,9 @@ public class MellInfoAty extends BaseAty {
     private TextView ticket_tip_tv;
     private List<Map<String, String>> ticket_list;
     private MellCouponDialog mellCouponDialog;
+    private String share_img;
+    private String share_url;
+    private String share_content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -319,10 +322,15 @@ public class MellInfoAty extends BaseAty {
     @Override
     @OnClick({R.id.popularity_tv, R.id.mell_price_tv, R.id.sales_tv, R.id.at_laster_tv,
             R.id.all_classify_tv, R.id.mell_info_by_off_line, R.id.off_line_mell_collect_layout, R.id.mell_ads_tv,
-            R.id.check_all_coupon_tv})
+            R.id.check_all_coupon_tv, R.id.off_line_mell_share_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.off_line_mell_share_tv:
+
+                toShare("无界优品", share_img, share_url, share_content, mell_id, "1");
+
+                break;
             case R.id.popularity_tv:// 店铺首页
                 soft_type = 0;
                 setStyle(soft_type);
@@ -417,6 +425,15 @@ public class MellInfoAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        mell_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ads_list.get(position).get("ticket_buy_id"));
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
     }
 
     @Override
@@ -426,6 +443,9 @@ public class MellInfoAty extends BaseAty {
         if (requestUrl.contains("merIndex") || requestUrl.contains("goodsList")) {
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                share_img = data.get("share_img");
+                share_url = data.get("share_url");
+                share_content = data.get("share_content");
                 if (1 == p) {
                     ads_list.clear();
                     // 顶部数据

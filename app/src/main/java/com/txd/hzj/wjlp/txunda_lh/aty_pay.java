@@ -121,6 +121,7 @@ public class aty_pay extends BaseAty {
         data = JSONUtils.parseKeyAndValueToMap(getIntent().getStringExtra("data"));
         tv_price.setText("¥" + data.get("order_price"));
         type = Integer.parseInt(getIntent().getStringExtra("type")) + 1;
+        showToast(String.valueOf(type));
         cb_jifen.setVisibility(data.get("is_integral").equals("1") ? View.VISIBLE : View.GONE);
         String str = "余额支付（¥" + data.get("balance") + "）";
         SpannableString msp = new SpannableString(str);

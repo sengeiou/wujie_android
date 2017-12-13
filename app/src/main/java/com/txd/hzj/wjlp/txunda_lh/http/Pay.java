@@ -44,6 +44,6 @@ public class Pay {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("type", type);
-        apiTool2.postApi(Config.BASE_URL + url + "integralPay", params, baseView);
+        apiTool2.postApi(Config.BASE_URL + url + "findPayResult", params, baseView);
     }
 }

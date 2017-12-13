@@ -666,9 +666,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         switch (type) {
             case 0:// 限量购
                 limitBuyPst.limitBuyInfo(limit_buy_id, page);
+                tv_jrgwc.setVisibility(View.GONE);
                 break;
             case 2:// 无界预购
                 perBuyPst.preBuyInfo(limit_buy_id, page);
+                tv_jrgwc.setVisibility(View.GONE);
+                tv_ljgm.setText("交付定金");
                 break;
             case 10:// 无界商店
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
@@ -691,6 +694,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"),
                             (ArrayList) goodsAttrs,
                             (ArrayList) goods_produc, limit_buy_id);
+                } else if (2 == type) {
+                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("pre_price"),
+                            (ArrayList) goodsAttrs,
+                            (ArrayList) goods_produc, limit_buy_id);
+
+                } else {
+
+
                 }
 
 
@@ -764,7 +775,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 long now = System.currentTimeMillis() / 1000;//获取当前系统时间
                 long end;
                 if (0 == type) {
-                    tv_jrgwc.setVisibility(View.GONE);
                     String stage_status = goodsInfo.get("stage_status");
                     if (stage_status.equals("即将开始")) {
                         end = Long.parseLong(goodsInfo.get("start_time"));

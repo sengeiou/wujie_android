@@ -102,11 +102,11 @@ public class MyOrderAdapter extends BaseAdapter {
                 holder.tv_btn_left.setVisibility(View.GONE);
                 holder.tv_btn_right.setVisibility(View.VISIBLE);
                 break;
-            case "3":
+//            case "3":
 //                holder.state.setText("卖家已发货");
 //                holder.tv_btn_left.setText("查看物流");
 //                holder.tv_btn_right.setText("确认收货");
-                break;
+//                break;
             case "4":
                 holder.state.setText("已完成");
                 holder.tv_btn_right.setText("删除");

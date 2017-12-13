@@ -95,7 +95,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             titlt_right_tv.setVisibility(View.VISIBLE);
             titlt_right_tv.setTextColor(Color.RED);
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
-        } else if (title.equals("抢宝记录")) {
+        } else if (title.equals("积分抽奖")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle4();
         } else {
             mTitleList = OrderTitleUtils.getInstance().orderTitle5();

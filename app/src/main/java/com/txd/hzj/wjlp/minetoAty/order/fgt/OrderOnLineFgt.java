@@ -33,6 +33,8 @@ import com.txd.hzj.wjlp.txunda_lh.CarOrderInfo;
 import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
 import java.util.List;
 import java.util.Map;
@@ -123,16 +125,21 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("order_id"));
                     bundle.putString("type", from);
                     startActivity(OrderDetailsAty.class, bundle);
+                } else if (from.equals("1") || from.equals("2")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", list.get(i).getOrder_id());
+                    bundle.putString("type", from);
+                    startActivity(CarOrderInfo.class, bundle);
                 } else if (from.equals("3")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
                     startActivity(OrderDetailsAty.class, bundle);
-                } else {
+                } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("id", list.get(i).getOrder_id());
+                    bundle.putString("id", goods_list.get(i).get("order_id"));
                     bundle.putString("type", from);
-                    startActivity(CarOrderInfo.class, bundle);
+                    startActivity(OrderDetailsAty.class, bundle);
                 }
             }
         });
@@ -160,6 +167,10 @@ public class OrderOnLineFgt extends BaseFgt {
             HouseOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("3")) {
             GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("4")) {
+            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("5")) {
+            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
         }
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
@@ -183,6 +194,10 @@ public class OrderOnLineFgt extends BaseFgt {
                             HouseOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("3")) {
                             GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("4")) {
+                            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("5")) {
+                            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -215,6 +230,10 @@ public class OrderOnLineFgt extends BaseFgt {
                             HouseOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("3")) {
                             GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("4")) {
+                            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("5")) {
+                            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -243,8 +262,8 @@ public class OrderOnLineFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("orderList")) {
-            if (from.equals("0") || from.equals("3")) {
+        if (requestUrl.contains("orderList") || requestUrl.contains("preOrderList")) {
+            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("5")) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
                     goodsAdapter = new GoodsAdapter();
@@ -280,27 +299,33 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             }
         }
-        if (requestUrl.contains("cancelOrder")) {
+        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
                 com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("4")) {
+                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             }
         }
-        if (requestUrl.contains("deleteOrder")) {
+        if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
             showToast("删除成功");
             if (from.equals("0")) {
                 com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("4")) {
+                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             }
         }
-        if (requestUrl.contains("receiving")) {
+        if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
             if (from.equals("0")) {
                 com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("4")) {
+                PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             }
         }
     }
@@ -387,8 +412,10 @@ public class OrderOnLineFgt extends BaseFgt {
                 public void onClick(View v) {
                     if (from.equals("0")) {
                         setOrderClickright(position);
-                    } else {
-                        setGroupBuyOrderClickrifht(position);
+                    } else if (from.equals("3")) {
+                        setGroupBuyOrderClickright(position);
+                    } else if (from.equals("4")) {
+                        setPreOrderClickright(position);
                     }
                 }
             });
@@ -397,8 +424,10 @@ public class OrderOnLineFgt extends BaseFgt {
                 public void onClick(View v) {
                     if (from.equals("0")) {
                         setOrderClickleft(position);
-                    } else {
+                    } else if (from.equals("3")) {
                         setGroupBuyOrderClickleft(position);
+                    } else if (from.equals("4")) {
+                        setPreOrderClickleft(position);
                     }
                 }
             });
@@ -417,19 +446,78 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
+                    } else if (from.equals("4")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", goods_list.get(position).get("order_id"));
+                        bundle.putString("type", from);
+                        startActivity(OrderDetailsAty.class, bundle);
                     }
 
                 }
             });
             if (from.equals("0")) {
                 setOrderStatus(position);
-            } else {
+            } else if (from.equals("3")) {
                 setGroupBuyStatus(position);
+            } else if (from.equals("4")) {
+                setPreStatus(position);
             }
             return convertView;
         }
 
-        private void setGroupBuyOrderClickrifht(final int position) {
+        private void setPreOrderClickright(final int position) {
+            if (getItem(position).get("order_status").equals("1") || getItem(position).get("order_status").equals("7")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("group_buy_id", "");
+                bundle.putString("type", "6");
+                startActivity(PayForAppAty.class, bundle);
+            } else if (getItem(position).get("order_status").equals("4")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("order_id", getItem(position).get("order_id"));
+                startActivity(EvaluationReleaseAty.class, bundle);
+            } else if (getItem(position).get("order_status").equals("3")) {
+                PreOrder.preReceiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                showProgressDialog();
+            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")) {
+
+                new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PreOrder.preDeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                        showProgressDialog();
+                    }
+                }).setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
+            }
+
+        }
+
+
+        private void setPreOrderClickleft(final int position) {
+            if (getItem(position).get("order_status").equals("1")) {
+                new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PreOrder.preCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                        showProgressDialog();
+                    }
+                }).setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
+            }
+
+
+        }
+
+        private void setGroupBuyOrderClickright(final int position) {
             if (getItem(position).get("order_status").equals("0")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
@@ -460,7 +548,6 @@ public class OrderOnLineFgt extends BaseFgt {
             }
 
         }
-
 
         private void setGroupBuyOrderClickleft(final int position) {
             if (getItem(position).get("order_status").equals("0")) {
@@ -539,6 +626,8 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待付款");
                     holder.tv_btn_left.setText("取消订单");
                     holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "1":
                     holder.state.setText("待发货");
@@ -549,21 +638,25 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "3":
                     holder.state.setText("待评价");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("评价");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "4":
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "5":
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -574,6 +667,8 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待付款");
                     holder.tv_btn_left.setText("取消订单");
                     holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "2":
                     holder.state.setText("待发货");
@@ -589,21 +684,78 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "4":
                     holder.state.setText("待评价");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("评价");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "5":
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "6":
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+
+        private void setPreStatus(int position) {
+            switch (getItem(position).get("order_status")) {
+                case "0":
+                    holder.state.setText("预购中");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                    break;
+                case "2":
+                    holder.state.setText("待发货");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                    break;
+                case "1":
+                    holder.state.setText("代付尾款");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "3":
+                    holder.state.setText("待收货");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "4":
+                    holder.state.setText("待评价");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("评价");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "5":
+                    holder.state.setText("已取消");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "6":
+                    holder.state.setText("已完成");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "7":
+                    holder.state.setText("待付定金");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
             }
         }

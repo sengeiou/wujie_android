@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.baidu.mapapi.map.Text;
@@ -24,8 +25,10 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.txunda_lh.aty_after;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
+import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
 import java.util.List;
 import java.util.Map;
@@ -78,6 +81,8 @@ public class OrderDetailsAty extends BaseAty {
      */
     @ViewInject(R.id.reserve_sec_step_price_tv)
     private TextView reserve_sec_step_price_tv;
+    @ViewInject(R.id.layout_yugou)
+    private LinearLayout layout_yugou;
 
     @ViewInject(R.id.details_order_sc)
     private ScrollView details_order_sc;
@@ -136,8 +141,11 @@ public class OrderDetailsAty extends BaseAty {
         }
         if (type.equals("0")) {
             Order.details(order_id, this);
-        } else {
+        } else if (type.equals("3")) {
             GroupBuyOrder.details(order_id, this);
+        } else if (type.equals("4")) {
+            PreOrder.preDetails(order_id, this);
+            layout_yugou.setVisibility(View.VISIBLE);
         }
         showProgressDialog();
     }
@@ -160,26 +168,79 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("4") || order_status.equals("5")) {
-                        Order.deleteOrder(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
+                        new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                Order.deleteOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        }).setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        }).show();
                     }
                 } else if (type.equals("3")) {
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
-                        bundle.putString("group_buy_id",group_buy_id);
+                        bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("type", String.valueOf(Integer.parseInt(order_type) + 1));
                         startActivity(PayForAppAty.class, bundle);
-                    }else if (order_status.equals("3")) {
+                    } else if (order_status.equals("3")) {
                         GroupBuyOrder.receiving(order_id, OrderDetailsAty.this);
                         showProgressDialog();
-                    }else if (order_status.equals("3")) {
+                    } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("5") || order_status.equals("6")) {
-                        GroupBuyOrder.deleteOrder(order_id, OrderDetailsAty.this);
+
+                        new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                GroupBuyOrder.deleteOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+
+                            }
+                        }).setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        }).show();
+                    }
+                } else if (type.equals("4")) {
+                    if (order_status.equals("1") || order_status.equals("7")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_id", order_id);
+                        bundle.putString("group_buy_id", group_buy_id);
+                        bundle.putString("type", "6");
+                        startActivity(PayForAppAty.class, bundle);
+                    } else if (order_status.equals("3")) {
+                        PreOrder.preReceiving(order_id, OrderDetailsAty.this);
                         showProgressDialog();
+                    } else if (order_status.equals("4")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_id", order_id);
+                        startActivity(EvaluationReleaseAty.class, bundle);
+                    } else if (order_status.equals("5") || order_status.equals("6")) {
+                        new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                PreOrder.preDeleteOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        }).setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        }).show();
+
                     }
                 }
             }
@@ -187,17 +248,34 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0")) {
-                    if (order_status.equals("0")) {
-                        Order.cancelOrder(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
+                new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (type.equals("0")) {
+                            if (order_status.equals("0")) {
+                                Order.cancelOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        } else if (type.equals("3")) {
+                            if (order_status.equals("0")) {
+                                GroupBuyOrder.cancelOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        } else if (type.equals("4")) {
+                            if (order_status.equals("1")) {
+                                PreOrder.preCancelOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+
+                        }
                     }
-                } else if (type.equals("3")) {
-                    if (order_status.equals("0")) {
-                        GroupBuyOrder.cancelOrder(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
+                }).setNegativeButton("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
                     }
-                }
+                }).show();
             }
         });
     }
@@ -209,7 +287,7 @@ public class OrderDetailsAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("details")) {
+        if (requestUrl.contains("details") || requestUrl.contains("preDetails")) {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
@@ -217,6 +295,8 @@ public class OrderDetailsAty extends BaseAty {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
+            } else if (type.equals("4")) {
+                setPreOrderStatus();
             }
             tv_logistics.setText(data.get("logistics"));
             tv_logistics_time.setText(data.get("logistics_time"));
@@ -232,25 +312,30 @@ public class OrderDetailsAty extends BaseAty {
             }
             goods_for_this_order_lv.setAdapter(thisAdapter);
         }
-        if (requestUrl.contains("cancelOrder")) {
+
+        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
-            } else {
+            } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
+            } else if (type.equals("4")) {
+                PreOrder.preDetails(order_id, this);
             }
             showProgressDialog();
 
         }
-        if (requestUrl.contains("receiving")) {
+        if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
-            } else {
+            } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
+            } else if (type.equals("4")) {
+                PreOrder.preDetails(order_id, this);
             }
             showProgressDialog();
 
         }
-        if (requestUrl.contains("deleteOrder")) {
+        if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
             showToast("删除成功！");
             finish();
 
@@ -258,7 +343,7 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     private void setOrderStatus() {
-        switch (data.get("order_status")) {
+        switch (order_status) {
             case "0":
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
@@ -294,7 +379,7 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     private void setGroupBuyOrderStatus() {
-        switch (data.get("order_status")) {
+        switch (order_status) {
             case "0":
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
@@ -334,6 +419,53 @@ public class OrderDetailsAty extends BaseAty {
         }
     }
 
+    private void setPreOrderStatus() {
+        switch (order_status) {
+            case "0":
+                tv_state.setText("预购中");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "1":
+                tv_state.setText("代付尾款");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                break;
+            case "2":
+                tv_state.setText("待发货");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "3":
+                tv_state.setText("待收货");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("确认收货");
+                break;
+            case "4":
+                tv_state.setText("待评价");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("评价");
+                break;
+            case "5":
+                tv_state.setText("已取消");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("删除");
+                break;
+            case "6":
+                tv_state.setText("已完成");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("删除");
+                break;
+            case "7":
+                tv_state.setText("待付定金");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                break;
+
+
+        }
+    }
+
     private class ThisGoodsAdapter extends BaseAdapter {
 
         private TGVH tgvh;
@@ -354,7 +486,7 @@ public class OrderDetailsAty extends BaseAty {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 view = LayoutInflater.from(OrderDetailsAty.this).inflate(R.layout.item_goods_for_this_order_lv, null);
                 tgvh = new TGVH();
@@ -364,8 +496,39 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh = (TGVH) view.getTag();
             }
             tgvh.tv_btn_right.setVisibility(View.GONE);
-            tgvh.tv_btn_left.setText("退款");
-
+            if (order_status.equals("0")) {
+                tgvh.tv_btn_left.setVisibility(View.GONE);
+            } else {
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
+            }
+            if (getItem(i).get("after_type").equals("0")) {
+                tgvh.tv_btn_left.setText("申请售后");
+            } else {
+                tgvh.tv_btn_left.setText("售后中");
+            }
+            tgvh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+            tgvh.tv_price.setVisibility(View.VISIBLE);
+            tgvh.tv_btn_left.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getItem(i).get("after_type").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("price", String.valueOf(
+                                Double.parseDouble(getItem(i).get("shop_price"))
+                                        * Integer.parseInt(getItem(i).get("goods_num"))));
+                        bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
+                        bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
+                        startActivity(ApplyForAfterSalesAty.class, bundle);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("is_sales", getItem(i).get("is_sales"));
+                        bundle.putString("back_apply_id", getItem(i).get("back_apply_id"));
+                        bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
+                        startActivity(aty_after.class, bundle);
+                    }
+                }
+            });
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
             tgvh.name.setText(getItem(i).get("goods_name"));
             tgvh.num.setText("x" + getItem(i).get("goods_num"));
@@ -382,7 +545,8 @@ public class OrderDetailsAty extends BaseAty {
             private TextView num;
             @ViewInject(R.id.title)
             private TextView title;
-
+            @ViewInject(R.id.tv_price)
+            private TextView tv_price;
             @ViewInject(R.id.tv_btn_left)
             public TextView tv_btn_left;
             @ViewInject(R.id.tv_btn_right)

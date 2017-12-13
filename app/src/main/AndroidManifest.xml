@@ -730,7 +730,12 @@
         <activity android:name=".txunda_lh.CarOrderInfo" />
         <!--提交评价-->
         <activity android:name=".txunda_lh.aty_comment" />
+        <!--评价主页-->
         <activity android:name=".txunda_lh.aty_commentindex" />
+        <!--售后列表-->
+        <activity android:name=".txunda_lh.aty_after" />
+        <!--售后快递-->
+        <activity android:name=".txunda_lh.aty_addshipping" />
     </application>
 
 </manifest>

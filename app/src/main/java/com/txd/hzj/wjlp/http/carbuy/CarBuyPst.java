@@ -27,9 +27,9 @@ public class CarBuyPst extends BasePresenter {
     }
 
     // 汽车列表
-    public void carList(String min_price, String max_price, int p, String style_id, String brand_id) {
+    public void carList(String min_price, String max_price, int p, String style_id, String brand_id, String lng, String lat) {
         baseView.showDialog();
-        carBuy.carList(min_price, max_price, p, style_id, brand_id, baseView);
+        carBuy.carList(min_price, max_price, p, style_id, brand_id, baseView, lng, lat);
     }
 
     // 汽车详情

@@ -88,7 +88,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_06"
             android:gravity="center"
-            android:text="竞拍汇"
+            android:text="比价购"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -105,7 +105,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_07"
             android:gravity="center"
-            android:text="一元夺宝"
+            android:text="积分抽奖"
             android:textColor="@color/black" />
 
         <TextView

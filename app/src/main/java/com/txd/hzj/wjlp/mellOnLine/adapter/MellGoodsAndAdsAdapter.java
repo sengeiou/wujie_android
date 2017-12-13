@@ -158,6 +158,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.now_price_tv.setText("￥" + map.get("shop_price"));
                 // 积分
                 holder.integral_tv.setText(map.get("integral"));
+                holder.sold_num_tv.setText("已售" + map.get("sell_num") + "件");
                 break;
             case 3:// TODO==========拼团购==========
                 // 商品名

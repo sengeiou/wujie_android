@@ -309,7 +309,7 @@ public class CartFgt extends BaseFgt {
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {
                             is_all = true;
                             mId = shopingCart.getMerchant_id();
-                        //    showToast("请选择同商店的商品");
+                            //    showToast("请选择同商店的商品");
                             break;
                         }
                     }
@@ -318,6 +318,8 @@ public class CartFgt extends BaseFgt {
                         Bundle bundle = new Bundle();
                         bundle.putString("type", "1");
                         bundle.putString("mid", mId);
+//                        String string = stringBuffer.toString();
+//                        string = string.substring(0 , string.length()- 1);
                         bundle.putString("json", stringBuffer.toString());
                         startActivity(BuildOrderAty.class, bundle);
                     }

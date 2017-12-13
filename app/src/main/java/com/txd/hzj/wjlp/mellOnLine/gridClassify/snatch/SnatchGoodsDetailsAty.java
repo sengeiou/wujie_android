@@ -21,6 +21,7 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.http.onebuy.OneBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.GraphicDetailsFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.PastFgt;
@@ -144,6 +145,9 @@ public class SnatchGoodsDetailsAty extends BaseAty {
     @ViewInject(R.id.t_status_tv)
     private TextView t_status_tv;
     private String t_status = "";
+    private String merchant_id;
+    private Map<String, String> oneBuyInfo;
+    private String goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +164,7 @@ public class SnatchGoodsDetailsAty extends BaseAty {
 
     @Override
     @OnClick({R.id.left_lin_layout, R.id.middle_lin_layout, R.id.middle_right_lin_layout,
-            R.id.right_lin_layout,R.id.rush_to_purchase_tv})
+            R.id.right_lin_layout, R.id.rush_to_purchase_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -177,10 +181,12 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                 setTvStyle(3);
                 break;
             case R.id.rush_to_purchase_tv:// 立即抢购
-                if(!t_status.equals("进行中")){
+                if (!t_status.equals("进行中")) {
                     showErrorTip("活动已结束");
                     break;
                 }
+                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance"), new ArrayList<GoodsAttrs>(), new ArrayList<GoodsAttrs.product>(), one_buy_id);
+
                 break;
         }
     }
@@ -265,10 +271,12 @@ public class SnatchGoodsDetailsAty extends BaseAty {
         if (requestUrl.contains("oneBuyInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (ToolKit.isList(data, "oneBuyInfo")) {
-                Map<String, String> oneBuyInfo = JSONUtils.parseKeyAndValueToMap(data.get("oneBuyInfo"));
+                oneBuyInfo = JSONUtils.parseKeyAndValueToMap(data.get("oneBuyInfo"));
+                goods_id = oneBuyInfo.get("goods_id");
                 // 商品名称
                 one_buy_info_name_tv.setText(oneBuyInfo.get("goods_name"));
                 // 活动状态
+                merchant_id = oneBuyInfo.get("merchant_id");
                 t_status = oneBuyInfo.get("t_status");
                 t_status_tv.setText(t_status);
                 if (!t_status.equals("进行中")) {

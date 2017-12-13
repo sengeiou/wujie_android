@@ -127,7 +127,7 @@
             android:id="@+id/sold_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已售2345件"
+            android:text="已售0件"
             android:textColor="@color/gray_text_color"
             android:textSize="12sp"/>
 

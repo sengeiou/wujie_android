@@ -21,8 +21,10 @@ import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.txunda_lh.http.AfterSale;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +56,8 @@ public class TextListAty extends BaseAty {
     private MerchantPst merchantPst;
 
     private BalancePst balancePst;
+    Map<String, String> map;
+    List<Map<String, String>> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +69,14 @@ public class TextListAty extends BaseAty {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent data = new Intent();
                 if (title.equals("售后类型")) {
-                    data.putExtra("type", "我要退款(无需退货)");
+                    data.putExtra("type", list.get(i).get("name"));
                 } else if (title.equals("原因")) {
-                    data.putExtra("cause", "我不喜欢");
+                    data.putExtra("cause", dataList.get(i).get("name"));
                 } else if (title.equals("货物状态")) {
-                    data.putExtra("status", "已收到货物");
+                    data.putExtra("status", list.get(i).get("name"));
                 } else if (title.equals("选择快递")) {
-                    data.putExtra("express", "申通快递");
+                    data.putExtra("express", dataList.get(i).get("shipping_name"));
+                    data.putExtra("id", dataList.get(i).get("shopping_id"));
                 } else if (title.equals("选择经营范围")) {
                     data.putExtra("scope", dataList.get(i).get("short_name"));
                     data.putExtra("cate_id", dataList.get(i).get("cate_id"));
@@ -123,6 +128,29 @@ public class TextListAty extends BaseAty {
             merchantPst.reportType();
         } else if (title.equals("银行卡类型")) {
             balancePst.getBankType();
+        } else if (title.equals("售后类型")) {
+            map = new HashMap<>();
+            map.put("name", "我要退款");
+            list.add(map);
+            map = new HashMap<>();
+            map.put("name", "我要退货");
+            list.add(map);
+            tAdapter = new TextAdapter(list);
+            all_text_lv.setAdapter(tAdapter);
+        } else if (title.equals("货物状态")) {
+            map = new HashMap<>();
+            map.put("name", "已收到货");
+            list.add(map);
+            map = new HashMap<>();
+            map.put("name", "未收到货");
+            list.add(map);
+            tAdapter = new TextAdapter(list);
+            all_text_lv.setAdapter(tAdapter);
+        } else if (title.equals("原因")) {
+            AfterSale.cause(this);
+        } else if (title.equals("选择快递")) {
+            AfterSale.shipping(this);
+            showProgressDialog();
         }
     }
 
@@ -154,20 +182,38 @@ public class TextListAty extends BaseAty {
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
         }
+        if (requestUrl.contains("cause")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("shipping")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
     }
 
     private class TextAdapter extends BaseAdapter {
-
+        List<Map<String, String>> list;
         private TVVh tvvh;
+
+        public TextAdapter() {
+            this.list = dataList;
+        }
+
+        public TextAdapter(List<Map<String, String>> list) {
+            this.list = list;
+        }
 
         @Override
         public int getCount() {
-            return dataList.size();
+            return list.size();
         }
 
         @Override
         public Map<String, String> getItem(int i) {
-            return dataList.get(i);
+            return list.get(i);
         }
 
         @Override
@@ -186,18 +232,10 @@ public class TextListAty extends BaseAty {
             } else
                 tvvh = (TVVh) view.getTag();
 
-            if (title.equals("售后类型")) {
-                if (0 == i) {
-                    tvvh.text_context_tv.setText("我要退款(无需退货)");
-                } else {
-                    tvvh.text_context_tv.setText("我要退货");
-                }
-            } else if (title.equals("原因")) {
-                tvvh.text_context_tv.setText("不喜欢");
-            } else if (title.equals("货物状态")) {
-                tvvh.text_context_tv.setText("已收到货物");
+            if (title.equals("售后类型") || title.equals("货物状态") || title.equals("原因")) {
+                tvvh.text_context_tv.setText(map.get("name"));
             } else if (title.equals("选择快递")) {
-                tvvh.text_context_tv.setText("申通快递");
+                tvvh.text_context_tv.setText(map.get("shipping_name"));
             } else if (title.equals("选择经营范围")) {
                 tvvh.text_context_tv.setText(map.get("short_name"));
             } else if (title.equals("选择街道")) {
