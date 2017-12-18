@@ -77,4 +77,30 @@ public class IntegralOrder {
         requestParams.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "orderList", requestParams, baseView);
     }
+
+    /**
+     * 删除订单
+     *
+     * @param order_id
+     * @param baseView
+     */
+    public static void DeleteOrder(String order_id, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url + "DeleteOrder", requestParams, baseView);
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param order_id
+     * @param baseView
+     */
+    public static void details(String order_id, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url + "details", requestParams, baseView);
+    }
 }

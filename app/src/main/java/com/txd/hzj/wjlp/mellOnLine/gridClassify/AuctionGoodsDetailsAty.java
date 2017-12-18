@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -44,8 +45,11 @@ import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.dialog.AuctionSingUpDialog;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -173,7 +177,6 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
      */
     private AuctionSingUpDialog singUpDialog;
 
-    private EditText auction_price_ev;
 
     private AuctionPst auctionPst;
 
@@ -281,6 +284,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     private ObservableScrollView limit_goods_details_sc;
 
 
+    private String vouchers_desc = "";//代金券弹窗下面的提示文字
     @ViewInject(R.id.ticket_gv)//推荐商品列表
     private GridViewForScrollView ticket_gv;
     private AllGvLvAdapter allGvLvAdapter1;
@@ -288,6 +292,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     private int page = 1;
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
+    private ArrayList<Map<String, String>> dj_ticket;
+    private Map<String, String> mInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -318,28 +324,27 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     @Override
     protected void requestData() {
         auctionPst.auctionInfo(auction_id, page);
+        singUpDialog = new AuctionSingUpDialog(this, new AuctionSingUpDialog.SignUpClick() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.submit_auction_price_tv:
+                        AuctionOrder.SetOrder("", auction_id,  "1", singUpDialog.getEditText().getText().toString(),"", AuctionGoodsDetailsAty.this);
+                        singUpDialog.dismiss();
+                        break;
+                }
+            }
+        });
     }
 
     @Override
-    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.im_service_more})
+    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.im_service_more, R.id.layout_djq, R.id.sing_up})
     public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.sing_up_tv://报名
-                singUpDialog = new AuctionSingUpDialog(this, new AuctionSingUpDialog.SignUpClick() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()) {
-                            case R.id.submit_auction_price_tv:
-                                L.e("=====金额=====", auction_price_ev.getText().toString());
-                                singUpDialog.dismiss();
-                                break;
-                        }
-                    }
-                });
-                singUpDialog.show();
-                auction_price_ev = singUpDialog.findViewById(R.id.auction_price_ev);
-                MoneyUtils.setPricePoint(auction_price_ev);
+                AuctionOrder.auct(auction_id, this);
+                showProgressDialog();
                 break;
             case R.id.remind_me_tv:// 是否提醒
                 if (is_remind.equals("1")) {
@@ -377,15 +382,123 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
                     showPop(v, "服务说明", ser_list, 1);
                 }
                 break;
+            case R.id.layout_djq:
+                showDjqPop(v, dj_ticket);
+            case R.id.sing_up:
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "9");
+                bundle.putString("mid", mInfo.get("merchant_id"));
+                bundle.putString("group_buy_id", auction_id);
+                startActivity(BuildOrderAty.class, bundle);
+                break;
         }
+    }
+
+    /**
+     * 代金券的弹窗
+     *
+     * @param view
+     */
+    public void showDjqPop(final View view, final List<Map<String, String>> list) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.layout_popp_djq)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+                        tv_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        tv_desc.setText(vouchers_desc);
+                        for (int i = 0; i < list.size(); i++) {
+
+                            switch (i) {
+                                case 0: {
+                                    layout_djq0.setVisibility(View.VISIBLE);
+                                    tv_djq_desc0.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 1: {
+                                    layout_djq1.setVisibility(View.VISIBLE);
+                                    tv_djq_desc1.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 2: {
+                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    tv_djq_desc2.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                            }
+
+                            switch (list.get(i).get("type")) {
+                                case "0": {
+                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                                }
+                                break;
+                                case "1": {
+                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                                }
+                                break;
+                                case "2": {
+                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                                }
+
+                                break;
+                            }
+                        }
+
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("AuctionOrder/SetOrder")) {
+            showToast(map.get("message"));
+            return;
+        }
+        if (requestUrl.contains("AuctionOrder/auct")) {
+
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (map.get("auc_type").equals("1")) {
+                singUpDialog.show();
+                MoneyUtils.setPricePoint(singUpDialog.getEditText());
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString("order_id", map.get("order_id"));
+                bundle.putString("balance", map.get("base_balance"));
+                bundle.putString("type", "8");
+                bundle.putString("money", map.get("base_money"));
+                bundle.putString("merchant_name", map.get("merchant_name"));
+                startActivity(PayForAppAty.class, bundle);
+            }
+
+        }
         if (requestUrl.contains("auctionInfo")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
             // 商品图片轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -408,6 +521,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             } else {
                 tv_expirationdate.setVisibility(View.GONE);
             }
+
+            vouchers_desc = auctionInfo.get("vouchers_desc");
             auction_status_tv.setText(auctionInfo.get("stage_status"));
             action_goods_name_tv.setText(auctionInfo.get("auct_name"));
             SpannableString msp = new SpannableString("活动说明：" + auctionInfo.get("auct_desc"));
@@ -418,7 +533,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
 
             if (ToolKit.isList(auctionInfo, "dj_ticket")) {
-                ArrayList<Map<String, String>> dj_ticket = JSONUtils.parseKeyAndValueToMapList(auctionInfo.get("dj_ticket"));
+                dj_ticket = JSONUtils.parseKeyAndValueToMapList(auctionInfo.get("dj_ticket"));
                 for (int i = 0; i < dj_ticket.size(); i++) {
                     switch (i) {
                         case 0: {

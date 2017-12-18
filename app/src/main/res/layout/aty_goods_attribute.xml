@@ -184,8 +184,7 @@
                     android:layout_weight="1"
                     android:background="#F3ABA7"
                     android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:text="加入购物车"
                     android:textColor="@color/white" />
 
@@ -196,8 +195,7 @@
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:text="立即购买"
                     android:textColor="@color/white" />
             </LinearLayout>

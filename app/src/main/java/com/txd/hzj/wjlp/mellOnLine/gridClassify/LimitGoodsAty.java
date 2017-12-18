@@ -1230,7 +1230,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 layout_aftersale.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_jgsm:
-                if (ser_list != null) {
+                if (goods_price_desc != null) {
                     showPop(v, "价格说明", goods_price_desc, 0);
                 }
                 break;

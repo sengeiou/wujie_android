@@ -90,8 +90,8 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
         } else if (title.equals("无界预购")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle3();
-        } else if (title.equals("竞拍汇")) {
-            titlt_right_tv.setText("竞拍纪录");
+        } else if (title.equals("比价购")) {
+            titlt_right_tv.setText("比价纪录");
             titlt_right_tv.setVisibility(View.VISIBLE);
             titlt_right_tv.setTextColor(Color.RED);
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();

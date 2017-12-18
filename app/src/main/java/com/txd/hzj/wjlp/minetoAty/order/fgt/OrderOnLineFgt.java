@@ -24,12 +24,14 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
+import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
 import com.txd.hzj.wjlp.txunda_lh.CarOrderInfo;
+import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
@@ -84,6 +86,7 @@ public class OrderOnLineFgt extends BaseFgt {
      */
     private boolean frist = true;
     private GoodsAdapter goodsAdapter;
+    private IndianaRecordAdapter indianarecordAdp;
 
     public OrderOnLineFgt() {
 
@@ -153,7 +156,6 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-
     }
 
 
@@ -171,6 +173,8 @@ public class OrderOnLineFgt extends BaseFgt {
             PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("5")) {
             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("6")) {
+            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
         }
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
@@ -198,6 +202,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("5")) {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("6")) {
+                            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -234,6 +240,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("5")) {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("6")) {
+                            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -262,8 +270,8 @@ public class OrderOnLineFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("orderList") || requestUrl.contains("preOrderList")) {
-            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("5")) {
+        if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {
+            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6")) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
                     goodsAdapter = new GoodsAdapter();
@@ -297,6 +305,23 @@ public class OrderOnLineFgt extends BaseFgt {
                     footerProgressBar.setVisibility(View.GONE);
                     swipe_refresh.setLoadMore(false);
                 }
+            } else if (from.equals("5")) {
+                if (p == 1) {
+                    goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
+                    indianarecordAdp = new IndianaRecordAdapter(getActivity(), goods_list);
+                    order_on_line_lv.setAdapter(indianarecordAdp);
+                    if (!frist) {
+                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    goods_more = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
+                    goods_list.addAll(goods_more);
+                    indianarecordAdp.notifyDataSetChanged();
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    swipe_refresh.setLoadMore(false);
+                }
             }
         }
         if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
@@ -307,6 +332,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("6")) {
+                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
@@ -317,6 +344,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("6")) {
+                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
@@ -326,6 +355,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("6")) {
+                AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
     }
@@ -416,6 +447,8 @@ public class OrderOnLineFgt extends BaseFgt {
                         setGroupBuyOrderClickright(position);
                     } else if (from.equals("4")) {
                         setPreOrderClickright(position);
+                    } else if (from.equals("6")) {
+                        setAuctionClickright(position);
                     }
                 }
             });
@@ -428,6 +461,8 @@ public class OrderOnLineFgt extends BaseFgt {
                         setGroupBuyOrderClickleft(position);
                     } else if (from.equals("4")) {
                         setPreOrderClickleft(position);
+                    } else if (from.equals("6")) {
+                        setAuctionClickleft(position);
                     }
                 }
             });
@@ -461,9 +496,12 @@ public class OrderOnLineFgt extends BaseFgt {
                 setGroupBuyStatus(position);
             } else if (from.equals("4")) {
                 setPreStatus(position);
+            } else if (from.equals("6")) {
+                setAuctionStatus(position);
             }
             return convertView;
         }
+
 
         private void setPreOrderClickright(final int position) {
             if (getItem(position).get("order_status").equals("1") || getItem(position).get("order_status").equals("7")) {
@@ -496,7 +534,6 @@ public class OrderOnLineFgt extends BaseFgt {
             }
 
         }
-
 
         private void setPreOrderClickleft(final int position) {
             if (getItem(position).get("order_status").equals("1")) {
@@ -756,6 +793,121 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.tv_btn_right.setText("付款");
                     holder.tv_btn_left.setVisibility(View.VISIBLE);
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+
+
+        private void setAuctionClickright(final int position) {
+            switch (getItem(position).get("order_status")) {
+                case "1":
+
+                    break;
+                case "4":
+                    AuctionOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    showProgressDialog();
+                    break;
+                case "5":
+
+                case "6":
+                    new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AuctionOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            showProgressDialog();
+                        }
+                    }).setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }).show();
+                    break;
+                case "8":
+                    Bundle bundle = new Bundle();
+                    bundle.putString("order_id", getItem(position).get("order_id"));
+                    startActivity(EvaluationReleaseAty.class, bundle);
+                    break;
+            }
+        }
+
+        private void setAuctionClickleft(final int position) {
+            switch (getItem(position).get("order_status")) {
+                case "1":
+                    new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("取消订单").setPositiveButton("确定", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AuctionOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            showProgressDialog();
+                        }
+                    }).setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    }).show();
+                    break;
+            }
+        }
+
+        private void setAuctionStatus(int position) {
+            switch (getItem(position).get("order_status")) {
+                case "1":
+                    holder.state.setText("待付款");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "3":
+                    holder.state.setText("待发货");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                    break;
+                case "4":
+                    holder.state.setText("待收货");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "8":
+                    holder.state.setText("待评价");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("评价");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "5":
+                    holder.state.setText("已取消");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "6":
+                    holder.state.setText("已完成");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    break;
+                case "10":
+                    holder.state.setText("竞拍中");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                    break;
+                case "11":
+                    holder.state.setText("竞拍成功");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                    break;
+                case "12":
+                    holder.state.setText("竞拍结束");
+                    holder.tv_btn_left.setText("取消订单");
+                    holder.tv_btn_right.setText("付款");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
             }
         }

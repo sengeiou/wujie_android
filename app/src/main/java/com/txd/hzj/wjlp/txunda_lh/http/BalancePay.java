@@ -16,7 +16,7 @@ public class BalancePay {
 
     /**
      * @param order_id      订单id
-     * @param order_type    订单类型1普通订单 2拼单购 3预购 4比价购 5限量购
+     * @param order_type   订单类型1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖
      * @param discount_type 使用代金券：0不使用代金券 1使用红券 2使用黄券 3使用蓝(多个选择用','隔开)
      * @param baseView
      */
@@ -29,7 +29,7 @@ public class BalancePay {
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("order_type", order_type);
         params.addBodyParameter("discount_type", discount_type);
-        params.addBodyParameter("inte_id", inte_id);
+        params.addBodyParameter("goods_num", inte_id);
         apiTool2.postApi(url + "BalancePay", params, baseView);
 
     }

@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -228,7 +229,8 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("5") || order_status.equals("6")) {
-                        new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                        new AlertDialog(OrderDetailsAty.this).builder()
+                                .setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 PreOrder.preDeleteOrder(order_id, OrderDetailsAty.this);
@@ -248,7 +250,8 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                new AlertDialog(OrderDetailsAty.this).builder()
+                        .setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
@@ -287,7 +290,8 @@ public class OrderDetailsAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("details") || requestUrl.contains("preDetails")) {
+        if (requestUrl.contains("details") ||
+                requestUrl.contains("preDetails")) {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
@@ -302,7 +306,8 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics_time.setText(data.get("logistics_time"));
             tv_merchant_name.setText(data.get("merchant_name"));
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-            order_price_info_tv.setText("共" + list.size() + "件商品 合计：¥" + data.get("order_price"));
+            order_price_info_tv.setText("共" +
+                    list.size() + "件商品 合计：¥" + data.get("order_price"));
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
             tv_create_time.setText("创建时间：" + data.get("create_time"));
             tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -313,7 +318,8 @@ public class OrderDetailsAty extends BaseAty {
             goods_for_this_order_lv.setAdapter(thisAdapter);
         }
 
-        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
+        if (requestUrl.contains("cancelOrder") ||
+                requestUrl.contains("preCancelOrder")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
@@ -324,7 +330,8 @@ public class OrderDetailsAty extends BaseAty {
             showProgressDialog();
 
         }
-        if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
+        if (requestUrl.contains("receiving") ||
+                requestUrl.contains("preReceiving")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
@@ -335,7 +342,8 @@ public class OrderDetailsAty extends BaseAty {
             showProgressDialog();
 
         }
-        if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
+        if (requestUrl.contains("deleteOrder") ||
+                requestUrl.contains("preDeleteOrder")) {
             showToast("删除成功！");
             finish();
 
@@ -488,7 +496,8 @@ public class OrderDetailsAty extends BaseAty {
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = LayoutInflater.from(OrderDetailsAty.this).inflate(R.layout.item_goods_for_this_order_lv, null);
+                view = LayoutInflater.from(OrderDetailsAty.this).
+                        inflate(R.layout.item_goods_for_this_order_lv, null);
                 tgvh = new TGVH();
                 ViewUtils.inject(tgvh, view);
                 view.setTag(tgvh);

@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoAty;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -13,12 +14,14 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
+import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.BalancePay;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
@@ -176,7 +179,9 @@ public class PayForAppAty extends BaseAty {
                 break;
             case R.id.pay_by_balance_cb:// 余额
                 bottom_type = 2;
-                showPop(v, 3);
+                if (!type.equals("8")) {
+                    showPop(v, 3);
+                }
                 selectCheckBoxBottom(bottom_type);
                 break;
             case R.id.tv_submit:
@@ -184,12 +189,14 @@ public class PayForAppAty extends BaseAty {
 
                 }
                 if (pay_by_ali_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1")) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
                         Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
                     } else if (type.equals("2") || type.equals("3")) {
                         Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
                     } else if (type.equals("6")) {
                         Pay.getAlipayParam(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
                     }
                     showProgressDialog();
                 }
@@ -201,7 +208,15 @@ public class PayForAppAty extends BaseAty {
                     } else if (type.equals("6")) {
                         BalancePay.BalancePay(data.get("order_id"), "3", getType(), "", this);
                     } else if (type.equals("7")) {
-                        BalancePay.BalancePay(data.get("order_id"), "6", getType(), inte_id, this);
+                        if (!order_type.equals("7")) {
+                            BalancePay.BalancePay(data.get("order_id"), "6", getType(), num, this);
+                        } else {
+                            BalancePay.BalancePay(data.get("order_id"), "8", getType(), num, this);
+                        }
+                    } else if (type.equals("8")) {
+                        BalancePay.BalancePay(order_id, "7", getType(), num, this);
+                    } else if (type.equals("9")) {
+                        BalancePay.BalancePay(order_id, "4", getType(), num, this);
                     }
                     showProgressDialog();
                 }
@@ -280,9 +295,23 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("6")) {
             PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, this);
         } else if (type.equals("7")) {
-            IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", this);
+            if (!order_type.equals("7")) {
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", this);
+            } else {
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", this);
+            }
             layout_wx.setVisibility(View.GONE);
             layout_ali.setVisibility(View.GONE);
+        } else if (type.equals("8")) {
+            tv_price.setText("¥" + getIntent().getStringExtra("money"));
+            pay_by_balance_cb.setText("余额支付（¥" + getIntent().getStringExtra("balance") + ")");
+            tv_shopname.setText(getIntent().getStringExtra("merchant_name"));
+            layout_wx.setVisibility(View.GONE);
+            layout_ali.setVisibility(View.GONE);
+            return;
+        } else if (type.equals("9")) {
+            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", order_id, this);
+
         }
         showProgressDialog();
     }
@@ -298,26 +327,47 @@ public class PayForAppAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
-        if (requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
+        if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
             tv_price.setText("¥" + data.get("order_price"));
             pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
             tv_shopname.setText(data.get("merchant_name"));
             if (data.get("is_integral").equals("1")) {
                 cb_jfzf.setVisibility(View.VISIBLE);
             }
+            if (type.equals("2") || type.equals("3")) {
+                if (TextUtils.isEmpty(group_buy_id)) {
+                    group_buy_id = data.get("group_buy_id");
+                }
+            } else {
+                if (TextUtils.isEmpty(order_id)) {
+                    order_id = data.get("order_id");
+                }
+            }
         }
 
-        if (requestUrl.contains("BalancePay")) {
+
+        if (requestUrl.contains("BalancePay"))
+
+        {
             showToast("支付成功！");
             finish();
         }
-        if (requestUrl.contains("getAlipayParam")) {
+        if (requestUrl.contains("getAlipayParam"))
+
+        {
             showProgressDialog();
             AliPay aliPay = new AliPay(data.get("pay_string"), new AliPayCallBack() {
                 @Override
                 public void onComplete() {
-                    Pay.findPayResult(data.get("order_id"), "4", PayForAppAty.this);
-
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.findPayResult(order_id, "4", PayForAppAty.this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.findPayResult(group_buy_id, "6", PayForAppAty.this);
+                    } else if (type.equals("6")) {
+                        Pay.findPayResult(order_id, "5", PayForAppAty.this);
+                    } else if (type.equals("9")) {
+                        Pay.findPayResult(order_id, "8", PayForAppAty.this);
+                    }
                 }
 
                 @Override
@@ -333,11 +383,17 @@ public class PayForAppAty extends BaseAty {
             });
             aliPay.pay();
         }
-        if (requestUrl.contains("findPayResult")) {
+        if (requestUrl.contains("findPayResult"))
+
+        {
             showToast("支付成功！");
             removeProgressDialog();
             finish();
         }
+        if (requestUrl.contains("DeleteOrder")) {
+            finish();
+        }
+
     }
 
     public void showPop(View view, final int type) {
@@ -442,5 +498,48 @@ public class PayForAppAty extends BaseAty {
             return "0";
         }
         return sb.toString();
+    }
+
+    public void beBack(View view) {
+        if (type.equals("7")) {
+            new AlertDialog(this).builder().setTitle("警告").setMsg("是否取消支付？").setNegativeButton("确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IntegralOrder.DeleteOrder(order_id, PayForAppAty.this);
+                    showProgressDialog();
+                }
+            }).setPositiveButton("取消", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            }).show();
+
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && type.equals("7")) {
+            new AlertDialog(this).builder().setTitle("警告").setMsg("是否取消支付？").setNegativeButton("确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    IntegralOrder.DeleteOrder(order_id, PayForAppAty.this);
+                    showProgressDialog();
+                }
+            }).setPositiveButton("取消", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            }).show();
+
+
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -456,12 +456,12 @@
         "source": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_27.png"
     },
     {
-        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_record_animate_08.png",
-        "source": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_08.png"
-    },
-    {
         "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_record_animate_13.png",
         "source": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_13.png"
+    },
+    {
+        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_record_animate_08.png",
+        "source": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_08.png"
     },
     {
         "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\abc_scrubber_primary_mtrl_alpha.9.png",

@@ -72,7 +72,7 @@ public class AuctionRecordAty extends BaseAty {
         mTitleList.add("竞拍成功");
         mTitleList.add("竞拍结束");
         for (int i = 0; i < mTitleList.size(); i++) {
-            mFtagemt.add(AuctionRecordFgt.getFgt(mTitleList.get(i), String.valueOf(i)));
+            mFtagemt.add(AuctionRecordFgt.getFgt(mTitleList.get(i), "1" + String.valueOf(i)));
         }
     }
 

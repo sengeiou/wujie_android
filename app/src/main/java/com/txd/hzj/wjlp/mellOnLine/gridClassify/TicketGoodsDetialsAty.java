@@ -597,7 +597,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_product, "");
                 break;
             case R.id.btn_jgsm:
-                if (ser_list != null) {
+                if (goods_price_desc != null) {
                     showPop(v, "价格说明", goods_price_desc, 0);
                 }
                 break;

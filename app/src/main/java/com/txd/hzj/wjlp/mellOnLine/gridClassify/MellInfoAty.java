@@ -430,7 +430,8 @@ public class MellInfoAty extends BaseAty {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle = new Bundle();
-                bundle.putString("ticket_buy_id", ads_list.get(position).get("ticket_buy_id"));
+                bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
+                bundle.putInt("from",1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });

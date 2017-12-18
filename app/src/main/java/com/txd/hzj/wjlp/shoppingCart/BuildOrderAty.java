@@ -23,6 +23,7 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
@@ -213,6 +214,8 @@ public class BuildOrderAty extends BaseAty {
             PreOrder.preShoppingCart(group_buy_id, num, this);
         } else if (type.equals("7")) {
             IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
+        } else if (type.equals("9")) {
+            AuctionOrder.ShoppingCart(mid, group_buy_id, "", "0", this);
         }
         showProgressDialog();
 
@@ -258,6 +261,12 @@ public class BuildOrderAty extends BaseAty {
             }
         }
 
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        finish();
     }
 
     @Override
