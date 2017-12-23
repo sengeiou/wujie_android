@@ -90,7 +90,6 @@ public class CreateGroupAty extends BaseAty {
     @ViewInject(R.id.group_goods_price_tv)
     private TextView group_goods_price_tv;
 
-    private int size = 0;
     /**
      * 用户id
      */
@@ -123,8 +122,8 @@ public class CreateGroupAty extends BaseAty {
         group_member_rv.setItemAnimator(new DefaultItemAnimator());
         group_operation_tv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                toAttrs(v, 0, "4", goods_id, data.get("goods_img"), data.get("shop_price"), list_, list_p, getIntent().getStringExtra("group_buy_id") + "-" + log_id);
+            public void onClick(View v) {// list_, list_p,
+                toAttrs(v, 0, "4", goods_id, data.get("goods_img"), data.get("shop_price"), getIntent().getStringExtra("group_buy_id") + "-" + log_id);
             }
         });
     }
@@ -142,7 +141,7 @@ public class CreateGroupAty extends BaseAty {
         status = getIntent().getIntExtra("status", 0);
         log_id = getIntent().getStringExtra("id");
         groupBuyPst = new GroupBuyPst(this);
-        size = ToolKit.dip2px(this, 120);
+
 //        user_id = application.getUserInfo().get("user_id");
     }
 

@@ -80,6 +80,7 @@
                 android:background="@color/view_color"/>
 
             <ImageView
+                android:id="@+id/im_ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"

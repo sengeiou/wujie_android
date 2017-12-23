@@ -99,9 +99,15 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
         theme_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Bundle bundle = new Bundle();
+//                bundle.putString("goods_id", list.get(i).get("goods_id"));
+//                startActivity(ThemeGoodsDetailsAty.class, bundle);
                 Bundle bundle = new Bundle();
-                bundle.putString("goods_id", list.get(i).get("goods_id"));
-                startActivity(ThemeGoodsDetailsAty.class, bundle);
+                bundle = new Bundle();
+                bundle.putString("ticket_buy_id", list.get(i).get("goods_id"));
+                bundle.putInt("from",1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+
             }
         });
         tg_sc.smoothScrollTo(0, 0);

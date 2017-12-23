@@ -274,7 +274,6 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="1dp"
                                     android:layout_marginLeft="30dp"
-
                                     android:background="@drawable/icon_cut_off_rule" />
 
 
@@ -411,9 +410,7 @@
                                 layout="@layout/aty_goods_details_wujie_post"
                                 android:visibility="gone" />
                             <!--服务-->
-                            <include
-                                layout="@layout/aty_goods_details_serve"
-                                android:visibility="gone" />
+                            <include layout="@layout/aty_goods_details_serve" />
 
                             <LinearLayout
                                 android:id="@+id/layout_service"
@@ -458,7 +455,7 @@
 
                         <include
                             layout="@layout/aty_goods_details_estimate"
-                            android:visibility="gone" />
+                           />
 
                         <Space
                             android:layout_width="match_parent"

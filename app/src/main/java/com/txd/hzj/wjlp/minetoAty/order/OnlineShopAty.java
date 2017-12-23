@@ -84,7 +84,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         title = getIntent().getStringExtra("title");
         //添加页卡标题
         if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店")
-                || title.equals("爱心商店")) {
+                || title.equals("无界商店")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         } else if (title.equals("拼团区")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();

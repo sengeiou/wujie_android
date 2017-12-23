@@ -736,6 +736,8 @@
         <activity android:name=".txunda_lh.aty_after" />
         <!--售后快递-->
         <activity android:name=".txunda_lh.aty_addshipping" />
+        <!--比较记录的详情-->
+        <activity android:name=".txunda_lh.AuctionRecordAty" />
     </application>
 
 </manifest>

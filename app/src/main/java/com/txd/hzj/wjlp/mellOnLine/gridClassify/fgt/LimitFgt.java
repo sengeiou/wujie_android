@@ -46,8 +46,10 @@ import cn.iwgang.countdownview.CountdownView;
  * ===============Txunda===============
  */
 public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListener {
+
     private int type;
     private String stage_id = "";
+    private String str = "";
 
     /**
      * 倒计时
@@ -108,6 +110,13 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
         return limitFgt;
     }
 
+    public static LimitFgt getFgt(String stage_id, String s) {
+        LimitFgt limitFgt = new LimitFgt();
+        limitFgt.stage_id = stage_id;
+        limitFgt.str = s;
+        return limitFgt;
+    }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -127,14 +136,14 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
         fgt_limit_sc.setScrollViewListener(this);
         fgt_limit_sc.smoothScrollTo(0, 0);
         forUpdata();
-
-        if (-1 == type) {
-            limit_status_tv.setText("本场已结束");
-        } else if (0 == type) {
-            limit_status_tv.setText("距本场结束");
-        } else {
-            limit_status_tv.setText("距本场开始");
-        }
+        limit_status_tv.setText(str);
+//        if (-1 == type) {
+//            limit_status_tv.setText("本场已结束");
+//        } else if (0 == type) {
+//            limit_status_tv.setText("距本场结束");
+//        } else {
+//            limit_status_tv.setText("距本场开始");
+//        }
 
     }
 
@@ -151,7 +160,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
     }
 
     @Override
-    @OnClick({R.id.top_ad_iv,R.id.to_be_back_iv})
+    @OnClick({R.id.top_ad_iv, R.id.to_be_back_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {

@@ -184,8 +184,9 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                 if (!t_status.equals("进行中")) {
                     showErrorTip("活动已结束");
                     break;
-                }
-                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance"), new ArrayList<GoodsAttrs>(), new ArrayList<GoodsAttrs.product>(), one_buy_id);
+                }//, new ArrayList<GoodsAttrs>(), new ArrayList<GoodsAttrs.product>()
+                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance")
+                        , one_buy_id);
 
                 break;
         }

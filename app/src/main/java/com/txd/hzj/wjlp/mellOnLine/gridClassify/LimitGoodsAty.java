@@ -1,8 +1,11 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,8 +37,10 @@ import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -48,6 +53,9 @@ import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
 import com.txd.hzj.wjlp.bean.Mell;
+import com.txd.hzj.wjlp.bean.addres.CityForTxd;
+import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
+import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
@@ -57,6 +65,7 @@ import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
@@ -64,8 +73,11 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import org.json.JSONArray;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -631,6 +643,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(LimitGoodsAty.this, LinearLayoutManager.HORIZONTAL,
                 false));
         goods_trick_rv.setHasFixedSize(true);
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -670,11 +683,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 break;
             case 2:// 无界预购
                 perBuyPst.preBuyInfo(limit_buy_id, page);
-                tv_jrgwc.setVisibility(View.GONE);
                 tv_ljgm.setText("交付定金");
                 break;
             case 10:// 无界商店
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
+                tv_jrgwc.setVisibility(View.GONE);
                 break;
         }
 
@@ -690,17 +703,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         tv_ljgm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (0 == type) {
-                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"),
-                            (ArrayList) goodsAttrs,
-                            (ArrayList) goods_produc, limit_buy_id);
-                } else if (2 == type) {
-                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("pre_price"),
-                            (ArrayList) goodsAttrs,
-                            (ArrayList) goods_produc, limit_buy_id);
+                if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
+                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price")
+                          , limit_buy_id);
+                } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
+                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("pre_price")
+                      , limit_buy_id);
 
-                } else {
-
+                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,
+                    toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("use_integral") + "积分",
+                          limit_buy_id);
 
                 }
 
@@ -787,6 +799,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                 long difference = end - now;
                 limit_status_tv.setText(goodsInfo.get("stage_status"));
+                if (goodsInfo.get("stage_status").equals("已结束")) {
+                    goods_count_down_view.setVisibility(View.GONE);
+                    tv_ljgm.setEnabled(false);
+                    tv_ljgm.setBackgroundColor(Color.GRAY);
+                    tv_ljgm.setText("已结束");
+                }
                 // 倒计时
                 goods_count_down_view.setTag("limitGoods");
                 difference = difference * 1000;
@@ -886,7 +904,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 now_price_tv.setTextSize(16f);
                 //goods_residue_tv.setText("已兑换" + goodsInfo.get("sell_num") + "件");
                 goods_residue_tv.setVisibility(View.GONE);
-                tv_jrgwc.setVisibility(View.INVISIBLE);
                 tv_ljgm.setText("立即兑换");
             }
 
@@ -908,7 +925,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
             mell_id = mInfo.get("merchant_id");
 
-            easemob_account = mInfo.get("easemob_account");
+            easemob_account = mInfo.get("merchant_easemob_account");
             merchant_name = mInfo.get("merchant_name");
             merchant_logo = mInfo.get("logo");
             Glide.with(this).load(merchant_logo)
@@ -1121,13 +1138,34 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.tv_showClassify,
             R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv, R.id.tv_dpg,
+            R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.relation_mell_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_lingquan,
             R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao, R.id.im_toarrs})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.all_evaluate_tv: {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                startActivity(GoodsEvaluateAty.class, bundle);
+
+                break;
+            }
+            case R.id.tv_chose_ads:
+                if (isLoaded) {
+                    ShowPickerView();
+                }
+                break;
+            case R.id.tv_showClassify:
+                Intent intent = new Intent();
+                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
+                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
+                intent.setClass(this, SubclassificationAty.class);
+                startActivity(intent);
+                break;
             case R.id.title_goods_layout://商品
                 clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
@@ -1648,5 +1686,180 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 tv_price = (TextView) itemView.findViewById(R.id.tv_price);
             }
         }
+    }
+
+
+    @ViewInject(R.id.tv_chose_ads)
+    private TextView tv_chose_ads;
+
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+
+    /**
+     * 省id
+     */
+    private String province_id = "";
+    /**
+     * 市id
+     */
+    private String city_id = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+
+    /**
+     * 街道id
+     */
+    private String street_id = "";
+
+
+    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
+    private Thread thread;
+    private static final int MSG_LOAD_DATA = 0x0001;
+    private static final int MSG_LOAD_SUCCESS = 0x0002;
+    private static final int MSG_LOAD_FAILED = 0x0003;
+
+
+    private void ShowPickerView() {// 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
+                .OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                // 省
+                province = options1Items.get(options1).getPickerViewText();
+                province_id = options1Items.get(options1).getProvince_id();
+                // 市
+                city = options2Items.get(options1).get(options2).getPickerViewText();
+                city_id = options2Items.get(options1).get(options2).getCity_id();
+                // 区
+                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                // 设置省市区
+                String tx = province + city + area;
+                tv_chose_ads.setText(tx);
+            }
+        }).setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .setOutSideCancelable(false)// default is true
+                .build();
+
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    private boolean isLoaded = false;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_LOAD_DATA:
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 写子线程中的操作,解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+                    break;
+
+                case MSG_LOAD_SUCCESS:
+                    removeDialog();
+                    isLoaded = true;
+                    break;
+
+                case MSG_LOAD_FAILED:
+                    removeDialog();
+                    showErrorTip("解析失败");
+                    break;
+
+            }
+        }
+    };
+
+    private void initJsonData() {//解析数据
+
+        /*
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         */
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /*
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+
+                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
+
+                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                    City_AreaList.add(new DistrictsForTxd("", ""));
+                } else {
+                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+                    }
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+            /*
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+            /*
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+
+        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+
+    }
+
+
+    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            L.e("=====异常=====", e.getMessage());
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
+        return detail;
     }
 }

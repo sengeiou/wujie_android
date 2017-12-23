@@ -138,12 +138,15 @@ public class fragment1 extends BaseFgt {
     private TextView tv_Sex;
     private boolean is_Long = false;
     private TimePickerView pvTime;
+    private boolean check;
 
     @OnClick({R.id.layout_sex, R.id.ads0, R.id.ads1, R.id.image1, R.id.image2, R.id.id_card_start_time, R.id.id_card_end_time, R.id.tv_submit})
     public void OnClick(View v) {
         switch (v.getId()) {
             case R.id.layout_sex:
-                show();
+                if (check) {
+                    show();
+                }
                 break;
             case R.id.tv_submit:
                 if (TextUtils.isEmpty(name.getText().toString())) {
@@ -201,38 +204,48 @@ public class fragment1 extends BaseFgt {
                 showProgressDialog();
                 break;
             case R.id.ads0:
-                if (isLoaded) {
+                if (isLoaded && check) {
                     ShowPickerView();
                 }
                 break;
             case R.id.ads1:
-                if (area_id.equals("")) {
-                    showErrorTip("请选择省市区");
-                    return;
+                if (check) {
+                    if (area_id.equals("")) {
+                        showErrorTip("请选择省市区");
+                        return;
+                    }
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), TextListAty.class);
+                    intent.putExtra("title", "选择街道");
+                    intent.putExtra("area_id", area_id);
+                    startActivityForResult(intent, 100);
                 }
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), TextListAty.class);
-                intent.putExtra("title", "选择街道");
-                intent.putExtra("area_id", area_id);
-                startActivityForResult(intent, 100);
                 break;
             case R.id.image1:
-                Intent i = new Intent(getActivity(), ImageGridActivity.class);
-                startActivityForResult(i, 101);
+                if (check) {
+                    Intent i = new Intent(getActivity(), ImageGridActivity.class);
+                    startActivityForResult(i, 101);
+                }
                 break;
             case R.id.image2:
-                Intent in = new Intent(getActivity(), ImageGridActivity.class);
-                startActivityForResult(in, 102);
+                if (check) {
+                    Intent in = new Intent(getActivity(), ImageGridActivity.class);
+                    startActivityForResult(in, 102);
+                }
                 break;
             case R.id.id_card_start_time:
-                is_card = true;
-                is_Long = true;
-                initTimePicker(v);
+                if (check) {
+                    is_card = true;
+                    is_Long = true;
+                    initTimePicker(v);
+                }
                 break;
             case R.id.id_card_end_time:
-                is_card = false;
-                is_Long = false;
-                initTimePicker(v);
+                if (check) {
+                    is_card = false;
+                    is_Long = false;
+                    initTimePicker(v);
+                }
                 break;
         }
     }
@@ -280,9 +293,9 @@ public class fragment1 extends BaseFgt {
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) {
-            if(data.get("auth_status").equals("3")){
-                textview.setText("认证："+data.get("auth_desc"));
-            }else{
+            if (data.get("auth_status").equals("3")) {
+                textview.setText("认证：" + data.get("auth_desc"));
+            } else {
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
             }
@@ -350,25 +363,33 @@ public class fragment1 extends BaseFgt {
 
     @Override
     protected void requestData() {
-        if(!getArguments().getString("auth_status").equals("0")){
+        if (!getArguments().getString("auth_status").equals("0")) {
             ApiTool2 apiTool2 = new ApiTool2();
             apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);
         }
         switch (getArguments().getString("auth_status")) {
             case "1": {
+                name.setEnabled(false);
+                idcard.setEnabled(false);
                 textview.setText("认证：认证中");
                 tv_submit.setVisibility(View.GONE);
                 break;
             }
             case "2": {
+                name.setEnabled(false);
+                idcard.setEnabled(false);
                 textview.setText("认证：已认证");
                 tv_submit.setVisibility(View.GONE);
                 break;
             }
             case "3": {
+                check = true;
                 tv_submit.setText("重新认证");
                 break;
             }
+            default:
+                check = true;
+                break;
         }
 
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
@@ -391,6 +412,7 @@ public class fragment1 extends BaseFgt {
     protected void immersionInit() {
 
     }
+
 
     /**
      * 显示dialog

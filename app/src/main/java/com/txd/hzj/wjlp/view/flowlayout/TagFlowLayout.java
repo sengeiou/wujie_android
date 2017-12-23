@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.R;
 
 import java.util.HashSet;
@@ -126,6 +127,18 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
                         dip2px(getContext(), 5));
                 tagViewContainer.setLayoutParams(lp);
             }
+
+//            if (tagView.getTag() != null) {
+//                L.e(tagView.getTag().toString());
+//                tagViewContainer.setEnabled(false);
+//                tagViewContainer.setFocusable(false);
+//                tagViewContainer.setClickable(false);
+//            }else{
+//                tagViewContainer.setEnabled(true);
+//                tagViewContainer.setFocusable(true);
+//                tagViewContainer.setClickable(true);
+//            }
+
             tagViewContainer.addView(tagView);
             addView(tagViewContainer);
 

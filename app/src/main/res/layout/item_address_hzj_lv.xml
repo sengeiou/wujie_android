@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
+
     <LinearLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/add_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/app_text_color"
-            android:textSize="18sp"/>
-
-        <TextView
-            android:id="@+id/add_phone_tv"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textColor="@color/app_text_color"
-            android:textSize="18sp"/>
-    </LinearLayout>
+            android:padding="16dp">
 
-    <TextView
-        android:id="@+id/add_details_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingEnd="16dp"
-        android:paddingStart="16dp"/>
+            <TextView
+                android:id="@+id/add_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_text_color"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/add_phone_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textColor="@color/app_text_color"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/add_details_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -40,12 +48,11 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/set_address_to_default_layout"
@@ -58,14 +65,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:src="@drawable/icon_default_address"/>
+                android:src="@drawable/icon_default_address" />
 
             <TextView
                 android:id="@+id/address_defailt_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="默认地址"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent" />
 
         </LinearLayout>
 
@@ -82,7 +89,7 @@
                 android:drawablePadding="8dp"
                 android:drawableStart="@drawable/icon_edit_address_hzj"
                 android:padding="16dp"
-                android:text="编辑"/>
+                android:text="编辑" />
 
             <TextView
                 android:id="@+id/delete_address_tv"
@@ -91,7 +98,7 @@
                 android:drawablePadding="8dp"
                 android:drawableStart="@drawable/icon_clear_ticket_hzj"
                 android:padding="16dp"
-                android:text="删除"/>
+                android:text="删除" />
         </LinearLayout>
 
     </LinearLayout>
@@ -100,6 +107,6 @@
         android:id="@+id/under_address_iv"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:background="@drawable/icon_under_address_line"/>
+        android:background="@drawable/icon_under_address_line" />
 
 </LinearLayout>

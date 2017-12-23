@@ -146,18 +146,17 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // tagAdapter.setSelectedList(position);
+                            tagAdapter.setSelectedList(position);
                             label_id = labelListBean.getLabel_id();
                             HouseBuy.commentList(house_id, p, label_id, HouseCommentFgt.this);
                         }
                     });
-                    tv.setText(labelListBean.getLabel_name()+"("+labelListBean.getNum()+")");
+                    tv.setText(labelListBean.getLabel_name() + "(" + labelListBean.getNum() + ")");
                     return tv;
                 }
 
-
             };
-            // tagAdapter.setSelectedList(0);
+            //  tagAdapter.setSelectedList(0);
             house_comment_tag.setAdapter(tagAdapter);
 
             if (p == 1) {

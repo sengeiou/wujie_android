@@ -68,12 +68,18 @@ public class AddressAdapter extends BaseAdapter {
         } else {
             avh = (AVH) view.getTag();
         }
-
         avh.address_status_iv.setImageResource(R.drawable.icon_un_default_address);
         avh.address_defailt_tv.setText("设为默认");
         avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
         avh.under_address_iv.setVisibility(View.GONE);
         if (adapterTextViewClickListener != null) {
+            avh.root_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    adapterTextViewClickListener.onTextViewClick(v, i);
+                }
+            });
             // 设置为默认地址
             avh.set_address_to_default_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -110,6 +116,8 @@ public class AddressAdapter extends BaseAdapter {
     }
 
     class AVH {
+        @ViewInject(R.id.root_layout)
+        private LinearLayout root_layout;
         /**
          * 设置为默认地址布局
          */

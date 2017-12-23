@@ -7,11 +7,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.tools.AlertDialog;
@@ -20,11 +22,14 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.BalancePay;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralPay;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
 import com.txd.hzj.wjlp.txunda_lh.http.Pay;
 import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
@@ -133,6 +138,9 @@ public class PayForAppAty extends BaseAty {
     @ViewInject(R.id.layout_ali)
     private RelativeLayout layout_ali;
     private String inte_id;
+    @ViewInject(R.id.layout_yue)
+    private RelativeLayout layout_yue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +161,7 @@ public class PayForAppAty extends BaseAty {
 
     @Override
     @OnClick({R.id.top_lin_layout, R.id.top_cb, R.id.bottom_lin_layout, R.id.bottom_cb, R.id.pay_by_wechat_cb,
-            R.id.pay_by_ali_cb, R.id.pay_by_balance_cb, R.id.tv_submit})
+            R.id.pay_by_ali_cb, R.id.pay_by_balance_cb, R.id.tv_submit, R.id.cb_jfzf})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -167,6 +175,10 @@ public class PayForAppAty extends BaseAty {
 //                top_type = 1;
 //                selectCheckBoxTop(top_type);
 //                break;
+            case R.id.cb_jfzf:
+                bottom_type = 3;
+                selectCheckBoxBottom(bottom_type);
+                break;
             case R.id.pay_by_wechat_cb:// 微信
                 bottom_type = 0;
                 selectCheckBoxBottom(bottom_type);
@@ -220,6 +232,28 @@ public class PayForAppAty extends BaseAty {
                     }
                     showProgressDialog();
                 }
+                if (cb_jfzf.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        IntegralPay.integralPay(data.get("order_id"), type, "", "", this);
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
+                        IntegralPay.integralPay(data.get("group_buy_order_id"), "2", "", "", this);
+                    } else if (type.equals("6")) {
+                        IntegralPay.integralPay(data.get("order_id"), "3", "", "", this);
+                    } else if (type.equals("7")) {
+                        if (!order_type.equals("7")) {
+                            IntegralPay.integralPay(data.get("order_id"), "6", "", num, this);
+                        } else {
+                            IntegralPay.integralPay(data.get("order_id"), "8", "", num, this);
+                        }
+                    } else if (type.equals("8")) {
+                        IntegralPay.integralPay(order_id, "7", "", num, this);
+                    } else if (type.equals("9")) {
+                        IntegralPay.integralPay(order_id, "4", "", num, this);
+                    } else if (type.equals("10")) {
+                        IntegralPay.integralPay(order_id, "10", "", num, this);
+                    }
+                    showProgressDialog();
+                }
                 break;
         }
     }
@@ -249,12 +283,15 @@ public class PayForAppAty extends BaseAty {
         pay_by_wechat_cb.setChecked(false);
         pay_by_ali_cb.setChecked(false);
         pay_by_balance_cb.setChecked(false);
+        cb_jfzf.setChecked(false);
         if (0 == type) {
             pay_by_wechat_cb.setChecked(true);
         } else if (1 == type) {
             pay_by_ali_cb.setChecked(true);
-        } else {
+        } else if (2 == type) {
             pay_by_balance_cb.setChecked(true);
+        } else if (3 == type) {
+            cb_jfzf.setChecked(true);
         }
     }
 
@@ -312,6 +349,12 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("9")) {
             AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", order_id, this);
 
+        } else if (type.equals("10")) {
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, this);
+            layout_ali.setVisibility(View.GONE);
+            layout_wx.setVisibility(View.GONE);
+            layout_yue.setVisibility(View.GONE);
+
         }
         showProgressDialog();
     }
@@ -328,7 +371,11 @@ public class PayForAppAty extends BaseAty {
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
-            tv_price.setText("¥" + data.get("order_price"));
+            if (!type.equals("10")) {
+                tv_price.setText("¥" + data.get("order_price"));
+            } else {
+                tv_price.setText(data.get("order_price") + "积分");
+            }
             pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
             tv_shopname.setText(data.get("merchant_name"));
             if (data.get("is_integral").equals("1")) {
@@ -349,6 +396,18 @@ public class PayForAppAty extends BaseAty {
         if (requestUrl.contains("BalancePay"))
 
         {
+            if (type.equals("4")) {
+                AppManager.getInstance().killActivity(CreateGroupAty.class);
+            }
+            showToast("支付成功！");
+            finish();
+        }
+        if (requestUrl.contains("integralPay"))
+
+        {
+            if (type.equals("4")) {
+                AppManager.getInstance().killActivity(CreateGroupAty.class);
+            }
             showToast("支付成功！");
             finish();
         }
@@ -386,6 +445,9 @@ public class PayForAppAty extends BaseAty {
         if (requestUrl.contains("findPayResult"))
 
         {
+            if (type.equals("4")) {
+                AppManager.getInstance().killActivity(CreateGroupAty.class);
+            }
             showToast("支付成功！");
             removeProgressDialog();
             finish();
@@ -395,6 +457,13 @@ public class PayForAppAty extends BaseAty {
         }
 
     }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        finish();
+    }
+
 
     public void showPop(View view, final int type) {
         if (data.get("discount").equals("0") && data.get("yellow_discount").equals("0") && data.get("blue_discount").equals("0"))
@@ -423,6 +492,29 @@ public class PayForAppAty extends BaseAty {
                         r.setVisibility(data.get("discount").equals("1") ? View.VISIBLE : View.GONE);
                         y.setVisibility(data.get("yellow_discount").equals("1") ? View.VISIBLE : View.GONE);
                         b.setVisibility(data.get("blue_discount").equals("1") ? View.VISIBLE : View.GONE);
+                        r.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                setCheck(1);
+                            }
+                        });
+                        y.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                setCheck(2);
+                            }
+                        });
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                                setCheck(3);
+                            }
+                        });
+
+
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -436,6 +528,23 @@ public class PayForAppAty extends BaseAty {
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
+    }
+
+    private void setCheck(int s) {
+        r.setChecked(false);
+        y.setChecked(false);
+        b.setChecked(false);
+        switch (s) {
+            case 1:
+                r.setChecked(true);
+                break;
+            case 2:
+                y.setChecked(true);
+                break;
+            case 3:
+                b.setChecked(true);
+                break;
+        }
     }
 
     private void setImage(int from, boolean is_r, boolean is_y, boolean is_b) {

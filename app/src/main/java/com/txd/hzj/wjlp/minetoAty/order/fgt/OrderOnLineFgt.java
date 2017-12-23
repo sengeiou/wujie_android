@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
@@ -143,6 +145,16 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("order_id"));
                     bundle.putString("type", from);
                     startActivity(OrderDetailsAty.class, bundle);
+                } else if (from.equals("6")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", goods_list.get(i).get("order_id"));
+                    bundle.putString("type", from);
+                    startActivity(OrderDetailsAty.class, bundle);
+                } else if (from.equals("7")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", goods_list.get(i).get("order_id"));
+                    bundle.putString("type", from);
+                    startActivity(OrderDetailsAty.class, bundle);
                 }
             }
         });
@@ -158,6 +170,27 @@ public class OrderOnLineFgt extends BaseFgt {
     protected void initialized() {
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (from.equals("0")) {
+            com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+        } else if (from.equals("1")) {
+            CarOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("2")) {
+            HouseOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("3")) {
+            GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("4")) {
+            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("5")) {
+            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("6")) {
+            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("7")) {
+            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+        }
+    }
 
     @Override
     protected void requestData() {
@@ -175,6 +208,8 @@ public class OrderOnLineFgt extends BaseFgt {
             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("6")) {
             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("7")) {
+            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
         }
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
@@ -204,6 +239,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("6")) {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("7")) {
+                            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -242,6 +279,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("6")) {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("7")) {
+                            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
                         }
                     }
 
@@ -271,7 +310,7 @@ public class OrderOnLineFgt extends BaseFgt {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {
-            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6")) {
+            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals("7")) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
                     goodsAdapter = new GoodsAdapter();
@@ -334,6 +373,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("7")) {
+                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
@@ -346,6 +387,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("7")) {
+                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
@@ -357,6 +400,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("7")) {
+                IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             }
         }
     }
@@ -441,7 +486,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0")) {
+                    if (from.equals("0") || from.equals("7")) {
                         setOrderClickright(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickright(position);
@@ -455,7 +500,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0")) {
+                    if (from.equals("0") || from.equals("7")) {
                         setOrderClickleft(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickleft(position);
@@ -486,11 +531,21 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
+                    } else if (from.equals("6")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", goods_list.get(position).get("order_id"));
+                        bundle.putString("type", from);
+                        startActivity(OrderDetailsAty.class, bundle);
+                    } else if (from.equals("7")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", goods_list.get(position).get("order_id"));
+                        bundle.putString("type", from);
+                        startActivity(OrderDetailsAty.class, bundle);
                     }
 
                 }
             });
-            if (from.equals("0")) {
+            if (from.equals("0") || from.equals("7")) {
                 setOrderStatus(position);
             } else if (from.equals("3")) {
                 setGroupBuyStatus(position);
@@ -609,13 +664,15 @@ public class OrderOnLineFgt extends BaseFgt {
 
         private void setOrderClickleft(final int position) {
             if (getItem(position).get("order_status").equals("0")) {
-
-
-                new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("取消订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        com.txd.hzj.wjlp.txunda_lh.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                        showProgressDialog();
+                        if (from.equals("0")) {
+                            com.txd.hzj.wjlp.txunda_lh.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            showProgressDialog();
+                        } else {
+                            IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                        }
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -630,23 +687,35 @@ public class OrderOnLineFgt extends BaseFgt {
             if (getItem(position).get("order_status").equals("0")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                if (from.equals("7")) {
+                    bundle.putString("type","10");
+                }
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
-                com.txd.hzj.wjlp.txunda_lh.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                showProgressDialog();
+                if (from.equals("0")) {
+                    com.txd.hzj.wjlp.txunda_lh.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    showProgressDialog();
+                } else {
+                    IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    showProgressDialog();
+                }
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {
 
 
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        com.txd.hzj.wjlp.txunda_lh.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                        showProgressDialog();
-
+                        if (from.equals("0")) {
+                            com.txd.hzj.wjlp.txunda_lh.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            showProgressDialog();
+                        } else {
+                            IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            showProgressDialog();
+                        }
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -801,7 +870,6 @@ public class OrderOnLineFgt extends BaseFgt {
         private void setAuctionClickright(final int position) {
             switch (getItem(position).get("order_status")) {
                 case "1":
-
                     break;
                 case "4":
                     AuctionOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -971,9 +1039,18 @@ public class OrderOnLineFgt extends BaseFgt {
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
-            goVh.title.setText("规格" + getItem(i).get("goods_attr"));
-            goVh.tv_price.setVisibility(View.VISIBLE);
-            goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+            if (TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
+                goVh.title.setVisibility(View.GONE);
+            } else {
+                goVh.title.setVisibility(View.VISIBLE);
+                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
+            }
+            if (TextUtils.isEmpty(getItem(i).get("shop_price"))) {
+                goVh.tv_price.setVisibility(View.GONE);
+            } else {
+                goVh.tv_price.setVisibility(View.VISIBLE);
+                goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+            }
             return view;
         }
 

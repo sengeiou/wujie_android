@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -16,6 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mainFgt.adapter.AuctionRecordAdapter;
+import com.txd.hzj.wjlp.txunda_lh.AuctionRecordAty;
 import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
@@ -152,7 +154,14 @@ public class AuctionRecordFgt extends BaseFgt {
 
 
         AuctionOrder.OrderList(type, p, this);
-
+        order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("id", list.get(position).get("order_id"));
+                startActivity(AuctionRecordAty.class, bundle);
+            }
+        });
     }
 
     Map<String, String> data;

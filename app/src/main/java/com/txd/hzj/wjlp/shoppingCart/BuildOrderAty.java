@@ -6,30 +6,26 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
 import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -216,6 +212,9 @@ public class BuildOrderAty extends BaseAty {
             IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
         } else if (type.equals("9")) {
             AuctionOrder.ShoppingCart(mid, group_buy_id, "", "0", this);
+        } else if (type.equals("10")) {
+            IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
+
         }
         showProgressDialog();
 
@@ -246,9 +245,19 @@ public class BuildOrderAty extends BaseAty {
             layout_choose_address.setVisibility(View.GONE);
         }
         address_id = map.get("address_id");
-        order_price_at_last_tv.setText("合计：¥" + map.get("sum_shop_price"));
+
         tv_merchant_name.setText(map.get("merchant_name"));
-        tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
+        if (!type.equals("10")) {
+//            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
+            order_price_at_last_tv.setText("合计：¥" + map.get("sum_shop_price"));
+//            if (map.get("sum_discount").equals("0")) {
+                tv_sum_discount.setVisibility(View.GONE);
+//            }
+        } else {
+            tv_sum_discount.setVisibility(View.GONE);
+            order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
+
+        }
         if (ToolKit.isList(map, "item")) {
             if (p == 1) {
                 data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));

@@ -117,7 +117,7 @@ public class fragment2 extends BaseFgt {
     private boolean is_Long;
     private String start_time;
     private String end_time;
-
+    private boolean check;
     private boolean isLoaded = false;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -156,30 +156,39 @@ public class fragment2 extends BaseFgt {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.ads0:
-                if (isLoaded) {
-                    ShowPickerView();
+                if (check) {
+                    if (isLoaded) {
+                        ShowPickerView();
+                    }
                 }
                 break;
             case R.id.ads1:
-                if (area_id.equals("")) {
-                    showErrorTip("请选择省市区");
-                    return;
+                if (check) {
+
+                    if (area_id.equals("")) {
+                        showErrorTip("请选择省市区");
+                        return;
+                    }
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), TextListAty.class);
+                    intent.putExtra("title", "选择街道");
+                    intent.putExtra("area_id", area_id);
+                    startActivityForResult(intent, 100);
                 }
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), TextListAty.class);
-                intent.putExtra("title", "选择街道");
-                intent.putExtra("area_id", area_id);
-                startActivityForResult(intent, 100);
                 break;
             case R.id.comp_start_time:
-                is_card = true;
-                is_Long = true;
-                initTimePicker(view);
+                if (check) {
+                    is_card = true;
+                    is_Long = true;
+                    initTimePicker(view);
+                }
                 break;
             case R.id.comp_end_time:
-                is_card = false;
-                is_Long = false;
-                initTimePicker(view);
+                if (check) {
+                    is_card = false;
+                    is_Long = false;
+                    initTimePicker(view);
+                }
                 break;
             case R.id.tv_submit:
                 if (TextUtils.isEmpty(name.getText().toString())) {
@@ -227,8 +236,10 @@ public class fragment2 extends BaseFgt {
                 showProgressDialog();
                 break;
             case R.id.image1:
-                Intent i = new Intent(getActivity(), ImageGridActivity.class);
-                startActivityForResult(i, 101);
+                if (check) {
+                    Intent i = new Intent(getActivity(), ImageGridActivity.class);
+                    startActivityForResult(i, 101);
+                }
                 break;
         }
     }
@@ -246,6 +257,7 @@ public class fragment2 extends BaseFgt {
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
     }
+
     @ViewInject(R.id.textview)
     private TextView textview;//一个提示
     @ViewInject(R.id.tv_submit)
@@ -253,25 +265,34 @@ public class fragment2 extends BaseFgt {
 
     @Override
     protected void requestData() {
-        if(!getArguments().getString("comp_auth_status").equals("0")){
+        if (!getArguments().getString("comp_auth_status").equals("0")) {
             ApiTool2 apiTool2 = new ApiTool2();
             apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);
         }
         switch (getArguments().getString("comp_auth_status")) {
             case "1": {
+                name.setEnabled(false);
+                num.setEnabled(false);
                 textview.setText("认证：认证中");
                 tv_submit.setVisibility(View.GONE);
                 break;
             }
             case "2": {
+                name.setEnabled(false);
+                num.setEnabled(false);
                 textview.setText("认证：已认证");
                 tv_submit.setVisibility(View.GONE);
                 break;
             }
             case "3": {
+
+                check = true;
                 tv_submit.setText("重新认证");
                 break;
             }
+            default:
+                check = true;
+                break;
         }
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
         showProgressDialog();
@@ -298,9 +319,9 @@ public class fragment2 extends BaseFgt {
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) {
-            if(data.get("comp_auth_status").equals("3")){
-                textview.setText("认证：已拒绝\n拒绝原因："+data.get("comp_desc"));
-            }else{
+            if (data.get("comp_auth_status").equals("3")) {
+                textview.setText("认证：已拒绝\n拒绝原因：" + data.get("comp_desc"));
+            } else {
                 Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             }
             name.setText(data.get("com_name"));

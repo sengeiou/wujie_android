@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,11 +34,15 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -45,6 +52,10 @@ import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodLuckBean;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.bean.addres.CityForTxd;
+import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
+import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -56,11 +67,15 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import org.json.JSONArray;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -563,6 +578,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         // 优惠券
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -570,12 +586,27 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv, R.id.tv_dpg,
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layout,
             R.id.creat_group_tv, R.id.go_to_main_layout, R.id.details_into_mell_tv, R.id.to_chat_tv,
+            R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
             R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.im_toarrs, R.id.layout_djq
     })
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.all_evaluate_tv: {
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("from", 2);
+                startActivity(GoodsEvaluateAty.class, bundle);
+
+                break;
+            }
+            case R.id.tv_chose_ads:
+                if (isLoaded) {
+                    ShowPickerView();
+                }
+
+                break;
             case R.id.tv_showClassify:
                 Intent intent = new Intent();
                 intent.putExtra("appBarTitle", goodsInfos.get("two_cate_name"));
@@ -698,8 +729,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.tv_lingquan:
                 showLQPop(v, "领券");
                 break;
-            case R.id.im_toarrs:
-//                toAttrs(v, 1, "3",goods_id, goodsInfos.get("goods_img"), goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc);
+            case R.id.im_toarrs://, (ArrayList) goodsAttrs, (ArrayList) goods_produc
+                toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
+                        goodsInfos.get("shop_price"), group_buy_id);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -1181,7 +1213,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
             // 店铺信息
             mellInfoBean = groupBuyInfo.getData().getMInfo();
-            easemob_account = mellInfoBean.getEasemob_account();
+            easemob_account = mellInfoBean.getMerchant_easemob_account();
             merchant_logo = mellInfoBean.getLogo();
             merchant_name = mellInfoBean.getMerchant_name();
             mell_id = mellInfoBean.getMerchant_id();
@@ -1245,32 +1277,34 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                goods_trick_rv.setAdapter(theTrickAdapter);
 //            }
             // 评论
-//            try {
-//                GoodLuckBean.DataBean.CommentBean comment = groupBuyInfo.getData().getComment();
-//                if (comment != null) {
-//                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-//                    CommentBean.BodyBean bodyBean = comment.getBody();
-//                    if (bodyBean != null) {
-//                        Glide.with(this).load(bodyBean.getUser_head_pic())
-//                                .override(mSize, mSize)
-//                                .placeholder(R.drawable.ic_default)
-//                                .error(R.drawable.ic_default)
-//                                .centerCrop()
-//                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                                .into(comm_user_head_iv);
-//                        comm_user_name_tv.setText(bodyBean.getNickname());
-//                        comm_content_tv.setText(bodyBean.getContent());
-//                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
-//                        if (!ListUtils.isEmpty(pictures)) {
-//                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-//                            estimate_pic.setAdapter(picadapter);
-//                        }
-//                    }
-//                }
-//            } catch (JsonSyntaxException e) {
-//                all_comment_num_tv.setText("商品评价(0)");
-//                comment_layout.setVisibility(View.GONE);
-//            }
+            if (ToolKit.isList(data, "comment")) {
+                try {
+                    CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
+                    all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                    CommentBean.BodyBean bodyBean = comment.getBody();
+                    if (bodyBean != null) {
+                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                                .override(mSize, mSize)
+                                .placeholder(R.drawable.ic_default)
+                                .error(R.drawable.ic_default)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(comm_user_head_iv);
+                        comm_user_name_tv.setText(bodyBean.getNickname());
+                        comm_content_tv.setText(bodyBean.getContent());
+                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                        if (!ListUtils.isEmpty(pictures)) {
+                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                            estimate_pic.setAdapter(picadapter);
+                        }
+                    }
+                } catch (JsonSyntaxException e) {
+                    all_comment_num_tv.setText("商品评价(0)");
+                    comment_layout.setVisibility(View.GONE);
+                }
+
+            }
 
             tv_bzqd.setText(goodsInfos.get("package_list")); //包装清单
             tv_shfw.setText(goodsInfos.get("after_sale_service")); //售后服务
@@ -1309,9 +1343,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             creat_group_tv.setText("我要开团");
             creat_group_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
                     toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
-                            goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc, group_buy_id);
+                            goodsInfos.get("shop_price"), group_buy_id);
                 }
             });
             //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
@@ -1319,9 +1353,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             one_price_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n独立购买");
             one_price_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
                     toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
-                            goodsInfos.get("shop_price"), (ArrayList) goodsAttrs, (ArrayList) goods_produc, group_buy_id);
+                            goodsInfos.get("shop_price"), group_buy_id);
                 }
             });
 
@@ -1354,12 +1388,18 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 // 拼团列表
                 GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, groupList);
                 good_luck_lv.setAdapter(goodLuckAdapter);
+                //Item高度80，分割线1. 我也不知道怎么获取setAdapter之后的高度。。。
+                int list_h = groupList.size() * ToolKit.dip2px(this, 80) + groupList.size();
+                secondHeight = secondHeight + list_h;
+                topHeighe = topHeighe + list_h;
+
                 // 去参团
                 goodLuckAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
                     @Override
                     public void onTextViewClick(View v, int position) {
                         if (!Config.isLogin()) {
                             toLogin();
+                            return;
                         }
                         bundle = new Bundle();
                         bundle.putInt("status", 0);
@@ -1573,5 +1613,178 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     }
 
+    @ViewInject(R.id.tv_chose_ads)
+    private TextView tv_chose_ads;
+
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+
+    /**
+     * 省id
+     */
+    private String province_id = "";
+    /**
+     * 市id
+     */
+    private String city_id = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+
+    /**
+     * 街道id
+     */
+    private String street_id = "";
+
+
+    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
+    private Thread thread;
+    private static final int MSG_LOAD_DATA = 0x0001;
+    private static final int MSG_LOAD_SUCCESS = 0x0002;
+    private static final int MSG_LOAD_FAILED = 0x0003;
+
+
+    private void ShowPickerView() {// 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
+                .OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                // 省
+                province = options1Items.get(options1).getPickerViewText();
+                province_id = options1Items.get(options1).getProvince_id();
+                // 市
+                city = options2Items.get(options1).get(options2).getPickerViewText();
+                city_id = options2Items.get(options1).get(options2).getCity_id();
+                // 区
+                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                // 设置省市区
+                String tx = province + city + area;
+                tv_chose_ads.setText(tx);
+            }
+        }).setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .setOutSideCancelable(false)// default is true
+                .build();
+
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    private boolean isLoaded = false;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_LOAD_DATA:
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 写子线程中的操作,解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+                    break;
+
+                case MSG_LOAD_SUCCESS:
+                    removeDialog();
+                    isLoaded = true;
+                    break;
+
+                case MSG_LOAD_FAILED:
+                    removeDialog();
+                    showErrorTip("解析失败");
+                    break;
+
+            }
+        }
+    };
+
+    private void initJsonData() {//解析数据
+
+        /*
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         */
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /*
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+
+                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
+
+                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                    City_AreaList.add(new DistrictsForTxd("", ""));
+                } else {
+                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+                    }
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+            /*
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+            /*
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+
+        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+
+    }
+
+
+    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            L.e("=====异常=====", e.getMessage());
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
+        return detail;
+    }
 
 }

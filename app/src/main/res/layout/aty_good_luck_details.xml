@@ -280,6 +280,7 @@
                                         android:textSize="14sp" />
                                 </LinearLayout>
                             </LinearLayout>
+
                             <include layout="@layout/aty_goods_details_sales_promotion" />
 
 
@@ -287,9 +288,7 @@
                                 layout="@layout/aty_goods_details_wujie_post"
                                 android:visibility="gone" />
                             <!--服务-->
-                            <include
-                                layout="@layout/aty_goods_details_serve"
-                                android:visibility="gone" />
+                            <include layout="@layout/aty_goods_details_serve" />
 
                             <Space
                                 android:layout_width="match_parent"
@@ -330,10 +329,10 @@
 
                             <LinearLayout
 
-                                android:orientation="vertical"
                                 android:id="@+id/layout_pt"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
 
                                 <Space
                                     android:layout_width="match_parent"
@@ -448,9 +447,7 @@
 
                         </LinearLayout>
 
-                        <include
-                            layout="@layout/aty_goods_details_estimate"
-                            android:visibility="gone" />
+                        <include layout="@layout/aty_goods_details_estimate" />
 
                         <Space
                             android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -15,6 +16,7 @@ import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -51,7 +53,7 @@ public class ThirdClassifyFgt extends BaseFgt {
     private String three = "";
 
     @ViewInject(R.id.pr_third_lv)
-    private PullToRefreshListView pr_third_lv;
+    private PullToRefreshGridView pr_third_lv;
 
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
@@ -74,15 +76,15 @@ public class ThirdClassifyFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         pr_third_lv.setEmptyView(no_data_layout);
-        pr_third_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        pr_third_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p = 1;
                 groupBuyPst.threeList(two, p, three);
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p++;
                 groupBuyPst.threeList(two, p, three);
             }

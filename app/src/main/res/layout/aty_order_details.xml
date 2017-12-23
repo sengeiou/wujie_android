@@ -104,8 +104,7 @@
                     android:drawableStart="@drawable/icon_cart_mell_left_hzj"
                     android:paddingBottom="8dp"
                     android:paddingStart="16dp"
-                    android:paddingTop="8dp"
-                    android:text="花季 越简单越美" />
+                    android:paddingTop="8dp"  />
 
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/goods_for_this_order_lv"

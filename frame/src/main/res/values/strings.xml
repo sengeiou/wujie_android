@@ -14,7 +14,7 @@
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="no_login">未登录</string>
     <string name="network_anomaly">网络不给力，请检查网络</string>
-    <string name="server_unknow_error">网络未连接</string>
+    <string name="server_unknow_error">Not Found 404\n程序后台出现错误</string>
     <string name="string_null_error">哎呀，出错了</string>
     <string name="isnull">请输入完整信息</string>
     <string name="no_more">无更多数据</string>

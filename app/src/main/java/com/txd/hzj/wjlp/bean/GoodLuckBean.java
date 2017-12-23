@@ -835,6 +835,15 @@ public class GoodLuckBean {
             private String goods_score;
             private String merchant_score;
             private String shipping_score;
+            private String merchant_easemob_account;
+
+            public String getMerchant_easemob_account() {
+                return merchant_easemob_account;
+            }
+
+            public void setMerchant_easemob_account(String merchant_easemob_account) {
+                this.merchant_easemob_account = merchant_easemob_account;
+            }
 
             public String getMerchant_id() {
                 return merchant_id;

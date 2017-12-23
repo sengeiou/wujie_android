@@ -542,8 +542,7 @@
                                 android:visibility="gone" />
                             <!--服务-->
                             <include
-                                layout="@layout/aty_goods_details_serve"
-                                android:visibility="gone" />
+                                layout="@layout/aty_goods_details_serve"  />
                         </LinearLayout>
                         <!--开始评价-->
                         <Space
@@ -551,8 +550,7 @@
                             android:layout_height="8dp" />
 
                         <include
-                            layout="@layout/aty_goods_details_estimate"
-                            android:visibility="gone" />
+                            layout="@layout/aty_goods_details_estimate" />
 
                         <Space
                             android:layout_width="match_parent"

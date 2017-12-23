@@ -50,6 +50,7 @@ import java.util.Set;
  */
 public class AuctionCollectAty extends BaseAty {
 
+
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
@@ -233,12 +234,12 @@ public class AuctionCollectAty extends BaseAty {
                 startActivity(NoticeDetailsAty.class, bundle);
                 break;
             case R.id.left_lin_layout:// 左(今日拍卖)
-                next = 1;
+                next = 2;
                 p = 1;
                 changeViewStatus(0);
                 break;
             case R.id.right_lin_layout:// 右(拍卖预展)
-                next = 2;
+                next = 1;
                 p = 1;
                 changeViewStatus(1);
                 break;
@@ -283,7 +284,6 @@ public class AuctionCollectAty extends BaseAty {
 
                 list = index.getData().getAuction_list();
                 if (!ListUtils.isEmpty(list)) {
-
                     limitAdapter = new LimitAdapter(list, this, data_type, 1);
                     suction_collect_gv.setAdapter(limitAdapter);
                     limitAdapter.setTvClick(new AdapterTextViewClickListener() {
@@ -316,13 +316,17 @@ public class AuctionCollectAty extends BaseAty {
                 list2 = index.getData().getAuction_list();
                 if (!ListUtils.isEmpty(list2)) {
                     list.addAll(list2);
-
                     limitAdapter.setType(data_type);
                     limitAdapter.notifyDataSetChanged();
                 }
                 footerImageView.setVisibility(View.VISIBLE);
                 footerProgressBar.setVisibility(View.GONE);
                 super_sr_layout.setLoadMore(false);
+            }
+            if (list.size() == 0) {
+                list.clear();
+                limitAdapter = new LimitAdapter(list, this, data_type, 1);
+                suction_collect_gv.setAdapter(limitAdapter);
             }
             return;
         }

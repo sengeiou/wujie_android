@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -136,10 +137,15 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     /**
      * 商品属性
      * goods_id - minfo_id
+     *
      * @param v View
      */
-    public void toAttrs(View v, int from, String type,String goods_id, String imageurl,
-                        String price, ArrayList<GoodsAttrs> list, ArrayList<GoodsAttrs.product> list_p,String group_buy_id) {
+    public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
+                        String price,
+//                        String goods_attr,
+//                        ArrayList<GoodsAttrs> list,
+//            , ArrayList<GoodsAttrs.product> list_p,
+                        String group_buy_id) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         bundle.putString("type", type);
@@ -147,8 +153,28 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putString("group_buy_id", group_buy_id);
         bundle.putString("imageurl", imageurl);
         bundle.putString("price", price);
-        bundle.putParcelableArrayList("list", list);
-        bundle.putParcelableArrayList("list_p", list_p);
+//        bundle.putString("goods_attr", goods_attr);
+//        bundle.putParcelableArrayList("list", list);
+//        bundle.putParcelableArrayList("list_p", list_p);
+        startActivity(GoodsAttributeAty.class, bundle);
+    }
+
+    public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
+                        String price,
+
+//                        ArrayList<GoodsAttrs> list,
+//            , ArrayList<GoodsAttrs.product> list_p,
+                        String group_buy_id, String goods_attr) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", from);
+        bundle.putString("type", type);
+        bundle.putString("goods_id", goods_id);
+        bundle.putString("group_buy_id", group_buy_id);
+        bundle.putString("imageurl", imageurl);
+        bundle.putString("price", price);
+        bundle.putString("goods_attr", goods_attr);
+//        bundle.putParcelableArrayList("list", list);
+//        bundle.putParcelableArrayList("list_p", list_p);
         startActivity(GoodsAttributeAty.class, bundle);
     }
 
@@ -263,6 +289,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      * @param index 第几页，从0开始
      */
     public void backMain(int index) {
+        if (index == 2 && !Config.isLogin()) {
+            toLogin();
+            return;
+        }
         bundle = new Bundle();
         bundle.putInt("index", index);
         startActivity(MainAty.class, bundle);
@@ -278,6 +308,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public void toChat(String easemob_account, String head_pic, String nickname) {
         if (!Config.isLogin()) {
             toLogin();
+            return;
+        }
+        if (TextUtils.isEmpty(easemob_account)) {
+            showErrorTip("对方不在线");
             return;
         }
         String my_easemob_account = application.getUserInfo().get("easemob_account");

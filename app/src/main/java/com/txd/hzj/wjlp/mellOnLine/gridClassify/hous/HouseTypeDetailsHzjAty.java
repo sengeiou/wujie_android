@@ -211,11 +211,14 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
                 forBanner();
             }
-            easemob_account = data.get("easemob_account");
+            easemob_account = data.get("merchant_easemob_account");
             merchant_logo = data.get("server_head_pic");
             merchant_name = data.get("server_name");
 //            titlt_conter_tv.setText(data.get("style_name"));
             tv_car_num.setText(data.get("cart_num"));
+            if (data.get("cart_num").equals("0")) {
+                tv_car_num.setVisibility(View.GONE);
+            }
             ChangeTextViewStyle.getInstance().forTextColor(this, counteract_price_tv, "可抵:￥" +
                     data.get("true_pre_money") + "房款", 11, ContextCompat.getColor(this, R.color.app_text_color));
             ChangeTextViewStyle.getInstance().forTextColor(this, toltal_payment_tv, "房全款:￥" + data.get("all_price"), 5,

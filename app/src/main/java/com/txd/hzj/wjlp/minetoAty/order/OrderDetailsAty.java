@@ -12,11 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.baidu.mapapi.map.Text;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -25,9 +23,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.txunda_lh.aty_after;
+import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
 import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
 
@@ -94,6 +93,14 @@ public class OrderDetailsAty extends BaseAty {
     public TextView tv_btn_right;
     private String group_buy_id;
     private String order_type;
+    @ViewInject(R.id.layout_choose_address)
+    private LinearLayout layout_choose_address;
+    @ViewInject(R.id.tv_name)
+    private TextView tv_name;
+    @ViewInject(R.id.tv_tel)
+    private TextView tv_tel;
+    @ViewInject(R.id.tv_address)
+    private TextView tv_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +154,10 @@ public class OrderDetailsAty extends BaseAty {
         } else if (type.equals("4")) {
             PreOrder.preDetails(order_id, this);
             layout_yugou.setVisibility(View.VISIBLE);
+        } else if (type.equals("6")) {
+            AuctionOrder.preDetails(order_id, this);
+        } else if (type.equals("7")) {
+            IntegralBuyOrder.details(order_id, this);
         }
         showProgressDialog();
     }
@@ -156,14 +167,22 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0")) {
+                if (type.equals("0") || type.equals("7")) {
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
+                        if (type.equals("7")) {
+                            bundle.putString("type", "10");
+                        }
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
-                        Order.receiving(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
+                        if (type.equals("0")) {
+                            Order.receiving(order_id, OrderDetailsAty.this);
+                            showProgressDialog();
+                        } else {
+                            IntegralBuyOrder.Receiving(order_id, OrderDetailsAty.this);
+                            showProgressDialog();
+                        }
                     } else if (order_status.equals("3")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
@@ -172,9 +191,13 @@ public class OrderDetailsAty extends BaseAty {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
-                                Order.deleteOrder(order_id, OrderDetailsAty.this);
-                                showProgressDialog();
+                                if (type.equals("0")) {
+                                    Order.deleteOrder(order_id, OrderDetailsAty.this);
+                                    showProgressDialog();
+                                } else {
+                                    IntegralBuyOrder.DeleteOrder(order_id, OrderDetailsAty.this);
+                                    showProgressDialog();
+                                }
                             }
                         }).setNegativeButton("取消", new View.OnClickListener() {
                             @Override
@@ -244,6 +267,38 @@ public class OrderDetailsAty extends BaseAty {
                         }).show();
 
                     }
+                } else if (type.equals("6")) {
+                    switch (order_status) {
+                        case "1":
+                            break;
+                        case "4":
+                            AuctionOrder.Receiving(order_id, OrderDetailsAty.this);
+                            showProgressDialog();
+                            break;
+                        case "5":
+
+                        case "6":
+                            new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    AuctionOrder.DeleteOrder(order_id, OrderDetailsAty.this);
+                                    showProgressDialog();
+                                }
+                            }).setNegativeButton("取消", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            }).show();
+                            break;
+                        case "8":
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", order_id);
+                            startActivity(EvaluationReleaseAty.class, bundle);
+                            break;
+                    }
+
+
                 }
             }
         });
@@ -257,6 +312,7 @@ public class OrderDetailsAty extends BaseAty {
 
                         if (type.equals("0")) {
                             if (order_status.equals("0")) {
+
                                 Order.cancelOrder(order_id, OrderDetailsAty.this);
                                 showProgressDialog();
                             }
@@ -271,12 +327,18 @@ public class OrderDetailsAty extends BaseAty {
                                 showProgressDialog();
                             }
 
+                        } else if (type.equals("7")) {
+                            if (order_status.equals("1")) {
+                                IntegralBuyOrder.CancelOrder(order_id, OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
                         }
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        AuctionOrder.CancelOrder(order_id, OrderDetailsAty.this);
+                        showProgressDialog();
                     }
                 }).show();
             }
@@ -295,13 +357,18 @@ public class OrderDetailsAty extends BaseAty {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
-            if (type.equals("0")) {
+            if (type.equals("0") || type.equals("7")) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
             } else if (type.equals("4")) {
                 setPreOrderStatus();
+            } else if (type.equals("6")) {
+                setAuctionStatus();
             }
+            tv_name.setText(data.get("user_name"));
+            tv_tel.setText(data.get("phone"));
+            tv_address.setText(data.get("address"));
             tv_logistics.setText(data.get("logistics"));
             tv_logistics_time.setText(data.get("logistics_time"));
             tv_merchant_name.setText(data.get("merchant_name"));
@@ -319,31 +386,42 @@ public class OrderDetailsAty extends BaseAty {
         }
 
         if (requestUrl.contains("cancelOrder") ||
-                requestUrl.contains("preCancelOrder")) {
+                requestUrl.contains("preCancelOrder") ||
+                requestUrl.contains("CancelOrder")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
             } else if (type.equals("4")) {
                 PreOrder.preDetails(order_id, this);
+            } else if (type.equals("6")) {
+                AuctionOrder.preDetails(order_id, this);
+            } else if (type.equals("7")) {
+                IntegralBuyOrder.details(order_id, this);
             }
             showProgressDialog();
 
         }
         if (requestUrl.contains("receiving") ||
-                requestUrl.contains("preReceiving")) {
+                requestUrl.contains("preReceiving") ||
+                requestUrl.contains("Receiving")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
                 GroupBuyOrder.details(order_id, this);
             } else if (type.equals("4")) {
                 PreOrder.preDetails(order_id, this);
+            } else if (type.equals("6")) {
+                AuctionOrder.preDetails(order_id, this);
+            } else if (type.equals("7")) {
+                IntegralBuyOrder.details(order_id, this);
             }
             showProgressDialog();
 
         }
         if (requestUrl.contains("deleteOrder") ||
-                requestUrl.contains("preDeleteOrder")) {
+                requestUrl.contains("preDeleteOrder") ||
+                requestUrl.contains("DeleteOrder")) {
             showToast("删除成功！");
             finish();
 
@@ -356,6 +434,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
+                layout_choose_address.setVisibility(View.GONE);
                 break;
             case "1":
                 tv_state.setText("待发货");
@@ -379,6 +458,7 @@ public class OrderDetailsAty extends BaseAty {
                 break;
             case "5":
                 tv_state.setText("已取消");
+                layout_choose_address.setVisibility(View.GONE);
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
                 break;
@@ -392,6 +472,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
+                layout_choose_address.setVisibility(View.GONE);
                 break;
             case "1":
                 tv_state.setText("待成团");
@@ -421,6 +502,7 @@ public class OrderDetailsAty extends BaseAty {
             case "6":
                 tv_state.setText("已取消");
                 tv_btn_left.setVisibility(View.GONE);
+                layout_choose_address.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
                 break;
 
@@ -471,6 +553,72 @@ public class OrderDetailsAty extends BaseAty {
                 break;
 
 
+        }
+    }
+
+    private void setAuctionStatus() {
+        switch (order_status) {
+            case "1":
+                tv_state.setText("待付款");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                tv_btn_left.setVisibility(View.VISIBLE);
+                layout_choose_address.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+
+            case "3":
+                tv_state.setText("待发货");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "4":
+                tv_state.setText("待收货");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("确认收货");
+                tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "8":
+                tv_state.setText("待评价");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("评价");
+                tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+
+            case "5":
+                tv_state.setText("已取消");
+                tv_btn_left.setVisibility(View.GONE);
+                layout_choose_address.setVisibility(View.GONE);
+                tv_btn_right.setText("删除");
+                tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "6":
+                tv_state.setText("已完成");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setText("删除");
+                tv_btn_right.setVisibility(View.VISIBLE);
+                break;
+            case "10":
+                tv_state.setText("竞拍中");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "11":
+                tv_state.setText("竞拍成功");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
+            case "12":
+                tv_state.setText("竞拍结束");
+                tv_btn_left.setText("取消订单");
+                tv_btn_right.setText("付款");
+                tv_btn_left.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.GONE);
+                break;
         }
     }
 

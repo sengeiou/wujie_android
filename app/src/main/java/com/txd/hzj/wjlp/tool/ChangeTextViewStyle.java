@@ -95,7 +95,7 @@ public class ChangeTextViewStyle {
         SpannableString styledText = new SpannableString(str);
         int unit_position;
         int end_posion;
-        if (str.contains("￥")) {
+        if (str.contains("￥") && str.contains(".")) {
             unit_position = str.indexOf("￥");
             end_posion = str.indexOf(".");
             styledText.setSpan(new TextAppearanceSpan(context, R.style.goods_price_style), unit_position + 1,

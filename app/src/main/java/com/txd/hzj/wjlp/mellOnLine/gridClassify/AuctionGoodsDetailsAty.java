@@ -283,6 +283,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     @ViewInject(R.id.limit_goods_details_sc)
     private ObservableScrollView limit_goods_details_sc;
 
+    @ViewInject(R.id.layout_jinkoushui)
+    private LinearLayout layout_jinkoushui;
 
     private String vouchers_desc = "";//代金券弹窗下面的提示文字
     @ViewInject(R.id.ticket_gv)//推荐商品列表
@@ -294,6 +296,11 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     private List<AllGoodsBean> more = new ArrayList<>();
     private ArrayList<Map<String, String>> dj_ticket;
     private Map<String, String> mInfo;
+
+
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,7 +336,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.submit_auction_price_tv:
-                        AuctionOrder.SetOrder("", auction_id,  "1", singUpDialog.getEditText().getText().toString(),"", AuctionGoodsDetailsAty.this);
+                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", AuctionGoodsDetailsAty.this);
                         singUpDialog.dismiss();
                         break;
                 }
@@ -338,10 +345,14 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     }
 
     @Override
-    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.im_service_more, R.id.layout_djq, R.id.sing_up})
+    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3,
+            R.id.tv_tochar, R.id.im_service_more, R.id.layout_djq, R.id.sing_up})
     public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_tochar:
+                toChat(easemob_account, merchant_logo, merchant_name);
+                break;
             case R.id.sing_up_tv://报名
                 AuctionOrder.auct(auction_id, this);
                 showProgressDialog();
@@ -504,6 +515,11 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
                 forBanner();
             }
+
+            easemob_account = mInfo.get("merchant_easemob_account");
+            merchant_logo = mInfo.get("server_head_pic");
+            merchant_name = mInfo.get("server_name");
+
             /**判断这块儿显示和隐藏
              * "is_new_goods": "1",//是否是新品  0不是 1是
              "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
@@ -535,6 +551,9 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             if (ToolKit.isList(auctionInfo, "dj_ticket")) {
                 dj_ticket = JSONUtils.parseKeyAndValueToMapList(auctionInfo.get("dj_ticket"));
                 for (int i = 0; i < dj_ticket.size(); i++) {
+                    if (i == 2) {
+                        break;
+                    }
                     switch (i) {
                         case 0: {
                             layout_djq0.setVisibility(View.VISIBLE);
@@ -577,7 +596,9 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             Glide.with(this).load(auctionInfo.get("country_logo")).into(im_country_logo);
             tv_country_desc.setText(auctionInfo.get("country_desc"));
             tv_country_tax.setText(auctionInfo.get("country_tax") + "元");
-
+            if (Double.parseDouble(auctionInfo.get("country_tax")) <= 0) {
+                layout_jinkoushui.setVisibility(View.GONE);
+            }
             if (ToolKit.isList(data, "goods_server")) {
                 ser_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_server"));
                 rv_service.setAdapter(new service_adp(ser_list, 3));

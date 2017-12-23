@@ -417,8 +417,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("carInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-
-            easemob_account = data.get("easemob_account");
+            easemob_account = data.get("merchant_easemob_account");
             merchant_logo = data.get("server_head_pic");
             merchant_name = data.get("server_name");
 

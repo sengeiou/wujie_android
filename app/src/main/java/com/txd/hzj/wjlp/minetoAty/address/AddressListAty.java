@@ -1,27 +1,31 @@
 package com.txd.hzj.wjlp.minetoAty.address;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.address.AddressPst;
-import com.txd.hzj.wjlp.minetoAty.address.adapter.AddressAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,26 +97,7 @@ public class AddressListAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("收货地址");
-        address_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (2 == type) {// 地址选择
-                    Map<String, String> ad = getItem(i-1);
-                    String phone = ad.get("phone");
-                    String receiver = ad.get("receiver");
-                    String ads = ad.get("province") + ad.get("city") + ad.get("area") + ad.get("street") +
-                            ad.get("address");
-                    String address_id = ad.get("address_id");
-                    Intent intent = new Intent();
-                    intent.putExtra("phone", phone);
-                    intent.putExtra("receiver", receiver);
-                    intent.putExtra("ads", ads);
-                    intent.putExtra("id", address_id);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }
-        });
+
 
         address_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -131,9 +116,6 @@ public class AddressListAty extends BaseAty {
         address_lv.setEmptyView(no_data_layout);
     }
 
-    public Map<String, String> getItem(int i) {
-        return addresses.get(i);
-    }
 
     @Override
     @OnClick({R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv})
@@ -185,6 +167,8 @@ public class AddressListAty extends BaseAty {
 
     @Override
     protected void requestData() {
+
+
     }
 
     @Override
@@ -220,7 +204,6 @@ public class AddressListAty extends BaseAty {
                     addresses = JSONUtils.parseKeyAndValueToMapList(map.get("common_address"));
                     addressAdapter = new AddressAdapter(this, addresses);
                     address_lv.setAdapter(addressAdapter);
-                    toOperationAddress();
                 } else {
                     if (addressAdapter != null) {
                         addressAdapter.notifyDataSetChanged();
@@ -241,18 +224,19 @@ public class AddressListAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("delAddress")) {
-            if (toOperation >= 0 && toOperation < addresses.size()) {
-                showRightTip("删除成功");
-                p = 1;
-                addressPst.addressList(p, false);
-            }
+//            if (toOperation >= 0 && toOperation < addresses.size()) {
+            showRightTip("删除成功");
+//                p = 1;
+            addressPst.addressList(p, false);
+//            }
         }
 
     }
 
+
     @Override
-    public void onErrorTip(String tips) {
-        super.onErrorTip(tips);
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
         address_lv.onRefreshComplete();
         if (1 == p) {
             addresses.clear();
@@ -262,49 +246,178 @@ public class AddressListAty extends BaseAty {
         }
     }
 
-    /**
-     * 数据操作
-     */
-    private void toOperationAddress() {
-        addressAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
-            @Override
-            public void onTextViewClick(View v, int position) {
-                final String address_id = addresses.get(position).get("address_id");
-                toOperation = position;
-                switch (v.getId()) {
-                    case R.id.set_address_to_default_layout://设为默认地址
-                        addressPst.setDefault(address_id);
-                        break;
-                    case R.id.edit_address_tv://编辑
-                        bundle = new Bundle();
-                        bundle.putInt("type", 1);
-                        bundle.putString("address_id", address_id);
-                        startActivity(AddNewAddressAty2.class, bundle);
-                        break;
-                    case R.id.delete_address_tv://删除
-                        new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
-                                (new MikyouCommonDialog.OnDialogListener() {
 
-                                    @Override
-                                    public void dialogListener(int btnType, View customView, DialogInterface
-                                            dialogInterface, int which) {
-                                        switch (btnType) {
-                                            case MikyouCommonDialog.OK:
-                                                addressPst.delAddress(address_id);
-                                                break;
-                                            case MikyouCommonDialog.NO:
-                                                break;
-                                        }
-                                    }
-                                }).showDialog();
-                        break;
-                }
+    class AddressAdapter extends BaseAdapter {
+
+        private Context context;
+        private List<Map<String, String>> address;
+        private LayoutInflater inflater;
+        private AddressAdapter.AVH avh;
+
+
+        public AddressAdapter(Context context, List<Map<String, String>> address) {
+            this.context = context;
+            this.address = address;
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return address.size();
+        }
+
+        @Override
+        public Map<String, String> getItem(int i) {
+            return address.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            Map<String, String> ad = getItem(i);
+            if (view == null) {
+                view = inflater.inflate(R.layout.item_address_hzj_lv, null);
+                avh = new AddressAdapter.AVH();
+                ViewUtils.inject(avh, view);
+                view.setTag(avh);
+            } else {
+                avh = (AddressAdapter.AVH) view.getTag();
             }
-        });
-    }
+            avh.address_status_iv.setImageResource(R.drawable.icon_un_default_address);
+            avh.address_defailt_tv.setText("设为默认");
+            avh.address_defailt_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+            avh.under_address_iv.setVisibility(View.GONE);
+            final String address_id = ad.get("address_id");
+            avh.root_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (2 == type) {// 地址选择
+                        Map<String, String> ad = getItem(i);
+                        String phone = ad.get("phone");
+                        String receiver = ad.get("receiver");
+                        String ads = ad.get("province") + ad.get("city") + ad.get("area") + ad.get("street") +
+                                ad.get("address");
+                        String a_id = ad.get("address_id");
+                        Intent intent = new Intent();
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("receiver", receiver);
+                        intent.putExtra("ads", ads);
+                        intent.putExtra("id", a_id);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
 
-    @Override
-    public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
+                }
+            });
+
+            // 设置为默认地址
+            avh.set_address_to_default_layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showToast("111111");
+                    addressPst.setDefault(address_id);
+                }
+            });
+            // 编辑
+            avh.edit_address_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showToast("111111");
+                    bundle = new Bundle();
+                    bundle.putInt("type", 1);
+                    bundle.putString("address_id", address_id);
+                    startActivity(AddNewAddressAty2.class, bundle);
+                }
+            });
+            // 删除
+            avh.delete_address_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
+                            (new MikyouCommonDialog.OnDialogListener() {
+
+                                @Override
+                                public void dialogListener(int btnType, View customView, DialogInterface
+                                        dialogInterface, int which) {
+                                    switch (btnType) {
+                                        case MikyouCommonDialog.OK:
+                                            addressPst.delAddress(address_id);
+                                            break;
+                                        case MikyouCommonDialog.NO:
+                                            break;
+                                    }
+                                }
+                            }).showDialog();
+                }
+            });
+
+
+            avh.add_name_tv.setText(ad.get("receiver"));
+            avh.add_phone_tv.setText(ad.get("phone"));
+            avh.add_details_tv.setText(ad.get("province") + ad.get("city") + ad.get("area") + ad.get("street") +
+                    ad.get("address"));
+
+            return view;
+        }
+
+
+        class AVH {
+            @ViewInject(R.id.root_layout)
+            private LinearLayout root_layout;
+            /**
+             * 设置为默认地址布局
+             */
+            @ViewInject(R.id.set_address_to_default_layout)
+            private LinearLayout set_address_to_default_layout;
+            /**
+             * 默认地址。非默认地址
+             */
+            @ViewInject(R.id.address_status_iv)
+            private ImageView address_status_iv;
+            /**
+             * 默认地址。非默认地址
+             */
+            @ViewInject(R.id.address_defailt_tv)
+            private TextView address_defailt_tv;
+            /**
+             * 编辑
+             */
+            @ViewInject(R.id.edit_address_tv)
+            private TextView edit_address_tv;
+            /**
+             * 删除
+             */
+            @ViewInject(R.id.delete_address_tv)
+            private TextView delete_address_tv;
+
+            /**
+             * 默认地址显示的线
+             */
+            @ViewInject(R.id.under_address_iv)
+            private View under_address_iv;
+
+            /**
+             * 姓名
+             */
+            @ViewInject(R.id.add_name_tv)
+            private TextView add_name_tv;
+
+            /**
+             * 电话
+             */
+            @ViewInject(R.id.add_phone_tv)
+            private TextView add_phone_tv;
+
+            /**
+             * 地址
+             */
+            @ViewInject(R.id.add_details_tv)
+            private TextView add_details_tv;
+
+        }
     }
 }

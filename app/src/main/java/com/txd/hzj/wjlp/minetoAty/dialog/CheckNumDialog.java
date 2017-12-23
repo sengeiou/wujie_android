@@ -80,7 +80,7 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
 
         @Override
         public int getCount() {
-            return 2;
+            return nums.size();
         }
 
         @Override

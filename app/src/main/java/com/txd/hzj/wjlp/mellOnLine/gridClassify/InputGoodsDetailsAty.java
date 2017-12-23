@@ -625,7 +625,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private void forMellInfo(Map<String, String> mInfo) {
         mell_id = mInfo.get("merchant_id");
 
-        easemob_account = mInfo.get("easemob_account");
+        easemob_account = mInfo.get("merchant_easemob_account");
         merchant_logo = mInfo.get("logo");
         merchant_name = mInfo.get("merchant_name");
 

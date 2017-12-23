@@ -60,7 +60,7 @@ import java.util.Map;
 public class EvaluationReleaseAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
-    @ViewInject(R.id.titlt_right_tv)
+    @ViewInject(R.id.tv_submit)
     public TextView titlt_right_tv;
 
     @ViewInject(R.id.for_goods_evaluste_lv)
@@ -91,11 +91,11 @@ public class EvaluationReleaseAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv})
+    @OnClick({R.id.tv_submit})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.titlt_right_tv:
+            case R.id.tv_submit:
                 Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), "1", this);
                 showProgressDialog();
                 break;
@@ -150,7 +150,7 @@ public class EvaluationReleaseAty extends BaseAty {
             for_goods_evaluste_lv.setAdapter(Adapter);
             if (map.get("order_status").equals("0")) {
                 titlt_right_tv.setVisibility(View.VISIBLE);
-                titlt_right_tv.setText("提交");
+                titlt_right_tv.setText("评价服务");
                 titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             }else{
                 titlt_right_tv.setVisibility(View.GONE);

@@ -82,15 +82,15 @@ public class LimitShoppingAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (ToolKit.isList(data, "stage_list")) {
                 tabTitle = JSONUtils.parseKeyAndValueToMapList(data.get("stage_list"));
-
                 for (Map<String, String> title : tabTitle) {
-                    if (title.get("status").equals("即将开始")) {
-                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
-                    } else if (title.get("status").equals("已结束")) {
-                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), -1));
-                    } else {
-                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 0));
-                    }
+                 fragments.add(LimitFgt.getFgt(title.get("stage_id"), title.get("status")));
+//                    if (title.get("status").equals("即将开始")) {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
+//                    } else if (title.get("status").equals("已结束")) {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), -1));
+//                    } else {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 0));
+//                    }
                 }
 
                 for (int i = 0; i < tabTitle.size(); i++) {

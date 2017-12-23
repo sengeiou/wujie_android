@@ -40,7 +40,7 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
     public GroupMemberAdapter(Context context, List<Map<String, String>> list) {
         this.context = context;
         this.list = list;
-        size = ToolKit.dip2px(context, 80);
+        size = ToolKit.dip2px(context, 60);
         inflater = LayoutInflater.from(context);
     }
 
@@ -54,24 +54,35 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public void onBindViewHolder(GMViewHolder holder, int position) {
-        Map<String, String> map = list.get(position);
-        if (map.get("type").equals("1")) {
-            holder.regimental_commander_tv.setVisibility(View.VISIBLE);
-        } else {
+        try {
+            Map<String, String> map = list.get(position);
+            if (map.get("type").equals("1")) {
+                holder.regimental_commander_tv.setVisibility(View.VISIBLE);
+            } else {
+                holder.regimental_commander_tv.setVisibility(View.GONE);
+            }
+            Glide.with(context).load(map.get("pic"))
+                    .override(size, size)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(holder.group_member_iv);
+        } catch (Exception e) {
             holder.regimental_commander_tv.setVisibility(View.GONE);
+            Glide.with(context).load(R.drawable.ic_default)
+                    .override(size, size)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(holder.group_member_iv);
         }
-        Glide.with(context).load(map.get("pic"))
-                .override(size, size)
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
-                .into(holder.group_member_iv);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 2;
     }
 
     class GMViewHolder extends RecyclerView.ViewHolder {
