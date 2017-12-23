@@ -25,6 +25,7 @@ import com.ants.theantsgo.httpTools.ApiTool;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.MapUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -172,6 +173,7 @@ public class CartFgt extends BaseFgt {
     }
 
     Map<String, String> map;
+    List<Map<String, String>> list;
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
@@ -195,6 +197,9 @@ public class CartFgt extends BaseFgt {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
             cart_lv.setAdapter(cartAdapter);
+            list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+
+
         }
         if (requestUrl.contains("Cart/delCart")) {
             showToast("删除成功！");
@@ -390,6 +395,14 @@ public class CartFgt extends BaseFgt {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 8888) {
+
+            if (!TextUtils.isEmpty(data.getStringExtra("product_id"))) {
+
+
+            }
+
+//            L.e(data.getStringExtra("key1"));
+//            L.e(data.getStringExtra("key2"));
 
         }
     }
@@ -645,10 +658,13 @@ public class CartFgt extends BaseFgt {
                     intent.setClass(getActivity(), GoodsAttributeAty.class);
                     intent.putExtra("from", 2);
                     intent.putExtra("imageurl", getItem(i).getGoods_img());
-                    intent.putExtra("num", getItem(i).getNum());
+                    intent.putExtra("num", Integer.parseInt(getItem(i).getNum()));
                     intent.putExtra("price", cg.getShop_price());
-                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
-                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
+                    Gson gson = new Gson();
+                    String json = gson.toJson(cg.getGoods_attr_first());
+                    intent.putExtra("goods_attr", json);
+//                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
+//                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
                     startActivityForResult(intent, 8888);
                 }
             });

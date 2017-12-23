@@ -975,7 +975,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
 //            goods_product = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
             goods_attr_first=data.get("goods_attr_first");
-            showToast(data.get("goods_attr_first"));
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));

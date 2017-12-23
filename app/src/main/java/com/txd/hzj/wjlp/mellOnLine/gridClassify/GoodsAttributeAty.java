@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
+import com.baidu.mapapi.map.Text;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
@@ -90,6 +93,8 @@ public class GoodsAttributeAty extends BaseAty {
     private int maxNumber;
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
+    private String key1, key2;
+    private String pro_id;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -97,14 +102,28 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-//                if (2 == from) {
-//                    Intent intent = new Intent();
-//                    intent.putExtra("num", num);
-//                    if (!ListUtils.isEmpty(goods_product)) {
-//                        intent.putExtra("product_id", "");
-//                        setResult(RESULT_OK, intent);
-//                        finish();
-//                    }
+                if (2 == from) {
+                    Intent intent = new Intent();
+                    intent.putExtra("num", num);
+                    if (ListUtils.isEmpty(list)) {
+                        intent.putExtra("product_id", "");
+                        intent.putExtra("key1", key1);
+                        intent.putExtra("key2", key2);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        return;
+                    }
+
+                    if (!TextUtils.isEmpty(pro_id)) {
+                        intent.putExtra("product_id", pro_id);
+                        intent.putExtra("key1", key1);
+                        intent.putExtra("key2", key2);
+//                        intent.putExtra("product", goods_product.get(i).getGoods_attr_str());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        showToast("请选择商品属性！");
+                    }
 //                    goods_str = new StringBuffer();
 //                    for (int i = 0; i < goods_product.size(); i++) {
 //                        for (int j = 0; j < pos.size(); j++) {
@@ -114,20 +133,12 @@ public class GoodsAttributeAty extends BaseAty {
 //                                goods_str.append(pos.get(j) + "|");
 //                            }
 //                        }
-//                        if (goods_product.get(i).getGoods_attr_str().equals(goods_str.toString())) {
-//                            intent.putExtra("product_id", goods_product.get(i).getId());
-//                            intent.putExtra("product", goods_product.get(i).getGoods_attr_str());
-//                            setResult(RESULT_OK, intent);
-//                            finish();
-//                        } else {
-//                            showToast("请选择商品属性！");
-//                        }
-//                    }
 //
-//                    return;
-//                }
-//                goodAttChange();
+//                    }
 
+                    return;
+                }
+                goodAttChange();
 
                 break;
             case R.id.im_jia:
@@ -215,6 +226,7 @@ public class GoodsAttributeAty extends BaseAty {
                     return tv;
                 }
             };
+            key1=list.get(0).getArrt_name();
             adp.setSelectedList(0);
             vlist = list.get(0).getValue_list();
             goods_attr_tfl1.setAdapter(adp);
@@ -223,6 +235,7 @@ public class GoodsAttributeAty extends BaseAty {
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
 //                    pos.append(i, Integer.parseInt(getItem(i).getAttr_list().get(position).getGoods_attr_id()));
                     vlist = list.get(position).getValue_list();
+                    key1=list.get(position).getArrt_name();
                     adapter = new TagAdapter<Goods_Attr.ValueListBean>(vlist) {
                         @Override
                         public View getView(FlowLayout parent, int position, Goods_Attr.ValueListBean valueListBean) {
@@ -246,6 +259,8 @@ public class GoodsAttributeAty extends BaseAty {
                         }
                     };
                     adapter.setSelectedList(0);
+                    key2 = vlist.get(0).getArrt_value();
+                    pro_id = vlist.get(0).getPro_id();
                     goods_attr_tfl2.setAdapter(adapter);
 
                     tv_kucun.setText("（库存：" + vlist.get(0).getGoods_num() + "）");
@@ -285,7 +300,9 @@ public class GoodsAttributeAty extends BaseAty {
                         return tv;
                     }
                 };
+                key2=vlist.get(0).getArrt_value();
                 adapter.setSelectedList(0);
+                pro_id = vlist.get(0).getPro_id();
                 goods_attr_tfl2.setAdapter(adapter);
                 goods_attr_tfl2.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                     @Override
@@ -295,6 +312,8 @@ public class GoodsAttributeAty extends BaseAty {
                         tv_kucun.setText("（库存：" + vlist.get(position).getGoods_num() + "）");
                         num = 1;
                         tv_num.setText(String.valueOf(num));
+                        pro_id = vlist.get(position).getPro_id();
+                        key2=vlist.get(position).getArrt_value();
                         return false;
                     }
                 });
@@ -311,7 +330,7 @@ public class GoodsAttributeAty extends BaseAty {
     }
 
     private void goodAttChange() {
-        if (ListUtils.isEmpty(goods_product)) {
+        if (ListUtils.isEmpty(list)) {
             if (is_go) {
                 Intent intent = new Intent();
                 intent.putExtra("type", type);
@@ -329,41 +348,42 @@ public class GoodsAttributeAty extends BaseAty {
             params.addBodyParameter("goods_id", goods_id);
             params.addBodyParameter("num", String.valueOf(num));
             apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+            return;
         }
-        goods_str = new StringBuffer();
-        for (int i = 0; i < goods_product.size(); i++) {
-            for (int j = 0; j < pos.size(); j++) {
-                if (j == pos.size() - 1) {
-                    goods_str.append(pos.get(j));
-                } else {
-                    goods_str.append(pos.get(j) + "|");
-                }
-            }
+//        goods_str = new StringBuffer();
+//        for (int i = 0; i < goods_product.size(); i++) {
+//            for (int j = 0; j < pos.size(); j++) {
+//                if (j == pos.size() - 1) {
+//                    goods_str.append(pos.get(j));
+//                } else {
+//                    goods_str.append(pos.get(j) + "|");
+//                }
+//            }
 
-            if (goods_product.get(i).getGoods_attr_str().equals(goods_str.toString())) {
-                if (is_go) {
-                    Intent intent = new Intent();
-                    intent.putExtra("mid", mid);
-                    intent.putExtra("type", type);
-                    intent.putExtra("goods_id", goods_id);
-                    intent.putExtra("group_buy_id", group_buy_id);
-                    intent.putExtra("num", String.valueOf(num));
-                    intent.putExtra("product_id", goods_product.get(i).getId());
-                    intent.setClass(this, BuildOrderAty.class);
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-                RequestParams params = new RequestParams();
-                ApiTool2 apiTool2 = new ApiTool2();
-                params.addBodyParameter("goods_id", goods_product.get(i).getGoods_id());
-                params.addBodyParameter("product_id", goods_product.get(i).getId());
-                params.addBodyParameter("num", String.valueOf(num));
-                apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
-            } else {
-                showToast("请选择商品属性");
+        if (!TextUtils.isEmpty(pro_id)) {
+            if (is_go) {
+                Intent intent = new Intent();
+                intent.putExtra("mid", mid);
+                intent.putExtra("type", type);
+                intent.putExtra("goods_id", goods_id);
+                intent.putExtra("group_buy_id", group_buy_id);
+                intent.putExtra("num", String.valueOf(num));
+                intent.putExtra("product_id", pro_id);
+                intent.setClass(this, BuildOrderAty.class);
+                startActivity(intent);
+                finish();
+                return;
             }
+            RequestParams params = new RequestParams();
+            ApiTool2 apiTool2 = new ApiTool2();
+            params.addBodyParameter("goods_id", goods_id);
+            params.addBodyParameter("product_id", pro_id);
+            params.addBodyParameter("num", String.valueOf(num));
+            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+        } else {
+            showToast("请选择商品属性");
         }
+//        }
     }
 
     private class GoodsAttrsAdapter extends BaseAdapter {
@@ -441,7 +461,7 @@ public class GoodsAttributeAty extends BaseAty {
 
     }
 
-    class Goods_Attr {
+    public class Goods_Attr {
 
         /**
          * arrt_name : 尺码1

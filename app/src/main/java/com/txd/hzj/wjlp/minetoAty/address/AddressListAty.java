@@ -91,6 +91,7 @@ public class AddressListAty extends BaseAty {
     private LinearLayout default_address_layout;
 
     private String defaultAddress_id = "";
+    private Map<String, String> defaultAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class AddressListAty extends BaseAty {
 
 
     @Override
-    @OnClick({R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv})
+    @OnClick({R.id.add_address_tv, R.id.edit_address_tv, R.id.delete_address_tv, R.id.default_address_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -149,6 +150,18 @@ public class AddressListAty extends BaseAty {
                                 }
                             }
                         }).showDialog();
+                break;
+            case R.id.default_address_layout:
+                if (2 == type) {// 地址选择
+                    Intent intent = new Intent();
+                    intent.putExtra("phone", defaultAddress.get("phone"));
+                    intent.putExtra("receiver", defaultAddress.get("receiver"));
+                    intent.putExtra("ads", defaultAddress.get("province") + defaultAddress.get("city") +
+                            defaultAddress.get("area") + defaultAddress.get("address"));
+                    intent.putExtra("id", defaultAddress_id);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 break;
         }
     }
@@ -185,7 +198,7 @@ public class AddressListAty extends BaseAty {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             if (1 == p) {
                 if (ToolKit.isList(map, "default_address")) {
-                    Map<String, String> defaultAddress = JSONUtils.parseKeyAndValueToMap(map.get("default_address"));
+                    defaultAddress = JSONUtils.parseKeyAndValueToMap(map.get("default_address"));
                     if (ToolKit.isList(defaultAddress, "address_id")) {
                         defaultAddress_id = defaultAddress.get("address_id");
                         default_address_layout.setVisibility(View.VISIBLE);
@@ -318,7 +331,6 @@ public class AddressListAty extends BaseAty {
             avh.set_address_to_default_layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showToast("111111");
                     addressPst.setDefault(address_id);
                 }
             });
@@ -326,7 +338,6 @@ public class AddressListAty extends BaseAty {
             avh.edit_address_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showToast("111111");
                     bundle = new Bundle();
                     bundle.putInt("type", 1);
                     bundle.putString("address_id", address_id);

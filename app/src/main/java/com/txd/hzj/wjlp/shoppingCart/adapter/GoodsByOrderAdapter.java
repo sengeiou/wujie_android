@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.shoppingCart.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,11 @@ public class GoodsByOrderAdapter extends BaseAdapter {
         Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
         govh.tv_number.setText("x" + getItem(i).get("num"));
         govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
-        govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+        if (!TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
+            govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr") + "\n¥" + getItem(i).get("shop_price"));
+        } else {
+            govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+        }
         return view;
     }
 

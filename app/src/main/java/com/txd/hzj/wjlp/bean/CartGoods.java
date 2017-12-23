@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.bean;
 
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+
 import java.util.List;
 
 /**
@@ -38,8 +40,8 @@ public class CartGoods {
     private String attr_group;
     private boolean check;
     private String attr_group_num;
-    private List<GoodsAttrs> goods_attr;
-    private List<GoodsAttrs.product> product;
+    private List<GoodsAttributeAty.Goods_Attr> goods_attr_first;
+//    private List<GoodsAttrs.product> product;
 
 
     public boolean isCheck() {
@@ -130,23 +132,29 @@ public class CartGoods {
         this.attr_group_num = attr_group_num;
     }
 
-    public List<GoodsAttrs> getGoods_attr() {
-        return goods_attr;
+    public List<GoodsAttributeAty.Goods_Attr> getGoods_attr_first() {
+        return goods_attr_first;
     }
 
-    public void setGoods_attr(List<GoodsAttrs> goods_attr) {
-        this.goods_attr = goods_attr;
+    public void setGoods_attr_first(List<GoodsAttributeAty.Goods_Attr> goods_attr_first) {
+        this.goods_attr_first = goods_attr_first;
     }
-
-    public List<GoodsAttrs.product> getProduct() {
-        return product;
-    }
-
-    public void setProduct(List<GoodsAttrs.product> product) {
-        this.product = product;
-    }
-
-
+    //
+//    public List<GoodsAttrs> getGoods_attr() {
+//        return goods_attr;
+//    }
+//
+//    public void setGoods_attr(List<GoodsAttrs> goods_attr) {
+//        this.goods_attr = goods_attr;
+//    }
+//
+//    public List<GoodsAttrs.product> getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(List<GoodsAttrs.product> product) {
+//        this.product = product;
+//    }
 
 
     @Override
@@ -163,8 +171,8 @@ public class CartGoods {
                 ", attr_group='" + attr_group + '\'' +
                 ", check=" + check +
                 ", attr_group_num='" + attr_group_num + '\'' +
-                ", goods_attr=" + goods_attr +
-                ", product=" + product +
+                 ", goods_attr_first=" + goods_attr_first +
+//                ", product=" + product +
                 '}';
     }
 }
