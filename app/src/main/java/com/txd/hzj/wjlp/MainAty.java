@@ -33,6 +33,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.util.StringUtils;
@@ -143,6 +144,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        L.e(ToolKit.sHA1(this, "MD5"));
+        L.e(ToolKit.sHA1(this, "SHA1"));
+
+
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
                 fragments);
@@ -174,7 +179,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         // 极光设置Tag或者别名
         if (Config.isLogin()) {
-            L.e("=====token=====", Config.getToken());
             JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
         }
@@ -435,7 +439,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.onComplete(requestUrl, jsonStr);
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
         showAppUpdateDialog(updataApp);
-        L.e("=====更新=====", updataApp.toString());
     }
     // ============================== 环信 ==============================
     // Todo 环信=========================================================

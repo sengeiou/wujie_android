@@ -97,10 +97,14 @@ public class HelpFgt extends BaseFgt {
             String title = help.get("title");
             String con = help.get("content");
             content.add(con);
-            helpCenters.add(new HelpCenter(title,content));
+            helpCenters.add(new HelpCenter(title, content));
         }
         elv = new MyExpandableListView();
         expandableListView.setAdapter(elv);
+        int num = helpCenters.size();
+        for (int i = 0; i < num; i++) {
+            expandableListView.expandGroup(i);
+        }
     }
 
     //为ExpandableListView自定义适配器

@@ -450,10 +450,10 @@ public class SnatchChenAty extends BaseAty {
             times = 0;
             plan_goods_times = 0;
             if (lastest_goods_times % 2 == 0) {
-                integral = "1";
+                integral = "2";
                 lastest_goods_time_iv.setImageResource(R.mipmap.icon_screen_down_chen);
             } else {
-                integral = "2";
+                integral = "1";
                 lastest_goods_time_iv.setImageResource(R.mipmap.icon_screen_top_chen);
             }
             lastest_goods_times++;
@@ -463,10 +463,10 @@ public class SnatchChenAty extends BaseAty {
             plan_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
 
             if (plan_goods_times % 2 == 0) {
-                add_num = "1";
+                add_num = "2";
                 plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_down_chen);
             } else {
-                add_num = "2";
+                add_num = "1";
                 plan_goods_time_iv.setImageResource(R.mipmap.icon_screen_top_chen);
             }
 
@@ -477,10 +477,10 @@ public class SnatchChenAty extends BaseAty {
             lastest_goods_times = 0;
             times_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             if (times % 2 == 0) {
-                person_num = "1";
+                person_num = "2";
                 times_iv.setImageResource(R.mipmap.icon_screen_down_chen);
             } else {
-                person_num = "2";
+                person_num = "1";
                 times_iv.setImageResource(R.mipmap.icon_screen_top_chen);
             }
             times++;

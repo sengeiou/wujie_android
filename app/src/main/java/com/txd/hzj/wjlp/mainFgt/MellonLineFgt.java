@@ -846,7 +846,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             car_desc = car_ads.get("desc");
         }
         if (ToolKit.isList(car_buy, "goodsList")) {
-            L.e("=====汽车购=====", car_buy.get("goodsList"));
             carList = GsonUtil.getObjectList(car_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter6 = new AllGvLvAdapter(getActivity(), carList, 6);
             car_gv.setAdapter(allGvLvAdapter6);
@@ -860,7 +859,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         if (ToolKit.isList(one_buy, "goodsList")) {
 
-            L.e("=====数据=====", one_buy.get("goodsList"));
 
             one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);

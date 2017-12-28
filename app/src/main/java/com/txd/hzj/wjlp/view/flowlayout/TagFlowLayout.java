@@ -104,7 +104,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
         TagView tagViewContainer = null;
         HashSet preCheckedList = mTagAdapter.getPreCheckedList();
         for (int i = 0; i < adapter.getCount(); i++) {
-            View tagView = adapter.getView(this, i, adapter.getItem(i));
+            View tagView = adapter.getView(this, i, adapter.getItems(i));
 
             tagViewContainer = new TagView(getContext());
 //            ViewGroup.MarginLayoutParams clp = (ViewGroup.MarginLayoutParams) tagView.getLayoutParams();
@@ -147,7 +147,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
                 tagViewContainer.setChecked(true);
             }
 
-            if (mTagAdapter.setSelected(i, adapter.getItem(i))) {
+            if (mTagAdapter.setSelected(i, adapter.getItems(i))) {
                 mSelectedView.add(i);
                 tagViewContainer.setChecked(true);
             }

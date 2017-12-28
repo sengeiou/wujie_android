@@ -163,9 +163,9 @@ public class MellIntoListAty extends BaseAty {
             if (status.equals("0")) {
                 mivh.refer_status_tv.setText("待审核");
             } else if (status.equals("1")) {
-                mivh.refer_status_tv.setText("已通过");
+                mivh.refer_status_tv.setText("推荐成功");
             } else {
-                mivh.refer_status_tv.setText("未通过");
+                mivh.refer_status_tv.setText("审核未通过");
             }
             return view;
         }

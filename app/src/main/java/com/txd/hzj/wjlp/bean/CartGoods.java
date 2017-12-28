@@ -41,7 +41,7 @@ public class CartGoods {
     private boolean check;
     private String attr_group_num;
     private List<GoodsAttributeAty.Goods_Attr> goods_attr_first;
-//    private List<GoodsAttrs.product> product;
+    private List<GoodsAttrs.product> product;
 
 
     public boolean isCheck() {

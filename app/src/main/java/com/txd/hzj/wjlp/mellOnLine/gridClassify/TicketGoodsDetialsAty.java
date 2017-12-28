@@ -471,6 +471,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private List<GoodsAttrs> goodsAttrs;
     private List<GoodsAttrs.product> goods_product;
     private String goods_attr_first;
+    private String first_val;
+    @ViewInject(R.id.tv_date)
+    private TextView tv_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -614,11 +617,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.tv_gwc:
                 //购物车, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "",goods_attr_first);
+                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
                 break;
             case R.id.tv_ljgm:
                 //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "",goods_attr_first);
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
                 break;
             case R.id.btn_jgsm:
                 if (goods_price_desc != null) {
@@ -631,7 +634,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 break;
             case R.id.im_toarrs://(ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"),   "",goods_attr_first);
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -974,7 +977,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             }
 //            goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
 //            goods_product = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
-            goods_attr_first=data.get("goods_attr_first");
+            goods_attr_first = data.get("first_list");
+            first_val = data.get("first_val");
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
@@ -1063,6 +1067,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                                 .into(comm_user_head_iv);
                         comm_user_name_tv.setText(bodyBean.getNickname());
                         comm_content_tv.setText(bodyBean.getContent());
+                        tv_date.setText(bodyBean.getCreate_time());
                         List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
                         if (!ListUtils.isEmpty(pictures)) {
                             CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);

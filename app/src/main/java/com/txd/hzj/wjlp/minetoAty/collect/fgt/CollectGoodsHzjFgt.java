@@ -320,6 +320,15 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
                     collect_goods_rv.setAdapter(racycleAllAdapter);
                     racycleAllAdapter.setSelectNum(this);
+                    racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id", data.get(position).getGoods_id());
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        }
+                    });
                 }
                 if (!frist) {
                     swipe_refresh.setRefreshing(false);

@@ -169,13 +169,13 @@ public class MellIntoInfoAty extends BaseAty {
             mell_name_tv.setText(data.get("name"));
             switch (data.get("status")) {
                 case "0":// 未认证
-                    mell_status_tv.setText("未认证");
-                    break;
-                case "1":// 待审核
                     mell_status_tv.setText("待审核");
                     break;
-                case "2":// 已通过
+                case "1":// 待审核
                     mell_status_tv.setText("推荐成功");
+                    break;
+                case "2":// 已通过
+                    mell_status_tv.setText("审核未通过");
                     break;
             }
 

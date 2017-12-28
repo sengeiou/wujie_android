@@ -234,7 +234,6 @@ public class EvaluationReleaseAty extends BaseAty {
                 @Override
                 public void afterTextChanged(Editable editable) {
                     ge.setContent(editable.toString());
-                    L.e("========", editable.toString());
                 }
             });
 

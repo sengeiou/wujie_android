@@ -17,8 +17,8 @@
 
         <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
             android:id="@+id/comm_user_head_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             app:shape_mode="circle" />
 
         <TextView

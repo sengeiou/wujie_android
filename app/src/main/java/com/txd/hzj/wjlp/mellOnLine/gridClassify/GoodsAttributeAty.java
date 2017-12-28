@@ -18,7 +18,6 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
-import com.baidu.mapapi.map.Text;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
@@ -26,7 +25,6 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
@@ -45,7 +43,6 @@ import java.util.List;
  * ===============Txunda===============
  */
 public class GoodsAttributeAty extends BaseAty {
-    SparseArray<Integer> pos = new SparseArray<Integer>();
     @ViewInject(R.id.goods_price_tv)
     private TextView goods_price_tv;
 
@@ -71,30 +68,29 @@ public class GoodsAttributeAty extends BaseAty {
     @ViewInject(R.id.imageview)
     private ImageView imageview;
     private GoodsAttrsAdapter goodsAttrsAdapter;
-    private List<GoodsAttrs> selectAttrs = new ArrayList<GoodsAttrs>();
-    private List<GoodsAttrs.product> goods_product = new ArrayList<GoodsAttrs.product>();
     private int from = 0;
     private String price = "";
     private String imageurl = "";
-    private StringBuffer goods_str;
     @ViewInject(R.id.tv_num)
     private TextView tv_num;
-    private int num = 1;
+    private int num = 0;
     private boolean is_go = false;
     private String goods_id = "";
     private String mid = "";
     private String group_buy_id = "";
     private String type;
-    List<Goods_Attr> list;
-    @ViewInject(R.id.goods_attr_tfl1)
-    private TagFlowLayout goods_attr_tfl1;
-    @ViewInject(R.id.goods_attr_tfl2)
-    private TagFlowLayout goods_attr_tfl2;
+    List<GoodsAttr> list;
+    List<Goods_val> list_val;
     private int maxNumber;
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
     private String key1, key2;
     private String pro_id;
+    int pos1;
+    int pos2;
+    String goods_attr;
+    Goods_val val;
+    SparseArray<String> list_attrs = new SparseArray<String>();
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -113,43 +109,28 @@ public class GoodsAttributeAty extends BaseAty {
                         finish();
                         return;
                     }
-
                     if (!TextUtils.isEmpty(pro_id)) {
                         intent.putExtra("product_id", pro_id);
                         intent.putExtra("key1", key1);
                         intent.putExtra("key2", key2);
-//                        intent.putExtra("product", goods_product.get(i).getGoods_attr_str());
                         setResult(RESULT_OK, intent);
                         finish();
                     } else {
-                        showToast("请选择商品属性！");
+                        showToast("库存不足！");
                     }
-//                    goods_str = new StringBuffer();
-//                    for (int i = 0; i < goods_product.size(); i++) {
-//                        for (int j = 0; j < pos.size(); j++) {
-//                            if (j == pos.size() - 1) {
-//                                goods_str.append(pos.get(j));
-//                            } else {
-//                                goods_str.append(pos.get(j) + "|");
-//                            }
-//                        }
-//
-//                    }
-
                     return;
                 }
                 goodAttChange();
-
                 break;
             case R.id.im_jia:
-                if (num == maxNumber) {
+                if (num >= maxNumber) {
                     return;
                 }
                 num++;
                 tv_num.setText(String.valueOf(num));
                 break;
             case R.id.im_jian:
-                if (num == 1) {
+                if (num <= 1) {
                     return;
                 }
                 num--;
@@ -187,20 +168,20 @@ public class GoodsAttributeAty extends BaseAty {
             to_buy_must_tv.setText("修改");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
-            num = getIntent().getIntExtra("num", 1);
+            num = getIntent().getIntExtra("num", 0);
             tv_num.setText(String.valueOf(num));
         }
         if (3 == from) {
             to_buy_must_tv.setText("参团");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
-            num = getIntent().getIntExtra("num", 1);
+            num = getIntent().getIntExtra("num", 0);
             tv_num.setText(String.valueOf(num));
         }
     }
 
-    List<Goods_Attr.ValueListBean> vlist;
-    TagAdapter<Goods_Attr.ValueListBean> adapter;
+    ArrayList<String> sku_list = new ArrayList<>();
+    ArrayList<TagAdapter<GoodsAttr.valBean>> adp_list = new ArrayList<>();
 
     @Override
     protected void requestData() {
@@ -208,118 +189,13 @@ public class GoodsAttributeAty extends BaseAty {
         price = getIntent().getStringExtra("price");
         Glide.with(this).load(imageurl).into(imageview);
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
-//        selectAttrs = getIntent().getParcelableArrayListExtra("list");
-//        goods_product = getIntent().getParcelableArrayListExtra("list_p");
-//        if (!ListUtils.isEmpty(selectAttrs)) {
-//            goodsAttrsAdapter = new GoodsAttrsAdapter();
-//            goods_attr_lv.setAdapter(goodsAttrsAdapter);
-//        }
-        list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), Goods_Attr.class);
+        list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
+        list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
         if (!ListUtils.isEmpty(list)) {
-            TagAdapter<Goods_Attr> adp = new TagAdapter<Goods_Attr>(list) {
-                @Override
-                public View getView(FlowLayout parent, int position, Goods_Attr goodsAttrses) {
-                    TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
-                                    .item_goods_attrs_tfl,
-                            parent, false);
-                    tv.setText(goodsAttrses.getArrt_name());
-                    return tv;
-                }
-            };
-            key1=list.get(0).getArrt_name();
-            adp.setSelectedList(0);
-            vlist = list.get(0).getValue_list();
-            goods_attr_tfl1.setAdapter(adp);
-            goods_attr_tfl1.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-                @Override
-                public boolean onTagClick(View view, int position, FlowLayout parent) {
-//                    pos.append(i, Integer.parseInt(getItem(i).getAttr_list().get(position).getGoods_attr_id()));
-                    vlist = list.get(position).getValue_list();
-                    key1=list.get(position).getArrt_name();
-                    adapter = new TagAdapter<Goods_Attr.ValueListBean>(vlist) {
-                        @Override
-                        public View getView(FlowLayout parent, int position, Goods_Attr.ValueListBean valueListBean) {
-                            TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
-                                            .item_goods_attrs_tfl,
-                                    parent, false);
-
-                            tv.setText(valueListBean.getArrt_value());
-                            if (valueListBean.getGoods_num().equals("0")) {
-                                tv.setEnabled(true);
-                                tv.setBackgroundResource(R.drawable.selector_tab_bg2);
-                                tv.setFocusable(true);
-                                tv.setClickable(true);
-                            } else {
-                                tv.setBackgroundResource(R.drawable.selector_tab_bg);
-                                tv.setEnabled(false);
-                                tv.setFocusable(false);
-                                tv.setClickable(false);
-                            }
-                            return tv;
-                        }
-                    };
-                    adapter.setSelectedList(0);
-                    key2 = vlist.get(0).getArrt_value();
-                    pro_id = vlist.get(0).getPro_id();
-                    goods_attr_tfl2.setAdapter(adapter);
-
-                    tv_kucun.setText("（库存：" + vlist.get(0).getGoods_num() + "）");
-                    maxNumber = Integer.parseInt(vlist.get(0).getGoods_num());
-                    num = 1;
-                    tv_num.setText(String.valueOf(num));
-                    Glide.with(GoodsAttributeAty.this).load(vlist.get(0).getAbs_url()).into(imageview);
-                    ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + vlist.get(0).getShop_price());
-                    return true;
-                }
-            });
-            if (!ListUtils.isEmpty(vlist)) {
-                adapter = new TagAdapter<Goods_Attr.ValueListBean>(vlist) {
-                    @Override
-                    public View getView(FlowLayout parent, int position, Goods_Attr.ValueListBean valueListBean) {
-                        TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
-                                        .item_goods_attrs_tfl,
-                                parent, false);
-                        tv.setText(valueListBean.getArrt_value());
-                        tv_kucun.setText("（库存：" + valueListBean.getGoods_num() + "）");
-                        maxNumber = Integer.parseInt(valueListBean.getGoods_num());
-                        num = 1;
-                        tv_num.setText(String.valueOf(num));
-                        Glide.with(GoodsAttributeAty.this).load(valueListBean.getAbs_url()).into(imageview);
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + valueListBean.getShop_price());
-                        if (valueListBean.getGoods_num().equals("0")) {
-                            tv.setEnabled(true);
-                            tv.setBackgroundResource(R.drawable.selector_tab_bg2);
-                            tv.setFocusable(true);
-                            tv.setClickable(true);
-                        } else {
-                            tv.setBackgroundResource(R.drawable.selector_tab_bg);
-                            tv.setEnabled(false);
-                            tv.setFocusable(false);
-                            tv.setClickable(false);
-                        }
-                        return tv;
-                    }
-                };
-                key2=vlist.get(0).getArrt_value();
-                adapter.setSelectedList(0);
-                pro_id = vlist.get(0).getPro_id();
-                goods_attr_tfl2.setAdapter(adapter);
-                goods_attr_tfl2.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-                    @Override
-                    public boolean onTagClick(View view, int position, FlowLayout parent) {
-                        Glide.with(GoodsAttributeAty.this).load(vlist.get(position).getAbs_url()).into(imageview);
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + vlist.get(position).getShop_price());
-                        tv_kucun.setText("（库存：" + vlist.get(position).getGoods_num() + "）");
-                        num = 1;
-                        tv_num.setText(String.valueOf(num));
-                        pro_id = vlist.get(position).getPro_id();
-                        key2=vlist.get(position).getArrt_value();
-                        return false;
-                    }
-                });
-            }
-
+            goodsAttrsAdapter = new GoodsAttrsAdapter();
+            goods_attr_lv.setAdapter(goodsAttrsAdapter);
         }
+
     }
 
     @Override
@@ -350,15 +226,6 @@ public class GoodsAttributeAty extends BaseAty {
             apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
             return;
         }
-//        goods_str = new StringBuffer();
-//        for (int i = 0; i < goods_product.size(); i++) {
-//            for (int j = 0; j < pos.size(); j++) {
-//                if (j == pos.size() - 1) {
-//                    goods_str.append(pos.get(j));
-//                } else {
-//                    goods_str.append(pos.get(j) + "|");
-//                }
-//            }
 
         if (!TextUtils.isEmpty(pro_id)) {
             if (is_go) {
@@ -381,10 +248,11 @@ public class GoodsAttributeAty extends BaseAty {
             params.addBodyParameter("num", String.valueOf(num));
             apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
         } else {
-            showToast("请选择商品属性");
+            showToast("库存不足！");
         }
-//        }
+
     }
+
 
     private class GoodsAttrsAdapter extends BaseAdapter {
 
@@ -392,12 +260,12 @@ public class GoodsAttributeAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return selectAttrs.size();
+            return list.size();
         }
 
         @Override
-        public GoodsAttrs getItem(int i) {
-            return selectAttrs.get(i);
+        public GoodsAttr getItem(int i) {
+            return list.get(i);
         }
 
         @Override
@@ -415,27 +283,141 @@ public class GoodsAttributeAty extends BaseAty {
             } else {
                 avh = (AttrsVh) view.getTag();
             }
-            avh.goods_attrs_title.setText(getItem(i).getAttr_name());
-            avh.goods_attr_tfl.setAdapter(new TagAdapter<GoodsAttrs.AttrListBean>(selectAttrs.get(i).getAttr_list()) {
+            avh.goods_attrs_title.setText(getItem(i).getFirst_list_name());
+            TagAdapter tagAdapter = new TagAdapter<GoodsAttr.valBean>(getItem(i).getFirst_list_val()) {
                 @Override
-                public View getView(FlowLayout parent, int position, GoodsAttrs.AttrListBean goodsAttrses) {
+                public View getView(FlowLayout parent, int position, GoodsAttr.valBean goodsAttrses) {
                     TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
                                     .item_goods_attrs_tfl,
                             parent, false);
-                    tv.setText(goodsAttrses.getAttr_value());
+                    tv.setText(goodsAttrses.getVal());
+                    if (TextUtils.isEmpty(getItem(i).getFirst_list_val().get(position).getStatus())) {
+                        getItem(i).getFirst_list_val().get(position).setStatus("2");
+                    }
+                    if (getCount() == 1) {
+                        getItem(i).getFirst_list_val().get(position).setStatus("1");
+
+                    }
+                    L.e("pos=" + i + "index=" + getItem(i).getFirst_list_val().get(position).getStatus());
+                    switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
+                        case "1":
+                            tv.setBackgroundResource(R.drawable.shape_tag_checked_bg);
+                            tv.setTextColor(Color.WHITE);
+                            break;
+                        case "2":
+                            tv.setEnabled(false);
+                            tv.setClickable(false);
+                            tv.setBackgroundResource(R.drawable.shape_tag_normal_bg);
+                            tv.setTextColor(Color.BLACK);
+                            break;
+                        case "3":
+                            tv.setEnabled(true);
+                            tv.setClickable(true);
+                            tv.setTextColor(Color.WHITE);
+                            tv.setBackgroundResource(R.drawable.shape_tag_normal_bg2);
+                            break;
+                        default:
+                            tv.setTextColor(Color.WHITE);
+                            tv.setBackgroundResource(R.drawable.shape_tag_normal_bg2);
+                            break;
+                    }
                     return tv;
                 }
-            });
-
+            };
+            if (i == 0) {
+                tagAdapter.setSelectedList(0);
+            }
+            adp_list.add(tagAdapter);
+            avh.goods_attr_tfl.setAdapter(tagAdapter);
             avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    pos.append(i, Integer.parseInt(getItem(i).getAttr_list().get(position).getGoods_attr_id()));
+                    boolean is_num = false;
+                    getItem(i).getFirst_list_val().get(position).setStatus("1");
+                    for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
+                        if (position == j) {
+                            continue;
+                        }
+                        getItem(i).getFirst_list_val().get(j).setStatus("2");
+                    }
+                    goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
+                    try {
+                        if (list.get(i + 1).getFirst_list_val().size() == 1) {
+                            for (Goods_val val : list_val) {
+                                String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
+                                if (!val.arrtValue.contains(s)) {
+                                    getItem(i).getFirst_list_val().get(position).setStatus("3");
+                                    is_num = false;
+                                } else {
+                                    getItem(i).getFirst_list_val().get(position).setStatus("1");
+                                    is_num = true;
+                                    break;
+                                }
+                            }
+                            list_attrs.put(i + 1, list.get(i + 1).getFirst_list_val().get(0).getVal());
+                        } else {
+                            for (int j = 0; j < list.get(i + 1).getFirst_list_val().size(); j++) {
+                                for (Goods_val val : list_val) {
+                                    String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
+                                    if (!val.arrtValue.contains(s)) {
+                                        getItem(i + 1).getFirst_list_val().get(j).setStatus("3");
+                                        is_num = false;
+                                    } else {
+                                        getItem(i + 1).getFirst_list_val().get(j).setStatus("2");
+                                        is_num = true;
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        is_num = true;
+                        getItem(i).getFirst_list_val().get(position).setStatus("1");
+                    }
+//                    if (is_num) {
+                    list_attrs.put(i, goods_attr);
+                    if (list_attrs.size() == list.size()) {
+                        StringBuffer attrs = new StringBuffer();
+                        for (int k = 0; k < list_attrs.size(); k++) {
+                            if (k == list_attrs.size() - 1) {
+                                attrs.append(list_attrs.get(k));
+                            } else {
+                                attrs.append(list_attrs.get(k) + "+");
+                            }
+                        }
+                        for (Goods_val val : list_val) {
+                            if (attrs.toString().contains(val.getArrtValue())) {
+                                L.e("对照：" + val.getArrtValue() + "__OnClick:" + attrs.toString());
+                                GoodsAttributeAty.this.val = val;
+                                tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
+                                maxNumber = Integer.parseInt(val.getGoods_num());
+                                Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
+                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                                tv_num.setText(String.valueOf(1));
+                                pro_id = val.getId();
+                                num=1;
+                                break;
+                            } else {
+                                maxNumber = 0;
+                                tv_kucun.setText("(库存：0)");
+                                num=0;
+                                tv_num.setText(String.valueOf(maxNumber));
+                                pro_id = "";
+                            }
+                        }
+//                        }
+
+                    }else{
+                        pro_id = "";
+                    }
+                    notifyDataSetChanged();
                     return true;
                 }
             });
-            // 这个在单选中貌似并没有用(多选记录下标)
-            //多选用的
+
+            //多选用的  这个在单选中貌似并没有用(多选记录下标)
 //            avh.goods_attr_tfl.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
 //                @Override
 //                public void onSelected(Set<Integer> selectPosSet) {
@@ -460,6 +442,218 @@ public class GoodsAttributeAty extends BaseAty {
         }
 
     }
+
+    class GoodsAttr {
+
+        /**
+         * first_list_name : 颜色
+         * first_list_val : ["红色","黄色"]
+         */
+
+        private String first_list_name;
+        private List<valBean> first_list_val;
+
+
+        public String getFirst_list_name() {
+            return first_list_name;
+        }
+
+        public void setFirst_list_name(String first_list_name) {
+            this.first_list_name = first_list_name;
+        }
+
+        public List<valBean> getFirst_list_val() {
+            return first_list_val;
+        }
+
+        public void setFirst_list_val(List<valBean> first_list_val) {
+            this.first_list_val = first_list_val;
+
+        }
+
+
+        class valBean {
+            String val;
+            //            boolean check;
+            String status = "";
+
+            public String getStatus() {
+                return status;
+            }
+
+            public void setStatus(String status) {
+                this.status = status;
+            }
+
+            public String getVal() {
+                return val;
+            }
+
+            public void setVal(String val) {
+                this.val = val;
+            }
+        }
+
+    }
+
+
+    class Goods_val {
+
+        /**
+         * id : 118
+         * goods_id : 59
+         * attr_combine_id : 79+80+81
+         * arrt_name : 红
+         * arrt_value : L+工装
+         * settlement_price : 777.00
+         * shop_price : 777.00
+         * market_price : 777.00
+         * goods_num : 777
+         * goods_code : rtr564
+         * goods_img : 11274
+         * is_default : 1
+         * create_time : 0
+         * all_goods_num : 777
+         * arrtValue : 红+L+工装
+         */
+
+        private String id;
+        private String goods_id;
+        private String attr_combine_id;
+        private String arrt_name;
+        private String arrt_value;
+        private String settlement_price;
+        private String shop_price;
+        private String market_price;
+        private String goods_num;
+        private String goods_code;
+        private String goods_img;
+        private String is_default;
+        private String create_time;
+        private String all_goods_num;
+        private String arrtValue;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getAttr_combine_id() {
+            return attr_combine_id;
+        }
+
+        public void setAttr_combine_id(String attr_combine_id) {
+            this.attr_combine_id = attr_combine_id;
+        }
+
+        public String getArrt_name() {
+            return arrt_name;
+        }
+
+        public void setArrt_name(String arrt_name) {
+            this.arrt_name = arrt_name;
+        }
+
+        public String getArrt_value() {
+            return arrt_value;
+        }
+
+        public void setArrt_value(String arrt_value) {
+            this.arrt_value = arrt_value;
+        }
+
+        public String getSettlement_price() {
+            return settlement_price;
+        }
+
+        public void setSettlement_price(String settlement_price) {
+            this.settlement_price = settlement_price;
+        }
+
+        public String getShop_price() {
+            return shop_price;
+        }
+
+        public void setShop_price(String shop_price) {
+            this.shop_price = shop_price;
+        }
+
+        public String getMarket_price() {
+            return market_price;
+        }
+
+        public void setMarket_price(String market_price) {
+            this.market_price = market_price;
+        }
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
+        }
+
+        public String getGoods_code() {
+            return goods_code;
+        }
+
+        public void setGoods_code(String goods_code) {
+            this.goods_code = goods_code;
+        }
+
+        public String getGoods_img() {
+            return goods_img;
+        }
+
+        public void setGoods_img(String goods_img) {
+            this.goods_img = goods_img;
+        }
+
+        public String getIs_default() {
+            return is_default;
+        }
+
+        public void setIs_default(String is_default) {
+            this.is_default = is_default;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getAll_goods_num() {
+            return all_goods_num;
+        }
+
+        public void setAll_goods_num(String all_goods_num) {
+            this.all_goods_num = all_goods_num;
+        }
+
+        public String getArrtValue() {
+            return arrtValue;
+        }
+
+        public void setArrtValue(String arrtValue) {
+            this.arrtValue = arrtValue;
+        }
+    }
+
 
     public class Goods_Attr {
 
@@ -545,3 +739,4 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 }
+

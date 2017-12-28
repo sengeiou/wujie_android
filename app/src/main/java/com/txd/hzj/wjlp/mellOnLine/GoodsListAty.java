@@ -112,7 +112,7 @@ public class GoodsListAty extends BaseAty {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // 票券区详情
                 Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", data.get(i - 1).getGoods_id());
+                bundle.putString("ticket_buy_id", data.get(i ).getGoods_id());
                 bundle.putInt("from", 1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }

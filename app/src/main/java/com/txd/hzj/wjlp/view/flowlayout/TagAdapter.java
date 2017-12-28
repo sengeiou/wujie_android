@@ -58,7 +58,7 @@ public abstract class TagAdapter<T> {
             mOnDataChangedListener.onChanged();
     }
 
-    public T getItem(int position) {
+    public T getItems(int position) {
         return mTagDatas.get(position);
     }
 

@@ -135,6 +135,10 @@ public class BuildOrderAty extends BaseAty {
                 setStyle(order_type);
                 break;
             case R.id.submit_order_tv:// 提交订单
+                if (TextUtils.isEmpty(address_id)) {
+                    showToast("请选择收货地址！");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("order_type", type.equals("1") ? "0" : "1");
@@ -251,7 +255,7 @@ public class BuildOrderAty extends BaseAty {
 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
             order_price_at_last_tv.setText("合计：¥" + map.get("sum_shop_price"));
 //            if (map.get("sum_discount").equals("0")) {
-                tv_sum_discount.setVisibility(View.GONE);
+            tv_sum_discount.setVisibility(View.GONE);
 //            }
         } else {
             tv_sum_discount.setVisibility(View.GONE);

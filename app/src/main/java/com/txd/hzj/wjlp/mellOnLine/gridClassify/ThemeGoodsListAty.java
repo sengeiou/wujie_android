@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +106,7 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                 Bundle bundle = new Bundle();
                 bundle = new Bundle();
                 bundle.putString("ticket_buy_id", list.get(i).get("goods_id"));
-                bundle.putInt("from",1);
+                bundle.putInt("from", 1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
 
             }
@@ -177,7 +178,7 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                         .centerCrop()
                         .into(theme_piv_iv);
                 if (1 == p) {
-                    if (ToolKit.isList(data, "list")){
+                    if (ToolKit.isList(data, "list")) {
                         list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
                         theme_goods_gv.setAdapter(themeGoodsAdapter);
                     }
@@ -185,7 +186,7 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                 } else {
                     if (ToolKit.isList(data, "list")) {
                         List<Map<String, String>> list2 = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-                        if (!ListUtils.isEmpty(list2)){
+                        if (!ListUtils.isEmpty(list2)) {
                             list.addAll(list2);
                             themeGoodsAdapter.notifyDataSetChanged();
                         }
@@ -266,7 +267,7 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
             // 名称
             tgvh.item_goods_name_tv.setText(goods.get("goods_name"));
             // 价格
-            tgvh.peice_tv.setText(goods.get("shop_price"));
+            tgvh.peice_tv.setText("¥" + goods.get("shop_price"));
             // 原价
             tgvh.older_price_tv.setText(goods.get("market_price"));
             tgvh.older_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);

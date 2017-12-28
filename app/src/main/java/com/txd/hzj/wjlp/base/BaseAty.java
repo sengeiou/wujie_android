@@ -164,7 +164,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
 //                        ArrayList<GoodsAttrs> list,
 //            , ArrayList<GoodsAttrs.product> list_p,
-                        String group_buy_id, String goods_attr) {
+                        String group_buy_id, String goods_attr,String goods_val) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         bundle.putString("type", type);
@@ -173,6 +173,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putString("imageurl", imageurl);
         bundle.putString("price", price);
         bundle.putString("goods_attr", goods_attr);
+        bundle.putString("goods_val", goods_val);
 //        bundle.putParcelableArrayList("list", list);
 //        bundle.putParcelableArrayList("list_p", list_p);
         startActivity(GoodsAttributeAty.class, bundle);
