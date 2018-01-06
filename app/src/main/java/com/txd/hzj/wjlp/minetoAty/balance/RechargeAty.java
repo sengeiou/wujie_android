@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -12,11 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.payByThirdParty.AliPay;
+import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -28,6 +30,8 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.txunda_lh.http.Pay;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -71,6 +75,9 @@ public class RechargeAty extends BaseAty {
      */
     @ViewInject(R.id.on_line_recharge_layout)
     private LinearLayout on_line_recharge_layout;
+    @ViewInject(R.id.et_price)
+    private EditText et_price;
+
     /**
      * 线下充值
      */
@@ -188,7 +195,7 @@ public class RechargeAty extends BaseAty {
      * @param type 方式
      */
     private void selectCheckBoxBottom(int type) {
-        L.e("============", String.valueOf(type));
+//        L.e("============", String.valueOf(type));
         pay_by_wechat_cb.setChecked(false);
         pay_by_ali_cb.setChecked(false);
         pay_by_balance_cb.setChecked(false);
@@ -202,10 +209,21 @@ public class RechargeAty extends BaseAty {
     @Override
     @OnClick({R.id.re_left_layout, R.id.re_right_layout, R.id.pay_by_wechat_cb,
             R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout,
-            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv})
+            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.tv_submit:
+                if (TextUtils.isEmpty(et_price.getText().toString())) {
+                    showToast("请输入充值金额！");
+                    return;
+                }
+                if (pay_by_ali_cb.isChecked()) {
+                    balancePst.upMoney(et_price.getText().toString(), "2", "");
+                } else {
+                    balancePst.upMoney(et_price.getText().toString(), "1", "");
+                }
+                break;
             case R.id.re_left_layout:// 线上充值
                 type = 0;
                 changeTVAndViewStyle(type);
@@ -242,13 +260,13 @@ public class RechargeAty extends BaseAty {
                 String name = off_line_recharge_name_tv.getText().toString().trim();
                 String desc = off_line_recharge_desc_ev.getText().toString().trim();
                 String pay_pwd = off_line_recharge_pwd_ev.getText().toString();
-
-                L.e("======时间=====", act_time);
-                L.e("======金额=====", money);
-                L.e("======名称=====", name);
-                L.e("======凭证=====", pic.getAbsolutePath());
-                L.e("======说明=====", desc);
-                L.e("======密码=====", pay_pwd);
+//
+//                L.e("======时间=====", act_time);
+//                L.e("======金额=====", money);
+//                L.e("======名称=====", name);
+//                L.e("======凭证=====", pic.getAbsolutePath());
+//                L.e("======说明=====", desc);
+//                L.e("======密码=====", pay_pwd);
 
                 balancePst.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_pwd);
 
@@ -280,6 +298,8 @@ public class RechargeAty extends BaseAty {
 
     }
 
+    private String order_id;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -287,6 +307,39 @@ public class RechargeAty extends BaseAty {
         if (requestUrl.contains("underMoney")) {
             showRightTip(map.get("message"));
             finish();
+        }
+        if (requestUrl.contains("findPayResult")) {
+            showRightTip(map.get("message"));
+            finish();
+        }
+        if (requestUrl.contains("getAlipayParam")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            AliPay aliPay = new AliPay(map.get("pay_string"), new AliPayCallBack() {
+                @Override
+                public void onComplete() {
+                    Pay.findPayResult(order_id, "1", RechargeAty.this);
+                }
+
+                @Override
+                public void onFailure() {
+                    showToast("支付失败！");
+                    removeProgressDialog();
+                }
+
+                @Override
+                public void onProcessing() {
+
+                }
+            });
+            aliPay.pay();
+
+        }
+        if (requestUrl.contains("upMoney")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            order_id = map.get("order_id");
+            Pay.getAlipayParam(order_id, "", "1", this);
+            showProgressDialog();
+
         }
     }
 

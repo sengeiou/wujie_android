@@ -238,7 +238,6 @@
                     android:drawableRight="@drawable/icon_turn_right_g"
                     android:ellipsize="middle"
                     android:gravity="right"
-                    android:singleLine="true"
                     android:textSize="14sp" />
             </LinearLayout>
 

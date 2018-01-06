@@ -43,7 +43,7 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
 
     @ViewInject(R.id.house_comment_tag)
     private TagFlowLayout house_comment_tag;
-
+    int post = -1;
 
     /**
      * 点评
@@ -143,21 +143,27 @@ public class HouseCommentFgt extends BaseFgt implements ObservableScrollView.Scr
                     TextView tv = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout
                                     .item_goods_attrs_tfl,
                             parent, false);
-                    tv.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            tagAdapter.setSelectedList(position);
-                            label_id = labelListBean.getLabel_id();
-                            HouseBuy.commentList(house_id, p, label_id, HouseCommentFgt.this);
-                        }
-                    });
                     tv.setText(labelListBean.getLabel_name() + "(" + labelListBean.getNum() + ")");
                     return tv;
                 }
 
             };
-            //  tagAdapter.setSelectedList(0);
+
             house_comment_tag.setAdapter(tagAdapter);
+            house_comment_tag.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                @Override
+                public boolean onTagClick(View view, int position, FlowLayout parent) {
+
+//                    tagAdapter.setSelectedList(position);
+                    post = position;
+                    label_id = label_list.get(position).getLabel_id();
+                    HouseBuy.commentList(house_id, p, label_id, HouseCommentFgt.this);
+                    return false;
+                }
+            });
+            if (post != -1) {
+                tagAdapter.setSelectedList(post);
+            }
 
             if (p == 1) {
                 Comment_list = data.getComment_list();

@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.txunda_lh.http;
 
+import android.text.TextUtils;
+
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
@@ -23,7 +25,7 @@ public class Order {
      * @param merchant_id
      * @param baseView
      */
-    public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id, BaseView baseView) {
+    public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id,String goods, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("cart_id", cart_id);
@@ -32,7 +34,8 @@ public class Order {
         requestParams.addBodyParameter("goods_id", goods_id);
         requestParams.addBodyParameter("num", num);
         requestParams.addBodyParameter("order_type", order_type);
-        requestParams.addBodyParameter("product_id", product_id);
+        requestParams.addBodyParameter("goods", goods);
+        requestParams.addBodyParameter("product_id", TextUtils.isEmpty(product_id)?"0":product_id);
         apiTool2.postApi(url + "shoppingCart", requestParams, baseView);
     }
 
@@ -50,7 +53,11 @@ public class Order {
      * @param baseView
      */
     public static void setOrder(String address_id, String goods_num, String goods_id,
-                                String product_id, String cart_ids, String order_type, String order_id, String limit_buy_id, BaseView baseView) {
+                                String product_id, String cart_ids, String order_type, String order_id, String limit_buy_id,
+                                String freight,
+                                String freight_type,
+                                String collocation,
+                                BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("cart_ids", cart_ids);
@@ -61,6 +68,9 @@ public class Order {
         requestParams.addBodyParameter("order_type", order_type);
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("limit_buy_id", limit_buy_id);
+        requestParams.addBodyParameter("freight", freight);
+        requestParams.addBodyParameter("freight_type", freight_type);
+        requestParams.addBodyParameter("collocation", collocation);
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 

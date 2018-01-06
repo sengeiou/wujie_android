@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:id="@+id/car_pic_iv"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"  />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="提车点距您"/>
+            android:padding="8dp"
+            android:background="#7FFFFFFF"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/distance_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/theme_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提车点距您" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="公里"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_color" />
 
-    <ImageView
-        android:id="@+id/car_pic_iv"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公里" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/car_name_tv"
@@ -42,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
-        android:maxLines="1"/>
+        android:maxLines="1" />
 
 
     <LinearLayout
@@ -61,7 +69,7 @@
             android:padding="5dp"
             android:text="代金券"
             android:textColor="@color/white"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +78,7 @@
             android:gravity="end"
             android:text="￥"
             android:textColor="@color/theme_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/chit_tv"
@@ -78,7 +86,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:textColor="@color/theme_color"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 
@@ -87,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:lineSpacingExtra="4dp"/>
+        android:lineSpacingExtra="4dp" />
 
     <LinearLayout
         android:id="@+id/jf_layout"
@@ -101,15 +109,13 @@
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
             android:text="积分"
-            android:textColor="@color/gray_text_color"
-            />
+            android:textColor="@color/gray_text_color" />
 
         <TextView
             android:id="@+id/car_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FD8214"
-            />
+            android:textColor="#FD8214" />
     </LinearLayout>
 
     <LinearLayout
@@ -122,13 +128,12 @@
         <ImageView
             android:id="@+id/car_logo_for_country_iv"
             android:layout_width="36dp"
-            android:layout_height="36dp"
-            />
+            android:layout_height="36dp" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/use_coupon_tv"
@@ -141,6 +146,6 @@
             android:paddingRight="8dp"
             android:paddingTop="4dp"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

@@ -26,8 +26,17 @@ public class Bean {
     private String integral;
     private String ticket_buy_discount;
     private String goods_price;
+    private String merchant_id;
     private boolean isChack = true;
     private List<GoodsBean> goods;
+
+    public String getMerchant_id() {
+        return merchant_id;
+    }
+
+    public void setMerchant_id(String merchant_id) {
+        this.merchant_id = merchant_id;
+    }
 
     public boolean isChack() {
         return isChack;
@@ -105,6 +114,7 @@ public class Bean {
         private String goods_name;
         private String goods_img;
         private String shop_price;
+        private String product_id;
 
         public String getGoods_id() {
             return goods_id;
@@ -136,6 +146,14 @@ public class Bean {
 
         public void setShop_price(String shop_price) {
             this.shop_price = shop_price;
+        }
+
+        public String getProduct_id() {
+            return product_id;
+        }
+
+        public void setProduct_id(String product_id) {
+            this.product_id = product_id;
         }
 
         @Override

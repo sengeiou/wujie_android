@@ -147,6 +147,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             ticket_zoon_goods_lv.setVisibility(View.GONE);
             ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
             ticket_zoon_goods_gv.setEmptyView(no_data_layout);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
+        group_ad_pic_iv.setLayoutParams(params);
 //        }
         ticket_zoon_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -294,7 +296,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                                     ToolKit.dip2px(getActivity(), 160));
                         } else {
                             params = new LinearLayout.LayoutParams(Settings.displayWidth,
-                                    ToolKit.dip2px(getActivity(), 80));
+                                    ToolKit.dip2px(getActivity(),160));
                         }
                         goods_menu_vp.setLayoutParams(params);
                         forMenu();
@@ -313,8 +315,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 if (adsBean != null) {
                     Glide.with(getActivity()).load(adsBean.getPicture())
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                            .centerCrop()
-                            .override(Settings.displayWidth, Settings.displayWidth / 2)
                             .error(R.drawable.ic_default)
                             .placeholder(R.drawable.ic_default)
                             .into(group_ad_pic_iv);
@@ -369,7 +369,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                                 ToolKit.dip2px(getActivity(), 160));
                     } else {
                         params = new LinearLayout.LayoutParams(Settings.displayWidth,
-                                ToolKit.dip2px(getActivity(), 80));
+                                ToolKit.dip2px(getActivity(), 160));
                     }
                     goods_menu_vp.setLayoutParams(params);
                     forMenu();
@@ -404,8 +404,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             if (adsBean != null) {
                 Glide.with(getActivity()).load(adsBean.getPicture())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .centerCrop()
-                        .override(Settings.displayWidth, Settings.displayWidth / 2)
+//                        .centerCrop()
+//                        .override(Settings.displayWidth, Settings.displayWidth / 2)
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
                         .into(group_ad_pic_iv);

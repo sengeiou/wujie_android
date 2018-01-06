@@ -173,7 +173,7 @@ public class HousChenAty extends BaseAty {
          */
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("房产购");
-        ads_h = Settings.displayWidth / 2;
+        ads_h = Settings.displayWidth * 400 / 1242;
         ads_w = Settings.displayWidth;
         // 设置广告图的高度
         CollapsingToolbarLayout.LayoutParams params = new CollapsingToolbarLayout.LayoutParams(ads_w, ads_h);
@@ -344,7 +344,6 @@ public class HousChenAty extends BaseAty {
                     Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                     Glide.with(this).load(ads.get("picture"))
                             .fitCenter()
-                            .override(ads_w, ads_h)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .placeholder(R.drawable.ic_default)
                             .error(R.drawable.ic_default)

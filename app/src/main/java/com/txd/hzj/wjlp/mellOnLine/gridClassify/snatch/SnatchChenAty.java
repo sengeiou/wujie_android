@@ -217,7 +217,7 @@ public class SnatchChenAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("积分抽奖");
         // 轮播图高度
-        allHeight = Settings.displayWidth / 2;
+        allHeight = Settings.displayWidth *400/ 1242;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);

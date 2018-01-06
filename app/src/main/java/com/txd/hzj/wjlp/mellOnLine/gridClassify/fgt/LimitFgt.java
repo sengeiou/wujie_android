@@ -130,7 +130,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
                 startActivity(LimitGoodsAty.class, bundle);
             }
         });
-        height = Settings.displayWidth / 2;
+        height = Settings.displayWidth * 400 / 1242;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, height);
         top_ad_iv.setLayoutParams(params);
         fgt_limit_sc.setScrollViewListener(this);
@@ -237,8 +237,8 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
-                        .centerCrop()
-                        .override(Settings.displayWidth, height)
+//                        .centerCrop()
+//                        .override(Settings.displayWidth, height)
                         .into(top_ad_iv);
                 desc = ads.get("desc");
                 href = ads.get("href");

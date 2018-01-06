@@ -356,6 +356,14 @@ public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollV
 
             holder.use_coupon_tv.setText("可使用" + map.get("ticket_discount") + "%购物券");
 
+            holder.style_integral_tv.setText(map.get("integral"));
+            if (map.get("ticket_discount").equals("0")) {
+                holder.use_coupon_tv.setText("不可使用代金券");
+                holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+            } else {
+                holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_discount") + "%代金券");
+                holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+            }
             return view;
         }
 

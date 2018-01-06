@@ -47,6 +47,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodLuckBean;
@@ -73,6 +74,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
+import com.txd.hzj.wjlp.txunda_lh.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -443,6 +445,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.comment_layout)
     private LinearLayout comment_layout;
+    @ViewInject(R.id.layout_comment)
+    private LinearLayout layout_comment;
     private String is_collect = "";
     private UserCollectPst collectPst;
     private String goods_id = "";
@@ -555,6 +559,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private List<GoodsAttrs.product> goods_produc;
     private ArrayList<Map<String, String>> dj_ticket;
     private GoodLuckBean.DataBean.MInfoBean mellInfoBean;
+
+
+    private String goods_attr_first;
+    private String first_val;
+    private String is_attr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -731,7 +740,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.im_toarrs://, (ArrayList) goodsAttrs, (ArrayList) goods_produc
                 toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
-                        goodsInfos.get("shop_price"), group_buy_id);
+                        goodsInfos.get("shop_price"), group_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -1031,8 +1040,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("freight")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+        }
         if (requestUrl.contains("groupBuyInfo")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             goodsInfos = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
             GoodLuckBean groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GoodLuckBean.class);
@@ -1044,12 +1059,20 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (!ListUtils.isEmpty(image)) {
                 forBanner();
             }
+            goods_attr_first = data.get("first_list");
+            first_val = data.get("first_val");
+            is_attr = data.get("is_attr");
+            is_attr = is_attr + "-999";
             vouchers_desc = data.get("vouchers_desc");
             goodsAttrs = GsonUtil.getObjectList(data.get("goods_attr"), GoodsAttrs.class);
             goods_produc = GsonUtil.getObjectList(data.get("product"), GoodsAttrs.product.class);
             GoodLuckBean.DataBean.GoodsInfoBean goodsInfo = groupBuyInfo.getData().getGoodsInfo();
             goods_id = goodsInfo.getGoods_id();
-
+            String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                    + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+            tv_chose_ads.setText(tx);
+            Freight.freight(goods_id, tx, this);
+            showProgressDialog();
             /**判断这块儿显示和隐藏
              * "is_new_goods": "1",//是否是新品  0不是 1是
              "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
@@ -1302,6 +1325,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 } catch (JsonSyntaxException e) {
                     all_comment_num_tv.setText("商品评价(0)");
                     comment_layout.setVisibility(View.GONE);
+                    layout_comment.setVisibility(View.GONE);
                 }
 
             }
@@ -1345,7 +1369,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 @Override
                 public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
                     toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
-                            goodsInfos.get("shop_price"), group_buy_id);
+                            goodsInfos.get("shop_price"), group_buy_id, goods_attr_first, first_val, is_attr);
                 }
             });
             //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
@@ -1355,7 +1379,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 @Override
                 public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
                     toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
-                            goodsInfos.get("shop_price"), group_buy_id);
+                            goodsInfos.get("shop_price"), group_buy_id, goods_attr_first, first_val, is_attr);
                 }
             });
 
@@ -1672,8 +1696,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
                 area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
                 // 设置省市区
-                String tx = province + city + area;
+                String tx = province + "," + city + "," + area;
                 tv_chose_ads.setText(tx);
+                Freight.freight(goods_id, tx, GoodLuckDetailsAty.this);
+                showProgressDialog();
             }
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)

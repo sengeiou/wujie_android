@@ -48,6 +48,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
@@ -75,6 +76,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
+import com.txd.hzj.wjlp.txunda_lh.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -96,6 +98,8 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * ===============Txunda===============
  */
 public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
+    private String is_attr = "";
+
 
     /**
      * 商品TextView
@@ -420,6 +424,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @ViewInject(R.id.comment_layout)
     private LinearLayout comment_layout;
+    @ViewInject(R.id.layout_comment)
+    private LinearLayout layout_comment;
     /**
      * 产品规格
      */
@@ -617,11 +623,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             case R.id.tv_gwc:
                 //购物车, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
+                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_ljgm:
                 //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
                 break;
             case R.id.btn_jgsm:
                 if (goods_price_desc != null) {
@@ -634,7 +640,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 break;
             case R.id.im_toarrs://(ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val);
+                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -725,8 +731,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
                 area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
                 // 设置省市区
-                String tx = province + city + area;
+                String tx = province + "," + city + "," + area;
                 tv_chose_ads.setText(tx);
+                Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
             }
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
@@ -833,7 +840,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 detail.add(entity);
             }
         } catch (Exception e) {
-            L.e("=====异常=====", e.getMessage());
             e.printStackTrace();
             mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
         }
@@ -962,10 +968,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {// 票券区详情
+        if (requestUrl.contains("freight")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+            tv_freight.setText( "运费" + map.get("pay") + "元");
+        }
+        if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
+            is_attr = data.get("is_attr");
             forBase(data, cart_num);
             share_url = data.get("share_url");
             share_img = data.get("share_img");
@@ -1077,6 +1092,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 } catch (JsonSyntaxException e) {
                     all_comment_num_tv.setText("商品评价(0)");
                     comment_layout.setVisibility(View.GONE);
+                    layout_comment.setVisibility(View.GONE);
                 }
 
             }
@@ -1191,6 +1207,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private void forGoodsInfo(Map<String, String> goodsInfo) {
         // 商品id
         goods_id = goodsInfo.get("goods_id");
+
+        String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+        tv_chose_ads.setText(tx);
+        Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
+        showProgressDialog();
         // 商品价格
         //    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
         now_price_tv.setText(goodsInfo.get("shop_price"));
@@ -1226,6 +1248,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
         tv_salesvolume.setText("销量\t" + goodsInfo.get("sell_num"));
         tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
+        is_attr = is_attr + "-" + goodsInfo.get("goods_num");
         //tv_freight.setText(goodsInfo.get(""));
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));

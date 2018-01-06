@@ -176,6 +176,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
                 Bundle bundle = new Bundle();
                 bundle.putString("lng", lng);
                 bundle.putString("lat", lat);
+                bundle.putString("title", house_name_tv.getText().toString());
                 startActivity(FindHouseByMapAty.class, bundle);
                 break;
             case R.id.hd_be_back_top_iv:// 回到顶部
@@ -203,14 +204,12 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
 
     @Override
     protected void requestData() {
-        L.e("======执行了======");
         houseBuyPst.houseInfo(house_id);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("======执行了======", jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("houseInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));

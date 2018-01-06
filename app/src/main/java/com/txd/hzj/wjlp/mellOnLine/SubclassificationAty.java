@@ -61,6 +61,7 @@ public class SubclassificationAty extends BaseAty {
     private String two_cate_id = "";
 
     private GoodsPst goodsPst;
+    private int page = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class SubclassificationAty extends BaseAty {
         mTitles = new ArrayList<>();
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
+        page = getIntent().getIntExtra("page", 0);
 
     }
 
@@ -103,7 +105,7 @@ public class SubclassificationAty extends BaseAty {
                 myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
                 sub_classify_vp.setAdapter(myPagerAdapter);
                 sub_classify_stl.setViewPager(sub_classify_vp);
-                sub_classify_vp.setCurrentItem(0);
+                sub_classify_vp.setCurrentItem(page);
             }
         }
     }

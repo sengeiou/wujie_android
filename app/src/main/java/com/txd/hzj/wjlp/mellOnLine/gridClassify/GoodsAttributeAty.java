@@ -91,6 +91,7 @@ public class GoodsAttributeAty extends BaseAty {
     String goods_attr;
     Goods_val val;
     SparseArray<String> list_attrs = new SparseArray<String>();
+    private String is_attr;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -150,6 +151,7 @@ public class GoodsAttributeAty extends BaseAty {
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
         group_buy_id = getIntent().getStringExtra("group_buy_id");
+        is_attr = getIntent().getStringExtra("is_attr");
         if (1 == from || 0 == from) {
             if (0 == from) {
                 is_go = true;
@@ -191,9 +193,17 @@ public class GoodsAttributeAty extends BaseAty {
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
-        if (!ListUtils.isEmpty(list)) {
+        String string[] = is_attr.split("-");
+        is_attr = string[0];
+        if (!ListUtils.isEmpty(list) && is_attr.equals("1")) {
             goodsAttrsAdapter = new GoodsAttrsAdapter();
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
+        } else {
+            maxNumber = Integer.parseInt(string[1]);
+            tv_kucun.setText("(库存："+string[1]+")");
+            num = 1;
+            tv_num.setText(String.valueOf(num));
+            list.clear();
         }
 
     }
@@ -298,7 +308,6 @@ public class GoodsAttributeAty extends BaseAty {
                         getItem(i).getFirst_list_val().get(position).setStatus("1");
 
                     }
-                    L.e("pos=" + i + "index=" + getItem(i).getFirst_list_val().get(position).getStatus());
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
                         case "1":
                             tv.setBackgroundResource(R.drawable.shape_tag_checked_bg);
@@ -332,7 +341,6 @@ public class GoodsAttributeAty extends BaseAty {
             avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    boolean is_num = false;
                     getItem(i).getFirst_list_val().get(position).setStatus("1");
                     for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
                         if (position == j) {
@@ -347,10 +355,10 @@ public class GoodsAttributeAty extends BaseAty {
                                 String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
                                 if (!val.arrtValue.contains(s)) {
                                     getItem(i).getFirst_list_val().get(position).setStatus("3");
-                                    is_num = false;
+
                                 } else {
                                     getItem(i).getFirst_list_val().get(position).setStatus("1");
-                                    is_num = true;
+
                                     break;
                                 }
                             }
@@ -361,22 +369,18 @@ public class GoodsAttributeAty extends BaseAty {
                                     String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
                                     if (!val.arrtValue.contains(s)) {
                                         getItem(i + 1).getFirst_list_val().get(j).setStatus("3");
-                                        is_num = false;
                                     } else {
                                         getItem(i + 1).getFirst_list_val().get(j).setStatus("2");
-                                        is_num = true;
                                         break;
                                     }
                                 }
-
                             }
 
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        is_num = true;
                         getItem(i).getFirst_list_val().get(position).setStatus("1");
                     }
-//                    if (is_num) {
+
                     list_attrs.put(i, goods_attr);
                     if (list_attrs.size() == list.size()) {
                         StringBuffer attrs = new StringBuffer();
@@ -389,7 +393,6 @@ public class GoodsAttributeAty extends BaseAty {
                         }
                         for (Goods_val val : list_val) {
                             if (attrs.toString().contains(val.getArrtValue())) {
-                                L.e("对照：" + val.getArrtValue() + "__OnClick:" + attrs.toString());
                                 GoodsAttributeAty.this.val = val;
                                 tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
                                 maxNumber = Integer.parseInt(val.getGoods_num());
@@ -397,19 +400,19 @@ public class GoodsAttributeAty extends BaseAty {
                                 ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
                                 tv_num.setText(String.valueOf(1));
                                 pro_id = val.getId();
-                                num=1;
+                                num = 1;
                                 break;
                             } else {
                                 maxNumber = 0;
                                 tv_kucun.setText("(库存：0)");
-                                num=0;
+                                num = 0;
                                 tv_num.setText(String.valueOf(maxNumber));
                                 pro_id = "";
                             }
                         }
-//                        }
 
-                    }else{
+
+                    } else {
                         pro_id = "";
                     }
                     notifyDataSetChanged();

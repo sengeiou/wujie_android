@@ -93,7 +93,7 @@ public class ThirdClassifyFgt extends BaseFgt {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
-                bundle.putString("group_buy_id", data.get(i - 1).getGroup_buy_id());
+                bundle.putString("group_buy_id", data.get(i).getGroup_buy_id());
                 startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
@@ -126,16 +126,16 @@ public class ThirdClassifyFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("threeList")) {
-            Map<String,String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String,String> datajson = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> datajson = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (1 == p) {
-                data = GsonUtil.getObjectList(datajson.get("group_buy_list"),AllGoodsBean.class);
+                data = GsonUtil.getObjectList(datajson.get("group_buy_list"), AllGoodsBean.class);
                 if (!ListUtils.isEmpty(data)) {
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 8);
                     pr_third_lv.setAdapter(allGvLvAdapter1);
                 }
             } else {
-                data2 = GsonUtil.getObjectList(datajson.get("group_buy_list"),AllGoodsBean.class);
+                data2 = GsonUtil.getObjectList(datajson.get("group_buy_list"), AllGoodsBean.class);
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     allGvLvAdapter1.notifyDataSetChanged();

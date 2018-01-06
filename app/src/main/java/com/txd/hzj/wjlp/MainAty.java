@@ -969,6 +969,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("countryCode", location.getCountryCode());// 国家码
                 locMap.put("Country", location.getCountry());// 国家
                 locMap.put("cityCode", location.getCityCode());// 城市码
+                locMap.put("province", location.getProvince());// 省份
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());// 区县
                 locMap.put("street", location.getStreet());// 街道
@@ -1019,6 +1020,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locationService.stop();
                 L.e("======定位结果=====", sb.toString());
                 L.e("======定位信息=====", DemoApplication.getInstance().getLocInfo().toString());
+                locMap.put("city", location.getCity());// 城市
+                locMap.put("district", location.getDistrict());//
+                locMap.put("street", location.getStreet());// 街道
+
+
             }
         }
 

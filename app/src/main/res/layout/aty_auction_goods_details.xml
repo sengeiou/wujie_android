@@ -177,7 +177,7 @@
                             android:textColor="@color/app_text_color" />
 
                         <TextView
-                            android:id="@+id/left_tv_4"
+                            android:id="@+id/righr_tv_3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/app_text_color" />
@@ -204,7 +204,7 @@
                             android:visibility="gone" />
 
                         <TextView
-                            android:id="@+id/righr_tv_3"
+                            android:id="@+id/left_tv_4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/app_text_color" />

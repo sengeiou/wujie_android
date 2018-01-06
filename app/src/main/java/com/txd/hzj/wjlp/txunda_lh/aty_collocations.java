@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.txunda_lh;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -21,11 +22,13 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -126,6 +129,19 @@ public class aty_collocations extends BaseAty {
                     notifyDataSetChanged();
                 }
             });
+            holder.tv_submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Gson gson = new Gson();
+                    Intent intent = new Intent();
+                    intent.putExtra("mid", getItem(position).getMerchant_id());
+                    intent.putExtra("type", "11");
+                    intent.putExtra("num", "1");
+                    intent.putExtra("json", gson.toJson(getItem(position).getGoods()));
+                    intent.setClass(aty_collocations.this, BuildOrderAty.class);
+                    startActivity(intent);
+                }
+            });
             if (getItem(position).isChack()) {
                 holder.rv_cheap_group.setVisibility(View.GONE);
                 holder.listview.setVisibility(View.VISIBLE);
@@ -153,6 +169,8 @@ public class aty_collocations extends BaseAty {
             private ListViewForScrollView listview;
             @ViewInject(R.id.rv_cheap_group)
             private RecyclerView rv_cheap_group;
+            @ViewInject(R.id.tv_submit)
+            private TextView tv_submit;
 
         }
     }

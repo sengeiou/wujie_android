@@ -47,6 +47,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
@@ -75,6 +76,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
+import com.txd.hzj.wjlp.txunda_lh.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -557,7 +559,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.tv_brief)
     private TextView tv_brief;//商品简介
 
-
+    @ViewInject(R.id.layout_layout_settings)
+    private LinearLayout layout_layout_settings;
+    @ViewInject(R.id.layout_comment)
+    private LinearLayout layout_comment;
     @ViewInject(R.id.layout_djq)
     private LinearLayout layout_djq;//代金券布局
     @ViewInject(R.id.layout_djq0)
@@ -705,14 +710,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             public void onClick(View v) {
                 if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
                     toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price")
-                          , limit_buy_id);
+                            , limit_buy_id);
                 } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
                     toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("pre_price")
-                      , limit_buy_id);
+                            , limit_buy_id);
 
                 } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,
                     toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("use_integral") + "积分",
-                          limit_buy_id);
+                            limit_buy_id);
 
                 }
 
@@ -724,10 +729,17 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("freight")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+
+        }
         if (requestUrl.contains("limitBuyInfo") ||
                 requestUrl.contains("preBuyInfo") ||
                 requestUrl.contains("integralBuyInfo")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             if (!cart_num.equals("0")) {
@@ -763,6 +775,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             // 商品id
             goods_id = goodsInfo.get("goods_id");
 
+            String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                    + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+            tv_chose_ads.setText(tx);
+            Freight.freight(goods_id, tx, this);
+            showProgressDialog();
             if (goodsInfo.get("is_new_goods").equals("0") && goodsInfo.get("is_end").equals("1")) {
                 tv_expirationdate.setText(goodsInfo.get("is_new_goods_desc") + "\n" + goodsInfo.get("is_end_desc"));
             } else if (goodsInfo.get("is_new_goods").equals("0")) {
@@ -892,6 +909,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                             ContextCompat.getColor(this, R.color.theme_color));
                 }
             } else {
+                layout_service.setVisibility(View.GONE);
+                layout_layout_settings.setVisibility(View.GONE);
+                layout_djq.setVisibility(View.GONE);
                 tv_kucun.setText("库存" + goodsInfo.get("goods_num"));
                 layout_jgsm.setVisibility(View.GONE);
                 tv_rmb.setVisibility(View.GONE);
@@ -1016,6 +1036,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 } catch (JsonSyntaxException e) {
                     all_comment_num_tv.setText("商品评价(0)");
                     comment_layout.setVisibility(View.GONE);
+                    layout_comment.setVisibility(View.GONE);
                 }
 
             }
@@ -1748,8 +1769,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
                 area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
                 // 设置省市区
-                String tx = province + city + area;
+                String tx = province + "," + city + "," + area;
                 tv_chose_ads.setText(tx);
+                Freight.freight(goods_id, tx, LimitGoodsAty.this);
+                showProgressDialog();
             }
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)

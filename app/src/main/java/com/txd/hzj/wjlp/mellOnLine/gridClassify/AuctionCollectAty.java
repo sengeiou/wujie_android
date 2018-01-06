@@ -136,7 +136,7 @@ public class AuctionCollectAty extends BaseAty {
             }
         });
 
-        params = new CollapsingToolbarLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth / 2);
+        params = new CollapsingToolbarLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth *400/ 1242);
         ads_for_auction_iv.setLayoutParams(params);
 
         getDataForPage();
@@ -275,8 +275,6 @@ public class AuctionCollectAty extends BaseAty {
                 href = adsBean.getHref();
 
                 Glide.with(this).load(adsBean.getPicture())
-                        .override(Settings.displayWidth, Settings.displayWidth / 2)
-                        .centerCrop()
                         .placeholder(R.drawable.ic_default)
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)

@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify.hous;
 
 import android.graphics.Point;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -44,7 +45,7 @@ public class FindHouseByMapAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("位置");
+//        titlt_conter_tv.setText("");
         // 获取地图对象
         baiduMap = baidu_map_for_house.getMap();
         // 普通地图
@@ -52,13 +53,13 @@ public class FindHouseByMapAty extends BaseAty {
 
         LatLng point = new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
         BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.icon_marka);
-        CoordinateConverter converter= new CoordinateConverter();
+        CoordinateConverter converter = new CoordinateConverter();
         converter.coord(point);
         LatLng convertLatLng = converter.convert();
         OverlayOptions options = new MarkerOptions().position(convertLatLng).icon(bitmapDescriptor).zIndex(4).draggable(true);
         baiduMap.addOverlay(options);
-		MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 14.6f);
-		baiduMap.animateMapStatus(u);
+        MapStatusUpdate u = MapStatusUpdateFactory.newLatLngZoom(convertLatLng, 14.6f);
+        baiduMap.animateMapStatus(u);
     }
 
     @Override
@@ -70,6 +71,8 @@ public class FindHouseByMapAty extends BaseAty {
     protected void initialized() {
         lat = getIntent().getStringExtra("lat");
         lng = getIntent().getStringExtra("lng");
+        String title = getIntent().getStringExtra("title");
+        titlt_conter_tv.setText(TextUtils.isEmpty(title) ? "位置" : title);
     }
 
     @Override

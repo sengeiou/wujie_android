@@ -70,10 +70,7 @@
             android:id="@+id/one_price_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="middle"
             android:gravity="end"
-            android:maxEms="5"
-            android:maxLines="1"
             android:text="150000000元/平"
             android:textSize="12sp"/>
     </LinearLayout>

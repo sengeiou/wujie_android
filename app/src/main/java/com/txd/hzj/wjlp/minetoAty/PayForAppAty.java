@@ -133,6 +133,8 @@ public class PayForAppAty extends BaseAty {
     String goods_id, num, ordertype, product_id;
     private String type;
     private String group_buy_id;
+    private String freight_type;
+    private String freight;
     @ViewInject(R.id.layout_wx)
     private RelativeLayout layout_wx;
     @ViewInject(R.id.layout_ali)
@@ -213,7 +215,7 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
                 if (pay_by_balance_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")  ) {
                         BalancePay.BalancePay(data.get("order_id"), type, getType(), "", this);
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
                         BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
@@ -229,6 +231,8 @@ public class PayForAppAty extends BaseAty {
                         BalancePay.BalancePay(order_id, "7", getType(), num, this);
                     } else if (type.equals("9")) {
                         BalancePay.BalancePay(order_id, "4", getType(), num, this);
+                    }else if(type.equals("11")){
+                        BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
                     }
                     showProgressDialog();
                 }
@@ -319,9 +323,11 @@ public class PayForAppAty extends BaseAty {
         cart_id = getString("cart_id");
         order_id = getString("order_id");
         group_buy_id = getString("group_buy_id");
+        freight = getString("freight");
+        freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
         if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-            Order.setOrder(address_id, num, goods_id, product_id, cart_id, order_type, order_id, group_buy_id, this);
+            Order.setOrder(address_id, num, goods_id, product_id, cart_id, order_type, order_id, group_buy_id, freight, freight_type,"", this);
         } else if (type.equals("2")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, this);
         } else if (type.equals("3")) {
@@ -355,7 +361,8 @@ public class PayForAppAty extends BaseAty {
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
 
-        }
+        } else if (type.equals("11")) {
+            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type,cart_id, this);  }
         showProgressDialog();
     }
 

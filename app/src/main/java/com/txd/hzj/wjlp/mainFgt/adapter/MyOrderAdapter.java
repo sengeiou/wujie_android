@@ -265,7 +265,15 @@ public class MyOrderAdapter extends BaseAdapter {
             Glide.with(context).load(type.equals("1") ? list.get(p).getCar_img() : list.get(p).getHouse_style_img()).into(goVh.image);
             goVh.name.setText(type.equals("1") ? list.get(p).getCar_name() : list.get(p).getStyle_name() + list.get(p).getTags());
             goVh.num.setText("x" + list.get(p).getNum());
-            goVh.title.setText("可抵：¥" + list.get(p).getPre_money());
+            String str = null;
+            if (type.equals("1")) {
+                str = "车款";
+            } else {
+                str = "房款";
+            }
+            goVh.title.setText("可抵：¥" + list.get(p).getPre_money() + str);
+            goVh.tv_price.setVisibility(View.VISIBLE);
+            goVh.tv_price.setText("¥" +list.get(p).getGoods_price());
             return view;
         }
 
@@ -278,6 +286,8 @@ public class MyOrderAdapter extends BaseAdapter {
             private TextView num;
             @ViewInject(R.id.title)
             private TextView title;
+            @ViewInject(R.id.tv_price)
+            private TextView tv_price;
         }
 
     }

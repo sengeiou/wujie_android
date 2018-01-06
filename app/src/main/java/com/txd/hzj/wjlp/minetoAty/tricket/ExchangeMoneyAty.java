@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -95,6 +96,9 @@ public class ExchangeMoneyAty extends BaseAty {
     private BigDecimal bal;
     private String bank_card_id = "";
 
+    @ViewInject(R.id.et_password)
+    private EditText et_password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,7 +153,17 @@ public class ExchangeMoneyAty extends BaseAty {
                     showErrorTip("余额不足");
                     break;
                 }
-                finish();
+                if(TextUtils.isEmpty(bank_card_id)){
+                    showErrorTip("请选择银行卡");
+                    break;
+                }
+                if(TextUtils.isEmpty(et_password.getText().toString())){
+                    showToast("请输入支付密码");
+                    return;
+                }
+                balancePst.getCash(et_password.getText().toString(),money,rate_tv.getText()
+                        .toString(),bank_card_id);
+
                 break;
         }
     }
@@ -177,6 +191,10 @@ public class ExchangeMoneyAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("getCash")) {
+            showToast(map.get("message"));
+            finish();
+        }
         if (requestUrl.contains("cashIndex")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             balance = data != null ? data.get("balance") : "0.00";

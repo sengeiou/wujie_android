@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -83,7 +84,7 @@ public class LimitShoppingAty extends BaseAty {
             if (ToolKit.isList(data, "stage_list")) {
                 tabTitle = JSONUtils.parseKeyAndValueToMapList(data.get("stage_list"));
                 for (Map<String, String> title : tabTitle) {
-                 fragments.add(LimitFgt.getFgt(title.get("stage_id"), title.get("status")));
+                    fragments.add(LimitFgt.getFgt(title.get("stage_id"), title.get("status")));
 //                    if (title.get("status").equals("即将开始")) {
 ////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
 //                    } else if (title.get("status").equals("已结束")) {
@@ -110,7 +111,9 @@ public class LimitShoppingAty extends BaseAty {
         }
     }
 
+
     private class VpAdapter extends FragmentPagerAdapter {
+
 
         public VpAdapter(FragmentManager fm) {
             super(fm);

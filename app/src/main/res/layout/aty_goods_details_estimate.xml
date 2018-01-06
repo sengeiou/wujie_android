@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="商品评价(45)"
+                android:text="商品评价(0)"
                 android:textColor="@color/app_text_color"
                 android:textSize="16sp" />
             <!--       android:background="@drawable/shape_all_estimate"-->

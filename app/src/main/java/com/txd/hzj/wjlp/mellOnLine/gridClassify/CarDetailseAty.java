@@ -239,6 +239,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
     private String merchant_name = "";
     private Map<String, String> car_info;
     private String car_num = "";
+    @ViewInject(R.id.all_evaluate_tv)
+    private TextView all_evaluate_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,7 +253,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
         online_carvouse_view.setLayoutParams(layoutParams);
 
         goods_for_my_evaluste_layout.setVisibility(View.GONE);
-
+        all_evaluate_tv.setBackgroundResource(R.drawable.shape_red_btn_01_li);
+        all_evaluate_tv.setTextColor(Color.parseColor("#DF3031"));
         // 判断是否显示回到顶部按钮
         getHeight();
 
@@ -320,7 +323,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
             break;
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
-                bundle.putInt("from", 0);
+                bundle.putInt("from", 3);
                 bundle.putString("id", car_id);
                 bundle.putString("num", car_num);
                 startActivity(GoodsEvaluateAty.class, bundle);

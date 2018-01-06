@@ -313,8 +313,9 @@ public class AllClassifyAty extends BaseAty {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                         Intent intent = new Intent();
-                        intent.putExtra("appBarTitle", getItem(i).getThree_cate().get(position).getName());
+                        intent.putExtra("appBarTitle", childCateBean.getName());
                         intent.putExtra("two_cate_id", getItem(i).getCate_id());
+                        intent.putExtra("page", position + 1);
                         intent.setClass(AllClassifyAty.this, SubclassificationAty.class);
                         startActivity(intent);
                     }

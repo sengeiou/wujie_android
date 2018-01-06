@@ -57,6 +57,39 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/layout_sle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_sle_left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/icon_express_left"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:text="请选择配送方式"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_sle_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:padding="10dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
                 <!--订单商品列表-->
                 <TextView
                     android:id="@+id/tv_merchant_name"
@@ -247,6 +280,7 @@
                 android:gravity="right"
                 android:text="合计：￥0.00"
                 android:textColor="@color/app_text_color" />
+
 
             <TextView
                 android:id="@+id/submit_order_tv"

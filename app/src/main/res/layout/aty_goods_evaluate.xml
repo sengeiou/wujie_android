@@ -33,6 +33,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/layout_top"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/white"
@@ -114,7 +115,7 @@
                             android:paddingEnd="16dp"
                             android:paddingStart="16dp"
                             android:paddingTop="8dp"
-                            android:text="已有 36 条评价" />
+                            android:text="已有0条评价" />
 
                     </LinearLayout>
 

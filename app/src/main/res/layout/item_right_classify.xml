@@ -23,7 +23,7 @@
             android:drawableStart="@drawable/icon_right_classify_left"
             android:gravity="center"
             android:paddingBottom="4dp"
-            android:paddingEnd="32dp"
+            android:paddingEnd="12dp"
             android:paddingStart="4dp"
             android:paddingTop="4dp"
             android:text="零食"

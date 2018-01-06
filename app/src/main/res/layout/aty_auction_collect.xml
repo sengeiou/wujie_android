@@ -35,8 +35,7 @@
                     android:id="@+id/ads_for_auction_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_temp_discount"/>
+                    android:scaleType="centerCrop" />
 
             </android.support.design.widget.CollapsingToolbarLayout>
             <!--导航-->

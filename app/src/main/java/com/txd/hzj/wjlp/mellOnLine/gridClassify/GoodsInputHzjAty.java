@@ -118,7 +118,7 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
         titlt_conter_tv.setText("进口馆");
         // 广告图宽高
         ads_size1 = Settings.displayWidth;
-        ads_size2 = Settings.displayWidth / 2;
+        ads_size2 = Settings.displayWidth*400 /1242;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ads_size1, ads_size2);
         input_ads_iv.setLayoutParams(params);
 
@@ -199,8 +199,6 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
             if (1 == p) {
                 Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                 Glide.with(this).load(ads.get("picture"))
-                        .centerCrop()
-                        .override(ads_size1, ads_size2)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)

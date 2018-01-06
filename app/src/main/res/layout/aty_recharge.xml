@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -91,7 +91,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,9 +103,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="积分："
-                        android:textColor="@color/app_text_color"
-                        />
+                        android:text="充值金额"
+                        android:textColor="@color/app_text_color" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -117,22 +116,24 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_exchange_hzj"/>
+                            android:src="@drawable/icon_withdraw_hzj_" />
 
                         <EditText
+                            android:id="@+id/et_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/icon_bg_foe_edit_hzj"
-                            android:padding="8dp"/>
+                            android:inputType="numberDecimal"
+                            android:padding="8dp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
-                <include layout="@layout/aty_pay_type_hzj"/>
+                <include layout="@layout/aty_pay_type_hzj" />
 
             </LinearLayout>
 

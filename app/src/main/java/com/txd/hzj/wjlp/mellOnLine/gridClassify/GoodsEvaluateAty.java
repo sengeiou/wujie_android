@@ -46,6 +46,8 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
      */
     @ViewInject(R.id.goods_comment_tag)
     private TagFlowLayout goods_comment_tag;
+    @ViewInject(R.id.layout_top)
+    private LinearLayout layout_top;
 
     @ViewInject(R.id.goods_evaluste_lv)
     private ListViewForScrollView goods_evaluste_lv;
@@ -113,15 +115,15 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
             evaluate_lin_layout.setVisibility(View.GONE);
             goods_comment_tag.setVisibility(View.VISIBLE);
         }
-//        else if (1 == from) {
-//            titlt_conter_tv.setText("我的评价");
-//            evaluate_lin_layout.setVisibility(View.VISIBLE);
-//            goods_comment_tag.setVisibility(View.GONE);
-//        } else {
-//            titlt_conter_tv.setText("店铺评价");
-//            evaluate_lin_layout.setVisibility(View.VISIBLE);
-//            goods_comment_tag.setVisibility(View.GONE);
-//        }
+        else if (1 == from) {
+            titlt_conter_tv.setText("我的评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+            goods_comment_tag.setVisibility(View.GONE);
+        } else {
+            titlt_conter_tv.setText("店铺评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+            goods_comment_tag.setVisibility(View.GONE);
+        }
 
 
         // 滚动到顶部
@@ -172,7 +174,6 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         from = getIntent().getIntExtra("from", 0);
         userPst = new UserPst(this);
 
-
     }
 
     @Override
@@ -180,10 +181,12 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         if (1 == from) {
             p = 1;
             userPst.myCommentList(p);
+            layout_top.setVisibility(View.GONE);
+            goods_comment_tag.setVisibility(View.GONE);
+        } else if (3 == from) {
+            CarBuy.commentList(getIntent().getStringExtra("id"), "", p, this);
+            showProgressDialog();
         }
-        CarBuy.commentList(getIntent().getStringExtra("id"), "", p, this);
-        showProgressDialog();
-
     }
 
     @Override
@@ -207,18 +210,18 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                           // tagAdapter.setSelectedList(position);
+                            // tagAdapter.setSelectedList(position);
                             label_id = labelListBean.getLabel_id();
                             CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                         }
                     });
-                    tv.setText(labelListBean.getLabel_name()+"("+labelListBean.getNum()+")");
+                    tv.setText(labelListBean.getLabel_name() + "(" + labelListBean.getNum() + ")");
                     return tv;
                 }
 
 
             };
-           // tagAdapter.setSelectedList(0);
+            // tagAdapter.setSelectedList(0);
             goods_comment_tag.setAdapter(tagAdapter);
 
             if (p == 1) {
