@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.books.fgt;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -25,6 +26,8 @@ import com.txd.hzj.wjlp.http.academy.AcademyPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.adapter.WjBooksAdapter;
 import com.txd.hzj.wjlp.minetoAty.books.BooksDetailsAty;
 
@@ -172,11 +175,24 @@ public class BooksFgt extends BaseFgt {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bundle = new Bundle();
-                    bundle.putInt("from", 2);
-                    bundle.putString("desc", image.get(position).getDesc());
-                    bundle.putString("href", image.get(position).getHref());
-                    startActivity(NoticeDetailsAty.class, bundle);
+
+                    if (!TextUtils.isEmpty(image.get(position).getMerchant_id()) && !image.get(position).getMerchant_id().equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", image.get(position).getMerchant_id());
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(image.get(position).getGoods_id()) && !image.get(position).getGoods_id().equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", image.get(position).getGoods_id());
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        bundle = new Bundle();
+                        bundle.putInt("from", 2);
+                        bundle.putString("desc", image.get(position).getDesc());
+                        bundle.putString("href", image.get(position).getHref());
+                        startActivity(NoticeDetailsAty.class, bundle);
+                    }
+
                 }
             });
         }

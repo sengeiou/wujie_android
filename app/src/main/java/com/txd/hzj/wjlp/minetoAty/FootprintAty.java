@@ -1,11 +1,16 @@
 package com.txd.hzj.wjlp.minetoAty;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -58,13 +63,14 @@ public class FootprintAty extends BaseAty {
 
     private int selected = 0;
     private boolean status = false;
+    int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.foot_print_title_layout);
         fcm = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.foot_print_layout, mFragment);
-        setTvAndViewStyle(0);
+        setTvAndViewStyle(index);
     }
 
     @Override
@@ -74,16 +80,26 @@ public class FootprintAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.title_left_layout:// 商品
-                setTvAndViewStyle(0);
+                index = 0;
+                setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
+                foot_right_tv.setVisibility(View.GONE);
+
                 break;
             case R.id.title_right_layout:// 商家
-                setTvAndViewStyle(1);
+                index = 1;
+                setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
+                foot_right_tv.setVisibility(View.GONE);
+
                 break;
             case R.id.title_right_right_layout:// 书院
-                setTvAndViewStyle(2);
+                index = 2;
+                setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
+                foot_right_tv.setVisibility(View.GONE);
+
+
                 break;
             case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
@@ -103,10 +119,13 @@ public class FootprintAty extends BaseAty {
     private void setNewStatus(Fragment f) {
         if (0 == selected) {// 商品
             ((CollectGoodsHzjFgt) f).setStatus(status);
+            ((CollectGoodsHzjFgt) f).r();
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
+            ((CollectMellHzjFgt) f).r();
         } else {
             ((CollectBooksFgt) f).setStatus(status);
+            ((CollectBooksFgt) f).r();
         }
     }
 
@@ -125,7 +144,7 @@ public class FootprintAty extends BaseAty {
         } else if ((1 == position)) {
             foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        } else{
+        } else {
             foot_print_books_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
@@ -148,6 +167,30 @@ public class FootprintAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction("sftv");
+        //注册广播
+        registerReceiver(mBroadcastReceiver, myIntentFilter);
+    }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("sftv") && index == intent.getIntExtra("index", -1)) {
+                foot_right_tv.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+
+    public void setView(int v) {
+        foot_right_tv.setVisibility(v);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 }

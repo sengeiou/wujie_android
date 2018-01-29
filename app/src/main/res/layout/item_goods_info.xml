@@ -16,7 +16,7 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/logo_for_country_iv"
+            android:id="@+id/logo_for_country_iv1"
             android:layout_width="36dp"
             android:layout_height="24dp"
             android:src="@drawable/icon_temp_han" />
@@ -27,7 +27,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/use_coupon_tv"
+            android:id="@+id/use_coupon_tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"

@@ -75,7 +75,7 @@
         android:paddingEnd="12dp"
         android:paddingStart="12dp"
         android:paddingTop="6dp"
-        android:text="去参团"
+        android:text="去拼单"
         android:textSize="12sp"
         android:textColor="@color/white"/>
 

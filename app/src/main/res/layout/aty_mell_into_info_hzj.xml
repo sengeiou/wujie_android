@@ -142,6 +142,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="24dp"
+                            android:text="联系人"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/job_for_mell_tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
                             android:text="联系人职位"
                             android:textSize="16sp" />
 

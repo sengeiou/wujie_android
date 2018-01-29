@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.MapUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
@@ -43,6 +46,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.txunda_lh.Card_bean;
+import com.txd.hzj.wjlp.txunda_lh.http.Goods;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -58,6 +62,8 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class CartFgt extends BaseFgt {
+    @ViewInject(R.id.cart_bottom_lin_layout)
+    private LinearLayout cart_bottom_lin_layout;
 
     @ViewInject(R.id.title_be_back_iv)
     public ImageView title_be_back_iv;
@@ -102,13 +108,14 @@ public class CartFgt extends BaseFgt {
     private boolean canEdit = false;
 
     @ViewInject(R.id.cart_lv)
-    private ListView cart_lv;
+    private PullToRefreshListView cart_lv;
     private List<ShopingCart> shopingCarts = new ArrayList<>();
     @ViewInject(R.id.textview)
     private TextView textview;
     private CartAdapter cartAdapter;
     private int all = 0;
     private int position = 0;
+    private int position_group = 0;
     /**
      * 选中的商品价格
      */
@@ -148,14 +155,6 @@ public class CartFgt extends BaseFgt {
         all_price = new BigDecimal("0.00");
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, this);
-    }
-
     private void getDate() {
 //        swipe_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 //            @Override
@@ -169,7 +168,26 @@ public class CartFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-        getDate();
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, this);
+        cart_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                RequestParams params = new RequestParams();
+                ApiTool2 apiTool2 = new ApiTool2();
+                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+            }
+        });
+        textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams params = new RequestParams();
+                ApiTool2 apiTool2 = new ApiTool2();
+                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+                showProgressDialog();
+            }
+        });
     }
 
     Map<String, String> map;
@@ -182,10 +200,13 @@ public class CartFgt extends BaseFgt {
         removeDialog();
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
+            titlt_right_tv.setVisibility(View.GONE);
+            cart_bottom_lin_layout.setVisibility(View.GONE);
             textview.setText(error.get("message"));
             textview.setVisibility(View.VISIBLE);
             shopingCarts.clear();
             cartAdapter.notifyDataSetChanged();
+            cart_lv.setEmptyView(textview);
         }
     }
 
@@ -193,13 +214,33 @@ public class CartFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 //        swipe_layout.setRefreshing(false);
+        if (requestUrl.contains("Goods/attrApi")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), GoodsAttributeAty.class);
+            intent.putExtra("from", 2);
+            intent.putExtra("imageurl", map.get("goods_img"));
+            intent.putExtra("num", Integer.parseInt(map.get("goods_num")));
+            intent.putExtra("price", map.get("shop_price"));
+            intent.putExtra("is_attr", map.get("is_attr") + "-" + map.get("goods_num"));
+            intent.putExtra("goods_attr", map.get("first_list"));
+            intent.putExtra("goods_val", map.get("first_val"));
+            startActivityForResult(intent, 8888);
+//            Gson gson = new Gson();
+//            String json = gson.toJson(cg.getGoods_attr_first());
+//            intent.putExtra("goods_attr", json);
+////                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
+////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
+        }
         if (requestUrl.contains("Cart/cartList")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            cart_bottom_lin_layout.setVisibility(View.VISIBLE);
+            titlt_right_tv.setVisibility(View.VISIBLE);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
             cart_lv.setAdapter(cartAdapter);
             list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-
-
+            cart_lv.onRefreshComplete();
         }
         if (requestUrl.contains("Cart/delCart")) {
             showToast("删除成功！");
@@ -258,16 +299,15 @@ public class CartFgt extends BaseFgt {
                     Gson gson = new Gson();
                     RequestParams params = new RequestParams();
                     ApiTool2 apiTool2 = new ApiTool2();
-                    //    params.addBodyParameter("cart_json", json);
-                    apiTool2.postApi(Config.BASE_URL + "Cart/editCart", params, this);
                     for (ShopingCart sc : shopingCarts) {
                         for (int i = 0; i < sc.getGoodsInfo().size(); i++) {
-                            String product_id = null;
-//                                    =sc.getGoodsInfo().get(i).getProduct().get()
-                            json_list.add(new Card_bean(sc.getGoodsInfo().get(i).getCart_id(), sc.getGoodsInfo().get(i).getGoods_id(), product_id, sc.getGoodsInfo().get(i).getNum()));
-
+                            json_list.add(new Card_bean(sc.getGoodsInfo().get(i).getCart_id(), sc.getGoodsInfo().get(i).getGoods_id(), sc.getGoodsInfo().get(i).getProduct_id(), sc.getGoodsInfo().get(i).getNum()));
                         }
                     }
+                    String json = gson.toJson(json_list);
+                    params.addBodyParameter("cart_json", json);
+                    apiTool2.postApi(Config.BASE_URL + "Cart/editCart", params, this);
+                    showProgressDialog();
                 }
                 cartAdapter.notifyDataSetChanged();
                 break;
@@ -314,14 +354,14 @@ public class CartFgt extends BaseFgt {
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {
                             is_all = true;
                             mId = shopingCart.getMerchant_id();
-                            //    showToast("请选择同商店的商品");
+                         //   showToast("请选择同商店的商品");
                             break;
                         }
                     }
                     if (is_all) {
                         is_all = false;
                         Bundle bundle = new Bundle();
-                        bundle.putString("type", "1");
+                        bundle.putString("type", "0");
                         bundle.putString("mid", mId);
 //                        String string = stringBuffer.toString();
 //                        string = string.substring(0 , string.length()- 1);
@@ -394,16 +434,13 @@ public class CartFgt extends BaseFgt {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == 8888) {
-
-            if (!TextUtils.isEmpty(data.getStringExtra("product_id"))) {
-
-
-            }
-
-//            L.e(data.getStringExtra("key1"));
-//            L.e(data.getStringExtra("key2"));
-
+            shopingCarts.get(position_group).getGoodsInfo().get(position).setGoods_attr_name(data.getStringExtra("pro_value"));
+            shopingCarts.get(position_group).getGoodsInfo().get(position).setProduct_id(data.getStringExtra("product_id"));
+            shopingCarts.get(position_group).getGoodsInfo().get(position).setNum(String.valueOf(data.getIntExtra("num", 0)));
+            shopingCarts.get(position_group).getGoodsInfo().get(position).setGoods_img(data.getStringExtra("image"));
+            cartAdapter.notifyDataSetChanged();
         }
     }
 
@@ -453,8 +490,6 @@ public class CartFgt extends BaseFgt {
                 public void onClick(View view) {
                     if (sc.isAllCheck()) {
                         sc.setAllCheck(false);
-
-
                         for (CartGoods cg : sc.getGoodsInfo()) {
                             cg.setCheck(false);
                             BigDecimal price = new BigDecimal(cg.getShop_price());
@@ -568,11 +603,11 @@ public class CartFgt extends BaseFgt {
             } else {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
             }
-            Glide.with(getActivity()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
+            Glide.with(getActivity().getApplicationContext()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
             cgvh.goods_name_tv.setText(cg.getGoods_name());
             // 属性
-            cgvh.goods_attrs_tv.setText(cg.getAttr_group());
-            cgvh.reset_goods_attrs_tv.setText(cg.getAttr_group());
+            cgvh.goods_attrs_tv.setText(cg.getGoods_attr_name());
+            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name());
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
             // 数量
@@ -654,18 +689,9 @@ public class CartFgt extends BaseFgt {
                 @Override
                 public void onClick(View view) {
                     position = i;
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), GoodsAttributeAty.class);
-                    intent.putExtra("from", 2);
-                    intent.putExtra("imageurl", getItem(i).getGoods_img());
-                    intent.putExtra("num", Integer.parseInt(getItem(i).getNum()));
-                    intent.putExtra("price", cg.getShop_price());
-                    Gson gson = new Gson();
-                    String json = gson.toJson(cg.getGoods_attr_first());
-                    intent.putExtra("goods_attr", json);
-//                    intent.putParcelableArrayListExtra("list", (ArrayList) getItem(i).getGoods_attr());
-//                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
-                    startActivityForResult(intent, 8888);
+                    position_group = groupPosion;
+                    Goods.attrApi(getItem(i).getGoods_id(), "", CartFgt.this);
+                    showProgressDialog();
                 }
             });
             return view;

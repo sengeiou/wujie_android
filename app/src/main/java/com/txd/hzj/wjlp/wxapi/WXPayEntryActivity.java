@@ -27,7 +27,6 @@ public class WXPayEntryActivity extends BaseAty implements IWXAPIEventHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         api = WXAPIFactory.createWXAPI(this, ConstantUtils.APP_ID);
         api.handleIntent(getIntent(), this);
     }
@@ -61,9 +60,8 @@ public class WXPayEntryActivity extends BaseAty implements IWXAPIEventHandler {
     @Override
     public void onResp(BaseResp resp) {
         Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
-
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            Intent intent = new Intent("antGo.wxPay");
+            Intent intent = new Intent("wjyp.wxPay");
             intent.putExtra("errCode", resp.errCode);
             sendBroadcast(intent);
             finish();

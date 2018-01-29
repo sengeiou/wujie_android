@@ -271,9 +271,9 @@ public class MyOrderAdapter extends BaseAdapter {
             } else {
                 str = "房款";
             }
-            goVh.title.setText("可抵：¥" + list.get(p).getPre_money() + str);
+            goVh.title.setText("可抵：¥" +list.get(p).getTrue_pre_money()+ str);
             goVh.tv_price.setVisibility(View.VISIBLE);
-            goVh.tv_price.setText("¥" +list.get(p).getGoods_price());
+            goVh.tv_price.setText("¥" + list.get(p).getPre_money() );
             return view;
         }
 

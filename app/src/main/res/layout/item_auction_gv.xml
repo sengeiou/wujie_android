@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/logo_for_country_iv"
-            android:layout_width="36dp"
-            android:layout_height="23dp"
-            />
+        <include layout="@layout/item_goods_info" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/use_coupon_tv"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@drawable/shape_tv_bg_by_orange"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:text="可使用30%购物券"
-            android:textColor="@color/white"
-            android:textSize="10sp"/>
-    </LinearLayout>
+            android:layout_marginTop="8dp"
+            android:background="#7FFFFFFF"
+            android:gravity="center_vertical">
 
-    <include layout="@layout/item_goods_info"/>
+            <ImageView
+                android:id="@+id/logo_for_country_iv"
+                android:layout_width="36dp"
+                android:layout_height="23dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/use_coupon_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/shape_tv_bg_by_orange"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:text="可使用30%购物券"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,9 +62,9 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="距结束 "
-            android:textColor="@color/gray_text_color"/>
+            android:textColor="@color/gray_text_color" />
 
-        <include layout="@layout/aty_count_down_view"/>
+        <include layout="@layout/aty_count_down_view" />
     </LinearLayout>
 
 </LinearLayout>

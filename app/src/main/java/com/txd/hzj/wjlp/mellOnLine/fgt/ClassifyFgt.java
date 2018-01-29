@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,6 +38,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.TicketZoonAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
@@ -193,21 +195,21 @@ public class ClassifyFgt extends BaseFgt {
                 });
 
     }
-
-    @Override
-    @OnClick({R.id.classify_ads_iv})
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.classify_ads_iv:
-                bundle = new Bundle();
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                bundle.putInt("from", 2);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
-        }
-    }
+//
+//    @Override
+//    @OnClick({R.id.classify_ads_iv})
+//    public void onClick(View v) {
+//        super.onClick(v);
+//        switch (v.getId()) {
+//            case R.id.classify_ads_iv:
+//                bundle = new Bundle();
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                bundle.putInt("from", 2);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
+//        }
+//    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -256,13 +258,34 @@ public class ClassifyFgt extends BaseFgt {
 
                 if (1 == p) {
                     if (ToolKit.isList(data, "ads")) {
-                        Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+                        final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                         Glide.with(getActivity()).load(ads.get("picture"))
                                 .override(Settings.displayWidth, ads_h)
                                 .error(R.drawable.ic_default)
                                 .placeholder(R.drawable.ic_default)
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(classify_ads_iv);
+                        classify_ads_iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("mell_id", ads.get("merchant_id"));
+                                    startActivity(MellInfoAty.class, bundle);
+                                } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                                    bundle.putInt("from", 1);
+                                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                                } else {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("desc", desc);
+                                    bundle.putString("href", href);
+                                    bundle.putInt("from", 2);
+                                    startActivity(NoticeDetailsAty.class, bundle);
+                                }
+                            }
+                        });
                         desc = ads.get("desc");
                         href = ads.get("href");
                     }

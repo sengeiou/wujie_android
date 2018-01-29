@@ -144,8 +144,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        L.e(ToolKit.sHA1(this, "MD5"));
-        L.e(ToolKit.sHA1(this, "SHA1"));
+//        L.e(ToolKit.sHA1(this, "MD5"));
+//        L.e(ToolKit.sHA1(this, "SHA1"));
 
 
         app_main_rg.setOnCheckedChangeListener(this);

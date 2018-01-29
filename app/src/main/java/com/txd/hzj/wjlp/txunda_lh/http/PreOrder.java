@@ -40,13 +40,19 @@ public class PreOrder {
      * @param pre_id
      * @param baseView
      */
-    public static void preSetOrder(String goods_num, String address_id, String order_id, String pre_id, BaseView baseView) {
+    public static void preSetOrder(String goods_num, String address_id, String order_id,
+                                   String pre_id,
+                                   String freight,
+                                   String freight_type,
+                                   BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("pre_id", pre_id);
         params.addBodyParameter("goods_num", goods_num);
         params.addBodyParameter("address_id", address_id);
         params.addBodyParameter("order_id", order_id);
+        params.addBodyParameter("freight", freight);
+        params.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "preSetOrder", params, baseView);
     }
 

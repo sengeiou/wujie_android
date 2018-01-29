@@ -180,7 +180,7 @@ public class CarOrderInfo extends BaseAty {
             order_id = map.get("order_id");
             Glide.with(this).load(type.equals("1") ? map.get("car_img") : map.get("house_style_img")).into(imageview);
             tv_title.setText(type.equals("1") ? map.get("car_name") : map.get("style_name"));
-            tv_price.setText("￥"+map.get("goods_price"));
+            tv_price.setText("￥"+map.get("pre_money"));
             String s = "";
             if (type.equals("1")) {
                 s = "车全款：￥" + map.get

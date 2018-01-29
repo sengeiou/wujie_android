@@ -175,9 +175,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 Platform sl = ShareSDK.getPlatform(SinaWeibo.NAME);
                                 if (qq.isAuthValid()) {
                                     qq.removeAccount(true);
-                                } else if (wx.isAuthValid()) {
+                                }
+                                if (wx.isAuthValid()) {
                                     wx.removeAccount(true);
-                                } else if (sl.isAuthValid()) {
+                                }
+                                if (sl.isAuthValid()) {
                                     sl.removeAccount(true);
                                 }
                                 Config.setLoginState(false);

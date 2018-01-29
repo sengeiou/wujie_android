@@ -63,7 +63,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         this.list = list;
         if (0 == type) {
             adsSize = Settings.displayWidth;
-            adsSize1 = Settings.displayWidth / 2;
+            adsSize1 = Settings.displayWidth * 3 / 5;
         } else {
             logo_size1 = ToolKit.dip2px(context, 36);
             logo_size2 = ToolKit.dip2px(context, 24);
@@ -124,7 +124,6 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
             case 0:// TODO==========店铺首页==========
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adsSize, adsSize1);
                 holder.image_for_mell.setLayoutParams(params);
-
                 Glide.with(context).load(map.get("ads_pic"))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.drawable.ic_default)

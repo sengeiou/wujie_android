@@ -631,6 +631,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private List<GoodsAttrs.product> goods_produc;
     private Map<String, String> mInfo;
 
+    private String goods_attr_first;
+    private String first_val;
+    private String is_attr = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -709,15 +713,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             @Override
             public void onClick(View v) {
                 if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
-                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price")
-                            , limit_buy_id);
+                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
                 } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
-                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("pre_price")
-                            , limit_buy_id);
+
+                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
 
                 } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,
-                    toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("use_integral") + "积分",
-                            limit_buy_id);
+                    toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
 
                 }
 
@@ -742,6 +744,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
+            goods_attr_first = data.get("first_list");
+            first_val = data.get("first_val");
+
             if (!cart_num.equals("0")) {
                 user_cart_num_tv.setText(cart_num);
                 user_cart_num_tv.setVisibility(View.VISIBLE);
@@ -772,6 +777,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             }
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+
+            is_attr = is_attr + "-" + goodsInfo.get("goods_num");
             // 商品id
             goods_id = goodsInfo.get("goods_id");
 
@@ -1039,6 +1046,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     layout_comment.setVisibility(View.GONE);
                 }
 
+            } else {
+                comment_layout.setVisibility(View.GONE);
+                layout_comment.setVisibility(View.GONE);
             }
 
             if (ToolKit.isList(data, "goods_price_desc")) {
@@ -1171,6 +1181,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
+                bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
 
                 break;

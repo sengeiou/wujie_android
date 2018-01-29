@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,6 +37,8 @@ import com.txd.hzj.wjlp.http.onebuy.OneBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsForRvAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 
@@ -217,7 +220,7 @@ public class SnatchChenAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("积分抽奖");
         // 轮播图高度
-        allHeight = Settings.displayWidth *400/ 1242;
+        allHeight = Settings.displayWidth * 400 / 1242;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
@@ -377,11 +380,25 @@ public class SnatchChenAty extends BaseAty {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("from", 2);
-                    bundle.putString("desc", image.get(position).getDesc());
-                    bundle.putString("href", image.get(position).getHref());
-                    startActivity(NoticeDetailsAty.class, bundle);
+
+                    if (!TextUtils.isEmpty(image.get(position).getMerchant_id()) && !image.get(position).getMerchant_id().equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", image.get(position).getMerchant_id());
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(image.get(position).getGoods_id()) && !image.get(position).getGoods_id().equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", image.get(position).getGoods_id());
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("from", 2);
+                        bundle.putString("desc", image.get(position).getDesc());
+                        bundle.putString("href", image.get(position).getHref());
+                        startActivity(NoticeDetailsAty.class, bundle);
+                    }
+
+
                 }
             });
         }

@@ -1,5 +1,9 @@
 package com.txd.hzj.wjlp.minetoAty;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -33,6 +37,7 @@ import com.txd.hzj.wjlp.txunda_lh.http.IntegralPay;
 import com.txd.hzj.wjlp.txunda_lh.http.Order;
 import com.txd.hzj.wjlp.txunda_lh.http.Pay;
 import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
+import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.util.Map;
 
@@ -200,7 +205,16 @@ public class PayForAppAty extends BaseAty {
                 break;
             case R.id.tv_submit:
                 if (pay_by_wechat_cb.isChecked()) {
-
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "4", this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (type.equals("6")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "8", this);
+                    }
+                    showProgressDialog();
                 }
                 if (pay_by_ali_cb.isChecked()) {
                     if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
@@ -215,7 +229,7 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
                 if (pay_by_balance_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")  ) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
                         BalancePay.BalancePay(data.get("order_id"), type, getType(), "", this);
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
                         BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
@@ -231,7 +245,7 @@ public class PayForAppAty extends BaseAty {
                         BalancePay.BalancePay(order_id, "7", getType(), num, this);
                     } else if (type.equals("9")) {
                         BalancePay.BalancePay(order_id, "4", getType(), num, this);
-                    }else if(type.equals("11")){
+                    } else if (type.equals("11")) {
                         BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
                     }
                     showProgressDialog();
@@ -303,10 +317,28 @@ public class PayForAppAty extends BaseAty {
     protected int getLayoutResId() {
         return R.layout.aty_pay_for_app;
     }
+    private WxPayReceiver wxPayReceiver;
 
+    private class WxPayReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            int errCode = intent.getIntExtra("errCode", 5);
+            if (errCode == 0) {
+                showToast("支付成功");
+                finish();
+            } else {
+                removeProgressDialog();
+                showToast("支付失败");
+            }
+        }
+    }
     @Override
     protected void initialized() {
-
+        wxPayReceiver = new WxPayReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("wjyp.wxPay");
+        registerReceiver(wxPayReceiver, intentFilter);
     }
 
     @Override
@@ -326,22 +358,24 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
-        if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-            Order.setOrder(address_id, num, goods_id, product_id, cart_id, order_type, order_id, group_buy_id, freight, freight_type,"", this);
+        if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1")) {
+            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "0", order_id, group_buy_id, freight, freight_type, "", this);
         } else if (type.equals("2")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, this);
         } else if (type.equals("3")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, freight, freight_type, this);
+        } else if (type.equals("5")) {
+            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "1", order_id, group_buy_id, freight, freight_type, "", this);
         } else if (type.equals("4")) {
             String[] strings = group_buy_id.split("-");
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, this);
         } else if (type.equals("6")) {
-            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, this);
+            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, this);
         } else if (type.equals("7")) {
             if (!order_type.equals("7")) {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, this);
             } else {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", freight, freight_type, this);
             }
             layout_wx.setVisibility(View.GONE);
             layout_ali.setVisibility(View.GONE);
@@ -353,7 +387,7 @@ public class PayForAppAty extends BaseAty {
             layout_ali.setVisibility(View.GONE);
             return;
         } else if (type.equals("9")) {
-            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", order_id, this);
+            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, this);
 
         } else if (type.equals("10")) {
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, this);
@@ -362,7 +396,8 @@ public class PayForAppAty extends BaseAty {
             layout_yue.setVisibility(View.GONE);
 
         } else if (type.equals("11")) {
-            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type,cart_id, this);  }
+            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type, cart_id, this);
+        }
         showProgressDialog();
     }
 
@@ -417,6 +452,13 @@ public class PayForAppAty extends BaseAty {
             }
             showToast("支付成功！");
             finish();
+        }
+        if (requestUrl.contains("getJsTine")){
+            GetPrepayIdTask wxPay = new GetPrepayIdTask(this, data.get("sign"), data.get("appid"),
+                    data.get("nonce_str"), data.get("package"), data.get("time_stamp"), data.get("prepay_id"),
+                    data.get("mch_id"), "");
+            wxPay.execute();
+
         }
         if (requestUrl.contains("getAlipayParam"))
 

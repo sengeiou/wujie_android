@@ -250,12 +250,17 @@ public class BuildOrderAty extends BaseAty {
         num = getString("num");
         //  ordertype = getString("order_type");
         product_id = getString("product_id");
-        if (type.equals("1") || type.equals("5")) {
+        if (type.equals("0")) {
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id,"", this);
+        } else if (type.equals("1")) {
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("2")) {
-            GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, this);
+            GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, group_buy_id, this);
         } else if (type.equals("3") || type.equals("4")) {
-            GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, this);
+            GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, group_buy_id, this);
+        } else if (type.equals("5")) {
+
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("6")) {
             PreOrder.preShoppingCart(group_buy_id, num, this);
         } else if (type.equals("7")) {

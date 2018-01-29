@@ -35,6 +35,7 @@ public class CartGoods {
     private String merchant_id;
     private String num;
     private String goods_name;
+    private String goods_attr_name;
     private String shop_price;
     private String goods_img;
     private String attr_group;
@@ -43,6 +44,13 @@ public class CartGoods {
     private List<GoodsAttributeAty.Goods_Attr> goods_attr_first;
     private List<GoodsAttrs.product> product;
 
+    public String getGoods_attr_name() {
+        return goods_attr_name;
+    }
+
+    public void setGoods_attr_name(String goods_attr_name) {
+        this.goods_attr_name = goods_attr_name;
+    }
 
     public boolean isCheck() {
         return check;

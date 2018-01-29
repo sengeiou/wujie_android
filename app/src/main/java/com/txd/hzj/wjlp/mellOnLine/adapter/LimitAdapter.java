@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -115,11 +116,11 @@ public class LimitAdapter extends BaseAdapter {
                 .into(lvh.goods_pic_iv);
 
         // 现在时间
-        long now = Calendar.getInstance().getTimeInMillis() / 1000L;
+        long now =  System.currentTimeMillis() / 1000;
         // 结束时间
         long end = Long.parseLong(auctionList.getEnd_time());
         lvh.home_count_down_view.setTag("limit" + i);
-        lvh.home_count_down_view.start(end - now);
+        lvh.home_count_down_view.start((end - now)*1000);
 
         // 控制显示或隐藏提醒我按钮
         if (1 == type) {

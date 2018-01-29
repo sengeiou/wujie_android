@@ -228,6 +228,10 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
+    public void beBack(View view) {
+        startActivity(MainAty.class, null);
+    }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_login;

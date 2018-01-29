@@ -54,7 +54,11 @@ public class AuctionOrder {
      * @param order_id
      * @param baseView
      */
-    public static void SetOrder(String address_id, String auction_id, String buy_type, String bid, String order_id, BaseView baseView) {
+    public static void SetOrder(String address_id, String auction_id, String buy_type, String bid,
+                                String order_id,
+                                String freight,
+                                String freight_type,
+                                BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("address_id", address_id);
@@ -62,6 +66,8 @@ public class AuctionOrder {
         requestParams.addBodyParameter("buy_type", buy_type);
         requestParams.addBodyParameter("bid", bid);
         requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("freight_type", freight_type);
+        requestParams.addBodyParameter("freight", freight);
         apiTool2.postApi(url + "SetOrder", requestParams, baseView);
     }
 

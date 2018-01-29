@@ -428,7 +428,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                                 ("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             String name = ActTypeForName(temp2);
-                            list.add(new TricketDetailks(time, name, temp2.get("create_time"),
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
                                     temp2.get("act_type"), ""));
                         }
@@ -455,7 +455,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                                 ("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             String name = ActTypeForName(temp2);
-                            list.add(new TricketDetailks(time, name, temp2.get("create_time"),
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
                                     temp2.get("act_type"), ""));
                         }

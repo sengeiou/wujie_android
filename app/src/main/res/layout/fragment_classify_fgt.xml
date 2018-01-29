@@ -23,7 +23,6 @@
                     android:id="@+id/classify_vp"
                     android:layout_width="match_parent"
                     android:layout_height="160dp" />
-
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="4dp" />
@@ -33,6 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop" />
+
+
 
                 <Space
                     android:layout_width="match_parent"

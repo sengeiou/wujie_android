@@ -106,12 +106,12 @@ public class CreateGroupAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         if (0 == status) {
-            titlt_conter_tv.setText("参团");
+            titlt_conter_tv.setText("拼单");
         } else {
-            titlt_conter_tv.setText("开团");
+            titlt_conter_tv.setText("拼单");
         }
         if (0 != status) {
-            group_operation_tv.setText("一键开团");
+            group_operation_tv.setText("一键拼单");
             group_operation_tv.setEnabled(true);
 //            group_status_tv.setText("团已满");
             group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
@@ -122,8 +122,20 @@ public class CreateGroupAty extends BaseAty {
         group_member_rv.setItemAnimator(new DefaultItemAnimator());
         group_operation_tv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {// list_, list_p,
-                toAttrs(v, 0, "4", goods_id, data.get("goods_img"), data.get("shop_price"), getIntent().getStringExtra("group_buy_id") + "-" + log_id);
+            public void onClick(View v) {
+
+                toAttrs(v,
+                        0,
+                        "4",
+                        goods_id,
+                        data.get("goods_img"),
+                        data.get("shop_price"),
+                        getIntent().getStringExtra("group_buy_id") + "-" + log_id,
+                        getIntent().getStringExtra("goods_attr_first"),
+                        getIntent().getStringExtra("first_val"),
+                        getIntent().getStringExtra("is_attr")
+                );
+
             }
         });
     }
@@ -201,7 +213,7 @@ public class CreateGroupAty extends BaseAty {
                 group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
 //                group_status_tv.setText(groupPager.getData().getDiff());
             } else {// 我不是团长，参团
-                group_operation_tv.setText("我要参团");
+                group_operation_tv.setText("一键参团");
                 group_operation_tv.setEnabled(true);
 //                group_status_tv.setText(groupPager.getData().getDiff());
                 group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);

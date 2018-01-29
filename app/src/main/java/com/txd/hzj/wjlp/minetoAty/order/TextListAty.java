@@ -1,18 +1,26 @@
 package com.txd.hzj.wjlp.minetoAty.order;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.ListUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -39,6 +47,8 @@ import java.util.Map;
 public class TextListAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
+    @ViewInject(R.id.titlt_right_tv)
+    public TextView titlt_right_tv;
 
     @ViewInject(R.id.all_text_lv)
     private ListView all_text_lv;
@@ -58,6 +68,10 @@ public class TextListAty extends BaseAty {
     private BalancePst balancePst;
     Map<String, String> map;
     List<Map<String, String>> list = new ArrayList<>();
+    ArrayList<Integer> list_check = new ArrayList<Integer>();
+
+    private String cate_id = "";
+    private String scope = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +92,15 @@ public class TextListAty extends BaseAty {
                     data.putExtra("express", dataList.get(i).get("shipping_name"));
                     data.putExtra("id", dataList.get(i).get("shopping_id"));
                 } else if (title.equals("选择经营范围")) {
-                    data.putExtra("scope", dataList.get(i).get("short_name"));
-                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
+//                    data.putExtra("scope", dataList.get(i).get("short_name"));
+//                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
+                    if (list_check.get(i) == 0) {
+                        list_check.set(i, 1);
+                    } else {
+                        list_check.set(i, 0);
+                    }
+                    tAdapter.notifyDataSetChanged();
+                    return;
                 } else if (title.equals("选择街道")) {
                     data.putExtra("street", dataList.get(i).get("street_name"));
                     data.putExtra("street_id", dataList.get(i).get("street_id"));
@@ -90,6 +111,30 @@ public class TextListAty extends BaseAty {
                     data.putExtra("card_type", dataList.get(i).get("bank_name"));
                     data.putExtra("bank_type_id", dataList.get(i).get("bank_type_id"));
                 }
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        });
+        titlt_right_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < list_check.size(); i++) {
+                    if (list_check.get(i) == 1) {
+                        scope += dataList.get(i).get("short_name") + ",";
+                        cate_id += dataList.get(i).get("cate_id") + ",";
+
+                    } else {
+
+                    }
+                }
+                if (TextUtils.isEmpty(scope)) {
+                    showToast("至少选择一条！");
+                    return;
+                }
+                Intent data = new Intent();
+                data.putExtra("scope", scope);
+                data.putIntegerArrayListExtra("number", list_check);
+                data.putExtra("cate_id", cate_id);
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -124,6 +169,10 @@ public class TextListAty extends BaseAty {
             addressPst.getStreet(area_id);
         } else if (title.equals("选择经营范围")) {
             userPst.getRange();
+            titlt_right_tv.setVisibility(View.VISIBLE);
+            titlt_right_tv.setText("确定");
+            titlt_right_tv.setTextColor(Color.parseColor("#F23030"));
+            list_check = getIntent().getIntegerArrayListExtra("number");
         } else if (title.equals("举报类型")) {
             merchantPst.reportType();
         } else if (title.equals("银行卡类型")) {
@@ -168,6 +217,12 @@ public class TextListAty extends BaseAty {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
+            int num = dataList.size();
+            if (ListUtils.isEmpty(list_check)) {
+                for (int i = 0; i < num; i++) {
+                    list_check.add(0);
+                }
+            }
             return;
         }
         if (requestUrl.contains("reportType")) {
@@ -222,7 +277,7 @@ public class TextListAty extends BaseAty {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             Map<String, String> map = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(TextListAty.this).inflate(R.layout.item_text_lv_hzj, null);
@@ -237,13 +292,24 @@ public class TextListAty extends BaseAty {
             } else if (title.equals("选择快递")) {
                 tvvh.text_context_tv.setText(map.get("shipping_name"));
             } else if (title.equals("选择经营范围")) {
-                tvvh.text_context_tv.setText(map.get("short_name"));
+//                tvvh.text_context_tv.setText(map.get("short_name"));
+                tvvh.layout.setVisibility(View.GONE);
+                tvvh.layout2.setVisibility(View.VISIBLE);
+                tvvh.tv.setText(map.get("short_name"));
+                if (list_check.get(i) == 1) {
+                    tvvh.im.setImageResource(R.drawable.icon_cart_goods_selected);
+                } else {
+                    tvvh.im.setImageResource(R.drawable.icon_cart_goods_unselect);
+                }
+
             } else if (title.equals("选择街道")) {
                 tvvh.text_context_tv.setText(map.get("street_name"));
             } else if (title.equals("举报类型")) {
                 tvvh.text_context_tv.setText(map.get("title"));
             } else if (title.equals("银行卡类型")) {
                 tvvh.text_context_tv.setText(map.get("bank_name"));
+                Glide.with(getApplicationContext()).load(map.get("bank_pic")).into(tvvh.imageview);
+                tvvh.imageview.setVisibility(View.VISIBLE);
             }
 
             return view;
@@ -252,6 +318,16 @@ public class TextListAty extends BaseAty {
         private class TVVh {
             @ViewInject(R.id.text_context_tv)
             private TextView text_context_tv;
+            @ViewInject(R.id.imageview)
+            private ImageView imageview;
+            @ViewInject(R.id.layout)
+            private LinearLayout layout;
+            @ViewInject(R.id.layout2)
+            private LinearLayout layout2;
+            @ViewInject(R.id.tv)
+            private TextView tv;
+            @ViewInject(R.id.im)
+            private ImageView im;
         }
 
     }

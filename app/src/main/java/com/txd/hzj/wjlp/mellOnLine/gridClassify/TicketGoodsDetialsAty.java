@@ -515,6 +515,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
+                bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             }
@@ -973,7 +974,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
                     "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
-            tv_freight.setText( "运费" + map.get("pay") + "元");
+            tv_freight.setText("运费" + map.get("pay") + "元");
         }
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -997,6 +998,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+
             forGoodsInfo(goodsInfo);
             tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {
@@ -1094,7 +1096,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     comment_layout.setVisibility(View.GONE);
                     layout_comment.setVisibility(View.GONE);
                 }
-
+            } else {
+                comment_layout.setVisibility(View.GONE);
+                layout_comment.setVisibility(View.GONE);
             }
             // TODO==========产品属性==========
             if (ToolKit.isList(data, "goods_common_attr")) {

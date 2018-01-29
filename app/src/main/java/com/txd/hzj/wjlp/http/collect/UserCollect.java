@@ -27,7 +27,6 @@ public class UserCollect {
      * @param baseView 回调
      */
     void collectList(int p, String type, BaseView baseView) {
-
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));

@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt;
 
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -30,6 +31,8 @@ import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.LimitAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,17 +163,18 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
     }
 
     @Override
-    @OnClick({R.id.top_ad_iv, R.id.to_be_back_iv})
+    @OnClick({R.id.to_be_back_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.top_ad_iv:
-                Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
+            //R.id.top_ad_iv,
+//            case R.id.top_ad_iv:
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("from", 2);
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
             case R.id.to_be_back_iv:
                 fgt_limit_sc.smoothScrollTo(0, 0);
                 to_be_back_iv.setVisibility(View.GONE);
@@ -232,7 +236,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
             // 设置倒计时的时长
             limit_count_down_view.start(difference);
             if (1 == p) {
-                Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+                final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                 Glide.with(getActivity()).load(ads.get("picture"))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.drawable.ic_default)
@@ -240,6 +244,28 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
 //                        .centerCrop()
 //                        .override(Settings.displayWidth, height)
                         .into(top_ad_iv);
+                top_ad_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", ads.get("merchant_id"));
+                            startActivity(MellInfoAty.class, bundle);
+                        } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("from", 2);
+                            bundle.putString("desc", desc);
+                            bundle.putString("href", href);
+                            startActivity(NoticeDetailsAty.class, bundle);
+                        }
+                    }
+                });
                 desc = ads.get("desc");
                 href = ads.get("href");
                 if (ToolKit.isList(data, "limitBuyList")) {

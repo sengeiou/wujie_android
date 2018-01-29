@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,6 +53,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
@@ -69,6 +71,7 @@ import java.util.Map;
 
 /**
  * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:05
@@ -579,18 +582,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    forShowAds(image.get(position).get("desc"), image.get(position).get("href"));
+                    if (!TextUtils.isEmpty(image.get(position).get("merchant_id")) && !image.get(position).get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", image.get(position).get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(image.get(position).get("goods_id")) && !image.get(position).get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", image.get(position).get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(image.get(position).get("desc"), image.get(position).get("href"));
+                    }
                 }
             });
         }
     };
 
     @Override
-    @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv, R.id.three_image_left_iv,
-            R.id.three_image_center_iv, R.id.three_image_right_iv, R.id.ads_by_limit_buy_iv,
-            R.id.ticket_buy_ads_iv, R.id.pre_buy_ads_iv, R.id.country_ads_iv, R.id.auction_ads_iv,
-            R.id.one_buy_ads_iv, R.id.car_ads_iv, R.id.house_ads_iv,
-            R.id.group_buy_ads_iv
+    @OnClick({R.id.wujie_top_lin_layout, R.id.on_line_be_back_top_iv,
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -601,42 +611,55 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             case R.id.on_line_be_back_top_iv:// 无界头条
                 mell_on_line_sc.smoothScrollTo(0, 0);
                 break;
-            case R.id.three_image_left_iv://左边
-                forShowAds(left_desc, left_href);
-                break;
-            case R.id.three_image_center_iv://中间
-                forShowAds(cent_desc, cent_href);
-                break;
-            case R.id.three_image_right_iv://右边
-                forShowAds(right_desc, right_href);
-                break;
-            case R.id.ads_by_limit_buy_iv://限量购
-                forShowAds(limit_desc, limit_href);
-                break;
-            case R.id.ticket_buy_ads_iv:// 票券区
-                forShowAds(ticket_desc, ticket_href);
-                break;
-            case R.id.pre_buy_ads_iv:// 无界预购
-                forShowAds(pre_desc, pre_href);
-                break;
-            case R.id.country_ads_iv:// 进口馆
-                forShowAds(country_desc, country_href);
-                break;
-            case R.id.auction_ads_iv:// 竞拍汇
-                forShowAds(auction_desc, auction_href);
-                break;
-            case R.id.one_buy_ads_iv:// 一元夺宝(积分夺宝)
-                forShowAds(one_buy_desc, one_buy_href);
-                break;
-            case R.id.car_ads_iv:// 汽车购
-                forShowAds(car_desc, car_href);
-                break;
-            case R.id.house_ads_iv:// 房产购
-                forShowAds(house_desc, house_href);
-                break;
-            case R.id.group_buy_ads_iv:// 团购
-                forShowAds(group_desc, group_href);
-                break;
+            // R.id.three_image_left_iv,
+//            case R.id.three_image_left_iv://左边
+//                forShowAds(left_desc, left_href);
+//                break;
+            // R.id.three_image_center_iv,
+//            case R.id.three_image_center_iv://中间
+//                forShowAds(cent_desc, cent_href);
+//                break;
+
+            //  R.id.three_image_right_iv,
+//            case R.id.three_image_right_iv://右边
+//                forShowAds(right_desc, right_href);
+//                break;
+            //   R.id.ads_by_limit_buy_iv,
+//            case R.id.ads_by_limit_buy_iv://限量购
+//                forShowAds(limit_desc, limit_href);
+//                break;
+            // R.id.ticket_buy_ads_iv,
+//            case R.id.ticket_buy_ads_iv:// 票券区
+//                forShowAds(ticket_desc, ticket_href);
+//                break;
+            //        R.id.pre_buy_ads_iv,
+//            case R.id.pre_buy_ads_iv:// 无界预购
+//                forShowAds(pre_desc, pre_href);
+//                break;
+            // R.id.country_ads_iv,
+//            case R.id.country_ads_iv:// 进口馆
+//                forShowAds(country_desc, country_href);
+//                break;
+            //R.id.auction_ads_iv,
+//            case R.id.auction_ads_iv:// 竞拍汇
+//                forShowAds(auction_desc, auction_href);
+//                break;
+            //            R.id.one_buy_ads_iv,
+//            case R.id.one_buy_ads_iv:// 一元夺宝(积分夺宝)
+//                forShowAds(one_buy_desc, one_buy_href);
+//                break;
+            // R.id.car_ads_iv,
+//            case R.id.car_ads_iv:// 汽车购
+//                forShowAds(car_desc, car_href);
+//                break;
+            //R.id.house_ads_iv,
+//            case R.id.house_ads_iv:// 房产购
+//                forShowAds(house_desc, house_href);
+//                break;
+            //group_buy_ads_iv R.id.
+//            case R.id.group_buy_ads_iv:// 团购
+//                forShowAds(group_desc, group_href);
+//                break;
         }
     }
 
@@ -789,7 +812,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 拼团购
     private void forGroup(Map<String, String> data) {
         Map<String, String> group_buy = JSONUtils.parseKeyAndValueToMap(data.get("group_buy"));
-        Map<String, String> group_buy_ads = JSONUtils.parseKeyAndValueToMap(group_buy.get("ads"));
+        final Map<String, String> group_buy_ads = JSONUtils.parseKeyAndValueToMap(group_buy.get("ads"));
 
         if (ToolKit.isList(group_buy, "goodsList")) {
             groupList = GsonUtil.getObjectList(group_buy.get("goodsList"), AllGoodsBean.class);
@@ -804,6 +827,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(group_buy_ads_iv);
+            group_buy_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(group_buy_ads.get("merchant_id")) && !group_buy_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", group_buy_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(group_buy_ads.get("goods_id")) && !group_buy_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", group_buy_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(group_desc, group_href);
+                    }
+
+                }
+            });
             group_href = group_buy_ads.get("href");
             group_desc = group_buy_ads.get("desc");
         }
@@ -812,7 +853,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 房产购
     private void forHouse(Map<String, String> data) {
         Map<String, String> house_buy = JSONUtils.parseKeyAndValueToMap(data.get("house"));
-        Map<String, String> house_ads = JSONUtils.parseKeyAndValueToMap(house_buy.get("ads"));
+        final Map<String, String> house_ads = JSONUtils.parseKeyAndValueToMap(house_buy.get("ads"));
         if (house_ads != null) {
             Glide.with(getActivity()).load(house_ads.get("picture"))
                     .override(ads_w, ads_h)
@@ -821,6 +862,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(house_ads_iv);
+            house_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(house_ads.get("merchant_id")) && !house_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", house_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(house_ads.get("goods_id")) && !house_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", house_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(house_desc, house_href);
+
+                    }
+                }
+            });
             house_href = house_ads.get("href");
             house_desc = house_ads.get("desc");
         }
@@ -833,7 +892,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     private void forCar(Map<String, String> data) {
         Map<String, String> car_buy = JSONUtils.parseKeyAndValueToMap(data.get("car"));
-        Map<String, String> car_ads = JSONUtils.parseKeyAndValueToMap(car_buy.get("ads"));
+        final Map<String, String> car_ads = JSONUtils.parseKeyAndValueToMap(car_buy.get("ads"));
         if (car_ads != null) {
             Glide.with(getActivity()).load(car_ads.get("picture"))
                     .override(ads_w, ads_h)
@@ -842,6 +901,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(car_ads_iv);
+            car_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(car_ads.get("merchant_id")) && !car_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", car_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(car_ads.get("goods_id")) && !car_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", car_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(car_desc, car_href);
+                    }
+                }
+            });
             car_href = car_ads.get("href");
             car_desc = car_ads.get("desc");
         }
@@ -855,7 +931,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 积分夺宝
     private void forOneBuy(Map<String, String> data) {
         Map<String, String> one_buy = JSONUtils.parseKeyAndValueToMap(data.get("one_buy"));
-        Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
+        final Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
         if (ToolKit.isList(one_buy, "goodsList")) {
 
@@ -872,6 +948,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(one_buy_ads_iv);
+            one_buy_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(one_buy_ads.get("merchant_id")) && !one_buy_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", one_buy_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(one_buy_ads.get("goods_id")) && !one_buy_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", one_buy_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(one_buy_desc, one_buy_href);
+                    }
+                }
+            });
             one_buy_href = one_buy_ads.get("href");
             one_buy_desc = one_buy_ads.get("desc");
         }
@@ -880,7 +973,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 竞拍汇
     private void forAuction(Map<String, String> data) {
         Map<String, String> auction = JSONUtils.parseKeyAndValueToMap(data.get("auction"));
-        Map<String, String> auction_ads = JSONUtils.parseKeyAndValueToMap(auction.get("ads"));
+        final Map<String, String> auction_ads = JSONUtils.parseKeyAndValueToMap(auction.get("ads"));
 
         if (ToolKit.isList(auction, "goodsList")) {
             auctionList = GsonUtil.getObjectList(auction.get("goodsList"), AllGoodsBean.class);
@@ -895,6 +988,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(auction_ads_iv);
+            auction_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(auction_ads.get("merchant_id")) && !auction_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", auction_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(auction_ads.get("goods_id")) && !auction_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", auction_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(auction_desc, auction_href);
+                    }
+                }
+            });
             auction_href = auction_ads.get("href");
             auction_desc = auction_ads.get("desc");
         }
@@ -903,7 +1013,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 进口馆
     private void forCountry(Map<String, String> data) {
         Map<String, String> country = JSONUtils.parseKeyAndValueToMap(data.get("country"));
-        Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
+        final Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
 
         if (ToolKit.isList(country, "goodsList")) {
             countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
@@ -918,6 +1028,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(country_ads_iv);
+            country_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(country_ads.get("merchant_id")) && !country_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", country_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(country_ads.get("goods_id")) && !country_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", country_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(country_desc, country_href);
+                    }
+                }
+            });
+
             country_href = country_ads.get("href");
             country_desc = country_ads.get("desc");
         }
@@ -926,7 +1054,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 无界预购
     private void orPre(Map<String, String> data) {
         Map<String, String> pre_buy = JSONUtils.parseKeyAndValueToMap(data.get("pre_buy"));
-        Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));
+        final Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));
         if (ToolKit.isList(pre_buy, "goodsList")) {
             per = GsonUtil.getObjectList(pre_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter2 = new AllGvLvAdapter(getActivity(), per, 2);
@@ -940,6 +1068,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(pre_buy_ads_iv);
+            pre_buy_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(pre_ads.get("merchant_id")) && !pre_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", pre_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(pre_ads.get("goods_id")) && !pre_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", pre_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(pre_desc, pre_href);
+                    }
+                }
+            });
             pre_href = pre_ads.get("href");
             pre_desc = pre_ads.get("desc");
         }
@@ -957,7 +1102,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             AllGvLvAdapter allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), ticket, 1);
             ticket_gv.setAdapter(allGvLvAdapter1);
         }
-        Map<String, String> ticket_ads = JSONUtils.parseKeyAndValueToMap(ticket_buy.get("ads"));
+        final Map<String, String> ticket_ads = JSONUtils.parseKeyAndValueToMap(ticket_buy.get("ads"));
         if (ticket_ads != null) {
             Glide.with(getActivity()).load(ticket_ads.get("picture"))
                     .override(ads_w, ads_h)
@@ -966,6 +1111,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(ticket_buy_ads_iv);
+            ticket_buy_ads_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(ticket_ads.get("merchant_id")) && !ticket_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", ticket_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(ticket_ads.get("goods_id")) && !ticket_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", ticket_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(ticket_desc, ticket_href);
+                    }
+                }
+            });
             ticket_href = ticket_ads.get("href");
             ticket_desc = ticket_ads.get("desc");
         }
@@ -979,7 +1141,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void forLimit(Map<String, String> data) {
         // 限量购
         Map<String, String> limit_buy = JSONUtils.parseKeyAndValueToMap(data.get("limit_buy"));
-        Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(limit_buy.get("ads"));
+        final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(limit_buy.get("ads"));
         if (ToolKit.isList(limit_buy, "goodsList")) {
             limit = GsonUtil.getObjectList(limit_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter = new AllGvLvAdapter(getActivity(), limit, 0);
@@ -993,6 +1155,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
                     .into(ads_by_limit_buy_iv);
+            ads_by_limit_buy_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", limit_ads.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(limit_desc, limit_href);
+                    }
+
+                }
+            });
             limit_href = limit_ads.get("href");
             limit_desc = limit_ads.get("desc");
 
@@ -1070,7 +1250,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void threeAdsInfo(Map<String, String> data) {
         Map<String, String> three_img = JSONUtils.parseKeyAndValueToMap(data.get("three_img"));
         // 品牌图(左边)
-        Map<String, String> brand = JSONUtils.parseKeyAndValueToMap(three_img.get("brand"));
+        final Map<String, String> brand = JSONUtils.parseKeyAndValueToMap(three_img.get("brand"));
         if (brand != null) {
             Glide.with(getActivity()).load(brand.get("picture"))
                     .override(img_w, img_h)
@@ -1081,9 +1261,28 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .into(three_image_left_iv);
             left_desc = brand.get("desc");
             left_href = brand.get("href");
+            three_image_left_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(brand.get("merchant_id")) && !brand.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", brand.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(brand.get("goods_id")) && !brand.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", brand.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        forShowAds(left_desc, left_href);
+                    }
+
+                }
+            });
+
         }
         // 中国制造(中间)
-        Map<String, String> china = JSONUtils.parseKeyAndValueToMap(three_img.get("china"));
+        final Map<String, String> china = JSONUtils.parseKeyAndValueToMap(three_img.get("china"));
         Glide.with(getActivity()).load(china.get("picture"))
                 .override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -1091,12 +1290,29 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_center_iv);
+        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(china.get("merchant_id")) && !china.get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", china.get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(china.get("goods_id")) && !china.get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", china.get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(cent_desc, cent_href);
+                }
 
+            }
+        });
         cent_desc = china.get("desc");
         cent_href = china.get("href");
 
         // 科技前沿(右边)
-        Map<String, String> science = JSONUtils.parseKeyAndValueToMap(three_img.get("science"));
+        final Map<String, String> science = JSONUtils.parseKeyAndValueToMap(three_img.get("science"));
         Glide.with(getActivity()).load(science.get("picture"))
                 .override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -1104,6 +1320,24 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_right_iv);
+        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(science.get("merchant_id")) && !science.get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", science.get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(science.get("goods_id")) && !science.get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", science.get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(right_desc, right_href);
+                }
+
+            }
+        });
         right_desc = science.get("desc");
         right_href = science.get("href");
     }

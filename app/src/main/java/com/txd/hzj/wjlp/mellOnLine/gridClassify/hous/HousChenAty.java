@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.HousChenAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -276,7 +279,8 @@ public class HousChenAty extends BaseAty {
 
     @Override
     @OnClick({R.id.hot_goods_tv, R.id.lastest_goods_layout,
-            R.id.plan_goods_layout, R.id.times_layout, R.id.house_ada_iv,
+            R.id.plan_goods_layout, R.id.times_layout,
+//            R.id.house_ada_iv,
             R.id.be_back_top_fab})
     public void onClick(View v) {
         super.onClick(v);
@@ -297,13 +301,13 @@ public class HousChenAty extends BaseAty {
                 soft_type = 3;
                 softStyle(soft_type);
                 break;
-            case R.id.house_ada_iv:// 广告
-                Bundle bundle = new Bundle();
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                bundle.putInt("from", 2);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
+//            case R.id.house_ada_iv:// 广告
+//                Bundle bundle = new Bundle();
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                bundle.putInt("from", 2);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
             case R.id.be_back_top_fab:// 回到顶部
                 mRvHous.smoothScrollToPosition(0);
                 break;
@@ -341,13 +345,37 @@ public class HousChenAty extends BaseAty {
             if (ToolKit.isList(map, "data")) {// 能拿到data
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (1 == p) {
-                    Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+                    final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                     Glide.with(this).load(ads.get("picture"))
                             .fitCenter()
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .placeholder(R.drawable.ic_default)
                             .error(R.drawable.ic_default)
                             .into(house_ada_iv);
+                    house_ada_iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mell_id", ads.get("merchant_id"));
+                                startActivity(MellInfoAty.class, bundle);
+                            } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                                bundle.putInt("from", 1);
+                                startActivity(TicketGoodsDetialsAty.class, bundle);
+                            } else {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("desc", desc);
+                                bundle.putString("href", href);
+                                bundle.putInt("from", 2);
+                                startActivity(NoticeDetailsAty.class, bundle);
+                            }
+
+
+                        }
+                    });
                     desc = ads.get("desc");
                     href = ads.get("href");
                     if (ToolKit.isList(data, "car_list")) {

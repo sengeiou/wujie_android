@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.popAty.fgt;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.welfare.WelfarePst;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.popAty.GetRedPackageAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
@@ -81,10 +84,21 @@ public class RedPacagerFgt extends BaseFgt {
         red_package_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (!TextUtils.isEmpty( list.get(i - 1). get("merchant_id")) && ! list.get(i - 1).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id",  list.get(i - 1).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty( list.get(i - 1).get("goods_id")) && ! list.get(i - 1).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id",  list.get(i - 1).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("bonus_id", list.get(i - 1).get("bonus_id"));
+                    startActivity(GetRedPackageAty.class, bundle);
+                }
 
-                Bundle bundle = new Bundle();
-                bundle.putString("bonus_id", list.get(i - 1).get("bonus_id"));
-                startActivity(GetRedPackageAty.class, bundle);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -23,6 +24,7 @@ import com.txd.hzj.wjlp.bean.footPoint.FootPointBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
+import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSelectNum {
+
     private boolean status;
     /**
      * 数据类型
@@ -71,7 +74,7 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     private LinearLayout no_data_layout;
     private int p = 1;
     private int allNum = 0;
-
+    Intent intent;
     @ViewInject(R.id.cart_select_all_cb)
     private CheckBox cart_select_all_cb;
 
@@ -85,8 +88,11 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        collect_mell_lv.setEmptyView(no_data_layout);
 
+        intent = new Intent();
+        intent.setAction("sftv");
+        intent.putExtra("index", 1);
+        collect_mell_lv.setEmptyView(no_data_layout);
         collect_mell_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -175,16 +181,21 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
         mellsFoot2 = new ArrayList<>();
         userPst = new UserPst(this);
         collectPst = new UserCollectPst(this);
-        L.e("====data22222=====", String.valueOf(dataType));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        if (0 == dataType) {
+//            userPst.myfooter(p, "2");
+//        } else {
+//            collectPst.collectList(p, "2");
+//        }
     }
 
     @Override
     protected void requestData() {
-        if (0 == dataType) {
-            userPst.myfooter(p, "2");
-        } else {
-            collectPst.collectList(p, "2");
-        }
+
     }
 
     @Override
@@ -192,7 +203,16 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
 
     }
 
+    public void r() {
+        if (0 == dataType) {
+            userPst.myfooter(p, "2");
+        } else {
+            collectPst.collectList(p, "2");
+        }
+    }
+
     public void setStatus(boolean status) {
+
         this.status = status;
         if (!status) {
             operation_mell_collect_layout.setVisibility(View.GONE);
@@ -212,6 +232,9 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
+//            intent.putExtra("a","222");
+
+//            ((FootprintAty )getActivity()).setView(View.GONE);
             removeContent();
             removeDialog();
         } else {
@@ -224,6 +247,8 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("myfooter")) {
+//            ((FootprintAty )getActivity()).setView(View.VISIBLE);
+            getActivity().sendBroadcast(intent);
             FootPointBean foot = GsonUtil.GsonToBean(jsonStr, FootPointBean.class);
             allNum = foot.getNums();
             if (1 == p) {
@@ -246,6 +271,8 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
             return;
         }
         if (requestUrl.contains("collectList")) {
+
+            getActivity().sendBroadcast(intent);
             CollectOrFootpointMell mell = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointMell.class);
             allNum = mell.getNums();
             if (1 == p) {

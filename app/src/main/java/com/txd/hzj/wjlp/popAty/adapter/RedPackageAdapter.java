@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
@@ -53,18 +54,23 @@ public class RedPackageAdapter extends BaseAdapter {
     private int wight = 0;
 
     private List<Map<String, String>> list;
+    private LinearLayout.LayoutParams layoutParams;
 
     public RedPackageAdapter(Context context, int type, List<Map<String, String>> list) {
         this.context = context;
         this.type = type;
         size = ToolKit.dip2px(context, 8);
-        if (0 == type) {
-            wight = Settings.displayWidth - ToolKit.dip2px(context, 16);
-            height = (wight) / 4;
+        if (1 == type) {
+//            wight = Settings.displayWidth - ToolKit.dip2px(context, 16);
+//            height = (wight) / 4;
+            wight = Settings.displayWidth;
+            height = Settings.displayWidth * 300 / 842;
+
         } else {
             wight = Settings.displayWidth;
-            height = (wight) / 2;
+            height = (wight) * 2 / 3;
         }
+        layoutParams = new LinearLayout.LayoutParams(wight, height);
         this.list = list;
     }
 
@@ -103,6 +109,7 @@ public class RedPackageAdapter extends BaseAdapter {
             picUrl = map.get("bonus_face");
             rpvh.image_for_mell.setShapeRadius(size);
         }
+        rpvh.image_for_mell.setLayoutParams(layoutParams);
         Glide.with(context).load(picUrl)
                 .override(wight, height)
                 .placeholder(R.drawable.ic_default)

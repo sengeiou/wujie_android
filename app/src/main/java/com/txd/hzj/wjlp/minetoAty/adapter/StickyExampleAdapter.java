@@ -116,9 +116,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 // 获得，消费积分(转出，消费)
                 if (stickyExampleModel.getAct_type().equals("6") || stickyExampleModel.getAct_type().equals("3")) {
-                    recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
-                } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
+                } else {
+                    recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                 }
 
                 int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +40,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.txd.hzj.wjlp.R.id.ads;
 
 /**
  * ===============Txunda===============
@@ -76,7 +79,7 @@ public class AuctionCollectAty extends BaseAty {
     private AuctionPst auctionPst;
 
     private int p = 1;
-    private int next = 1;
+    private int next = 2;
 
     /**
      * 空视图
@@ -136,7 +139,7 @@ public class AuctionCollectAty extends BaseAty {
             }
         });
 
-        params = new CollapsingToolbarLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth *400/ 1242);
+        params = new CollapsingToolbarLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
         ads_for_auction_iv.setLayoutParams(params);
 
         getDataForPage();
@@ -222,17 +225,18 @@ public class AuctionCollectAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.ads_for_auction_iv, R.id.left_lin_layout, R.id.right_lin_layout})
+    @OnClick({R.id.left_lin_layout, R.id.right_lin_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.ads_for_auction_iv:
-                Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
+            //R.id.ads_for_auction_iv,
+//            case R.id.ads_for_auction_iv:
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("from", 2);
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
             case R.id.left_lin_layout:// 左(今日拍卖)
                 next = 2;
                 p = 1;
@@ -270,7 +274,7 @@ public class AuctionCollectAty extends BaseAty {
         if (requestUrl.contains("auctionIndex")) {
             AuctonIndex index = GsonUtil.GsonToBean(jsonStr, AuctonIndex.class);
             if (1 == p) {
-                AdsBean adsBean = index.getData().getAds();
+                final AdsBean adsBean = index.getData().getAds();
                 desc = adsBean.getDesc();
                 href = adsBean.getHref();
 
@@ -279,7 +283,29 @@ public class AuctionCollectAty extends BaseAty {
                         .error(R.drawable.ic_default)
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(ads_for_auction_iv);
+                ads_for_auction_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                        if (!TextUtils.isEmpty(adsBean.getMerchant_id()) && !adsBean.getMerchant_id().equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", adsBean.getMerchant_id());
+                            startActivity(MellInfoAty.class, bundle);
+                        } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id",adsBean.getGoods_id());
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("from", 2);
+                            bundle.putString("desc", desc);
+                            bundle.putString("href", href);
+                            startActivity(NoticeDetailsAty.class, bundle);
+                        }
+
+                    }
+                });
                 list = index.getData().getAuction_list();
                 if (!ListUtils.isEmpty(list)) {
                     limitAdapter = new LimitAdapter(list, this, data_type, 1);

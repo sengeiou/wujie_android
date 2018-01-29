@@ -25,7 +25,11 @@ public class GroupBuyOrder {
      * @param baseView
      */
     public static void setOrder(String address_id, String goods_num, String goods_id, String product_id,
-                                String order_type, String group_buy_order_id, String group_buy_id, BaseView baseView) {
+                                String order_type, String group_buy_order_id,
+                                String group_buy_id,
+                                String freight,
+                                String freight_type,
+                                BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("address_id", address_id);
@@ -35,6 +39,8 @@ public class GroupBuyOrder {
         params.addBodyParameter("order_type", order_type);
         params.addBodyParameter("group_buy_order_id", group_buy_order_id);
         params.addBodyParameter("group_buy_id", group_buy_id);
+        params.addBodyParameter("freight", freight);
+        params.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "setOrder", params, baseView);
     }
 
@@ -49,13 +55,17 @@ public class GroupBuyOrder {
      * @param baseView
      */
     public static void shoppingCart(String goods_id, String num, String order_type,
-                                    String product_id, String merchant_id, BaseView baseView) {
+                                    String product_id,
+                                    String merchant_id,
+                                    String group_buy_id,
+                                    BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("num", num);
         params.addBodyParameter("order_type", order_type);
         params.addBodyParameter("product_id", product_id);
+        params.addBodyParameter("group_buy_id", group_buy_id);
         params.addBodyParameter("merchant_id", merchant_id);
         apiTool2.postApi(url + "shoppingCart", params, baseView);
     }

@@ -172,7 +172,7 @@ public class UserPst extends BasePresenter {
     public void merchantRefer(String name, String range_id, String link_man, String link_phone, String job,
                               String tmail_url, String jd_url, String other_url, String product_desc,
                               List<File> product_pic, File business_license, List<File> other_license) {
-        baseView.showDialog();
+
         if (name.equals("")) {
             baseView.onErrorTip("请输入商店名");
             return;
@@ -185,16 +185,20 @@ public class UserPst extends BasePresenter {
             baseView.onErrorTip("请输入联系人姓名");
             return;
         }
-        if (!RegexUtils.checkPhone(link_phone)) {
-            baseView.onErrorTip("请输入联系人手机号");
-            return;
-        }
 
         if (job.equals("")) {
             baseView.onErrorTip("请输入职位");
             return;
         }
 
+        if (link_phone.equals("")) {
+            baseView.onErrorTip("请输入联系人手机号");
+            return;
+        }
+        if (tmail_url.equals("") && jd_url.equals("") && other_url.equals("")) {
+            baseView.onErrorTip("请至少填写一种网店地址");
+            return;
+        }
 
         if (product_pic.isEmpty()) {
             baseView.onErrorTip("请上传商品图片");
@@ -206,10 +210,9 @@ public class UserPst extends BasePresenter {
             return;
         }
 
-        L.e("=====产品=====", product_pic.toString());
-
         user.merchantRefer(name, range_id, link_man, link_phone, job, tmail_url, jd_url,
                 other_url, product_desc, product_pic, business_license, other_license, baseView);
+        baseView.showDialog();
     }
 
     // 获取推荐商家列表

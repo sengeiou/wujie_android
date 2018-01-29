@@ -6,6 +6,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +40,7 @@ import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.MellCouponDialog;
 import com.txd.hzj.wjlp.mellOffLine.dialog.NoticeDialog;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAndAdsAdapter;
 
 import java.util.ArrayList;
@@ -418,7 +420,6 @@ public class MellInfoAty extends BaseAty {
         aty_type.add("比价购");
         aty_type.add("积分抽奖");
         mell_id = getIntent().getStringExtra("mell_id");
-        L.e("=====商家id=====", mell_id);
         size = ToolKit.dip2px(this, 80);
         ticket_list = new ArrayList<>();
     }
@@ -429,10 +430,30 @@ public class MellInfoAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle = new Bundle();
                 bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
                 bundle.putInt("from",1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
+        mell_ads_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!TextUtils.isEmpty(ads_list.get(position).get("merchant_id")) && !ads_list.get(position).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", ads_list.get(position).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(ads_list.get(position).get("goods_id")) && !ads_list.get(position).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    Bundle  bundle = new Bundle();
+                    bundle.putString("desc", ads_list.get(position).get("href"));
+                    bundle.putString("href", ads_list.get(position).get("desc"));
+                    bundle.putInt("from", 2);
+                    startActivity(NoticeDetailsAty.class, bundle);
+                }
             }
         });
     }

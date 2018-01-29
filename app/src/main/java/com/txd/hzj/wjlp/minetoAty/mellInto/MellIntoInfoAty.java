@@ -93,6 +93,11 @@ public class MellIntoInfoAty extends BaseAty {
     @ViewInject(R.id.job_for_mell_tv)
     private TextView job_for_mell_tv;
     /**
+     * 名字
+     */
+    @ViewInject(R.id.job_for_mell_tv_name)
+    private TextView job_for_mell_tv_name;
+    /**
      * 联系电话
      */
     @ViewInject(R.id.mell_phone_tv)
@@ -168,22 +173,37 @@ public class MellIntoInfoAty extends BaseAty {
                     .into(mell_logo_iv);
             mell_name_tv.setText(data.get("name"));
             switch (data.get("status")) {
-                case "0":// 未认证
-                    mell_status_tv.setText("待审核");
+                case "0"://待客服审核
+                    mell_status_tv.setText("待客服审核");
                     break;
-                case "1":// 待审核
-                    mell_status_tv.setText("推荐成功");
+                case "1":// 待招商审核
+                    mell_status_tv.setText("待招商审核");
                     break;
-                case "2":// 已通过
-                    mell_status_tv.setText("审核未通过");
+                case "2"://  客服审核未通过
+                    mell_status_tv.setText("客服审核未通过(" + data.get("refuse_desc") + ")");
+                    break;
+                case "3":// 招商审核未通过
+                    mell_status_tv.setText("招商审核未通过(" + data.get("is_desc") + ")");
+                    break;
+                case "4"://待入驻
+                    mell_status_tv.setText("待入驻");
+                    break;
+                case "5"://入驻审核未通过
+                    mell_status_tv.setText("入驻审核未通过(" + data.get("is_kaihu") + ")");
+                    break;
+                case "6"://入驻成功
+                    mell_status_tv.setText("入驻成功");
+                    break;
+                case "7"://入驻待审核
+                    mell_status_tv.setText("入驻待审核");
                     break;
             }
 
-            mell_desc_tv.setText(data.get("desc"));
-
-            mell_score_tv.setText("评分" + data.get("score") + "分");
+//            mell_desc_tv.setText(data.get("desc"));
+//            mell_score_tv.setText("评分" + data.get("score") + "分");
             mell_range_tv.setText(data.get("range_id"));
             job_for_mell_tv.setText(data.get("job"));
+            job_for_mell_tv_name.setText(data.get("name"));
             mell_phone_tv.setText(data.get("link_phone"));
             tmail_url_tv.setText(data.get("tmail_url"));
             jd_url_tv.setText(data.get("jd_url"));

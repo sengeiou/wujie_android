@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -17,6 +18,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -30,6 +32,7 @@ import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
+import com.txd.hzj.wjlp.minetoAty._GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
 import com.txd.hzj.wjlp.minetoAty.books.BooksAty;
@@ -47,6 +50,7 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
+import com.txd.hzj.wjlp.txunda_lh.UnionmerchartAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.Map;
@@ -257,10 +261,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.b1})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.b1:
+                startActivity(UnionmerchartAty.class,null);
+                break;
             case R.id.tv_set:// 设置
                 if (1 == type) {
                     startActivity(SetAty.class, null);
@@ -271,12 +278,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.grade_of_member_layout:// 会员成长
                 bundle = new Bundle();
                 bundle.putInt("from", 0);
-                startActivity(GradeOfMemberAty.class, bundle);
+                startActivity(GradeOfMemberAty.class, null);
                 break;
             case R.id.mine_member_type_layout:// 会员等级
-                bundle = new Bundle();
-                bundle.putInt("from", 1);
-                startActivity(GradeOfMemberAty.class, bundle);
+//                bundle = new Bundle();
+//                bundle.putInt("from", 1);
+                startActivity(_GradeOfMemberAty.class, bundle);
                 break;
             case R.id.rel_mine_about:// 关于
                 startActivity(AboutOursAty.class, null);
@@ -402,9 +409,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         userPst.userCenter();
     }
 
+    @ViewInject(R.id.b1)
+    Button b1;
+
     @Override
     protected void requestData() {
-
+//        if (L.isDebug) {
+            b1.setVisibility(View.VISIBLE);
+//        }
     }
 
     @Override

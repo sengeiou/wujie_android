@@ -533,6 +533,8 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <include layout="@layout/aty_goods_details_serve" />
+
                 <LinearLayout
                     android:id="@+id/layout_service"
                     android:layout_width="match_parent"

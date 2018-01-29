@@ -159,13 +159,34 @@ public class MellIntoListAty extends BaseAty {
             mivh.refer_mell_name_tv.setText(referMell.get("name"));
             mivh.refer_create_time_tv.setText(referMell.get("create_time"));
             String status = referMell.get("status");
-
-            if (status.equals("0")) {
-                mivh.refer_status_tv.setText("待审核");
-            } else if (status.equals("1")) {
-                mivh.refer_status_tv.setText("推荐成功");
-            } else {
-                mivh.refer_status_tv.setText("审核未通过");
+            switch (status) {
+                case "0"://待客服审核
+                    mivh.refer_status_tv.setText("待客服审核");
+                    break;
+                case "1":// 待招商审核
+                    mivh.refer_status_tv.setText("待招商审核");
+                    break;
+                case "2"://  客服审核未通过
+                    mivh.refer_status_tv.setText("客服审核未通过");
+//                    mivh.refer_status_tv.setText("客服审核未通过(" + referMell.get("refuse_desc") + ")");
+                    break;
+                case "3":// 招商审核未通过
+                    mivh.refer_status_tv.setText("招商审核未通过");
+//                    mivh.refer_status_tv.setText("招商审核未通过(" + referMell.get("is_desc") + ")");
+                    break;
+                case "4"://待入驻
+                    mivh.refer_status_tv.setText("待入驻");
+                    break;
+                case "5"://入驻审核未通过
+                    mivh.refer_status_tv.setText("入驻审核未通过");
+//                    mivh.refer_status_tv.setText("入驻审核未通过(" + referMell.get("is_kaihu") + ")");
+                    break;
+                case "6"://入驻成功
+                    mivh.refer_status_tv.setText("入驻成功");
+                    break;
+                case "7"://入驻待审核
+                    mivh.refer_status_tv.setText("入驻待审核");
+                    break;
             }
             return view;
         }

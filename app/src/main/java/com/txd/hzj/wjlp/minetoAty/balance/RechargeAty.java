@@ -1,6 +1,9 @@
 package com.txd.hzj.wjlp.minetoAty.balance;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -32,6 +35,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.txunda_lh.http.Pay;
+import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -149,6 +153,7 @@ public class RechargeAty extends BaseAty {
     private File pic;
 
     private BalancePst balancePst;
+    private WxPayReceiver wxPayReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,9 +225,11 @@ public class RechargeAty extends BaseAty {
                 }
                 if (pay_by_ali_cb.isChecked()) {
                     balancePst.upMoney(et_price.getText().toString(), "2", "");
-                } else {
-                    balancePst.upMoney(et_price.getText().toString(), "1", "");
+                } else if (pay_by_wechat_cb.isChecked()) {
+//                    balancePst.upMoney(et_price.getText().toString(), "1", "");
+                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
                 }
+                showProgressDialog();
                 break;
             case R.id.re_left_layout:// 线上充值
                 type = 0;
@@ -295,7 +302,10 @@ public class RechargeAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
+        wxPayReceiver = new WxPayReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("wjyp.wxPay");
+        registerReceiver(wxPayReceiver, intentFilter);
     }
 
     private String order_id;
@@ -309,8 +319,27 @@ public class RechargeAty extends BaseAty {
             finish();
         }
         if (requestUrl.contains("findPayResult")) {
-            showRightTip(map.get("message"));
-            finish();
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (map.get("status").equals("1")) {
+                showRightTip("支付成功！");
+                finish();
+            }
+        }
+        if (requestUrl.contains("getHjsp")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            order_id = map.get("order_id");
+            GetPrepayIdTask wxPay = new GetPrepayIdTask(this, map.get("sign"), map.get("appid"),
+                    map.get("nonce_str"), map.get("package"), map.get("time_stamp"), map.get("prepay_id"),
+                    map.get("mch_id"), "");
+            wxPay.execute();
+        }
+        if (requestUrl.contains("getJsTine")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            GetPrepayIdTask wxPay = new GetPrepayIdTask(this, map.get("sign"), map.get("appid"),
+                    map.get("nonce_str"), map.get("package"), map.get("time_stamp"), map.get("prepay_id"),
+                    map.get("mch_id"), "");
+            wxPay.execute();
+
         }
         if (requestUrl.contains("getAlipayParam")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -332,14 +361,36 @@ public class RechargeAty extends BaseAty {
                 }
             });
             aliPay.pay();
-
         }
         if (requestUrl.contains("upMoney")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             order_id = map.get("order_id");
-            Pay.getAlipayParam(order_id, "", "1", this);
+            if (pay_by_ali_cb.isChecked()) {
+                Pay.getAlipayParam(order_id, "", "1", this);
+            } else if (pay_by_wechat_cb.isChecked()) {
+//                Pay.getJsTine(order_id, "", "1", this);
+
+            }
             showProgressDialog();
 
+        }
+    }
+
+    private class WxPayReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            int errCode = intent.getIntExtra("errCode", 5);
+            if (errCode == 0) {
+//
+//                showToast("支付成功");
+                Pay.findPayResult(order_id, "1", RechargeAty.this);
+                showProgressDialog();
+            } else {
+                removeProgressDialog();
+                showToast("支付失败");
+            }
         }
     }
 

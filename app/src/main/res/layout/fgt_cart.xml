@@ -23,10 +23,10 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ListView
+                <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
                     android:id="@+id/cart_lv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_above="@+id/cart_bottom_lin_layout"
                     android:divider="@color/bg_color"
                     android:dividerHeight="8dp" />
@@ -37,6 +37,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="50dp"
+                    android:visibility="gone"
                     android:drawablePadding="14dp"
                     android:drawableTop="@drawable/icon_no_data_pic"
                     android:gravity="center"

@@ -1,5 +1,9 @@
 package com.txd.hzj.wjlp.txunda_lh;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,10 +26,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
 import com.txd.hzj.wjlp.txunda_lh.http.Pay;
+import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.util.Map;
 
@@ -102,6 +108,9 @@ public class aty_pay extends BaseAty {
                     showProgressDialog();
                 } else if (pay_by_ali_cb.isChecked()) {
                     Pay.getAlipayParam(data.get("order_id"), im_type, String.valueOf(type), this);
+                    showProgressDialog();
+                } else if (pay_by_wechat_cb.isChecked()) {
+                    Pay.getJsTine(data.get("order_id"), im_type, String.valueOf(type), this);
                     showProgressDialog();
                 }
                 break;
@@ -263,13 +272,30 @@ public class aty_pay extends BaseAty {
         }
     }
 
+    private WxPayReceiver wxPayReceiver;
     @Override
     protected void requestData() {
-
+        wxPayReceiver = new  WxPayReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("wjyp.wxPay");
+        registerReceiver(wxPayReceiver, intentFilter);
     }
 
+    private class WxPayReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int errCode = intent.getIntExtra("errCode", 5);
+            if (errCode == 0) {
+                showToast("支付成功");
+                removeProgressDialog();
+                finish();
+            } else {
+                removeProgressDialog();
+                showToast("支付失败");
+            }
+        }
+    }
     Map<String, String> map;
-
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -278,6 +304,14 @@ public class aty_pay extends BaseAty {
         if (requestUrl.contains("balancePay") || requestUrl.contains("integralPay")) {
             showToast("支付成功！");
             finish();
+        }
+        if (requestUrl.contains("getJsTine")) {
+            GetPrepayIdTask wxPay = new GetPrepayIdTask(this, map.get("sign"), map.get("appid"),
+                    map.get("nonce_str"), map.get("package"), map.get("time_stamp"), map.get("prepay_id"),
+                    map.get("mch_id"), "");
+            wxPay.execute();
+            showProgressDialog();
+
         }
         if (requestUrl.contains("getAlipayParam")) {
             showProgressDialog();

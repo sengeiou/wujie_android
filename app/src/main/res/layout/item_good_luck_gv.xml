@@ -7,49 +7,56 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/logo_for_country_iv"
-            android:layout_width="36dp"
-            android:layout_height="23dp" />
+            android:id="@+id/goods_pic_iv"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/use_coupon_tv"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_tv_bg_by_orange"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:text="可使用30%购物券"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
-    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/goods_pic_iv"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop" />
+            android:background="#7FFFFFFF"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/logo_for_country_iv"
+                android:layout_width="36dp"
+                android:layout_height="23dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/use_coupon_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_tv_bg_by_orange"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:text="可使用30%购物券"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/one_buy_goods_name_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_marginBottom="4dp"
         android:ellipsize="end"
-        android:maxLines="1" />
+        android:maxLines="2" />
 
     <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cpb_progresbar2"
@@ -130,7 +137,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_marginTop="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -139,7 +146,8 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:text="距结束 "
-            android:textColor="@color/gray_text_color" />
+            android:textColor="@color/gray_text_color"
+            android:textSize="14sp" />
 
         <include layout="@layout/aty_count_down_view" />
     </LinearLayout>

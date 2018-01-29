@@ -149,6 +149,11 @@ public class SnatchGoodsDetailsAty extends BaseAty {
     private Map<String, String> oneBuyInfo;
     private String goods_id;
 
+
+    private String goods_attr_first;
+    private String first_val;
+    private String is_attr = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,9 +189,9 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                 if (!t_status.equals("进行中")) {
                     showErrorTip("活动已结束");
                     break;
-                }//, new ArrayList<GoodsAttrs>(), new ArrayList<GoodsAttrs.product>()
-                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance")
-                        , one_buy_id);
+                }
+
+                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance"), one_buy_id, goods_attr_first, first_val, is_attr);
 
                 break;
         }
@@ -271,6 +276,9 @@ public class SnatchGoodsDetailsAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("oneBuyInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            goods_attr_first = data.get("first_list");
+            first_val = data.get("first_val");
+            is_attr = data.get("is_attr");
             if (ToolKit.isList(data, "oneBuyInfo")) {
                 oneBuyInfo = JSONUtils.parseKeyAndValueToMap(data.get("oneBuyInfo"));
                 goods_id = oneBuyInfo.get("goods_id");
@@ -289,6 +297,7 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                 // 期号
                 time_num_tv.setText("期号" + oneBuyInfo.get("time_num"));
                 // 总需参与人数
+
                 int all;
                 try {
                     all = Integer.parseInt(oneBuyInfo.get("person_num"));
@@ -308,6 +317,8 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                 // 进度条最大值和进度
                 cpb_progresbar2.setMaxProgress(all);
                 cpb_progresbar2.setCurProgress(add);
+
+                is_attr = is_attr + "-" + String.valueOf(num);
             }
             if (ToolKit.isList(data, "goodsGallery")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goodsGallery"));

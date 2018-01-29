@@ -299,7 +299,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/icon_idcard_front" />
+                    android:src="@mipmap/icon_idcard_back" />
             </LinearLayout>
 
             <TextView

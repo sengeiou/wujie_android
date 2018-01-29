@@ -1,5 +1,9 @@
 package com.txd.hzj.wjlp.minetoAty.collect;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -72,9 +76,8 @@ public class CollectHzjAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.collect_title_layout);
-
+        titlt_right_tv.setVisibility(View.GONE);
         fcm = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.collect_frame_layout, mFragment);
-
         setTvAndViewStyle(0);
     }
 
@@ -122,16 +125,19 @@ public class CollectHzjAty extends BaseAty {
                 setTvAndViewStyle(0);
                 // 设置碎片中删除和全选按钮状态
                 setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
             case R.id.collect_middle_layout:// 商家
                 setTvAndViewStyle(1);
                 // 设置碎片中删除和全选按钮状态
                 setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
             case R.id.collect_right_layout:// 书院
                 setTvAndViewStyle(2);
                 // 设置碎片中删除和全选按钮状态
                 setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
         }
     }
@@ -139,10 +145,13 @@ public class CollectHzjAty extends BaseAty {
     private void setNewStatus(Fragment f) {
         if (0 == selected) {// 商品
             ((CollectGoodsHzjFgt) f).setStatus(status);
+            ((CollectGoodsHzjFgt) f).r();
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
+            ((CollectMellHzjFgt) f).r();
         } else {// 书院
             ((CollectBooksFgt) f).setStatus(status);
+            ((CollectBooksFgt) f).r();
         }
     }
 
@@ -161,6 +170,26 @@ public class CollectHzjAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction("sftv");
+        //注册广播
+        registerReceiver(mBroadcastReceiver, myIntentFilter);
+    }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("sftv") && selected == intent.getIntExtra("index", -1)) {
+                titlt_right_tv.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 }

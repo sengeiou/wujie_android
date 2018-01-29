@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +17,9 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.Map;
 
@@ -85,11 +89,11 @@ public class ShareToFriendsAty extends BaseAty {
 
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("shareFriend")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            final Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             share_id = data.get("share_id");
             share_img = data.get("share_img");
             Glide.with(this).load(share_img)
-                   // .override(Settings.displayWidth, img_h)
+                    // .override(Settings.displayWidth, img_h)
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -97,6 +101,27 @@ public class ShareToFriendsAty extends BaseAty {
             share_title = data.get("share_title");
             share_url = data.get("share_url");
             share_title_tv.setText(share_title);
+            share_frind_iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!TextUtils.isEmpty(data.get("merchant_id")) && !data.get("merchant_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("mell_id", data.get("merchant_id"));
+                        startActivity(MellInfoAty.class, bundle);
+                    } else if (!TextUtils.isEmpty(data.get("goods_id")) && !data.get("goods_id").equals("0")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", data.get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("desc", share_title);
+                        bundle.putString("href", share_url);
+                        bundle.putInt("from", 2);
+                        startActivity(NoticeDetailsAty.class, bundle);
+                    }
+                }
+            });
         }
 
     }

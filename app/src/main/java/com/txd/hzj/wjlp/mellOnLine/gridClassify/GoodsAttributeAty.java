@@ -84,14 +84,15 @@ public class GoodsAttributeAty extends BaseAty {
     private int maxNumber;
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
-    private String key1, key2;
     private String pro_id;
+    private String pro_value;
     int pos1;
     int pos2;
     String goods_attr;
     Goods_val val;
     SparseArray<String> list_attrs = new SparseArray<String>();
     private String is_attr;
+    private String image;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -104,16 +105,18 @@ public class GoodsAttributeAty extends BaseAty {
                     intent.putExtra("num", num);
                     if (ListUtils.isEmpty(list)) {
                         intent.putExtra("product_id", "");
-                        intent.putExtra("key1", key1);
-                        intent.putExtra("key2", key2);
+                        intent.putExtra("pro_value", "");
+                        intent.putExtra("image", "");
+                        intent.putExtra("num", num);
                         setResult(RESULT_OK, intent);
                         finish();
                         return;
                     }
                     if (!TextUtils.isEmpty(pro_id)) {
                         intent.putExtra("product_id", pro_id);
-                        intent.putExtra("key1", key1);
-                        intent.putExtra("key2", key2);
+                        intent.putExtra("pro_value", pro_value);
+                        intent.putExtra("num", num);
+                        intent.putExtra("image", image);
                         setResult(RESULT_OK, intent);
                         finish();
                     } else {
@@ -200,10 +203,28 @@ public class GoodsAttributeAty extends BaseAty {
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
         } else {
             maxNumber = Integer.parseInt(string[1]);
-            tv_kucun.setText("(库存："+string[1]+")");
+            tv_kucun.setText("(库存：" + string[1] + ")");
             num = 1;
             tv_num.setText(String.valueOf(num));
             list.clear();
+        }
+        if (list.size() == 1) {
+            for (Goods_val goods_val : list_val) {
+                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
+                if (v.equals(goods_val.getArrtValue())) {
+                    GoodsAttributeAty.this.val = goods_val;
+                    tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
+                    maxNumber = Integer.parseInt(goods_val.getGoods_num());
+                    Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
+                    ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
+                    tv_num.setText(String.valueOf(1));
+                    pro_value = goods_val.getArrtValue();
+                    image = goods_val.getGoods_img();
+                    pro_id = goods_val.getId();
+                    num = 1;
+                    break;
+                }
+            }
         }
 
     }
@@ -355,10 +376,8 @@ public class GoodsAttributeAty extends BaseAty {
                                 String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
                                 if (!val.arrtValue.contains(s)) {
                                     getItem(i).getFirst_list_val().get(position).setStatus("3");
-
                                 } else {
                                     getItem(i).getFirst_list_val().get(position).setStatus("1");
-
                                     break;
                                 }
                             }
@@ -399,6 +418,8 @@ public class GoodsAttributeAty extends BaseAty {
                                 Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                                 ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
                                 tv_num.setText(String.valueOf(1));
+                                pro_value = val.getArrtValue();
+                                image = val.getGoods_img();
                                 pro_id = val.getId();
                                 num = 1;
                                 break;

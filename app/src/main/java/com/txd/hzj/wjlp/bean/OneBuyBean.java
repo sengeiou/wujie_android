@@ -110,6 +110,24 @@ public class OneBuyBean {
             private String picture;
             private String desc;
             private String href;
+            private String  merchant_id;
+            private String  goods_id;
+
+            public String getMerchant_id() {
+                return merchant_id;
+            }
+
+            public void setMerchant_id(String merchant_id) {
+                this.merchant_id = merchant_id;
+            }
+
+            public String getGoods_id() {
+                return goods_id;
+            }
+
+            public void setGoods_id(String goods_id) {
+                this.goods_id = goods_id;
+            }
 
             public String getAds_id() {
                 return ads_id;

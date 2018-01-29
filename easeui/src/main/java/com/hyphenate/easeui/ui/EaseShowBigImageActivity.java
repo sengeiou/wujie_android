@@ -58,7 +58,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.ease_activity_show_big_image);
 		super.onCreate(savedInstanceState);
-
 		image = (EasePhotoView) findViewById(R.id.image);
 		ProgressBar loadLocalPb = (ProgressBar) findViewById(R.id.pb_load_local);
 		default_res = getIntent().getIntExtra("default_image", R.drawable.ease_default_avatar);
@@ -103,7 +102,7 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 	/**
 	 * download image
 	 * 
-	 * @param remoteFilePath
+	 * @param
 	 */
 	@SuppressLint("NewApi")
 	private void downloadImage(final String msgId) {
@@ -193,4 +192,6 @@ public class EaseShowBigImageActivity extends EaseBaseActivity {
 			setResult(RESULT_OK);
 		finish();
 	}
+
+
 }

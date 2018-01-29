@@ -284,7 +284,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     end4 = 0;
                 }
                 vh.home_count_down_view.setTag("countDown" + i);
-                vh.home_count_down_view.start(end4 - now4);
+                vh.home_count_down_view.start((end4 - now4) * 1000);
 
                 vh.sold_num_tv.setVisibility(View.GONE);
 
@@ -312,7 +312,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     end_time = 0;
                 }
                 vh.home_count_down_view.setTag("countDown" + i);
-                vh.home_count_down_view.start(end_time - now_time);
+                vh.home_count_down_view.start((end_time - now_time) * 1000);
 
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())

@@ -738,6 +738,22 @@
         <activity android:name=".txunda_lh.aty_addshipping" />
         <!--比较记录的详情-->
         <activity android:name=".txunda_lh.AuctionRecordAty" />
+        <activity android:name=".minetoAty._GradeOfMemberAty" />
+        <!--联盟商家申请-->
+        <activity android:name=".txunda_lh.UnionmerchartAty" />
+
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" >
+
+            <!-- 这个intent-filter不要忘了 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="wxc971edce6f70ca57" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

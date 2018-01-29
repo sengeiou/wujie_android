@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -29,6 +30,7 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 import java.util.ArrayList;
@@ -44,13 +46,14 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.SelectNum {
+
     private boolean status;
     private int dataType = 0;
     @ViewInject(R.id.collect_goods_rv)
     private RecyclerView collect_goods_rv;
 
     private RacycleAllAdapter racycleAllAdapter;
-
+    Intent intent;
     private List<CFGoodsList> data;
     private List<CFGoodsList> data2;
     private List<CFGoodsList> data3;
@@ -106,6 +109,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        intent = new Intent();
+        intent.putExtra("index", 0);
+        intent.setAction("sftv");
         // 布局
         collect_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         collect_goods_rv.setItemAnimator(new DefaultItemAnimator());
@@ -177,6 +183,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 });
     }
 
+
     @Override
     @OnClick({R.id.collect_goods_select_all_cb, R.id.operation_goods_tv})
     public void onClick(View v) {
@@ -230,11 +237,11 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
         userPst = new UserPst(this);
         collectPst = new UserCollectPst(this);
         height = ToolKit.dip2px(getActivity(), 4);
-        L.e("====data11111=====", String.valueOf(dataType));
     }
 
     @Override
-    protected void requestData() {
+    public void onResume() {
+        super.onResume();
         if (0 == dataType) {
             userPst.myfooter(p, "1");
         } else {
@@ -243,8 +250,16 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     @Override
+    protected void requestData() {
+
+    }
+
+    @Override
     public void onError(String requestUrl, Map<String, String> error) {
         if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
+//            intent.putExtra("a","333");
+
+//            ((FootprintAty)getActivity()).setView(View.GONE);
             removeContent();
             removeDialog();
         } else {
@@ -255,10 +270,10 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("商品=====原始数据=====", jsonStr);
         if (requestUrl.contains("myfooter")) {// 足迹
+            getActivity().sendBroadcast(intent);
+//            ((FootprintAty)getActivity()).setView(View.VISIBLE);
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
-            L.e("商品=====解析数据=====", goods.toString());
             allNum = goods.getNums();
             if (allNum > 0) {
                 swipe_refresh.setVisibility(View.VISIBLE);
@@ -303,7 +318,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             return;
         }
         if (requestUrl.contains("collectList")) {// 收藏
-            L.e("=====商品=====", "收藏");
+            getActivity().sendBroadcast(intent);
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
             allNum = goods.getNums();
             if (allNum > 0) {
@@ -376,7 +391,16 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
 
     }
 
+    public void r() {
+        if (0 == dataType) {
+            userPst.myfooter(p, "1");
+        } else {
+            collectPst.collectList(p, "1");
+        }
+    }
+
     public void setStatus(boolean show) {
+
         if (allNum <= 0) {
             return;
         }

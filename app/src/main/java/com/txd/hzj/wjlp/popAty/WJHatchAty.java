@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.popAty;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.companyDevelop.CompanyDevelopPst;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.popAty.adapter.RedPackageAdapter;
 
 import java.util.ArrayList;
@@ -74,7 +77,7 @@ public class WJHatchAty extends BaseAty {
 
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
-                Settings.displayWidth / 2);
+                Settings.displayWidth * 400 / 1242);
         online_carvouse_view.setLayoutParams(layoutParams);
 
         forBanner();
@@ -85,9 +88,22 @@ public class WJHatchAty extends BaseAty {
         hatch_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                bundle = new Bundle();
-                bundle.putString("company_id", list.get(i).get("company_id"));
-                startActivity(HatchDetailsAty.class, bundle);
+                if (!TextUtils.isEmpty(list.get(i).get("merchant_id")) && !list.get(i).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list.get(i).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list.get(i).get("goods_id")) && !list.get(i).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", list.get(i).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    bundle = new Bundle();
+                    bundle.putString("company_id", list.get(i).get("company_id"));
+                    startActivity(HatchDetailsAty.class, bundle);
+                }
+
+
             }
         });
 
@@ -172,7 +188,7 @@ public class WJHatchAty extends BaseAty {
 
             Glide.with(WJHatchAty.this).load(image.get(position).get("picture"))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .override(Settings.displayWidth, Settings.displayWidth / 2)
+                    .override(Settings.displayWidth, Settings.displayWidth * 400 / 1242)
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
                     .centerCrop()

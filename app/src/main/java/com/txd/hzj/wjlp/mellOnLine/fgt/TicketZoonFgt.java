@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,12 +40,15 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.txd.hzj.wjlp.R.id.ads;
 
 /**
  * ===============Txunda===============
@@ -136,7 +140,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 //        if (type != 8) {
-            allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+        allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
 //        }
 
 //        if (8 == type) {
@@ -144,9 +148,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 //            ticket_zoon_goods_gv.setVisibility(View.GONE);
 //            ticket_zoon_goods_lv.setEmptyView(no_data_layout);
 //        } else {
-            ticket_zoon_goods_lv.setVisibility(View.GONE);
-            ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
-            ticket_zoon_goods_gv.setEmptyView(no_data_layout);
+        ticket_zoon_goods_lv.setVisibility(View.GONE);
+        ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
+        ticket_zoon_goods_gv.setEmptyView(no_data_layout);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
         group_ad_pic_iv.setLayoutParams(params);
 //        }
@@ -171,7 +175,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         break;
                     case 3:// 进口馆
                         bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
-                        bundle.putInt("from",1);
+                        bundle.putInt("from", 1);
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                     case 8:
@@ -221,17 +225,18 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     }
 
     @Override
-    @OnClick({R.id.group_ad_pic_iv, R.id.zoom_be_back_top_iv})
+    @OnClick({R.id.zoom_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.group_ad_pic_iv:
-                Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
+            //R.id.group_ad_pic_iv,
+//            case R.id.group_ad_pic_iv:
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("from", 2);
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
             case R.id.zoom_be_back_top_iv:
                 zoom_be_back_top_iv.setVisibility(View.GONE);
                 zooom_sc.smoothScrollTo(0, 0);
@@ -296,7 +301,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                                     ToolKit.dip2px(getActivity(), 160));
                         } else {
                             params = new LinearLayout.LayoutParams(Settings.displayWidth,
-                                    ToolKit.dip2px(getActivity(),160));
+                                    ToolKit.dip2px(getActivity(), 160));
                         }
                         goods_menu_vp.setLayoutParams(params);
                         forMenu();
@@ -307,18 +312,39 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
                 if (!ListUtils.isEmpty(data)) {
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-                   // ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
+                    // ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
                     ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
                 }
 
-                GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
+                final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
                 if (adsBean != null) {
                     Glide.with(getActivity()).load(adsBean.getPicture())
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .error(R.drawable.ic_default)
                             .placeholder(R.drawable.ic_default)
                             .into(group_ad_pic_iv);
+                    group_ad_pic_iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!TextUtils.isEmpty(adsBean.getMerchant_id()) && !adsBean.getMerchant_id().equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mell_id", adsBean.getMerchant_id());
+                                startActivity(MellInfoAty.class, bundle);
+                            } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("ticket_buy_id",adsBean.getGoods_id());
+                                bundle.putInt("from", 1);
+                                startActivity(TicketGoodsDetialsAty.class, bundle);
+                            } else {
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("from", 2);
+                                bundle.putString("desc", desc);
+                                bundle.putString("href", href);
+                                startActivity(NoticeDetailsAty.class, bundle);
+                            }
 
+                        }
+                    });
                     desc = adsBean.getDesc();
                     href = adsBean.getHref();
 
@@ -400,7 +426,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 }
             }
 
-            GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
+            final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
             if (adsBean != null) {
                 Glide.with(getActivity()).load(adsBean.getPicture())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -409,6 +435,28 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
                         .into(group_ad_pic_iv);
+                group_ad_pic_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(adsBean.getMerchant_id()) && !adsBean.getMerchant_id().equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", adsBean.getMerchant_id());
+                            startActivity(MellInfoAty.class, bundle);
+                        } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id",adsBean.getGoods_id());
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("from", 2);
+                            bundle.putString("desc", desc);
+                            bundle.putString("href", href);
+                            startActivity(NoticeDetailsAty.class, bundle);
+                        }
+
+                    }
+                });
                 desc = adsBean.getDesc();
                 href = adsBean.getHref();
             }

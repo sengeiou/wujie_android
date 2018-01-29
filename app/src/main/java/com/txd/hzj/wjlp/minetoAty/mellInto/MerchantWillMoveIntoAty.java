@@ -124,6 +124,10 @@ public class MerchantWillMoveIntoAty extends BaseAty {
 
     private UserPst userPst;
 
+
+    ArrayList<Integer> list_check = new ArrayList<Integer>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -177,6 +181,7 @@ public class MerchantWillMoveIntoAty extends BaseAty {
             case R.id.manage_scope_layout:// 经营范围
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "选择经营范围");
+                bundle.putIntegerArrayList("number", list_check);
                 startActivityForResult(TextListAty.class, bundle, 104);
                 break;
             case R.id.bottom_right_iv:// 营业执照
@@ -184,7 +189,6 @@ public class MerchantWillMoveIntoAty extends BaseAty {
                 startActivityForResult(ImageGridActivity.class, null, 102);
                 break;
             case R.id.update_mell_info_tv://上传
-
                 String name = refer_mell_name_tv.getText().toString();
                 String link_man = refer_link_man_tv.getText().toString();
                 String link_phone = refer_link_phone_tv.getText().toString();
@@ -193,9 +197,6 @@ public class MerchantWillMoveIntoAty extends BaseAty {
                 String jd_yrl = refer_jd_mell_ev.getText().toString();
                 String other_url = refer_other_url_tv.getText().toString();
                 String prodect_desc = refer_goods_desc_tv.getText().toString();
-
-                L.e("=====产品=====", goods_pic.toString());
-
                 userPst.merchantRefer(name, cate_id, link_man, link_phone, job, tmall_url, jd_yrl, other_url,
                         prodect_desc, goods_pic, file4, identification_photo);
                 break;
@@ -283,6 +284,7 @@ public class MerchantWillMoveIntoAty extends BaseAty {
                 String scope = data.getStringExtra("scope");
                 cate_id = data.getStringExtra("cate_id");
                 manage_scope_tv.setText(scope);
+                list_check=data.getIntegerArrayListExtra("number");
             }
         }
     }

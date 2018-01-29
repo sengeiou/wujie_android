@@ -84,27 +84,30 @@
                                             android:id="@+id/limit_status_tv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:drawablePadding="10dp"
+                                            android:drawablePadding="3dp"
                                             android:drawableStart="@drawable/icon_time_count_down"
                                             android:gravity="center"
                                             android:textColor="@color/white"
-                                            android:textSize="16sp" />
+                                            android:textSize="14sp" />
 
                                         <cn.iwgang.countdownview.CountdownView
                                             android:id="@+id/goods_count_down_view"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_gravity="center_horizontal"
                                             app:isHideTimeBackground="false"
                                             app:isShowDay="true"
                                             app:isShowHour="true"
-                                            app:isShowMillisecond="false"
+                                            app:isShowMillisecond="true"
                                             app:isShowMinute="true"
                                             app:isShowSecond="true"
                                             app:isShowTimeBgDivisionLine="false"
+                                            app:suffixDay="天"
                                             app:suffixGravity="center"
+                                            app:suffixHour=":"
+                                            app:suffixSecond=":"
+                                            app:suffixMinute=":"
                                             app:suffixTextColor="@color/white"
-                                            app:suffixTextSize="16sp"
+                                            app:suffixTextSize="12sp"
                                             app:timeBgColor="@color/transparent"
                                             app:timeTextColor="#FFFFFF"
                                             app:timeTextSize="16sp" />
@@ -113,7 +116,7 @@
 
                                     <TextView
                                         android:id="@+id/tv_dingjin"
-                                        android:layout_width="100dp"
+                                        android:layout_width="80dp"
                                         android:layout_height="wrap_content"
                                         android:background="@mipmap/icon_dingjin"
                                         android:ellipsize="end"
@@ -121,8 +124,7 @@
                                         android:padding="6dp"
                                         android:singleLine="true"
                                         android:textColor="@android:color/white"
-                                        android:textSize="14sp"
-                                        android:visibility="gone" />
+                                        android:textSize="14sp" />
                                 </LinearLayout>
 
                                 <include layout="@layout/aty_goods_details_title" />
@@ -541,16 +543,14 @@
                                 layout="@layout/aty_goods_details_wujie_post"
                                 android:visibility="gone" />
                             <!--服务-->
-                            <include
-                                layout="@layout/aty_goods_details_serve"  />
+                            <include layout="@layout/aty_goods_details_serve" />
                         </LinearLayout>
                         <!--开始评价-->
                         <Space
                             android:layout_width="match_parent"
                             android:layout_height="8dp" />
 
-                        <include
-                            layout="@layout/aty_goods_details_estimate" />
+                        <include layout="@layout/aty_goods_details_estimate" />
 
                         <Space
                             android:layout_width="match_parent"
@@ -962,10 +962,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#F3ABA7"
-                android:visibility="gone"
                 android:gravity="center"
                 android:text="加入购物车"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_ljgm"

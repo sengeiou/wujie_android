@@ -603,9 +603,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         super.onClick(v);
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
+                bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
 
                 break;
@@ -1328,6 +1328,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     layout_comment.setVisibility(View.GONE);
                 }
 
+            } else {
+                comment_layout.setVisibility(View.GONE);
+                layout_comment.setVisibility(View.GONE);
             }
 
             tv_bzqd.setText(goodsInfos.get("package_list")); //包装清单
@@ -1364,7 +1367,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 is_f = false;
             }
             // 一键开团
-            creat_group_tv.setText("我要开团");
+            creat_group_tv.setText("发起拼单");
             creat_group_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
@@ -1428,8 +1431,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         bundle = new Bundle();
                         bundle.putInt("status", 0);
                         bundle.putString("goods_id", goods_id + "-" + mellInfoBean.getMerchant_id());
-                        bundle.putParcelableArrayList("list", (ArrayList) goodsAttrs);
-                        bundle.putParcelableArrayList("list_p", (ArrayList) goods_produc);
+//                        bundle.putParcelableArrayList("list", (ArrayList) goodsAttrs);
+//                        bundle.putParcelableArrayList("list_p", (ArrayList) goods_produc);
+                        bundle.putString("goods_attr_first", goods_attr_first);
+                        bundle.putString("first_val", first_val);
+                        bundle.putString("is_attr", is_attr);
                         bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("id", groupList.get(position).getId());
                         startActivity(CreateGroupAty.class, bundle);

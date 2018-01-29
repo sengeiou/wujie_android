@@ -3,6 +3,8 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,17 +32,23 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.addres.CityForTxd;
+import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
+import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -49,8 +57,12 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
+import com.txd.hzj.wjlp.txunda_lh.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -301,6 +313,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     private String easemob_account = "";
     private String merchant_logo = "";
     private String merchant_name = "";
+    private String goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -311,6 +324,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(bannerSize, bannerSize);
         online_carvouse_view.setLayoutParams(layoutParams);
         rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -336,7 +350,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.submit_auction_price_tv:
-                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", AuctionGoodsDetailsAty.this);
+                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", "", "", AuctionGoodsDetailsAty.this);
                         singUpDialog.dismiss();
                         break;
                 }
@@ -346,10 +360,16 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
     @Override
     @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3,
-            R.id.tv_tochar, R.id.im_service_more, R.id.layout_djq, R.id.sing_up})
+            R.id.tv_tochar, R.id.im_service_more, R.id.layout_djq, R.id.sing_up,R.id.tv_chose_ads})
     public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
+
+            case R.id.tv_chose_ads:
+                if (isLoaded) {
+                    ShowPickerView();
+                }
+                break;
             case R.id.tv_tochar:
                 toChat(easemob_account, merchant_logo, merchant_name);
                 break;
@@ -486,6 +506,12 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+
+        if (requestUrl.contains("freight")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+        }
         if (requestUrl.contains("AuctionOrder/SetOrder")) {
             showToast(map.get("message"));
             return;
@@ -528,6 +554,12 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
              */
             // 商品其他信息
             Map<String, String> auctionInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+            goods_id = auctionInfo.get("goods_id");
+            String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                    + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+            tv_chose_ads.setText(tx);
+            Freight.freight(goods_id, tx, AuctionGoodsDetailsAty.this);
+            showProgressDialog();
             if (auctionInfo.get("is_new_goods").equals("0") && auctionInfo.get("is_end").equals("1")) {
                 tv_expirationdate.setText(auctionInfo.get("is_new_goods_desc") + "\n" + auctionInfo.get("is_end_desc"));
             } else if (auctionInfo.get("is_new_goods").equals("0")) {
@@ -782,6 +814,186 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         }
     }
 
+
+    /**
+     * 运费
+     */
+    @ViewInject(R.id.freight_tv)
+    private TextView freight_tv;
+
+    @ViewInject(R.id.tv_chose_ads)
+    private TextView tv_chose_ads;
+
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+
+    /**
+     * 省id
+     */
+    private String province_id = "";
+    /**
+     * 市id
+     */
+    private String city_id = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+
+    /**
+     * 街道id
+     */
+    private String street_id = "";
+
+
+    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
+    private Thread thread;
+    private static final int MSG_LOAD_DATA = 0x0001;
+    private static final int MSG_LOAD_SUCCESS = 0x0002;
+    private static final int MSG_LOAD_FAILED = 0x0003;
+
+
+    private void ShowPickerView() {// 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
+                .OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                // 省
+                province = options1Items.get(options1).getPickerViewText();
+                province_id = options1Items.get(options1).getProvince_id();
+                // 市
+                city = options2Items.get(options1).get(options2).getPickerViewText();
+                city_id = options2Items.get(options1).get(options2).getCity_id();
+                // 区
+                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                // 设置省市区
+                String tx = province + "," + city + "," + area;
+                tv_chose_ads.setText(tx);
+                Freight.freight(goods_id, tx, AuctionGoodsDetailsAty.this);
+            }
+        }).setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .setOutSideCancelable(false)// default is true
+                .build();
+
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    private boolean isLoaded = false;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_LOAD_DATA:
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 写子线程中的操作,解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+                    break;
+
+                case MSG_LOAD_SUCCESS:
+                    removeDialog();
+                    isLoaded = true;
+                    break;
+
+                case MSG_LOAD_FAILED:
+                    removeDialog();
+                    showErrorTip("解析失败");
+                    break;
+
+            }
+        }
+    };
+
+    private void initJsonData() {//解析数据
+
+        /*
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         */
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /*
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+
+                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
+
+                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                    City_AreaList.add(new DistrictsForTxd("", ""));
+                } else {
+                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+                    }
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+            /*
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+            /*
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+
+        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+
+    }
+
+
+    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
+        return detail;
+    }
 
     private class AuctionInfoAdapter extends BaseAdapter {
         private AuctionVh auctionVh;

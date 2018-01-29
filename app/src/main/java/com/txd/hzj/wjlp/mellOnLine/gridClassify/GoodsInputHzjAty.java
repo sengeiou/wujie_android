@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -118,7 +119,7 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
         titlt_conter_tv.setText("进口馆");
         // 广告图宽高
         ads_size1 = Settings.displayWidth;
-        ads_size2 = Settings.displayWidth*400 /1242;
+        ads_size2 = Settings.displayWidth * 400 / 1242;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ads_size1, ads_size2);
         input_ads_iv.setLayoutParams(params);
 
@@ -145,7 +146,7 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 bundle.putString("ticket_buy_id", list.get(i).getGoods_id());
-                bundle.putInt("from",1);
+                bundle.putInt("from", 1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
@@ -153,17 +154,18 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
     }
 
     @Override
-    @OnClick({R.id.input_ads_iv, R.id.input_be_back_top_iv})
+    @OnClick({R.id.input_be_back_top_iv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.input_ads_iv:
-                Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
-                bundle.putString("desc", desc);
-                bundle.putString("href", href);
-                startActivity(NoticeDetailsAty.class, bundle);
-                break;
+            //R.id.input_ads_iv,
+//            case R.id.input_ads_iv:
+//                Bundle bundle = new Bundle();
+//                bundle.putInt("from", 2);
+//                bundle.putString("desc", desc);
+//                bundle.putString("href", href);
+//                startActivity(NoticeDetailsAty.class, bundle);
+//                break;
             case R.id.input_be_back_top_iv:
                 input_sc.smoothScrollTo(0, 0);
                 input_be_back_top_iv.setVisibility(View.GONE);
@@ -197,12 +199,34 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
         if (ToolKit.isList(map, "data")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (1 == p) {
-                Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+                final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
                 Glide.with(this).load(ads.get("picture"))
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
                         .into(input_ads_iv);
+                input_ads_iv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", ads.get("merchant_id"));
+                            startActivity(MellInfoAty.class, bundle);
+                        } else if (!TextUtils.isEmpty(ads.get("goods_id")) && !ads.get("goods_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id", ads.get("goods_id"));
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("from", 2);
+                            bundle.putString("desc", desc);
+                            bundle.putString("href", href);
+                            startActivity(NoticeDetailsAty.class, bundle);
+                        }
+                    }
+                });
                 href = ads.get("href");
                 desc = ads.get("desc");
                 // 全球馆

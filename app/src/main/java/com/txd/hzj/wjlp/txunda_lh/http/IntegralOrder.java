@@ -38,7 +38,11 @@ public class IntegralOrder {
      * @param baseView
      */
     public static void SetOrder(String goods_num, String address_id,
-                                String order_id, String integral_id, String order_type, BaseView baseView) {
+                                String order_id, String integral_id,
+                                String order_type,
+                                String freight,
+                                String freight_type,
+                                BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("goods_num", goods_num);
@@ -46,6 +50,8 @@ public class IntegralOrder {
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("integral_id", integral_id);
         requestParams.addBodyParameter("order_type", order_type);
+        requestParams.addBodyParameter("freight", freight);
+        requestParams.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "SetOrder", requestParams, baseView);
     }
 

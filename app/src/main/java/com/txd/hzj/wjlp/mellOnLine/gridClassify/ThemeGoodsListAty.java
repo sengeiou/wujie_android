@@ -287,13 +287,13 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
             /**
              * 国旗
              */
-            @ViewInject(R.id.logo_for_country_iv)
+            @ViewInject(R.id.logo_for_country_iv1)
             private ImageView logo_for_country_iv;
 
             /**
              * 优惠券
              */
-            @ViewInject(R.id.use_coupon_tv)
+            @ViewInject(R.id.use_coupon_tv1)
             private TextView use_coupon_tv;
             /**
              * 商品图片

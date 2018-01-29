@@ -161,7 +161,7 @@ public class MellListAdapter extends BaseAdapter {
             mvh.operation_mell_iv.setVisibility(View.GONE);
         }
 
-        mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(goods));
+        mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
 
         mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,17 +255,20 @@ public class MellListAdapter extends BaseAdapter {
 
         private List<GoodsListBean> prodect;
 
-        MellProdectAdapter(List<GoodsListBean> prodect) {
+        private Context context;
+
+        MellProdectAdapter(Context context, List<GoodsListBean> prodect) {
+            this.context = context;
             this.prodect = prodect;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return prodect.size();
         }
 
         @Override
-        public Object getItem(int i) {
+        public GoodsListBean getItem(int i) {
             return prodect.get(i);
         }
 
@@ -284,7 +287,10 @@ public class MellListAdapter extends BaseAdapter {
             } else {
                 mpvh = (MPViewHolder) view.getTag();
             }
-            ChangeTextViewStyle.getInstance().forMellProdect(context, mpvh.mell_prodect_price_tv, "￥12.00");
+            ChangeTextViewStyle.getInstance().forMellProdect(context, mpvh.mell_prodect_price_tv, "￥" + getItem(i).getShop_price());
+            Glide.with(context).load(getItem(i).getGoods_img())
+                    .into(mpvh.imageview);
+
             return view;
         }
 
@@ -292,6 +298,8 @@ public class MellListAdapter extends BaseAdapter {
 
             @ViewInject(R.id.mell_prodect_price_tv)
             private TextView mell_prodect_price_tv;
+            @ViewInject(R.id.imageview)
+            private ImageView imageview;
 
         }
     }
