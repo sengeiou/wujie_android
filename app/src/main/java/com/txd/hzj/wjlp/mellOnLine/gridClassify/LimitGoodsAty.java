@@ -41,7 +41,6 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -53,7 +52,6 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
-import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
@@ -64,7 +62,6 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
-import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -72,11 +69,12 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
-import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
-import com.txd.hzj.wjlp.txunda_lh.http.Freight;
+import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -638,6 +636,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.remarks)
     private TextView remarks;
 
+    private int goods_number = 0;
+    private String product_id = "";
+    private boolean is_C = false;
+
+    @ViewInject(R.id.goods_select_attr_tv)
+    private TextView goods_select_attr_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -716,14 +721,50 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             @Override
             public void onClick(View v) {
                 if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
-                    toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
-                } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
+                    if (is_C) {
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", "5");
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
 
-                    toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
+                    if (is_C) {
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", "6");
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
+
 
                 } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,
-                    toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
-
+                    if (is_C) {
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", "10");
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
                 }
 
 
@@ -1177,7 +1218,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             R.id.go_to_cart_layout, R.id.to_main_layout, R.id.details_into_mell_tv, R.id.tv_dpg,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.relation_mell_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_lingquan,
-            R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao, R.id.im_toarrs})
+            R.id.btn_jgsm, R.id.im_service_more, R.id.layout_djq, R.id.tv_quxiao, R.id.layout_layout_settings})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -1322,12 +1363,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             case R.id.tv_lingquan:
                 showLQPop(v, "领券");
                 break;
-            case R.id.im_toarrs:
-//                toAttrs(v, 1, "  ", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"),
-//                        (ArrayList) goodsAttrs,
-//                        (ArrayList) goods_produc,
-//                        ""
-//                );
+            case R.id.layout_layout_settings:
+                toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("limit_price"), limit_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -1899,5 +1936,83 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
         }
         return detail;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == 1000) {
+                is_C = true;
+                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
+                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
+                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
+                now_price_tv.setText(data.getStringExtra("shop_price"));
+                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
+                if (dj_list != null) {
+                    dj_ticket = dj_list;
+                    for (int i = 0; i < dj_ticket.size(); i++) {
+                        if (i == 2) {
+                            break;
+                        }
+                        switch (i) {
+                            case 0: {
+                                layout_djq0.setVisibility(View.VISIBLE);
+                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                            case 1: {
+                                layout_djq1.setVisibility(View.VISIBLE);
+                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                            case 2: {
+                                layout_djq2.setVisibility(View.VISIBLE);
+                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                        }
+                        switch (dj_ticket.get(i).get("type")) {
+                            case "0": {
+                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                            }
+                            break;
+                            case "1": {
+                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                            }
+                            break;
+                            case "2": {
+                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                            }
+
+                            break;
+                        }
+
+                    }
+                } else {
+                    layout_djq.setVisibility(View.GONE);
+                }
+                goods_number = data.getIntExtra("num", 0);
+                product_id = data.getStringExtra("product_id");
+                L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
+                        "pro_value=" + data.getStringExtra("pro_value") + "\n" +
+                        "num=" + data.getIntExtra("num", 0) + "\n" +
+                        "shop_price=" + data.getStringExtra("shop_price") + "\n" +
+                        "market_price=" + data.getStringExtra("market_price") + "\n" +
+                        "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
+                        "discount=" + data.getStringExtra("discount") + "\n" +
+                        "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
+                        "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
+                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+                        "wy_price=" + data.getStringExtra("wy_price") + "\n");
+            }
+
+        }
     }
 }

@@ -21,7 +21,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
-import com.txd.hzj.wjlp.txunda_lh.http.AfterSale;
+import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.io.File;
 import java.math.BigDecimal;

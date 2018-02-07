@@ -15,12 +15,19 @@
         android:orientation="horizontal">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="已选商品配置"
+            android:textColor="@color/app_text_color" />
+
+        <TextView
             android:id="@+id/goods_select_attr_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="right"
             android:padding="10dp"
-            android:text="已选商品配置"
             android:textColor="@color/app_text_color" />
 
 

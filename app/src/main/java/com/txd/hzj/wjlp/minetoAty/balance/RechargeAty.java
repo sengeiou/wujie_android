@@ -33,8 +33,7 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.txunda_lh.http.Pay;
+import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.io.File;

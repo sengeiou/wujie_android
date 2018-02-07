@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
@@ -34,6 +35,7 @@ import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -94,6 +96,8 @@ public class GoodsAttributeAty extends BaseAty {
     SparseArray<String> list_attrs = new SparseArray<String>();
     private String is_attr;
     private String image;
+    private List<Map<String, String>> mapList;
+    private int position = 0;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -140,6 +144,7 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("blue_discount", val.getBlue_discount());
                         intent.putExtra("wy_price", val.getWy_price());
                         intent.putExtra("yx_price", val.getYx_price());
+                        intent.putExtra("data", mapList.get(position).get("dj_ticket"));
                         setResult(RESULT_OK, intent);
                         finish();
                     } else {
@@ -216,8 +221,6 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 
-    ArrayList<String> sku_list = new ArrayList<>();
-    ArrayList<TagAdapter<GoodsAttr.valBean>> adp_list = new ArrayList<>();
 
     @Override
     protected void requestData() {
@@ -227,11 +230,16 @@ public class GoodsAttributeAty extends BaseAty {
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
+        mapList = JSONUtils.parseKeyAndValueToMapList(getIntent().getStringExtra("goods_val"));
+
+
         String string[] = is_attr.split("-");
         is_attr = string[0];
         if (!ListUtils.isEmpty(list) && is_attr.equals("1")) {
             goodsAttrsAdapter = new GoodsAttrsAdapter();
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
+
+
         } else {
             maxNumber = Integer.parseInt(string[1]);
             tv_kucun.setText("(库存：" + string[1] + ")");
@@ -361,6 +369,8 @@ public class GoodsAttributeAty extends BaseAty {
                     }
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
                         case "1":
+                            tv.setEnabled(true);
+                            tv.setClickable(true);
                             tv.setBackgroundResource(R.drawable.shape_tag_checked_bg);
                             tv.setTextColor(Color.WHITE);
                             break;
@@ -377,6 +387,8 @@ public class GoodsAttributeAty extends BaseAty {
                             tv.setBackgroundResource(R.drawable.shape_tag_normal_bg2);
                             break;
                         default:
+                            tv.setEnabled(true);
+                            tv.setClickable(true);
                             tv.setTextColor(Color.WHITE);
                             tv.setBackgroundResource(R.drawable.shape_tag_normal_bg2);
                             break;
@@ -386,12 +398,17 @@ public class GoodsAttributeAty extends BaseAty {
             };
             if (i == 0) {
                 tagAdapter.setSelectedList(0);
+//                getItem(i).getFirst_list_val().get(0).setStatus("1");
             }
-            adp_list.add(tagAdapter);
             avh.goods_attr_tfl.setAdapter(tagAdapter);
+
             avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
+                    if( getItem(i).getFirst_list_val().get(0).getStatus().equals("3")){
+                        return true;
+                    }
+
                     getItem(i).getFirst_list_val().get(position).setStatus("1");
                     for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
                         if (position == j) {
@@ -451,6 +468,7 @@ public class GoodsAttributeAty extends BaseAty {
                                 image = val.getGoods_img();
                                 pro_id = val.getId();
                                 num = 1;
+                                position++;
                                 break;
                             } else {
                                 maxNumber = 0;
@@ -458,6 +476,7 @@ public class GoodsAttributeAty extends BaseAty {
                                 num = 0;
                                 tv_num.setText(String.valueOf(maxNumber));
                                 pro_id = "";
+                                position = -1;
                             }
                         }
 

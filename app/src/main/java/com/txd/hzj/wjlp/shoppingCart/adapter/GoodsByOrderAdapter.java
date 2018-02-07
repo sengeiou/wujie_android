@@ -67,8 +67,9 @@ public class GoodsByOrderAdapter extends BaseAdapter {
         Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
         govh.tv_number.setText("x" + getItem(i).get("num"));
         govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
-        if (!TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
-            govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr") + "\n¥" + getItem(i).get("shop_price"));
+
+        if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
+            govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
         } else {
             govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
         }

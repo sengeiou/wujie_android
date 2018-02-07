@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.hous;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -29,7 +28,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.txunda_lh.aty_submit_order;
+import com.txd.hzj.wjlp.new_wjyp.aty_submit_order;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;

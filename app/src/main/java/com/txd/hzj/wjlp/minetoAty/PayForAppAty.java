@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,16 +26,17 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
+import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.BalancePay;
-import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralPay;
-import com.txd.hzj.wjlp.txunda_lh.http.Order;
-import com.txd.hzj.wjlp.txunda_lh.http.Pay;
-import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.BalancePay;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralPay;
+import com.txd.hzj.wjlp.new_wjyp.http.Order;
+import com.txd.hzj.wjlp.new_wjyp.http.Pay;
+import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.util.Map;
@@ -134,7 +134,7 @@ public class PayForAppAty extends BaseAty {
     private CheckBox b;
     @ViewInject(R.id.cb_jfzf)
     private CheckBox cb_jfzf;
-
+    private Bundle mBundle;
     String goods_id, num, ordertype, product_id;
     private String type;
     private String group_buy_id;
@@ -147,7 +147,8 @@ public class PayForAppAty extends BaseAty {
     private String inte_id;
     @ViewInject(R.id.layout_yue)
     private RelativeLayout layout_yue;
-
+    @ViewInject(R.id.textview)
+    private TextView textview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -317,6 +318,7 @@ public class PayForAppAty extends BaseAty {
     protected int getLayoutResId() {
         return R.layout.aty_pay_for_app;
     }
+
     private WxPayReceiver wxPayReceiver;
 
     private class WxPayReceiver extends BroadcastReceiver {
@@ -325,6 +327,7 @@ public class PayForAppAty extends BaseAty {
             // TODO Auto-generated method stub
             int errCode = intent.getIntExtra("errCode", 5);
             if (errCode == 0) {
+                OrderList();
                 showToast("支付成功");
                 finish();
             } else {
@@ -333,6 +336,7 @@ public class PayForAppAty extends BaseAty {
             }
         }
     }
+
     @Override
     protected void initialized() {
         wxPayReceiver = new WxPayReceiver();
@@ -394,7 +398,6 @@ public class PayForAppAty extends BaseAty {
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
-
         } else if (type.equals("11")) {
             Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type, cart_id, this);
         }
@@ -441,19 +444,19 @@ public class PayForAppAty extends BaseAty {
             if (type.equals("4")) {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
+            OrderList();
             showToast("支付成功！");
             finish();
         }
-        if (requestUrl.contains("integralPay"))
-
-        {
+        if (requestUrl.contains("integralPay")) {
             if (type.equals("4")) {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
+            OrderList();
             showToast("支付成功！");
             finish();
         }
-        if (requestUrl.contains("getJsTine")){
+        if (requestUrl.contains("getJsTine")) {
             GetPrepayIdTask wxPay = new GetPrepayIdTask(this, data.get("sign"), data.get("appid"),
                     data.get("nonce_str"), data.get("package"), data.get("time_stamp"), data.get("prepay_id"),
                     data.get("mch_id"), "");
@@ -498,6 +501,7 @@ public class PayForAppAty extends BaseAty {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
             showToast("支付成功！");
+            OrderList();
             removeProgressDialog();
             finish();
         }
@@ -513,6 +517,31 @@ public class PayForAppAty extends BaseAty {
         finish();
     }
 
+    private void OrderList() {
+        mBundle = new Bundle();
+        if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1") || type.equals("5") || type.equals("11")) {
+            mBundle.putString("title", "线上商城");
+            mBundle.putString("type", "0");
+        }
+        if (type.equals("2") || type.equals("3") || type.equals("4")) {
+            mBundle.putString("title", "拼团区");
+            mBundle.putString("type", "3");
+        }
+        if (type.equals("6")) {
+            mBundle.putString("title", "无界预购");
+            mBundle.putString("type", "4");
+        }
+        if (type.equals("7")) {
+
+            mBundle.putString("title", "积分抽奖");
+            mBundle.putString("type", "5");
+        }
+        if (type.equals("9")) {
+            mBundle.putString("title", "比价购");
+            mBundle.putString("type", "6");
+        }
+        startActivity(OnlineShopAty.class, mBundle);
+    }
 
     public void showPop(View view, final int type) {
         if (data.get("discount").equals("0") && data.get("yellow_discount").equals("0") && data.get("blue_discount").equals("0"))
@@ -534,8 +563,7 @@ public class PayForAppAty extends BaseAty {
                         y = (CheckBox) view.findViewById(R.id.cb_2);
                         b = (CheckBox) view.findViewById(R.id.cb_3);
                         r.setText(data.get("red_desc"));
-                        y.setText(data.get("" +
-                                "yellow_desc"));
+                        y.setText(data.get("yellow_desc"));
                         b.setText(data.get("blue_desc"));
                         TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
                         r.setVisibility(data.get("discount").equals("1") ? View.VISIBLE : View.GONE);
@@ -553,6 +581,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
 
                                 setCheck(2);
+
                             }
                         });
                         b.setOnClickListener(new View.OnClickListener() {
@@ -560,6 +589,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
 
                                 setCheck(3);
+
                             }
                         });
 
@@ -602,6 +632,9 @@ public class PayForAppAty extends BaseAty {
         this.is_b = is_b;
         switch (from) {
             case 1:
+
+
+                textview.setText(data.get("red_desc"));
                 im1.setVisibility(is_r ? View.VISIBLE : View.GONE);
                 im2.setVisibility(is_y ? View.VISIBLE : View.GONE);
                 im3.setVisibility(is_b ? View.VISIBLE : View.GONE);
@@ -613,6 +646,7 @@ public class PayForAppAty extends BaseAty {
                 im9.setVisibility(View.GONE);
                 break;
             case 2:
+                textview.setText(data.get("yellow_desc"));
                 im1.setVisibility(View.GONE);
                 im2.setVisibility(View.GONE);
                 im3.setVisibility(View.GONE);
@@ -624,6 +658,7 @@ public class PayForAppAty extends BaseAty {
                 im9.setVisibility(View.GONE);
                 break;
             case 3:
+                textview.setText(data.get("blue_desc"));
                 im1.setVisibility(View.GONE);
                 im2.setVisibility(View.GONE);
                 im3.setVisibility(View.GONE);

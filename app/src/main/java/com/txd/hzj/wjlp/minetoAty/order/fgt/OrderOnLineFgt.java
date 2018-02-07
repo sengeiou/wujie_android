@@ -31,14 +31,14 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
-import com.txd.hzj.wjlp.txunda_lh.CarOrderInfo;
-import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
+import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.CarOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 
 import java.util.List;
 import java.util.Map;
@@ -174,7 +174,7 @@ public class OrderOnLineFgt extends BaseFgt {
     public void onResume() {
         super.onResume();
         if (from.equals("0")) {
-            com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
             CarOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("2")) {
@@ -195,7 +195,7 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     protected void requestData() {
         if (from.equals("0")) {
-            com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
             CarOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("2")) {
@@ -226,7 +226,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
                         } else if (from.equals("1")) {
                             CarOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("2")) {
@@ -266,7 +266,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         footerProgressBar.setVisibility(View.VISIBLE);
                         p++;
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
                         } else if (from.equals("1")) {
                             CarOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("2")) {
@@ -366,7 +366,7 @@ public class OrderOnLineFgt extends BaseFgt {
         if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -380,7 +380,7 @@ public class OrderOnLineFgt extends BaseFgt {
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
             showToast("删除成功");
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -393,7 +393,7 @@ public class OrderOnLineFgt extends BaseFgt {
         }
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.txunda_lh.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -668,7 +668,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.txunda_lh.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.new_wjyp.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -697,7 +697,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
-                    com.txd.hzj.wjlp.txunda_lh.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
                     IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -710,7 +710,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.txunda_lh.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.new_wjyp.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         } else {
                             IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);

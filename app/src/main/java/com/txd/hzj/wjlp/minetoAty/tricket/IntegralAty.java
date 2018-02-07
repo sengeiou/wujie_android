@@ -5,12 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
-import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.txunda_lh.http.User;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 
 import java.util.Map;
 

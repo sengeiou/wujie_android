@@ -3,8 +3,6 @@ package com.txd.hzj.wjlp.shoppingCart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -24,21 +22,18 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.tool.PopupController;
-import com.txd.hzj.wjlp.txunda_lh.Bean;
-import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.Freight;
-import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.Order;
-import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.Order;
+import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -373,7 +368,7 @@ public class BuildOrderAty extends BaseAty {
                                 tv_sle_left.setText("配送方式");
                                 freight = data.get(position).get("pay");
                                 freight_type = data.get(position).get("type");
-                                tv_sle_right.setText(data.get(position).get("type"));
+                                tv_sle_right.setText(data.get(position).get("type")+"(¥"+data.get(position).get("pay") +")");
                                 order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                             }
@@ -475,6 +470,8 @@ public class BuildOrderAty extends BaseAty {
             address_id = data.getStringExtra("id");
             tv_c_ads.setVisibility(View.GONE);
             layout_choose_address.setVisibility(View.VISIBLE);
+
+
         }
     }
 }

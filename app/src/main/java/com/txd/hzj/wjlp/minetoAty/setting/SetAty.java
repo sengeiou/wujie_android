@@ -31,8 +31,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
-import com.txd.hzj.wjlp.minetoAty.RealnameAty;
-import com.txd.hzj.wjlp.txunda_lh.aty_authentication;
+import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;

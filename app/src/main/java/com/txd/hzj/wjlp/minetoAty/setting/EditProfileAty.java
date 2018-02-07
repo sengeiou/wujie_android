@@ -37,7 +37,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
-import com.txd.hzj.wjlp.txunda_lh.aty_authentication;
+import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
 import org.json.JSONArray;

@@ -8,10 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -19,10 +16,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
-import com.txd.hzj.wjlp.bean.groupbuy.GroupPager;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
-import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
 
 import java.util.ArrayList;
 import java.util.HashMap;

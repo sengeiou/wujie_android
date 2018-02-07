@@ -25,9 +25,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.FindHouseByMapAty;
-import com.txd.hzj.wjlp.txunda_lh.CarOrderInfo;
-import com.txd.hzj.wjlp.txunda_lh.aty_comment;
-import com.txd.hzj.wjlp.txunda_lh.aty_pay;
+import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
+import com.txd.hzj.wjlp.new_wjyp.aty_comment;
+import com.txd.hzj.wjlp.new_wjyp.aty_pay;
 
 import java.util.List;
 import java.util.Map;

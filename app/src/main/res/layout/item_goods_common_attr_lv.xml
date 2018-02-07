@@ -9,9 +9,10 @@
         android:id="@+id/attr_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:minWidth="80dp"
-        android:text="箱规"
+        android:gravity="center|right"
+        android:minWidth="100dp"
+        android:padding="10dp"
+        android:text="1"
         android:textColor="@color/gray_text_color" />
 
     <View
@@ -27,7 +28,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:singleLine="true"
-        android:text="单瓶"
+        android:text="2"
         android:textColor="@color/app_text_color" />
 
 </LinearLayout>

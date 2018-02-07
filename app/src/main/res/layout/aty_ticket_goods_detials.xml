@@ -139,6 +139,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:gravity="center"
                                         android:text="销量 100"
                                         android:textColor="#999999"
                                         android:textSize="14sp" />
@@ -148,6 +149,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:gravity="center"
                                         android:text="库存 100"
                                         android:textColor="#999999"
                                         android:textSize="14sp" />
@@ -157,6 +159,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:gravity="center"
                                         android:text="运费"
                                         android:textColor="#999999"
                                         android:textSize="14sp" />
@@ -453,9 +456,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp" />
 
-                        <include
-                            layout="@layout/aty_goods_details_estimate"
-                           />
+                        <include layout="@layout/aty_goods_details_estimate" />
 
                         <Space
                             android:layout_width="match_parent"
@@ -617,14 +618,14 @@
                         android:layout_height="wrap_content" />
 
 
-                        <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                            android:id="@+id/goods_common_attr_lv"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:visibility="gone"
-                            android:background="@android:color/white"
-                            android:divider="#dddddd"
-                            android:dividerHeight="1dp" />
+                    <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                        android:id="@+id/goods_common_attr_lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/white"
+                        android:divider="#dddddd"
+                        android:dividerHeight="1dp"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/layout_aftersale"

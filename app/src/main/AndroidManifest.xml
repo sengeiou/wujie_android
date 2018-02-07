@@ -613,12 +613,12 @@
             </intent-filter>
         </activity>
         <!--搭配购-->
-        <activity android:name=".txunda_lh.aty_collocations" />
+        <activity android:name=".new_wjyp.aty_collocations" />
         <!--实名认证-->
-        <activity android:name=".txunda_lh.aty_authentication" />
+        <activity android:name=".new_wjyp.aty_authentication" />
         <!--房产和车辆的订单-->
-        <activity android:name=".txunda_lh.aty_submit_order" />
-        <activity android:name=".txunda_lh.aty_pay" />
+        <activity android:name=".new_wjyp.aty_submit_order" />
+        <activity android:name=".new_wjyp.aty_pay" />
 
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -727,20 +727,20 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <!--汽车购详情-->
-        <activity android:name=".txunda_lh.CarOrderInfo" />
+        <activity android:name=".new_wjyp.CarOrderInfo" />
         <!--提交评价-->
-        <activity android:name=".txunda_lh.aty_comment" />
+        <activity android:name=".new_wjyp.aty_comment" />
         <!--评价主页-->
-        <activity android:name=".txunda_lh.aty_commentindex" />
+        <activity android:name=".new_wjyp.aty_commentindex" />
         <!--售后列表-->
-        <activity android:name=".txunda_lh.aty_after" />
+        <activity android:name=".new_wjyp.aty_after" />
         <!--售后快递-->
-        <activity android:name=".txunda_lh.aty_addshipping" />
+        <activity android:name=".new_wjyp.aty_addshipping" />
         <!--比较记录的详情-->
-        <activity android:name=".txunda_lh.AuctionRecordAty" />
+        <activity android:name=".new_wjyp.AuctionRecordAty" />
         <activity android:name=".minetoAty._GradeOfMemberAty" />
         <!--联盟商家申请-->
-        <activity android:name=".txunda_lh.UnionmerchartAty" />
+        <activity android:name=".new_wjyp.UnionmerchartAty" />
 
         <activity
             android:name=".wxapi.WXPayEntryActivity"
@@ -754,8 +754,8 @@
                 <data android:scheme="wxc971edce6f70ca57" />
             </intent-filter>
         </activity>
-        <activity android:name=".txunda_lh.aty_mine1" />
-        <activity android:name=".txunda_lh.aty_mine2" />
+        <activity android:name=".new_wjyp.aty_mine1" />
+        <activity android:name=".new_wjyp.aty_mine2" />
         <activity android:name="com.txd.hzj.wjlp.wjyp.WebViewAty" />
         <activity android:name="com.txd.hzj.wjlp.wjyp.ExpandBusinessAty" />
         <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyAty" />
@@ -786,8 +786,8 @@
         <activity android:name="com.txd.hzj.wjlp.wjyp.LMSJAty" />
         <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyPostAty" />
         <!--会员详情-->
-        <activity android:name=".txunda_lh.VipDetailsAty" />
-        <activity android:name=".txunda_lh.VipPayAty" />
+        <activity android:name=".new_wjyp.VipDetailsAty" />
+        <activity android:name=".new_wjyp.VipPayAty" />
         <activity android:name=".wjyp.PushMerchantAty" />
     </application>
 

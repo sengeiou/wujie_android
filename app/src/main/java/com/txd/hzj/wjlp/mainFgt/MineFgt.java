@@ -1,13 +1,11 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -16,9 +14,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -44,15 +40,13 @@ import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellSettingAty;
 import com.txd.hzj.wjlp.minetoAty.mell.StockRecordAty;
-import com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoListAty;
 import com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
-import com.txd.hzj.wjlp.txunda_lh.UnionmerchartAty;
-import com.txd.hzj.wjlp.txunda_lh.aty_mine1;
-import com.txd.hzj.wjlp.txunda_lh.aty_mine2;
+import com.txd.hzj.wjlp.new_wjyp.aty_mine1;
+import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 

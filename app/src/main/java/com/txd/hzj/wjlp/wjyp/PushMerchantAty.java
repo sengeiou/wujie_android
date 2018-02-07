@@ -15,12 +15,11 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.txunda_lh.RoundTransformation;
-import com.txd.hzj.wjlp.txunda_lh.UnionmerchartAty;
-import com.txd.hzj.wjlp.txunda_lh.http.Recommending;
+import com.txd.hzj.wjlp.new_wjyp.RoundTransformation;
+import com.txd.hzj.wjlp.new_wjyp.UnionmerchartAty;
+import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
 
 import java.util.ArrayList;
 import java.util.HashMap;

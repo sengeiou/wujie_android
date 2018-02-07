@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +134,7 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
             }
             //   cavh.attr_name_tv.setText(String.valueOf(i + 1) +"."+ list.get(i).getAttr_name());
             cavh.attr_name_tv.setText(list.get(i).getAttr_name());
-            cavh.attr_value_tv.setText(list.get(i).getAttr_value());
+            cavh.attr_value_tv.setText(TextUtils.isEmpty(list.get(i).getAttr_value())?"—":list.get(i).getAttr_value());
             return view;
         }
     }

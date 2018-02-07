@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,17 +14,10 @@ import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.mainFgt.adapter.AuctionRecordAdapter;
-import com.txd.hzj.wjlp.txunda_lh.AuctionRecordAty;
-import com.txd.hzj.wjlp.txunda_lh.http.AuctionOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.CarOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.HouseOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
-import com.txd.hzj.wjlp.txunda_lh.http.PreOrder;
+import com.txd.hzj.wjlp.new_wjyp.AuctionRecordAty;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

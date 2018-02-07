@@ -112,8 +112,8 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_offline_shop:
-                mBundle.putString("title", "线下商城");
-                startActivity(OnlineShopAty.class, mBundle);
+//                mBundle.putString("title", "线下商铺");
+//                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wj_shop:
                 mBundle.putString("title", "无界商店");

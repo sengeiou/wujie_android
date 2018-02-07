@@ -1231,9 +1231,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             public void onItemClick(View view, int position) {
                 horizontalAdapter.setSelected(position);
                 horizontalAdapter.notifyDataSetChanged();
-                if (position <= 0) {
-                    return;
-                }
                 Bundle bundle = new Bundle();
                 bundle.putInt("pos", position);
                 bundle.putString("cate_id", horizontal_classify.get(position).get("cate_id"));

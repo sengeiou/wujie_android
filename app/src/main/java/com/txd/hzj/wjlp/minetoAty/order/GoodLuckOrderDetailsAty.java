@@ -13,9 +13,8 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.CheckNumDialog;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

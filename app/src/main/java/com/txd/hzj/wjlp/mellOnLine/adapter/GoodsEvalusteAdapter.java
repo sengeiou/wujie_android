@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,7 @@ import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.Comment;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.tool.TextUtils;
-import com.txd.hzj.wjlp.txunda_lh.BeanCommentList;
+import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 
 import java.util.List;
 

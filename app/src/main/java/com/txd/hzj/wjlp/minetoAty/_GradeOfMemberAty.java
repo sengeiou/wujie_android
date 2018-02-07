@@ -16,7 +16,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.User;
-import com.txd.hzj.wjlp.txunda_lh.VipDetailsAty;
+import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 
 import java.util.ArrayList;
 import java.util.Map;

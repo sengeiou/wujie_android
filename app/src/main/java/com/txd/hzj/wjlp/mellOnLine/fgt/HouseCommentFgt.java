@@ -17,7 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.http.house.HouseBuy;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
-import com.txd.hzj.wjlp.txunda_lh.BeanCommentList;
+import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;

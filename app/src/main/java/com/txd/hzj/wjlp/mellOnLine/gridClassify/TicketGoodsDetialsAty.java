@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -31,19 +30,19 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.ArrayUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.baidu.mapapi.map.Text;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -64,7 +63,6 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
-import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
@@ -72,11 +70,13 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
-import com.txd.hzj.wjlp.txunda_lh.aty_collocations;
-import com.txd.hzj.wjlp.txunda_lh.http.Freight;
+import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
+import com.txd.hzj.wjlp.new_wjyp.http.Easemob;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -85,7 +85,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -480,9 +479,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String first_val;
     @ViewInject(R.id.tv_date)
     private TextView tv_date;
-
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+    private int goods_number = 0;
+    private String product_id = "";
+    private boolean is_C = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -626,12 +628,33 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 layout_aftersale.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_gwc:
-                //购物车, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                if (is_C) {
+                    RequestParams params = new RequestParams();
+                    ApiTool2 apiTool2 = new ApiTool2();
+                    params.addBodyParameter("goods_id", goods_id);
+                    params.addBodyParameter("product_id", product_id);
+                    params.addBodyParameter("num", String.valueOf(goods_number));
+                    apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+                } else {
+                    //购物车, (ArrayList) goodsAttrs, (ArrayList) goods_product
+                    toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                }
                 break;
             case R.id.tv_ljgm:
-                //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                if (is_C) {
+                    Intent intent = new Intent();
+                    intent.putExtra("mid", mell_id);
+                    intent.putExtra("type", "1");
+                    intent.putExtra("goods_id", goods_id);
+                    intent.putExtra("group_buy_id", "");
+                    intent.putExtra("num", String.valueOf(goods_number));
+                    intent.putExtra("product_id", product_id);
+                    intent.setClass(this, BuildOrderAty.class);
+                    startActivity(intent);
+                } else {
+                    //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
+                    toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                }
                 break;
             case R.id.btn_jgsm:
                 if (goods_price_desc != null) {
@@ -745,7 +768,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 .setContentTextSize(20)
                 .setOutSideCancelable(false)// default is true
                 .build();
-
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
@@ -962,6 +984,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
+
+
     }
 
 
@@ -976,6 +1000,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("Cart/addCart")) {
+            showToast("添加成功！");
+        }
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -1388,6 +1415,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     private void forMellInfo(Map<String, String> mInfo) {
         mell_id = mInfo.get("merchant_id");
+        Easemob.bind(mell_id, this);
+        showProgressDialog();
         easemob_account = mInfo.get("merchant_easemob_account");
         merchant_logo = mInfo.get("logo");
         merchant_name = mInfo.get("merchant_name");
@@ -1801,14 +1830,62 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == 1000) {
-                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0) );
+                is_C = true;
+                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
                 tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
                 tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
-                old_price_tv.setText("￥" +data.getStringExtra("market_price") );
+                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
+                if (dj_list != null) {
+                    dj_ticket = dj_list;
+                    for (int i = 0; i < dj_ticket.size(); i++) {
+                        if (i == 2) {
+                            break;
+                        }
+                        switch (i) {
+                            case 0: {
+                                layout_djq0.setVisibility(View.VISIBLE);
+                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                            case 1: {
+                                layout_djq1.setVisibility(View.VISIBLE);
+                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                            case 2: {
+                                layout_djq2.setVisibility(View.VISIBLE);
+                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+                                break;
+                            }
+                        }
+                        switch (dj_ticket.get(i).get("type")) {
+                            case "0": {
+                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                            }
+                            break;
+                            case "1": {
+                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                            }
+                            break;
+                            case "2": {
+                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                            }
+
+                            break;
+                        }
+
+                    }
+                } else {
+                    layout_djq.setVisibility(View.GONE);
+                }
+                goods_number = data.getIntExtra("num", 0);
+                product_id = data.getStringExtra("product_id");
                 L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
                         "pro_value=" + data.getStringExtra("pro_value") + "\n" +
                         "num=" + data.getIntExtra("num", 0) + "\n" +
@@ -1819,10 +1896,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
                         "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
                         "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-                        "json=" + data.getStringExtra("json") + "\n");
+                        "wy_price=" + data.getStringExtra("wy_price") + "\n");
             }
 
         }
     }
+
 }

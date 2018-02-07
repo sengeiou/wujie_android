@@ -31,7 +31,7 @@ import com.txd.hzj.wjlp.mellOffLine.point.PointWjAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.txunda_lh.http.OfflineStore;
+import com.txd.hzj.wjlp.new_wjyp.http.OfflineStore;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;

@@ -22,7 +22,7 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.txunda_lh.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
 
 import java.math.BigDecimal;
 import java.util.List;

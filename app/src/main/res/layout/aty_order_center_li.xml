@@ -37,7 +37,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_02"
             android:gravity="center"
-            android:text="线下商城"
+            android:text="线下商铺"
             android:textColor="@color/black" />
 
         <TextView
