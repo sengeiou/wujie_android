@@ -508,6 +508,46 @@
 
                 <View
                     android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_dljm"
+                    style="@style/mine_text_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@mipmap/icon_mine_1"
+                    android:padding="12dp"
+                    android:visibility="gone"
+                    android:text="代理加盟"
+                    android:textColor="@color/app_text_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/bg_color" />
+
+                <TextView
+                    android:id="@+id/tv_lmsj"
+                    style="@style/mine_text_list"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/icon_turn_right_gray"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@mipmap/icon_mine_2"
+                    android:padding="12dp"
+                    android:text="联盟商家管理中心"
+                    android:textColor="@color/app_text_color" />
+
+                <View
+                    android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:background="@color/bg_color" />
 
@@ -599,13 +639,6 @@
                     android:text="在线客服"
                     android:textColor="@color/app_text_color" />
 
-                <Button
-                    android:id="@+id/b1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:gravity="center"
-                    android:text="联盟商家" />
             </LinearLayout>
 
             <LinearLayout

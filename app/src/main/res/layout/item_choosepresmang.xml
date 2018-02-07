@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tv_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_red_line_5"
+        android:paddingBottom="4dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp"
+        android:text="选择"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/im_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:layout_toRightOf="@+id/tv_choose"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/im_head"
+        android:layout_marginTop="2dp"
+        android:layout_toRightOf="@+id/im_head"
+        android:text="陈秀秀  18888988989"
+        android:textColor="#323232"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_pos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/im_head"
+        android:drawableLeft="@mipmap/icon_position"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="职位："
+        android:textColor="#999999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_pos1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="6dp"
+        android:layout_toRightOf="@+id/tv_pos"
+        android:drawablePadding="10dp"
+        android:text="CEO"
+        android:textColor="#525252"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:src="@mipmap/icon_more" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tv_pos"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#F6F6F6" />
+</RelativeLayout>

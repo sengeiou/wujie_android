@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -31,7 +33,7 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
 
-    private CommentAttrVH cavh;
+    private Holder cavh;
 
     public GoodsCommentAttrAdapter(Context context, List<GoodsCommonAttr> commonAttrs) {
         this.context = context;
@@ -58,18 +60,25 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         GoodsCommonAttr goodsCommonAttr = getItem(i);
         if (view == null) {
-            view = inflater.inflate(R.layout.item_goods_common_attr_lv, viewGroup, false);
-            cavh = new CommentAttrVH();
+            view = inflater.inflate(R.layout.item_attrs, viewGroup, false);
+            cavh = new Holder();
             ViewUtils.inject(cavh, view);
             view.setTag(cavh);
         } else {
-            cavh = (CommentAttrVH) view.getTag();
+            cavh = (Holder) view.getTag();
         }
-
-        cavh.attr_name_tv.setText(goodsCommonAttr.getAttr_name());
-        cavh.attr_value_tv.setText(goodsCommonAttr.getAttr_value());
-
+        cavh.tv.setText(goodsCommonAttr.getTitle());
+        adapter adp = new adapter(context, goodsCommonAttr.getList());
+        cavh.goods_common_attr_lv.setAdapter(adp);
         return view;
+    }
+
+    private class Holder {
+        @ViewInject(R.id.title)
+        TextView tv;
+        @ViewInject(R.id.goods_common_attr_lv)
+        private ListViewForScrollView goods_common_attr_lv;
+
     }
 
     private class CommentAttrVH {
@@ -85,5 +94,49 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
         private TextView attr_value_tv;
 
     }
+
+    class adapter extends BaseAdapter {
+        List<GoodsCommonAttr.list> list;
+
+        private LayoutInflater inflater;
+        CommentAttrVH cavh;
+
+        public adapter(Context context, List<GoodsCommonAttr.list> list) {
+            this.list = list;
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup parent) {
+            if (view == null) {
+                view = inflater.inflate(R.layout.item_goods_common_attr_lv, parent, false);
+                cavh = new CommentAttrVH();
+                ViewUtils.inject(cavh, view);
+                view.setTag(cavh);
+            } else {
+                cavh = (CommentAttrVH) view.getTag();
+            }
+            //   cavh.attr_name_tv.setText(String.valueOf(i + 1) +"."+ list.get(i).getAttr_name());
+            cavh.attr_name_tv.setText(list.get(i).getAttr_name());
+            cavh.attr_value_tv.setText(list.get(i).getAttr_value());
+            return view;
+        }
+    }
+
 
 }

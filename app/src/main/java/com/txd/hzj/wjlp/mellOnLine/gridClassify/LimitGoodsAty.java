@@ -635,6 +635,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private String first_val;
     private String is_attr = "";
 
+    @ViewInject(R.id.remarks)
+    private TextView remarks;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -743,6 +746,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 requestUrl.contains("integralBuyInfo")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            remarks.setText(data.get("remarks"));
             String cart_num = data.get("cart_num");
             goods_attr_first = data.get("first_list");
             first_val = data.get("first_val");

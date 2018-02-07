@@ -146,7 +146,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .centerCrop()
                 .override(logo_size1, logo_size2)
                 .placeholder(R.drawable.ic_default)
-                .error(R.id.ic_right_arrow)
+//                .error(R.id.ic_right_arrow)
                 .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.country_logo_iv);

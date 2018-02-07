@@ -19,11 +19,11 @@
             android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/remarks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="本商品由康尔馨酒店家纺从韩国发货，并提供售后服务，下单后24小时内发货" />
+            android:layout_weight="1"  />
     </LinearLayout>
 
     <View

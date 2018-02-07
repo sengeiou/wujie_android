@@ -120,45 +120,9 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
                 .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    /**
-     * 评价
-     *
-     * @param v View
-     */
-//    public void toEvaluate(View v) {
-//
-//    }
-
-    /**
-     * 商品属性
-     * goods_id - minfo_id
-     *
-     * @param v View
-     */
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
                         String price,
-//                        String goods_attr,
-//                        ArrayList<GoodsAttrs> list,
-//            , ArrayList<GoodsAttrs.product> list_p,
-                        String group_buy_id) {
-        Bundle bundle = new Bundle();
-        bundle.putInt("from", from);
-        bundle.putString("type", type);
-        bundle.putString("goods_id", goods_id);
-        bundle.putString("group_buy_id", group_buy_id);
-        bundle.putString("imageurl", imageurl);
-        bundle.putString("price", price);
-//        bundle.putString("goods_attr", goods_attr);
-//        bundle.putParcelableArrayList("list", list);
-//        bundle.putParcelableArrayList("list_p", list_p);
-        startActivity(GoodsAttributeAty.class, bundle);
-    }
-
-    public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
-                        String price,
-//                        ArrayList<GoodsAttrs> list,
-//            , ArrayList<GoodsAttrs.product> list_p,
-                        String group_buy_id, String goods_attr,String goods_val,String is_attr) {
+                        String group_buy_id, String goods_attr, String goods_val, String is_attr) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         bundle.putString("type", type);
@@ -169,9 +133,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putString("goods_attr", goods_attr);
         bundle.putString("goods_val", goods_val);
         bundle.putString("is_attr", is_attr);
-//        bundle.putParcelableArrayList("list", list);
-//        bundle.putParcelableArrayList("list_p", list_p);
-        startActivity(GoodsAttributeAty.class, bundle);
+        startActivityForResult(GoodsAttributeAty.class, bundle,1000);
     }
 
     /**

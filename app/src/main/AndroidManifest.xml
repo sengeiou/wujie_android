@@ -585,7 +585,7 @@
         <!-- 友盟统计 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="59cc4d7e8f4a9d2d43000015" />
+            android:value="5a727a08b27b0a4a2900003b" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
@@ -745,7 +745,7 @@
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop">
 
             <!-- 这个intent-filter不要忘了 -->
             <intent-filter>
@@ -754,6 +754,41 @@
                 <data android:scheme="wxc971edce6f70ca57" />
             </intent-filter>
         </activity>
+        <activity android:name=".txunda_lh.aty_mine1" />
+        <activity android:name=".txunda_lh.aty_mine2" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.WebViewAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ExpandBusinessAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.PayVipAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.TZSAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.GetTicketAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.TerraceTicketCheckAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.DetailsAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.MyTicketAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.MyTicketCheckAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.RecordAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.MerchantCheckAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.MerchantCheckDetailsAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.MaterialApplyAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.TypeNumberAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.PersonnelManagementAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp._PersonnelManagementAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.AddRecordAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.EditPresMangAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ChoosePresMangAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.OtherTicketAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ReleaseRecordAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ReleaseRecordDetailsAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.PlatformMaterialAuditAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.PlatformMaterialAuditDetailsAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.LowerMaterialAuditAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ExpandTheMemberAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.LMSJAty" />
+        <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyPostAty" />
+        <!--会员详情-->
+        <activity android:name=".txunda_lh.VipDetailsAty" />
+        <activity android:name=".txunda_lh.VipPayAty" />
+        <activity android:name=".wjyp.PushMerchantAty" />
     </application>
 
 </manifest>

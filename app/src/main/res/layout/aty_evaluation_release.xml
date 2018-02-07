@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="商家评分"
+                    android:text="卖家服务"
                     android:textColor="@color/app_text_color" />
 
                 <RatingBar
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="配送评分"
+                    android:text="物流服务"
                     android:textColor="@color/app_text_color" />
 
                 <RatingBar

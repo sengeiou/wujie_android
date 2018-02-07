@@ -30,6 +30,7 @@ import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.txunda_lh.http.AfterSale;
+import com.txd.hzj.wjlp.txunda_lh.http.Recommending;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,6 +111,9 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("银行卡类型")) {
                     data.putExtra("card_type", dataList.get(i).get("bank_name"));
                     data.putExtra("bank_type_id", dataList.get(i).get("bank_type_id"));
+                } else if (title.equals("选择类型")) {
+                    data.putExtra("type", dataList.get(i).get("type"));
+                    data.putExtra("rec_type_id", dataList.get(i).get("rec_type_id"));
                 }
                 setResult(RESULT_OK, data);
                 finish();
@@ -200,6 +204,9 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("选择快递")) {
             AfterSale.shipping(this);
             showProgressDialog();
+        } else if (title.equals("选择类型")) {
+            Recommending.businessType(this);
+            showProgressDialog();
         }
     }
 
@@ -212,6 +219,11 @@ public class TextListAty extends BaseAty {
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
             return;
+        }
+        if (requestUrl.contains("businessType")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
         }
         if (requestUrl.contains("getRange")) {
             dataList = (List<Map<String, String>>) map.get("data");
@@ -302,6 +314,8 @@ public class TextListAty extends BaseAty {
                     tvvh.im.setImageResource(R.drawable.icon_cart_goods_unselect);
                 }
 
+            } else if (title.equals("选择类型")) {
+                tvvh.text_context_tv.setText(map.get("type"));
             } else if (title.equals("选择街道")) {
                 tvvh.text_context_tv.setText(map.get("street_name"));
             } else if (title.equals("举报类型")) {

@@ -19,6 +19,7 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -124,6 +125,29 @@ public class GoodsAttributeAty extends BaseAty {
                     }
                     return;
                 }
+                if (4 == from) {
+                    Intent intent = new Intent();
+                    if (!TextUtils.isEmpty(pro_id)) {
+                        intent.putExtra("product_id", pro_id);
+                        intent.putExtra("pro_value", pro_value);
+                        intent.putExtra("num", num);
+                        intent.putExtra("shop_price", val.getShop_price());
+                        intent.putExtra("market_price", val.getMarket_price());
+                        intent.putExtra("settlement_price", val.getSettlement_price());
+                        intent.putExtra("red_return_integral", val.getRed_return_integral());
+                        intent.putExtra("discount", val.getDiscount());
+                        intent.putExtra("yellow_discount", val.getYellow_discount());
+                        intent.putExtra("blue_discount", val.getBlue_discount());
+                        intent.putExtra("wy_price", val.getWy_price());
+                        intent.putExtra("yx_price", val.getYx_price());
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        showToast("库存不足！");
+                    }
+                    return;
+
+                }
                 goodAttChange();
                 break;
             case R.id.im_jia:
@@ -178,6 +202,13 @@ public class GoodsAttributeAty extends BaseAty {
         }
         if (3 == from) {
             to_buy_must_tv.setText("参团");
+            goods_into_cart_tv.setVisibility(View.GONE);
+            at_left_lin_layout.setVisibility(View.GONE);
+            num = getIntent().getIntExtra("num", 0);
+            tv_num.setText(String.valueOf(num));
+        }
+        if (4 == from) {
+            to_buy_must_tv.setText("确定");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 0);
@@ -281,7 +312,6 @@ public class GoodsAttributeAty extends BaseAty {
         } else {
             showToast("库存不足！");
         }
-
     }
 
 
@@ -394,7 +424,6 @@ public class GoodsAttributeAty extends BaseAty {
                                     }
                                 }
                             }
-
                         }
                     } catch (IndexOutOfBoundsException e) {
                         getItem(i).getFirst_list_val().get(position).setStatus("1");
@@ -404,11 +433,11 @@ public class GoodsAttributeAty extends BaseAty {
                     if (list_attrs.size() == list.size()) {
                         StringBuffer attrs = new StringBuffer();
                         for (int k = 0; k < list_attrs.size(); k++) {
-                            if (k == list_attrs.size() - 1) {
-                                attrs.append(list_attrs.get(k));
-                            } else {
-                                attrs.append(list_attrs.get(k) + "+");
-                            }
+//                            if (k == list_attrs.size() - 1) {
+                            attrs.append(list_attrs.get(k) + "+");
+//                            } else {
+//                                attrs.append(list_attrs.get(k));
+//                            }
                         }
                         for (Goods_val val : list_val) {
                             if (attrs.toString().contains(val.getArrtValue())) {
@@ -556,6 +585,69 @@ public class GoodsAttributeAty extends BaseAty {
         private String create_time;
         private String all_goods_num;
         private String arrtValue;
+        private String discount;
+        private String red_return_integral;
+        private String yellow_discount;
+        private String blue_discount;
+        private String wy_price;
+        private String yx_price;
+        private List<dj_ticket> dt;
+
+        public String getDiscount() {
+            return discount;
+        }
+
+        public void setDiscount(String discount) {
+            this.discount = discount;
+        }
+
+        public String getRed_return_integral() {
+            return red_return_integral;
+        }
+
+        public void setRed_return_integral(String red_return_integral) {
+            this.red_return_integral = red_return_integral;
+        }
+
+        public String getYellow_discount() {
+            return yellow_discount;
+        }
+
+        public void setYellow_discount(String yellow_discount) {
+            this.yellow_discount = yellow_discount;
+        }
+
+        public String getBlue_discount() {
+            return blue_discount;
+        }
+
+        public void setBlue_discount(String blue_discount) {
+            this.blue_discount = blue_discount;
+        }
+
+        public String getWy_price() {
+            return wy_price;
+        }
+
+        public void setWy_price(String wy_price) {
+            this.wy_price = wy_price;
+        }
+
+        public String getYx_price() {
+            return yx_price;
+        }
+
+        public void setYx_price(String yx_price) {
+            this.yx_price = yx_price;
+        }
+
+        public List<dj_ticket> getDj_ticket() {
+            return dt;
+        }
+
+        public void setDj_ticket(List<dj_ticket> dj_ticket) {
+            this.dt = dj_ticket;
+        }
 
         public String getId() {
             return id;
@@ -760,6 +852,28 @@ public class GoodsAttributeAty extends BaseAty {
             public void setGoods_num(String goods_num) {
                 this.goods_num = goods_num;
             }
+        }
+    }
+
+    public class dj_ticket {
+
+        String type;
+        String discount_desc;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDiscount_desc() {
+            return discount_desc;
+        }
+
+        public void setDiscount_desc(String discount_desc) {
+            this.discount_desc = discount_desc;
         }
     }
 }

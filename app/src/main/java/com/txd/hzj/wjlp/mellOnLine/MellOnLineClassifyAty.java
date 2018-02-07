@@ -179,7 +179,6 @@ public class MellOnLineClassifyAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-
         if (ToolKit.isList(data, "top_nav")) {
             horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
@@ -198,7 +197,6 @@ public class MellOnLineClassifyAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("Aty======错误");
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

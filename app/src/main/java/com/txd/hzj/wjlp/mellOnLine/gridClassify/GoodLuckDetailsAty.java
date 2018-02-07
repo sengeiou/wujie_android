@@ -1037,6 +1037,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
+    @ViewInject(R.id.remarks)
+    private TextView remarks;
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -1049,6 +1051,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         if (requestUrl.contains("groupBuyInfo")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            remarks.setText(data.get("data"));
             goodsInfos = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
             GoodLuckBean groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GoodLuckBean.class);
             image = groupBuyInfo.getData().getGoods_banner();

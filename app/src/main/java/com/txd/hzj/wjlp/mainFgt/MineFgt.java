@@ -51,7 +51,10 @@ import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.txunda_lh.UnionmerchartAty;
+import com.txd.hzj.wjlp.txunda_lh.aty_mine1;
+import com.txd.hzj.wjlp.txunda_lh.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
 import java.util.Map;
 
@@ -261,12 +264,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.b1})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.b1:
-                startActivity(UnionmerchartAty.class,null);
+            case R.id.tv_lmsj:
+                startActivity(new Intent(getActivity(), LMSJAty.class));
+                break;
+            case R.id.tv_dljm:
+                startActivity(aty_mine2.class, null);
                 break;
             case R.id.tv_set:// 设置
                 if (1 == type) {
@@ -301,7 +307,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(FootprintAty.class, null);
                 break;
             case R.id.merchant_will_move_into_tv:// 商家入驻
-                startActivity(MellIntoListAty.class, null);
+                startActivity(aty_mine1.class, null);
                 break;
             case R.id.evaluate_tv:// 我的评价
                 bundle = new Bundle();
@@ -409,15 +415,16 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         userPst.userCenter();
     }
 
-    @ViewInject(R.id.b1)
-    Button b1;
 
     @Override
     protected void requestData() {
-//        if (L.isDebug) {
-            b1.setVisibility(View.VISIBLE);
-//        }
+
     }
+
+    @ViewInject(R.id.tv_dljm)
+    private TextView tv_dljm;
+    @ViewInject(R.id.tv_lmsj)
+    private TextView tv_lmsj;
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -444,6 +451,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
              "is_masonry": "0",//钢，0不点亮 1点亮,
              "is_iron": "0",//铁，0不点亮 1点亮,
              */
+
+            if (data.get("is_agent").equals("1")) {
+                tv_dljm.setVisibility(View.VISIBLE);
+            }
+            if (data.get("is_alliance").equals("1")) {
+                tv_lmsj.setVisibility(View.VISIBLE);
+            }
             if (data.get("is_gold").equals("1")) {
                 im_jin.setImageResource(R.mipmap.icon_mine_jin1);
             }

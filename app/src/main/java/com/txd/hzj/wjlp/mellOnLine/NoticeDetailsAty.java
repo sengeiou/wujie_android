@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.article.Article;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
@@ -114,6 +115,10 @@ public class NoticeDetailsAty extends BaseAty {
             only_for_top_layout.setVisibility(View.GONE);
             url = getIntent().getStringExtra("href");
             initWebView();
+        } else if (5 == from) {
+            only_for_top_layout.setVisibility(View.GONE);
+            titlt_conter_tv.setText("会员协议");
+            articlePst.getArticle("2");
         }
     }
 
@@ -141,7 +146,7 @@ public class NoticeDetailsAty extends BaseAty {
                 return true;
             }
         });
-        if(from==4){
+        if (from == 4) {
             WebChromeClient wvcc = new WebChromeClient() {
                 @Override
                 public void onReceivedTitle(WebView view, String title) {

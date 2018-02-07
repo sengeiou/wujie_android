@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/tz_title_layout" />
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:drawablePadding="20dp"
+        android:drawableTop="@mipmap/icon_waiting"
+        android:gravity="center"
+        android:paddingBottom="50dp"
+        android:text="拓展商申请信息\n正在审核中\n不要着急哦~"
+        android:textColor="#383838"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layout_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="20dp"
+            android:drawableTop="@mipmap/icon_review_succeed"
+            android:gravity="center"
+            android:text="审核通过~"
+            android:textColor="#383838"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="支付拓展商会费"
+                android:textColor="#383838"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="¥10,0000.00"
+                android:textColor="#F23232"
+                android:textSize="14sp"
+
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="成为拓展商~"
+            android:textColor="#383838"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_webview"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="支付成为拓展商"
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:src="@mipmap/icon_waiting"-->
+    <!--android:layout_above="@+id/textView"-->
+    <!--android:layout_centerHorizontal="true" />-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:drawablePadding="20dp"-->
+    <!--android:gravity="center"-->
+    <!--android:text="拓展商申请信息\n正在审核中\n不要着急哦~"-->
+    <!--android:textColor="#383838"-->
+    <!--android:textSize="16sp"-->
+    <!--android:id="@+id/textView" />-->
+</RelativeLayout>

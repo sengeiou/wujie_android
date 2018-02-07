@@ -50,7 +50,7 @@ public class User {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("nickname", nickname);
-      //  params.addBodyParameter("sex", sex);
+        //  params.addBodyParameter("sex", sex);
         params.addBodyParameter("email", email);
         params.addBodyParameter("province_id", province_id);
         params.addBodyParameter("city_id", city_id);
@@ -530,6 +530,18 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("type", type);
         apiTool2.postApi(url + "removeBind", params, baseView);
+    }
+
+    /**
+     * 会员卡列表
+     *
+     * @param view
+     */
+
+    public static void userCard(BaseView view) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(Config.BASE_URL + "User/userCard", params, view);
     }
 
 }

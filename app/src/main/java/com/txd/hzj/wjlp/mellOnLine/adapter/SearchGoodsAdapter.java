@@ -92,7 +92,7 @@ public class SearchGoodsAdapter extends BaseAdapter {
                 .dontAnimate()
                 .override(logo_size1,logo_size2)
                 .placeholder(R.drawable.ic_default)
-                .error(R.id.ic_right_arrow)
+//                .error(R.id.ic_right_arrow)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.country_logo_iv);
 

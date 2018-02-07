@@ -29,7 +29,8 @@ public class Config {
     /**
      * 主URL
      */
-    public final static String BASE_URL = "http://wjyp.txunda.com/index.php/Api/";
+      public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
+//    public final static String BASE_URL = "http://wjyp.txunda.com/index.php/Api/";
 //    public final static String BASE_URL = "http://www.wujiemall.com/index.php/Api/";
 
     public static List<Activity> list = new ArrayList<>();

@@ -481,6 +481,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @ViewInject(R.id.tv_date)
     private TextView tv_date;
 
+    @ViewInject(R.id.goods_select_attr_tv)
+    private TextView goods_select_attr_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -506,7 +509,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv,
             R.id.go_to_cart_layout, R.id.be_back_main_tv, R.id.details_into_mell_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
-            R.id.to_chat_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.im_toarrs,
+            R.id.to_chat_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.layout_layout_settings,
             R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm, R.id.im_service_more, R.id.tv_lingquan,
             R.id.layout_djq, R.id.tv_showClassify, R.id.tv_quxiao, R.id.tv_wjsd, R.id.tv_dpg})
     public void onClick(View v) {
@@ -640,8 +643,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     showPop(v, "服务说明", ser_list, 1);
                 }
                 break;
-            case R.id.im_toarrs://(ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+            case R.id.layout_layout_settings://(ArrayList) goodsAttrs, (ArrayList) goods_product
+                toAttrs(v, 4, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
@@ -966,6 +969,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private List<AllGoodsBean> more = new ArrayList<>();
     Map<String, String> goodsInfo;
 
+
+    @ViewInject(R.id.remarks)
+    private TextView remarks;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -982,6 +989,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
             is_attr = data.get("is_attr");
+            remarks.setText(data.get("remarks"));
             forBase(data, cart_num);
             share_url = data.get("share_url");
             share_img = data.get("share_img");
@@ -1042,22 +1050,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             } else {
                 layout_service.setVisibility(View.GONE);
             }
-            //搭配购
-            Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
-            if (cheap_group != null) {
-                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
-                tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
-                tv_group_integral.setText(cheap_group.get("integral"));
-                double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
-                DecimalFormat df = new DecimalFormat("#.00");
-                tv_goods_price.setText("立省¥" + df.format(price));
-                ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
-                rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                rv_cheap_group.setAdapter(new cg_adp(maps));
-            } else {
-                layout_cheap_group.setVisibility(View.GONE);
 
-            }
             // 代金券列表
             if (ToolKit.isList(data, "ticketList")) {
                 List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"),
@@ -1104,10 +1097,27 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             if (ToolKit.isList(data, "goods_common_attr")) {
                 List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
                         GoodsCommonAttr.class);
-                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(TicketGoodsDetialsAty.this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
+            //搭配购
+            Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
+            if (cheap_group != null) {
+                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
+                tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
+                tv_group_integral.setText(cheap_group.get("integral"));
+                double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
+                DecimalFormat df = new DecimalFormat("#.00");
+                tv_goods_price.setText("立省¥" + df.format(price));
+                ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
+                rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                rv_cheap_group.setAdapter(new cg_adp(maps));
+            } else {
+                layout_cheap_group.setVisibility(View.GONE);
+
+            }
             return;
+
         }
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
@@ -1786,5 +1796,33 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            if (requestCode == 1000) {
+                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0) );
+                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
+                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
+                now_price_tv.setText(data.getStringExtra("shop_price"));
+                old_price_tv.setText("￥" +data.getStringExtra("market_price") );
+                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
+                        "pro_value=" + data.getStringExtra("pro_value") + "\n" +
+                        "num=" + data.getIntExtra("num", 0) + "\n" +
+                        "shop_price=" + data.getStringExtra("shop_price") + "\n" +
+                        "market_price=" + data.getStringExtra("market_price") + "\n" +
+                        "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
+                        "discount=" + data.getStringExtra("discount") + "\n" +
+                        "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
+                        "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
+                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+                        "json=" + data.getStringExtra("json") + "\n");
+            }
 
+        }
+    }
 }

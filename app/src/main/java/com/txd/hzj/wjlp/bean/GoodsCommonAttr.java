@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.bean;
 
+import java.util.List;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -10,38 +12,69 @@ package com.txd.hzj.wjlp.bean;
  */
 
 public class GoodsCommonAttr {
+    private String title;
+    private List<list> list;
 
-    /**
-     * id : 规格编号
-     * attr_name : 规格名称
-     * attr_value : 规格值
-     */
-
-    private String id;
-    private String attr_name;
-    private String attr_val;
-
-    public String getId() {
-        return id;
+    public String getTitle() {
+        return title;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAttr_name() {
-        return attr_name;
+    public List<GoodsCommonAttr.list> getList() {
+        return list;
     }
 
-    public void setAttr_name(String attr_name) {
-        this.attr_name = attr_name;
+    public void setList(List<GoodsCommonAttr.list> list) {
+        this.list = list;
     }
 
-    public String getAttr_value() {
-        return attr_val;
+    public class list {
+
+        /**
+         * id : 规格编号
+         * attr_name : 规格名称
+         * attr_value : 规格值
+         */
+
+        private String id;
+        private String attr_name;
+        private String attr_value;
+        private String specification;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getAttr_name() {
+            return attr_name;
+        }
+
+        public void setAttr_name(String attr_name) {
+            this.attr_name = attr_name;
+        }
+
+        public String getAttr_value() {
+            return attr_value;
+        }
+
+        public void setAttr_value(String attr_value) {
+            this.attr_value = attr_value;
+        }
+
+        public String getSpecification() {
+            return specification;
+        }
+
+        public void setSpecification(String specification) {
+            this.specification = specification;
+        }
     }
 
-    public void setAttr_value(String attr_value) {
-        this.attr_val = attr_value;
-    }
 }

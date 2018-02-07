@@ -27,7 +27,7 @@
             android:background="@color/bg_color" />
 
         <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-            android:id="@+id/goods_common_attr_lv"
+            android:id="@+id/goods_common_attr_lv1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
