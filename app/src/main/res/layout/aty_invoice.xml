@@ -23,32 +23,221 @@
     <RadioGroup
         android:id="@+id/app_main_rg"
         android:layout_width="match_parent"
+
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/home_pager_rb"
+            android:id="@+id/rb1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_tab_text_color"
-            android:button="@null"
+            android:layout_margin="14dp"
             android:layout_weight="1"
+            android:background="@drawable/selector_invoice_color"
+            android:button="@null"
             android:checked="true"
+
             android:drawableLeft="@drawable/selector_invoice"
-            android:padding="20dp"
+            android:drawablePadding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="10dp"
             android:text="不要发票"
             android:textColor="@drawable/selector_tab_text_color" />
 
         <RadioButton
-            android:id="@+id/mell_offline_rb"
+            android:id="@+id/rb2"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:background="@drawable/selector_tab_text_color"
+            android:layout_margin="14dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_invoice_color"
             android:button="@null"
             android:drawableLeft="@drawable/selector_invoice"
-            android:padding="20dp"
-            android:text="增值税专用发票" />
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="10dp"
+            android:text="增值税专用发票"
+            android:textColor="@drawable/selector_tab_text_color" />
     </RadioGroup>
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="发票抬头"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <CheckBox
+                android:id="@+id/cb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:checked="true"
+                android:drawableLeft="@drawable/select_check_box_style_cart"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:text="个人"
+                android:textColor="@android:color/black" />
+
+            <CheckBox
+
+                android:id="@+id/cb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@drawable/select_check_box_style_cart"
+                android:drawablePadding="10dp"
+                android:padding="10dp"
+                android:text="公司"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:hint="请输入发票抬头"
+            android:maxLines="1"
+            android:paddingBottom="10dp"
+            android:paddingLeft="110dp"
+            android:paddingTop="14dp"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:background="#F6F6F6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="发票明细"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:drawableRight="@mipmap/icon_more"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="无"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="纳税人识别号"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:hint="请输入纳税人识别号"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="#F6F6F6"
+                android:padding="10dp"
+                android:text="如购买方为企业，有税号的非企业单位和个体工商户，请填写'纳税人识别号'"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="税金8％"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawablePadding="10dp"
+                android:gravity="right"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="您需要支付发票快递费10元"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

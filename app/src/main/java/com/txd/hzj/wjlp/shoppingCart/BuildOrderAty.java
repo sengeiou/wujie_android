@@ -24,6 +24,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -143,10 +144,13 @@ public class BuildOrderAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address, R.id.tv_c_ads, R.id.layout_sle})
+    @OnClick({R.id.layout2, R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address, R.id.tv_c_ads, R.id.layout_sle})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.layout2:
+                startActivity(  InvoiceAty.class,null);
+                break;
             case R.id.layout_sle:
                 if (!TextUtils.isEmpty(address_id)) {
                     if (TextUtils.isEmpty(freightJson)) {
@@ -246,7 +250,7 @@ public class BuildOrderAty extends BaseAty {
         //  ordertype = getString("order_type");
         product_id = getString("product_id");
         if (type.equals("0")) {
-            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id,"", this);
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
         } else if (type.equals("1")) {
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("2")) {
@@ -368,7 +372,7 @@ public class BuildOrderAty extends BaseAty {
                                 tv_sle_left.setText("配送方式");
                                 freight = data.get(position).get("pay");
                                 freight_type = data.get(position).get("type");
-                                tv_sle_right.setText(data.get(position).get("type")+"(¥"+data.get(position).get("pay") +")");
+                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
                                 order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                             }
