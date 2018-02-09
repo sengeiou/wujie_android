@@ -791,5 +791,5 @@
         <activity android:name=".wjyp.PushMerchantAty" />
         <activity android:name=".new_wjyp.InvoiceAty" />
     </application>
-
+<!--测试提交-->
 </manifest>

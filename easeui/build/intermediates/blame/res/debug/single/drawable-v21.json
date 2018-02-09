@@ -1,7 +1,19 @@
 [
     {
+        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable-v21\\abc_btn_colored_material.xml"
+    },
+    {
         "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_action_bar_item_background_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\624d9f7752347ef64cdac6bfb1d05989e228967f\\output\\res\\drawable-v21\\abc_action_bar_item_background_material.xml"
+    },
+    {
+        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable-v21\\abc_edit_text_material.xml"
     },
     {
         "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-v21\\abc_btn_colored_material.xml",
