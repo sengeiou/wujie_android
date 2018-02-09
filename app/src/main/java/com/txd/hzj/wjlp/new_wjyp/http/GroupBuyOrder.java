@@ -27,6 +27,8 @@ public class GroupBuyOrder {
                                 String group_buy_id,
                                 String freight,
                                 String freight_type,
+                                String invoice,
+                                String leave_message,
                                 BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -39,6 +41,8 @@ public class GroupBuyOrder {
         params.addBodyParameter("group_buy_id", group_buy_id);
         params.addBodyParameter("freight", freight);
         params.addBodyParameter("freight_type", freight_type);
+        params.addBodyParameter("invoice", invoice);
+        params.addBodyParameter("leave_message", leave_message);
         apiTool2.postApi(url + "setOrder", params, baseView);
     }
 

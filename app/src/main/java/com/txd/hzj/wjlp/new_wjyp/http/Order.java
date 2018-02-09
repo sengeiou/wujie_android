@@ -55,6 +55,8 @@ public class Order {
                                 String freight,
                                 String freight_type,
                                 String collocation,
+                                String invoice,
+                                String leave_message,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -69,6 +71,8 @@ public class Order {
         requestParams.addBodyParameter("freight", freight);
         requestParams.addBodyParameter("freight_type", freight_type);
         requestParams.addBodyParameter("collocation", collocation);
+        requestParams.addBodyParameter("invoice", invoice);
+        requestParams.addBodyParameter("leave_message", leave_message);
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 

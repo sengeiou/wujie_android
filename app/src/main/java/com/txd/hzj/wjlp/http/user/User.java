@@ -4,6 +4,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
 import java.io.File;
 import java.util.List;
@@ -542,6 +543,13 @@ public class User {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(Config.BASE_URL + "User/userCard", params, view);
+    }
+
+    public static void verificationPayPwd(String PayPwd, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("type", PayPwd);
+        apiTool2.postApi(Config.BASE_URL + "User/verificationPayPwd", params, baseView);
     }
 
 }

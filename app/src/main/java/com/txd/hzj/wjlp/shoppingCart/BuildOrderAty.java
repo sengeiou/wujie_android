@@ -1,14 +1,20 @@
 package com.txd.hzj.wjlp.shoppingCart;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,7 +23,9 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -25,9 +33,6 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
-import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
@@ -35,6 +40,8 @@ import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,6 +132,15 @@ public class BuildOrderAty extends BaseAty {
     private CommonPopupWindow commonPopupWindow;
     private View view_ads;
     String freight, freight_type;
+    @ViewInject(R.id.layout1)
+    private LinearLayout layout1;
+    @ViewInject(R.id.textview)
+    private TextView textview;
+    private int index = -1;
+    @ViewInject(R.id.tv_invoice)
+    private TextView tv_invoice;
+    @ViewInject(R.id.et_leave_message)
+    private EditText et_leave_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,13 +160,10 @@ public class BuildOrderAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.layout2, R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address, R.id.tv_c_ads, R.id.layout_sle})
+    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address, R.id.tv_c_ads, R.id.layout_sle})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.layout2:
-                startActivity(  InvoiceAty.class,null);
-                break;
             case R.id.layout_sle:
                 if (!TextUtils.isEmpty(address_id)) {
                     if (TextUtils.isEmpty(freightJson)) {
@@ -181,6 +194,8 @@ public class BuildOrderAty extends BaseAty {
                     showToast("请选择配送方式");
                     return;
                 }
+                Gson gson = new Gson();
+                String json = gson.toJson(i_bean);
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("order_type", type.equals("1") ? "0" : "1");
@@ -193,6 +208,8 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("cart_id", cart_id);
                 bundle.putString("freight", freight);
                 bundle.putString("freight_type", freight_type);
+                bundle.putString("json", json);
+                bundle.putString("leave_message", et_leave_message.getText().toString());
                 startActivity(PayForAppAty.class, bundle);
                 finish();
                 break;
@@ -287,6 +304,7 @@ public class BuildOrderAty extends BaseAty {
     List<Map<String, String>> data;
     List<Map<String, String>> more;
     List<GoodBean> list_bean = new ArrayList<GoodBean>();
+    List<Bean> i_bean = new ArrayList<Bean>();
     private String price;
 
     @Override
@@ -305,6 +323,12 @@ public class BuildOrderAty extends BaseAty {
         } else {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//            if (map.get("welfare_status").equals("1")) {
+//                layout1.setVisibility(View.VISIBLE);
+//                textview.setText("成交后卖家将捐款" + map.get("welfare_pay") + "元给公益计划");
+//            } else {
+//                layout1.setVisibility(View.GONE);
+//            }
             if (map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
@@ -342,6 +366,7 @@ public class BuildOrderAty extends BaseAty {
             }
             for (int i = 0; i < data.size(); i++) {
                 list_bean.add(new GoodBean(data.get(i).get("num"), data.get(i).get("goods_id")));
+                i_bean.add(new Bean());
             }
         }
 
@@ -474,8 +499,268 @@ public class BuildOrderAty extends BaseAty {
             address_id = data.getStringExtra("id");
             tv_c_ads.setVisibility(View.GONE);
             layout_choose_address.setVisibility(View.VISIBLE);
+        }
+        if (requestCode == 1000) {
+            if (data != null) {
+                Bean b = data.getParcelableExtra("data");
+                i_bean.set(index, b);
+                goodsAdapter.notifyDataSetChanged();
+                double tax_pay = 0;
+                double express_fee = 0;
+                for (Bean bean : i_bean) {
+                    if (!TextUtils.isEmpty(bean.getIs_invoice()) && !bean.getIs_invoice().equals("0")) {
+                        tax_pay += Double.parseDouble(bean.getExpress_fee());
+                        express_fee += Double.parseDouble(bean.getTax_pay());
+                    }
+                }
+                tv_invoice.setText("+税金:" + tax_pay + "发票运费:" + express_fee);
+            }
+        }
+    }
 
+    private String toJson(String s1, String s2, String s3) {
+        return "[{\"goods_id\":\"" + s1 + "\",\"num\":\"" + s2 + "\",\"product_id\":\"" + s3 + "\"}]";
+    }
+
+
+    class GoodsByOrderAdapter extends BaseAdapter {
+
+        private Context context;
+        private LayoutInflater inflater;
+        private GoodsByOrderAdapter.GOVH govh;
+        List<Map<String, String>> data;
+
+        public GoodsByOrderAdapter(Context context, List<Map<String, String>> data) {
+            this.data = data;
+            this.context = context;
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Map<String, String> getItem(int i) {
+            return data.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = inflater.inflate(R.layout.item_goods_by_order_lv, null);
+                govh = new GOVH();
+                ViewUtils.inject(govh, view);
+                view.setTag(govh);
+            } else {
+                govh = (GOVH) view.getTag();
+            }
+            Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
+            govh.tv_number.setText("x" + getItem(i).get("num"));
+            govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
+
+            if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
+                govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
+            } else {
+                govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+            }
+            if (getItem(i).get("invoice_status").equals("1")) {
+                govh.layout.setVisibility(View.VISIBLE);
+                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "无" : i_bean.get(i).getInvoice_type());
+            } else {
+                govh.layout.setVisibility(View.GONE);
+            }
+            govh.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    index = i;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
+                    startActivityForResult(InvoiceAty.class, bundle, 1000);
+                }
+            });
+            return view;
+        }
+
+
+        class GOVH {
+            @ViewInject(R.id.goods_comment_pic)
+            private ImageView goods_comment_pic;
+            @ViewInject(R.id.goods_title_for_evaluate_tv)
+            private TextView goods_title_for_evaluate_tv;
+            @ViewInject(R.id.price_for_goods_tv)
+            private TextView price_for_goods_tv;
+            @ViewInject(R.id.tv_number)
+            private TextView tv_number;
+            @ViewInject(R.id.layout)
+            private LinearLayout layout;
+            @ViewInject(R.id.textview)
+            private TextView textview;
 
         }
     }
+
+    public static class Bean implements Parcelable {
+        String t_id = "";
+        String rise = "";
+        String rise_name = "";
+        String invoice_detail = "";
+        String invoice_id = "";
+        String recognition = "";
+        String is_invoice = "";
+        String invoice_type = "";
+        String express_fee = "";
+        String tax_pay = "";
+
+        public String getExpress_fee() {
+            return express_fee;
+        }
+
+        public void setExpress_fee(String express_fee) {
+            this.express_fee = express_fee;
+        }
+
+        public String getTax_pay() {
+            return tax_pay;
+        }
+
+        public void setTax_pay(String tax_pay) {
+            this.tax_pay = tax_pay;
+        }
+
+        public String getInvoice_type() {
+            return invoice_type;
+        }
+
+        public void setInvoice_type(String invoice_type) {
+            this.invoice_type = invoice_type;
+        }
+
+        public String getT_id() {
+            return t_id;
+        }
+
+        public void setT_id(String t_id) {
+            this.t_id = t_id;
+        }
+
+        public String getRise() {
+            return rise;
+        }
+
+        public void setRise(String rise) {
+            this.rise = rise;
+        }
+
+        public String getRise_name() {
+            return rise_name;
+        }
+
+        public void setRise_name(String rise_name) {
+            this.rise_name = rise_name;
+        }
+
+        public String getInvoice_detail() {
+            return invoice_detail;
+        }
+
+        public void setInvoice_detail(String invoice_detail) {
+            this.invoice_detail = invoice_detail;
+        }
+
+        public String getInvoice_id() {
+            return invoice_id;
+        }
+
+        public void setInvoice_id(String invoice_id) {
+            this.invoice_id = invoice_id;
+        }
+
+        public String getRecognition() {
+            return recognition;
+        }
+
+        public void setRecognition(String recognition) {
+            this.recognition = recognition;
+        }
+
+        public String getIs_invoice() {
+            return is_invoice;
+        }
+
+        public void setIs_invoice(String is_invoice) {
+            this.is_invoice = is_invoice;
+        }
+
+        public static Creator<Bean> getCREATOR() {
+            return CREATOR;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.t_id);
+            dest.writeString(this.rise);
+            dest.writeString(this.rise_name);
+            dest.writeString(this.invoice_detail);
+            dest.writeString(this.invoice_id);
+            dest.writeString(this.recognition);
+            dest.writeString(this.is_invoice);
+            dest.writeString(this.invoice_type);
+            dest.writeString(this.express_fee);
+            dest.writeString(this.tax_pay);
+        }
+
+        public Bean() {
+
+        }
+
+        public Bean(String t_id, String rise, String rise_name, String invoice_detail, String invoice_id, String recognition, String is_invoice, String invoice_type) {
+            this.t_id = t_id;
+            this.rise = rise;
+            this.rise_name = rise_name;
+            this.invoice_detail = invoice_detail;
+            this.invoice_id = invoice_id;
+            this.recognition = recognition;
+            this.is_invoice = is_invoice;
+            this.invoice_type = invoice_type;
+        }
+
+        protected Bean(Parcel in) {
+            this.t_id = in.readString();
+            this.rise = in.readString();
+            this.rise_name = in.readString();
+            this.invoice_detail = in.readString();
+            this.invoice_id = in.readString();
+            this.recognition = in.readString();
+            this.is_invoice = in.readString();
+            this.invoice_type = in.readString();
+            this.express_fee = in.readString();
+            this.tax_pay = in.readString();
+        }
+
+        public static final Parcelable.Creator<Bean> CREATOR = new Parcelable.Creator<Bean>() {
+            @Override
+            public Bean createFromParcel(Parcel source) {
+                return new Bean(source);
+            }
+
+            @Override
+            public Bean[] newArray(int size) {
+                return new Bean[size];
+            }
+        };
+    }
+
+
 }

@@ -20,50 +20,11 @@
         android:textColor="@android:color/black"
         android:textSize="14sp" />
 
-    <RadioGroup
-        android:id="@+id/app_main_rg"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rb1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="14dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_invoice_color"
-            android:button="@null"
-            android:checked="true"
-
-            android:drawableLeft="@drawable/selector_invoice"
-            android:drawablePadding="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="10dp"
-            android:text="不要发票"
-            android:textColor="@drawable/selector_tab_text_color" />
-
-        <RadioButton
-            android:id="@+id/rb2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="14dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector_invoice_color"
-            android:button="@null"
-            android:drawableLeft="@drawable/selector_invoice"
-            android:drawablePadding="10dp"
-            android:padding="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="24dp"
-            android:paddingTop="10dp"
-            android:text="增值税专用发票"
-            android:textColor="@drawable/selector_tab_text_color" />
-    </RadioGroup>
-
+        android:background="@android:color/white"></android.support.v7.widget.RecyclerView>
 
     <Space
         android:layout_width="match_parent"
@@ -116,6 +77,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/et_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
@@ -133,6 +95,7 @@
             android:background="#F6F6F6" />
 
         <LinearLayout
+            android:id="@+id/layout_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -149,6 +112,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -156,7 +120,6 @@
                 android:drawableRight="@mipmap/icon_more"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="无"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
@@ -181,6 +144,7 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/et_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
@@ -199,12 +163,12 @@
             android:visibility="gone">
 
             <TextView
+                android:id="@+id/tv_explain"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="#F6F6F6"
                 android:padding="10dp"
-                android:text="如购买方为企业，有税号的非企业单位和个体工商户，请填写'纳税人识别号'"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -218,15 +182,16 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tv_tax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="税金8％"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_tax_pay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -234,7 +199,6 @@
                 android:gravity="right"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="您需要支付发票快递费10元"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 

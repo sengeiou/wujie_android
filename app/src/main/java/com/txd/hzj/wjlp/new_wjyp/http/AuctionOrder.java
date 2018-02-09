@@ -55,6 +55,8 @@ public class AuctionOrder {
                                 String order_id,
                                 String freight,
                                 String freight_type,
+                                String invoice,
+                                String leave_message,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -64,6 +66,8 @@ public class AuctionOrder {
         requestParams.addBodyParameter("bid", bid);
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("freight_type", freight_type);
+        requestParams.addBodyParameter("invoice", invoice);
+        requestParams.addBodyParameter("leave_message", leave_message);
         requestParams.addBodyParameter("freight", freight);
         apiTool2.postApi(url + "SetOrder", requestParams, baseView);
     }

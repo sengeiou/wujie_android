@@ -10,13 +10,17 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.tools.AlertDialog;
@@ -25,8 +29,10 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.BalancePay;
@@ -39,6 +45,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -205,74 +212,7 @@ public class PayForAppAty extends BaseAty {
                 selectCheckBoxBottom(bottom_type);
                 break;
             case R.id.tv_submit:
-                if (pay_by_wechat_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
-                        Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (type.equals("6")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "5", this);
-                    } else if (type.equals("9")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "8", this);
-                    }
-                    showProgressDialog();
-                }
-                if (pay_by_ali_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
-                        Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (type.equals("6")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "5", this);
-                    } else if (type.equals("9")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
-                    }
-                    showProgressDialog();
-                }
-                if (pay_by_balance_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        BalancePay.BalancePay(data.get("order_id"), type, getType(), "", this);
-                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
-                        BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
-                    } else if (type.equals("6")) {
-                        BalancePay.BalancePay(data.get("order_id"), "3", getType(), "", this);
-                    } else if (type.equals("7")) {
-                        if (!order_type.equals("7")) {
-                            BalancePay.BalancePay(data.get("order_id"), "6", getType(), num, this);
-                        } else {
-                            BalancePay.BalancePay(data.get("order_id"), "8", getType(), num, this);
-                        }
-                    } else if (type.equals("8")) {
-                        BalancePay.BalancePay(order_id, "7", getType(), num, this);
-                    } else if (type.equals("9")) {
-                        BalancePay.BalancePay(order_id, "4", getType(), num, this);
-                    } else if (type.equals("11")) {
-                        BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
-                    }
-                    showProgressDialog();
-                }
-                if (cb_jfzf.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        IntegralPay.integralPay(data.get("order_id"), type, "", "", this);
-                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
-                        IntegralPay.integralPay(data.get("group_buy_order_id"), "2", "", "", this);
-                    } else if (type.equals("6")) {
-                        IntegralPay.integralPay(data.get("order_id"), "3", "", "", this);
-                    } else if (type.equals("7")) {
-                        if (!order_type.equals("7")) {
-                            IntegralPay.integralPay(data.get("order_id"), "6", "", num, this);
-                        } else {
-                            IntegralPay.integralPay(data.get("order_id"), "8", "", num, this);
-                        }
-                    } else if (type.equals("8")) {
-                        IntegralPay.integralPay(order_id, "7", "", num, this);
-                    } else if (type.equals("9")) {
-                        IntegralPay.integralPay(order_id, "4", "", num, this);
-                    } else if (type.equals("10")) {
-                        IntegralPay.integralPay(order_id, "10", "", num, this);
-                    }
-                    showProgressDialog();
-                }
+                showPwdPop(v);
                 break;
         }
     }
@@ -363,23 +303,23 @@ public class PayForAppAty extends BaseAty {
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
         if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1")) {
-            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "0", order_id, group_buy_id, freight, freight_type, "", this);
+            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "0", order_id, group_buy_id, freight, freight_type, "", getString("json"), getString("leave_message"), this);
         } else if (type.equals("2")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, getString("json"), getString("leave_message"), this);
         } else if (type.equals("3")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, freight, freight_type, this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, freight, freight_type, getString("json"), getString("leave_message"), this);
         } else if (type.equals("5")) {
-            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "1", order_id, group_buy_id, freight, freight_type, "", this);
+            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "1", order_id, group_buy_id, freight, freight_type, "", getString("json"), getString("leave_message"), this);
         } else if (type.equals("4")) {
             String[] strings = group_buy_id.split("-");
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, getString("json"), getString("leave_message"), this);
         } else if (type.equals("6")) {
-            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, this);
+            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("json"), getString("leave_message"), this);
         } else if (type.equals("7")) {
             if (!order_type.equals("7")) {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, getString("json"), getString("leave_message"), this);
             } else {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", freight, freight_type, this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", freight, freight_type, getString("json"), getString("leave_message"), this);
             }
             layout_wx.setVisibility(View.GONE);
             layout_ali.setVisibility(View.GONE);
@@ -391,18 +331,48 @@ public class PayForAppAty extends BaseAty {
             layout_ali.setVisibility(View.GONE);
             return;
         } else if (type.equals("9")) {
-            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, this);
+            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("json"), getString("leave_message"), this);
 
         } else if (type.equals("10")) {
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, getString("json"), getString("leave_message"), this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
         } else if (type.equals("11")) {
-            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type, cart_id, this);
+            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type, cart_id, getString("json"), getString("leave_message"), this);
         }
         showProgressDialog();
     }
+
+    public void showPwdPop(View view) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_pwd)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        final EditText et_password = view.findViewById(R.id.et_password);
+                        TextView submit = view.findViewById(R.id.submit);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (TextUtils.isEmpty(et_password.getText().toString())) {
+                                    showToast("请输入支付密码");
+                                    return;
+                                }
+                                User.verificationPayPwd(et_password.getText().toString(), PayForAppAty.this);
+                                showProgressDialog();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
 
     private String getString(String key) {
         return TextUtils.isEmpty(getIntent().getStringExtra(key)) ? "" : getIntent().getStringExtra(key);
@@ -438,6 +408,82 @@ public class PayForAppAty extends BaseAty {
         }
 
 
+        if (requestUrl.contains("verificationPayPwd")) {
+            if (data.get("status").equals("1")) {
+                if (pay_by_wechat_cb.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "4", this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (type.equals("6")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "8", this);
+                    }
+                    showProgressDialog();
+                }
+                if (pay_by_ali_cb.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (type.equals("6")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
+                    }
+                    showProgressDialog();
+                }
+                if (pay_by_balance_cb.isChecked()) {
+
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        BalancePay.BalancePay(data.get("order_id"), type, getType(), "", this);
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
+                        BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
+                    } else if (type.equals("6")) {
+                        BalancePay.BalancePay(data.get("order_id"), "3", getType(), "", this);
+                    } else if (type.equals("7")) {
+                        if (!order_type.equals("7")) {
+                            BalancePay.BalancePay(data.get("order_id"), "6", getType(), num, this);
+                        } else {
+                            BalancePay.BalancePay(data.get("order_id"), "8", getType(), num, this);
+                        }
+                    } else if (type.equals("8")) {
+                        BalancePay.BalancePay(order_id, "7", getType(), num, this);
+                    } else if (type.equals("9")) {
+                        BalancePay.BalancePay(order_id, "4", getType(), num, this);
+                    } else if (type.equals("11")) {
+                        BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
+                    }
+                    showProgressDialog();
+                }
+                if (cb_jfzf.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        IntegralPay.integralPay(data.get("order_id"), type, "", "", this);
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
+                        IntegralPay.integralPay(data.get("group_buy_order_id"), "2", "", "", this);
+                    } else if (type.equals("6")) {
+                        IntegralPay.integralPay(data.get("order_id"), "3", "", "", this);
+                    } else if (type.equals("7")) {
+                        if (!order_type.equals("7")) {
+                            IntegralPay.integralPay(data.get("order_id"), "6", "", num, this);
+                        } else {
+                            IntegralPay.integralPay(data.get("order_id"), "8", "", num, this);
+                        }
+                    } else if (type.equals("8")) {
+                        IntegralPay.integralPay(order_id, "7", "", num, this);
+                    } else if (type.equals("9")) {
+                        IntegralPay.integralPay(order_id, "4", "", num, this);
+                    } else if (type.equals("10")) {
+                        IntegralPay.integralPay(order_id, "10", "", num, this);
+                    }
+                    showProgressDialog();
+                }
+            } else {
+
+            }
+
+        }
         if (requestUrl.contains("BalancePay"))
 
         {
@@ -630,11 +676,17 @@ public class PayForAppAty extends BaseAty {
         this.is_r = is_r;
         this.is_y = is_y;
         this.is_b = is_b;
+        if (is_r) {
+            textview.setText(data.get("red_desc"));
+        }
+        if (is_y) {
+            textview.setText(data.get("yellow_desc"));
+        }
+        if (is_b) {
+            textview.setText(data.get("blue_desc"));
+        }
         switch (from) {
             case 1:
-
-
-                textview.setText(data.get("red_desc"));
                 im1.setVisibility(is_r ? View.VISIBLE : View.GONE);
                 im2.setVisibility(is_y ? View.VISIBLE : View.GONE);
                 im3.setVisibility(is_b ? View.VISIBLE : View.GONE);
@@ -646,7 +698,6 @@ public class PayForAppAty extends BaseAty {
                 im9.setVisibility(View.GONE);
                 break;
             case 2:
-                textview.setText(data.get("yellow_desc"));
                 im1.setVisibility(View.GONE);
                 im2.setVisibility(View.GONE);
                 im3.setVisibility(View.GONE);
@@ -658,7 +709,6 @@ public class PayForAppAty extends BaseAty {
                 im9.setVisibility(View.GONE);
                 break;
             case 3:
-                textview.setText(data.get("blue_desc"));
                 im1.setVisibility(View.GONE);
                 im2.setVisibility(View.GONE);
                 im3.setVisibility(View.GONE);

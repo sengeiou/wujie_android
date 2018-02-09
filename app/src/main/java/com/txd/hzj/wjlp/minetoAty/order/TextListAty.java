@@ -27,6 +27,7 @@ import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
+import com.txd.hzj.wjlp.new_wjyp.http.Invoice;
 import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
 
 import java.util.ArrayList;
@@ -111,6 +112,8 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("选择类型")) {
                     data.putExtra("type", dataList.get(i).get("type"));
                     data.putExtra("rec_type_id", dataList.get(i).get("rec_type_id"));
+                }else if (title.equals("发票明细")) {
+                    data.putExtra("list", dataList.get(i).get("list"));
                 }
                 setResult(RESULT_OK, data);
                 finish();
@@ -204,6 +207,9 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("选择类型")) {
             Recommending.businessType(this);
             showProgressDialog();
+        } else if (title.equals("发票明细")) {
+            Invoice.type(getIntent().getStringExtra("goods_id"), getIntent().getStringExtra("invoice_type"), this);
+            showProgressDialog();
         }
     }
 
@@ -252,6 +258,11 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
         }
         if (requestUrl.contains("shipping")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("type")) {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
@@ -315,6 +326,8 @@ public class TextListAty extends BaseAty {
                 tvvh.text_context_tv.setText(map.get("type"));
             } else if (title.equals("选择街道")) {
                 tvvh.text_context_tv.setText(map.get("street_name"));
+            } else if (title.equals("发票明细")) {
+                tvvh.text_context_tv.setText(map.get("list"));
             } else if (title.equals("举报类型")) {
                 tvvh.text_context_tv.setText(map.get("title"));
             } else if (title.equals("银行卡类型")) {

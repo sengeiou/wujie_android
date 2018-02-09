@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-
-
-    <include layout="@layout/aty_order_goods_info_hzj"/>
+    <include layout="@layout/aty_order_goods_info_hzj" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:visibility="gone"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -24,7 +21,7 @@
             android:layout_weight="2"
             android:padding="12dp"
             android:text="购买数量"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -38,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/icon_cart_goods_num_reduce"/>
+                android:src="@drawable/icon_cart_goods_num_reduce" />
 
             <TextView
                 android:id="@+id/operation_goods_num_tv"
@@ -47,7 +44,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="1"
-                android:textColor="@color/app_text_color"/>
+                android:textColor="@color/app_text_color" />
 
 
             <ImageView
@@ -55,9 +52,42 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/icon_cart_goods_num_increase"/>
+                android:src="@drawable/icon_cart_goods_num_increase" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="发票"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/icon_more"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="无"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
 
     </LinearLayout>
 

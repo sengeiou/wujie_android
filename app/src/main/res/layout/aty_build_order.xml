@@ -26,6 +26,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
                 <!--收货地址-->
                 <LinearLayout
@@ -112,9 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:divider="@color/bg_color"
-                    android:dividerHeight="8dp" />
-
+                    android:divider="@color/bg_color" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -126,7 +125,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -144,43 +144,7 @@
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:padding="8dp"
-                        android:text="成交后卖家将捐款0.02元给公益计划"
-                        android:textColor="@color/app_text_color"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-
-                <LinearLayout
-                    android:id="@+id/layout2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:text="发票"
-                        android:textColor="@color/app_text_color"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
-                        android:drawableRight="@mipmap/icon_more"
-                        android:maxLines="1"
-                        android:padding="8dp"
-                        android:text="无"
+                        android:text=""
                         android:textColor="@color/app_text_color"
                         android:textSize="14sp" />
 
@@ -208,6 +172,7 @@
                         android:textSize="14sp" />
 
                     <EditText
+                        android:id="@+id/et_leave_message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/white"
@@ -382,10 +347,19 @@
                 android:id="@+id/order_price_at_last_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="合计：￥0.00"
+                android:textColor="@color/app_text_color" />
+
+            <TextView
+                android:id="@+id/tv_invoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="right"
+                android:textSize="12dp"
                 android:textColor="@color/app_text_color" />
 
 

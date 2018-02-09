@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 
 import java.util.List;
 import java.util.Map;
@@ -73,6 +75,17 @@ public class GoodsByOrderAdapter extends BaseAdapter {
         } else {
             govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
         }
+        if (getItem(i).get("invoice_status").equals("1")) {
+            govh.layout.setVisibility(View.VISIBLE);
+        } else {
+            govh.layout.setVisibility(View.GONE);
+        }
+        govh.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                InvoiceAty.class
+            }
+        });
         return view;
     }
 
@@ -85,5 +98,7 @@ public class GoodsByOrderAdapter extends BaseAdapter {
         private TextView price_for_goods_tv;
         @ViewInject(R.id.tv_number)
         private TextView tv_number;
+        @ViewInject(R.id.layout)
+        private LinearLayout layout;
     }
 }
