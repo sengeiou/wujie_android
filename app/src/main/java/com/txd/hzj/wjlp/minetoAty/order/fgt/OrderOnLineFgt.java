@@ -697,7 +697,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
-                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+//                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
                     IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -744,7 +744,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
                 case "3":
                     holder.state.setText("待评价");
@@ -790,7 +790,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
                 case "4":
                     holder.state.setText("待评价");
@@ -836,7 +836,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
                 case "4":
                     holder.state.setText("待评价");
@@ -936,7 +936,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
                 case "8":
                     holder.state.setText("待评价");

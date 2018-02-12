@@ -48,12 +48,12 @@
         "source": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\push_top_in.xml"
     },
     {
-        "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_bottom_in.xml",
-        "source": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\push_bottom_in.xml"
-    },
-    {
         "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\abc_fade_out.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_bottom_in.xml",
+        "source": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\push_bottom_in.xml"
     },
     {
         "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\push_bottom_out.xml",

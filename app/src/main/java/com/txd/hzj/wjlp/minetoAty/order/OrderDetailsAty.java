@@ -3,15 +3,18 @@ package com.txd.hzj.wjlp.minetoAty.order;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -21,6 +24,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_after;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
@@ -28,6 +32,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import java.util.List;
 import java.util.Map;
@@ -100,6 +105,9 @@ public class OrderDetailsAty extends BaseAty {
     private TextView tv_tel;
     @ViewInject(R.id.tv_address)
     private TextView tv_address;
+
+
+    private CommonPopupWindow commonPopupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,8 +184,8 @@ public class OrderDetailsAty extends BaseAty {
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
                         if (type.equals("0")) {
-                            Order.receiving(order_id, OrderDetailsAty.this);
-                            showProgressDialog();
+//                            Order.receiving(order_id, OrderDetailsAty.this);
+//                            showProgressDialog();
                         } else {
                             IntegralBuyOrder.Receiving(order_id, OrderDetailsAty.this);
                             showProgressDialog();
@@ -444,6 +452,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
+                tv_btn_right.setVisibility(View.GONE);
                 break;
             case "3":
                 tv_state.setText("待评价");
@@ -487,6 +496,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
+                tv_btn_right.setVisibility(View.GONE);
                 break;
             case "4":
                 tv_state.setText("待评价");
@@ -529,6 +539,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
+                tv_btn_right.setVisibility(View.GONE);
                 break;
             case "4":
                 tv_state.setText("待评价");
@@ -575,7 +586,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
-                tv_btn_right.setVisibility(View.VISIBLE);
+                tv_btn_right.setVisibility(View.GONE);
                 break;
             case "8":
                 tv_state.setText("待评价");
@@ -659,6 +670,8 @@ public class OrderDetailsAty extends BaseAty {
             }
             if (getItem(i).get("after_type").equals("0")) {
                 tgvh.tv_btn_left.setText("申请售后");
+                tgvh.tv_btn_right.setVisibility(View.VISIBLE);
+                tgvh.tv_btn_right.setText("确认收货");
             } else {
                 tgvh.tv_btn_left.setText("售后中");
             }
@@ -683,6 +696,12 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
                         startActivity(aty_after.class, bundle);
                     }
+                }
+            });
+            tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPwdPop(v, i);
                 }
             });
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
@@ -712,4 +731,37 @@ public class OrderDetailsAty extends BaseAty {
         }
     }
 
+
+    public void showPwdPop(View view, int i) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_confirmreceipt)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, final int position) {
+                        TextView tv1 = view.findViewById(R.id.textview1);
+                        TextView tv2 = view.findViewById(R.id.textview2);
+                        tv1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Order.receiving(order_id,list.get(position).get("order_goods_id"),"1", OrderDetailsAty.this);
+                                showProgressDialog();
+                            }
+                        });
+                        tv2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Order.receiving(order_id,list.get(position).get("order_goods_id"),"2", OrderDetailsAty.this);
+                                showProgressDialog();
+
+                            }
+                        });
+                    }
+                }, i)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
 }

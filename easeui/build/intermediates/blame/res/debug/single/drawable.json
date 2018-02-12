@@ -48,12 +48,12 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable\\abc_ratingbar_material.xml"
     },
     {
-        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_clear_material.xml",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable\\abc_ic_clear_material.xml"
-    },
-    {
         "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_msg_state_failed_resend.xml",
         "source": "D:\\Txunda\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_msg_state_failed_resend.xml"
+    },
+    {
+        "merged": "D:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_clear_material.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\75ceb8a6d0d5f08587febe2adc7f88960563e546\\output\\res\\drawable\\abc_ic_clear_material.xml"
     },
     {
         "merged": "E:\\Txunda\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_location_selector.xml",

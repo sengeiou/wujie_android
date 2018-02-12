@@ -52,6 +52,7 @@ import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodLuckBean;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
@@ -63,6 +64,7 @@ import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
@@ -1057,7 +1059,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         if (requestUrl.contains("groupBuyInfo")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            remarks.setText(data.get("data"));
+            remarks.setText(data.get("remarks"));
             goodsInfos = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
             GoodLuckBean groupBuyInfo = GsonUtil.GsonToBean(jsonStr, GoodLuckBean.class);
             image = groupBuyInfo.getData().getGoods_banner();
@@ -1484,11 +1486,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 layout_pt.setVisibility(View.GONE);
             }
 //            // 产品属性GoodsCommonAttr
-//            List<GoodLuckBean.DataBean.GoodsCommonAttrBean> gca = groupBuyInfo.getData().getGoods_common_attr();
-//            if (!ListUtils.isEmpty(gca)) {
-//                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
-//                goods_common_attr_lv.setAdapter(gcaAdapter);
-//            }
+            if (ToolKit.isList(data, "goods_common_attr")) {
+                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                        GoodsCommonAttr.class);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter( this, gca);
+                goods_common_attr_lv.setAdapter(gcaAdapter);
+            }
             // ==========团购详情End===========
             return;
         }

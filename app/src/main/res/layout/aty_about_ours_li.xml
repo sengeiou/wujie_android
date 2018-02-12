@@ -59,12 +59,15 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="20dp"
                 android:text="Copyright©2017 wujiemall.com"/>
             <TextView
                 android:id="@+id/bottom_bottom_tv"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="国本(天津)信息技术有限公司"/>
         </LinearLayout>
     </RelativeLayout>

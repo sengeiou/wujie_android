@@ -589,7 +589,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="参数规格"
+                            android:text="规格参数"
                             android:textColor="#666666"
                             android:textSize="14sp" />
 

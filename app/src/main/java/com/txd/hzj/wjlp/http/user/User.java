@@ -548,7 +548,7 @@ public class User {
     public static void verificationPayPwd(String PayPwd, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("type", PayPwd);
+        params.addBodyParameter("PayPwd", PayPwd);
         apiTool2.postApi(Config.BASE_URL + "User/verificationPayPwd", params, baseView);
     }
 

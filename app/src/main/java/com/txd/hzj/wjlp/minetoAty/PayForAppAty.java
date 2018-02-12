@@ -32,6 +32,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
+import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
@@ -212,7 +213,37 @@ public class PayForAppAty extends BaseAty {
                 selectCheckBoxBottom(bottom_type);
                 break;
             case R.id.tv_submit:
-                showPwdPop(v);
+                if (pay_by_wechat_cb.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "4", this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (type.equals("6")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getJsTine(data.get("order_id"), getType(), "8", this);
+                    }
+                    showProgressDialog();
+                }
+                if (pay_by_ali_cb.isChecked()) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
+                    } else if (type.equals("2") || type.equals("3")) {
+                        Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
+                    } else if (type.equals("6")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "5", this);
+                    } else if (type.equals("9")) {
+                        Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
+                    }
+                    showProgressDialog();
+                }
+                if (pay_by_balance_cb.isChecked()) {
+                    showPwdPop(v);
+                }
+
+                if (cb_jfzf.isChecked()) {
+                    showPwdPop(v);
+                }
                 break;
         }
     }
@@ -379,12 +410,16 @@ public class PayForAppAty extends BaseAty {
     }
 
     Map<String, String> data;
+    Map<String, String> map;
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+        if (!requestUrl.contains("verificationPayPwd")) {
+            data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+        }
+
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
             if (!type.equals("10")) {
                 tv_price.setText("¥" + data.get("order_price"));
@@ -409,33 +444,10 @@ public class PayForAppAty extends BaseAty {
 
 
         if (requestUrl.contains("verificationPayPwd")) {
-            if (data.get("status").equals("1")) {
-                if (pay_by_wechat_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
-                        Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (type.equals("6")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "5", this);
-                    } else if (type.equals("9")) {
-                        Pay.getJsTine(data.get("order_id"), getType(), "8", this);
-                    }
-                    showProgressDialog();
-                }
-                if (pay_by_ali_cb.isChecked()) {
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
-                        Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
-                    } else if (type.equals("6")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "5", this);
-                    } else if (type.equals("9")) {
-                        Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
-                    }
-                    showProgressDialog();
-                }
+            map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) {
-
                     if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
                         BalancePay.BalancePay(data.get("order_id"), type, getType(), "", this);
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
@@ -480,7 +492,11 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
             } else {
-
+                showToast("请设置支付密码");
+                Bundle bundle = new Bundle();
+                bundle.putString("is_pay_password", "0");
+                bundle.putString("phone", "");
+                startActivity(EditPayPasswordAty.class, bundle);
             }
 
         }
@@ -560,6 +576,17 @@ public class PayForAppAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
+        if (requestUrl.contains("verificationPayPwd")) {
+            error = JSONUtils.parseKeyAndValueToMap(error.get("data"));
+            if (error.get("status").equals("0")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("is_pay_password", "0");
+                bundle.putString("phone", "");
+                startActivity(EditPayPasswordAty.class, bundle);
+                return;
+            }
+
+        }
         finish();
     }
 

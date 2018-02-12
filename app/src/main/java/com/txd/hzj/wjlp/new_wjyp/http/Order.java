@@ -169,10 +169,12 @@ public class Order {
      * @param order_id
      * @param baseView
      */
-    public static void receiving(String order_id, BaseView baseView) {
+    public static void receiving(String order_id,String order_goods_id,String status, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        requestParams.addBodyParameter("status", status);
         apiTool2.postApi(url + "receiving", requestParams, baseView);
     }
 
