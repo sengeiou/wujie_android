@@ -201,7 +201,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 /*是否可以使用代金券使用多少优惠*/
                 try {
 
-                    if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                         vh.use_coupon_tv.setText("不可使用代金券");
                         vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                     } else {
@@ -230,7 +230,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
                 /* 是否可以使用代金券* 使用多少优惠*/
-                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
@@ -251,7 +251,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 * 使用多少优惠
                 */
                 try {
-                    if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                         vh.use_coupon_tv.setText("不可使用代金券");
                         vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                     } else {
@@ -304,7 +304,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 * 是否可以使用代金券
                 * 使用多少优惠
                 */
-                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
@@ -359,7 +359,7 @@ public class AllGvLvAdapter extends BaseAdapter {
          * 是否可以使用代金券
          * 使用多少优惠
          */
-                if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                     vh.use_coupon_tv.setText("不可使用代金券");
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
@@ -490,7 +490,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                  * 使用多少优惠
                  */
                 try {
-                    if (allGoodsBean.getTicket_buy_id().equals("0")) {
+                    if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                         vh.use_coupon_tv.setText("不可使用代金券");
                         vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                     } else {

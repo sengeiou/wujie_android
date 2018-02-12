@@ -701,7 +701,10 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPwdPop(v, i);
+                    if (list.get(i).get("sure_status").equals("1")) {
+                        showPwdPop(v, i);
+                    } else {
+                    }
                 }
             });
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
@@ -741,19 +744,23 @@ public class OrderDetailsAty extends BaseAty {
                 .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
                     @Override
                     public void getChildView(View view, int layoutResId, final int position) {
+                        TextView t1 = view.findViewById(R.id.t1);
+                        TextView t2 = view.findViewById(R.id.t2);
+                        t1.setText(list.get(position).get("server"));
+                        t2.setText(list.get(position).get("server_else"));
                         TextView tv1 = view.findViewById(R.id.textview1);
                         TextView tv2 = view.findViewById(R.id.textview2);
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id,list.get(position).get("order_goods_id"),"1", OrderDetailsAty.this);
+                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
                                 showProgressDialog();
                             }
                         });
                         tv2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id,list.get(position).get("order_goods_id"),"2", OrderDetailsAty.this);
+                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "2", OrderDetailsAty.this);
                                 showProgressDialog();
 
                             }
