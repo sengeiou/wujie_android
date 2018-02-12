@@ -105,6 +105,8 @@ public class OrderDetailsAty extends BaseAty {
     private TextView tv_tel;
     @ViewInject(R.id.tv_address)
     private TextView tv_address;
+    @ViewInject(R.id.leave_message)
+    private TextView leave_message;
 
 
     private CommonPopupWindow commonPopupWindow;
@@ -378,6 +380,7 @@ public class OrderDetailsAty extends BaseAty {
             tv_address.setText(data.get("address"));
             tv_logistics.setText(data.get("logistics"));
             tv_logistics_time.setText(data.get("logistics_time"));
+            leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
             order_price_info_tv.setText("共" +
@@ -704,6 +707,7 @@ public class OrderDetailsAty extends BaseAty {
                     if (list.get(i).get("sure_status").equals("1")) {
                         showPwdPop(v, i);
                     } else {
+
                     }
                 }
             });
@@ -755,6 +759,7 @@ public class OrderDetailsAty extends BaseAty {
                             public void onClick(View v) {
                                 Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
                                 showProgressDialog();
+                                commonPopupWindow.dismiss();
                             }
                         });
                         tv2.setOnClickListener(new View.OnClickListener() {
@@ -762,6 +767,7 @@ public class OrderDetailsAty extends BaseAty {
                             public void onClick(View v) {
                                 Order.receiving(order_id, list.get(position).get("order_goods_id"), "2", OrderDetailsAty.this);
                                 showProgressDialog();
+                                commonPopupWindow.dismiss();
 
                             }
                         });

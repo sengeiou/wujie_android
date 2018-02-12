@@ -42,9 +42,13 @@ public class VipDetailsAty extends BaseAty {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.pay:
-                Bundle bundle = new Bundle();
-                bundle.putString("data", data);
-                startActivity(VipPayAty.class, bundle);
+                if (map.get("sale_status").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("data", data);
+                    startActivity(VipPayAty.class, bundle);
+                } else {
+                    showToast("此会员级别禁止申请");
+                }
                 break;
         }
     }
@@ -60,7 +64,7 @@ public class VipDetailsAty extends BaseAty {
         map = JSONUtils.parseKeyAndValueToMap(data);
         list_pic = JSONUtils.parseKeyAndValueToMapList(map.get("abs_url"));
         titlt_conter_tv.setText(map.get("rank_name"));
-        String Y = "会员年费¥" + map.get("money") + "/" +( map.get("prescription").equals("0")?"永久":"年");//年or永久
+        String Y = "会员年费¥" + map.get("money") + "/" + (map.get("prescription").equals("0") ? "永久" : "年");//年or永久
         tv_price.setText(Y);
         ImageListener imageListener = new ImageListener() {
             @Override
