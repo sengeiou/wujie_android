@@ -407,7 +407,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:padding="8dp"
-                        android:text="共1件商品 合计：￥14.80"
                         android:textColor="@color/app_text_color"
                         android:textSize="16sp"
                         android:textStyle="bold" />

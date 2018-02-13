@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp.http;
 
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.base.BaseView;
@@ -229,7 +230,6 @@ public class Order {
      * @param baseView
      */
     public static void CommentOrder(String order_id, String merchant_star, String delivery_star, String order_type, BaseView baseView) {
-
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
@@ -237,5 +237,13 @@ public class Order {
         requestParams.addBodyParameter("delivery_star", delivery_star);
         requestParams.addBodyParameter("order_type", order_type);
         apiTool2.postApi(url + "CommentOrder", requestParams, baseView);
+    }
+
+    public static  void delayReceiving(String order_goods_id,BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        apiTool2.postApi(url + "delayReceiving", requestParams, baseView);
+
     }
 }

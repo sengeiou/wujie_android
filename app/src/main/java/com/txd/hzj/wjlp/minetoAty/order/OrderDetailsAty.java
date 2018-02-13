@@ -436,6 +436,10 @@ public class OrderDetailsAty extends BaseAty {
             finish();
 
         }
+        if (requestUrl.contains("delayReceiving")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            showToast(data.get("message"));
+        }
     }
 
     private void setOrderStatus() {
@@ -707,7 +711,8 @@ public class OrderDetailsAty extends BaseAty {
                     if (list.get(i).get("sure_status").equals("1")) {
                         showPwdPop(v, i);
                     } else {
-
+                        Order.receiving(order_id, list.get(i).get("order_goods_id"), "1", OrderDetailsAty.this);
+                        showProgressDialog();
                     }
                 }
             });
@@ -715,6 +720,24 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.name.setText(getItem(i).get("goods_name"));
             tgvh.num.setText("x" + getItem(i).get("goods_num"));
             tgvh.title.setText("规格" + getItem(i).get("attr"));
+//            if (getItem(i).get("sale_status").equals("1")) {
+//                tgvh.textview.setVisibility(View.VISIBLE);
+            tgvh.textview.setText("收货时间:" + getItem(i).get("sure_delivery_time"));
+//            } else {
+//                tgvh.textview.setVisibility(View.GONE);
+//            }
+            if (getItem(i).get("sale_status").equals("1")) {
+                tgvh.delayReceiving.setVisibility(View.VISIBLE);
+            } else {
+                tgvh.delayReceiving.setVisibility(View.GONE);
+            }
+            tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
+                    showProgressDialog();
+                }
+            });
             return view;
         }
 
@@ -733,7 +756,10 @@ public class OrderDetailsAty extends BaseAty {
             public TextView tv_btn_left;
             @ViewInject(R.id.tv_btn_right)
             public TextView tv_btn_right;
-
+            @ViewInject(R.id.textview)
+            private TextView textview;
+            @ViewInject(R.id.delayReceiving)
+            private TextView delayReceiving;
 
         }
     }
