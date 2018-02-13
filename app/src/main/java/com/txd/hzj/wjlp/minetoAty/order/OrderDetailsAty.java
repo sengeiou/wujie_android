@@ -711,7 +711,7 @@ public class OrderDetailsAty extends BaseAty {
                     if (list.get(i).get("sure_status").equals("1")) {
                         showPwdPop(v, i);
                     } else {
-                        Order.receiving(order_id, list.get(i).get("order_goods_id"), "1", OrderDetailsAty.this);
+                        Order.receiving(order_id, list.get(i).get("order_goods_id"), "", OrderDetailsAty.this);
                         showProgressDialog();
                     }
                 }
