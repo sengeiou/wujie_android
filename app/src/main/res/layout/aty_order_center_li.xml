@@ -48,7 +48,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_03"
             android:gravity="center"
-            android:text="无界商店"
+            android:text="xfte商店"
             android:textColor="@color/black" />
 
     </LinearLayout>
@@ -77,7 +77,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_05"
             android:gravity="center"
-            android:text="无界预购"
+            android:text="xfte预购"
             android:textColor="@color/black" />
 
         <TextView

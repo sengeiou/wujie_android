@@ -175,7 +175,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private ImageView show_or_hide_iv;
 
     /**
-     * 无界驿站
+     * xfte驿站
      */
     @ViewInject(R.id.wujie_post_lv)
     private ListViewForScrollView wujie_post_lv;
@@ -553,7 +553,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
+<<<<<<< HEAD
                 toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+=======
+                toShare("xfte优品", share_img, share_url, share_content, goods_id, "1");
+>>>>>>> master
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -565,7 +569,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     show_or_hide_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
+            case R.id.show_or_hide_lv_iv://展开,隐藏(xfte驿站)
                 getHeight();// 重新计算高度
                 if (wujie_post_lv.getVisibility() == View.GONE) {// 隐藏状态
 //                    wujie_post_lv.setVisibility(View.VISIBLE);
@@ -575,7 +579,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.show_or_hide_explain_iv://展开,隐藏(无界驿站)
+            case R.id.show_or_hide_explain_iv://展开,隐藏(xfte驿站)
                 getHeight();// 重新计算高度
                 if (goods_other_info_layout.getVisibility() == View.GONE) {// 隐藏状态
                     goods_other_info_layout.setVisibility(View.VISIBLE);
@@ -688,7 +692,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.tv_wjsd:
                 Bundle mBundle = new Bundle();
                 mBundle.putInt("type", 10);
+<<<<<<< HEAD
                 mBundle.putString("title", "无界商店");
+=======
+                mBundle.putString("title", "xfte商店");
+>>>>>>> master
                 startActivity(TicketZoonAty.class, mBundle);
                 break;
             case R.id.tv_dpg:
@@ -1296,8 +1304,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (goodsInfo.get("integral_buy_id").equals("0")) {
             layout_jifen.setVisibility(View.GONE);
         } else {
+<<<<<<< HEAD
             //此商品可以使用xxx积分兑换，如想使用积分兑换请到无界商店进行兑换
             tv_integral.setText("此商品可以使用" + goodsInfo.get("use_integral") + "积分兑换，如想使用积分兑换请到无界商店进行兑换");
+=======
+            //此商品可以使用xxx积分兑换，如想使用积分兑换请到xfte商店进行兑换
+            tv_integral.setText("此商品可以使用" + goodsInfo.get("use_integral") + "积分兑换，如想使用积分兑换请到xfte商店进行兑换");
+>>>>>>> master
         }
         tv_brief.setText(goodsInfo.get("goods_brief"));
 

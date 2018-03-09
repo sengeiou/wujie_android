@@ -38,7 +38,11 @@ public class BalancePst extends BasePresenter {
 
     // 线下充值
     public void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
+<<<<<<< HEAD
                            String pay_password) {
+=======
+                           String pay_password,String id) {
+>>>>>>> master
 
         if (bank_card_id.equals("")) {
             baseView.onErrorTip("请选择银行");
@@ -66,7 +70,12 @@ public class BalancePst extends BasePresenter {
         }
 
         baseView.showDialog();
+<<<<<<< HEAD
         userBalance.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_password, baseView);
+=======
+        userBalance.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_password,id, baseView);
+
+>>>>>>> master
     }
 
     // 获取银行卡类型
@@ -105,6 +114,13 @@ public class BalancePst extends BasePresenter {
         baseView.showDialog();
         userBalance.bankList(baseView);
     }
+<<<<<<< HEAD
+=======
+    public void platformAccount() {
+        baseView.showDialog();
+        userBalance.platformAccount(baseView);
+    }
+>>>>>>> master
 
     // 删除银行卡
     public void delBank(String bank_card_id) {
@@ -135,7 +151,15 @@ public class BalancePst extends BasePresenter {
         baseView.showDialog();
         userBalance.balanceLog(p, baseView);
     }
+<<<<<<< HEAD
 
+=======
+    // 余额明细
+    public void underMoneys(int p) {
+        baseView.showDialog();
+        userBalance.underMoneys(p, baseView);
+    }
+>>>>>>> master
     // 根据ID或者手机获取真实姓名
     public void getUserName(String code) {
         baseView.showDialog();

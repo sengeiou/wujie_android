@@ -37,7 +37,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
      * 标识
      * 0.限量购
      * 1.票券区
-     * 2.无界预购
+     * 2.xfte预购
      * 3.进口馆
      * 4.竞拍汇
      * 5.一元夺宝
@@ -74,7 +74,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         view = inflater.inflate(R.layout.item_ticket_gv, parent, false);
 //        switch (viewType) {
 //            case 0:// 限量购
-//            case 2:// 无界预购
+//            case 2:// xfte预购
 //                view = inflater.inflate(R.layout.item_purchase_gv, parent, false);
 //                break;
 //            case 1:// 票券区
@@ -110,7 +110,12 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.sold_num_tv.setVisibility(View.VISIBLE);
+<<<<<<< HEAD
         if (cfGoodsList.getTicket_buy_id().equals("0")) {
+=======
+//        ticket_buy_discount
+        if (cfGoodsList.getTicket_buy_discount().equals("0")) {
+>>>>>>> master
             holder.use_coupon_tv.setText("不可使用代金券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {

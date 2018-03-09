@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
 import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 
 import java.util.List;
 
@@ -82,13 +84,24 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+<<<<<<< HEAD
                     Intent intent = new Intent(context, RechargeOffLineAty.class);
                     intent.putExtra("act_id", stickyExampleModel.act_id);
+=======
+                    PreferencesUtils.putString(context,"idid",stickyExampleModel.log_id);
+                    Intent intent = new Intent(context, RechargeOffLineAty.class);
+                    intent.putExtra("act_id",stickyExampleModel.log_id);
+>>>>>>> master
                     context.startActivity(intent);
                 }
             });
             // 查看线下充值详情----隐藏
+<<<<<<< HEAD
             recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+=======
+            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
+            recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+>>>>>>> master
             if (1 == type) {// 购物券
 
                 // 获得，消费积分(转出，消费)
@@ -126,11 +139,21 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
                 // 查看线下充值详情----显示
                 if (stickyExampleModel.getAct_type().equals("2")) {
+<<<<<<< HEAD
                     recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 }
 
             } else if (4 == type) {
                 recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_part_details_cheng);
+=======
+//                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
+
+                }
+
+            } else if (4 == type) {
+                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
+>>>>>>> master
             }
         }
     }

@@ -46,7 +46,11 @@ public class Order {
      * @param goods_id     商品id(直接购买时传)
      * @param product_id   商品属性id(直接购买时传)
      * @param cart_ids     购物车商品id(逗号分隔 购物车结算时传)
+<<<<<<< HEAD
      * @param order_type   订单类型（ 0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：无界商店 8：线下商城 购物车购买传0）
+=======
+     * @param order_type   订单类型（ 0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：xfte商店 8：线下商城 购物车购买传0）
+>>>>>>> master
      * @param order_id     订单id(订单支付时传)
      * @param limit_buy_id
      * @param baseView
@@ -94,7 +98,11 @@ public class Order {
 
     /**
      * @param order_status 订单状态（'0': '待支付‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
+<<<<<<< HEAD
      * @param order_type   购买渠道（0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：无界商店 8：线下商城）
+=======
+     * @param order_type   购买渠道（0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：xfte商店 8：线下商城）
+>>>>>>> master
      * @param p
      * @param baseView
      */

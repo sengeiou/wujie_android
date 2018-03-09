@@ -159,7 +159,31 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp"/>
+                <LinearLayout
+                    android:id="@+id/select_card_num_layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:text="平台银行卡号"
+                        android:textColor="@color/app_text_color"/>
+
+                    <TextView
+                        android:id="@+id/bank_cart_num_tv1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/icon_turn_right_g"
+                        android:hint="请选择"
+                        android:padding="12dp"
+                        android:textColor="@color/app_text_color"/>
+                </LinearLayout>
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
                 <LinearLayout
                     android:id="@+id/select_card_num_layout"
                     android:layout_width="match_parent"
@@ -182,6 +206,7 @@
                         android:padding="12dp"
                         android:textColor="@color/app_text_color"/>
                 </LinearLayout>
+
 
                 <Space
                     android:layout_width="match_parent"

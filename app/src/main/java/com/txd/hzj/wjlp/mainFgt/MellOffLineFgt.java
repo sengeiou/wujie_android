@@ -199,7 +199,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             case R.id.to_location_tv:// 当前位置
                 startActivity(MellCitySelectAty.class, null);
                 break;
-            case R.id.point_by_wj_tv:// 无界驿站
+            case R.id.point_by_wj_tv:// xfte驿站
                 startActivity(PointWjAty.class, null);
                 break;
         }

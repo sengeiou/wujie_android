@@ -117,7 +117,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private LinearLayout mell_point_lin_layout;
 
     /**
-     * 无界驿站
+     * xfte驿站
      */
     @ViewInject(R.id.mine_mell_point_tv)
     private TextView mine_mell_point_tv;
@@ -343,7 +343,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.share_grade_tv:// 分享成绩
                 startActivity(ShareGradeAty.class, null);
                 break;
-            case R.id.books_tv:// 无界书院
+            case R.id.books_tv:// xfte书院
                 startActivity(BooksAty.class, null);
                 break;
             case R.id.call_service_tv:// 客服
@@ -493,16 +493,20 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             mine_member_type_tv.setText(data.get("rank"));
             grade_of_member_tv.setText(data.get("level"));
             Glide.with(getActivity()).load(data.get("level_icon"))
+                    .transform(new GlideRoundTransform(getActivity(),50))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-                    .fitCenter()
-                    .override(icon_size, icon_size)
+//                    .fitCenter()
+
+//                    .override(icon_size, icon_size)
                     .into(rank_icon_iv);
             Glide.with(getActivity()).load(data.get("rank_icon"))
+                    .transform(new GlideRoundTransform(getActivity(),50))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-                    .fitCenter()
-                    .override(icon_size, icon_size)
+//                    .fitCenter()
+
+//                    .override(icon_size, icon_size)
                     .into(level_icon_iv);
         }
     }

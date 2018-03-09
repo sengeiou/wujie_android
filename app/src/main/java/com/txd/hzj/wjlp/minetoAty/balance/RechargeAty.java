@@ -15,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+<<<<<<< HEAD
+=======
+import com.ants.theantsgo.config.Config;
+>>>>>>> master
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -22,6 +26,11 @@ import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
+<<<<<<< HEAD
+=======
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
+>>>>>>> master
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -30,17 +39,38 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+<<<<<<< HEAD
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
+=======
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
+import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.new_wjyp.http.Pay;
+import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+>>>>>>> master
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+>>>>>>> master
 import java.util.Locale;
 import java.util.Map;
 
@@ -55,7 +85,10 @@ import java.util.Map;
 public class RechargeAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
-
+    @ViewInject(R.id.titlt_right_tv)
+    public TextView titlt_right_tv;
+    @ViewInject(R.id.select_card_num_layout1)
+    LinearLayout select_card_num_layout1;
     /**
      * 线下充值
      */
@@ -111,6 +144,10 @@ public class RechargeAty extends BaseAty {
      */
     @ViewInject(R.id.bank_cart_num_tv)
     private TextView bank_cart_num_tv;
+
+
+    @ViewInject(R.id.bank_cart_num_tv1)
+    TextView bank_cart_num_tv1;
     /**
      * 选择时间
      */
@@ -159,11 +196,18 @@ public class RechargeAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("余额");
+        titlt_right_tv.setVisibility(View.VISIBLE);
+        titlt_right_tv.setText("明细");
         changeTVAndViewStyle(type);
 
 
         pay_by_balance_cb.setVisibility(View.GONE);
         selectCheckBoxBottom(bottom_type);
+
+
+        PreferencesUtils.remove(RechargeAty.this,"band_id");
+//        PreferencesUtils.remove(RechargeAty.this,"band_id1");
+        PreferencesUtils.remove(RechargeAty.this,"band_code");
     }
 
     /**
@@ -213,10 +257,40 @@ public class RechargeAty extends BaseAty {
     @Override
     @OnClick({R.id.re_left_layout, R.id.re_right_layout, R.id.pay_by_wechat_cb,
             R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout,
+<<<<<<< HEAD
             R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+=======
+            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit,R.id.titlt_right_tv,R.id.select_card_num_layout1})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+
+
+            case R.id.titlt_right_tv:
+                if(type==0){
+
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+                    Intent intent = new Intent();
+                    intent.setClass(RechargeAty.this,ParticularsUsedByTricketAty.class);
+                    intent.putExtra("from",3);
+                    startActivity(intent);
+                    finish();
+                }else if(type==1){
+                    Intent intent = new Intent();
+                    intent.setClass(RechargeAty.this,ParticularsUsedByTricketAty.class);
+                    intent.putExtra("from",4);
+//                    setResult(RESULT_OK, intent);
+//                    finish();
+                    startActivity(intent);
+                    finish();
+                }
+
+                break;
+>>>>>>> master
             case R.id.tv_submit:
                 if (TextUtils.isEmpty(et_price.getText().toString())) {
                     showToast("请输入充值金额！");
@@ -247,12 +321,18 @@ public class RechargeAty extends BaseAty {
                 selectCheckBoxBottom(bottom_type);
                 break;
             case R.id.select_card_num_layout:// 线下支付，选择银行卡号
+                PreferencesUtils.putString(RechargeAty.this,"key1","0");
+                startActivityForResult(BankInfoForReChargeAty.class, null, 100);
+                break;
+            case R.id.select_card_num_layout1:// 线下支付，选择银行卡号
+                PreferencesUtils.putString(RechargeAty.this,"key1","1");
                 startActivityForResult(BankInfoForReChargeAty.class, null, 100);
                 break;
             case R.id.picker_time_layout:// 线下支付，选择汇款时间
                 if (pvCustomTime != null) {
                     pvCustomTime.show(picker_time_tv);
                 }
+<<<<<<< HEAD
                 break;
             case R.id.off_line_recharge_pic_iv:// 汇款凭证(选择图片)
                 startActivityForResult(ImageGridActivity.class, null, 101);
@@ -276,7 +356,34 @@ public class RechargeAty extends BaseAty {
 
                 balancePst.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_pwd);
 
+=======
+>>>>>>> master
                 break;
+            case R.id.off_line_recharge_pic_iv:// 汇款凭证(选择图片)
+                startActivityForResult(ImageGridActivity.class, null, 101);
+                break;
+            case R.id.off_line_recharge_tv:// 线下充值
+
+                // 将 2017-09-25 13:10(或其他数据) 转成时间戳，精确到秒
+                String act_time = DateTool.date2TimeStamp(picker_time_tv.getText().toString(),
+                        "yyy-MM-dd HH:mm");
+                String money = off_line_recharge_money_tv.getText().toString().trim();
+                String name = off_line_recharge_name_tv.getText().toString().trim();
+                String desc = off_line_recharge_desc_ev.getText().toString().trim();
+                String pay_pwd = off_line_recharge_pwd_ev.getText().toString();
+//
+//                L.e("======时间=====", act_time);
+//                L.e("======金额=====", money);
+//                L.e("======名称=====", name);
+//                L.e("======凭证=====", pic.getAbsolutePath());
+//                L.e("======说明=====", desc);
+//                L.e("======密码=====", pay_pwd);
+                L.e("========>>>>>>>>>>"+PreferencesUtils.getString(RechargeAty.this,"band_id1"));
+                balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this,"band_code1"), act_time, money, name, pic, desc, pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
+//                download(PreferencesUtils.getString(RechargeAty.this,"band_code1"),act_time,money,name,pic,desc,pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
+                break;
+
+
         }
 
     }
@@ -314,6 +421,10 @@ public class RechargeAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("underMoney")) {
+<<<<<<< HEAD
+=======
+            L.e("==========",jsonStr);
+>>>>>>> master
             showRightTip(map.get("message"));
             finish();
         }
@@ -404,10 +515,23 @@ public class RechargeAty extends BaseAty {
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 银行卡号
+<<<<<<< HEAD
                     String card_num = data.getStringExtra("card_num");
                     bank_cart_num_tv.setText(card_num);
                     bank_card_id = data.getStringExtra("bank_card_id");
                     break;
+=======
+                    bank_cart_num_tv1.setText(PreferencesUtils.getString(RechargeAty.this,"band_id"));
+                    bank_cart_num_tv.setText(PreferencesUtils.getString(RechargeAty.this,"band_code"));
+//                    String card_num = data.getStringExtra("card_num");
+//                    bank_cart_num_tv.setText(card_num);
+//                    bank_card_id = data.getStringExtra("bank_card_id");
+//                    String platform_id = data.getStringExtra("platform_id");
+//                    bank_cart_num_tv1.setText(platform_id);
+
+                    break;
+
+>>>>>>> master
             }
             return;
         }
@@ -461,6 +585,7 @@ public class RechargeAty extends BaseAty {
                 //年月日时分秒 的显示与否，不设置则默认全部显示
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("年", "月", "日", "点", "分", "")
+                
                 .isCenterLabel(false)
                 .setDividerColor(Color.DKGRAY)
                 .setContentSize(18)
@@ -486,5 +611,90 @@ public class RechargeAty extends BaseAty {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return format.format(date);
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (wxPayReceiver != null) {
+            unregisterReceiver(wxPayReceiver);
+            wxPayReceiver = null;
+        }
+    }
 
+
+    private void download(String s1,String s2,String s3,String s4,File s5,String s6,String s7,String s8) {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("token", Config.getToken());
+        Map<String, Object> params = new HashMap<String, Object>();
+        String json=null;
+//       try {
+//           JSONObject params = new JSONObject();
+           params.put("bank_card_id", s1);
+           params.put("act_time", s2);
+           params.put("money", s3);
+           params.put("name", s4);
+           params.put("pic", s5);
+           params.put("desc", s6);
+           params.put("pay_password", s7);
+           params.put("platform_account_id", s8);
+//           json=params.toString();
+//       }catch (Exception e){
+//           e.printStackTrace();
+//       }
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL)
+                .addHeader(parameters)
+                .addLog(true)
+                .build()
+
+                .rxPost("UserBalance/underMoney", params, new RxStringCallback() {
+                    @Override
+                    public void onNext(Object tag, String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String code =jsonObject.getString("code");
+                            String message =jsonObject.getString("message");
+                            showToast(message);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+                });
+
+
+
+//
+//                .rxPost(str, parameters, new RxStringCallback() {
+//
+//
+//                    @Override
+//                    public void onError(Object tag, Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel(Object tag, Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(Object tag, String response) {
+////                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+
+//
+//
+//
+//                });
+
+    }
 }

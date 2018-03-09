@@ -15,6 +15,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
+<<<<<<< HEAD
+=======
+import com.ants.theantsgo.util.JSONUtils;
+>>>>>>> master
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
@@ -114,7 +118,34 @@ public class TextListAty extends BaseAty {
                     data.putExtra("rec_type_id", dataList.get(i).get("rec_type_id"));
                 }else if (title.equals("发票明细")) {
                     data.putExtra("list", dataList.get(i).get("list"));
+<<<<<<< HEAD
+=======
                 }
+                setResult(RESULT_OK, data);
+                finish();
+            }
+        });
+        titlt_right_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < list_check.size(); i++) {
+                    if (list_check.get(i) == 1) {
+                        scope += dataList.get(i).get("short_name") + ",";
+                        cate_id += dataList.get(i).get("cate_id") + ",";
+
+                    } else {
+
+                    }
+>>>>>>> master
+                }
+                if (TextUtils.isEmpty(scope)) {
+                    showToast("至少选择一条！");
+                    return;
+                }
+                Intent data = new Intent();
+                data.putExtra("scope", scope);
+                data.putIntegerArrayListExtra("number", list_check);
+                data.putExtra("cate_id", cate_id);
                 setResult(RESULT_OK, data);
                 finish();
             }
@@ -182,6 +213,7 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("银行卡类型")) {
             balancePst.getBankType();
         } else if (title.equals("售后类型")) {
+<<<<<<< HEAD
             map = new HashMap<>();
             map.put("name", "我要退款");
             list.add(map);
@@ -190,6 +222,18 @@ public class TextListAty extends BaseAty {
             list.add(map);
             tAdapter = new TextAdapter(list);
             all_text_lv.setAdapter(tAdapter);
+=======
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),this);
+            showProgressDialog();
+//            map = new HashMap<>();
+//            map.put("name", "我要退款");
+//            list.add(map);
+//            map = new HashMap<>();
+//            map.put("name", "我要退货");
+//            list.add(map);
+//            tAdapter = new TextAdapter(list);
+//            all_text_lv.setAdapter(tAdapter);
+>>>>>>> master
         } else if (title.equals("货物状态")) {
             map = new HashMap<>();
             map.put("name", "已收到货");
@@ -212,6 +256,7 @@ public class TextListAty extends BaseAty {
             showProgressDialog();
         }
     }
+<<<<<<< HEAD
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -266,6 +311,69 @@ public class TextListAty extends BaseAty {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
+=======
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+        if (requestUrl.contains("getStreet")) {//街道
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+            return;
+        }
+        if (requestUrl.contains("businessType")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("getRange")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+            int num = dataList.size();
+            if (ListUtils.isEmpty(list_check)) {
+                for (int i = 0; i < num; i++) {
+                    list_check.add(0);
+                }
+            }
+            return;
+        }
+        if (requestUrl.contains("reportType")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            L.e(dataList.toString());
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+            return;
+        }
+        if (requestUrl.contains("getBankType")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter();
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("cause")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("shipping")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if (requestUrl.contains("type")) {
+            dataList = (List<Map<String, String>>) map.get("data");
+            tAdapter = new TextAdapter(dataList);
+            all_text_lv.setAdapter(tAdapter);
+        }
+        if(requestUrl.contains("backApplyType")){
+           map = (Map<String, Object>) map.get("data");
+            dataList = (List<Map<String, String>>) map.get("list");
+            tAdapter = new TextAdapter(list);
+            all_text_lv.setAdapter(tAdapter);
+
+>>>>>>> master
         }
     }
 

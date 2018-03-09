@@ -10,7 +10,11 @@ import com.lidroid.xutils.http.RequestParams;
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：09:23
+<<<<<<< HEAD
  * 描述：无界书院
+=======
+ * 描述：xfte书院
+>>>>>>> master
  * ===============Txunda===============
  */
 
@@ -19,7 +23,11 @@ class Academy {
     private String url = Config.BASE_URL + "Academy/";
 
     /**
+<<<<<<< HEAD
      * 无界书院首页
+=======
+     * xfte书院首页
+>>>>>>> master
      *
      * @param p          页码
      * @param ac_type_id 类型id

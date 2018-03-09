@@ -6,28 +6,42 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -133,15 +147,37 @@ public class AddNewAddressAty2 extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.titlt_right_tv:
-                String receiver = address_name_tv.getText().toString();
-                String phone = address_phone_tv.getText().toString();
-                String address = address_details_tv.getText().toString();
+                String receiver = address_name_tv.getText().toString().trim();
+                String phone = address_phone_tv.getText().toString().trim();
+                String address = address_details_tv.getText().toString().trim();
+                if(receiver.equals("")){
+                    showToast("姓名不能为空");
+                }else if(phone.equals("")){
+                    showToast("电话不能为空");
+                }else if(zore_tv.getText().toString().trim().equals("")){
+                    showToast("区域不能为空");
+                }else if(street_tv.getText().toString().trim().equals("")){
+                    showToast("街道不能为空");
+                }else if(address.equals("")){
+                    showToast("详细地址不能为空");
+                }
+
+
+                else{
+
+
                 if (0 == type) {
+                    Log.d("cehshi","111111");
                     addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
                             street_id, address, lng, lat);
+//                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id,
+//                            street_id, address, lng, lat);
+
                 } else {
+                    Log.d("cehshi","222222");
                     addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id,
                             city_id, area_id, street_id, address, lng, lat);
+                }
                 }
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
@@ -250,6 +286,7 @@ public class AddNewAddressAty2 extends BaseAty {
                 // 设置省市区
                 String tx = province + city + area;
                 zore_tv.setText(tx);
+                street_tv.setText("");
             }
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
@@ -375,10 +412,72 @@ public class AddNewAddressAty2 extends BaseAty {
                     street = data.getStringExtra("street");
                     street_tv.setText(street);
                     street_id = data.getStringExtra("street_id");
+
                     break;
             }
 
         }
     }
+
+
+    private void download(String receiver,String phone,String province,String city,String area,String street,String province_id,String city_id,String area_id,String street_id,String address,String lng,String lat) {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("receiver", receiver);
+        params.put("phone", phone);
+        params.put("province", province);
+        params.put("city", city);
+        params.put("area", area);
+        params.put("street", street);
+        params.put("province_id", province_id);
+        params.put("city_id", city_id);
+        params.put("area_id", area_id);
+        params.put("street_id", street_id);
+        params.put("address", address);
+        params.put("lng", lng);
+        params.put("lat", lat);
+
+        parameters.put("token", Config.getToken());
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL + "Address/")
+                .addHeader(parameters)
+                .addLog(true)
+
+                .build()
+                .rxPost("addAddress", params, new RxStringCallback() {
+
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+                        Toast.makeText(AddNewAddressAty2.this, response, Toast.LENGTH_SHORT).show();
+//                        try {
+//
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+                });
+
+    }
+
+
+
+
 
 }

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -104,7 +106,11 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             titlt_conter_tv.setText("积分明细");
         } else if (3 == from) {
             titlt_conter_tv.setText("余额明细");
-        } else {
+
+        }else if (4 == from) {
+            titlt_conter_tv.setText("线下充值");
+        }
+        else {
             titlt_conter_tv.setText("成长值明细");
         }
 
@@ -240,7 +246,11 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 balancePst.balanceLog(p);
                 break;
             case 4:// 成长明细
-                userPst.userDevelopLog(p);
+//                userPst.userDevelopLog(p);
+                balancePst.underMoneys(p);
+            case 5:// 成长明细
+//                userPst.userDevelopLog(p);
+//                balancePst.underMoneys(p);
         }
     }
 
@@ -248,6 +258,84 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("underMoneys")) {
+            if (1 == p) {
+                if (ToolKit.isList(map, "data")) {
+                    list.clear();
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            L.e("22222222222222222"+ temp2.get("money"));
+//                            if (temp2.get("act_type").equals("1")) {
+                                list.add(new TricketDetailks(time, "线下充值", temp2.get("create_time"),
+                                        temp2.get("money"), temp2.get("refuse_desc"), temp2.get("id"), temp2.get
+                                        ("status"), ""));
+
+//                            } else if (temp2.get("act_type").equals("2")) {
+//                                list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
+//                                        ("act_type"), ""));
+//                            } else {
+//                                list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
+//                                        ("act_type"), ""));
+//                            }
+                        }
+                    }
+                    stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
+                    tricket_rv.setAdapter(stickyExampleAdapter);
+
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                } else {
+                    lv_layout.setVisibility(View.GONE);
+                    no_data_layout.setVisibility(View.VISIBLE);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            } else {
+
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
+                                ("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            L.e("11111111111111111111");
+//                            if (temp2.get("act_type").equals("1")) {
+                                list.add(new TricketDetailks(time, "线下充值", temp2.get("create_time"),
+                                        temp2.get("money"), temp2.get("refuse_desc"), temp2.get("id"),
+                                        temp2.get("status"), ""));
+//                            } else if (temp2.get("act_type").equals("2")) {
+//                                list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+//                                        temp2.get("act_type"), ""));
+//                            } else {
+//                                list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+//                                        temp2.get("act_type"), ""));
+//                            }
+                        }
+                    }
+                    stickyExampleAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
+            return;
+        }
+
+
+
+
         if (requestUrl.contains("vouchersLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {

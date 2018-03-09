@@ -26,7 +26,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"
+
                 android:orientation="vertical">
                 <!--收货地址-->
                 <LinearLayout
@@ -58,7 +58,15 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
-
+                <TextView
+                    android:id="@+id/tv_merchant_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/icon_cart_mell_left_hzj"
+                    android:padding="12dp"
+                    android:textColor="@color/app_text_color" />
                 <LinearLayout
                     android:id="@+id/layout_sle"
                     android:layout_width="match_parent"
@@ -98,15 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
                 <!--订单商品列表-->
-                <TextView
-                    android:id="@+id/tv_merchant_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:drawablePadding="8dp"
-                    android:drawableStart="@drawable/icon_cart_mell_left_hzj"
-                    android:padding="12dp"
-                    android:textColor="@color/app_text_color" />
+
 
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/goods_fot_order_lv"
@@ -177,8 +177,8 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/white"
                         android:hint="选填:填写内容请和卖家协商确认"
-                        android:maxLines="1"
-                        android:padding="8dp"
+                        android:maxLines="10"
+                        android:padding="2dp"
                         android:textColor="@color/app_text_color"
                         android:textSize="14sp" />
 

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.myGrade;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -16,22 +17,31 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.citySelect.CitySelectAty;
+import com.txd.hzj.wjlp.cityselect1.ac.EasySideBarBuilder;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,7 +92,7 @@ public class ShareGradeAty extends BaseAty {
     private RankingListAdapter rankingListAdapter;
 
     private UserPst userPst;
-    private String city_name = "";
+    private String city_name = "天津";
     private int p = 1;
     private String city_id = "";
 
@@ -130,6 +140,8 @@ public class ShareGradeAty extends BaseAty {
     @ViewInject(R.id.nestedScrollView)
     private NestedScrollView nestedScrollView;
 
+    ShareAdapter shareAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,9 +163,9 @@ public class ShareGradeAty extends BaseAty {
             }
         });
 
-        if (!city_name.equals("")) {
-            grade_location_tv.setText(city_name);
-        }
+//        if (!city_name.equals("")) {
+//            grade_location_tv.setText(city_name);
+//        }
 
         my_share_grade_lv.setEmptyView(no_data_layout);
 
@@ -228,9 +240,65 @@ public class ShareGradeAty extends BaseAty {
 //                    }
 //
 //                });
-
+        userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
     }
 
+    public void shareHttp(){
+//        http://wjyp.txunda.com/index.php/Api/User/gradeRank
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("p", "1");
+        parameters.put("city_name", "天津 ");
+        parameters.put("type", "share");
+
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL)
+                .build()
+                .rxPost("User/gradeRank", parameters, new RxStringCallback() {
+
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+//                        Toast.makeText(ShareGradeAty.this, response, Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            JSONObject jsonObject2 = new JSONObject(data);
+                            JSONArray jsonArray = jsonObject2.getJSONArray("rank_list");
+                            ArrayList<ShareBean> list = new ArrayList<ShareBean>();
+                            for(int i=0;i<jsonArray.length();i++){
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String num =jsonObject1.getString("num");
+                                String nickname = jsonObject1.getString("nickname");
+                              String head_pic =jsonObject1.getString("head_pic");
+                                list.add(new ShareBean(num,nickname,head_pic));
+                            }
+                            shareAdapter = new ShareAdapter(ShareGradeAty.this,list);
+                            my_share_grade_lv.setAdapter(shareAdapter);
+                            shareAdapter.notifyDataSetChanged();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+                });
+
+
+
+
+
+
+    }
     @Override
     @OnClick({R.id.recommend_success_layout, R.id.sh_left_lin_layout, R.id.sh_right_lin_layout, R.id
             .grade_location_tv, R.id.share_time_layout})
@@ -245,12 +313,15 @@ public class ShareGradeAty extends BaseAty {
                 break;
             case R.id.sh_left_lin_layout:// 左(分享榜)
                 changeViewStatus(0);
+//                shareHttp();
+                userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
                 break;
             case R.id.sh_right_lin_layout:// 右(推荐榜)
                 changeViewStatus(1);
+                userPst.gradeRank(p, "", "recommend", grade_location_tv.getText().toString(), true);
                 break;
             case R.id.grade_location_tv:// 地址选择
-                startActivity(CitySelectAty.class, null);
+                download();
                 break;
         }
     }
@@ -312,6 +383,7 @@ public class ShareGradeAty extends BaseAty {
                     if (ToolKit.isList(data, "rank_list")) {
                         rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
+
                     }
 
                     if (!frist) {
@@ -323,6 +395,7 @@ public class ShareGradeAty extends BaseAty {
                     if (ToolKit.isList(data, "rank_list")) {
                         rankList.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
+
                     }
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
@@ -459,4 +532,94 @@ public class ShareGradeAty extends BaseAty {
 //        progressBar.setVisibility(View.GONE);
 //        return headerView;
 //    }
+
+
+    private final String[] mIndexItems = {"热门"};//头部额外的索引
+    private void download() {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("region_id", "");
+        new Novate.Builder(this)
+                .baseUrl("http://test.wujiemall.com/index.php/Api/")
+                .build()
+                .rxPost("Address/getRegion", parameters, new RxStringCallback() {
+
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+//                        Toast.makeText(ShareGradeAty.this, response, Toast.LENGTH_SHORT).show();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String data = jsonObject.getString("data");
+                            JSONObject jsonObject2 = new JSONObject(data);
+                            JSONArray jsonArray = jsonObject2.getJSONArray("hot_list");
+                            ArrayList<String> list = new ArrayList<String>();
+                            for(int i=0;i<jsonArray.length();i++){
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String region_id =jsonObject1.getString("region_id");
+                                String region_name = jsonObject1.getString("region_name");
+//                              String letter =jsonObject1.getString("letter");
+                                list.add(region_name);
+                            }
+
+                            new EasySideBarBuilder(ShareGradeAty.this)
+                                    .setTitle("城市选择")
+                        /*.setIndexColor(Color.BLUE)*/
+                                    .setIndexColor(0xFF0095EE)
+                       /* .isLazyRespond(true) //懒加载模式*/
+                                    .setHotCityList(list)//热门城市列表
+                                    .setIndexItems(mIndexItems)//索引字母
+                                    .setLocationCity("天津")//定位城市
+                                    .setMaxOffset(60)//索引的最大偏移量
+                                    .start();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+                });
+
+    }
+    //数据回调
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case EasySideBarBuilder.CODE_SIDEREQUEST:
+                if (data!=null){
+                    String city = data.getStringExtra("selected");
+//                    Toast.makeText(this,"选择的城市："+city,Toast.LENGTH_SHORT).show();
+                    grade_location_tv.setText(city);
+//                    changeViewStatus(0);
+
+
+                    left_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+                    right_tv.setTextColor(ContextCompat.getColor(this, R.color.app_text_color));
+                    left_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                    right_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+                    left_tv.setTextColor(Color.parseColor("#E60012"));
+                    left_view.setBackgroundColor(Color.parseColor("#E60012"));
+                    type = "share";
+
+                    L.e(grade_location_tv.getText().toString()+"当前城市");
+
+                    userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
+                }
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
 }

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -32,6 +33,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.Invoice1;
 import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
@@ -164,6 +166,10 @@ public class BuildOrderAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.et_leave_message:
+
+
+                break;
             case R.id.layout_sle:
                 if (!TextUtils.isEmpty(address_id)) {
                     if (TextUtils.isEmpty(freightJson)) {
@@ -474,7 +480,7 @@ public class BuildOrderAty extends BaseAty {
         super.onError(requestUrl, error);
         finish();
     }
-
+    Invoice1 invoice1;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -482,6 +488,7 @@ public class BuildOrderAty extends BaseAty {
         if (requestCode == 8888) {
             tv_name.setText("收货人：" + data.getStringExtra("receiver"));
             tv_tel.setText(data.getStringExtra("phone"));
+
             tv_address.setText("收货地址：" + data.getStringExtra("ads"));
             if (!TextUtils.isEmpty(address_id) && !data.getStringExtra("id").equals(address_id)) {
                 if (TextUtils.isEmpty(freightJson)) {
@@ -502,6 +509,7 @@ public class BuildOrderAty extends BaseAty {
         }
         if (requestCode == 1000) {
             if (data != null) {
+               invoice1 =data.getParcelableExtra("data1");
                 Bean b = data.getParcelableExtra("data");
                 i_bean.set(index, b);
                 goodsAdapter.notifyDataSetChanged();
@@ -527,7 +535,7 @@ public class BuildOrderAty extends BaseAty {
 
         private Context context;
         private LayoutInflater inflater;
-        private GoodsByOrderAdapter.GOVH govh;
+        private GOVH govh;
         List<Map<String, String>> data;
 
         public GoodsByOrderAdapter(Context context, List<Map<String, String>> data) {
@@ -571,18 +579,22 @@ public class BuildOrderAty extends BaseAty {
                 govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
             }
             if (getItem(i).get("invoice_status").equals("1")) {
+
                 govh.layout.setVisibility(View.VISIBLE);
                 govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "无" : i_bean.get(i).getInvoice_type());
+//                govh.textview.setText(TextUtils.isEmpty(invoice1.getInvoice_type()) ? "无" : invoice1.getInvoice_type());
             } else {
                 govh.layout.setVisibility(View.GONE);
-            }
+        }
             govh.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     index = i;
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
+                    bundle.putParcelable("data1",invoice1);
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
+//                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
                 }
             });
             return view;
@@ -749,7 +761,7 @@ public class BuildOrderAty extends BaseAty {
             this.tax_pay = in.readString();
         }
 
-        public static final Parcelable.Creator<Bean> CREATOR = new Parcelable.Creator<Bean>() {
+        public static final Creator<Bean> CREATOR = new Creator<Bean>() {
             @Override
             public Bean createFromParcel(Parcel source) {
                 return new Bean(source);

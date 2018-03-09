@@ -82,6 +82,7 @@
                     android:textColor="@color/app_text_color" />
 
                 <LinearLayout
+                    android:id="@+id/layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

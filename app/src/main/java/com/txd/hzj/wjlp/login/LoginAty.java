@@ -31,6 +31,9 @@ import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -252,10 +255,25 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("registerOne")) {// 注册第一步
-            bundle = new Bundle();
-            bundle.putString("phone", phone);
-            startActivity(RegisterGetCodeAty.class, bundle);
-            finish();
+//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String code = jsonObject.getString("code");
+                String message = jsonObject.getString("message");
+                if(code.equals("0")){
+                    showToast(message);
+                }else {
+                    bundle = new Bundle();
+                    bundle.putString("phone", phone);
+                    startActivity(RegisterGetCodeAty.class, bundle);
+                    finish();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
             return;
         }
         if (requestUrl.contains("Register/login")) {

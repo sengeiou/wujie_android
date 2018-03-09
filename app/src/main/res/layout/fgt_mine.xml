@@ -70,7 +70,7 @@
                             android:paddingEnd="8dp"
                             android:paddingStart="8dp"
                             android:paddingTop="4dp"
-                            android:text="无界驿站"
+                            android:text="xfte驿站"
                             android:visibility="gone" />
 
                         <LinearLayout
@@ -159,7 +159,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="8dp"
                         android:drawableStart="@drawable/icon_wj_exponent_hzj"
-                        android:text="无界指数8999"
+                        android:text="xfte指数8999"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:visibility="gone" />
@@ -427,7 +427,7 @@
                     android:drawablePadding="10dp"
                     android:drawableStart="@drawable/icon_mine_shuyuan"
                     android:padding="12dp"
-                    android:text="无界书院"
+                    android:text="xfte书院"
                     android:textColor="@color/app_text_color" />
 
                 <View

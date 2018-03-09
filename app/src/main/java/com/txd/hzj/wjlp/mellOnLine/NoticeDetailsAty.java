@@ -29,7 +29,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：上午 10:47
- * 描述：公告详情(无界头条详情)
+ * 描述：公告详情(xfte头条详情)
  * ===============Txunda===============
  */
 public class NoticeDetailsAty extends BaseAty {
@@ -46,7 +46,11 @@ public class NoticeDetailsAty extends BaseAty {
 
     /**
      * 0.消息详情
+<<<<<<< HEAD
      * 1.无界头条
+=======
+     * 1.xfte头条
+>>>>>>> master
      * 2.带url的轮播
      * 3.服务条款
      * 4.扫一扫出来的网页
@@ -97,7 +101,11 @@ public class NoticeDetailsAty extends BaseAty {
             userMessagePst.announceInfo(id);
         } else if (1 == from) {
             only_for_top_layout.setVisibility(View.VISIBLE);
+<<<<<<< HEAD
             titlt_conter_tv.setText("无界头条");
+=======
+            titlt_conter_tv.setText("xfte头条");
+>>>>>>> master
             String headlines_id = getIntent().getStringExtra("headlines_id");
             indexPst.headInfo(headlines_id);
 //            initWebView();

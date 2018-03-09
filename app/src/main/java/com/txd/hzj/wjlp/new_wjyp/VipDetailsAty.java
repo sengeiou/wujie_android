@@ -1,9 +1,11 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
@@ -31,7 +33,12 @@ public class VipDetailsAty extends BaseAty {
     private List<Map<String, String>> list_pic = new ArrayList<>();
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
-
+    @ViewInject(R.id.tv1)
+    TextView tv1;
+    @ViewInject(R.id.pay)
+    LinearLayout pay;
+    @ViewInject(R.id.tv2)
+    TextView tv2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +73,54 @@ public class VipDetailsAty extends BaseAty {
         titlt_conter_tv.setText(map.get("rank_name"));
         String Y = "会员年费¥" + map.get("money") + "/" + (map.get("prescription").equals("0") ? "永久" : "年");//年or永久
         tv_price.setText(Y);
+//        big_gift
+
+        if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("1")&&map.get("score_status").equals("0")){
+        tv1.setText("已拥有更高级别会员卡");
+            pay.setEnabled(false);
+            pay.setBackgroundColor(Color.GRAY);
+            tv1.setTextColor(Color.BLACK);
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("1")&&map.get("score_status").equals("1")){
+            tv1.setText("续费");
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("1")&&map.get("score_status").equals("2")){
+            tv1.setText("立即开通");
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("1")&&map.get("score_status").equals("4")){
+            tv1.setText("永久有效");
+            pay.setEnabled(false);
+            tv1.setTextColor(Color.BLACK);
+            pay.setBackgroundColor(Color.GRAY);
+            tv2.setVisibility(View.INVISIBLE);
+        }else if (map.get("sale_status").equals("1")){
+            pay.setVisibility(View.INVISIBLE);
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("2")&&map.get("score_status").equals("0")){
+            tv2.setVisibility(View.INVISIBLE);
+            tv1.setText("已拥有更高级别会员卡");
+            pay.setEnabled(false);
+            pay.setBackgroundColor(Color.GRAY);
+            tv1.setTextColor(Color.BLACK);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("2")&&map.get("score_status").equals("1")){
+            tv1.setText("续费");
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("2")&&map.get("score_status").equals("2")){
+            tv1.setText("立即开通");
+            tv2.setVisibility(View.INVISIBLE);
+        }else if(map.get("sale_status").equals("0")&&map.get("big_gift").equals("2")&&map.get("score_status").equals("4")){
+            tv1.setText("永久有效");
+            pay.setEnabled(false);
+            pay.setBackgroundColor(Color.GRAY);
+            tv1.setTextColor(Color.BLACK);
+            tv2.setVisibility(View.INVISIBLE);
+        }else if (map.get("sale_status").equals("1")&&map.get("big_gift").equals("2")) {
+            pay.setVisibility(View.INVISIBLE);
+            pay.setBackgroundColor(Color.GRAY);
+            tv1.setTextColor(Color.BLACK);
+            tv2.setVisibility(View.INVISIBLE);
+        }
+
         ImageListener imageListener = new ImageListener() {
             @Override
             public void setImageForPosition(final int position, ImageView imageView) {

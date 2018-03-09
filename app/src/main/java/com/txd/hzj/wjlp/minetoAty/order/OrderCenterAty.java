@@ -25,7 +25,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
     @ViewInject(R.id.tv_offline_shop)
     TextView tv_offline_shop;
     /**
+<<<<<<< HEAD
      * 无界商店
+=======
+     * xfte商店
+>>>>>>> master
      */
     @ViewInject(R.id.tv_wj_shop)
     TextView tv_wj_shop;
@@ -35,7 +39,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
     @ViewInject(R.id.tv_pintuan)
     TextView tv_pintuan;
     /**
+<<<<<<< HEAD
      * 无界预购
+=======
+     * xfte预购
+>>>>>>> master
      */
     @ViewInject(R.id.tv_wjyg)
     TextView tv_wjyg;
@@ -116,7 +124,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
 //                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wj_shop:
+<<<<<<< HEAD
                 mBundle.putString("title", "无界商店");
+=======
+                mBundle.putString("title", "xfte商店");
+>>>>>>> master
                 mBundle.putString("type", "7");
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
@@ -126,7 +138,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wjyg:
+<<<<<<< HEAD
                 mBundle.putString("title", "无界预购");
+=======
+                mBundle.putString("title", "xfte预购");
+>>>>>>> master
                 mBundle.putString("type", "4");
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
