@@ -60,11 +60,7 @@ class UserBalance {
      * @param baseView     回调
      */
     void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
-<<<<<<< HEAD
-                    String pay_password, BaseView baseView) {
-=======
                     String pay_password,String id ,BaseView baseView) {
->>>>>>> master
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("bank_card_id", bank_card_id);
@@ -74,10 +70,7 @@ class UserBalance {
         params.addBodyParameter("pic", pic);
         params.addBodyParameter("desc", desc);
         params.addBodyParameter("pay_password", pay_password);
-<<<<<<< HEAD
-=======
         params.addBodyParameter("platform_account_id", id);
->>>>>>> master
         apiTool2.postApi(url + "underMoney", params, baseView);
     }
 
@@ -122,11 +115,6 @@ class UserBalance {
     void bankList(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-<<<<<<< HEAD
-        apiTool2.postApi(url + "bankList", params, baseView);
-    }
-
-=======
 //        apiTool2.postApi(url + "bankList", params, baseView);
         apiTool2.postApi(url + "bankList", params, baseView);
     }
@@ -137,7 +125,6 @@ class UserBalance {
 //        apiTool2.postApi(url + "bankList", params, baseView);
         apiTool2.postApi(url + "platformAccount", params, baseView);
     }
->>>>>>> master
     /**
      * 删除银行卡号
      *
@@ -213,8 +200,6 @@ class UserBalance {
         apiTool2.postApi(url + "balanceLog", params, baseView);
     }
 
-<<<<<<< HEAD
-=======
 
     /**
      * 余额明细
@@ -229,7 +214,6 @@ class UserBalance {
         apiTool2.postApi(url + "underMoneys", params, baseView);
     }
 
->>>>>>> master
     /**
      * 根据ID或者手机获取真实姓名
      *
