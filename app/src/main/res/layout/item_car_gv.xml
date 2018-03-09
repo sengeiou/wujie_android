@@ -1,47 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+        <ImageView
+            android:id="@+id/car_pic_iv"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"  />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="提车点距您"/>
+            android:padding="8dp"
+            android:background="#7FFFFFFF"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="4.8"
-            android:textColor="@color/theme_color"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提车点距您" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="公里"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/theme_color" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_car"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="公里" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <TextView
+        android:id="@+id/car_name_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
-        android:text="新BMW 7系 99元定金全价到店为准740豪华款"/>
+        android:ellipsize="end"
+        android:maxLines="2"/>
 
 
     <LinearLayout
@@ -58,9 +67,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_button_red_chen"
             android:padding="5dp"
-            android:text="代金卷"
+            android:text="代金券"
             android:textColor="@color/white"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,24 +78,24 @@
             android:gravity="end"
             android:text="￥"
             android:textColor="@color/theme_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/chit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="99.00"
             android:textColor="@color/theme_color"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </LinearLayout>
 
 
     <TextView
+        android:id="@+id/car_other_info_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:lineSpacingExtra="4dp"
-        android:text="可    低:￥200车款\n全车价:￥1490000.00"/>
+        android:lineSpacingExtra="4dp" />
 
     <LinearLayout
         android:id="@+id/jf_layout"
@@ -100,15 +109,13 @@
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
             android:text="积分"
-            android:textColor="@color/gray_text_color"
-            />
+            android:textColor="@color/gray_text_color" />
 
         <TextView
+            android:id="@+id/car_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
-            android:textColor="#FD8214"
-            />
+            android:textColor="#FD8214" />
     </LinearLayout>
 
     <LinearLayout
@@ -119,28 +126,26 @@
         android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
-            />
+            android:id="@+id/car_logo_for_country_iv"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/use_coupon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_gravity="end|center_vertical"
             android:background="@drawable/shape_tv_bg_by_orange"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="可使用30%购物券"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 </LinearLayout>

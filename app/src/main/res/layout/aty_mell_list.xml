@@ -10,13 +10,15 @@
 
     <include layout="@layout/aty_search_title"/>
 
-    <ListView
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
         android:id="@+id/mell_lv"
-        android:scrollbars="none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:divider="@color/bg_color"
-        android:dividerHeight="4dp"/>
+        android:dividerHeight="4dp"
+        android:scrollbars="none"/>
+
+    <include layout="@layout/aty_no_data_layout"/>
 
 </LinearLayout>

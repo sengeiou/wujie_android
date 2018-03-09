@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/layout_comment"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -16,25 +18,24 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/all_comment_num_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="商品评价(45)"
+                android:text="商品评价(0)"
                 android:textColor="@color/app_text_color"
-                android:textSize="16sp"/>
-
+                android:textSize="16sp" />
+            <!--       android:background="@drawable/shape_all_estimate"-->
             <TextView
                 android:id="@+id/all_evaluate_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_all_estimate"
                 android:padding="8dp"
                 android:text="全部评价"
-                android:onClick="toEvaluate"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="#9A9A9A" />
         </LinearLayout>
 
-        <include layout="@layout/aty_estimate_layout"/>
+        <include layout="@layout/aty_estimate_layout" />
 
     </LinearLayout>
 </LinearLayout>

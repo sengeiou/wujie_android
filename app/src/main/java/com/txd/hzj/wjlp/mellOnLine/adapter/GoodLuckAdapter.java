@@ -8,12 +8,18 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
+import com.ants.theantsgo.tool.ToolKit;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.GoodLuckBean;
 
+import java.util.Calendar;
 import java.util.List;
 
+import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
@@ -28,9 +34,14 @@ import cn.iwgang.countdownview.CountdownView;
 public class GoodLuckAdapter extends BaseAdapter {
 
     private Context context;
-    private List<String> list;
+    private List<GoodLuckBean.DataBean.GroupBean> list;
     private LayoutInflater inflater;
     private GoodLuckVH goodLuckVH;
+
+    /**
+     * 团长头像大小
+     */
+    private int size = 0;
 
     private AdapterTextViewClickListener adapterTextViewClickListener;
 
@@ -38,19 +49,20 @@ public class GoodLuckAdapter extends BaseAdapter {
         this.adapterTextViewClickListener = adapterTextViewClickListener;
     }
 
-    public GoodLuckAdapter(Context context, List<String> list) {
+    public GoodLuckAdapter(Context context, List<GoodLuckBean.DataBean.GroupBean> list) {
         this.context = context;
         this.list = list;
+        size = ToolKit.dip2px(context, 40);
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return list.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public GoodLuckBean.DataBean.GroupBean getItem(int i) {
         return list.get(i);
     }
 
@@ -61,7 +73,7 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-
+        GoodLuckBean.DataBean.GroupBean groupBean = getItem(i);
         if (null == view) {
             view = inflater.inflate(R.layout.item_good_luck_lv, viewGroup, false);
             goodLuckVH = new GoodLuckVH();
@@ -78,16 +90,51 @@ public class GoodLuckAdapter extends BaseAdapter {
                 }
             }
         });
-        goodLuckVH.good_count_down_view.setTag("GoodLuck");
-        goodLuckVH.good_count_down_view.start(24 * 60 * 60 * 1000);
+
+        // 当前时间
+        long now_time = Calendar.getInstance().getTimeInMillis() / 1000;
+        // 剩余时间
+        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
+        // 倒计时Tag
+        goodLuckVH.good_count_down_view.setTag("GoodLuck" + i);
+        // 开始倒计时
+        goodLuckVH.good_count_down_view.start(last_time);
+
+        Glide.with(context).load(groupBean.getHead_user().getHead_pic())
+                .override(size, size)
+                .placeholder(R.drawable.ic_default)
+                .centerCrop()
+                .error(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(goodLuckVH.group_head_pic_iv);
+        // 昵称
+        goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
+        //还差。。。人
+        goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
 
         return view;
     }
 
     private class GoodLuckVH {
+        /**
+         * 团长头像
+         */
+        @ViewInject(R.id.group_head_pic_iv)
+        private ShapedImageView group_head_pic_iv;
+
+        /**
+         * 团长昵称
+         */
+        @ViewInject(R.id.group_name_tv)
+        private TextView group_name_tv;
 
         @ViewInject(R.id.join_in_group_tv)
         private TextView join_in_group_tv;
+        /**
+         * 还差多少人
+         */
+        @ViewInject(R.id.group_diff_tv)
+        private TextView group_diff_tv;
         /**
          * 倒计时
          */

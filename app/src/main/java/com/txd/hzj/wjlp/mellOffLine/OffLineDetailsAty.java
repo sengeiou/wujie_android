@@ -102,7 +102,7 @@ public class OffLineDetailsAty extends BaseAty {
      */
     private List<String> data;
     /**
-     * 无界头条View
+     * xfte头条View
      */
     private List<View> views;
 
@@ -153,7 +153,7 @@ public class OffLineDetailsAty extends BaseAty {
                 showRightTip("收藏");
                 break;
             case R.id.off_line_mell_share_tv:// 分享
-                toShare();
+//                toShare();
                 break;
             case R.id.notice_layout:// 公告
                 break;

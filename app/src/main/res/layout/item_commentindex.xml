@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_goods_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_toRightOf="@+id/imageview" />
+
+        <RatingBar
+            android:id="@+id/goods_grade_rb"
+            style="@style/foodRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_goods_name"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:layout_toRightOf="@+id/imageview"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="1"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_btn_right"
+            android:layout_width="60dp"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_good_name"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/shape_red_btn_01_li"
+            android:gravity="center"
+            android:text="评价"
+            android:textColor="@color/colorRed" />
+    </RelativeLayout>
+</LinearLayout>

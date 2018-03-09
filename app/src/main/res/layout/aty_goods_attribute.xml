@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,11 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:onClick="beBack"/>
+        android:onClick="beBack" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
                 android:layout_gravity="end"
                 android:onClick="beBack"
                 android:padding="8dp"
-                android:src="@drawable/icon_close"/>
+                android:src="@drawable/icon_close" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,15 +47,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
-                    android:text="￥49.00"
-                    android:textColor="@color/colorAccent"/>
+                    android:textColor="@color/colorAccent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:text="选择商品属性"
-                    android:textColor="@color/gray_text_color"/>
+                    android:textColor="@color/gray_text_color" />
             </LinearLayout>
 
             <ListView
@@ -63,10 +62,81 @@
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:divider="@color/bg_color"
-                android:padding="8dp"
                 android:dividerHeight="1dp"
-                android:scrollbars="none"
-                />
+                android:padding="8dp"
+                android:scrollbars="none"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
+                    android:id="@+id/goods_attr_tfl1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    app:max_select="1" />
+
+                <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
+                    android:id="@+id/goods_attr_tfl2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    app:max_select="1" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#dddddd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="数量" />
+
+                <TextView
+                    android:id="@+id/tv_kucun"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="(库存：0)" />
+
+                <ImageView
+                    android:id="@+id/im_jian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_xq_jian" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="0" />
+
+                <ImageView
+                    android:id="@+id/im_jia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/icon_xq_jia" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/goods_details_bottom_layout"
@@ -95,7 +165,7 @@
                         android:drawableTop="@drawable/icon_home_pager"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="首页"/>
+                        android:text="首页" />
 
                     <FrameLayout
                         android:layout_width="0dp"
@@ -111,7 +181,7 @@
                             android:drawableTop="@drawable/icon_goods_cart"
                             android:gravity="center"
                             android:padding="8dp"
-                            android:text="购物车"/>
+                            android:text="购物车" />
 
                         <TextView
                             android:layout_width="20dp"
@@ -121,8 +191,7 @@
                             android:background="@drawable/shape_search_message_num_tv"
                             android:gravity="center"
                             android:text="1"
-                            android:textColor="@color/white"
-                            />
+                            android:textColor="@color/white" />
 
                     </FrameLayout>
 
@@ -134,7 +203,7 @@
                         android:drawableTop="@drawable/icon_goods_kf"
                         android:gravity="center"
                         android:padding="8dp"
-                        android:text="客服"/>
+                        android:text="客服" />
 
                 </LinearLayout>
 
@@ -145,10 +214,10 @@
                     android:layout_weight="1"
                     android:background="#F3ABA7"
                     android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:padding="14dp"
                     android:text="加入购物车"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/to_buy_must_tv"
@@ -157,23 +226,22 @@
                     android:layout_weight="1"
                     android:background="@color/colorAccent"
                     android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:padding="14dp"
                     android:text="立即购买"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>
 
         <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/imageview"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/icon_temp_goods_banner"
             app:round_radius="4dp"
             app:shape_mode="round_rect"
             app:stroke_color="@color/white"
-            app:stroke_width="2dp"
-            />
+            app:stroke_width="2dp" />
     </FrameLayout>
 </LinearLayout>

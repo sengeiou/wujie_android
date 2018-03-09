@@ -48,6 +48,11 @@ public class ShareForApp implements PlatformActionListener {
      */
     private Bitmap bitmap;
     /**
+     * 图片链接
+     */
+    private String picUrl;
+
+    /**
      * 标题
      */
     private String title;
@@ -81,18 +86,58 @@ public class ShareForApp implements PlatformActionListener {
         this.shareBeBackListener = shareBeBackListener;
     }
 
+    public ShareForApp(String platFormName, String picUrl, String title, String text, String titleUrl,
+                       ShareBeBackListener shareBeBackListener) {
+        this.platFormName = platFormName;
+        this.picUrl = picUrl;
+        this.title = title;
+        this.text = text;
+        this.titleUrl = titleUrl;
+        this.shareBeBackListener = shareBeBackListener;
+    }
+
     public void toShare() {
         Platform.ShareParams sp = new Platform.ShareParams();
-        sp.setShareType(Platform.SHARE_WEBPAGE); // 非常重要：一定要设置分享属性
+
+        if (!platFormName.equals(SinaWeibo.NAME)) {
+            sp.setShareType(Platform.SHARE_WEBPAGE); // 非常重要：一定要设置分享属性
+        }
+
         sp.setTitle(title);
         sp.setText(text);// 分享文本
 
-        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME)) {
+        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME) ||
+                platFormName.equals(SinaWeibo.NAME)) {
             sp.setUrl(titleUrl);
         } else if (platFormName.equals(QQ.NAME) || platFormName.equals(QZone.NAME)) {
             sp.setTitleUrl(titleUrl);
         }
         sp.setImageData(bitmap);
+        // 3、非常重要：获取平台对象
+        Platform wechathy = ShareSDK.getPlatform(platFormName);
+        wechathy.setPlatformActionListener(this); // 设置分享事件回调
+        // 执行分享
+        wechathy.share(sp);
+        L.e("分享");
+    }
+
+    public void toShareWithPicUrl() {
+        Platform.ShareParams sp = new Platform.ShareParams();
+
+        if (!platFormName.equals(SinaWeibo.NAME)) {
+            sp.setShareType(Platform.SHARE_WEBPAGE); // 非常重要：一定要设置分享属性
+        }
+
+        sp.setTitle(title);
+        sp.setText(text);// 分享文本
+
+        if (platFormName.equals(WechatMoments.NAME) || platFormName.equals(Wechat.NAME) ||
+                platFormName.equals(SinaWeibo.NAME)) {
+            sp.setUrl(titleUrl);
+        } else if (platFormName.equals(QQ.NAME) || platFormName.equals(QZone.NAME)) {
+            sp.setTitleUrl(titleUrl);
+        }
+        sp.setImageUrl(picUrl);
         // 3、非常重要：获取平台对象
         Platform wechathy = ShareSDK.getPlatform(platFormName);
         wechathy.setPlatformActionListener(this); // 设置分享事件回调

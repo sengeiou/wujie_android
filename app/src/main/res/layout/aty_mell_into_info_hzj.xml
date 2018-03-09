@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:divider="@drawable/lin_layout_vertical_line_shape"
+    android:orientation="vertical"
+    android:showDividers="middle"
+    tools:context="com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoInfoAty">
+
+    <include layout="@layout/aty_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_color"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:divider="@drawable/lin_layout_vertical_line_shape"
+                android:orientation="vertical"
+
+                android:showDividers="middle">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/mell_logo_iv"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="12dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/mell_name_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textColor="@color/app_text_color"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/mell_status_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:textColor="@color/colorAccent"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/mell_desc_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/gray_text_color" />
+
+                        <TextView
+                            android:id="@+id/mell_score_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="@color/gray_text_color"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="24dp"
+                            android:text="经营范围"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/mell_range_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|end"
+                            android:padding="12dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginStart="24dp"
+                        android:background="@drawable/shape_view_for_mell"
+                        android:hardwareAccelerated="false" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="联系人"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/job_for_mell_tv_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="联系人职位"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/job_for_mell_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="联系人电话"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/mell_phone_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="天猫网店"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tmail_url_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="京东网店"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/jd_url_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="24dp"
+                            android:text="其他网店"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/other_url_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|end"
+                            android:paddingBottom="6dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="6dp"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:paddingStart="24dp"
+                            android:text="产品描述"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/product_desc_tv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingBottom="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingStart="24dp"
+                            android:paddingTop="12dp"
+                            android:text="这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述这是描述"
+                            android:textColor="@color/app_text_color"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="推荐时间"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/create_time_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|end"
+                    android:padding="12dp"
+                    android:text="2017-05-08"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="产品照片" />
+
+
+            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                android:id="@+id/pic_for_mell_into_gv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:horizontalSpacing="8dp"
+                android:numColumns="3"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:verticalSpacing="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="营业执照照片" />
+
+            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                android:id="@+id/pic_for_mell_into_gv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:horizontalSpacing="8dp"
+                android:numColumns="3"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:verticalSpacing="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:text="其他证件照片" />
+
+            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                android:id="@+id/pic_for_mell_into_gv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:horizontalSpacing="8dp"
+                android:numColumns="3"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:verticalSpacing="8dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

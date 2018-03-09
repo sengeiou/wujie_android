@@ -1,5 +1,9 @@
 package com.txd.hzj.wjlp.minetoAty.collect;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +15,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
@@ -35,7 +40,7 @@ public class CollectHzjAty extends BaseAty {
     /**
      * 编辑，完成
      */
-    @ViewInject(R.id.titlt_right_tv)
+    @ViewInject(R.id.foot_right_tv)
     public TextView titlt_right_tv;
 
     /**
@@ -65,16 +70,14 @@ public class CollectHzjAty extends BaseAty {
     private ArrayList<Fragment> mFragment;
 
     private FragmentChangeManager fcm;
+    private boolean status = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("我的收藏");
-        titlt_right_tv.setVisibility(View.VISIBLE);
-
+        showStatusBar(R.id.collect_title_layout);
+        titlt_right_tv.setVisibility(View.GONE);
         fcm = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.collect_frame_layout, mFragment);
-
         setTvAndViewStyle(0);
     }
 
@@ -102,35 +105,53 @@ public class CollectHzjAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.titlt_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout})
+    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.titlt_right_tv:// 编辑，完成
+            case R.id.foot_right_tv:// 编辑，完成
                 Fragment f = mFragment.get(selected);
-                String status = titlt_right_tv.getText().toString();
-                if (0 == selected) {// 商品
-                    ((CollectGoodsHzjFgt) f).setStatus(status);
-                } else if (1 == selected) {// 商家
-                    ((CollectMellHzjFgt) f).setStatus(status);
-                } else {// 书院
-                    ((CollectBooksFgt) f).setStatus(status);
-                }
-                if (status.equals("编辑")) {
+                String tv = titlt_right_tv.getText().toString();
+                if (tv.equals("编辑")) {
                     titlt_right_tv.setText("完成");
+                    status = true;
                 } else {
                     titlt_right_tv.setText("编辑");
+                    status = false;
                 }
+                setNewStatus(f);
                 break;
             case R.id.collect_left_layout:// 商品
                 setTvAndViewStyle(0);
+                // 设置碎片中删除和全选按钮状态
+                setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
             case R.id.collect_middle_layout:// 商家
                 setTvAndViewStyle(1);
+                // 设置碎片中删除和全选按钮状态
+                setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
             case R.id.collect_right_layout:// 书院
                 setTvAndViewStyle(2);
+                // 设置碎片中删除和全选按钮状态
+                setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
                 break;
+        }
+    }
+
+    private void setNewStatus(Fragment f) {
+        if (0 == selected) {// 商品
+            ((CollectGoodsHzjFgt) f).setStatus(status);
+            ((CollectGoodsHzjFgt) f).r();
+        } else if (1 == selected) {// 商家
+            ((CollectMellHzjFgt) f).setStatus(status);
+            ((CollectMellHzjFgt) f).r();
+        } else {// 书院
+            ((CollectBooksFgt) f).setStatus(status);
+            ((CollectBooksFgt) f).r();
         }
     }
 
@@ -142,13 +163,33 @@ public class CollectHzjAty extends BaseAty {
     @Override
     protected void initialized() {
         mFragment = new ArrayList<>();
-        mFragment.add(CollectGoodsHzjFgt.newInstance("编辑"));
-        mFragment.add(CollectMellHzjFgt.newInstance("编辑"));
-        mFragment.add(CollectBooksFgt.newInstance("编辑"));
+        mFragment.add(CollectGoodsHzjFgt.newInstance(false, 1));
+        mFragment.add(CollectMellHzjFgt.newInstance(false, 1));
+        mFragment.add(CollectBooksFgt.newInstance(false, 1));
     }
 
     @Override
     protected void requestData() {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction("sftv");
+        //注册广播
+        registerReceiver(mBroadcastReceiver, myIntentFilter);
+    }
 
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("sftv") && selected == intent.getIntExtra("index", -1)) {
+                titlt_right_tv.setVisibility(View.VISIBLE);
+            }
+        }
+
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 }

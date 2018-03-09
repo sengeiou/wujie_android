@@ -8,21 +8,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.City;
+import com.txd.hzj.wjlp.bean.City1;
 import com.txd.hzj.wjlp.citySelect.adapter.CityAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cc.solart.wave.WaveSideBarView;
 
@@ -62,14 +74,15 @@ public class CitySelectAty extends BaseAty {
     private CityForTitleAdapter cityForTitleAdapter;
     private CityForTitleAdapter cityForTitleAdapter1;
     private CityForTitleAdapter cityForTitleAdapter2;
-
+      String json =null;
+    String cityString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("当前地区—天津");
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        download();
         final PinnedHeaderDecoration decoration = new PinnedHeaderDecoration();
         decoration.registerTypePinnedHeader(1, new PinnedHeaderDecoration.PinnedHeaderCreator() {
             @Override
@@ -114,6 +127,52 @@ public class CitySelectAty extends BaseAty {
         location_city_gv.setAdapter(cityForTitleAdapter);
         last_visit_city_gv.setAdapter(cityForTitleAdapter1);
         hot_city_gv.setAdapter(cityForTitleAdapter2);
+    }
+
+    private String  download() {
+
+         Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("region_id", "");
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL)
+                .build()
+                .rxPost("Address/getRegion", parameters, new RxStringCallback() {
+                    @Override
+                    public void onNext(Object tag, String response) {
+                        Toast.makeText(CitySelectAty.this, response, Toast.LENGTH_SHORT).show();
+                        json = response;
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(json);
+                            String data = jsonObject.getString("data");
+                            JSONObject jsonObject2 = new JSONObject(data);
+                            JSONArray jsonArray = jsonObject2.getJSONArray("province_list");
+                            for(int i=0;i<jsonArray.length();i++){
+                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                String region_id =jsonObject1.getString("region_id");
+                                String region_name = jsonObject1.getString("region_name");
+                                String letter =jsonObject1.getString("letter");
+                                ArrayList<City1> list = new ArrayList<City1>();
+                                list.add(new City1(region_id,region_name,letter));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+
+                });
+        return  json;
     }
 
     @Override

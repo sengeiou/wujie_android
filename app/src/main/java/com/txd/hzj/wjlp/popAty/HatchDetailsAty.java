@@ -4,17 +4,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.JSONUtils;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.companyDevelop.CompanyDevelopPst;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.popAty.fgt.HatchLeftFgt;
 import com.txd.hzj.wjlp.popAty.fgt.HatchRightFgt;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -41,15 +46,17 @@ public class HatchDetailsAty extends BaseAty {
     @ViewInject(R.id.ws_mell_view)
     private View foot_print_mell_view;
 
-    private FragmentChangeManager fcm;
+    @ViewInject(R.id.company_info_wv)
+    private WebView company_info_wv;
 
-    private ArrayList<Fragment> mFragment;
+    private CompanyDevelopPst companyDevelopPst;
+    private String company_id = "";
+    private String merchant_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.ws_title_layout);
-        fcm = new FragmentChangeManager(getSupportFragmentManager(), R.id.ws_frame_layout, mFragment);
         setTvAndViewStyle(0);
     }
 
@@ -63,7 +70,9 @@ public class HatchDetailsAty extends BaseAty {
                 setTvAndViewStyle(0);
                 break;
             case R.id.ws_title_right_layout:// 领券
-                setTvAndViewStyle(1);
+                Bundle bundle = new Bundle();
+                bundle.putString("mell_id",merchant_id);
+                startActivity(MellInfoAty.class,bundle);
                 break;
         }
     }
@@ -81,8 +90,6 @@ public class HatchDetailsAty extends BaseAty {
             foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 2)
-            fcm.setFragments(position);
     }
 
     @Override
@@ -92,13 +99,23 @@ public class HatchDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        mFragment = new ArrayList<>();
-        mFragment.add(new HatchLeftFgt());
-        mFragment.add(new HatchRightFgt());
+        companyDevelopPst = new CompanyDevelopPst(this);
+        company_id = getIntent().getStringExtra("company_id");
     }
 
     @Override
     protected void requestData() {
+        companyDevelopPst.companyInfo(company_id);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("companyInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            company_info_wv.loadDataWithBaseURL(null, data.get("content"), "text/html", "utf-8", null);
+            merchant_id = data.get("merchant_id");
+        }
     }
 }

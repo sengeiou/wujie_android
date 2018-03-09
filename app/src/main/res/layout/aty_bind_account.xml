@@ -32,6 +32,7 @@
             android:textColor="@color/app_text_color"/>
 
         <EditText
+            android:id="@+id/third_past_bind_phone_ev"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -100,7 +101,9 @@
         android:layout_marginStart="16dp"
         android:background="@color/bg_color"/>
 
-    <include layout="@layout/aty_to_set_pwd_hzj"/>
+    <include
+        layout="@layout/aty_to_set_pwd_hzj"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/bind_success_tv"

@@ -7,15 +7,24 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.GroupBuyBean;
+import com.txd.hzj.wjlp.bean.TopNavBean;
+import com.txd.hzj.wjlp.http.country.CountryPst;
+import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
+import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
+import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
+import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TicketZoonAty extends BaseAty {
 
@@ -28,49 +37,32 @@ public class TicketZoonAty extends BaseAty {
     @ViewInject(R.id.vp_for_title)
     private ViewPager vp_for_title;
 
-    private String[] mTitles;
+    private List<TopNavBean> mTitles;
     private ArrayList<Fragment> mFragments;
     private MyPagerAdapter myPagerAdapter;
+    /**
+     * 8.拼团购
+     */
     private int type = 0;
     private String title = "";
+
+    private GroupBuyPst groupBuyPst;
+
+    private PerBuyPst perBuyPst;
+
+    private TicketBuyPst ticketBuyPst;
+
+    private IntegralBuyPst integralBuyPst;
+
+    private CountryPst countryPst;
+
+    private String country_id = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText(title);
-        vp_for_title.setAdapter(myPagerAdapter);
-        title_s_tab_layout.setViewPager(vp_for_title);
-        title_s_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                if (0 == position && type != 10) {
-                    finish();
-                }
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-            }
-        });
-        vp_for_title.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (0 == position && type != 10) {
-                    finish();
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
 
     @Override
@@ -81,23 +73,55 @@ public class TicketZoonAty extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("type", 0);
-        if (type == 10) {
-            mTitles = new String[]{"食品", "生鲜", "服饰", "家居", "进口", "美妆", "母婴", "电子", "运动", "户外"};
-        } else {
-            mTitles = new String[]{"推荐", "食品", "生鲜", "服饰", "家居", "进口", "美妆", "母婴", "电子", "运动", "户外"};
-        }
-
         title = getIntent().getStringExtra("title");
         mFragments = new ArrayList<>();
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        for (String title : mTitles) {
-            mFragments.add(TicketZoonFgt.getFgt(title, type));
-        }
+        // 拼团购
+        groupBuyPst = new GroupBuyPst(this);
+        // xfte预购
+        perBuyPst = new PerBuyPst(this);
+        // 票券区
+        ticketBuyPst = new TicketBuyPst(this);
+        // xfte商店
+        integralBuyPst = new IntegralBuyPst(this);
+        // 进口馆
+        countryPst = new CountryPst(this);
+
+        mTitles = new ArrayList<>();
     }
 
     @Override
     protected void requestData() {
+        switch (type) {
+            case 1:// 票券区
+                ticketBuyPst.ticketBuyIndex(1, "");
+                break;
+            case 2:// xfte预购
+                perBuyPst.preBuyIndex(1, "");
+                break;
+            case 3:// 进口馆
+                country_id = getIntent().getStringExtra("country_id");
+                countryPst.countryGoods(1, country_id, "");
+                break;
+            case 8:// 拼团购
+                groupBuyPst.groupBuyIndex(1, "");
+                break;
+            case 10:// xfte商店
+                integralBuyPst.integralBuyIndex(1, "");
+                break;
+        }
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+        mTitles = groupBuyBean.getData().getTop_nav();
+        for (TopNavBean title : mTitles) {
+            mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type, country_id));
+        }
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        vp_for_title.setAdapter(myPagerAdapter);
+        title_s_tab_layout.setViewPager(vp_for_title);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -112,7 +136,7 @@ public class TicketZoonAty extends BaseAty {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTitles[position];
+            return mTitles.get(position).getName();
         }
 
         @Override

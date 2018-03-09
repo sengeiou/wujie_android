@@ -5,14 +5,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -23,6 +31,12 @@ import java.util.ArrayList;
  */
 public class SubclassificationAty extends BaseAty {
     /**
+     * 标题
+     */
+    @ViewInject(R.id.titlt_conter_tv)
+    public TextView titlt_conter_tv;
+
+    /**
      * TabLayout
      */
     @ViewInject(R.id.sub_classify_stl)
@@ -31,20 +45,29 @@ public class SubclassificationAty extends BaseAty {
     @ViewInject(R.id.sub_classify_vp)
     private ViewPager sub_classify_vp;
 
-    private String titles[] = {"全部", "零食1", "零食2", "零食3", "零食4", "零食5", "零食6", "零食7", "零食8", "零食9", "零食10", "零食11",
-            "零食12", "零食13", "零食14"};
+    private List<Map<String, String>> mTitles;
 
     private ArrayList<Fragment> mFragments;
 
     private MyPagerAdapter myPagerAdapter;
 
+    /**
+     * 标题
+     */
+    private String appBarTitle = "";
+    /**
+     * 二级地址
+     */
+    private String two_cate_id = "";
+
+    private GoodsPst goodsPst;
+    private int page = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        sub_classify_vp.setAdapter(myPagerAdapter);
-        sub_classify_stl.setViewPager(sub_classify_vp);
-        sub_classify_vp.setCurrentItem(0);
+        titlt_conter_tv.setText(appBarTitle);
     }
 
     @Override
@@ -54,16 +77,37 @@ public class SubclassificationAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        goodsPst = new GoodsPst(this);
         mFragments = new ArrayList<>();
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        for (String string : titles) {
-            mFragments.add(SubClassifyListFgt.getInstance(string));
-        }
+        mTitles = new ArrayList<>();
+        appBarTitle = getIntent().getStringExtra("appBarTitle");
+        two_cate_id = getIntent().getStringExtra("two_cate_id");
+        page = getIntent().getIntExtra("page", 0);
+
     }
 
     @Override
     protected void requestData() {
+        goodsPst.threeList(two_cate_id, "", 1, 1);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("threeList")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (ToolKit.isList(data, "three_cate_list")) {
+                mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
+                for (Map<String, String> title : mTitles) {
+                    mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
+                }
+                myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+                sub_classify_vp.setAdapter(myPagerAdapter);
+                sub_classify_stl.setViewPager(sub_classify_vp);
+                sub_classify_vp.setCurrentItem(page);
+            }
+        }
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
@@ -78,7 +122,7 @@ public class SubclassificationAty extends BaseAty {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return mTitles.get(position).get("name");
         }
 
         @Override

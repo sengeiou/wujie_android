@@ -1,14 +1,10 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -17,15 +13,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
-import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
-import com.lidroid.xutils.ViewUtils;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
+import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.footPoint.FootMellsBan;
+import com.txd.hzj.wjlp.bean.search.SearchMell;
+import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,21 +70,49 @@ public class MellListAty extends BaseAty {
      * 商家列表
      */
     @ViewInject(R.id.mell_lv)
-    private ListView mell_lv;
+    private PullToRefreshListView mell_lv;
 
     private MellListAdapter mlAdapter;
 
-    private List<String> mells;
+    private List<FootMellsBan> mells;
     private List<String> prodects;
+
+    private GoodsPst goodsPst;
+    private int p = 1;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+    private int allNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.search_title_layout);
         forTitle();
+
+        mell_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                p = 1;
+                goodsPst.search("2", keyword, p, false);
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                if (allNum <= mells.size()) {
+                    mell_lv.onRefreshComplete();
+                    return;
+                }
+                p++;
+                goodsPst.search("2", keyword, p, false);
+            }
+        });
+
+        mell_lv.setEmptyView(no_data_layout);
+
         forKeyboardSearch();
         mell_lv.setAdapter(mlAdapter);
-
     }
 
     /**
@@ -128,6 +156,9 @@ public class MellListAty extends BaseAty {
             sb.append(key).append(",").append(his_str);
             PreferencesUtils.putString(this, "history", sb.toString());
         }
+        keyword = key;
+        p = 1;
+        requestData();
     }
 
     @Override
@@ -141,12 +172,12 @@ public class MellListAty extends BaseAty {
         keyword = getIntent().getStringExtra("keyword");
         mells = new ArrayList<>();
         prodects = new ArrayList<>();
-        mlAdapter = new MellListAdapter(this, mells);
+        goodsPst = new GoodsPst(this);
     }
 
     @Override
     protected void requestData() {
-
+        goodsPst.search("2", keyword, p, true);
     }
 
     private void forTitle() {
@@ -158,5 +189,30 @@ public class MellListAty extends BaseAty {
         search_title_right_tv.setVisibility(View.VISIBLE);
         title_search_ev.setText(keyword);
         search_type_tv.setText(type);
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("search")) {
+            SearchMell mell = GsonUtil.GsonToBean(jsonStr, SearchMell.class);
+
+            allNum = mell.getNums();
+            if (1 == p) {
+                mells = mell.getData().getList();
+                if (!ListUtils.isEmpty(mells)) {
+                    mlAdapter = new MellListAdapter(this, mells, 1);
+                    mell_lv.setAdapter(mlAdapter);
+                }
+            } else {
+                List<FootMellsBan> mells2 = mell.getData().getList();
+                if (!ListUtils.isEmpty(mells2)) {
+                    mells.addAll(mells2);
+                    mlAdapter.notifyDataSetChanged();
+                }
+            }
+            mell_lv.onRefreshComplete();
+
+        }
     }
 }

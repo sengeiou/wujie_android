@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ScrollView;
 
@@ -24,6 +25,9 @@ import com.txd.hzj.wjlp.mellOffLine.dialog.CouponDialog;
 import com.txd.hzj.wjlp.mellOffLine.dialog.MellCouponDialog;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+
+import java.util.List;
+import java.util.Map;
 
 public class ForGoodsByOtherFgt extends BaseFgt {
 
@@ -41,6 +45,8 @@ public class ForGoodsByOtherFgt extends BaseFgt {
     private MellGoodsAdapter mellGoodsAdapter;
 
     private MellCouponDialog mellCouponDialog;
+
+    private List<Map<String, String>> ticket_list;
 
     @ViewInject(R.id.un_use_view)
     private View un_use_view;
@@ -103,7 +109,12 @@ public class ForGoodsByOtherFgt extends BaseFgt {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.check_all_coupon_tv:// 查看更多优惠券
-                mellCouponDialog = new MellCouponDialog(getActivity());
+                mellCouponDialog = new MellCouponDialog(getActivity(), ticket_list, new MellCouponDialog.ItemClick() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    }
+                });
                 mellCouponDialog.show();
                 break;
         }

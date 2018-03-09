@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/aty_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F6F6F6" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:gravity="center"
+                android:textColor="#FF2A2A"
+                android:textSize="32dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="选择付款方式："
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginLeft="20dp"
+                android:background="#F6F6F6" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/pay_by_balance_cb"
+                    style="@style/checkbox_style_14sp_mw"
+                    android:drawableLeft="@drawable/icon_pay_by_yue_hzj"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="20dp"
+                    android:text="余额支付"
+                    android:textColor="@color/app_text_color" />
+
+                <ImageView
+                    android:id="@+id/im1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="80dp"  />
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginLeft="20dp"
+                android:background="#F6F6F6" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/pay_by_ali_cb"
+                    style="@style/checkbox_style_14sp_mw"
+                    android:drawableLeft="@drawable/icon_pay_by_ali_hzj"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="20dp"
+                    android:text="支付宝支付"
+                    android:textColor="@color/app_text_color" />
+
+                <ImageView
+                    android:id="@+id/im2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="80dp"  />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginLeft="20dp"
+                android:background="#F6F6F6" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/pay_by_wechat_cb"
+                    style="@style/checkbox_style_14sp_mw"
+                    android:drawableLeft="@drawable/icon_pay_by_wechat_hzj"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="20dp"
+                    android:text="微信支付"
+                    android:textColor="@color/app_text_color" />
+
+                <ImageView
+                    android:id="@+id/im3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="80dp"  />
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginLeft="20dp"
+                android:background="#F6F6F6" />
+
+            <CheckBox
+                android:id="@+id/cb_jifen"
+                style="@style/checkbox_style_14sp_mw"
+                android:drawableLeft="@mipmap/icon_pay_jifen"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/select_check_box_style_cart"
+                android:padding="20dp"
+                android:text="积分支付"
+                android:textColor="@color/app_text_color" />
+
+
+            <TextView
+                android:id="@+id/pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/shape_to_login_tv_shape"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="确认付款"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

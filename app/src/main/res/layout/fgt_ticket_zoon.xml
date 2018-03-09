@@ -1,63 +1,79 @@
 <FrameLayout
-    android:id="@+id/fgt_ticket_zoon_sc"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fgt_ticket_zoon_sc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:scrollbars="none"
     tools:context="com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt">
 
-    <com.txd.hzj.wjlp.view.ObservableScrollView
-        android:id="@+id/zooom_sc"
+    <com.ants.theantsgo.view.PullToRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-        <LinearLayout
+        android:layout_height="match_parent">
+
+        <include layout="@layout/refresh_head"/>
+
+        <com.ants.theantsgo.view.DukeScrollView
+            android:id="@+id/zooom_sc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/goods_menu_vp"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:background="@color/white"/>
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_temp_xrbs"/>
+                android:orientation="vertical">
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/ticket_zoon_goods_gv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/goods_menu_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"/>
 
-            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                android:id="@+id/ticket_zoon_goods_lv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:divider="@color/bg_color"
-                android:dividerHeight="4dp"
-                android:scrollbars="none"
-                android:visibility="gone"/>
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/group_ad_pic_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"/>
 
-    </com.txd.hzj.wjlp.view.ObservableScrollView>
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/ticket_zoon_goods_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp"/>
+
+                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                    android:id="@+id/ticket_zoon_goods_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:divider="@color/bg_color"
+                    android:dividerHeight="4dp"
+                    android:scrollbars="none"
+                    android:visibility="gone"/>
+
+                <include
+                    layout="@layout/aty_no_data_layout"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </com.ants.theantsgo.view.DukeScrollView>
+
+        <include layout="@layout/load_more"/>
+
+    </com.ants.theantsgo.view.PullToRefreshLayout>
 
     <ImageView
+        android:id="@+id/zoom_be_back_top_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon_be_back_top"
-        android:id="@+id/zoom_be_back_top_iv"
         android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:src="@drawable/icon_be_back_top"
+        android:visibility="gone"/>
 </FrameLayout>

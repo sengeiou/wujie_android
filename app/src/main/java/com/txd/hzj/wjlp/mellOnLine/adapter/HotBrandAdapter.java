@@ -5,9 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 
 import java.util.List;
@@ -24,16 +31,19 @@ import java.util.List;
 public class HotBrandAdapter extends RecyclerView.Adapter<HotBrandAdapter.HotAdapter> {
 
     private Context context;
-    private List<String> list;
+    private List<CateIndex.Data.TwoCateBean.HostBrandBean> list;
 
     private LayoutInflater inflater;
 
     private ItemClickForRecyclerView itemClickForRecyclerView;
 
-    public HotBrandAdapter(Context context, List<String> list) {
+    private int size = 0;
+
+    public HotBrandAdapter(Context context, List<CateIndex.Data.TwoCateBean.HostBrandBean> list) {
         this.context = context;
         this.list = list;
         inflater = LayoutInflater.from(context);
+        size = ToolKit.dip2px(context, 70);
     }
 
     @Override
@@ -46,6 +56,14 @@ public class HotBrandAdapter extends RecyclerView.Adapter<HotBrandAdapter.HotAda
 
     @Override
     public void onBindViewHolder(final HotAdapter holder, int position) {
+        CateIndex.Data.TwoCateBean.HostBrandBean hostBrandBean = list.get(position);
+        Glide.with(context).load(hostBrandBean.getBrand_logo())
+                .placeholder(R.drawable.ic_default)
+                .error(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)//是将图片原尺寸缓存到本地。
+                .centerCrop()
+                .override(size, size)
+                .into(holder.host_cate_iv);
         if (itemClickForRecyclerView != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,12 +77,15 @@ public class HotBrandAdapter extends RecyclerView.Adapter<HotBrandAdapter.HotAda
 
     @Override
     public int getItemCount() {
-        return 6;
+        return list.size();
     }
 
     class HotAdapter extends RecyclerView.ViewHolder {
 
-        public HotAdapter(View itemView) {
+        @ViewInject(R.id.host_cate_iv)
+        private ImageView host_cate_iv;
+
+        HotAdapter(View itemView) {
             super(itemView);
         }
     }

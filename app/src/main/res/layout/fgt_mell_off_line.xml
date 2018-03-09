@@ -51,7 +51,7 @@
                     android:drawableTop="@drawable/icon_wujie_post_hzj"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp"
-                    android:text="无界驿店"
+                    android:text="xfte驿店"
                     android:textColor="@color/gray_text_color"
                     android:textSize="12sp"/>
 
@@ -80,6 +80,7 @@
                 android:background="@color/view_color"/>
 
             <ImageView
+                android:id="@+id/im_ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"

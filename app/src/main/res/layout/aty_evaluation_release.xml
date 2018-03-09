@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +8,7 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,12 +23,12 @@
             android:layout_marginTop="8dp"
             android:background="@color/white"
             android:divider="@color/bg_color"
-            android:dividerHeight="8dp"/>
+            android:dividerHeight="8dp" />
 
         <LinearLayout
             android:id="@+id/bottom_for_evaluation_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:orientation="vertical"
@@ -45,18 +44,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="商家评分"
-                    android:textColor="@color/app_text_color"/>
+                    android:text="卖家服务"
+                    android:textColor="@color/app_text_color" />
 
                 <RatingBar
+                    android:id="@+id/rb_1"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="14dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="80dp"
                     android:isIndicator="false"
                     android:numStars="5"
-                    android:rating="4.0"
-                    />
+                    android:rating="5.0"
+                    android:stepSize="1" />
 
             </LinearLayout>
 
@@ -70,23 +71,37 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:padding="4dp"
-                    android:text="配送评分"
-                    android:textColor="@color/app_text_color"/>
+                    android:text="物流服务"
+                    android:textColor="@color/app_text_color" />
 
                 <RatingBar
+                    android:id="@+id/rb_2"
                     style="@style/foodRatingBar"
                     android:layout_width="wrap_content"
-                    android:layout_height="14dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="80dp"
                     android:isIndicator="false"
                     android:numStars="5"
-                    android:rating="4.0"
-                    />
+                    android:rating="5.0"
+                    android:stepSize="1" />
 
             </LinearLayout>
 
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:padding="10dp"
+            android:text="评价服务"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

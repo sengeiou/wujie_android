@@ -49,6 +49,19 @@
             android:paddingEnd="12dp"
             />
         <TextView
+            android:id="@+id/transfer_accounts_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_turn_right_g"
+            android:text="转账"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/icon_transfer_accounts"
+            android:textColor="@color/app_text_color"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingEnd="12dp"
+            />
+        <TextView
             android:id="@+id/balance_details_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

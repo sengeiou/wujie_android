@@ -12,10 +12,6 @@
 
     <include layout="@layout/aty_title"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -57,9 +53,9 @@
                         android:padding="12dp">
 
                         <TextView
+                            android:id="@+id/one_buy_info_name_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="冰箱冰箱冰箱冰箱冰箱冰箱冰箱冰箱"
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp"/>
 
@@ -71,6 +67,7 @@
                             >
 
                             <TextView
+                                android:id="@+id/t_status_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/shape_sn_ing_tv"
@@ -95,6 +92,7 @@
                                     android:text="积分"/>
 
                                 <TextView
+                                    android:id="@+id/one_buy_goods_intergral_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:drawablePadding="8dp"
@@ -128,11 +126,11 @@
                             >
 
                             <TextView
+                                android:id="@+id/time_num_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingBottom="4dp"
-                                android:paddingTop="4dp"
-                                android:text="期号303000022"/>
+                                android:paddingTop="4dp"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -140,12 +138,14 @@
                                 android:gravity="end">
 
                                 <TextView
+                                    android:id="@+id/person_num_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:text="总需419人次/剩余"/>
 
                                 <TextView
+                                    android:id="@+id/add_num_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:drawablePadding="8dp"
@@ -287,7 +287,12 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
     <TextView
+        android:id="@+id/rush_to_purchase_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

@@ -11,15 +11,22 @@
     <include layout="@layout/aty_title"/>
 
     <FrameLayout
+        android:id="@+id/lv_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tricket_rv"
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:id="@+id/part_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white">
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tricket_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+            </android.support.v7.widget.RecyclerView>
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
         <TextView
             android:id="@+id/tv_sticky_header_view"
@@ -31,4 +38,7 @@
             android:textSize="14sp"
             tools:text="2016年6月"/>
     </FrameLayout>
+
+    <include layout="@layout/aty_no_data_layout"/>
+
 </LinearLayout>

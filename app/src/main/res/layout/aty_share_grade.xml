@@ -1,12 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/grade_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.txd.hzj.wjlp.minetoAty.myGrade.ShareGradeAty">
+
+    <!--<com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout-->
+    <!--android:id="@+id/grade_ssr_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
+    <!--&gt;-->
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/my_share_grade_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/bg_color"
+                android:divider="@color/view_color"
+                android:dividerHeight="1dp"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <include layout="@layout/aty_no_data_layout" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/grade_app_bar_layout"
@@ -17,22 +51,21 @@
             android:id="@+id/sh_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/icon_mine_bg"
             app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
             app:contentScrim="@color/colorAccent"
             app:expandedTitleMarginEnd="48dp"
             app:expandedTitleMarginStart="48dp"
-            android:background="@drawable/icon_mine_bg"
             app:expandedTitleTextAppearance="@style/transparentText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <LinearLayout
                 android:id="@+id/grade_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/icon_share_grade_bg_hzj"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin"
-                android:background="@drawable/icon_mine_bg"
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <LinearLayout
@@ -42,24 +75,27 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                        android:id="@+id/user_head_iv"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_margin="24dp"
-                        android:src="@drawable/icon_mine_head"/>
+                        android:src="@drawable/icon_mine_head"
+                        app:shape_mode="circle" />
 
                     <TextView
+                        android:id="@+id/nick_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:lineSpacingExtra="6dp"
                         android:text="Sung Kyung\n推荐人：夏日伊咪"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -77,25 +113,25 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/share_num_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="35"
                             android:textColor="#E60012"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="分享次数"
-                            android:textColor="@color/white"/>
+                            android:textColor="@color/white" />
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/white"/>
+                        android:background="@color/white" />
 
                     <LinearLayout
                         android:id="@+id/recommend_success_layout"
@@ -106,18 +142,18 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/recommend_num_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
-                            android:text="35"
                             android:textColor="#E60012"
-                            android:textSize="18sp"/>
+                            android:textSize="18sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="推荐成功"
-                            android:textColor="@color/white"/>
+                            android:text="成功推荐"
+                            android:textColor="@color/white" />
 
                     </LinearLayout>
 
@@ -133,7 +169,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="24dp"
-                        android:src="@drawable/icon_share_grade_hzj"/>
+                        android:src="@drawable/icon_share_grade_hzj" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -141,7 +177,7 @@
                         android:layout_gravity="center"
                         android:text="排行榜"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/grade_location_tv"
@@ -151,9 +187,9 @@
                         android:drawablePadding="6dp"
                         android:drawableStart="@drawable/icon_loc_ation_by_shapre_hzj"
                         android:padding="12dp"
-                        android:text="北京"
+                        android:text="天津"
                         android:textColor="@color/white"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
 
                 </FrameLayout>
             </LinearLayout>
@@ -171,10 +207,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="工作成绩"
+                    android:text="分享成绩"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    />
+                    android:textSize="20sp" />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -200,13 +235,13 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="分享榜"
-                    android:textColor="#E60012"/>
+                    android:textColor="#E60012" />
 
                 <View
                     android:id="@+id/sh_left_view"
                     android:layout_width="80dp"
                     android:layout_height="2dp"
-                    android:background="#E60012"/>
+                    android:background="#E60012" />
             </LinearLayout>
 
             <LinearLayout
@@ -224,34 +259,15 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="推荐榜"
-                    android:textColor="@color/app_text_color"/>
+                    android:textColor="@color/app_text_color" />
 
                 <View
                     android:id="@+id/sh_right_view"
                     android:layout_width="80dp"
                     android:layout_height="2dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:scrollbars="none"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-            android:id="@+id/my_share_grade_lv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:divider="@color/view_color"
-            android:dividerHeight="1dp"
-            android:fillViewport="true"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-    </android.support.v4.widget.NestedScrollView>
-
+    <!--</com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>-->
 </android.support.design.widget.CoordinatorLayout>

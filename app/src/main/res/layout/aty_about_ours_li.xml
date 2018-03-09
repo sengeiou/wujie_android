@@ -26,9 +26,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="无界优品"
+                android:text="xfte优品"
                 android:textColor="@color/black"/>
             <TextView
+                android:id="@+id/app_version_tv"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,14 +55,19 @@
                 android:layout_marginBottom="20dp"
                 />
             <TextView
+                android:id="@+id/bottom_top_tv"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="20dp"
                 android:text="Copyright©2017 wujiemall.com"/>
             <TextView
+                android:id="@+id/bottom_bottom_tv"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="国本(天津)信息技术有限公司"/>
         </LinearLayout>
     </RelativeLayout>

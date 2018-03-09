@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 选中view -->
+    <item android:drawable="@mipmap/icon_cart_goods_selected" android:state_checked="true"/>
+    <!-- 选择view -->
+    <item android:drawable="@mipmap/icon_cart_goods_selected" android:state_selected="true"/>
+    <!-- 未选中view -->
+    <item android:drawable="@mipmap/icon_cart_goods_unselect" android:state_checked="false"/>
+    <!-- default -->
+    <item android:drawable="@mipmap/icon_cart_goods_unselect"/>
+</selector>

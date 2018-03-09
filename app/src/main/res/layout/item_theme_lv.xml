@@ -6,10 +6,10 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/theme_piv_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_theme"
         />
 
 </LinearLayout>

@@ -9,7 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -17,11 +21,14 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.http.onebuy.OneBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.GraphicDetailsFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.PastFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.fgt.RecordFgt;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -44,7 +51,7 @@ public class SnatchGoodsDetailsAty extends BaseAty {
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private ArrayList<Map<String, String>> image;
 
     @ViewInject(R.id.cpb_progresbar2)
     private CustomProgressBar cpb_progresbar2;
@@ -81,27 +88,88 @@ public class SnatchGoodsDetailsAty extends BaseAty {
 
     private FragmentChangeManager changeManager;
     private ArrayList<Fragment> fragments;
+    /**
+     * id
+     */
+    private String one_buy_id = "";
+
+    private OneBuyPst buyPst;
+
+    /**
+     * 一元夺宝商品名称
+     */
+    @ViewInject(R.id.one_buy_info_name_tv)
+    private TextView one_buy_info_name_tv;
+
+    /**
+     * 积分
+     */
+    @ViewInject(R.id.one_buy_goods_intergral_tv)
+    private TextView one_buy_goods_intergral_tv;
+
+    /**
+     * 期号
+     */
+    @ViewInject(R.id.time_num_tv)
+    private TextView time_num_tv;
+    /**
+     * 总需
+     */
+    @ViewInject(R.id.person_num_tv)
+    private TextView person_num_tv;
+    /**
+     * 参与人数
+     */
+    @ViewInject(R.id.add_num_tv)
+    private TextView add_num_tv;
+    /**
+     * 购买记录
+     */
+    private String oneBuyLog = "";
+    /**
+     * 图文详情
+     */
+    private String goods_desc = "";
+    /**
+     * 往期记录
+     */
+    private String outTime_log = "";
+    /**
+     * 规则
+     */
+    private String rules = "";
+
+    /**
+     * 活动状态
+     */
+    @ViewInject(R.id.t_status_tv)
+    private TextView t_status_tv;
+    private String t_status = "";
+    private String merchant_id;
+    private Map<String, String> oneBuyInfo;
+    private String goods_id;
+
+
+    private String goods_attr_first;
+    private String first_val;
+    private String is_attr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("一元夺宝");
+        titlt_conter_tv.setText("积分夺宝");
 
         // 设置轮播图高度
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, Settings
-                .displayWidth);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
+                Settings.displayWidth);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
-        cpb_progresbar2.setMaxProgress(100);
-        cpb_progresbar2.setCurProgress(50);
 
-        changeManager = new FragmentChangeManager(getSupportFragmentManager(), R.id.snatch_goods_layout, fragments);
-        setTvStyle(0);
     }
 
     @Override
-    @OnClick({R.id.left_lin_layout, R.id.middle_lin_layout, R.id.middle_right_lin_layout, R.id.right_lin_layout})
+    @OnClick({R.id.left_lin_layout, R.id.middle_lin_layout, R.id.middle_right_lin_layout,
+            R.id.right_lin_layout, R.id.rush_to_purchase_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -117,6 +185,15 @@ public class SnatchGoodsDetailsAty extends BaseAty {
             case R.id.right_lin_layout:// 规则说明
                 setTvStyle(3);
                 break;
+            case R.id.rush_to_purchase_tv:// 立即抢购
+                if (!t_status.equals("进行中")) {
+                    showErrorTip("活动已结束");
+                    break;
+                }
+
+                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance"), one_buy_id, goods_attr_first, first_val, is_attr);
+
+                break;
         }
     }
 
@@ -127,29 +204,23 @@ public class SnatchGoodsDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        one_buy_id = getIntent().getStringExtra("one_buy_id");
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-
         fragments = new ArrayList<>();
-        fragments.add(new RecordFgt());
-        fragments.add(new GraphicDetailsFgt());
-        fragments.add(new PastFgt());
-        fragments.add(new GraphicDetailsFgt());
+        buyPst = new OneBuyPst(this);
     }
 
     @Override
     protected void requestData() {
-
+        buyPst.oneBuyInfo(one_buy_id);
     }
 
     /**
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
     /**
@@ -158,7 +229,13 @@ public class SnatchGoodsDetailsAty extends BaseAty {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+            Glide.with(SnatchGoodsDetailsAty.this).load(image.get(position).get("path"))
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .override(Settings.displayWidth, Settings.displayWidth)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .centerCrop()
+                    .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
@@ -193,4 +270,85 @@ public class SnatchGoodsDetailsAty extends BaseAty {
         changeManager.setFragments(pos);
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("oneBuyInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            goods_attr_first = data.get("first_list");
+            first_val = data.get("first_val");
+            is_attr = data.get("is_attr");
+            if (ToolKit.isList(data, "oneBuyInfo")) {
+                oneBuyInfo = JSONUtils.parseKeyAndValueToMap(data.get("oneBuyInfo"));
+                goods_id = oneBuyInfo.get("goods_id");
+                // 商品名称
+                one_buy_info_name_tv.setText(oneBuyInfo.get("goods_name"));
+                // 活动状态
+                merchant_id = oneBuyInfo.get("merchant_id");
+                t_status = oneBuyInfo.get("t_status");
+                t_status_tv.setText(t_status);
+                if (!t_status.equals("进行中")) {
+                    t_status_tv.setBackgroundResource(R.drawable.shape_sn_ing_tv2);
+                    t_status_tv.setTextColor(ContextCompat.getColor(this, R.color.view_color));
+                }
+                // 积分
+                one_buy_goods_intergral_tv.setText(oneBuyInfo.get("integral"));
+                // 期号
+                time_num_tv.setText("期号" + oneBuyInfo.get("time_num"));
+                // 总需参与人数
+
+                int all;
+                try {
+                    all = Integer.parseInt(oneBuyInfo.get("person_num"));
+                } catch (NumberFormatException e) {
+                    all = 100;
+                }
+                // 参与人数
+                int add;
+                try {
+                    add = Integer.parseInt(oneBuyInfo.get("add_num"));
+                } catch (NumberFormatException e) {
+                    add = 0;
+                }
+                person_num_tv.setText("总需" + all + "人/剩余");
+                int num = all - add;
+                add_num_tv.setText(String.valueOf(num));
+                // 进度条最大值和进度
+                cpb_progresbar2.setMaxProgress(all);
+                cpb_progresbar2.setCurProgress(add);
+
+                is_attr = is_attr + "-" + String.valueOf(num);
+            }
+            if (ToolKit.isList(data, "goodsGallery")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("goodsGallery"));
+                forBanner();
+            }
+            // 购买记录
+            if (ToolKit.isList(data, "oneBuyLog")) {
+                oneBuyLog = data.get("oneBuyLog");
+            }
+            // 图文详情
+            if (ToolKit.isList(data, "goods_desc")) {
+                goods_desc = data.get("goods_desc");
+            }
+            // 往期记录
+            if (ToolKit.isList(data, "outTime_log")) {
+                outTime_log = data.get("outTime_log");
+            }
+            // 规则说明
+            if (ToolKit.isList(data, "rules")) {
+                rules = data.get("rules");
+            }
+
+            fragments.add(RecordFgt.getFgt(oneBuyLog));
+            fragments.add(GraphicDetailsFgt.getFgt(goods_desc));
+            fragments.add(PastFgt.getFgt(outTime_log));
+            fragments.add(GraphicDetailsFgt.getFgt(rules));
+
+            // 添加碎片到布局
+            changeManager = new FragmentChangeManager(getSupportFragmentManager(), R.id.snatch_goods_layout, fragments);
+            setTvStyle(0);
+        }
+    }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/title_re_layout"
     android:layout_width="match_parent"
     android:layout_height="48dp"
@@ -14,28 +13,30 @@
         android:onClick="beBack"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
-        android:src="@drawable/icon_be_back_b"
-        />
+        android:src="@drawable/icon_be_back_b" />
 
     <TextView
         android:id="@+id/titlt_conter_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        android:ellipsize="middle"
         android:gravity="center"
+        android:maxLength="8"
         android:text="零食"
         android:textColor="@color/app_text_color"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
+
     <TextView
         android:id="@+id/titlt_right_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:gravity="center"
         android:layout_alignParentEnd="true"
-        android:text="编辑"
-        android:visibility="gone"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
+        android:text="编辑"
         android:textColor="@color/app_text_color"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:visibility="gone" />
 </RelativeLayout>

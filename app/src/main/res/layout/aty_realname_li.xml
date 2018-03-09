@@ -1,99 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:orientation="vertical">
-    <include layout="@layout/aty_title" />
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/bg_color"
+              android:orientation="vertical">
+
+    <include layout="@layout/aty_title"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:background="@color/bg_color"/>
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp"
+        android:background="@color/white"
         >
+
         <TextView
             style="@style/mine_text_list"
-            android:drawablePadding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="真实姓名"
-            android:textColor="@color/black"/>
+            android:drawablePadding="10dp"
+            android:padding="12dp"
+            android:text="真实姓名    "
+            android:textColor="@color/app_text_color"/>
+
         <EditText
-            android:layout_marginLeft="90dp"
-            android:padding="0dp"
-            android:background="@null"
+            android:id="@+id/user_real_name_ev"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
             android:hint="您的真实姓名"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        >
-        <TextView
-            style="@style/mine_text_list"
-            android:drawablePadding="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="身份证号"
-            android:textColor="@color/black"/>
-        <EditText
-            android:layout_marginLeft="90dp"
-            android:padding="0dp"
-            android:background="@null"
-            android:layout_width="match_parent"
-            android:hint="您的身份证号"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bg_color"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
+            android:padding="12dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"></View>
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+
+        <TextView
+            style="@style/mine_text_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:padding="12dp"
+            android:text="身份证号    "
+            android:textColor="@color/app_text_color"/>
+
+        <EditText
+            android:id="@+id/user_id_card_num_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="您的身份证号"
+            android:padding="12dp"
+            android:textSize="14sp"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/id_card_front_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="身份证正面    "
+            android:textColor="@color/app_text_color"
+            />
+
+        <ImageView
+            android:id="@+id/id_card_front_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:src="@drawable/icon_top_left"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/bg_color"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_color"
         android:padding="10dp">
+
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提示:"
             android:textColor="@color/colorRed"/>
+
         <TextView
-            android:layout_toRightOf="@id/tv_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_text"
             android:text="  认证后不可修改"
             />
+
         <Button
-            android:layout_marginTop="80dp"
+            android:id="@+id/user_auth_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/shape_red_btn_li"
             android:text="认证"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_red_btn_li"/>
+            android:textColor="@color/white"/>
     </RelativeLayout>
 
 

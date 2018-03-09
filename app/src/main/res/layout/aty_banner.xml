@@ -17,7 +17,7 @@
         app:indicatorGravity="bottom|center_horizontal"
         app:pageColor="#7f000000"
         app:pageTransformInterval="500"
-        app:pageTransformer="slide_over"
+        app:pageTransformer="flow"
         app:radius="4dp"
         app:slideInterval="5000"
         app:indicatorMarginHorizontal="8dp"

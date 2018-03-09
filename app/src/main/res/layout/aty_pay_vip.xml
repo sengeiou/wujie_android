@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/tz_title_layout" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#F6F6F6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="开通服务"
+            android:textColor="#9B9B9B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="拓展商"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="#F6F6F6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="付款模式"
+            android:textColor="#9B9B9B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="永久"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="#F6F6F6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:text="开通服务"
+            android:textColor="#9B9B9B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="¥10,0000.00"
+            android:textColor="#F23232"
+            android:textSize="14sp"
+
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F6F6F6"
+        android:padding="10dp"
+        android:text="选中付款方式："
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+
+    <CheckBox
+        android:id="@+id/pay_by_balance_cb"
+        style="@style/checkbox_style_14sp_mw"
+        android:background="@android:color/white"
+        android:checked="true"
+        android:drawableEnd="@drawable/select_check_box_style_cart"
+        android:drawablePadding="8dp"
+        android:drawableStart="@mipmap/icon_pay_by_yue_hzj"
+        android:padding="10dp"
+        android:text="余额支付"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="#F6F6F6" />
+
+    <CheckBox
+        android:id="@+id/cb_jfzf"
+        style="@style/checkbox_style_14sp_mw"
+        android:drawableEnd="@drawable/select_check_box_style_cart"
+        android:drawablePadding="8dp"
+        android:drawableStart="@mipmap/icon_pay_jifen"
+        android:padding="10dp"
+        android:text="积分支付"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="#F6F6F6" />
+
+    <CheckBox
+        android:id="@+id/pay_by_ali_cb"
+        style="@style/checkbox_style_14sp_mw"
+        android:drawableEnd="@drawable/select_check_box_style_cart"
+        android:drawablePadding="8dp"
+        android:drawableStart="@mipmap/icon_pay_by_ali_hzj"
+        android:padding="10dp"
+        android:text="支付宝支付"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="#F6F6F6" />
+
+    <CheckBox
+        android:id="@+id/pay_by_wechat_cb"
+        style="@style/checkbox_style_14sp_mw"
+        android:drawableEnd="@drawable/select_check_box_style_cart"
+        android:drawablePadding="8dp"
+        android:drawableStart="@mipmap/icon_pay_by_wechat_hzj"
+        android:padding="10dp"
+        android:text="微信支付"
+        android:textColor="@android:color/black" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="购买即视为同意"
+            android:textColor="#565656"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《xfte优品会员协议》"
+            android:textColor="#F21B1B"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/shape_vip_pay"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="立即支付"
+        android:textColor="#FFD743"
+        android:textSize="14sp" />
+</LinearLayout>

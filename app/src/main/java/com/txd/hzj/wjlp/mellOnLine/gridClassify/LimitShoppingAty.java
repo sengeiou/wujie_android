@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,14 +9,21 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tool.DateTool;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.LimitFgt;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -36,54 +44,18 @@ public class LimitShoppingAty extends BaseAty {
     @ViewInject(R.id.viewPager)
     private ViewPager viewPager;
 
-    private List<String> tabTitle;
+    private List<Map<String, String>> tabTitle;
     private List<Fragment> fragments;
 
     private VpAdapter vpAdapter;
+    private LimitBuyPst limitBuyPst;
+    private int selectPager = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         titlt_conter_tv.setText("限量购");
         showStatusBar(R.id.title_re_layout);
-        viewPager.setAdapter(vpAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        for (int i = 0; i < vpAdapter.getCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(R.layout.tab_view_layout);
-            if (0 == i) {
-                TextView tv = tab.getCustomView().findViewById(android.R.id.text1);
-                ChangeTextViewStyle.getInstance().forTabText(this, tv, tabTitle.get(i));
-                tv.setSelected(true);
-            }
-        }
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int pos = tab.getPosition();
-                TextView tv = tab.getCustomView().findViewById(android.R.id.text1);
-                ChangeTextViewStyle.getInstance().forTabText(LimitShoppingAty.this, tv, tabTitle.get(pos));
-                tv.setSelected(true);
-                // 将viewpager的item与 tablayout的同步
-                viewPager.setCurrentItem(pos);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // 将离开的tab的textView的select属性设置为false
-                tab.getCustomView().findViewById(android.R.id.text1).setSelected(false);
-                // 将viewpager的item与 tablayout的同步
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
     }
 
     @Override
@@ -95,29 +67,53 @@ public class LimitShoppingAty extends BaseAty {
     protected void initialized() {
         tabTitle = new ArrayList<>();
         fragments = new ArrayList<>();
-        vpAdapter = new VpAdapter(getSupportFragmentManager());
-        tabTitle.add("06:00\n抢购进行中");
-        tabTitle.add("09:00\n抢购进行中");
-        tabTitle.add("13:00\n抢购进行中");
-        tabTitle.add("17:00\n即将开始");
-        tabTitle.add("21:00\n即将开始");
-        tabTitle.add("23:00\n即将开始");
-        tabTitle.add("00:00\n即将开始");
-        fragments.add(LimitFgt.getFgt(0));
-        fragments.add(LimitFgt.getFgt(1));
-        fragments.add(LimitFgt.getFgt(1));
-        fragments.add(LimitFgt.getFgt(1));
-        fragments.add(LimitFgt.getFgt(1));
-        fragments.add(LimitFgt.getFgt(1));
-        fragments.add(LimitFgt.getFgt(1));
+        limitBuyPst = new LimitBuyPst(this);
     }
 
     @Override
     protected void requestData() {
-
+        limitBuyPst.limitBuyIndex(1, "");
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("limitBuyIndex")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (ToolKit.isList(data, "stage_list")) {
+                tabTitle = JSONUtils.parseKeyAndValueToMapList(data.get("stage_list"));
+                for (Map<String, String> title : tabTitle) {
+                    fragments.add(LimitFgt.getFgt(title.get("stage_id"), title.get("status")));
+//                    if (title.get("status").equals("即将开始")) {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
+//                    } else if (title.get("status").equals("已结束")) {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), -1));
+//                    } else {
+////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 0));
+//                    }
+                }
+
+                for (int i = 0; i < tabTitle.size(); i++) {
+                    String now = DateTool.getUserDate("HH:mm");
+                    String interval = DateTool.getTwoHour(tabTitle.get(i).get("end_time"), now);
+                    if (!interval.equals("0")) {
+                        selectPager = i;
+                        break;
+                    }
+                }
+                vpAdapter = new VpAdapter(getSupportFragmentManager());
+                viewPager.setAdapter(vpAdapter);
+                viewPager.setCurrentItem(selectPager);
+                tabLayout.setupWithViewPager(viewPager);
+
+            }
+        }
+    }
+
+
     private class VpAdapter extends FragmentPagerAdapter {
+
 
         public VpAdapter(FragmentManager fm) {
             super(fm);
@@ -135,7 +131,7 @@ public class LimitShoppingAty extends BaseAty {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return tabTitle.get(position);
+            return tabTitle.get(position).get("start_time") + "\n" + tabTitle.get(position).get("status");
         }
     }
 

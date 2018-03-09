@@ -1,23 +1,53 @@
 package com.txd.hzj.wjlp.shoppingCart;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
+import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.Invoice1;
+import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.Order;
+import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -61,10 +91,10 @@ public class BuildOrderAty extends BaseAty {
     @ViewInject(R.id.near_by_point_layout)
     private LinearLayout near_by_point_layout;
 
-    @ViewInject(R.id.point_near_by_lv)
-    private ListViewForScrollView point_near_by_lv;
+//    @ViewInject(R.id.point_near_by_lv)
+//    private ListViewForScrollView point_near_by_lv;
 
-    private PostAdapter postAdapter;
+//    private PostAdapter postAdapter;
 
     /**
      * 所有商品价格(不含邮费)
@@ -74,30 +104,85 @@ public class BuildOrderAty extends BaseAty {
     /**
      * 订单最终价格
      */
+//    @ViewInject(R.id.order_price_at_last_tv)
+//    private TextView order_price_at_last_tv;
+    private String mid = "";
+    private String cart_id = "";
+    private int p = 1;
+    @ViewInject(R.id.tv_name)
+    private TextView tv_name;
+    @ViewInject(R.id.tv_tel)
+    private TextView tv_tel;
+    @ViewInject(R.id.tv_address)
+    private TextView tv_address;
+    @ViewInject(R.id.tv_merchant_name)
+    private TextView tv_merchant_name;
+    @ViewInject(R.id.tv_c_ads)
+    private TextView tv_c_ads;
+    @ViewInject(R.id.layout_choose_address)
+    private LinearLayout layout_choose_address;
+    private String address_id;
     @ViewInject(R.id.order_price_at_last_tv)
     private TextView order_price_at_last_tv;
-    private ArrayList<String> points;
+    @ViewInject(R.id.tv_sum_discount)
+    private TextView tv_sum_discount;
+    String goods_id, num, ordertype, product_id;
+    private String type;
+    private String group_buy_id;
+    private String freightJson;
+
+    private CommonPopupWindow commonPopupWindow;
+    private View view_ads;
+    String freight, freight_type;
+    @ViewInject(R.id.layout1)
+    private LinearLayout layout1;
+    @ViewInject(R.id.textview)
+    private TextView textview;
+    private int index = -1;
+    @ViewInject(R.id.tv_invoice)
+    private TextView tv_invoice;
+    @ViewInject(R.id.et_leave_message)
+    private EditText et_leave_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("确认订单");
-
-        goods_fot_order_lv.setAdapter(goodsAdapter);
-        point_near_by_lv.setAdapter(postAdapter);
-
+//        point_near_by_lv.setAdapter(postAdapter);
         setStyle(order_type);
         ChangeTextViewStyle.getInstance().forOrderPrice2(this, price_for_all_goods_tv, "共1件商品  合计￥14.80");
-        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
-
+//        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
     }
 
     @Override
-    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv})
+    protected void onResume() {
+        super.onResume();
+        view_ads = null;
+    }
+
+    @Override
+    @OnClick({R.id.build_order_left_layout, R.id.build_order_right_layout, R.id.submit_order_tv, R.id.layout_choose_address, R.id.tv_c_ads, R.id.layout_sle})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.et_leave_message:
+
+
+                break;
+            case R.id.layout_sle:
+                if (!TextUtils.isEmpty(address_id)) {
+                    if (TextUtils.isEmpty(freightJson)) {
+                        Gson gson = new Gson();
+                        freightJson = gson.toJson(list_bean);
+                    }
+                    Freight.split(address_id, freightJson, this);
+                    showProgressDialog();
+                    view_ads = v;
+                } else {
+                    showToast("请选择收货地址！");
+                }
+                break;
             case R.id.build_order_left_layout:// 线上商城
                 order_type = 0;
                 setStyle(order_type);
@@ -107,9 +192,42 @@ public class BuildOrderAty extends BaseAty {
                 setStyle(order_type);
                 break;
             case R.id.submit_order_tv:// 提交订单
+                if (TextUtils.isEmpty(address_id)) {
+                    showToast("请选择收货地址！");
+                    return;
+                }
+                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
+                    showToast("请选择配送方式");
+                    return;
+                }
+                Gson gson = new Gson();
+                String json = gson.toJson(i_bean);
                 Bundle bundle = new Bundle();
-                bundle.putInt("order_type", 1);
+                bundle.putString("type", type);
+                bundle.putString("order_type", type.equals("1") ? "0" : "1");
+                bundle.putString("num", num);
+                bundle.putString("group_buy_id", group_buy_id);
+                bundle.putString("goods_id", goods_id);
+                bundle.putString("product_id", product_id);
+                bundle.putString("address_id", address_id);
+                bundle.putString("shop_name", tv_merchant_name.getText().toString());
+                bundle.putString("cart_id", cart_id);
+                bundle.putString("freight", freight);
+                bundle.putString("freight_type", freight_type);
+                bundle.putString("json", json);
+                bundle.putString("leave_message", et_leave_message.getText().toString());
                 startActivity(PayForAppAty.class, bundle);
+                finish();
+                break;
+            case R.id.layout_choose_address:
+                bundle = new Bundle();
+                bundle.putInt("type", 2);
+                startActivityForResult(AddressListAty.class, bundle, 8888);
+                break;
+            case R.id.tv_c_ads:
+                bundle = new Bundle();
+                bundle.putInt("type", 2);
+                startActivityForResult(AddressListAty.class, bundle, 8888);
                 break;
         }
     }
@@ -140,13 +258,521 @@ public class BuildOrderAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        points = new ArrayList<>();
-        goodsAdapter = new GoodsByOrderAdapter(this);
-        postAdapter = new PostAdapter(this, points);
+//        postAdapter = new PostAdapter(this, points);
+
     }
 
     @Override
     protected void requestData() {
+        group_buy_id = getIntent().getStringExtra("group_buy_id");
+        type = getIntent().getStringExtra("type");
+        mid = getIntent().getStringExtra("mid");
+        cart_id = getIntent().getStringExtra("json");
+        goods_id = getString("goods_id");
+        num = getString("num");
+        //  ordertype = getString("order_type");
+        product_id = getString("product_id");
+        if (type.equals("0")) {
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
+        } else if (type.equals("1")) {
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
+        } else if (type.equals("2")) {
+            GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, group_buy_id, this);
+        } else if (type.equals("3") || type.equals("4")) {
+            GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, group_buy_id, this);
+        } else if (type.equals("5")) {
+
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
+        } else if (type.equals("6")) {
+            PreOrder.preShoppingCart(group_buy_id, num, this);
+        } else if (type.equals("7")) {
+            IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
+        } else if (type.equals("9")) {
+            AuctionOrder.ShoppingCart(mid, group_buy_id, "", "0", this);
+        } else if (type.equals("10")) {
+            IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
+        } else if (type.equals("11")) {
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json"), this);
+        }
+        showProgressDialog();
 
     }
+
+    private String toJSon() {
+        return "[{\"product_id\":\"" + product_id + "\",\"goods_id\":\"" + goods_id + "\"}]";
+    }
+
+    private String getString(String key) {
+        return TextUtils.isEmpty(getIntent().getStringExtra(key)) ? "" : getIntent().getStringExtra(key);
+    }
+
+    Map<String, String> map;
+    List<Map<String, String>> data;
+    List<Map<String, String>> more;
+    List<GoodBean> list_bean = new ArrayList<GoodBean>();
+    List<Bean> i_bean = new ArrayList<Bean>();
+    private String price;
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("split")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            List<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            if (view_ads != null) {
+                showPop(view_ads, data);
+            }
+            if (TextUtils.isEmpty(price)) {
+                price = order_price_at_last_tv.getText().toString();
+            }
+
+        } else {
+            map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//            if (map.get("welfare_status").equals("1")) {
+//                layout1.setVisibility(View.VISIBLE);
+//                textview.setText("成交后卖家将捐款" + map.get("welfare_pay") + "元给公益计划");
+//            } else {
+//                layout1.setVisibility(View.GONE);
+//            }
+            if (map.get("is_default").equals("1")) {
+                tv_name.setText("收货人：" + map.get("receiver"));
+                tv_tel.setText(map.get("phone"));
+                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") +
+                        map.get("address"));
+                tv_c_ads.setVisibility(View.GONE);
+                layout_choose_address.setVisibility(View.VISIBLE);
+            } else {
+                tv_c_ads.setVisibility(View.VISIBLE);
+                layout_choose_address.setVisibility(View.GONE);
+            }
+            address_id = map.get("address_id");
+
+            tv_merchant_name.setText(map.get("merchant_name"));
+            if (!type.equals("10")) {
+//            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
+                order_price_at_last_tv.setText("合计：¥" + map.get("sum_shop_price"));
+//            if (map.get("sum_discount").equals("0")) {
+                tv_sum_discount.setVisibility(View.GONE);
+            } else {
+                tv_sum_discount.setVisibility(View.GONE);
+                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
+
+            }
+            if (ToolKit.isList(map, "item")) {
+                if (p == 1) {
+                    data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
+                    goodsAdapter = new GoodsByOrderAdapter(this, data);
+                    goods_fot_order_lv.setAdapter(goodsAdapter);
+                } else {
+                    more = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
+                    data.addAll(more);
+                    goodsAdapter.notifyDataSetChanged();
+                }
+            }
+            for (int i = 0; i < data.size(); i++) {
+                list_bean.add(new GoodBean(data.get(i).get("num"), data.get(i).get("goods_id")));
+                i_bean.add(new Bean());
+            }
+        }
+
+    }
+
+    @ViewInject(R.id.tv_sle_left)
+    private TextView tv_sle_left;
+    @ViewInject(R.id.tv_sle_right)
+    private TextView tv_sle_right;
+
+    /**
+     * 选择地址
+     */
+    public void showPop(View view, final List<Map<String, String>> data) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_sle_address)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        ListView listview = (ListView) view.findViewById(R.id.popup_listview);
+                        listview.setAdapter(new AdsAdapter(data));
+                        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                tv_sle_left.setText("配送方式");
+                                freight = data.get(position).get("pay");
+                                freight_type = data.get(position).get("type");
+                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
+                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    class AdsAdapter extends BaseAdapter {
+        List<Map<String, String>> data;
+
+        public AdsAdapter(List<Map<String, String>> data) {
+            this.data = data;
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = View.inflate(BuildOrderAty.this, R.layout.item_sle_address, null);
+            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+            TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
+            tv_name.setText(data.get(position).get("type"));
+            tv_price.setText(data.get(position).get("pay") + "元");
+            return view;
+        }
+    }
+
+    class GoodBean {
+
+        private String num;
+        private String goods_id;
+
+        public GoodBean(String num, String goods_id) {
+            this.num = num;
+            this.goods_id = goods_id;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        finish();
+    }
+    Invoice1 invoice1;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) return;
+        if (requestCode == 8888) {
+            tv_name.setText("收货人：" + data.getStringExtra("receiver"));
+            tv_tel.setText(data.getStringExtra("phone"));
+
+            tv_address.setText("收货地址：" + data.getStringExtra("ads"));
+            if (!TextUtils.isEmpty(address_id) && !data.getStringExtra("id").equals(address_id)) {
+                if (TextUtils.isEmpty(freightJson)) {
+                    Gson gson = new Gson();
+                    freightJson = gson.toJson(list_bean);
+                }
+                Freight.split(address_id, freightJson, this);
+                showProgressDialog();
+                freight = "";
+                freight_type = "";
+                tv_sle_left.setText("请选择配送方式");
+                tv_sle_right.setText("");
+                order_price_at_last_tv.setText(price);
+            }
+            address_id = data.getStringExtra("id");
+            tv_c_ads.setVisibility(View.GONE);
+            layout_choose_address.setVisibility(View.VISIBLE);
+        }
+        if (requestCode == 1000) {
+            if (data != null) {
+               invoice1 =data.getParcelableExtra("data1");
+                Bean b = data.getParcelableExtra("data");
+                i_bean.set(index, b);
+                goodsAdapter.notifyDataSetChanged();
+                double tax_pay = 0;
+                double express_fee = 0;
+                for (Bean bean : i_bean) {
+                    if (!TextUtils.isEmpty(bean.getIs_invoice()) && !bean.getIs_invoice().equals("0")) {
+                        tax_pay += Double.parseDouble(bean.getExpress_fee());
+                        express_fee += Double.parseDouble(bean.getTax_pay());
+                    }
+                }
+                tv_invoice.setText("+税金:" + tax_pay + "发票运费:" + express_fee);
+            }
+        }
+    }
+
+    private String toJson(String s1, String s2, String s3) {
+        return "[{\"goods_id\":\"" + s1 + "\",\"num\":\"" + s2 + "\",\"product_id\":\"" + s3 + "\"}]";
+    }
+
+
+    class GoodsByOrderAdapter extends BaseAdapter {
+
+        private Context context;
+        private LayoutInflater inflater;
+        private GoodsByOrderAdapter.GOVH govh;
+        List<Map<String, String>> data;
+
+        public GoodsByOrderAdapter(Context context, List<Map<String, String>> data) {
+            this.data = data;
+            this.context = context;
+            inflater = LayoutInflater.from(context);
+        }
+
+        @Override
+        public int getCount() {
+            return data.size();
+        }
+
+        @Override
+        public Map<String, String> getItem(int i) {
+            return data.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(final int i, View view, ViewGroup viewGroup) {
+            if (view == null) {
+                view = inflater.inflate(R.layout.item_goods_by_order_lv, null);
+                govh = new GOVH();
+                ViewUtils.inject(govh, view);
+                view.setTag(govh);
+            } else {
+                govh = (GOVH) view.getTag();
+            }
+            Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
+            govh.tv_number.setText("x" + getItem(i).get("num"));
+            govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
+
+            if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
+                govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
+            } else {
+                govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+            }
+            if (getItem(i).get("invoice_status").equals("1")) {
+
+                govh.layout.setVisibility(View.VISIBLE);
+                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "无" : i_bean.get(i).getInvoice_type());
+//                govh.textview.setText(TextUtils.isEmpty(invoice1.getInvoice_type()) ? "无" : invoice1.getInvoice_type());
+            } else {
+                govh.layout.setVisibility(View.GONE);
+        }
+            govh.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    index = i;
+                    Bundle bundle = new Bundle();
+                    bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
+                    bundle.putParcelable("data1",invoice1);
+                    startActivityForResult(InvoiceAty.class, bundle, 1000);
+//                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
+                }
+            });
+            return view;
+        }
+
+
+        class GOVH {
+            @ViewInject(R.id.goods_comment_pic)
+            private ImageView goods_comment_pic;
+            @ViewInject(R.id.goods_title_for_evaluate_tv)
+            private TextView goods_title_for_evaluate_tv;
+            @ViewInject(R.id.price_for_goods_tv)
+            private TextView price_for_goods_tv;
+            @ViewInject(R.id.tv_number)
+            private TextView tv_number;
+            @ViewInject(R.id.layout)
+            private LinearLayout layout;
+            @ViewInject(R.id.textview)
+            private TextView textview;
+
+        }
+    }
+
+    public static class Bean implements Parcelable {
+        String t_id = "";
+        String rise = "";
+        String rise_name = "";
+        String invoice_detail = "";
+        String invoice_id = "";
+        String recognition = "";
+        String is_invoice = "";
+        String invoice_type = "";
+        String express_fee = "";
+        String tax_pay = "";
+
+        public String getExpress_fee() {
+            return express_fee;
+        }
+
+        public void setExpress_fee(String express_fee) {
+            this.express_fee = express_fee;
+        }
+
+        public String getTax_pay() {
+            return tax_pay;
+        }
+
+        public void setTax_pay(String tax_pay) {
+            this.tax_pay = tax_pay;
+        }
+
+        public String getInvoice_type() {
+            return invoice_type;
+        }
+
+        public void setInvoice_type(String invoice_type) {
+            this.invoice_type = invoice_type;
+        }
+
+        public String getT_id() {
+            return t_id;
+        }
+
+        public void setT_id(String t_id) {
+            this.t_id = t_id;
+        }
+
+        public String getRise() {
+            return rise;
+        }
+
+        public void setRise(String rise) {
+            this.rise = rise;
+        }
+
+        public String getRise_name() {
+            return rise_name;
+        }
+
+        public void setRise_name(String rise_name) {
+            this.rise_name = rise_name;
+        }
+
+        public String getInvoice_detail() {
+            return invoice_detail;
+        }
+
+        public void setInvoice_detail(String invoice_detail) {
+            this.invoice_detail = invoice_detail;
+        }
+
+        public String getInvoice_id() {
+            return invoice_id;
+        }
+
+        public void setInvoice_id(String invoice_id) {
+            this.invoice_id = invoice_id;
+        }
+
+        public String getRecognition() {
+            return recognition;
+        }
+
+        public void setRecognition(String recognition) {
+            this.recognition = recognition;
+        }
+
+        public String getIs_invoice() {
+            return is_invoice;
+        }
+
+        public void setIs_invoice(String is_invoice) {
+            this.is_invoice = is_invoice;
+        }
+
+        public static Creator<Bean> getCREATOR() {
+            return CREATOR;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this.t_id);
+            dest.writeString(this.rise);
+            dest.writeString(this.rise_name);
+            dest.writeString(this.invoice_detail);
+            dest.writeString(this.invoice_id);
+            dest.writeString(this.recognition);
+            dest.writeString(this.is_invoice);
+            dest.writeString(this.invoice_type);
+            dest.writeString(this.express_fee);
+            dest.writeString(this.tax_pay);
+        }
+
+        public Bean() {
+
+        }
+
+        public Bean(String t_id, String rise, String rise_name, String invoice_detail, String invoice_id, String recognition, String is_invoice, String invoice_type) {
+            this.t_id = t_id;
+            this.rise = rise;
+            this.rise_name = rise_name;
+            this.invoice_detail = invoice_detail;
+            this.invoice_id = invoice_id;
+            this.recognition = recognition;
+            this.is_invoice = is_invoice;
+            this.invoice_type = invoice_type;
+        }
+
+        protected Bean(Parcel in) {
+            this.t_id = in.readString();
+            this.rise = in.readString();
+            this.rise_name = in.readString();
+            this.invoice_detail = in.readString();
+            this.invoice_id = in.readString();
+            this.recognition = in.readString();
+            this.is_invoice = in.readString();
+            this.invoice_type = in.readString();
+            this.express_fee = in.readString();
+            this.tax_pay = in.readString();
+        }
+
+        public static final Parcelable.Creator<Bean> CREATOR = new Parcelable.Creator<Bean>() {
+            @Override
+            public Bean createFromParcel(Parcel source) {
+                return new Bean(source);
+            }
+
+            @Override
+            public Bean[] newArray(int size) {
+                return new Bean[size];
+            }
+        };
+    }
+
+
 }

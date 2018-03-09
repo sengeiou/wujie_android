@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -9,25 +8,26 @@
     android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/theme_lin_layout"
+        android:id="@+id/theme_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:visibility="gone">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
-            />
+            android:id="@+id/logo_for_country_iv1"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_temp_han" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/use_coupon_tv"
+            android:id="@+id/use_coupon_tv1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -38,26 +38,26 @@
             android:paddingTop="4dp"
             android:text="可使用30%购物券"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="10sp" />
     </LinearLayout>
 
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_watch"/>
+        android:id="@+id/goods_pic_iv"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop" />
 
     <TextView
+        android:id="@+id/item_goods_name_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:text="Seagull海鸥手表男士自动机械手表飞轮男表防水皮带"/>
+        android:layout_height="34dp"
+        android:ellipsize="end"
+        android:maxLines="2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="bottom"
         android:orientation="horizontal">
 
@@ -65,25 +65,22 @@
             android:id="@+id/peice_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥13800.00"
             android:textColor="@color/theme_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/older_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="￥18800.00"
+            android:layout_marginStart="8dp"
             android:textColor="@color/gray_text_color"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/jf_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -93,23 +90,20 @@
             android:drawableLeft="@drawable/icon_send"
             android:drawablePadding="8dp"
             android:text="积分"
-
             android:textColor="@color/gray_text_color"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/get_integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
             android:textColor="#FD8214"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="2dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/limit_remeber_me_tv"
@@ -123,15 +117,15 @@
             android:text="提醒我"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/sold_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已售2345件"
+            android:text="已售0件"
             android:textColor="@color/gray_text_color"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

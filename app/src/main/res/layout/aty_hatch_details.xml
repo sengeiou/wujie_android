@@ -95,8 +95,8 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 
-    <FrameLayout
-        android:id="@+id/ws_frame_layout"
+    <WebView
+        android:id="@+id/company_info_wv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

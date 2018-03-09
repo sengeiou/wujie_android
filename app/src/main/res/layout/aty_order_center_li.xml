@@ -4,118 +4,131 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-    <include layout="@layout/aty_title"/>
+
+    <include layout="@layout/aty_title" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
+
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/tv_online_shops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_01"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="线上商城"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_offline_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_02"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="线下商城"
-            android:textColor="@color/black"/>
+            android:text="线下商铺"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_wj_shop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_03"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="无界商店"
-            android:textColor="@color/black"/>
+            android:text="xfte商店"
+            android:textColor="@color/black" />
 
     </LinearLayout>
+
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/tv_pintuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_04"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="拼团"
-            android:textColor="@color/black"/>
+            android:text="拼单购"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_wjyg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_05"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="无界预购"
-            android:textColor="@color/black"/>
+            android:text="xfte预购"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_jpq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_06"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="竞拍汇"
-            android:textColor="@color/black"/>
+            android:text="比价购"
+            android:textColor="@color/black" />
     </LinearLayout>
+
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/tv_yydb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_07"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="一元夺宝"
-            android:textColor="@color/black"/>
+            android:text="积分抽奖"
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_car_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_08"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="汽车购"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/tv_home_buy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_09"
             android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="房产购"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </LinearLayout>

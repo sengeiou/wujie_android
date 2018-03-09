@@ -54,7 +54,7 @@ public class AuctionRecordAty extends BaseAty {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("竞拍纪录");
+        titlt_conter_tv.setText("比价纪录");
 
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
@@ -68,11 +68,11 @@ public class AuctionRecordAty extends BaseAty {
     @Override
     protected void initialized() {
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        mTitleList.add("竞拍中");
-        mTitleList.add("竞拍成功");
-        mTitleList.add("竞拍结束");
+        mTitleList.add("比价中");
+        mTitleList.add("比价成功");
+        mTitleList.add("比价结束");
         for (int i = 0; i < mTitleList.size(); i++) {
-            mFtagemt.add(AuctionRecordFgt.getFgt(mTitleList.get(i), String.valueOf(i)));
+            mFtagemt.add(AuctionRecordFgt.getFgt(mTitleList.get(i), "1" + String.valueOf(i)));
         }
     }
 

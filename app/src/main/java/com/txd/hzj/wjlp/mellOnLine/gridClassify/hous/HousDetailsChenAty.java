@@ -5,14 +5,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.AlertDialog;
+import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -20,6 +20,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.mellOnLine.fgt.HouseCommentFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsHousesChenFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
+
+import java.util.ArrayList;
 
 /**
  * ===============Txunda===============
@@ -30,22 +32,20 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.HousDetailsTypeChenFgt;
  * ===============Txunda===============
  */
 
-public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener ,HousDetailsHousesChenFgt.SkipToComment{
+public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedChangeListener,
+        HousDetailsHousesChenFgt.SkipToComment, HousDetailsHousesChenFgt.SetPhone {
 
     @ViewInject(R.id.tv_detail_num)//电话号码
     private TextView tv_detail_num;
     @ViewInject(R.id.rg_hous_detail)//RadioGroup
     private RadioGroup rg_hous_detail;
 
-    /**
-     * Fragment
-     */
-    private HousDetailsHousesChenFgt housesFgt;//楼盘Fragment
-    private HousDetailsTypeChenFgt typeFgt;//户型Fragment
-    private HouseCommentFgt commentFgt;//点评Fragment
-
-
     private String phone;//电话号码
+
+    private FragmentChangeManager fcm;
+
+    private ArrayList<Fragment> fragments;
+
 
     @OnClick({R.id.tv_detail_phone})
     public void onClick(View v) {
@@ -53,7 +53,8 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
             //打电话
             case R.id.tv_detail_phone:
                 phone = tv_detail_num.getText().toString().trim();
-                new AlertDialog(this).builder().setTitle("提示").setMsg(phone).setPositiveButton("拨打", new View.OnClickListener() {
+                new AlertDialog(this).builder().setTitle("提示").setMsg(phone).setPositiveButton("拨打", new View
+                        .OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
@@ -75,10 +76,14 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**
+        /*
          * 沉浸式解决顶部标题重叠
          */
         showStatusBar(R.id.rl_hous_detail);
+
+        rg_hous_detail.setOnCheckedChangeListener(this);
+        fcm = new FragmentChangeManager(getSupportFragmentManager(), R.id.fl_hous_detail, fragments);
+        ((RadioButton) findViewById(R.id.rb_detail_houses)).setChecked(true);//默认选中
     }
 
     @Override
@@ -88,12 +93,11 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     @Override
     protected void initialized() {
-        rg_hous_detail.setOnCheckedChangeListener(this);
-        ((RadioButton) findViewById(R.id.rb_detail_houses)).setChecked(true);//默认选中
-        /**
-         * Fragment初始化
-         */
-        initFgt();
+        String house_id = getIntent().getStringExtra("house_id");
+        fragments = new ArrayList<>();
+        fragments.add(HousDetailsHousesChenFgt.getFgt(house_id));
+        fragments.add(HousDetailsTypeChenFgt.getFgt(house_id));
+        fragments.add(HouseCommentFgt.getFgt(house_id));
 
     }
 
@@ -103,52 +107,39 @@ public class HousDetailsChenAty extends BaseAty implements RadioGroup.OnCheckedC
 
     }
 
-
-    /**
-     * Fragment初始化
-     */
-    private void initFgt() {
-
-
-    }
-
     /**
      * RaidioGroup 监听
      *
-     * @param radioGroup
-     * @param i
+     * @param radioGroup RadioGroup
+     * @param i          id
      */
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-        FragmentManager fm = getSupportFragmentManager();
-        //开启Fragment事务
-        FragmentTransaction transaction = fm.beginTransaction();
-
         switch (i) {
             //楼盘
             case R.id.rb_detail_houses:
-                housesFgt = new HousDetailsHousesChenFgt();
-                transaction.add(R.id.fl_hous_detail, housesFgt);
+                fcm.setFragments(0);
                 break;
-
             //户型
             case R.id.rb_detail_type:
-                typeFgt = new HousDetailsTypeChenFgt();
-                transaction.add(R.id.fl_hous_detail, typeFgt);
+                fcm.setFragments(1);
                 break;
             case R.id.rb_comment_type:
-                commentFgt = new HouseCommentFgt();
-                transaction.add(R.id.fl_hous_detail, commentFgt);
+                fcm.setFragments(2);
                 break;
         }
-        transaction.commit();
 
     }
 
     @Override
     public void beSkip(boolean skip) {
-        if(true){
+        if (skip) {
             ((RadioButton) findViewById(R.id.rb_comment_type)).setChecked(true);//默认选中
         }
+    }
+
+    @Override
+    public void setPhone(String phone) {
+        tv_detail_num.setText(phone);
     }
 }

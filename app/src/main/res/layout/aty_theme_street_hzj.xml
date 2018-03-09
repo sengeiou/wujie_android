@@ -15,20 +15,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.txd.hzj.wjlp.view.ObservableScrollView
-            android:id="@+id/theme_sc"
+
+        <com.ants.theantsgo.view.PullToRefreshLayout
+            android:id="@+id/ptr_theme_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                android:id="@+id/hzj_theme_lv"
+            <include layout="@layout/refresh_head"/>
+
+            <com.ants.theantsgo.view.DukeScrollView
+                android:id="@+id/theme_sc"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:divider="@color/bg_color"
-                android:dividerHeight="2dp"
-                android:scrollbars="none"/>
-        </com.txd.hzj.wjlp.view.ObservableScrollView>
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                        android:id="@+id/hzj_theme_lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:divider="@color/bg_color"
+                        android:dividerHeight="2dp"
+                        android:scrollbars="none"/>
+
+                    <include
+                        layout="@layout/aty_no_data_layout"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </com.ants.theantsgo.view.DukeScrollView>
+
+            <include layout="@layout/load_more"/>
+
+        </com.ants.theantsgo.view.PullToRefreshLayout>
+
 
         <ImageView
             android:id="@+id/theme_be_back_top_iv"

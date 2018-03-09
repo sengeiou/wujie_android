@@ -18,6 +18,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -30,7 +31,7 @@ import java.util.List;
 
 public class CheckNumDialog extends Dialog implements View.OnClickListener {
 
-    private List<String> nums;
+    private List<Map<String,String>> nums;
 
     private TextView join_times_tv;
 
@@ -42,7 +43,7 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
 
     private ListView num_dialog_lv;
 
-    public CheckNumDialog(@NonNull Context context, List<String> nums, CanDismess canDismess) {
+    public CheckNumDialog(@NonNull Context context, List<Map<String,String>> nums, CanDismess canDismess) {
         super(context, R.style.dialog_style);
         this.context = context;
         this.nums = nums;
@@ -56,7 +57,8 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.be_dismiss_iv).setOnClickListener(this);
         join_times_tv = (TextView) findViewById(R.id.join_times_tv);
         num_dialog_lv = findViewById(R.id.num_dialog_lv);
-        join_times_tv.setText("您参与了2次，参与号码如下");
+        join_times_tv.setText("您参与了" + nums
+                .size() + "次，参与号码如下");
         numAdapter = new NumAdapter();
         num_dialog_lv.setAdapter(numAdapter);
     }
@@ -78,7 +80,7 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
 
         @Override
         public int getCount() {
-            return 2;
+            return nums.size();
         }
 
         @Override
@@ -101,6 +103,7 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
             } else {
                 numVH = (NumVH) view.getTag();
             }
+            numVH.num_record_tv.setText(nums.get(i).get("number_list"));
             return view;
         }
 

@@ -6,24 +6,30 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
+    android:padding="4dp"
     >
 
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+    <ImageView
         android:id="@+id/iv_type_car"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/icon_car_chen"
-        app:shape_mode="circle"
-        app:stroke_color="@color/transparent"
-        app:stroke_width="2dp"
+        android:layout_width="88dp"
+        android:layout_height="32dp"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/iv_brand_car"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_default"
+        android:visibility="gone"
         />
 
     <TextView
         android:id="@+id/tv_type_car"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
         android:gravity="center"
+        android:padding="4dp"
         android:text="汽车"
         />
 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="8dp">
@@ -18,53 +17,19 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_left_red"
             android:text="产品规格"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
-        <LinearLayout
+        <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+            android:id="@+id/goods_common_attr_lv1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="80dp"
-                android:text="箱规"
-                android:textColor="@color/gray_text_color"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="单瓶"
-                android:textColor="@color/app_text_color"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="80dp"
-                android:text="净含量"
-                android:textColor="@color/gray_text_color"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="500ml"
-                android:textColor="@color/app_text_color"/>
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -73,28 +38,33 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_left_red"
             android:text="文字描述"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
         <TextView
+            android:id="@+id/tv_desc"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="根据修订的《商标法》及国家工商总局最新文件要求，2014年5月日之后不得将“驰名商标”字样用于商业宣传，酒仙网依法对商品图片中含“驰名商标”字样做马赛克处理；同时，涉及厂家正在按照新规定逐步更换包装，在此期间，我们将对旧包装货品随机发货，请以实际收到的货物为准。给您带来不变尽情谅解。"/>
+            android:layout_height="wrap_content" />
+
+        <WebView
+            android:id="@+id/goods_brief_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="8dp"/>
+        android:layout_height="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="8dp">
@@ -106,19 +76,15 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_left_red"
             android:text="图文详情"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_temp_twxq"/>
+
     </LinearLayout>
 </LinearLayout>

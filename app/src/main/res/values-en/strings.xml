@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">xfte优品</string>
 
     <string name="drop_down_list_header_default_text">点击可以刷新</string>
     <string name="drop_down_list_header_pull_text">下拉可以刷新</string>

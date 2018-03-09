@@ -11,13 +11,13 @@
 
     <include layout="@layout/aty_title"/>
 
-    <ListView
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
         android:id="@+id/wujie_top_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:divider="@color/bg_color"
-        android:dividerHeight="8dp"/>
+        android:dividerHeight="8dp"
+        app:ptrMode="both"/>
 
 </LinearLayout>

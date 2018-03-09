@@ -7,127 +7,34 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.minetoAty.FeedBackAty">
+    tools:context="com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty">
 
     <include layout="@layout/aty_title"/>
 
-    <ScrollView
+    <Space
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="1dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/title_feedbac_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:tl_indicator_color="@color/theme_color"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_textSelectColor="@color/theme_color"
+        app:tl_textUnselectColor="@color/app_text_color"
+        app:tl_textsize="14sp"
+        app:tl_underline_color="@color/white"
+        app:tl_underline_height="1dp"/>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/feed_back_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="姓    名"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-                    android:text="宋佳欣"
-                    android:textColor="@color/app_text_color"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:text="账号ID"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-                    android:text="952710086"
-                    android:textColor="@color/app_text_color"/>
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="top"
-                    android:hint="请描述您的问题"
-                    android:lines="5"
-                    android:padding="12dp"
-                    android:textSize="14sp"
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:padding="12dp"
-                    android:text="0/300"
-                    />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:padding="12dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="64dp"
-                    android:background="@drawable/shape_to_login_tv_shape"
-                    android:gravity="center"
-                    android:padding="12dp"
-                    android:text="提交反馈"
-                    android:textColor="@color/white"/>
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
+    <android.support.v4.view.ViewPager
+        android:id="@+id/feedback_vp_for_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

@@ -245,7 +245,7 @@ public class DateTool {
     }
 
     /**
-     * 二个小时时间间的差值,必须保证二个时间都是"HH:MM"的格式，返回字符型的分钟
+     * 二个小时时间间的差值,必须保证二个时间都是"HH:MM"的格式，返回字符型的小时
      *
      * @param st1 时间
      * @param st2 时间
@@ -256,7 +256,7 @@ public class DateTool {
         String[] jj;
         kk = st1.split(":");
         jj = st2.split(":");
-        if (Integer.parseInt(kk[0]) < Integer.parseInt(jj[0]))
+        if (Integer.parseInt(kk[0]) < Integer.parseInt(jj[0]))// 如果kk的小时比jj的小，直接返回"0"
             return "0";
         else {
             double y = Double.parseDouble(kk[0]) + Double.parseDouble(kk[1]) / 60;
@@ -733,7 +733,7 @@ public class DateTool {
      *
      * @param date_str 字符串日期
      * @param format   如：yyyy-MM-dd HH:mm:ss
-     * @return String
+     * @return String  返回时间戳，精确到秒
      */
     public static String date2TimeStamp(String date_str, String format) {
         try {

@@ -35,6 +35,7 @@ public class WheelView extends View {
     public enum ACTION { // 点击，滑翔(滑到尽头)，拖拽事件
         CLICK, FLING, DAGGLE
     }
+
     public enum DividerType { // 分隔线类型
         FILL, WRAP
     }
@@ -116,7 +117,7 @@ public class WheelView extends View {
     private int drawCenterContentStart = 0;//中间选中文字开始绘制位置
     private int drawOutContentStart = 0;//非中间文字开始绘制位置
     private static final float SCALECONTENT = 0.8F;//非中间文字则用此控制高度，压扁形成3d错觉
-    private float CENTERCONTENTOFFSET ;//偏移量
+    private float CENTERCONTENTOFFSET;//偏移量
 
     public WheelView(Context context) {
         this(context, null);
@@ -133,16 +134,16 @@ public class WheelView extends View {
         DisplayMetrics dm = getResources().getDisplayMetrics();
         float density = dm.density; // 屏幕密度（0.75/1.0/1.5/2.0/3.0）
 
-        if (density<1){//根据密度不同进行适配
-           CENTERCONTENTOFFSET=2.4F;
-        }else if (1<=density&&density<2){
+        if (density < 1) {//根据密度不同进行适配
+            CENTERCONTENTOFFSET = 2.4F;
+        } else if (1 <= density && density < 2) {
             CENTERCONTENTOFFSET = 3.6F;
-        }else if (1<=density&&density<2){
+        } else if (1 <= density && density < 2) {
             CENTERCONTENTOFFSET = 4.5F;
-        }else if (2<=density&&density<3){
+        } else if (2 <= density && density < 3) {
             CENTERCONTENTOFFSET = 6.0F;
-        }else if (density>=3){
-            CENTERCONTENTOFFSET= density * 2.5F;
+        } else if (density >= 3) {
+            CENTERCONTENTOFFSET = density * 2.5F;
         }
 
 
@@ -153,7 +154,8 @@ public class WheelView extends View {
             textColorCenter = a.getColor(R.styleable.pickerview_pickerview_textColorCenter, textColorCenter);
             dividerColor = a.getColor(R.styleable.pickerview_pickerview_dividerColor, dividerColor);
             textSize = a.getDimensionPixelOffset(R.styleable.pickerview_pickerview_textSize, textSize);
-            lineSpacingMultiplier = a.getFloat(R.styleable.pickerview_pickerview_lineSpacingMultiplier, lineSpacingMultiplier);
+            lineSpacingMultiplier = a.getFloat(R.styleable.pickerview_pickerview_lineSpacingMultiplier,
+                    lineSpacingMultiplier);
             a.recycle();//回收内存
         }
 
@@ -188,6 +190,9 @@ public class WheelView extends View {
 
     }
 
+    /**
+     * 初始化画笔
+     */
     private void initPaints() {
         paintOuterText = new Paint();
         paintOuterText.setColor(textColorOut);
@@ -206,12 +211,15 @@ public class WheelView extends View {
         paintIndicator = new Paint();
         paintIndicator.setColor(dividerColor);
         paintIndicator.setAntiAlias(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= 11) {
+        // 版本号大于19
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
     }
 
+    /**
+     * 重新测量
+     */
     private void remeasure() {//重新测量
         if (adapter == null) {
             return;
@@ -230,7 +238,7 @@ public class WheelView extends View {
         //计算两条横线 和 选中项画笔的基线Y位置
         firstLineY = (measuredHeight - itemHeight) / 2.0F;
         secondLineY = (measuredHeight + itemHeight) / 2.0F;
-        centerY = secondLineY - (itemHeight-maxTextHeight)/2.0f - CENTERCONTENTOFFSET;
+        centerY = secondLineY - (itemHeight - maxTextHeight) / 2.0f - CENTERCONTENTOFFSET;
 
         //初始化显示的item的position
         if (initPosition == -1) {
@@ -276,12 +284,14 @@ public class WheelView extends View {
             }
         }
         //停止的时候，位置有偏移，不是全部都能正确停止到中间位置的，这里把文字位置挪回中间去
-        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit
+                .MILLISECONDS);
     }
 
     protected final void scrollBy(float velocityY) {//滚动惯性的实现
         cancelFuture();
-        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, VELOCITYFLING, TimeUnit.MILLISECONDS);
+        mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, VELOCITYFLING, TimeUnit
+                .MILLISECONDS);
     }
 
     public void cancelFuture() {
@@ -307,7 +317,7 @@ public class WheelView extends View {
     }
 
     public final void setTextSize(float size) {
-        if (size > 0.0F ) {
+        if (size > 0.0F) {
             textSize = (int) (context.getResources().getDisplayMetrics().density * size);
             paintOuterText.setTextSize(textSize);
             paintCenterText.setTextSize(textSize);
@@ -324,6 +334,11 @@ public class WheelView extends View {
         this.onItemSelectedListener = OnItemSelectedListener;
     }
 
+    /**
+     * 设置适配器
+     *
+     * @param adapter 适配器
+     */
     public final void setAdapter(WheelAdapter adapter) {
         this.adapter = adapter;
         remeasure();
@@ -349,26 +364,25 @@ public class WheelView extends View {
         if (adapter == null) {
             return;
         }
+
         //initPosition越界会造成preCurrentIndex的值不正确
-        if(initPosition<0)
-        {
+        if (initPosition < 0) {
             initPosition = 0;
         }
-        if(initPosition>=adapter.getItemsCount())
-        {
-            initPosition = adapter.getItemsCount()-1;
+        if (initPosition >= adapter.getItemsCount()) {
+            initPosition = adapter.getItemsCount() - 1;
         }
         //可见的item数组
         Object visibles[] = new Object[itemsVisible];
         //滚动的Y值高度除去每行Item的高度，得到滚动了多少个item，即change数
-        change = (int)(totalScrollY / itemHeight);
+        change = (int) (totalScrollY / itemHeight);
 
         try {
             //滚动中实际的预选中的item(即经过了中间位置的item) ＝ 滑动前的位置 ＋ 滑动相对位置
             preCurrentIndex = initPosition + change % adapter.getItemsCount();
 
         } catch (ArithmeticException e) {
-            Log.e("WheelView","出错了！adapter.getItemsCount() == 0，联动数据不匹配");
+            Log.e("WheelView", "出错了！adapter.getItemsCount() == 0，联动数据不匹配");
         }
         if (!isLoop) {//不循环的情况
             if (preCurrentIndex < 0) {
@@ -385,7 +399,11 @@ public class WheelView extends View {
                 preCurrentIndex = preCurrentIndex - adapter.getItemsCount();
             }
         }
-        //跟滚动流畅度有关，总滑动距离与每个item高度取余，即并不是一格格的滚动，每个item不一定滚到对应Rect里的，这个item对应格子的偏移值
+        /*
+         *  跟滚动流畅度有关，总滑动距离与每个item高度取余，
+         *  即并不是一格格的滚动，每个item不一定滚到对应Rect里的，
+         *  这个item对应格子的偏移值
+         */
         float itemHeightOffset = (totalScrollY % itemHeight);
 
         // 设置数组中每个元素的值
@@ -405,33 +423,32 @@ public class WheelView extends View {
             }
 
             counter++;
-
         }
 
         //绘制中间两条横线
-        if (dividerType == DividerType.WRAP){//横线长度仅包裹内容
+        if (dividerType == DividerType.WRAP) {//横线长度仅包裹内容
             float startX;
             float endX;
 
-            if (TextUtils.isEmpty(label)){//隐藏Label的情况
-                startX = (measuredWidth - maxTextWidth)/2 - 12;
-            }else {
-                startX = (measuredWidth - maxTextWidth)/4 - 12;
+            if (TextUtils.isEmpty(label)) {//隐藏Label的情况
+                startX = (measuredWidth - maxTextWidth) / 2 - 12;
+            } else {
+                startX = (measuredWidth - maxTextWidth) / 4 - 12;
             }
 
-            if (startX<=0){//如果超过了WheelView的边缘
+            if (startX <= 0) {//如果超过了WheelView的边缘
                 startX = 10;
             }
             endX = measuredWidth - startX;
             canvas.drawLine(startX, firstLineY, endX, firstLineY, paintIndicator);
             canvas.drawLine(startX, secondLineY, endX, secondLineY, paintIndicator);
-        }else {
+        } else {
             canvas.drawLine(0.0F, firstLineY, measuredWidth, firstLineY, paintIndicator);
             canvas.drawLine(0.0F, secondLineY, measuredWidth, secondLineY, paintIndicator);
         }
 
         //只显示选中项Label文字的模式，并且Label文字不为空，则进行绘制
-        if (!TextUtils.isEmpty(label)&& isCenterLabel) {
+        if (!TextUtils.isEmpty(label) && isCenterLabel) {
             //绘制文字，靠右并留出空隙
             int drawRightContentStart = measuredWidth - getTextWidth(paintCenterText, label);
             canvas.drawText(label, drawRightContentStart - CENTERCONTENTOFFSET, centerY, paintCenterText);
@@ -439,6 +456,9 @@ public class WheelView extends View {
 
         counter = 0;
         while (counter < itemsVisible) {
+
+            Log.e("=====可见=====", "可见");
+
             canvas.save();
             // 弧长 L = itemHeight * counter - itemHeightOffset
             // 求弧度 α = L / r  (弧长/半径) [0,π]
@@ -455,17 +475,21 @@ public class WheelView extends View {
                 String contentText;
 
                 //如果是label每项都显示的模式，并且item内容不为空、label 也不为空
-                if(!isCenterLabel&&!TextUtils.isEmpty(label) &&!TextUtils.isEmpty(getContentText(visibles[counter]))){
-                    contentText = getContentText(visibles[counter])+label;
-                }else {
+                if (!isCenterLabel && !TextUtils.isEmpty(label) && !TextUtils.isEmpty(getContentText
+                        (visibles[counter]))) {
+                    contentText = getContentText(visibles[counter]) + label;
+                } else {
                     contentText = getContentText(visibles[counter]);
                 }
+
+                Log.e("=====contentText=====", contentText);
 
                 reMeasureTextSize(contentText);
                 //计算开始绘制的位置
                 measuredCenterContentStart(contentText);
                 measuredOutContentStart(contentText);
-                float translateY = (float) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) / 2D);
+                float translateY = (float) (radius - Math.cos(radian) * radius - (Math.sin(radian) * maxTextHeight) /
+                        2D);
                 //根据Math.sin(radian)来更改canvas坐标系原点，然后缩放画布，使得文字高度进行缩放，形成弧形3d视觉差
                 canvas.translate(0.0F, translateY);
                 canvas.scale(1.0F, (float) Math.sin(radian));
@@ -479,14 +503,16 @@ public class WheelView extends View {
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, measuredWidth, (int) (itemHeight));
                     canvas.scale(1.0F, (float) Math.sin(radian) * 1.0F);
-                    canvas.drawText(contentText, drawCenterContentStart, maxTextHeight - CENTERCONTENTOFFSET, paintCenterText);
+                    canvas.drawText(contentText, drawCenterContentStart, maxTextHeight - CENTERCONTENTOFFSET,
+                            paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
                     // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, measuredWidth, secondLineY - translateY);
                     canvas.scale(1.0F, (float) Math.sin(radian) * 1.0F);
-                    canvas.drawText(contentText, drawCenterContentStart, maxTextHeight - CENTERCONTENTOFFSET, paintCenterText);
+                    canvas.drawText(contentText, drawCenterContentStart, maxTextHeight - CENTERCONTENTOFFSET,
+                            paintCenterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, measuredWidth, (int) (itemHeight));
@@ -521,6 +547,7 @@ public class WheelView extends View {
 
     /**
      * 根据文字的长度 重新设置文字的大小 让其能完全显示
+     *
      * @param contentText
      */
     private void reMeasureTextSize(String contentText) {
@@ -562,6 +589,7 @@ public class WheelView extends View {
         if (item == null) {
             return "";
         } else if (item instanceof IPickerViewData) {
+            Log.e("=====item=====", ((IPickerViewData) item).getPickerViewText());
             return ((IPickerViewData) item).getPickerViewText();
         } else if (item instanceof Integer) {
             //如果为整形则最少保留两位数.
@@ -575,7 +603,7 @@ public class WheelView extends View {
         paintCenterText.getTextBounds(content, 0, content.length(), rect);
         switch (mGravity) {
             case Gravity.CENTER://显示内容居中
-                if (isOptions||label == null|| label.equals("")||!isCenterLabel) {
+                if (isOptions || label == null || label.equals("") || !isCenterLabel) {
                     drawCenterContentStart = (int) ((measuredWidth - rect.width()) * 0.5);
                 } else {//只显示中间label时，时间选择器内容偏左一点，留出空间绘制单位标签
                     drawCenterContentStart = (int) ((measuredWidth - rect.width()) * 0.25);
@@ -585,7 +613,7 @@ public class WheelView extends View {
                 drawCenterContentStart = 0;
                 break;
             case Gravity.RIGHT://添加偏移量
-                drawCenterContentStart = measuredWidth - rect.width() -(int)CENTERCONTENTOFFSET;
+                drawCenterContentStart = measuredWidth - rect.width() - (int) CENTERCONTENTOFFSET;
                 break;
         }
     }
@@ -595,7 +623,7 @@ public class WheelView extends View {
         paintOuterText.getTextBounds(content, 0, content.length(), rect);
         switch (mGravity) {
             case Gravity.CENTER:
-                if (isOptions||label == null|| label.equals("")||!isCenterLabel) {
+                if (isOptions || label == null || label.equals("") || !isCenterLabel) {
                     drawOutContentStart = (int) ((measuredWidth - rect.width()) * 0.5);
                 } else {//只显示中间label时，时间选择器内容偏左一点，留出空间绘制单位标签
                     drawOutContentStart = (int) ((measuredWidth - rect.width()) * 0.25);
@@ -605,7 +633,7 @@ public class WheelView extends View {
                 drawOutContentStart = 0;
                 break;
             case Gravity.RIGHT:
-                drawOutContentStart = measuredWidth - rect.width()-(int)CENTERCONTENTOFFSET;
+                drawOutContentStart = measuredWidth - rect.width() - (int) CENTERCONTENTOFFSET;
                 break;
         }
     }
@@ -642,7 +670,7 @@ public class WheelView extends View {
 
                     if (totalScrollY - itemHeight * 0.25 < top) {
                         top = totalScrollY - dy;
-                    } else if (totalScrollY + itemHeight *  0.25 > bottom) {
+                    } else if (totalScrollY + itemHeight * 0.25 > bottom) {
                         bottom = totalScrollY - dy;
                     }
 
@@ -759,6 +787,7 @@ public class WheelView extends View {
             paintIndicator.setColor(this.dividerColor);
         }
     }
+
     public void setDividerType(DividerType dividerType) {
         this.dividerType = dividerType;
     }

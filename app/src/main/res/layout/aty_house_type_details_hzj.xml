@@ -27,6 +27,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
                 <include layout="@layout/aty_banner"/>
@@ -48,6 +50,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/style_name_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="枫丹公馆两室一厅"
@@ -55,6 +58,7 @@
                             android:textSize="24sp"/>
 
                         <TextView
+                            android:id="@+id/style_tags_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -92,6 +96,7 @@
                             android:textSize="13sp"/>
 
                         <TextView
+                            android:id="@+id/style_pre_money_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="99.00"
@@ -99,6 +104,7 @@
                             android:textSize="16sp"/>
 
                         <TextView
+                            android:id="@+id/style_one_price_tv"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
@@ -121,6 +127,7 @@
                                 />
 
                             <TextView
+                                android:id="@+id/style_integral_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="10.23"
@@ -341,13 +348,15 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:divider="@drawable/lin_layout_horizontal_line_shape"
             android:gravity="center"
             android:orientation="horizontal"
             android:showDividers="middle">
 
             <TextView
+
+                android:id="@+id/be_back_main_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -358,6 +367,7 @@
                 android:text="首页"/>
 
             <FrameLayout
+                android:id="@+id/go_to_cart_layout"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -374,13 +384,13 @@
                     android:text="购物车"/>
 
                 <TextView
+                    android:id="@+id/tv_car_num"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_gravity="end"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/shape_search_message_num_tv"
                     android:gravity="center"
-                    android:text="1"
                     android:textColor="@color/white"
                     android:textSize="10sp"
                     />
@@ -388,6 +398,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/to_chat_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -395,7 +406,7 @@
                 android:drawableTop="@drawable/icon_goods_kf"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="客服"/>
+                android:text="客服" />
 
         </LinearLayout>
 
@@ -410,6 +421,7 @@
             android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/submit"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

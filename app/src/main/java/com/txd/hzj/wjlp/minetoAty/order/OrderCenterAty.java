@@ -13,59 +13,60 @@ import com.txd.hzj.wjlp.base.BaseAty;
  * Created by Administrator on 2017/7/14 0014.
  */
 
-public class OrderCenterAty extends BaseAty implements View.OnClickListener{
+public class OrderCenterAty extends BaseAty implements View.OnClickListener {
     /**
      * 线上商城
-     * */
+     */
     @ViewInject(R.id.tv_online_shops)
     TextView tv_online_shops;
     /**
      * 线下商城
-     * */
+     */
     @ViewInject(R.id.tv_offline_shop)
     TextView tv_offline_shop;
     /**
-     * 无界商店
-     * */
+     * xfte商店
+     */
     @ViewInject(R.id.tv_wj_shop)
     TextView tv_wj_shop;
     /**
      * 拼团区
-     * */
+     */
     @ViewInject(R.id.tv_pintuan)
     TextView tv_pintuan;
     /**
-     * 无界预购
-     * */
+     * xfte预购
+     */
     @ViewInject(R.id.tv_wjyg)
     TextView tv_wjyg;
     /**
      * 竞拍区
-     * */
+     */
     @ViewInject(R.id.tv_jpq)
     TextView tv_jpq;
     /**
      * 一元夺宝
-     * */
+     */
     @ViewInject(R.id.tv_yydb)
     TextView tv_yydb;
     /**
      * 汽车购
-     * */
+     */
     @ViewInject(R.id.tv_car_buy)
     TextView tv_car_buy;
     /**
      * 房产购
-     * */
+     */
     @ViewInject(R.id.tv_home_buy)
     TextView tv_home_buy;
     /**
      * 设置标题
-     * */
+     */
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
     Bundle mBundle = new Bundle();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,43 +105,50 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-
+        switch (v.getId()) {
             case R.id.tv_online_shops:
-                mBundle.putString("title","线上商城");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "线上商城");
+                mBundle.putString("type", "0");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_offline_shop:
-                mBundle.putString("title","线下商城");
-                startActivity(OnlineShopAty.class,mBundle);
+//                mBundle.putString("title", "线下商铺");
+//                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wj_shop:
-                mBundle.putString("title","爱心商店");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "xfte商店");
+                mBundle.putString("type", "7");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_pintuan:
-                mBundle.putString("title","拼团区");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "拼团区");
+                mBundle.putString("type", "3");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wjyg:
-                mBundle.putString("title","无界预购");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "xfte预购");
+                mBundle.putString("type", "4");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_jpq:
-                mBundle.putString("title","竞拍汇");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "比价购");
+                mBundle.putString("type", "6");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_yydb:
-                mBundle.putString("title","抢宝记录");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "积分抽奖");
+                mBundle.putString("type", "5");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_car_buy:
-                mBundle.putString("title","汽车购");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "汽车购");
+                mBundle.putString("type", "1");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_home_buy:
-                mBundle.putString("title","房产购");
-                startActivity(OnlineShopAty.class,mBundle);
+                mBundle.putString("title", "房产购");
+                mBundle.putString("type", "2");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
         }
         super.onClick(v);

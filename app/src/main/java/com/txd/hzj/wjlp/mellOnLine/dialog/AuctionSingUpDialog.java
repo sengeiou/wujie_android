@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.EditText;
 
 import com.txd.hzj.wjlp.R;
 
@@ -19,6 +20,11 @@ import com.txd.hzj.wjlp.R;
 
 public class AuctionSingUpDialog extends Dialog implements View.OnClickListener {
     private SignUpClick signUpClick;
+    public EditText editText;
+
+    public EditText getEditText() {
+        return editText;
+    }
 
     public AuctionSingUpDialog(@NonNull Context context, SignUpClick signUpClick) {
         super(context, R.style.dialog_style);
@@ -30,6 +36,7 @@ public class AuctionSingUpDialog extends Dialog implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_auction_sign_up_layout);
         findViewById(R.id.submit_auction_price_tv).setOnClickListener(this);
+        editText = findViewById(R.id.auction_price_ev);
     }
 
     @Override

@@ -16,14 +16,14 @@
         android:layout_weight="3">
 
         <ImageView
+            android:id="@+id/mell_logo_cou_iv"
             android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/icon_temp_goods_banner"/>
+            android:layout_height="80dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -32,16 +32,25 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/mell_name_cou_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="茶化石"
                     android:textColor="@color/app_text_color"/>
 
                 <ImageView
+                    android:id="@+id/coupon_type_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:src="@drawable/icon_get_coupon_mj_hzj"/>
+                    android:src="@drawable/icon_get_coupon_hzj_1"/>
+                <ImageView
+                    android:id="@+id/mell_type_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:visibility="gone"
+                    android:src="@drawable/icon_ziying_hzj"/>
             </LinearLayout>
 
             <LinearLayout
@@ -50,12 +59,14 @@
                 android:layout_marginTop="8dp">
 
                 <TextView
+                    android:id="@+id/begin_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="￥"
                     android:textColor="@color/colorAccent"/>
 
                 <TextView
+                    android:id="@+id/price_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
@@ -63,6 +74,7 @@
                     android:textSize="24sp"/>
 
                 <TextView
+                    android:id="@+id/condition_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="满100可用"
@@ -84,12 +96,13 @@
         android:paddingStart="4dp">
 
         <com.txd.hzj.wjlp.view.ArcProgress
+            android:id="@+id/cou_progress"
             android:layout_width="60dp"
             android:layout_height="60dp"
             app:arc_angle="270"
             app:arc_finished_color="@color/white"
             app:arc_max="100"
-            app:arc_progress="65"
+            app:arc_progress="60"
             app:arc_progress_suffix_text="%"
             app:arc_progress_suffix_text2="已抢"
             app:arc_progress_suffix_text_color="@color/white"
@@ -100,6 +113,7 @@
             app:arc_unfinished_color="#7FFFFFFF"/>
 
         <TextView
+            android:id="@+id/can_get_coupon_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_mell_share"

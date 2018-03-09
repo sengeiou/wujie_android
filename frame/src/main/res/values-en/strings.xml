@@ -16,7 +16,7 @@
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     <string name="no_login">未登录</string>
     <string name="network_anomaly">网络不给力，请检查网络</string>
-    <string name="server_unknow_error">服务器未知错误</string>
+    <string name="server_unknow_error">Not Found 404\n程序后台出现错误</string>
     <string name="string_null_error">哎呀，出错了</string>
     <string name="isnull">请输入完整信息</string>
     <string name="no_more">无更多数据</string>
@@ -36,9 +36,9 @@
     <string name="cube_ptr_minutes_ago">&#160;分钟之前</string>
     <string name="cube_ptr_hours_ago">&#160;小时之前</string>
 
-    <string name="pull_to_refresh_pull_label"></string>
-    <string name="pull_to_refresh_release_label"></string>
-    <string name="pull_to_refresh_refreshing_label"></string>
+    <string name="pull_to_refresh_pull_label"> </string>
+    <string name="pull_to_refresh_release_label"> </string>
+    <string name="pull_to_refresh_refreshing_label"> </string>
 
     <!-- 上拉加载，下拉刷新 -->
     <string name="head">这里是HeadView</string>

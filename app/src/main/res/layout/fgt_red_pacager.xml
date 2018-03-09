@@ -4,37 +4,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/bg_color"
+    android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.popAty.fgt.RedPacagerFgt">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="8dp"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/white"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/icon_notifiy_red_package"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         android:gravity="center_vertical"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="12dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明说明"/>
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp">
 
-    <ListView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/icon_notifiy_red_package"/>
+
+        <com.txd.hzj.wjlp.view.UPMarqueeView
+            android:id="@+id/mell_noty_up_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
         android:id="@+id/red_package_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/bg_color"
         android:dividerHeight="8dp"
-        android:padding="8dp"/>
+        android:scrollbars="none"
+        app:ptrMode="both"/>
+
+    <include
+        layout="@layout/aty_no_data_layout"
+        android:visibility="gone"/>
 
 </LinearLayout>

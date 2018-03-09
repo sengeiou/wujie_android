@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.R;
 
 import java.util.HashSet;
@@ -103,7 +104,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
         TagView tagViewContainer = null;
         HashSet preCheckedList = mTagAdapter.getPreCheckedList();
         for (int i = 0; i < adapter.getCount(); i++) {
-            View tagView = adapter.getView(this, i, adapter.getItem(i));
+            View tagView = adapter.getView(this, i, adapter.getItems(i));
 
             tagViewContainer = new TagView(getContext());
 //            ViewGroup.MarginLayoutParams clp = (ViewGroup.MarginLayoutParams) tagView.getLayoutParams();
@@ -126,6 +127,18 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
                         dip2px(getContext(), 5));
                 tagViewContainer.setLayoutParams(lp);
             }
+
+//            if (tagView.getTag() != null) {
+//                L.e(tagView.getTag().toString());
+//                tagViewContainer.setEnabled(false);
+//                tagViewContainer.setFocusable(false);
+//                tagViewContainer.setClickable(false);
+//            }else{
+//                tagViewContainer.setEnabled(true);
+//                tagViewContainer.setFocusable(true);
+//                tagViewContainer.setClickable(true);
+//            }
+
             tagViewContainer.addView(tagView);
             addView(tagViewContainer);
 
@@ -134,7 +147,7 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
                 tagViewContainer.setChecked(true);
             }
 
-            if (mTagAdapter.setSelected(i, adapter.getItem(i))) {
+            if (mTagAdapter.setSelected(i, adapter.getItems(i))) {
                 mSelectedView.add(i);
                 tagViewContainer.setChecked(true);
             }

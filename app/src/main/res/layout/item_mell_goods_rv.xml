@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="8dp">
+
     <LinearLayout
         android:id="@+id/coupon_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical">
 
         <ImageView
+            android:id="@+id/logo_for_country_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
-            />
+            android:src="@drawable/icon_temp_han" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/use_coupon_tv"
@@ -35,23 +35,23 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="4dp"
-            android:text="可使用30%购物券"
             android:textColor="@color/white"
-            android:textSize="12sp"/>
+            android:textSize="10sp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_watch"/>
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop" />
 
     <TextView
+        android:id="@+id/mell_goods_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
-        android:text="Seagull海鸥手表男士自动机械手表飞轮男表防水皮带"/>
+        android:ellipsize="end"
+        android:singleLine="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,20 +62,21 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/now_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="￥ 1380.00"
+            android:text="￥ "
             android:textColor="@color/theme_color"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/older_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="￥ 1880.00"
+            android:text="￥ "
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -91,16 +92,23 @@
             android:drawablePadding="8dp"
             android:text="积分"
             android:textColor="@color/gray_text_color"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
 
         <TextView
+            android:id="@+id/integral_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10.23"
+            android:layout_weight="1"
             android:textColor="#FD8214"
-            android:textSize="12sp"
-            />
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/sold_num_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已售0件"
+            android:textColor="@color/gray_text_color"
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

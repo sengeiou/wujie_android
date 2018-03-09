@@ -29,7 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/icon_mine_bg"
+                android:background="@mipmap/icon_bg_mine"
                 android:gravity="center"
                 android:orientation="vertical"
                 app:layout_collapseMode="pin"
@@ -44,45 +44,42 @@
                     >
 
                     <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                        android:id="@+id/uer_head_iv"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:src="@drawable/icon_temp_head"
+                        android:visibility="invisible"
                         app:shape_mode="circle"
                         app:stroke_color="@color/white"
                         app:stroke_width="2dp"
                         />
 
-                    <TextView
-                        android:id="@+id/grade_of_member_tv"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:background="@drawable/shape_mine_identity_li"
-                        android:drawablePadding="8dp"
-                        android:drawableStart="@drawable/icon_jinpai"
                         android:gravity="center"
                         android:paddingBottom="4dp"
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
-                        android:paddingTop="4dp"
-                        android:text="金牌会员"/>
+                        android:paddingTop="4dp">
 
-                    <TextView
-                        android:id="@+id/member_type_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="12dp"
-                        android:background="@drawable/shape_mine_identity_li"
-                        android:drawablePadding="8dp"
-                        android:drawableStart="@drawable/icon_putong"
-                        android:gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingEnd="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingTop="4dp"
-                        android:text="普通用户"
-                        android:visibility="gone"/>
+                        <ImageView
+                            android:id="@+id/rank_icon_iv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/icon_jinpai"/>
 
+                        <TextView
+                            android:id="@+id/grade_of_member_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:text="金牌会员"/>
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/member_growth_value_tv"
@@ -126,6 +123,17 @@
                     android:text="会员成长"
                     android:textColor="@color/white"
                     android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/details_for_sb_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="成长明细"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>

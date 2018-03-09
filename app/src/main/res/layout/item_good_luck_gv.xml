@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -8,52 +7,58 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/goods_pic_iv"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han"
-            />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1"/>
+            android:background="#7FFFFFFF"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/use_coupon_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@drawable/shape_tv_bg_by_orange"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:text="可使用30%购物券"
-            android:textColor="@color/white"
-            android:textSize="12sp"/>
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/logo_for_country_iv"
+                android:layout_width="36dp"
+                android:layout_height="23dp" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/icon_temp_watch"/>
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/use_coupon_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_tv_bg_by_orange"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:text="可使用30%购物券"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <TextView
+        android:id="@+id/one_buy_goods_name_tv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_marginBottom="4dp"
-        android:maxLines="2"
-        android:text="Seagull海鸥手表男士自动机械手表飞轮男表防水皮带"/>
+        android:ellipsize="end"
+        android:maxLines="2" />
 
-    <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cpb_progresbar2"
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -63,7 +68,7 @@
         app:borderWidth="0dp"
         app:isShowDesc="false"
         app:progressColor="@color/theme_color"
-        app:progressRadius="4dp"/>
+        app:progressRadius="4dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,11 +79,11 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/person_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="总需419人次"
             android:textColor="@color/app_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="0dp"
@@ -87,15 +92,15 @@
             android:gravity="end"
             android:text="剩余"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
+            android:id="@+id/add_num_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="144"
             android:textColor="@color/theme_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -103,7 +108,7 @@
             android:gravity="end"
             android:text="人次"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -119,16 +124,31 @@
             android:drawablePadding="8dp"
             android:text="积分"
             android:textColor="@color/gray_text_color"
-            android:textSize="13sp"
-            />
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/goods_integral_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FD8214"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="10.23"
-            android:textColor="#FD8214"
-            android:textSize="13sp"
-            />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="距结束 "
+            android:textColor="@color/gray_text_color"
+            android:textSize="14sp" />
 
+        <include layout="@layout/aty_count_down_view" />
+    </LinearLayout>
 </LinearLayout>

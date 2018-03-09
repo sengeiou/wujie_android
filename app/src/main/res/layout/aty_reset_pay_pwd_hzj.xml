@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.minetoAty.setting.ResetPayPwdAty">
+
+    <include layout="@layout/aty_title"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/view_color"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
+
+    <TextView
+        android:id="@+id/user_phone_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="手机号    18033333333"
+        android:textColor="@color/app_text_color"
+        android:background="@color/white"/>
+    <TextView
+        android:id="@+id/find_pay_pwd_next_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_margin="32dp"
+        android:background="@drawable/shape_to_login_tv_shape"/>
+
+</LinearLayout>

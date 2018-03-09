@@ -141,7 +141,7 @@
             android:layout_gravity="end"
             android:background="@drawable/shape_search_message_num_tv"
             android:gravity="center"
-            android:text="5"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="10sp"/>
     </FrameLayout>

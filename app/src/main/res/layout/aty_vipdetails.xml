@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/aty_title" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/online_carvouse_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/bg_color"
+                app:animateOnBoundary="true"
+                app:autoPlay="true"
+                app:fillColor="#F9D143"
+                app:indicatorGravity="bottom|center_horizontal"
+                app:indicatorMarginHorizontal="8dp"
+                app:indicatorMarginVertical="8dp"
+                app:pageColor="#FCE8A1"
+                app:pageTransformInterval="500"
+                app:pageTransformer="flow"
+                app:radius="4dp"
+                app:slideInterval="5000"
+                app:strokeColor="@color/transparent" />
+
+            <LinearLayout
+                android:id="@+id/pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_vip_pay"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="立即开通"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="会员年费 ¥365.00/年"
+                    android:textColor="#F8CF42"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#F6F6F6" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:drawableLeft="@mipmap/icon_vip_gift"
+                android:drawableRight="@mipmap/icon_vip_gift"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:drawablePadding="20dp"
+                android:text="专属会员大礼包"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F6F6F6"
+
+                />
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

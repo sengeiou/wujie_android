@@ -3,6 +3,9 @@ package com.txd.hzj.wjlp.popAty.fgt;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,14 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.http.welfare.WelfarePst;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
+import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.popAty.adapter.CouponAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -29,40 +39,25 @@ import java.util.List;
  */
 public class GetCouponFgt extends BaseFgt {
 
-    @ViewInject(R.id.coupon_classify_rv)
-    private RecyclerView coupon_classify_rv;
+    @ViewInject(R.id.title_coupon_tab_layout)
+    private SlidingTabLayout title_coupon_tab_layout;
+
+
+    @ViewInject(R.id.vp_for_title)
+    private ViewPager vp_for_title;
+
     /**
      * 分类列表
      */
-    private List<String> horizontal_classify;
+    private List<Map<String, String>> horizontal_classify;
+    private List<Fragment> mFragments;
+    private MyPagerAdapter myPagerAdapter;
 
-    /**
-     * 横向滑动的分类适配器
-     */
-    private HorizontalAdapter horizontalAdapter;
-
-    @ViewInject(R.id.coupon_lv)
-    private ListView coupon_lv;
-
-    private CouponAdapter couponAdapter;
+    private WelfarePst welfarePst;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        // 设置布局方式
-        coupon_classify_rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL,
-                false));
-        coupon_classify_rv.setHasFixedSize(true);
-        coupon_classify_rv.setAdapter(horizontalAdapter);
-        horizontalAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                horizontalAdapter.setSelected(position);
-                horizontalAdapter.notifyDataSetChanged();
-            }
-        });
-        coupon_lv.setAdapter(couponAdapter);
     }
 
     @Override
@@ -72,27 +67,56 @@ public class GetCouponFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+        welfarePst = new WelfarePst(this);
         horizontal_classify = new ArrayList<>();
-        horizontal_classify.add("全部");
-        horizontal_classify.add("食品");
-        horizontal_classify.add("生鲜");
-        horizontal_classify.add("服饰");
-        horizontal_classify.add("家居");
-        horizontal_classify.add("进口");
-        horizontal_classify.add("美妆");
-        horizontal_classify.add("母婴");
-        horizontal_classify.add("电子");
-        horizontalAdapter = new HorizontalAdapter(horizontal_classify, getActivity());
-        couponAdapter = new CouponAdapter(getActivity(), 0);
+        mFragments = new ArrayList<>();
+
     }
 
     @Override
     protected void requestData() {
+        welfarePst.ticketList(1, "", 0);
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+        if (ToolKit.isList(data, "top_nav")) {
+            horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
+            for (Map<String, String> title : horizontal_classify) {
+                mFragments.add(CouponListFgt.newInstance(title.get("cate_id")));
+            }
+            myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
+            vp_for_title.setAdapter(myPagerAdapter);
+            title_coupon_tab_layout.setViewPager(vp_for_title);
+        }
     }
 
     @Override
     protected void immersionInit() {
 
+    }
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
+        public MyPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return horizontal_classify.get(position).get("name");
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
     }
 }

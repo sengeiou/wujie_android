@@ -42,6 +42,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
+                    android:visibility="gone"
                     android:src="@drawable/icon_clear_ticket_hzj"/>
 
                 <TextView
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:padding="8dp"
-                    android:text="清除失效购物券"/>
+                    android:text="已失效优惠券"/>
 
                 <View
                     android:layout_width="0dp"

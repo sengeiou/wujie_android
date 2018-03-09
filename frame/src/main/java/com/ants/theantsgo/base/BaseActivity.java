@@ -29,7 +29,6 @@ import com.ants.theantsgo.R;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.tips.ToastTip;
-import com.ants.theantsgo.tool.GlideCacheUtil;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 
@@ -74,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 默认设置
      */
     public boolean changeStatusBar = true;
+    public TextView rootText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,10 +90,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         //向用户展示信息前的准备工作在这个方法中处理
         preliminary();
         // 清掉图片缓存
-        GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
+//        GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
         if (changeStatusBar) {
             ImmersionBar.with(this).init();
         }
+
     }
 
     @Override
@@ -122,7 +123,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public boolean onTouchEvent(MotionEvent event) {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (getCurrentFocus() != null) {
+            if (getCurrentFocus() != null && getCurrentFocus().getWindowToken() != null) {
                 if (getCurrentFocus().getWindowToken() != null) {
                     mInputMethodManager.hideSoftInputFromWindow(
                             getCurrentFocus().getWindowToken(),
@@ -167,6 +168,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
                 RelativeLayout.LayoutParams.MATCH_PARENT);
         main.setLayoutParams(layoutParams);
         content.addView(main);
+        rootText = new TextView(this);
+        rootText.setTextSize(20);
+        content.addView(rootText);
     }
 
     /**
@@ -407,6 +411,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         removeContent();
         removeDialog();
         String tips = error.get("message");
+        showErrorTip(tips);
+    }
+
+    @Override
+    public void onErrorTip(String tips) {
         showErrorTip(tips);
     }
 

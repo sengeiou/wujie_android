@@ -352,6 +352,11 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
     }
 
     @Override
+    public void onErrorTip(String tips) {
+        showErrorTip(tips);
+    }
+
+    @Override
     public void onException(Exception exception) {
         if (isShowContent) {
             content.addView(error);

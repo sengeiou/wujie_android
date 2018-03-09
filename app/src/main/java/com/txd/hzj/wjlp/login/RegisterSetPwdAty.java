@@ -8,10 +8,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
+import com.umeng.analytics.MobclickAgent;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -53,6 +61,11 @@ public class RegisterSetPwdAty extends BaseAty {
     private boolean newPwd = false;
     private boolean couPwd = false;
 
+    private String phone = "";
+
+    private RegisterPst registerPst;
+    private String password = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,30 +83,35 @@ public class RegisterSetPwdAty extends BaseAty {
                 if (newPwd) {
                     //隐藏密码
                     new_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                     newPwd = false;
-                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 } else {
                     //显示密码
                     new_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     newPwd = true;
-                    new_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
+                    new_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 }
                 break;
             case R.id.countersign_pwd_iv:// 确认新密码
                 if (couPwd) {
                     //隐藏密码
                     countersign_pwd_ev.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                     couPwd = false;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                 } else {
                     //显示密码
                     countersign_pwd_ev.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    countersign_pwd_iv.setImageResource(R.drawable.icon_toggle_hzj);
                     couPwd = true;
-                    countersign_pwd_iv.setImageResource(R.drawable.icon_untoggle_hzj);
                 }
                 break;
             case R.id.register_success_tv:
-                finish();
+
+                password = new_pwd_ev.getText().toString();
+                String confirmPassword = countersign_pwd_ev.getText().toString();
+
+                registerPst.register(phone, password, confirmPassword);
+                hideKeyBoard();
                 break;
         }
     }
@@ -105,11 +123,36 @@ public class RegisterSetPwdAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        phone = getIntent().getStringExtra("phone");
+        registerPst = new RegisterPst(this);
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("register")) {
+            showRightTip("注册并登录成功");
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            application.setUserInfo(data);
+            Config.setLoginState(true);
+
+            PreferencesUtils.putString(this, "phone", phone);
+            PreferencesUtils.putString(this, "pwd", password);
+            PreferencesUtils.putString(this, "token", data.get("token"));
+            // 友盟统计
+            MobclickAgent.onProfileSignIn(data.get("user_id"));
+            // 极光设置Tag或者别名
+            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+            // 环信登录
+            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
+            finish();
+        }
     }
 }

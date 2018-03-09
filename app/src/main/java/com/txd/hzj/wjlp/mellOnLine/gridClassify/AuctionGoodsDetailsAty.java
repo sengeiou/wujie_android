@@ -2,32 +2,67 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.MoneyUtils;
-import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.addres.CityForTxd;
+import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
+import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.http.auction.AuctionPst;
+import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.dialog.AuctionSingUpDialog;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
+import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -37,7 +72,7 @@ import java.util.List;
  * 描述：8-3拍品详情
  * ===============Txunda===============
  */
-public class AuctionGoodsDetailsAty extends BaseAty {
+public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -47,7 +82,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
+    private List<Map<String, String>> image;
 
     /**
      * 分红权
@@ -134,8 +169,9 @@ public class AuctionGoodsDetailsAty extends BaseAty {
      */
     @ViewInject(R.id.auction_info_lv)
     private ListViewForScrollView auction_info_lv;
-
-    private List<String> auctionInfo;
+    @ViewInject(R.id.layout_chujia)
+    private LinearLayout layout_chujia;
+    private List<Map<String, String>> auctionInfoList;
 
     private AuctionInfoAdapter auctionInfoAdapter;
 
@@ -144,27 +180,147 @@ public class AuctionGoodsDetailsAty extends BaseAty {
      */
     @ViewInject(R.id.sing_up_tv)
     private TextView sing_up_tv;
-
-
-
+    /**
+     * 竞拍出价(去报名)
+     */
     private AuctionSingUpDialog singUpDialog;
 
-    private EditText auction_price_ev;
+
+    private AuctionPst auctionPst;
+
+    private String auction_id = "";
+
+    /**
+     * 店铺logo
+     */
+    @ViewInject(R.id.auction_mell_logo_iv)
+    private ImageView auction_mell_logo_iv;
+    /**
+     * 店铺logo大小
+     */
+    private int logoSize = 0;
+    /**
+     * 拍卖状态
+     */
+    @ViewInject(R.id.auction_status_tv)
+    private TextView auction_status_tv;
+    /**
+     * 轮播图大小
+     */
+    private int bannerSize = 0;
+    /**
+     * 商品大小
+     */
+    @ViewInject(R.id.action_goods_name_tv)
+    private TextView action_goods_name_tv;
+
+    /**
+     * 设置提醒
+     */
+    @ViewInject(R.id.remind_me_tv)
+    private TextView remind_me_tv;
+    /**
+     * 是否提醒了
+     * 1 提醒 0未提醒
+     */
+    private String is_remind = "";
+
+    @ViewInject(R.id.tv_expirationdate)
+    private TextView tv_expirationdate;//保质期提示
+    @ViewInject(R.id.tv_hdsm)
+    private TextView tv_hdsm;
+
+    @ViewInject(R.id.tv_tab_1)
+    private TextView tv_tab_1;
+    @ViewInject(R.id.tv_tab_2)
+    private TextView tv_tab_2;
+    @ViewInject(R.id.tv_tab_3)
+    private TextView tv_tab_3;
+    @ViewInject(R.id.goods_desc_wv)
+    private WebView goods_desc_wv;
+    @ViewInject(R.id.goods_common_attr_lv)
+    private ListViewForScrollView goods_common_attr_lv;
+    @ViewInject(R.id.layout_aftersale)
+    private LinearLayout layout_aftersale;//包装售后
+
+    @ViewInject(R.id.tv_bzqd)
+    private TextView tv_bzqd;//包装清单
+    @ViewInject(R.id.tv_shfw)
+    private TextView tv_shfw;//售后服务
+    @ViewInject(R.id.tv_jgsm)
+    private TextView tv_jgsm;//价格说明
+
+
+    @ViewInject(R.id.layout_djq)
+    private LinearLayout layout_djq;//代金券布局
+    @ViewInject(R.id.layout_djq0)
+    private LinearLayout layout_djq0;
+    @ViewInject(R.id.layout_djq1)
+    private LinearLayout layout_djq1;
+    @ViewInject(R.id.layout_djq2)
+    private LinearLayout layout_djq2;
+    @ViewInject(R.id.tv_djq_color0)
+    private TextView tv_djq_color0;
+    @ViewInject(R.id.tv_djq_color1)
+    private TextView tv_djq_color1;
+    @ViewInject(R.id.tv_djq_color2)
+    private TextView tv_djq_color2;
+    @ViewInject(R.id.tv_djq_desc0)
+    private TextView tv_djq_desc0;
+    @ViewInject(R.id.tv_djq_desc1)
+    private TextView tv_djq_desc1;
+    @ViewInject(R.id.tv_djq_desc2)
+    private TextView tv_djq_desc2;
+
+
+    @ViewInject(R.id.im_country_logo)
+    private ImageView im_country_logo;//国旗
+    @ViewInject(R.id.tv_country_desc)
+    private TextView tv_country_desc;//国家
+    @ViewInject(R.id.tv_country_tax)
+    private TextView tv_country_tax;//进口税
+
+
+    @ViewInject(R.id.layout_service)
+    private LinearLayout layout_service;//服务布局
+    @ViewInject(R.id.rv_service)
+    private RecyclerView rv_service;
+
+    ArrayList<Map<String, String>> ser_list;//服务的列表
+
+    @ViewInject(R.id.limit_goods_details_sc)
+    private ObservableScrollView limit_goods_details_sc;
+
+    @ViewInject(R.id.layout_jinkoushui)
+    private LinearLayout layout_jinkoushui;
+
+    private String vouchers_desc = "";//代金券弹窗下面的提示文字
+    @ViewInject(R.id.ticket_gv)//推荐商品列表
+    private GridViewForScrollView ticket_gv;
+    private AllGvLvAdapter allGvLvAdapter1;
+    private boolean is_f = true;//判断刷新
+    private int page = 1;
+    private List<AllGoodsBean> ticket = new ArrayList<>();
+    private List<AllGoodsBean> more = new ArrayList<>();
+    private ArrayList<Map<String, String>> dj_ticket;
+    private Map<String, String> mInfo;
+
+
+    private String easemob_account = "";
+    private String merchant_logo = "";
+    private String merchant_name = "";
+    private String goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("拍品详情");
-
         // 设置轮播图高度
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
-                Settings.displayWidth);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(bannerSize, bannerSize);
         online_carvouse_view.setLayoutParams(layoutParams);
-        forBanner();
-        forText();
-        auction_info_lv.setAdapter(auctionInfoAdapter);
-
+        rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -174,51 +330,460 @@ public class AuctionGoodsDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        auctionPst = new AuctionPst(this);
+        auction_id = getIntent().getStringExtra("auction_id");
         image = new ArrayList<>();
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        image.add(R.drawable.icon_temp_goods_banner);
-        auctionInfo = new ArrayList<>();
-        auctionInfoAdapter = new AuctionInfoAdapter();
+        logoSize = ToolKit.dip2px(this, 50);
+        bannerSize = Settings.displayWidth;
+        auctionInfoList = new ArrayList<>();
     }
 
     @Override
     protected void requestData() {
-
+        auctionPst.auctionInfo(auction_id, page);
+        singUpDialog = new AuctionSingUpDialog(this, new AuctionSingUpDialog.SignUpClick() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId()) {
+                    case R.id.submit_auction_price_tv:
+                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", "", "","", "", AuctionGoodsDetailsAty.this);
+                        singUpDialog.dismiss();
+                        break;
+                }
+            }
+        });
     }
 
     @Override
-    @OnClick({R.id.sing_up_tv})
+    @OnClick({R.id.sing_up_tv, R.id.remind_me_tv, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3,
+            R.id.tv_tochar, R.id.im_service_more, R.id.layout_djq, R.id.sing_up,R.id.tv_chose_ads})
     public void onClick(final View v) {
         super.onClick(v);
         switch (v.getId()) {
+
+            case R.id.tv_chose_ads:
+                if (isLoaded) {
+                    ShowPickerView();
+                }
+                break;
+            case R.id.tv_tochar:
+                toChat(easemob_account, merchant_logo, merchant_name);
+                break;
             case R.id.sing_up_tv://报名
-                singUpDialog = new AuctionSingUpDialog(this, new AuctionSingUpDialog.SignUpClick() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (view.getId()){
-                            case R.id.submit_auction_price_tv:
-                                L.e("=====金额=====",auction_price_ev.getText().toString());
-                                singUpDialog.dismiss();
-                                break;
-                        }
-                    }
-                });
-                singUpDialog.show();
-                auction_price_ev = singUpDialog.findViewById(R.id.auction_price_ev);
-                MoneyUtils.setPricePoint(auction_price_ev);
+                AuctionOrder.auct(auction_id, this);
+                showProgressDialog();
+                break;
+            case R.id.remind_me_tv:// 是否提醒
+                if (is_remind.equals("1")) {
+                    showRightTip("您已设置提醒");
+                    break;
+                }
+                auctionPst.remindMe(auction_id);
+                break;
+            case R.id.tv_tab_1:
+                goods_desc_wv.setVisibility(View.VISIBLE);
+                goods_common_attr_lv.setVisibility(View.GONE);
+                layout_aftersale.setVisibility(View.GONE);
+                tv_tab_1.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_2.setTextColor(Color.parseColor("#666666"));
+                tv_tab_3.setTextColor(Color.parseColor("#666666"));
+                break;
+            case R.id.tv_tab_2:
+                layout_aftersale.setVisibility(View.GONE);
+                goods_desc_wv.setVisibility(View.GONE);
+                goods_common_attr_lv.setVisibility(View.VISIBLE);
+                tv_tab_2.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_1.setTextColor(Color.parseColor("#666666"));
+                tv_tab_3.setTextColor(Color.parseColor("#666666"));
+                break;
+            case R.id.tv_tab_3:
+                tv_tab_3.setTextColor(Color.parseColor("#F23030"));
+                tv_tab_1.setTextColor(Color.parseColor("#666666"));
+                tv_tab_2.setTextColor(Color.parseColor("#666666"));
+                goods_desc_wv.setVisibility(View.GONE);
+                goods_common_attr_lv.setVisibility(View.GONE);
+                layout_aftersale.setVisibility(View.VISIBLE);
+                break;
+            case R.id.im_service_more:
+                if (ser_list != null) {
+                    showPop(v, "服务说明", ser_list, 1);
+                }
+                break;
+            case R.id.layout_djq:
+                showDjqPop(v, dj_ticket);
+            case R.id.sing_up:
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "9");
+                bundle.putString("mid", mInfo.get("merchant_id"));
+                bundle.putString("group_buy_id", auction_id);
+                startActivity(BuildOrderAty.class, bundle);
                 break;
         }
+    }
+
+    /**
+     * 代金券的弹窗
+     *
+     * @param view
+     */
+    public void showDjqPop(final View view, final List<Map<String, String>> list) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.layout_popp_djq)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+                        tv_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        tv_desc.setText(vouchers_desc);
+                        for (int i = 0; i < list.size(); i++) {
+
+                            switch (i) {
+                                case 0: {
+                                    layout_djq0.setVisibility(View.VISIBLE);
+                                    tv_djq_desc0.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 1: {
+                                    layout_djq1.setVisibility(View.VISIBLE);
+                                    tv_djq_desc1.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                                case 2: {
+                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    tv_djq_desc2.setText(list.get(i).get("discount_desc"));
+                                    break;
+                                }
+                            }
+
+                            switch (list.get(i).get("type")) {
+                                case "0": {
+                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                                }
+                                break;
+                                case "1": {
+                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                                }
+                                break;
+                                case "2": {
+                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                                }
+
+                                break;
+                            }
+                        }
+
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+
+        if (requestUrl.contains("freight")) {
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+        }
+        if (requestUrl.contains("AuctionOrder/SetOrder")) {
+            showToast(map.get("message"));
+            return;
+        }
+        if (requestUrl.contains("AuctionOrder/auct")) {
+
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            if (map.get("auc_type").equals("1")) {
+                singUpDialog.show();
+                MoneyUtils.setPricePoint(singUpDialog.getEditText());
+            } else {
+                Bundle bundle = new Bundle();
+                bundle.putString("order_id", map.get("order_id"));
+                bundle.putString("balance", map.get("base_balance"));
+                bundle.putString("type", "8");
+                bundle.putString("money", map.get("base_money"));
+                bundle.putString("merchant_name", map.get("merchant_name"));
+                startActivity(PayForAppAty.class, bundle);
+            }
+
+        }
+        if (requestUrl.contains("auctionInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
+            // 商品图片轮播图
+            if (ToolKit.isList(data, "goods_banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
+                forBanner();
+            }
+
+            easemob_account = mInfo.get("merchant_easemob_account");
+            merchant_logo = mInfo.get("server_head_pic");
+            merchant_name = mInfo.get("server_name");
+
+            /**判断这块儿显示和隐藏
+             * "is_new_goods": "1",//是否是新品  0不是 1是
+             "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
+             "is_end": "0",//是否临期 0未临期 1临期
+             "is_end_desc": "此商品属于临期商品，商品保质期到期日为2017-20-30",//临期描述
+             */
+            // 商品其他信息
+            Map<String, String> auctionInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+            goods_id = auctionInfo.get("goods_id");
+            String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                    + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+            tv_chose_ads.setText(tx);
+            Freight.freight(goods_id, tx, AuctionGoodsDetailsAty.this);
+            showProgressDialog();
+            if (auctionInfo.get("is_new_goods").equals("0") && auctionInfo.get("is_end").equals("1")) {
+                tv_expirationdate.setText(auctionInfo.get("is_new_goods_desc") + "\n" + auctionInfo.get("is_end_desc"));
+            } else if (auctionInfo.get("is_new_goods").equals("0")) {
+                tv_expirationdate.setText(auctionInfo.get("is_new_goods_desc"));
+            } else if (auctionInfo.get("is_end").equals("1")) {
+                tv_expirationdate.setText(auctionInfo.get("is_end_desc"));
+            } else {
+                tv_expirationdate.setVisibility(View.GONE);
+            }
+
+            vouchers_desc = auctionInfo.get("vouchers_desc");
+            auction_status_tv.setText(auctionInfo.get("stage_status"));
+            action_goods_name_tv.setText(auctionInfo.get("auct_name"));
+            SpannableString msp = new SpannableString("活动说明：" + auctionInfo.get("auct_desc"));
+            msp.setSpan(new ForegroundColorSpan(Color.parseColor("#666666")), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
+            tv_hdsm.setText(msp);
+
+            goods_desc_wv.loadDataWithBaseURL(null, auctionInfo.get("goods_desc"), "text/html", "utf-8", null);
+
+
+            if (ToolKit.isList(auctionInfo, "dj_ticket")) {
+                dj_ticket = JSONUtils.parseKeyAndValueToMapList(auctionInfo.get("dj_ticket"));
+                for (int i = 0; i < dj_ticket.size(); i++) {
+                    if (i == 2) {
+                        break;
+                    }
+                    switch (i) {
+                        case 0: {
+                            layout_djq0.setVisibility(View.VISIBLE);
+                            tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                        case 1: {
+                            layout_djq1.setVisibility(View.VISIBLE);
+                            tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                        case 2: {
+                            layout_djq2.setVisibility(View.VISIBLE);
+                            tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+                            break;
+                        }
+                    }
+
+                    switch (dj_ticket.get(i).get("type")) {
+                        case "0": {
+                            //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                            tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                        }
+                        break;
+                        case "1": {
+                            tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                        }
+                        break;
+                        case "2": {
+                            tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                        }
+
+                        break;
+                    }
+
+                }
+            } else {
+                layout_djq.setVisibility(View.GONE);
+            }
+            Glide.with(this).load(auctionInfo.get("country_logo")).into(im_country_logo);
+            tv_country_desc.setText(auctionInfo.get("country_desc"));
+            tv_country_tax.setText(auctionInfo.get("country_tax") + "元");
+            if (Double.parseDouble(auctionInfo.get("country_tax")) <= 0) {
+                layout_jinkoushui.setVisibility(View.GONE);
+            }
+            if (ToolKit.isList(data, "goods_server")) {
+                ser_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_server"));
+                rv_service.setAdapter(new service_adp(ser_list, 3));
+            } else {
+                layout_service.setVisibility(View.GONE);
+            }
+
+            // 积分
+            ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
+                    "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+            // 当前价
+            ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥" +
+                    auctionInfo.get("now_price"));
+            // 去报名(保证金额)
+//            ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额￥" +
+//                    auctionInfo.get("base_money") + ")");
+            // 围观人数
+            String on_lookers = "围观 " + auctionInfo.get("click_num") + " 次";
+            ChangeTextViewStyle.getInstance().forTextColor(this, on_lookers_tv, on_lookers, 3, 6,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            // 报名人数
+            String be_sign_up = "报名 " + auctionInfo.get("apply_num") + " 人";
+            ChangeTextViewStyle.getInstance().forTextColor(this, be_sign_up_tv, be_sign_up, 3, 4,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            // 设置提醒人数
+            String set_remind = "设置提醒 " + auctionInfo.get("remind_num") + " 人";
+            ChangeTextViewStyle.getInstance().forTextColor(this, set_remind_tv, set_remind, 5, 8,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            // 起拍价
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_1, "起拍价        ￥" +
+                    auctionInfo.get("start_price"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
+            // 加价幅度
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_2, "加价幅度    ￥" +
+                    auctionInfo.get("add_price"), 5, ContextCompat.getColor(this, R.color.gray_text_color));
+
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_3, "开拍时间    " +
+                            //        DateTool.timestampToStrTime(auctionInfo.get("start_time"))
+                            auctionInfo.get("start_time"), 5,
+                    ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_4, "保留价        " +
+                    auctionInfo.get("leave_price"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
+
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金        ￥" +
+                    auctionInfo.get("base_money"), 8, ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_2, "拍卖佣金 " + auctionInfo.get("commission"), 5,
+                    ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_3, "结束时间    " +
+                            //DateTool.timestampToStrTime(auctionInfo.get("end_time"))
+                            auctionInfo.get("end_time"), 5,
+                    ContextCompat.getColor(this, R.color.gray_text_color));
+            ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_4, "延时周期    " + auctionInfo.get("delay_time")
+                    + "分/次", 5, ContextCompat.getColor(this, R.color.gray_text_color));
+
+            // 出价id
+            ChangeTextViewStyle.getInstance().forTextColor(this, user_auction_id_tv, "您的出价ID: " + data.get("mybid"), 8,
+                    ContextCompat.getColor(this, R.color.app_text_color));
+            is_remind = auctionInfo.get("is_remind");
+            if (is_remind.equals("1")) {
+                remind_me_tv.setText("已提醒");
+            } else {
+                remind_me_tv.setText("提醒");
+            }
+
+
+            tv_bzqd.setText(auctionInfo.get("package_list")); //包装清单
+            tv_shfw.setText(auctionInfo.get("after_sale_service")); //售后服务
+            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+
+            if (ToolKit.isList(data, "guess_goods_list")) {
+                if (page == 1) {
+                    ticket = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+                    allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
+                    ticket_gv.setAdapter(allGvLvAdapter1);
+                } else {
+                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+                    ticket.addAll(more);
+                    allGvLvAdapter1.notifyDataSetChanged();
+                }
+            } else {
+                is_f = false;
+            }
+
+//            if (auctionInfo.get("is_running").equals("0")) {
+//                auction_status_tv.setText("正在进行 " + auctionInfo.get("end_true_time") + "结束");
+//            } else {
+//                auction_status_tv.setText("已结束");
+//            }
+
+//            Map<String, String> merchantInfo = JSONUtils.parseKeyAndValueToMap(data.get("merchantInfo"));
+//            // 竞拍详情(商家名称，评分)
+//            ChangeTextViewStyle.getInstance().forAuctionNameAndGrade(this, mell_name_and_grade_tv,
+//                    merchantInfo.get("merchant_name") + "\n评分" + merchantInfo.get("score") + "分");
+//            Glide.with(this).load(merchantInfo.get("logo"))
+//                    .override(logoSize, logoSize)
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                    .error(R.drawable.ic_default)
+//                    .placeholder(R.drawable.ic_default)
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                    .into(auction_mell_logo_iv);
+            if (ToolKit.isList(data, "auction_log")) {
+                auctionInfoList = JSONUtils.parseKeyAndValueToMapList(data.get("auction_log"));
+                auctionInfoAdapter = new AuctionInfoAdapter();
+                auction_info_lv.setAdapter(auctionInfoAdapter);
+            } else {
+                layout_chujia.setVisibility(View.GONE);
+            }
+            if (ToolKit.isList(data, "goods_common_attr")) {
+                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                        GoodsCommonAttr.class);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
+                goods_common_attr_lv.setAdapter(gcaAdapter);
+            }
+
+            return;
+        }
+        if (requestUrl.contains("remindMe")) {
+            is_remind = "1";
+            remind_me_tv.setText("已提醒");
+        }
+    }
+
+    CommonPopupWindow commonPopupWindow;
+
+    public void showPop(View view, final String title, final List<Map<String, String>> list, final int type) {//
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_layout)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+                        recyclerview.setLayoutManager(new LinearLayoutManager(AuctionGoodsDetailsAty.this, 1, false));
+                        recyclerview.setAdapter(new service_adp(list, type));
+                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+                        tv_title.setText(title);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
     /**
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(image.size());
     }
 
     /**
@@ -227,53 +792,203 @@ public class AuctionGoodsDetailsAty extends BaseAty {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
+            Glide.with(AuctionGoodsDetailsAty.this).load(image.get(position).get("path"))
+                    .centerCrop()
+                    .override(bannerSize, bannerSize)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(imageView);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
     };
 
-    private void forText() {
-        // 分红权
-        ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+    @Override
+    public void onBottom() {
+        if (is_f) {
 
-        ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥8000.00");
+        }
+    }
 
-        // 去报名
-        ChangeTextViewStyle.getInstance().forSingUpWhite(this, sing_up_tv, "去报名\n(保证金金额￥500)");
 
-        String on_lookers = "围观 633 次";
-        ChangeTextViewStyle.getInstance().forTextColor(this, on_lookers_tv, on_lookers, 3, 6,
-                ContextCompat.getColor(this, R.color.app_text_color));
-        String be_sign_up = "报名 0 人";
-        ChangeTextViewStyle.getInstance().forTextColor(this, be_sign_up_tv, be_sign_up, 3, 4,
-                ContextCompat.getColor(this, R.color.app_text_color));
-        String set_remind = "设置提醒 15 人";
-        ChangeTextViewStyle.getInstance().forTextColor(this, set_remind_tv, set_remind, 5, 8,
-                ContextCompat.getColor(this, R.color.app_text_color));
+    /**
+     * 运费
+     */
+    @ViewInject(R.id.freight_tv)
+    private TextView freight_tv;
 
-        ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_1, "起拍价     ￥8000", 8,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_2, "加价幅度 ￥500", 5,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_3, "开拍时间 06月15日 09:00", 5,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, left_tv_4, "保留价     无", 8,
-                ContextCompat.getColor(this, R.color.gray_text_color));
+    @ViewInject(R.id.tv_chose_ads)
+    private TextView tv_chose_ads;
 
-        ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_1, "保证金     ￥500", 8,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_2, "拍卖佣金 无", 5,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_3, "结束时间 06月15日 21:00", 5,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        ChangeTextViewStyle.getInstance().forTextColor(this, righr_tv_4, "延时周期 5分/次", 5,
-                ContextCompat.getColor(this, R.color.gray_text_color));
-        // 竞拍详情(商家名称，评分)
-        ChangeTextViewStyle.getInstance().forAuctionNameAndGrade(this, mell_name_and_grade_tv, "ZARA\n评分4.5分");
-        // 出价id
-        ChangeTextViewStyle.getInstance().forTextColor(this, user_auction_id_tv, "您的出价ID: 321860", 8,
-                ContextCompat.getColor(this, R.color.app_text_color));
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+
+    /**
+     * 省id
+     */
+    private String province_id = "";
+    /**
+     * 市id
+     */
+    private String city_id = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+
+    /**
+     * 街道id
+     */
+    private String street_id = "";
+
+
+    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
+    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
+    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
+    private Thread thread;
+    private static final int MSG_LOAD_DATA = 0x0001;
+    private static final int MSG_LOAD_SUCCESS = 0x0002;
+    private static final int MSG_LOAD_FAILED = 0x0003;
+
+
+    private void ShowPickerView() {// 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
+                .OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                // 省
+                province = options1Items.get(options1).getPickerViewText();
+                province_id = options1Items.get(options1).getProvince_id();
+                // 市
+                city = options2Items.get(options1).get(options2).getPickerViewText();
+                city_id = options2Items.get(options1).get(options2).getCity_id();
+                // 区
+                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                // 设置省市区
+                String tx = province + "," + city + "," + area;
+                tv_chose_ads.setText(tx);
+                Freight.freight(goods_id, tx, AuctionGoodsDetailsAty.this);
+            }
+        }).setTitleText("城市选择")
+                .setDividerColor(Color.BLACK)
+                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setContentTextSize(20)
+                .setOutSideCancelable(false)// default is true
+                .build();
+
+        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.show();
+    }
+
+    private boolean isLoaded = false;
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_LOAD_DATA:
+                    if (thread == null) {//如果已创建就不再重新创建子线程了
+                        thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 写子线程中的操作,解析省市区数据
+                                initJsonData();
+                            }
+                        });
+                        thread.start();
+                    }
+                    break;
+
+                case MSG_LOAD_SUCCESS:
+                    removeDialog();
+                    isLoaded = true;
+                    break;
+
+                case MSG_LOAD_FAILED:
+                    removeDialog();
+                    showErrorTip("解析失败");
+                    break;
+
+            }
+        }
+    };
+
+    private void initJsonData() {//解析数据
+
+        /*
+         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+         * 关键逻辑在于循环体
+         */
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+
+        /*
+         * 添加省份数据
+         *
+         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+         */
+        options1Items = jsonBean;
+
+        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+
+            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+
+                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
+
+                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                    City_AreaList.add(new DistrictsForTxd("", ""));
+                } else {
+                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+                    }
+                }
+                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+            }
+            /*
+             * 添加城市数据
+             */
+            options2Items.add(CityList);
+            /*
+             * 添加地区数据
+             */
+            options3Items.add(Province_AreaList);
+        }
+
+        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+
+    }
+
+
+    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
+        try {
+            JSONArray data = new JSONArray(result);
+            Gson gson = new Gson();
+            for (int i = 0; i < data.length(); i++) {
+                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
+                detail.add(entity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+        }
+        return detail;
     }
 
     private class AuctionInfoAdapter extends BaseAdapter {
@@ -281,12 +996,12 @@ public class AuctionGoodsDetailsAty extends BaseAty {
 
         @Override
         public int getCount() {
-            return 6;
+            return auctionInfoList.size();
         }
 
         @Override
-        public Object getItem(int i) {
-            return auctionInfo.get(i);
+        public Map<String, String> getItem(int i) {
+            return auctionInfoList.get(i);
         }
 
         @Override
@@ -296,6 +1011,7 @@ public class AuctionGoodsDetailsAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            Map<String, String> map = getItem(i);
             if (null == view) {
                 view = LayoutInflater.from(AuctionGoodsDetailsAty.this).inflate(R.layout.item_auction_info_lv, null);
                 auctionVh = new AuctionVh();
@@ -323,6 +1039,11 @@ public class AuctionGoodsDetailsAty extends BaseAty {
                 auctionVh.item_auction_time_tv.setTextColor(ContextCompat.getColor(AuctionGoodsDetailsAty.this,
                         R.color.gray_text_color));
             }
+            auctionVh.item_auction_name_tv.setText(map.get("nickname"));
+            auctionVh.item_auction_id_tv.setText(map.get("log_id"));
+            auctionVh.item_auction_price_tv.setText(map.get("bid_price"));
+            auctionVh.item_auction_time_tv.setText(map.get("bid_time"));
+
             return view;
         }
 
@@ -349,6 +1070,61 @@ public class AuctionGoodsDetailsAty extends BaseAty {
             @ViewInject(R.id.item_auction_time_tv)
             private TextView item_auction_time_tv;
 
+        }
+    }
+
+    class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
+        List<Map<String, String>> list;
+        int tpye = 0;
+
+        public service_adp(List<Map<String, String>> list, int type) {
+            this.list = list;
+            this.tpye = type;
+        }
+
+        @Override
+        public service_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new service_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lh_service, null));
+        }
+
+        @Override
+        public void onBindViewHolder(service_adp.ViewHolder holder, int position) {
+            String name = "";
+            String desc = "";
+            if (this.tpye == 0) {
+                name = list.get(position).get("price_name") + "：";
+                desc = list.get(position).get("desc");
+                SpannableString msp = new SpannableString(name + desc);
+                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
+                holder.tv_text.setText(msp);
+            } else if (this.tpye == 1) {
+                name = list.get(position).get("server_name") + "：";
+                desc = list.get(position).get("desc");
+                SpannableString msp = new SpannableString(name + desc);
+                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
+                holder.tv_text.setText(msp);
+            } else {
+                holder.tv_text.setText(list.get(position).get("server_name"));
+                holder.tv_text.setTextColor(Color.parseColor("#F23030"));
+            }
+            Glide.with(AuctionGoodsDetailsAty.this).load(list.get(position).get("icon")).into(holder.im_logo);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView im_logo;
+            TextView tv_text;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                im_logo = (ImageView) itemView.findViewById(R.id.im_logo);
+                tv_text = (TextView) itemView.findViewById(R.id.tv_text);
+            }
         }
     }
 

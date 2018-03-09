@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,11 +8,11 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,10 +37,9 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:src="@drawable/icon_temp_goods_banner"
-                        />
+                        android:id="@+id/group_goods_pic_iv"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -49,9 +47,9 @@
                         android:layout_marginStart="8dp">
 
                         <TextView
+                            android:id="@+id/group_goods_name_tv"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人家用"/>
+                            android:layout_height="wrap_content" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -60,26 +58,19 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/group_other_info_tv"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="已团10567件·2人团"/>
+                                android:layout_height="wrap_content" />
 
                             <TextView
+                                android:id="@+id/group_goods_price_tv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="￥28.9"
                                 android:textColor="#E02F25"
-                                android:textSize="18sp"/>
+                                android:textSize="18sp" />
                         </LinearLayout>
                     </FrameLayout>
                 </LinearLayout>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/group_member_rv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"/>
 
                 <TextView
                     android:id="@+id/group_status_tv"
@@ -90,7 +81,14 @@
                     android:text="团已满"
                     android:textColor="@color/app_text_color"
                     android:textSize="16sp"
-                    />
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/group_member_rv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp" />
 
                 <TextView
                     android:id="@+id/group_operation_tv"
@@ -100,14 +98,13 @@
                     android:background="@drawable/shape_good_luck_tv"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="一键开团"
                     android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="8dp"/>
+                android:layout_height="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,43 +123,22 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="拼团须知"/>
+                        android:text="拼团须知" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:src="@drawable/icon_close"/>
+                        android:src="@drawable/icon_close"
+                        android:visibility="gone" />
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="·邀请好友参团"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="·人满分别发货"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="·人不满将退款"/>
-                </LinearLayout>
-
+                    android:layout_margin="10dp"
+                    android:text="·邀请好友参团" />
 
             </LinearLayout>
         </LinearLayout>

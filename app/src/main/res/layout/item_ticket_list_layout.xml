@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--<LinearLayout--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--android:layout_width="wrap_content"--><!--android:layout_height="40dp"--><!--android:background="@drawable/icon_coupon_bg"--><!--android:orientation="horizontal"--><!--android:paddingEnd="16dp"--><!--android:paddingStart="16dp">-->
+
+<!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_marginTop="8dp"--><!--android:text="￥"--><!--android:textColor="@color/white"--><!--android:textSize="8sp"--><!--/>-->
+
+<!--<TextView--><!--android:id="@+id/value_tv"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--android:text="03"--><!--android:textColor="@color/white"--><!--android:textSize="24sp"--><!--/>-->
+
+<!--<TextView--><!--android:id="@+id/condition_tv"--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:layout_weight="1"--><!--android:gravity="center_vertical"--><!--android:text="店铺专享优惠券\n满39元使用"--><!--android:textColor="@color/white"--><!--android:textSize="8sp"/>-->
+
+<!--<View--><!--android:layout_width="2dp"--><!--android:layout_height="match_parent"--><!--android:layout_margin="4dp"--><!--android:background="@color/white"/>-->
+
+<!--<TextView--><!--android:layout_width="wrap_content"--><!--android:layout_height="match_parent"--><!--android:gravity="center"--><!--android:text="点\n击\n领\n取"--><!--android:textColor="@color/white"--><!--android:textSize="6sp"/>-->
+
+<!--</LinearLayout>-->
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src="@mipmap/icon_youhuiquan" />
+
+</LinearLayout>

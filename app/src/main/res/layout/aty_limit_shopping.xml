@@ -19,7 +19,7 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="55dp"/>
+            android:layout_marginTop="50dp"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabLayout"
@@ -29,9 +29,9 @@
             app:tabGravity="center"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="0dp"
-            app:tabMinWidth="98dp"
+            app:tabMinWidth="120dp"
             app:tabMode="scrollable"
-            app:tabPaddingBottom="3dp"
+            app:tabPaddingBottom="5dp"
             app:tabSelectedTextColor="@color/white"
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/white"/>

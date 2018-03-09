@@ -1,7 +1,10 @@
 package com.txd.hzj.wjlp.base;
 
+import android.os.Build;
+
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * ===============Txunda===============
@@ -21,12 +24,28 @@ public abstract class BaseFgt extends BaseFragment {
 
     public void showStatusBar(int vid) {
         String name = android.os.Build.BRAND;
-        if (name.equals("Xiaomi") || name.equals("OPPO") || name.equals("htc") ||
-                name.equals("samsung") || name.equals("360")) {
-            ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+        if(name.equals("Huawei")){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            } else {
+                ImmersionBar.with(this).titleBar(vid).init();
+            }
         } else {
-            ImmersionBar.with(this).titleBar(vid).init();
+            if (ImmersionBar.isSupportStatusBarDarkFont())
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
+            else
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
         }
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
 }

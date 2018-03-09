@@ -22,6 +22,7 @@ import java.util.Map;
  * 描述：API接口调用类
  * ===============Txunda===============
  */
+@Deprecated
 public class ApiTool {
 
     /**

@@ -24,6 +24,7 @@
             android:padding="12dp">
 
             <ImageView
+                android:id="@+id/code_user_head_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/icon_temp_mine_head_hzj"/>
@@ -44,8 +45,9 @@
             android:background="@color/bg_color"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/user_code_iv"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
             android:src="@drawable/icon_temp_my_code_hzj"/>

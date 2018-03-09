@@ -3,31 +3,40 @@ package com.txd.hzj.wjlp.mainFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Mell;
-import com.txd.hzj.wjlp.citySelect.CitySelectAty;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.point.PointWjAty;
+import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.new_wjyp.http.OfflineStore;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -51,7 +60,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     /**
      * 轮播图图片
      */
-    private ArrayList<Integer> image;
 
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
@@ -68,19 +76,56 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     private MellNearByHzjAdapter mellNearByHzjAdapter;
 
+    @ViewInject(R.id.to_location_tv)
+    private TextView to_location_tv;
+
+    @ViewInject(R.id.im_ads)
+    private ImageView im_ads;
+    @ViewInject(R.id.three_image_left_iv)
+    private ImageView three_image_left_iv;
+    @ViewInject(R.id.three_image_center_iv)
+    private ImageView three_image_center_iv;
+    @ViewInject(R.id.three_image_right_iv)
+    private ImageView three_image_right_iv;
+
+    private int img_w = 0;
+    private int img_h = 0;
+
+
+    /**
+     * 广告高度
+     */
+    private int ads_w = 0;
+    private int ads_h = 0;
+    private Bundle bundle;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         off_line_title_layout.setBackgroundColor(Color.TRANSPARENT);
-        allHeight = Settings.displayWidth * 2 / 3;
+        allHeight = Settings.displayWidth * 3 / 5;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
         // 轮播图
-        forBanner();
         // 改变标题栏颜色
+        img_w = Settings.displayWidth / 3;
+        img_h = Settings.displayWidth * 5 / 14;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(img_w, img_h);
+        three_image_left_iv.setLayoutParams(params);
+        three_image_center_iv.setLayoutParams(params);
+        three_image_right_iv.setLayoutParams(params);
+
+        // 广告宽高
+        ads_h = Settings.displayWidth * 300 / 1242;
+        ads_w = Settings.displayWidth;
+
+
+        LinearLayout.LayoutParams adsParam = new LinearLayout.LayoutParams(ads_w, ads_h);
+        im_ads.setLayoutParams(adsParam);
+
         off_line_to_change_sc.setScrollViewListener(MellOffLineFgt.this);
-        mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
+//        mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
         mell_near_by_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -94,20 +139,57 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
      * 轮播图
      */
     private void forBanner() {
-        online_carvouse_view.setPageCount(image.size());
+
+        /**
+         * 轮播图的点击事件
+         */
+        ImageListener imageListener = new ImageListener() {
+            @Override
+            public void setImageForPosition(final int position, ImageView imageView) {
+                Glide.with(getActivity()).load(list_pic.get(position).get("picture"))
+                        .override(Settings.displayWidth, allHeight)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .error(R.mipmap.icon_200)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .into(imageView);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (!TextUtils.isEmpty(list_pic.get(position).get("merchant_id")) && !list_pic.get(position).get("merchant_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", list_pic.get(position).get("merchant_id"));
+                            startActivity(MellInfoAty.class, bundle);
+                        } else if (!TextUtils.isEmpty(list_pic.get(position).get("goods_id")) && !list_pic.get(position).get("goods_id").equals("0")) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id", list_pic.get(position).get("goods_id"));
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        } else {
+                            forShowAds(list_pic.get(position).get("desc"), list_pic.get(position).get("href"));
+                        }
+                    }
+                });
+            }
+        };
         online_carvouse_view.setImageListener(imageListener);
+        online_carvouse_view.setPageCount(list_pic.size());
     }
 
     /**
-     * 轮播图的点击事件
+     * 广告详情
+     *
+     * @param limit_desc 说明
+     * @param limit_href 链接
      */
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(final int position, ImageView imageView) {
-            imageView.setImageResource(image.get(position));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        }
-    };
+    private void forShowAds(String limit_desc, String limit_href) {
+        bundle = new Bundle();
+        bundle.putString("desc", limit_desc);
+        bundle.putString("href", limit_href);
+        bundle.putInt("from", 2);
+        startActivity(NoticeDetailsAty.class, bundle);
+    }
 
     @Override
     @OnClick({R.id.to_location_tv, R.id.point_by_wj_tv})
@@ -117,7 +199,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             case R.id.to_location_tv:// 当前位置
                 startActivity(MellCitySelectAty.class, null);
                 break;
-            case R.id.point_by_wj_tv:// 无界驿站
+            case R.id.point_by_wj_tv:// xfte驿站
                 startActivity(PointWjAty.class, null);
                 break;
         }
@@ -130,26 +212,125 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
-        image = new ArrayList<>();
         mells = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
-            if(i%2==0){
+            if (i % 2 == 0) {
                 mells.add(new Mell(true, false));
             } else {
                 mells.add(new Mell(false, false));
             }
         }
         mellNearByHzjAdapter = new MellNearByHzjAdapter(getActivity(), mells);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
-        image.add(R.drawable.icon_temp_banner);
+
     }
 
     @Override
     protected void requestData() {
+        to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
+        OfflineStore.Index(this);
+    }
 
+    Map<String, String> data;
+    List<Map<String, String>> list_pic = new ArrayList<>();
+    List<Map<String, String>> list_ads = new ArrayList<>();
+    List<Map<String, String>> list_brand = new ArrayList<>();
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+        list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
+        forBanner();
+        list_ads = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
+        Glide.with(getActivity()).load(list_ads.get(0).get("picture")).override(ads_w, ads_h)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200).into(im_ads);
+        im_ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id",list_ads.get(0).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
+                }
+            }
+        });
+        list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
+        Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200)
+                .centerCrop().into(three_image_left_iv);
+        three_image_left_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(list_brand.get(0).get("merchant_id")) && !list_brand.get(0).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_brand.get(0).get("goods_id")) && !list_brand.get(0).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id",list_brand.get(0).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_brand.get(0).get("desc"), list_brand.get(0).get("href"));
+                }
+            }
+        });
+        Glide.with(getActivity()).load(list_brand.get(1).get("picture")).override(img_w, img_h)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200)
+                .centerCrop().into(three_image_center_iv);
+        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(list_brand.get(1).get("merchant_id")) && !list_brand.get(1).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_brand.get(1).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_brand.get(1).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id",list_brand.get(1).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_brand.get(1).get("desc"), list_brand.get(1).get("href"));
+                }
+            }
+        });
+        Glide.with(getActivity()).load(list_brand.get(2).get("picture")).override(img_w, img_h)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .error(R.mipmap.icon_200)
+                .placeholder(R.mipmap.icon_200)
+                .centerCrop().into(three_image_right_iv);
+        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(list_brand.get(2).get("merchant_id")) && !list_brand.get(2).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_brand.get(2).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_brand.get(2).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id",list_brand.get(2).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_brand.get(2).get("desc"), list_brand.get(2).get("href"));
+                }
+            }
+        });
     }
 
     @Override

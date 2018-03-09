@@ -11,8 +11,7 @@
         android:id="@+id/goods_attrs_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="尺码"/>
+        android:padding="8dp" />
 
     <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
         android:id="@+id/goods_attr_tfl"

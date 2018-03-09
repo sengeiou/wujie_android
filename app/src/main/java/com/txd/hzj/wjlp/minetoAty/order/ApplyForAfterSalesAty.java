@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
@@ -20,6 +22,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
+import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -54,7 +57,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
     /**
      * 允许输入的最大金额
      */
-    private BigDecimal maxPrice = new BigDecimal("108.00");
+    private BigDecimal maxPrice;
     /**
      * 用户输入的金额
      */
@@ -85,9 +88,22 @@ public class ApplyForAfterSalesAty extends BaseAty {
     @ViewInject(R.id.apply_cause_tv)
     private TextView apply_cause_tv;
     /**
+     * 退款金额
+     */
+    @ViewInject(R.id.layout)
+    private LinearLayout ll;
+    /**
      * 退款原因
      */
     private String cause;
+
+    @ViewInject(R.id.tv_price)
+    private TextView tv_price;
+
+    @ViewInject(R.id.edittext)
+    private EditText edittext;
+    private String order_id;
+    private String order_goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +129,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             case R.id.apply_type_tv:
                 bundle = new Bundle();
                 bundle.putString("title", "售后类型");
+                bundle.putString("order_goods_id",getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 101);
                 break;
             case R.id.goods_status_tv:
@@ -126,12 +143,28 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 startActivityForResult(TextListAty.class, bundle, 103);
                 break;
             case R.id.submit_apply_tv:
+                if (TextUtils.isEmpty(apply_type_tv.getText().toString())) {
+                    showToast("请选择售后类型！");
+                    return;
+                }
+                if (TextUtils.isEmpty(goods_status_tv.getText().toString())) {
+                    showToast("请选择售后状态！");
+                    return;
+                }
+                if (TextUtils.isEmpty(apply_cause_tv.getText().toString())) {
+                    showToast("请选择售后原因！");
+                    return;
+                }
                 price = money_be_back_ev.getText().toString();
                 BigDecimal temp_price = new BigDecimal(price);
-                if (temp_price.compareTo(maxPrice) > 0) {
-                    showErrorTip("最多只能退108.00哦");
-                    break;
+                if (temp_price.compareTo(maxPrice.setScale(2, BigDecimal.ROUND_DOWN)) > 0) {
+                    showErrorTip("最多只能退" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
+                    return;
                 }
+                AfterSale.backApply(apply_type_tv.getText().toString().equals("我要退款") ? "1" : "2",
+                        String.valueOf(price), edittext.getText().toString(), pic, apply_cause_tv.getText().toString(),
+                        goods_status_tv.getText().toString().equals("已收到货")?"1":"2", order_id, type, order_goods_id, this);
+                showProgressDialog();
                 break;
         }
     }
@@ -149,11 +182,34 @@ public class ApplyForAfterSalesAty extends BaseAty {
         imagePicker.setCrop(false);// 是否裁剪
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
+        order_goods_id = getIntent().getStringExtra("order_goods_id");
+        order_id = getIntent().getStringExtra("order_id");
+        type = getIntent().getStringExtra("type");
+        maxPrice = new BigDecimal(Double.parseDouble(getIntent().getStringExtra("price")));
+        tv_price.setText("最多" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
+        switch (type) {
+            case "0":
+                type = "1";
+                break;
+            case "3":
+                type = "3";
+                break;
+        }
     }
 
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+
+        if(requestUrl.contains("backApply")){
+            showToast("提交成功！");
+            finish();
+        }
     }
 
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener =
@@ -193,11 +249,11 @@ public class ApplyForAfterSalesAty extends BaseAty {
             }
             switch (requestCode) {
                 case 101:// 售后类型
-                    type = data.getStringExtra("type");
-                    apply_type_tv.setText(type);
+                    apply_type_tv.setText(data.getStringExtra("type"));
                     break;
                 case 102:// 货物状态
                     status = data.getStringExtra("status");
+
                     goods_status_tv.setText(status);
                     break;
                 case 103:// 原因

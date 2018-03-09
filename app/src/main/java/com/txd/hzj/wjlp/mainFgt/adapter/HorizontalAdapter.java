@@ -15,6 +15,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -27,11 +28,11 @@ import java.util.List;
 
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
 
-    private List<String> list;
+    private List<Map<String, String>> list;
     private LayoutInflater mInflater;
     private Context context;
 
-    public HorizontalAdapter(List<String> list, Context context) {
+    public HorizontalAdapter(List<Map<String, String>> list, Context context) {
         this.list = list;
         this.context = context;
         mInflater = LayoutInflater.from(context);
@@ -47,13 +48,13 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.tv_classify_name_tv.setText(list.get(position));
+        holder.tv_classify_name_tv.setText(list.get(position).get("short_name"));
         holder.rv_classify_under_line.setBackgroundColor(Color.WHITE);
         if (position == selected) {
             holder.tv_classify_name_tv.setTextColor(ContextCompat.getColor(context, R.color.theme_color));
             holder.rv_classify_under_line.setBackgroundColor(ContextCompat.getColor(context, R.color.theme_color));
         } else {
-            holder.tv_classify_name_tv.setTextColor(context.getResources().getColor(R.color.hint_text_color));
+            holder.tv_classify_name_tv.setTextColor(ContextCompat.getColor(context, R.color.hint_text_color));
             holder.rv_classify_under_line.setBackgroundColor(Color.WHITE);
         }
         // 如果设置了回调，则设置点击事件

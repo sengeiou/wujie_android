@@ -7,20 +7,25 @@
     <include
         layout="@layout/aty_title"/>
 
-    <View
-        android:id="@+id/ie_view"
-        style="@style/line_view_h"
-        android:layout_below="@+id/ie_car"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_car_commodity"
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:id="@+id/car_s_s_r_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_car_commodity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
+        <include
+            layout="@layout/aty_no_data_layout"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/car_be_back_top_iv"

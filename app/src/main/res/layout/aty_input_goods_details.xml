@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,6 +28,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -60,12 +61,14 @@
                                 android:padding="8dp">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:id="@+id/goods_cou_logo_iv"
+                                    android:layout_width="36dp"
+                                    android:layout_height="24dp"
                                     android:src="@drawable/icon_temp_han"
                                     />
 
                                 <TextView
+                                    android:id="@+id/country_desc_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="8dp"
@@ -152,6 +155,7 @@
                 android:showDividers="middle">
 
                 <TextView
+                    android:id="@+id/to_main_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -162,6 +166,7 @@
                     android:text="首页"/>
 
                 <FrameLayout
+                    android:id="@+id/to_user_cart_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -178,19 +183,22 @@
                         android:text="购物车"/>
 
                     <TextView
+                        android:id="@+id/user_card_num_tv"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/shape_search_message_num_tv"
                         android:gravity="center"
-                        android:text="1"
                         android:textColor="@color/white"
+                        android:textSize="12dp"
+                        android:visibility="gone"
                         />
 
                 </FrameLayout>
 
                 <TextView
+                    android:id="@+id/to_chat_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

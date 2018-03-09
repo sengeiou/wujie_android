@@ -41,6 +41,7 @@
                 android:id="@+id/rb_detail_type"
                 style="@style/hous_tab_detail"
                 android:text="户型"/>
+
             <RadioButton
                 android:id="@+id/rb_comment_type"
                 style="@style/hous_tab_detail"
@@ -85,7 +86,6 @@
                 android:id="@+id/tv_detail_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="022-1236-5989"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 />
@@ -102,6 +102,7 @@
             android:drawableTop="@mipmap/icon_heart_chen"
             android:gravity="center"
             android:padding="8dp"
+            android:visibility="gone"
             android:text="收藏"
             android:textColor="@color/white"
             />

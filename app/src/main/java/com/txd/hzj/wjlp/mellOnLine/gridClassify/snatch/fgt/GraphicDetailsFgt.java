@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -27,6 +28,14 @@ public class GraphicDetailsFgt extends BaseFgt {
 
     @ViewInject(R.id.sn_notice_details_wv)
     private WebView sn_notice_details_wv;
+
+    private String webContext;
+
+    public static GraphicDetailsFgt getFgt(String webContext) {
+        GraphicDetailsFgt graphicDetailsFgt = new GraphicDetailsFgt();
+        graphicDetailsFgt.webContext = webContext;
+        return graphicDetailsFgt;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -48,7 +57,8 @@ public class GraphicDetailsFgt extends BaseFgt {
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         // WebView加载web资源
-        sn_notice_details_wv.loadUrl("http://game.huanqiu.com/gamenews/2017-07/10942781.html");
+//        sn_notice_details_wv.loadUrl("http://game.huanqiu.com/gamenews/2017-07/10942781.html");
+        sn_notice_details_wv.loadDataWithBaseURL(null,webContext,"text/html","utf-8",null);
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         sn_notice_details_wv.setWebViewClient(new WebViewClient() {
             @Override
