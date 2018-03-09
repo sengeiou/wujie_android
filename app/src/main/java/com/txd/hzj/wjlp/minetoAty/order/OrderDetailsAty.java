@@ -25,6 +25,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.User;
+import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_after;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
@@ -111,6 +112,7 @@ public class OrderDetailsAty extends BaseAty {
 
     private CommonPopupWindow commonPopupWindow;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,7 +126,7 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right})
+    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right,R.id.lin_logistics})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -135,6 +137,11 @@ public class OrderDetailsAty extends BaseAty {
             case R.id.tv_btn_right:// 最底部右侧按钮
                 // 评价商品
 
+                break;
+            case R.id.lin_logistics://订单物流
+                Bundle bundle=new Bundle();
+                bundle.putString("order_id",order_id);
+                startActivity(OrderLogisticsAty.class,bundle);
                 break;
         }
     }
@@ -541,6 +548,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待发货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
+
                 break;
             case "3":
                 tv_state.setText("待收货");
@@ -675,12 +683,22 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
             }
-            if (getItem(i).get("after_type").equals("0")) {
+            if(order_status.equals("1")){
+                tgvh.tv_btn_left.setVisibility(View.GONE);
+                tgvh.tv_btn_right.setVisibility(View.GONE);
+            }
+            if (getItem(i).get("after_type").equals("0")&&!order_status.equals("1")) {
                 tgvh.tv_btn_left.setText("申请售后");
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setText("确认收货");
             } else {
                 tgvh.tv_btn_left.setText("售后中");
+            }
+            if(getItem(i).get("after_sale_status").equals("1")){
+                tgvh.lin_shouhou.setVisibility(View.VISIBLE);
+                tgvh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+            }else{
+                tgvh.lin_shouhou.setVisibility(View.GONE);
             }
             tgvh.tv_price.setText("¥" + getItem(i).get("shop_price"));
             tgvh.tv_price.setVisibility(View.VISIBLE);
@@ -760,6 +778,10 @@ public class OrderDetailsAty extends BaseAty {
             private TextView textview;
             @ViewInject(R.id.delayReceiving)
             private TextView delayReceiving;
+            @ViewInject(R.id.lin_shouhou)
+            private LinearLayout lin_shouhou;
+            @ViewInject(R.id.tv_shouhou)
+            private TextView tv_shouhou;
 
         }
     }

@@ -58,6 +58,7 @@ public class Order {
                                 String collocation,
                                 String invoice,
                                 String leave_message,
+                                String goods,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -74,6 +75,7 @@ public class Order {
         requestParams.addBodyParameter("collocation", collocation);
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("leave_message", leave_message);
+        requestParams.addBodyParameter("goods", goods);
         apiTool2.postApi(url + "setOrder", requestParams, baseView);
     }
 
@@ -245,5 +247,16 @@ public class Order {
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
         apiTool2.postApi(url + "delayReceiving", requestParams, baseView);
 
+    }
+    /**
+     * 订单物流
+     * @param order_id
+     * @param baseView
+     */
+    public static void orderLogistics(String order_id,BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url + "orderLogistics", requestParams, baseView);
     }
 }

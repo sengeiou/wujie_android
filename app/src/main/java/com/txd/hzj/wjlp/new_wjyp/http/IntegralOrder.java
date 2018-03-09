@@ -41,6 +41,7 @@ public class IntegralOrder {
                                 String freight_type,
                                 String invoice,
                                 String leave_message,
+                                String goods,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -52,6 +53,7 @@ public class IntegralOrder {
         requestParams.addBodyParameter("freight", freight);
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("leave_message", leave_message);
+        requestParams.addBodyParameter("goods", goods);
         requestParams.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "SetOrder", requestParams, baseView);
     }
