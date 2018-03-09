@@ -110,8 +110,6 @@ public class AfterSale {
         apiTool2.postApi(url + "addShipping", requestParams, baseView);
     }
 
-<<<<<<< HEAD
-=======
 
 //售后类型及货物状态
     public static void backApplyType(String order_goods_id, BaseView baseView) {
@@ -122,5 +120,4 @@ public class AfterSale {
         apiTool2.postApi(url + "backApplyType", requestParams, baseView);
     }
 
->>>>>>> master
 }
