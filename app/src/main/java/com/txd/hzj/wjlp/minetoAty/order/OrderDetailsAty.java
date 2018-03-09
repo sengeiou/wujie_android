@@ -110,10 +110,7 @@ public class OrderDetailsAty extends BaseAty {
 
 
     private CommonPopupWindow commonPopupWindow;
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -339,7 +336,6 @@ public class OrderDetailsAty extends BaseAty {
                                 PreOrder.preCancelOrder(order_id, OrderDetailsAty.this);
                                 showProgressDialog();
                             }
-<<<<<<< HEAD
 
                         } else if (type.equals("7")) {
                             if (order_status.equals("1")) {
@@ -527,195 +523,6 @@ public class OrderDetailsAty extends BaseAty {
                 tv_btn_right.setText("删除");
                 break;
 
-=======
-
-                        } else if (type.equals("7")) {
-                            if (order_status.equals("1")) {
-                                IntegralBuyOrder.CancelOrder(order_id, OrderDetailsAty.this);
-                                showProgressDialog();
-                            }
-                        }
-                    }
-                }).setNegativeButton("取消", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AuctionOrder.CancelOrder(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
-                    }
-                }).show();
-            }
-        });
-    }
-
-    Map<String, String> data;
-    List<Map<String, String>> list;
-
-    @Override
-    public void onComplete(String requestUrl, String jsonStr) {
-        super.onComplete(requestUrl, jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("details") ||
-                requestUrl.contains("preDetails")) {
-            data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
-            //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
-            order_status = data.get("order_status");
-            if (type.equals("0") || type.equals("7")) {
-                setOrderStatus();
-            } else if (type.equals("3")) {
-                setGroupBuyOrderStatus();
-            } else if (type.equals("4")) {
-                setPreOrderStatus();
-            } else if (type.equals("6")) {
-                setAuctionStatus();
-            }
-            tv_name.setText(data.get("user_name"));
-            tv_tel.setText(data.get("phone"));
-            tv_address.setText(data.get("address"));
-            tv_logistics.setText(data.get("logistics"));
-            tv_logistics_time.setText(data.get("logistics_time"));
-            leave_message.setText(data.get("leave_message"));
-            tv_merchant_name.setText(data.get("merchant_name"));
-            list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-            order_price_info_tv.setText("共" +
-                    list.size() + "件商品 合计：¥" + data.get("order_price"));
-            tv_order_sn.setText("订单编号：" + data.get("order_sn"));
-            tv_create_time.setText("创建时间：" + data.get("create_time"));
-            tv_pay_time.setText("付款时间：" + data.get("pay_time"));
-            if (type.equals("3")) {
-                group_buy_id = data.get("group_buy_id");
-                order_type = data.get("order_type");
-            }
-            goods_for_this_order_lv.setAdapter(thisAdapter);
-        }
-
-        if (requestUrl.contains("cancelOrder") ||
-                requestUrl.contains("preCancelOrder") ||
-                requestUrl.contains("CancelOrder")) {
-            if (type.equals("0")) {
-                Order.details(order_id, this);
-            } else if (type.equals("3")) {
-                GroupBuyOrder.details(order_id, this);
-            } else if (type.equals("4")) {
-                PreOrder.preDetails(order_id, this);
-            } else if (type.equals("6")) {
-                AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals("7")) {
-                IntegralBuyOrder.details(order_id, this);
-            }
-            showProgressDialog();
-
-        }
-        if (requestUrl.contains("receiving") ||
-                requestUrl.contains("preReceiving") ||
-                requestUrl.contains("Receiving")) {
-            if (type.equals("0")) {
-                Order.details(order_id, this);
-            } else if (type.equals("3")) {
-                GroupBuyOrder.details(order_id, this);
-            } else if (type.equals("4")) {
-                PreOrder.preDetails(order_id, this);
-            } else if (type.equals("6")) {
-                AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals("7")) {
-                IntegralBuyOrder.details(order_id, this);
-            }
-            showProgressDialog();
-
-        }
-        if (requestUrl.contains("deleteOrder") ||
-                requestUrl.contains("preDeleteOrder") ||
-                requestUrl.contains("DeleteOrder")) {
-            showToast("删除成功！");
-            finish();
-
-        }
-        if (requestUrl.contains("delayReceiving")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            showToast(data.get("message"));
-        }
-    }
-
-    private void setOrderStatus() {
-        switch (order_status) {
-            case "0":
-                tv_state.setText("待支付");
-                tv_btn_left.setText("取消订单");
-                tv_btn_right.setText("付款");
-                layout_choose_address.setVisibility(View.GONE);
-                break;
-            case "1":
-                tv_state.setText("待发货");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setVisibility(View.GONE);
-                break;
-            case "2":
-                tv_state.setText("待收货");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("确认收货");
-                tv_btn_right.setVisibility(View.GONE);
-                break;
-            case "3":
-                tv_state.setText("待评价");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("评价");
-                break;
-            case "4":
-                tv_state.setText("已完成");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("删除");
-                break;
-            case "5":
-                tv_state.setText("已取消");
-                layout_choose_address.setVisibility(View.GONE);
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("删除");
-                break;
-
-        }
-    }
-
-    private void setGroupBuyOrderStatus() {
-        switch (order_status) {
-            case "0":
-                tv_state.setText("待支付");
-                tv_btn_left.setText("取消订单");
-                tv_btn_right.setText("付款");
-                layout_choose_address.setVisibility(View.GONE);
-                break;
-            case "1":
-                tv_state.setText("待成团");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setVisibility(View.GONE);
-                break;
-            case "2":
-                tv_state.setText("待发货");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setVisibility(View.GONE);
-                break;
-            case "3":
-                tv_state.setText("待收货");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("确认收货");
-                tv_btn_right.setVisibility(View.GONE);
-                break;
-            case "4":
-                tv_state.setText("待评价");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("评价");
-                break;
-            case "5":
-                tv_state.setText("已完成");
-                tv_btn_left.setVisibility(View.GONE);
-                tv_btn_right.setText("删除");
-                break;
-            case "6":
-                tv_state.setText("已取消");
-                tv_btn_left.setVisibility(View.GONE);
-                layout_choose_address.setVisibility(View.GONE);
-                tv_btn_right.setText("删除");
-                break;
-
->>>>>>> master
         }
     }
 
@@ -735,10 +542,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_state.setText("待发货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
-<<<<<<< HEAD
-=======
 
->>>>>>> master
                 break;
             case "3":
                 tv_state.setText("待收货");
@@ -873,15 +677,11 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
             }
-<<<<<<< HEAD
-            if (getItem(i).get("after_type").equals("0")) {
-=======
             if(order_status.equals("1")){
                 tgvh.tv_btn_left.setVisibility(View.GONE);
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             }
             if (getItem(i).get("after_type").equals("0")&&!order_status.equals("1")) {
->>>>>>> master
                 tgvh.tv_btn_left.setText("申请售后");
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setText("确认收货");
