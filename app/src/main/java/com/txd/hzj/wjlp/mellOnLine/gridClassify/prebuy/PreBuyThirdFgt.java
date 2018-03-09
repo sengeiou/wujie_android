@@ -35,7 +35,11 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：13:56
+<<<<<<< HEAD
  * 描述：无界预购三积分了商品列表碎片
+=======
+ * 描述：xfte预购三积分了商品列表碎片
+>>>>>>> master
  * ===============Txunda===============
  */
 
@@ -54,7 +58,11 @@ public class PreBuyThirdFgt extends BaseFgt {
     private List<AllGoodsBean> data;
     private List<AllGoodsBean> data2;
     /**
+<<<<<<< HEAD
      * 无界预购
+=======
+     * xfte预购
+>>>>>>> master
      */
     private PerBuyPst perBuyPst;
     /**
@@ -62,7 +70,11 @@ public class PreBuyThirdFgt extends BaseFgt {
      */
     private TicketBuyPst ticketBuyPst;
     /**
+<<<<<<< HEAD
      * 无界商店
+=======
+     * xfte商店
+>>>>>>> master
      */
     private IntegralBuyPst integralBuyPst;
     /**
@@ -115,12 +127,20 @@ public class PreBuyThirdFgt extends BaseFgt {
                         bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
+<<<<<<< HEAD
                     case 2:// 无界预购
+=======
+                    case 2:// xfte预购
+>>>>>>> master
                         bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
                         bundle.putInt("type", 2);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
+<<<<<<< HEAD
                     case 10:// 无界商店
+=======
+                    case 10:// xfte商店
+>>>>>>> master
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
                         bundle.putInt("type", 10);
                         startActivity(LimitGoodsAty.class, bundle);
@@ -160,13 +180,21 @@ public class PreBuyThirdFgt extends BaseFgt {
             case 1:// 票券区
                 ticketBuyPst.threeList(two, three, p);
                 break;
+<<<<<<< HEAD
             case 2:// 无界预购
+=======
+            case 2:// xfte预购
+>>>>>>> master
                 perBuyPst.threeList(two, p, three);
                 break;
             case 3:// 进口馆
                 countryPst.threeList(two, country_id, p, three);
                 break;
+<<<<<<< HEAD
             case 10:// 无界预购
+=======
+            case 10:// xfte预购
+>>>>>>> master
                 integralBuyPst.threeList(two, three, p);
                 break;
         }
@@ -189,13 +217,21 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 1:// 票券区
                         data = GsonUtil.getObjectList(datajson.get("ticket_buy_list"), AllGoodsBean.class);
                         break;
+<<<<<<< HEAD
                     case 2:// 无界预购
+=======
+                    case 2:// xfte预购
+>>>>>>> master
                         data = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                         break;
                     case 3:// 进口馆
                         data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
                         break;
+<<<<<<< HEAD
                     case 10:// 无界商店
+=======
+                    case 10:// xfte商店
+>>>>>>> master
                         data = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
                         break;
                 }
@@ -214,13 +250,21 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 1:// 票券区
                         data2 = GsonUtil.getObjectList(datajson.get("ticket_buy_list"), AllGoodsBean.class);
                         break;
+<<<<<<< HEAD
                     case 2:// 无界预购
+=======
+                    case 2:// xfte预购
+>>>>>>> master
                         data2 = GsonUtil.getObjectList(datajson.get("pre_buy_list"), AllGoodsBean.class);
                         break;
                     case 3:// 进口馆
                         data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
                         break;
+<<<<<<< HEAD
                     case 10:// 无界商店
+=======
+                    case 10:// xfte商店
+>>>>>>> master
                         data2 = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
                         break;
                 }

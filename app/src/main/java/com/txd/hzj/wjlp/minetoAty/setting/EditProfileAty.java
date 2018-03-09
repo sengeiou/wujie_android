@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -323,6 +324,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 if (isLoaded) {
                     ShowPickerView();
                 }
+                user_select_street_tv.setText("");
 //                startActivityForResult(AreaSelectAty.class, null, 102);
                 break;
             case R.id.user_select_street_layout:// 选择街道
@@ -338,7 +340,24 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             case R.id.titlt_right_tv:// 保存
                 nickname = user_nickname_tv.getText().toString();
                 email = user_email_ev.getText().toString();
-                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
+                //2018.2.23 个人信息不能为空
+                if(user_nickname_tv.getText().toString().trim().equals("")){
+                    showToast("昵称不能为空");
+                }
+
+                else if(user_email_ev.getText().toString().trim().equals("")){
+                    showToast("邮箱不能为空");
+                } else if(  user_select_zoon_tv.getText().toString().trim().equals("")){
+                    Toast.makeText(this,"所在地区不能为空！",Toast.LENGTH_SHORT).show();
+                }else if( user_select_street_tv.getText().toString().trim().equals("")){
+                    Toast.makeText(this,"所在街道不能为空！",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
+                }
+
+
+//                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
                 break;
         }
     }

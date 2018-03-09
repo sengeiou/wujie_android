@@ -111,7 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="正品保证：该商品无界优品已经进行商家资质审核"
+                        android:text="正品保证：该商品xfte优品已经进行商家资质审核"
                         android:textColor="@color/gray_text_color" />
 
                 </LinearLayout>

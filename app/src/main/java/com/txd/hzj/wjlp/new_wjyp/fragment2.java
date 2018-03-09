@@ -29,6 +29,9 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
@@ -43,6 +46,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -260,6 +264,7 @@ public class fragment2 extends BaseFgt {
 
     @Override
     protected void requestData() {
+        download();
         if (!getArguments().getString("comp_auth_status").equals("0")) {
             ApiTool2 apiTool2 = new ApiTool2();
             apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);
@@ -330,6 +335,47 @@ public class fragment2 extends BaseFgt {
             showToast("成功！");
             getActivity().finish();
         }
+    }
+
+
+
+
+    private void download() {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("token", Config.getToken());
+        new Novate.Builder(getActivity())
+                .baseUrl(Config.BASE_URL)
+                .addHeader(parameters)
+                .build()
+                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
+
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+                        name.setText(data.get("com_name"));
+                        num.setText(data.get("comp_reg_num"));
+                        comp_start_time.setText(data.get("comp_start_date"));
+                        comp_end_time.setText(data.get("comp_end_date").equals("0") ? "永久" : data.get("comp_end_date"));
+                        ads0.setText(data.get("comp_province_name") + data.get("comp_city_name") + data.get("comp_area_name"));
+                        ads1.setText(data.get("comp_street_name"));
+                        Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+                });
+
     }
 
     private void ShowPickerView() {// 弹出选择器

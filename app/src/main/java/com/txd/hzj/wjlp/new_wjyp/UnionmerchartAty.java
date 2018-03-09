@@ -100,7 +100,7 @@ public class UnionmerchartAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        switchmultibutton.setText("联盟商家", "无界驿店");
+        switchmultibutton.setText("联盟商家", "xfte驿店");
         if (type.equals("1")) {
             switchmultibutton.setEnabled(true);
             switchmultibutton.setOnSwitchListener(new SwitchMultiButton.OnSwitchListener() {
@@ -110,7 +110,7 @@ public class UnionmerchartAty extends BaseAty {
                         case "联盟商家":
                             fragmentChangeManager.setFragments(0);
                             break;
-                        case "无界驿店":
+                        case "xfte驿店":
                             fragmentChangeManager.setFragments(1);
                             break;
                     }

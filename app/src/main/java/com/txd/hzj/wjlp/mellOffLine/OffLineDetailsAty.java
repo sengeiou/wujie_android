@@ -102,7 +102,7 @@ public class OffLineDetailsAty extends BaseAty {
      */
     private List<String> data;
     /**
-     * 无界头条View
+     * xfte头条View
      */
     private List<View> views;
 

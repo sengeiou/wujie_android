@@ -10,6 +10,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/ntsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -42,7 +43,9 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/classify_goods_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    />
 
                 <include
                     layout="@layout/aty_no_data_layout"

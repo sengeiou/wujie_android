@@ -610,7 +610,7 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("type", "3");
         }
         if (type.equals("6")) {
-            mBundle.putString("title", "无界预购");
+            mBundle.putString("title", "xfte预购");
             mBundle.putString("type", "4");
         }
         if (type.equals("7")) {

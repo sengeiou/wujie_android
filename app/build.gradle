@@ -19,14 +19,18 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
     signingConfigs {
         releaseConfig {
             keyAlias 'wjlpkey'
             keyPassword 'android'
-            storeFile file('E:/Txunda/KeyStore/wjlp.jks')
+            storeFile file('D:/Txunda/KeyStore/wjlp.jks')
             storePassword 'android'
         }
     }
+
+
+
     buildTypes {
         release {
             // 混淆
@@ -35,11 +39,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.releaseConfig
         }
+
         debug {
             minifyEnabled false
             zipAlignEnabled false
             shrinkResources false
+
             signingConfig signingConfigs.releaseConfig
+
         }
     }
     sourceSets {
@@ -88,6 +95,12 @@ dependencies {
     compile files('libs/jpush-android-3.0.9.jar')
     //    状态按钮
     compile 'lib.kingja.switchbutton:switchbutton:1.1.3'
- //   compile 'com.contrarywind:Android-PickerView:3.2.5'
+//<<<<<<< HEAD
+    compile 'com.contrarywind:Android-PickerView:3.2.5'
 
+//=======
+    //   compile 'com.contrarywind:Android-PickerView:3.2.5'
+    compile 'com.tamic.novate:novate:1.5.4.3'
+    compile files('libs/pinyin4j-2.5.0.jar')
+//>>>>>>> master
 }

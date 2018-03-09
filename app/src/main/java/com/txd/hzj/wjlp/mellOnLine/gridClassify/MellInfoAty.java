@@ -119,12 +119,122 @@ public class MellInfoAty extends BaseAty {
      */
     @ViewInject(R.id.mell_tool_bar)
     private Toolbar mell_tool_bar;
+<<<<<<< HEAD
+=======
 
     /**
-     * 无界头条View
+     * xfte头条View
      */
     private List<View> views;
     private NoticeDialog noticeDialog;
+
+    private TextView notice_content_tv;
+
+    private List<String> aty_type;
+
+    private int pop_select = 0;
+
+    /**
+     * 数据源，此参数用于判断ReclycleView的item样式
+     * 0.店铺首页，全部是图片，LinearManager方式
+     * 1.全部商品，热销商品，最新上架
+     * 2.限量购
+     * 3.拼团购
+     * 4.xfte预购
+     * 5.竞拍汇
+     * 6.一元夺宝
+     */
+    private int data_type = 0;
+
+    private MellGoodsAndAdsAdapter mellGoodsAndAdsAdapter;
+>>>>>>> master
+
+    private MerchantPst merchantPst;
+    private String mell_id = "";
+    private int p = 1;
+    /**
+<<<<<<< HEAD
+     * 无界头条View
+=======
+     * 是否收藏
+     */
+    private String is_collect = "";
+    /**
+     * 收藏
+>>>>>>> master
+     */
+    @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;
+    /**
+     * 收藏
+     */
+    @ViewInject(R.id.goods_title_collect_tv)
+    private TextView goods_title_collect_tv;
+    /**
+     * 收藏
+     */
+    private UserCollectPst collectPst;
+    /**
+     * 店铺名
+     */
+    private String merchant_name = "";
+    /**
+     * 店铺名称
+     */
+    @ViewInject(R.id.merchant_name_tv)
+    private TextView merchant_name_tv;
+    /**
+     * 店铺描述
+     */
+    @ViewInject(R.id.merchant_slogan_tv)
+    private TextView merchant_slogan_tv;
+
+    /**
+     * 店铺图片
+     */
+    @ViewInject(R.id.mell_logo_pic_iv)
+    private ImageView mell_logo_pic_iv;
+
+    private int size = 0;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
+    /**
+     * 上拉刷新下拉加载
+     */
+    @ViewInject(R.id.mell_super_sr_layout)
+    private SuperSwipeRefreshLayout mell_super_sr_layout;
+
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+    private boolean frist = true;
+    private List<Map<String, String>> ads_list;
+
+    @ViewInject(R.id.mell_ads_tv)
+    private TextView mell_ads_tv;
+    private String announce = "";
+
+    /**
+     * 优惠券布局
+     */
+    @ViewInject(R.id.check_all_coupon_tv)
+    private LinearLayout check_all_coupon_tv;
+
+    @ViewInject(R.id.ticket_tip_tv)
+    private TextView ticket_tip_tv;
+    private List<Map<String, String>> ticket_list;
+    private MellCouponDialog mellCouponDialog;
+    private String share_img;
+    private String share_url;
+    private String share_content;
 
     private TextView notice_content_tv;
 
@@ -330,7 +440,11 @@ public class MellInfoAty extends BaseAty {
         switch (v.getId()) {
             case R.id.off_line_mell_share_tv:
 
+<<<<<<< HEAD
                 toShare("无界优品", share_img, share_url, share_content, mell_id, "1");
+=======
+                toShare("xfte优品", share_img, share_url, share_content, mell_id, "1");
+>>>>>>> master
 
                 break;
             case R.id.popularity_tv:// 店铺首页
@@ -416,7 +530,11 @@ public class MellInfoAty extends BaseAty {
         ads_list = new ArrayList<>();
         aty_type.add("限量购");
         aty_type.add("拼单购");
+<<<<<<< HEAD
         aty_type.add("无界预购");
+=======
+        aty_type.add("xfte预购");
+>>>>>>> master
         aty_type.add("比价购");
         aty_type.add("积分抽奖");
         mell_id = getIntent().getStringExtra("mell_id");
@@ -457,6 +575,7 @@ public class MellInfoAty extends BaseAty {
             }
         });
     }
+<<<<<<< HEAD
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -616,6 +735,167 @@ public class MellInfoAty extends BaseAty {
     }
 
     @Override
+=======
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("merIndex") || requestUrl.contains("goodsList")) {
+            if (ToolKit.isList(map, "data")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                share_img = data.get("share_img");
+                share_url = data.get("share_url");
+                share_content = data.get("share_content");
+                if (1 == p) {
+                    ads_list.clear();
+                    // 顶部数据
+                    forBaseTitle(data);
+
+                    if (requestUrl.contains("merIndex"))// 首页(广告)
+                    {
+                        String ticket_num = data.get("ticket_num");
+                        if (ticket_num.equals("0")) {
+                            check_all_coupon_tv.setVisibility(View.GONE);
+                        } else {
+                            check_all_coupon_tv.setVisibility(View.VISIBLE);
+                            ticket_tip_tv.setText("本店有" + ticket_num + "张优惠券可领取");
+                        }
+                        if (ToolKit.isList(data, "ticket_list")) {
+                            ticket_list = JSONUtils.parseKeyAndValueToMapList(data.get("ticket_list"));
+                        }
+                        ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
+                    } else if (requestUrl.contains("goodsList"))// 商品
+                        ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+                    if (!ListUtils.isEmpty(ads_list)) {
+                        mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
+                        if (requestUrl.contains("merIndex")) {// 首页
+                            L.e("首页");
+                            mell_goods_gv.setVisibility(View.GONE);
+                            mell_ads_lv.setVisibility(View.VISIBLE);
+                            mell_ads_lv.setAdapter(mellGoodsAndAdsAdapter);
+                        } else if (requestUrl.contains("goodsList")) {//商品
+                            L.e("商品");
+                            mell_ads_lv.setVisibility(View.GONE);
+                            mell_goods_gv.setVisibility(View.VISIBLE);
+                            mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
+                        }
+                    } else {
+                        if (mellGoodsAndAdsAdapter != null)
+                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                    }
+                    if (!frist) {
+                        // 加载完成
+                        mell_super_sr_layout.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    L.e("下一页");
+                    if (requestUrl.contains("merIndex")) {// 首页
+                        ads_list.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("ads_list")));
+                    } else if (requestUrl.contains("goodsList")) {//商品
+                        ads_list.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("goods_list")));
+                    }
+                    if (!ListUtils.isEmpty(ads_list)) {
+                        mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                    }
+                    // 加载完成
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    mell_super_sr_layout.setLoadMore(false);
+                }
+            } else {
+                if (1 == p) {
+                    ads_list.clear();
+                    if (!frist) {
+                        // 加载完成
+                        mell_super_sr_layout.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    // 加载完成
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    mell_super_sr_layout.setLoadMore(false);
+                }
+                if (mellGoodsAndAdsAdapter != null)
+                    mellGoodsAndAdsAdapter.notifyDataSetChanged();
+            }
+            return;
+        }
+        if (requestUrl.contains("limitList") || requestUrl.contains("groupList") || requestUrl.contains("preList")
+                || requestUrl.contains("auctionList") || requestUrl.contains("oneBuyList")) {
+
+            L.e("=====链接=====", requestUrl);
+
+            mell_ads_lv.setVisibility(View.GONE);
+            mell_goods_gv.setVisibility(View.VISIBLE);
+
+            if (ToolKit.isList(map, "data")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                if (1 == p) {
+                    ads_list.clear();
+                    forBaseTitle(data);
+                    if (ToolKit.isList(data, "goods_list")) {
+                        ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+                        L.e("=====数据=====", ads_list.toString());
+//                        if (mellGoodsAndAdsAdapter != null)
+//                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
+//                        else {
+//                        }
+                        mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
+                        mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
+                    }
+                    if (!frist) {
+                        // 加载完成
+                        mell_super_sr_layout.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (ToolKit.isList(data, "goods_list")) {
+                        ads_list.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("goods_list")));
+                        if (mellGoodsAndAdsAdapter != null)
+                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
+                    }
+                    // 加载完成
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    mell_super_sr_layout.setLoadMore(false);
+                }
+            } else {
+                if (1 == p) {
+                    ads_list.clear();
+                    if (!frist) {
+                        // 加载完成
+                        mell_super_sr_layout.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    // 加载完成
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    mell_super_sr_layout.setLoadMore(false);
+                }
+            }
+            return;
+        }
+        if (requestUrl.contains("addCollect")) {// 添加收藏
+            showRightTip("收藏成功");
+            is_collect = "1";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setText("已收藏");
+            return;
+        }
+        if (requestUrl.contains("delOneCollect")) {
+            showRightTip("取消成功");
+            is_collect = "0";
+            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setText("收藏");
+        }
+    }
+
+    @Override
+>>>>>>> master
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
         if (1 == p) {
@@ -728,7 +1008,11 @@ public class MellInfoAty extends BaseAty {
                     case 3:// 拼团购
                         merchantPst.groupList(mell_id, p);
                         break;
+<<<<<<< HEAD
                     case 4:// 无界预购
+=======
+                    case 4:// xfte预购
+>>>>>>> master
                         merchantPst.preList(mell_id, p);
                         break;
                     case 5:// 竞拍汇

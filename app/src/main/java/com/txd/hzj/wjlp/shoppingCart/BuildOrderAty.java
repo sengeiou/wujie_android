@@ -178,17 +178,17 @@ public class BuildOrderAty extends BaseAty {
 
                 break;
             case R.id.layout_sle:
-//                if (!TextUtils.isEmpty(address_id)) {
-//                    if (TextUtils.isEmpty(freightJson)) {
-//                        Gson gson = new Gson();
-//                        freightJson = gson.toJson(list_bean);
-//                    }
-//                    Freight.split(address_id, freightJson, this);
-//                    showProgressDialog();
-//                    view_ads = v;
-//                } else {
-//                    showToast("请选择收货地址！");
-//                }
+                if (!TextUtils.isEmpty(address_id)) {
+                    if (TextUtils.isEmpty(freightJson)) {
+                        Gson gson = new Gson();
+                        freightJson = gson.toJson(list_bean);
+                    }
+                    Freight.split(address_id, freightJson, this);
+                    showProgressDialog();
+                    view_ads = v;
+                } else {
+                    showToast("请选择收货地址！");
+                }
                 break;
             case R.id.build_order_left_layout:// 线上商城
                 order_type = 0;
@@ -387,6 +387,7 @@ public class BuildOrderAty extends BaseAty {
             } else {
                 tv_sum_discount.setVisibility(View.GONE);
                 order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
+
             }
             if (ToolKit.isList(map, "item")) {
                 /*

@@ -8,7 +8,11 @@ import com.ants.theantsgo.base.BaseView;
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：10:51
+<<<<<<< HEAD
  * 描述：无界预购Pst
+=======
+ * 描述：xfte预购Pst
+>>>>>>> master
  * ===============Txunda===============
  */
 
@@ -20,7 +24,11 @@ public class PerBuyPst extends BasePresenter {
         preBuy = new PreBuy();
     }
 
+<<<<<<< HEAD
     // 无界预购首页
+=======
+    // xfte预购首页
+>>>>>>> master
     public void preBuyIndex(int p, String cate_id) {
         baseView.showDialog();
         preBuy.preBuyIndex(p, cate_id, baseView);

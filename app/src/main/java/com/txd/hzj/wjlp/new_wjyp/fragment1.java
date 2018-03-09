@@ -34,20 +34,30 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
+import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
+import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -310,6 +320,50 @@ public class fragment1 extends BaseFgt {
     }
 
 
+    private void download() {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+
+        parameters.put("token", Config.getToken());
+        new Novate.Builder(getActivity())
+                .baseUrl(Config.BASE_URL)
+                .addHeader(parameters)
+                .build()
+                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
+
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+                        name.setText(data.get("real_name"));
+                        tv_Sex.setText(data.get("sex").equals("1") ? "男" : "女");
+                        idcard.setText(data.get("id_card_num"));
+                        id_card_start_time.setText(data.get("id_card_start_date"));
+                        id_card_end_time.setText(data.get("id_card_end_date").equals("0") ? "永久" : data.get("id_card_end_date"));
+                        ads0.setText(data.get("auth_province_name") + data.get("auth_city_name") + data.get("auth_area_name"));
+                        ads1.setText(data.get("auth_street_name"));
+                        Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
+                        Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+
+                    }
+
+                });
+
+    }
+
+
+
+
+
     @Override
     protected void initialized() {
         ImagePicker imagePicker = ImagePicker.getInstance();
@@ -359,6 +413,7 @@ public class fragment1 extends BaseFgt {
 
     @Override
     protected void requestData() {
+        download();
         if (!getArguments().getString("auth_status").equals("0")) {
             ApiTool2 apiTool2 = new ApiTool2();
             apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);

@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -56,7 +57,8 @@ import java.util.Map;
  */
 public class ClassifyFgt extends BaseFgt {
     private String type;
-
+    @ViewInject(R.id.ntsv)
+    NestedScrollView ntsv;
     @ViewInject(R.id.classify_goods_rv)
     private RecyclerView classify_goods_rv;
 
@@ -117,10 +119,11 @@ public class ClassifyFgt extends BaseFgt {
     }
 
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+//
         classify_goods_rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) {
             @Override
             public boolean canScrollVertically() {
@@ -130,7 +133,7 @@ public class ClassifyFgt extends BaseFgt {
         classify_goods_rv.setItemAnimator(new DefaultItemAnimator());
         classify_goods_rv.setHasFixedSize(true);
         classify_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
-
+        classify_goods_rv.setNestedScrollingEnabled(false);
 
         ads_h = Settings.displayWidth / 2;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, ads_h);
@@ -139,7 +142,7 @@ public class ClassifyFgt extends BaseFgt {
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
-        swipe_refresh.setTargetScrollWithLayout(true);
+        swipe_refresh.setTargetScrollWithLayout(false);
 
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
@@ -231,7 +234,9 @@ public class ClassifyFgt extends BaseFgt {
 
     @Override
     protected int getLayoutResId() {
+
         return R.layout.fragment_classify_fgt;
+
     }
 
     @Override
@@ -240,6 +245,8 @@ public class ClassifyFgt extends BaseFgt {
         goodsPst = new GoodsPst(this);
         height = ToolKit.dip2px(getActivity(), 4);
         gv_classify = new ArrayList<>();
+
+
     }
 
     @Override
@@ -265,7 +272,7 @@ public class ClassifyFgt extends BaseFgt {
                                 .placeholder(R.drawable.ic_default)
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(classify_ads_iv);
-                        classify_ads_iv.setOnClickListener(new View.OnClickListener() {
+                                  classify_ads_iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {

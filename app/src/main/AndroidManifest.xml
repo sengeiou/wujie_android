@@ -82,7 +82,7 @@
     <application
         android:name="com.txd.hzj.wjlp.DemoApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -200,7 +200,11 @@
         <activity android:name=".mellOnLine.gridClassify.AuctionCollectAty" />
         <!-- 竞拍详情 -->
         <activity android:name=".mellOnLine.gridClassify.AuctionGoodsDetailsAty" />
+
         <!-- 无界头条 -->
+
+
+
         <activity android:name=".mellOnLine.WujieTopHzjAty" />
         <!-- 扫一扫 -->
         <activity android:name=".mellOnLine.ScanAty" />
@@ -324,9 +328,12 @@
         <activity android:name=".shoppingCart.BuildOrderAty" />
         <!-- 一元夺宝详情 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty" />
+
         <!-- 无界书院 -->
         <activity android:name=".minetoAty.books.BooksAty" />
         <!-- 无界驿站 -->
+
+
         <activity android:name=".mellOffLine.point.PointWjAty" />
         <!-- 线下商店详情 -->
         <activity android:name=".mellOffLine.OffLineMellInfoAty" />
@@ -366,6 +373,9 @@
         <activity android:name=".huanxin.ui.ForwardMessageActivity" />
         <activity android:name=".huanxin.ui.PickContactNoCheckboxActivity" />
 
+
+           <activity android:name=".new_wjyp.InvoiceAty2"/>
+
         <!--重置支付密码-->
         <activity android:name=".minetoAty.setting.ResetPayPwdAty" />
         <!--第二步-->
@@ -377,6 +387,7 @@
         <activity android:name=".mellOnLine.gridClassify.CreateGroupAty" />
         <!-- 拼团购三级分类商品列表 -->
         <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty" />
+
         <!-- 无界预购三级分类商品列表 -->
         <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
 
@@ -562,6 +573,199 @@
             </intent-filter>
         </activity>
 
+=======
+        <!-- xfte预购三级分类商品列表 -->
+        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
+
+        <!-- 城市列表 -->
+        <activity android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"
+            android:windowSoftInputMode = "adjustPan">
+
+        </activity>
+
+        <!-- 环信相关服务等 ↓ BEGIN -->
+        <!-- 开机自启动服务 -->
+        <receiver android:name="huanxin.receiver.StartServiceReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- gcm ←→ start -->
+        <receiver
+            android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.hyphenate.chatuidemo" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.hyphenate.chat.EMGCMListenerService"
+            android:exported="false" />
+
+        <receiver
+            android:name="huanxin.receiver.GCMPushBroadCast"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.hyphenate.sdk.push" />
+
+                <category android:name="com.hyphenate.chatuidemo" />
+            </intent-filter>
+        </receiver>
+        <!-- gcm ←→ end -->
+
+
+        <!-- 小米推送 ←→ begin -->
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+
+        <receiver
+            android:name="com.hyphenate.chat.EMMipushReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.xiaomi.mipush.ERROR" />
+            </intent-filter>
+        </receiver>
+        <!-- 小米推送 ←→ end -->
+
+
+        <!-- 华为推送 ←→ 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
+        <receiver
+            android:name="com.hyphenate.chat.EMHuaweiPushReceiver"
+            android:exported="true">
+            <intent-filter>
+
+                <!-- 必须,用于接收token -->
+                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
+                <!-- 必须，用于接收消息 -->
+                <action android:name="com.huawei.android.push.intent.RECEIVE" />
+            </intent-filter>
+            />
+            <meta-data
+                android:name="CS_cloud_ablitity"
+                android:value="successRateAnalytics" />
+        </receiver>
+
+        <!-- PushSDK:PushSDK接收外部请求事件入口 -->
+        <receiver
+            android:name="com.huawei.android.pushagent.PushEventReceiver"
+            android:exported="true"
+            android:process=":pushservice">
+            <intent-filter>
+                <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL" />
+                <action android:name="com.huawei.intent.action.PUSH" />
+                <action android:name="com.huawei.intent.action.PUSH_ON" />
+                <action android:name="com.huawei.android.push.PLUGIN" />
+            </intent-filter>
+        </receiver>
+
+        <!-- PushSDK:Push服务 -->
+        <service
+            android:name="com.huawei.android.pushagent.PushService"
+            android:process=":pushservice" />
+
+        <!-- 华为推送 ←→ end -->
+
+
+        <!-- 设置环信应用的appkey -->
+        <meta-data
+            android:name="EASEMOB_APPKEY"
+            android:value="1132170721115445#wjyp" />
+        <!-- 声明sdk所需的service -->
+        <service
+            android:name="com.hyphenate.chat.EMChatService"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+        <service
+            android:name="com.hyphenate.chat.EMJobService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <!-- 声明sdk所需的receiver -->
+        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+            <!-- 可选filter -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- umeng appkey，可忽略 -->
+        <!-- 友盟统计的暂时忽略 -->
+        <!-- 友盟统计的暂时忽略 -->
+        <!-- 友盟统计的暂时忽略 -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="56aefe07e0f55a250d001a7c" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_CHANNEL" -->
+        <!-- android:value="hyphenate" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="com.baidu.lbsapi.API_KEY" -->
+        <!-- android:value="3ecea51f560650b1ed8a4b99808f52e8" /> -->
+
+
+        <!-- fabric start -->
+        <!-- <meta-data -->
+        <!-- android:name="io.fabric.ApiKey" -->
+        <!-- android:value="6b54bd4edc63eba3ef59d69f8e0a5070bea384e2" /> -->
+        <!-- fabric end -->
+
+
+        <!-- 环信相关服务等 ↑ END -->
+
+        <!--ShareSDK相关-->
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- QQ广播！ -->
+            <intent-filter>
+                <data android:scheme="tencent1106399064" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 新浪微博广播！ -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+>>>>>>> master
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"

@@ -81,7 +81,7 @@ public class MellGuideFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-        mTitles = new String[]{"限量购", "拼团购", "无界预购", "竞拍汇", "一元夺宝"};
+        mTitles = new String[]{"限量购", "拼团购", "xfte预购", "竞拍汇", "一元夺宝"};
         mFragments = new ArrayList<>();
         for (String str : mTitles) {
             mFragments.add(ForClassifyGoodsFgt.newInstance(str));

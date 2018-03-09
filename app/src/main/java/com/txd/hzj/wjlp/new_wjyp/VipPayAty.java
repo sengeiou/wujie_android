@@ -115,7 +115,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 1;
                     this_view = view;
-                    MemberOrder.ticket(map.get("rank_id"), String.valueOf(num), this);
+                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
                 setCheck(1);
@@ -129,7 +129,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 2;
                     this_view = view;
-                    MemberOrder.ticket(map.get("rank_id"), String.valueOf(num), this);
+                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
                 setCheck(2);
@@ -139,7 +139,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 3;
                     this_view = view;
-                    MemberOrder.ticket(map.get("rank_id"), String.valueOf(num), this);
+                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
                 setCheck(3);
@@ -167,7 +167,7 @@ public class VipPayAty extends BaseAty {
                     showToast("请选择支付方式！");
                     return;
                 }
-                MemberOrder.setOrder(map.get("rank_id"), String.valueOf(num), getType(), type, this);
+                MemberOrder.setOrder(map.get("member_coding"), String.valueOf(num), getType(), type, this);
                 showProgressDialog();
 
                 break;
@@ -192,9 +192,9 @@ public class VipPayAty extends BaseAty {
     private CheckBox b;
 
     public void showPop(View view, final int type) {
-        if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
-            return;
-        }
+//        if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
+//            return;
+//        }
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
 
         commonPopupWindow = new CommonPopupWindow.Builder(this)
@@ -390,8 +390,8 @@ public class VipPayAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        MemberOrder.settlement(map.get("rank_id"), this);
-        MemberOrder.ticket(map.get("rank_id"), String.valueOf(num), this);
+        MemberOrder.settlement(map.get("member_coding"), this);
+        MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
         showProgressDialog();
 
         wxPayReceiver = new WxPayReceiver();

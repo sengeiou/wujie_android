@@ -152,10 +152,18 @@ public class _GradeOfMemberAty extends BaseAty {
             holder.layout_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String data = getItem(position).toString();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("data", data);
-                    startActivity(VipDetailsAty.class, bundle);
+                    if(getItem(position).get("sale_status").equals("1")){
+                        String data = getItem(position).toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("data", data);
+                        startActivity(VipDetailsAty.class, bundle);
+                    }else if(getItem(position).get("sale_status").equals("0")){
+                        String data = getItem(position).toString();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("data", data);
+                        startActivity(VipDetailsAty.class, bundle);
+                    }
+
                 }
             });
         }

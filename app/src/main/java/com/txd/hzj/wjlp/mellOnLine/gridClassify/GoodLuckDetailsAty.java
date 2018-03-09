@@ -182,7 +182,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private ImageView show_or_hide_iv;
 
     /**
-     * 无界驿站
+     * xfte驿站
      */
     @ViewInject(R.id.wujie_post_lv)
     private ListViewForScrollView wujie_post_lv;
@@ -656,7 +656,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             case R.id.goods_title_share_tv://分享
+<<<<<<< HEAD
                 toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+=======
+                toShare("xfte优品", share_img, share_url, share_content, goods_id, "1");
+>>>>>>> master
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -668,7 +672,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     show_or_hide_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.show_or_hide_lv_iv://展开,隐藏(无界驿站)
+            case R.id.show_or_hide_lv_iv://展开,隐藏(xfte驿站)
                 getHeight();// 重新计算高度
                 if (wujie_post_lv.getVisibility() == View.GONE) {// 隐藏状态
                     wujie_post_lv.setVisibility(View.VISIBLE);
@@ -678,7 +682,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.show_or_hide_explain_iv://展开,隐藏(无界驿站)
+            case R.id.show_or_hide_explain_iv://展开,隐藏(xfte驿站)
                 getHeight();// 重新计算高度
                 if (goods_other_info_layout.getVisibility() == View.GONE) {// 隐藏状态
                     goods_other_info_layout.setVisibility(View.VISIBLE);

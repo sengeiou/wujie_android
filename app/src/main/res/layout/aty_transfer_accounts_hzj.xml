@@ -129,7 +129,29 @@
             android:textColor="@color/app_text_color"
             android:textSize="14sp"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingStart="16dp"
+        android:paddingTop="4dp"
+        android:id="@+id/ll"
+        android:visibility="gone"
+        >
 
+        <TextView
+            android:id="@+id/operation_type_tv21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。
+"
+            android:textColor="@color/colorRed"
+            />
+
+
+    </LinearLayout>
     <TextView
         android:id="@+id/change_money_tv"
         android:layout_width="match_parent"

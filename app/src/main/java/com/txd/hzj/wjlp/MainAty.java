@@ -15,11 +15,13 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -48,6 +50,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnTouch;
 import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -81,11 +84,12 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：下午 1:16
- * 描述：无界优品主页
+ * 描述：xfte优品主页
  * ===============Txunda===============
  */
 public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
     private Bundle bundle;
+
     @ViewInject(R.id.app_main_rg)
     private RadioGroup app_main_rg;
 
@@ -266,10 +270,19 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     @Override
-    @OnClick({R.id.mach_more_lin_layout})
+    @OnClick({R.id.mach_more_lin_layout,R.id.main_content})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+
+            case R.id.main_content:
+                if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+                    setMoreStatus();
+                    mCurPopupWindow.dismiss();
+                    mCurPopupWindow = null;
+                }
+
+                break;
             case R.id.mach_more_lin_layout:// 更多
                 if (mCurPopupWindow == null) {
                     mCurPopupWindow = showPopupWindow(v);
@@ -353,9 +366,22 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * @param anchorView 点击的按钮
      * @return PopupWindow
      */
+
     private PopupWindow showPopupWindow(View anchorView) {
         final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(
                 R.layout.main_popup_windeow_layout, null);
+        LinearLayout lay = contentView.findViewById(R.id.lay);
+        lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+                    setMoreStatus();
+                    mCurPopupWindow.dismiss();
+                    mCurPopupWindow = null;
+                }
+            }
+        });
+
         contentView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         final PopupWindow popupWindow = new PopupWindow(contentView,
                 ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayWidth, false);
@@ -370,14 +396,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         // 但是设置为true时setOutsideTouchable，setTouchable方法就失效了（点击外部不消失，内容区域也不响应事件）
         // false时PopupWindow不处理返回键
         popupWindow.setFocusable(false);
-        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;   // 这里面拦截不到返回键
-            }
-        });
+
+//
+
+
         /*
-         * 无界商城
+         * xfte商城
          */
         contentView.findViewById(R.id.main_wj_shop_iv).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -388,7 +412,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                startActivity(OnlineShopAty.class, mBundle);
 
                 mBundle.putInt("type", 10);
-                mBundle.putString("title", "无界商店");
+                mBundle.putString("title", "xfte商店");
                 startActivity(TicketZoonAty.class, mBundle);
 
                 popupWindow.dismiss();
@@ -432,6 +456,15 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         });
         popupWindow.showAsDropDown(anchorView);
         return popupWindow;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
+            mCurPopupWindow.dismiss();
+            mCurPopupWindow= null;
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -738,8 +771,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // Todo============================================
     // Todo============================================
     private void showAppUpdateDialog(final UpdataApp updataApp) {
-        int code = Integer.parseInt(updataApp.getData().getCode());
-        if (code > BuildConfig.VERSION_CODE) {
+        String  code = updataApp.getData().getName();
+
+        Log.d("banben=========",String.valueOf(code));
+        if (!code.equals(BuildConfig.VERSION_NAME)) {
             new MikyouCommonDialog(this, "检测到新版本v" + updataApp.getData().getName(), "提示", "立即更新", "稍后更新")
                     .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                         @Override
@@ -773,7 +808,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 })
                 .show();
 
-        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "无界优品 " + appUpdateInfo.getData().getMessage(),
+        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "xfte优品 " + appUpdateInfo.getData().getMessage(),
                 new
                         InstallUtils.DownloadCallBack() {
                             @Override
@@ -850,10 +885,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         PendingIntent rightPendIntent = PendingIntent.getActivity(this,
                 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         int smallIcon = R.mipmap.ic_launcher;
-        String ticker = "正在下载无界优品更新包...";
+        String ticker = "正在下载xfte优品更新包...";
         //实例化工具类，并且调用接口
         notifyUtils = new NotifyUtil(this, 0);
-        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "无界优品 下载", "正在下载中...", false, false, false);
+        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "xfte优品 下载", "正在下载中...", false, false, false);
     }
 
     // ====================android M+动态授权====================

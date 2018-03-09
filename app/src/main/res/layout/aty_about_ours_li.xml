@@ -26,7 +26,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="无界优品"
+                android:text="xfte优品"
                 android:textColor="@color/black"/>
             <TextView
                 android:id="@+id/app_version_tv"

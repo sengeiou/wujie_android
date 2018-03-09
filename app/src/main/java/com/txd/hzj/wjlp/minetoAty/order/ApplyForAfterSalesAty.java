@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
@@ -87,6 +88,11 @@ public class ApplyForAfterSalesAty extends BaseAty {
     @ViewInject(R.id.apply_cause_tv)
     private TextView apply_cause_tv;
     /**
+     * 退款金额
+     */
+    @ViewInject(R.id.layout)
+    private LinearLayout ll;
+    /**
      * 退款原因
      */
     private String cause;
@@ -123,6 +129,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             case R.id.apply_type_tv:
                 bundle = new Bundle();
                 bundle.putString("title", "售后类型");
+                bundle.putString("order_goods_id",getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 101);
                 break;
             case R.id.goods_status_tv:
@@ -156,7 +163,11 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 }
                 AfterSale.backApply(apply_type_tv.getText().toString().equals("我要退款") ? "1" : "2",
                         String.valueOf(price), edittext.getText().toString(), pic, apply_cause_tv.getText().toString(),
+<<<<<<< HEAD
                         goods_status_tv.getText().toString(), order_id, type, order_goods_id, this);
+=======
+                        goods_status_tv.getText().toString().equals("已收到货")?"1":"2", order_id, type, order_goods_id, this);
+>>>>>>> master
                 showProgressDialog();
                 break;
         }
@@ -246,6 +257,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
                     break;
                 case 102:// 货物状态
                     status = data.getStringExtra("status");
+
                     goods_status_tv.setText(status);
                     break;
                 case 103:// 原因
