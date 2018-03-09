@@ -110,12 +110,8 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         holder.older_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         holder.sold_num_tv.setVisibility(View.VISIBLE);
-<<<<<<< HEAD
-        if (cfGoodsList.getTicket_buy_id().equals("0")) {
-=======
 //        ticket_buy_discount
         if (cfGoodsList.getTicket_buy_discount().equals("0")) {
->>>>>>> master
             holder.use_coupon_tv.setText("不可使用代金券");
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {

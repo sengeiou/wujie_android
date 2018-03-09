@@ -41,7 +41,6 @@ public class PreOrder {
                                    String freight_type,
                                    String invoice,
                                    String leave_message,
-                                   String goods,
                                    BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -52,7 +51,6 @@ public class PreOrder {
         params.addBodyParameter("freight", freight);
         params.addBodyParameter("invoice", invoice);
         params.addBodyParameter("leave_message", leave_message);
-        params.addBodyParameter("goods", goods);
         params.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "preSetOrder", params, baseView);
     }

@@ -27,11 +27,6 @@ public class RechargeOffLineAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     private String act_id = "";
-<<<<<<< HEAD
-    /**
-     * 状态
-     */
-=======
 
 
     @ViewInject(R.id.bank_card_number_tv1)
@@ -45,7 +40,6 @@ public class RechargeOffLineAty extends BaseAty {
      */
 
 
->>>>>>> master
     @ViewInject(R.id.status_tv)
     private TextView status_tv;
     /**
@@ -116,29 +110,6 @@ public class RechargeOffLineAty extends BaseAty {
     protected void requestData() {
         balancePst.getUnderInfo(act_id);
     }
-<<<<<<< HEAD
-
-    @Override
-    public void onComplete(String requestUrl, String jsonStr) {
-        super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("getUnderInfo")) {
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            switch (data.get("status")) {
-                case "0":
-                    status_tv.setText("审核中");
-                    break;
-                case "1":
-                    status_tv.setText("已完成");
-                    break;
-                case "2":
-                    status_tv.setText("已取消");
-                    break;
-            }
-            bank_card_number_tv.setText(data.get("card_number"));
-            card_owner_name_tv.setText(data.get("card_name"));
-            card_open_ban_tv.setText(data.get("open_bank"));
-=======
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -164,7 +135,6 @@ public class RechargeOffLineAty extends BaseAty {
             card_open_ban_tv1.setText(data.get("p_open_bank"));
             card_owner_name_tv1.setText(data.get("p_bank_name"));
             bank_card_number_tv1.setText(data.get("p_bank_num"));
->>>>>>> master
             act_time_tv.setText(data.get("act_time"));
             money_tv.setText(data.get("money"));
             name_tv.setText(data.get("name"));

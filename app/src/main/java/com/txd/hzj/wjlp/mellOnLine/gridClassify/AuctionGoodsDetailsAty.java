@@ -346,7 +346,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             public void onClick(View view) {
                 switch (view.getId()) {
                     case R.id.submit_auction_price_tv:
-                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", "", "","", "","", AuctionGoodsDetailsAty.this);
+                        AuctionOrder.SetOrder("", auction_id, "1", singUpDialog.getEditText().getText().toString(), "", "", "","", "", AuctionGoodsDetailsAty.this);
                         singUpDialog.dismiss();
                         break;
                 }

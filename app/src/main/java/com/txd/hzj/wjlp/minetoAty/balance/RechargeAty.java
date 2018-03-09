@@ -15,10 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-=======
 import com.ants.theantsgo.config.Config;
->>>>>>> master
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -26,11 +23,8 @@ import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
-<<<<<<< HEAD
-=======
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
->>>>>>> master
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -39,14 +33,6 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
-<<<<<<< HEAD
-import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.new_wjyp.http.Pay;
-import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
-
-=======
 import com.tamic.novate.Novate;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -61,16 +47,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
->>>>>>> master
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-<<<<<<< HEAD
-=======
 import java.util.HashMap;
->>>>>>> master
 import java.util.Locale;
 import java.util.Map;
 
@@ -257,12 +239,6 @@ public class RechargeAty extends BaseAty {
     @Override
     @OnClick({R.id.re_left_layout, R.id.re_right_layout, R.id.pay_by_wechat_cb,
             R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout,
-<<<<<<< HEAD
-            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit})
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-=======
             R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit,R.id.titlt_right_tv,R.id.select_card_num_layout1})
     public void onClick(View v) {
         super.onClick(v);
@@ -290,7 +266,6 @@ public class RechargeAty extends BaseAty {
                 }
 
                 break;
->>>>>>> master
             case R.id.tv_submit:
                 if (TextUtils.isEmpty(et_price.getText().toString())) {
                     showToast("请输入充值金额！");
@@ -332,32 +307,6 @@ public class RechargeAty extends BaseAty {
                 if (pvCustomTime != null) {
                     pvCustomTime.show(picker_time_tv);
                 }
-<<<<<<< HEAD
-                break;
-            case R.id.off_line_recharge_pic_iv:// 汇款凭证(选择图片)
-                startActivityForResult(ImageGridActivity.class, null, 101);
-                break;
-            case R.id.off_line_recharge_tv:// 线下充值
-
-                // 将 2017-09-25 13:10(或其他数据) 转成时间戳，精确到秒
-                String act_time = DateTool.date2TimeStamp(picker_time_tv.getText().toString(),
-                        "yyy-MM-dd HH:mm");
-                String money = off_line_recharge_money_tv.getText().toString().trim();
-                String name = off_line_recharge_name_tv.getText().toString().trim();
-                String desc = off_line_recharge_desc_ev.getText().toString().trim();
-                String pay_pwd = off_line_recharge_pwd_ev.getText().toString();
-//
-//                L.e("======时间=====", act_time);
-//                L.e("======金额=====", money);
-//                L.e("======名称=====", name);
-//                L.e("======凭证=====", pic.getAbsolutePath());
-//                L.e("======说明=====", desc);
-//                L.e("======密码=====", pay_pwd);
-
-                balancePst.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_pwd);
-
-=======
->>>>>>> master
                 break;
             case R.id.off_line_recharge_pic_iv:// 汇款凭证(选择图片)
                 startActivityForResult(ImageGridActivity.class, null, 101);
@@ -421,10 +370,7 @@ public class RechargeAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("underMoney")) {
-<<<<<<< HEAD
-=======
             L.e("==========",jsonStr);
->>>>>>> master
             showRightTip(map.get("message"));
             finish();
         }
@@ -515,12 +461,6 @@ public class RechargeAty extends BaseAty {
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 银行卡号
-<<<<<<< HEAD
-                    String card_num = data.getStringExtra("card_num");
-                    bank_cart_num_tv.setText(card_num);
-                    bank_card_id = data.getStringExtra("bank_card_id");
-                    break;
-=======
                     bank_cart_num_tv1.setText(PreferencesUtils.getString(RechargeAty.this,"band_id"));
                     bank_cart_num_tv.setText(PreferencesUtils.getString(RechargeAty.this,"band_code"));
 //                    String card_num = data.getStringExtra("card_num");
@@ -531,7 +471,6 @@ public class RechargeAty extends BaseAty {
 
                     break;
 
->>>>>>> master
             }
             return;
         }

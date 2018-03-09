@@ -101,11 +101,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     view = mInflayer.inflate(R.layout.item_mell_goods_rv, parent, false);
                     break;
                 case 2:// 限量购
-<<<<<<< HEAD
-                case 4:// 无界预购
-=======
                 case 4:// xfte预购
->>>>>>> master
                     view = mInflayer.inflate(R.layout.item_purchase_gv, parent, false);
                     break;
                 case 3:// 拼团购
@@ -232,11 +228,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(holder.logo_for_country_iv);
                 break;
-<<<<<<< HEAD
-            case 2:// TODO==========限量购，无界预购
-=======
             case 2:// TODO==========限量购，xfte预购
->>>>>>> master
             case 4:
                 if (2 == type) {
                     holder.sold_num_tv.setText("已抢购" + map.get("sell_num") + "件");

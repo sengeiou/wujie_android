@@ -27,15 +27,9 @@ import cn.sharesdk.wechat.friends.Wechat;
 public class ToShareAty extends BaseAty {
 
     private String link = Config.BASE_URL;
-<<<<<<< HEAD
-    private String title = "无界优品";
-    private String pic = "";
-    private String context = "无界优品";
-=======
     private String title = "xfte优品";
     private String pic = "";
     private String context = "xfte优品";
->>>>>>> master
     private String id = "";
 
     private String shareType = "";

@@ -10,22 +10,14 @@ import com.lidroid.xutils.http.RequestParams;
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：10:46
-<<<<<<< HEAD
- * 描述：无界预购
-=======
  * 描述：xfte预购
->>>>>>> master
  * ===============Txunda===============
  */
 class PreBuy {
     private String url = Config.BASE_URL + "PreBuy/";
 
     /**
-<<<<<<< HEAD
-     * 无界预购首页
-=======
      * xfte预购首页
->>>>>>> master
      *
      * @param p        分页
      * @param cate_id  分类id
@@ -57,11 +49,7 @@ class PreBuy {
     }
 
     /**
-<<<<<<< HEAD
-     * 无界预购详情
-=======
      * xfte预购详情
->>>>>>> master
      * @param pre_buy_id    预购id
      * @param baseView  回调
      */

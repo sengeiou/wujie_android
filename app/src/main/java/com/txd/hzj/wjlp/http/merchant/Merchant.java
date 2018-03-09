@@ -96,11 +96,7 @@ class Merchant {
     }
 
     /**
-<<<<<<< HEAD
-     * 活动商品——无界预购
-=======
      * 活动商品——xfte预购
->>>>>>> master
      *
      * @param merchant_id 商店id
      * @param p           分类

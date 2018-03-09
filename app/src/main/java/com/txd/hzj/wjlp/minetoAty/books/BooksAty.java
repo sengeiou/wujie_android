@@ -48,11 +48,7 @@ public class BooksAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-<<<<<<< HEAD
-        titlt_conter_tv.setText("无界书院");
-=======
         titlt_conter_tv.setText("xfte书院");
->>>>>>> master
     }
 
     @Override

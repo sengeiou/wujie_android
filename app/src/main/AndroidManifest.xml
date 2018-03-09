@@ -575,7 +575,8 @@
 
 =======
         <!-- xfte预购三级分类商品列表 -->
-        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
+        <activity
+            android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
 
         <!-- 城市列表 -->
         <activity android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"

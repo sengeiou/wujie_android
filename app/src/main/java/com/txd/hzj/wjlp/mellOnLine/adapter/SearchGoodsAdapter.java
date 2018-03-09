@@ -82,10 +82,7 @@ public class SearchGoodsAdapter extends BaseAdapter {
         holder.sold_num_tv.setVisibility(View.VISIBLE);
         if (cfGoodsList.getTicket_buy_id().equals("0")) {
             holder.use_coupon_tv.setText("不可使用代金券");
-<<<<<<< HEAD
-=======
             holder.use_coupon_tv.setAlpha(0.3f);
->>>>>>> master
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);

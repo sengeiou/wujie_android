@@ -35,11 +35,7 @@ public class AllGoodsBean {
      */
     private List<AppendPersonBean> append_person;
 
-<<<<<<< HEAD
-    // TODU========无界预购==========
-=======
     // TODU========xfte预购==========
->>>>>>> master
     /**
      * 预购id
      */
@@ -112,11 +108,7 @@ public class AllGoodsBean {
     private String auction_id;
     private String start_price;
 
-<<<<<<< HEAD
-    // TODO==========无界商店==========
-=======
     // TODO==========xfte商店==========
->>>>>>> master
     /**
      * 兑换所需积分
      */

@@ -289,11 +289,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 collectPst.delOneCollect("1", car_id);
                 break;
             case R.id.goods_title_share_tv://分享
-<<<<<<< HEAD
-                toShare("无界优品", share_img, share_url, share_content, car_id, "1");
-=======
                 toShare("xfte优品", share_img, share_url, share_content, car_id, "1");
->>>>>>> master
                 break;
             case R.id.be_back_top_iv:// 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);

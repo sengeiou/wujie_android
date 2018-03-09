@@ -6,10 +6,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-<<<<<<< HEAD
-=======
 import android.widget.LinearLayout;
->>>>>>> master
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.MoneyUtils;
@@ -50,15 +47,12 @@ public class TransferAccountsAty extends BaseAty {
     @ViewInject(R.id.opposite_real_name_tv)
     private TextView opposite_real_name_tv;
 
-<<<<<<< HEAD
-=======
 
     @ViewInject(R.id.ll)
     LinearLayout ll;
     @ViewInject(R.id.operation_type_tv21)
     TextView operation_type_tv21;
 
->>>>>>> master
     private BalancePst balancePst;
 
     private String code = "";
@@ -74,12 +68,8 @@ public class TransferAccountsAty extends BaseAty {
         titlt_conter_tv.setText("转账");
         MoneyUtils.setPricePoint(tr_acc_money_et);
         can_use_money_tv.setText(balance);
-<<<<<<< HEAD
-
-=======
         ll.setVisibility(View.VISIBLE);
         operation_type_tv21.setText(" 每次转账金额必须为整数，系统自动扣除转账额的1%综合服务费。");
->>>>>>> master
         opposite_side_ev.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {

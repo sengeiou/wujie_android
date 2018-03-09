@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
@@ -24,6 +25,7 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -33,7 +35,9 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.citySelect.CitySelectAty;
 import com.txd.hzj.wjlp.cityselect1.ac.EasySideBarBuilder;
+import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
 import org.json.JSONArray;

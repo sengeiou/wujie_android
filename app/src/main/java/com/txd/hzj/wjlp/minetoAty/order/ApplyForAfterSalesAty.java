@@ -163,11 +163,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 }
                 AfterSale.backApply(apply_type_tv.getText().toString().equals("我要退款") ? "1" : "2",
                         String.valueOf(price), edittext.getText().toString(), pic, apply_cause_tv.getText().toString(),
-<<<<<<< HEAD
-                        goods_status_tv.getText().toString(), order_id, type, order_goods_id, this);
-=======
                         goods_status_tv.getText().toString().equals("已收到货")?"1":"2", order_id, type, order_goods_id, this);
->>>>>>> master
                 showProgressDialog();
                 break;
         }

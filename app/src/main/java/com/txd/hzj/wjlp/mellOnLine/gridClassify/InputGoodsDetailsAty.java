@@ -742,11 +742,7 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-<<<<<<< HEAD
-                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-=======
                 toShare("xfte优品", share_img, share_url, share_content, goods_id, "1");
->>>>>>> master
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度

@@ -63,11 +63,7 @@ public class BalanceAty extends BaseAty {
     }
 
     @Override
-<<<<<<< HEAD
-    @OnClick({R.id.recharge_tv, R.id.withdraw_tv, R.id.transfer_accounts_tv, R.id.balance_details_tv})
-=======
     @OnClick({R.id.recharge_tv, R.id.withdraw_tv, R.id.transfer_accounts_tv,R.id.balance_details_tv})
->>>>>>> master
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {

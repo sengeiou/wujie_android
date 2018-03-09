@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
@@ -47,7 +46,7 @@ public class AllGvLvAdapter extends BaseAdapter {
      * 标识
      * 0.限量购
      * 1.票券区
-     * 2.无界预购
+     * 2.xfte预购
      * 3.进口馆
      * 4.竞拍汇
      * 5.一元夺宝
@@ -104,7 +103,7 @@ public class AllGvLvAdapter extends BaseAdapter {
         if (view == null) {
             switch (type) {
                 case 0:// 限量购
-                case 2:// 无界预购
+                case 2:// xfte预购
                     view = inflater.inflate(R.layout.item_purchase_gv, viewGroup, false);
                     break;
                 case 1:// 票券区
@@ -143,7 +142,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 
         switch (type) {
             case 0:// 限量购
-            case 2:// 无界预购
+            case 2:// xfte预购
                 long now = System.currentTimeMillis() / 1000;
                 long end;
                 try {
@@ -231,17 +230,13 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.older_price_tv.setText("￥" + allGoodsBean.getMarket_price());
                 vh.get_integral_tv.setText(allGoodsBean.getIntegral());
                 /* 是否可以使用代金券* 使用多少优惠*/
-                try {
-                    if (allGoodsBean.getTicket_buy_discount().equals("0")) {
-                        vh.use_coupon_tv.setText("不可使用代金券");
-                        vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
-                    } else {
-                        vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
-                        vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+//                if (allGoodsBean.getTicket_buy_discount().equals("0")) {
+//                    vh.use_coupon_tv.setText("不可使用代金券");
+//                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+//                } else {
+//                    vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
+//                    vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+//                }
                 break;
             case 3:// 进口馆
                 // 价格

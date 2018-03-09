@@ -8,11 +8,7 @@ import com.ants.theantsgo.base.BaseView;
  * 作者：DUKE_HwangZj
  * 日期：2017/9/9 0009
  * 时间：17:19
-<<<<<<< HEAD
- * 描述：无界商店首页
-=======
  * 描述：xfte商店首页
->>>>>>> master
  * ===============Txunda===============
  */
 
@@ -24,21 +20,13 @@ public class IntegralBuyPst extends BasePresenter {
         integralBuy = new IntegralBuy();
     }
 
-<<<<<<< HEAD
-    // 无界商店首页
-=======
     // xfte商店首页
->>>>>>> master
     public void integralBuyIndex(int p, String cate_id) {
         baseView.showDialog();
         integralBuy.integralBuyIndex(p, cate_id, baseView);
     }
 
-<<<<<<< HEAD
-    // 无界商店详情
-=======
     // xfte商店详情
->>>>>>> master
     public void integralBuyInfo(String integral_buy_id,int page) {
         baseView.showDialog();
         integralBuy.integralBuyInfo(integral_buy_id, page,baseView);

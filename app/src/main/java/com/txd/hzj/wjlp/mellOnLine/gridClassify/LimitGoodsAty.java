@@ -489,19 +489,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     // 收藏
     private UserCollectPst collectPst;
     /**
-<<<<<<< HEAD
-     * 无界预购
-     */
-    private PerBuyPst perBuyPst;
-    /**
-     * 无界商店
-=======
      * xfte预购
      */
     private PerBuyPst perBuyPst;
     /**
      * xfte商店
->>>>>>> master
      */
     private IntegralBuyPst integralBuyPst;
     private String goods_id = "";
@@ -610,11 +602,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private LinearLayout layou_jinkoushui;
 
     /**
-<<<<<<< HEAD
-     * 无界预购
-=======
      * xfte预购
->>>>>>> master
      */
     @ViewInject(R.id.layout_wjsd)
     private LinearLayout layout_wjsd;
@@ -710,19 +698,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 limitBuyPst.limitBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
-<<<<<<< HEAD
-            case 2:// 无界预购
-                perBuyPst.preBuyInfo(limit_buy_id, page);
-                tv_ljgm.setText("交付定金");
-                break;
-            case 10:// 无界商店
-=======
             case 2:// xfte预购
                 perBuyPst.preBuyInfo(limit_buy_id, page);
                 tv_ljgm.setText("交付定金");
                 break;
             case 10:// xfte商店
->>>>>>> master
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
@@ -1289,11 +1269,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-<<<<<<< HEAD
-                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-=======
                 toShare("xfte优品", share_img, share_url, share_content, goods_id, "1");
->>>>>>> master
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
 //                getHeight();// 重新计算高度
@@ -1674,17 +1650,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 case 0:// 限量购
                     limitBuyPst.limitBuyInfo(limit_buy_id, page);
                     break;
-<<<<<<< HEAD
-                case 2:// 无界预购
-                    perBuyPst.preBuyInfo(limit_buy_id, page);
-                    break;
-                case 10:// 无界商店
-=======
                 case 2:// xfte预购
                     perBuyPst.preBuyInfo(limit_buy_id, page);
                     break;
                 case 10:// xfte商店
->>>>>>> master
                     L.e("==========", String.valueOf(type));
                     integralBuyPst.integralBuyInfo(limit_buy_id, page);
                     break;

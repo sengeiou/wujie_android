@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Administrator on 2018/2/12.
  */
 
-public  class Invoice1 implements Parcelable {
+public  class Invoice1  implements Parcelable {
     String tax;
     String express_fee;
     String invoice_type;

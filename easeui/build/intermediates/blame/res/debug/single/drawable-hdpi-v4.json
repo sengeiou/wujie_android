@@ -4,12 +4,12 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_chatto_voice_playing_f1.png"
     },
     {
-        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_15.png",
-        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_15.png"
-    },
-    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_appitem_del_btn_pressed.png",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_appitem_del_btn_pressed.png"
+    },
+    {
+        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_15.png",
+        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_15.png"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_29.png",
@@ -24,12 +24,12 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable-hdpi-v4\\abc_ic_menu_paste_mtrl_am_alpha.png"
     },
     {
-        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_8.png",
-        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_8.png"
-    },
-    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_type_select_btn_nor.png",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_type_select_btn_nor.png"
+    },
+    {
+        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_8.png",
+        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_8.png"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatting_setmode_voice_btn_pressed.png",

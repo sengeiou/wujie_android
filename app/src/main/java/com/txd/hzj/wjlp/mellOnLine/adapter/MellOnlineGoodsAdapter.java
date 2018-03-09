@@ -74,11 +74,7 @@ public class MellOnlineGoodsAdapter extends RecyclerView.Adapter<MellOnlineGoods
                 view = mInflayer.inflate(R.layout.item_mell_goods_rv, parent, false);
                 break;
             case 2:// 限量购
-<<<<<<< HEAD
-            case 4:// 无界预购
-=======
             case 4:// xfte预购
->>>>>>> master
                 view = mInflayer.inflate(R.layout.item_purchase_gv, parent, false);
                 break;
             case 3:// 拼团购

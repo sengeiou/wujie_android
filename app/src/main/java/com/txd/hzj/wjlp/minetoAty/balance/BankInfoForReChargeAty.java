@@ -12,15 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
-=======
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
->>>>>>> master
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -29,11 +24,6 @@ import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-<<<<<<< HEAD
-import com.txd.hzj.wjlp.http.balance.BalancePst;
-
-import java.util.ArrayList;
-=======
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
@@ -46,7 +36,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
->>>>>>> master
 import java.util.List;
 import java.util.Map;
 
@@ -67,36 +56,14 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     private List<Map<String, String>> list;
 
-<<<<<<< HEAD
-    private BalancePst balancePst;
-
-    @ViewInject(R.id.no_data_layout)
-    private LinearLayout layout;
-
-    private List<Map<String, String>> list;
-
-=======
 
     ArrayList<PtEntity> list1 = new ArrayList<>();
     ArrayList<HkEntity> list2 = new ArrayList<>();
->>>>>>> master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("选择银行卡号");
-<<<<<<< HEAD
-        bank_info_lv.setEmptyView(layout);
-        bank_info_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent();
-                // 卡号
-                intent.putExtra("card_num", list.get(i).get("bank_card_code"));
-                intent.putExtra("bank_card_id", list.get(i).get("bank_card_id"));
-                setResult(RESULT_OK, intent);
-                finish();
-=======
 //        bank_info_lv.setEmptyView(layout);
         bank_info_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,7 +88,6 @@ public class BankInfoForReChargeAty extends BaseAty {
                     finish();
 
 
->>>>>>> master
             }
         });
     }
@@ -135,53 +101,23 @@ public class BankInfoForReChargeAty extends BaseAty {
     protected void initialized() {
         list = new ArrayList<>();
         balancePst = new BalancePst(this);
-<<<<<<< HEAD
-        bankInfoAdapter = new BankInfoAdapter();
-=======
 //        bankInfoAdapter = new BankInfoAdapter();
 
->>>>>>> master
     }
 
     @Override
     protected void requestData() {
-<<<<<<< HEAD
-        balancePst.bankList();
-    }
-=======
         if(PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("1")){
          download("UserBalance/platformAccount");
         }else if (PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("0")){
             download("UserBalance/bankList");
         }
 
->>>>>>> master
 
-    @Override
-    public void onComplete(String requestUrl, String jsonStr) {
-        super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("bankList")) {
-            if (ToolKit.isList(map, "data")) {
-                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                bank_info_lv.setAdapter(bankInfoAdapter);
-            }
-        }
     }
 
 
 
-<<<<<<< HEAD
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Map<String, String> getItem(int i) {
-            return list.get(i);
-        }
-=======
     private void download(final String str) {
 
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -262,48 +198,9 @@ public class BankInfoForReChargeAty extends BaseAty {
 
 
 
->>>>>>> master
 
 
-<<<<<<< HEAD
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            Map<String, String> bank = getItem(i);
-            if (null == view) {
-                view = LayoutInflater.from(BankInfoForReChargeAty.this).inflate(R.layout.item_bank_info_lv, null);
-                bivh = new BIVH();
-                ViewUtils.inject(bivh, view);
-                view.setTag(bivh);
-            } else {
-                bivh = (BIVH) view.getTag();
-            }
 
-            bivh.bank_card_num_tv.setText(bank.get("bank_card_code"));
-            bivh.bank_card_owner_name.setText(bank.get("name"));
-            bivh.create_card_bank_name_tv.setText(bank.get("open_bank"));
-
-            return view;
-        }
-
-        private class BIVH {
-            /**
-             * 银行卡号
-             */
-            @ViewInject(R.id.bank_card_num_tv)
-            private TextView bank_card_num_tv;
-            /**
-             * 持卡人
-             */
-            @ViewInject(R.id.bank_card_owner_name)
-            private TextView bank_card_owner_name;
-            /**
-             * 开户行
-             */
-            @ViewInject(R.id.create_card_bank_name_tv)
-            private TextView create_card_bank_name_tv;
-=======
-
->>>>>>> master
 
 
     }

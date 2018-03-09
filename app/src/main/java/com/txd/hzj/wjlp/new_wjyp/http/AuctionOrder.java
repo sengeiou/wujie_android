@@ -57,7 +57,6 @@ public class AuctionOrder {
                                 String freight_type,
                                 String invoice,
                                 String leave_message,
-                                String goods,
                                 BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -70,7 +69,6 @@ public class AuctionOrder {
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("leave_message", leave_message);
         requestParams.addBodyParameter("freight", freight);
-        requestParams.addBodyParameter("goods", goods);
         apiTool2.postApi(url + "SetOrder", requestParams, baseView);
     }
 

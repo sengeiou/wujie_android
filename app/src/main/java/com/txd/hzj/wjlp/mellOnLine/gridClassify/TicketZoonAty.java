@@ -77,19 +77,11 @@ public class TicketZoonAty extends BaseAty {
         mFragments = new ArrayList<>();
         // 拼团购
         groupBuyPst = new GroupBuyPst(this);
-<<<<<<< HEAD
-        // 无界预购
-        perBuyPst = new PerBuyPst(this);
-        // 票券区
-        ticketBuyPst = new TicketBuyPst(this);
-        // 无界商店
-=======
         // xfte预购
         perBuyPst = new PerBuyPst(this);
         // 票券区
         ticketBuyPst = new TicketBuyPst(this);
         // xfte商店
->>>>>>> master
         integralBuyPst = new IntegralBuyPst(this);
         // 进口馆
         countryPst = new CountryPst(this);
@@ -103,11 +95,7 @@ public class TicketZoonAty extends BaseAty {
             case 1:// 票券区
                 ticketBuyPst.ticketBuyIndex(1, "");
                 break;
-<<<<<<< HEAD
-            case 2:// 无界预购
-=======
             case 2:// xfte预购
->>>>>>> master
                 perBuyPst.preBuyIndex(1, "");
                 break;
             case 3:// 进口馆
@@ -117,11 +105,7 @@ public class TicketZoonAty extends BaseAty {
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
-<<<<<<< HEAD
-            case 10:// 无界商店
-=======
             case 10:// xfte商店
->>>>>>> master
                 integralBuyPst.integralBuyIndex(1, "");
                 break;
         }
