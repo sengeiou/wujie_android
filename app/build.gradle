@@ -95,12 +95,10 @@ dependencies {
     compile files('libs/jpush-android-3.0.9.jar')
     //    状态按钮
     compile 'lib.kingja.switchbutton:switchbutton:1.1.3'
-//<<<<<<< HEAD
-    compile 'com.contrarywind:Android-PickerView:3.2.5'
 
-//=======
-    //   compile 'com.contrarywind:Android-PickerView:3.2.5'
+//    compile 'com.contrarywind:Android-PickerView:3.2.5'
+
     compile 'com.tamic.novate:novate:1.5.4.3'
     compile files('libs/pinyin4j-2.5.0.jar')
-//>>>>>>> master
+
 }
