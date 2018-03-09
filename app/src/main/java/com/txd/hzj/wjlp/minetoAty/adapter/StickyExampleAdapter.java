@@ -84,24 +84,15 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-<<<<<<< HEAD
-                    Intent intent = new Intent(context, RechargeOffLineAty.class);
-                    intent.putExtra("act_id", stickyExampleModel.act_id);
-=======
                     PreferencesUtils.putString(context,"idid",stickyExampleModel.log_id);
                     Intent intent = new Intent(context, RechargeOffLineAty.class);
                     intent.putExtra("act_id",stickyExampleModel.log_id);
->>>>>>> master
                     context.startActivity(intent);
                 }
             });
             // 查看线下充值详情----隐藏
-<<<<<<< HEAD
-            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-=======
             recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
->>>>>>> master
             if (1 == type) {// 购物券
 
                 // 获得，消费积分(转出，消费)
@@ -139,13 +130,6 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
                 // 查看线下充值详情----显示
                 if (stickyExampleModel.getAct_type().equals("2")) {
-<<<<<<< HEAD
-                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-                }
-
-            } else if (4 == type) {
-                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_part_details_cheng);
-=======
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                     recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
 
@@ -153,7 +137,6 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             } else if (4 == type) {
                 recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
->>>>>>> master
             }
         }
     }
