@@ -353,7 +353,14 @@
                 android:gravity="right"
                 android:text="合计：￥0.00"
                 android:textColor="@color/app_text_color" />
-
+            <TextView
+                android:visibility="gone"
+                android:textColor="@color/holo_red_light"
+                android:text="+0.00元邮费"
+                android:layout_weight="1"
+                android:id="@+id/tv_youfei"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/tv_invoice"
                 android:layout_width="wrap_content"

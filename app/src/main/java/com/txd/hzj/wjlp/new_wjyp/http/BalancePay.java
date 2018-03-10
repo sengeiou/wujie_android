@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 
@@ -18,6 +19,7 @@ public class BalancePay {
      * @param baseView
      */
     public static void BalancePay(String order_id, String order_type, String discount_type, String inte_id, BaseView baseView) {
+        L.e(order_id+"--"+order_type+"--"+discount_type+"--"+inte_id);
         if (TextUtils.isEmpty(order_type)) {
             order_type = "1";
         }

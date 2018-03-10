@@ -1,8 +1,10 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -108,9 +110,13 @@ public class EditLoginPasswordAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("changePassword")) {
             showRightTip("修改成功");
-            Config.setLoginState(false);
-            PreferencesUtils.putString(this, "pwd", newPassword);
-            logout();
+            Config.setLoginState(true);
+            PreferencesUtils.putString(this, "pwd", "");
+            //收起键盘
+            InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            finish();
+//            logout();
             return;
         }
         if (requestUrl.contains("setPassword")) {
@@ -131,7 +137,7 @@ public class EditLoginPasswordAty extends BaseAty {
                     public void run() {
                         loginoutToLogin();
                         AppManager.getInstance().killActivity(SetAty.class);
-                        finish();
+//                        finish();
                     }
                 });
             }

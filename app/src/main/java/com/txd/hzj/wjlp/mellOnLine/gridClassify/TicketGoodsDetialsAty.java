@@ -484,6 +484,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private int goods_number = 0;
     private String product_id = "";
     private boolean is_C = false;
+    private String goodsName="";
 
 
     @Override
@@ -553,7 +554,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("xfte优品", share_img, share_url, share_content, goods_id, "1");
+                toShare(goodsName, share_img, share_url, share_url, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -998,10 +999,24 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView remarks;
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (requestUrl.contains("addCart")) {
+            L.e("cccc33333333");
+        }
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("Cart/addCart")) {
+        if (requestUrl.contains("addCart")) {
+            L.e("cccc33333333");
             showToast("添加成功！");
+            if (0 == from) {
+                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
+            } else {
+                goodsPst.goodsInfo(ticket_buy_id, page);
+            }
         }
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -1011,16 +1026,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             tv_freight.setText("运费" + map.get("pay") + "元");
         }
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
+            L.e("cccc" + jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String cart_num = data.get("cart_num");
+            L.e("aaaaa" + data.get("cart_num"));
             is_attr = data.get("is_attr");
             remarks.setText(data.get("remarks"));
             forBase(data, cart_num);
             share_url = data.get("share_url");
             share_img = data.get("share_img");
+
             share_content = data.get("share_content");
+            L.e("cccc"+share_content);
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -1034,6 +1052,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
 
+            goodsName = goodsInfo.get("goods_name");
+            L.e("ccccname"+goodsName);
             forGoodsInfo(goodsInfo);
             tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {
@@ -1127,22 +1147,26 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(TicketGoodsDetialsAty.this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
-            //搭配购
-            Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
-            if (cheap_group != null) {
-                tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
-                tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
-                tv_group_integral.setText(cheap_group.get("integral"));
-                double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
-                DecimalFormat df = new DecimalFormat("#.00");
-                tv_goods_price.setText("立省¥" + df.format(price));
-                ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
-                rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                rv_cheap_group.setAdapter(new cg_adp(maps));
-            } else {
-                layout_cheap_group.setVisibility(View.GONE);
+            L.e("aaaaa" + data.get("cheap_group"));
+            if (!data.get("cheap_group").equals("[]")) {
+                //搭配购
+                Map<String, String> cheap_group = JSONUtils.parseKeyAndValueToMap(data.get("cheap_group"));
+                if (cheap_group != null) {
+                    tv_ticket_buy_discount.setText("最多可用" + cheap_group.get("ticket_buy_discount") + "%代金券");
+                    tv_group_price.setText("搭配价：¥" + cheap_group.get("group_price"));
+                    tv_group_integral.setText(cheap_group.get("integral"));
+                    double price = Double.parseDouble(cheap_group.get("goods_price")) - Double.parseDouble(cheap_group.get("group_price"));
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    tv_goods_price.setText("立省¥" + df.format(price));
+                    ArrayList<Map<String, String>> maps = JSONUtils.parseKeyAndValueToMapList(cheap_group.get("goods"));
+                    rv_cheap_group.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    rv_cheap_group.setAdapter(new cg_adp(maps));
+                } else {
+                    layout_cheap_group.setVisibility(View.GONE);
 
+                }
             }
+
             return;
 
         }
@@ -1828,76 +1852,82 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            if (requestCode == 1000) {
-                is_C = true;
-                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
-                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
-                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
-                now_price_tv.setText(data.getStringExtra("shop_price"));
-                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
-                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
-                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
-                if (dj_list != null) {
-                    dj_ticket = dj_list;
-                    for (int i = 0; i < dj_ticket.size(); i++) {
-                        if (i == 2) {
-                            break;
-                        }
-                        switch (i) {
-                            case 0: {
-                                layout_djq0.setVisibility(View.VISIBLE);
-                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                            case 1: {
-                                layout_djq1.setVisibility(View.VISIBLE);
-                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                            case 2: {
-                                layout_djq2.setVisibility(View.VISIBLE);
-                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
-                                break;
-                            }
-                        }
-                        switch (dj_ticket.get(i).get("type")) {
-                            case "0": {
-                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
-                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                            }
-                            break;
-                            case "1": {
-                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                            }
-                            break;
-                            case "2": {
-                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                            }
-
-                            break;
-                        }
-
-                    }
-                } else {
-                    layout_djq.setVisibility(View.GONE);
-                }
-                goods_number = data.getIntExtra("num", 0);
-                product_id = data.getStringExtra("product_id");
-                L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
-                        "pro_value=" + data.getStringExtra("pro_value") + "\n" +
-                        "num=" + data.getIntExtra("num", 0) + "\n" +
-                        "shop_price=" + data.getStringExtra("shop_price") + "\n" +
-                        "market_price=" + data.getStringExtra("market_price") + "\n" +
-                        "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
-                        "discount=" + data.getStringExtra("discount") + "\n" +
-                        "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
-                        "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
-                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-                        "wy_price=" + data.getStringExtra("wy_price") + "\n");
+        L.e("返回商品详情"+requestCode+resultCode);
+        if (requestCode == 1000 ) {
+            L.e("返回商品详情");
+            if (0 == from) {
+                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
+            } else {
+                goodsPst.goodsInfo(ticket_buy_id, page);
             }
+                is_C = false;
+//                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
+//                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
+//                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
+//                now_price_tv.setText(data.getStringExtra("shop_price"));
+//                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+//                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+//                ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
+//                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+//                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
+//                if (dj_list != null) {
+//                    dj_ticket = dj_list;
+//                    for (int i = 0; i < dj_ticket.size(); i++) {
+//                        if (i == 2) {
+//                            break;
+//                        }
+//                        switch (i) {
+//                            case 0: {
+//                                layout_djq0.setVisibility(View.VISIBLE);
+//                                tv_djq_desc0.setText(dj_ticket.get(i).get("discount_desc"));
+//                                break;
+//                            }
+//                            case 1: {
+//                                layout_djq1.setVisibility(View.VISIBLE);
+//                                tv_djq_desc1.setText(dj_ticket.get(i).get("discount_desc"));
+//                                break;
+//                            }
+//                            case 2: {
+//                                layout_djq2.setVisibility(View.VISIBLE);
+//                                tv_djq_desc2.setText(dj_ticket.get(i).get("discount_desc"));
+//                                break;
+//                            }
+//                        }
+//                        switch (dj_ticket.get(i).get("type")) {
+//                            case "0": {
+//                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+//                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+//                            }
+//                            break;
+//                            case "1": {
+//                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+//                            }
+//                            break;
+//                            case "2": {
+//                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+//                            }
+//
+//                            break;
+//                        }
+//
+//                    }
+//                } else {
+//                    layout_djq.setVisibility(View.GONE);
+//                }
+//                goods_number = data.getIntExtra("num", 0);
+//                product_id = data.getStringExtra("product_id");
+//                L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
+//                        "pro_value=" + data.getStringExtra("pro_value") + "\n" +
+//                        "num=" + data.getIntExtra("num", 0) + "\n" +
+//                        "shop_price=" + data.getStringExtra("shop_price") + "\n" +
+//                        "market_price=" + data.getStringExtra("market_price") + "\n" +
+//                        "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
+//                        "discount=" + data.getStringExtra("discount") + "\n" +
+//                        "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
+//                        "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
+//                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+//                        "wy_price=" + data.getStringExtra("wy_price") + "\n");
+
 
         }
     }

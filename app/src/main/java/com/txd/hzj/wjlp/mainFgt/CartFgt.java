@@ -22,6 +22,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
@@ -112,7 +113,7 @@ public class CartFgt extends BaseFgt {
     /**
      * 选中的商品价格
      */
-    private BigDecimal all_price;
+    private BigDecimal all_price;//总价
     private ArrayList<Card_bean> json_list;
 //
 //    @ViewInject(R.id.swipe_layout)
@@ -227,13 +228,17 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
+            all_price = new BigDecimal("0.00");
+            toChangePrice();
+            shopingCarts.clear();
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             cart_bottom_lin_layout.setVisibility(View.VISIBLE);
             titlt_right_tv.setVisibility(View.VISIBLE);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
-            cart_lv.setAdapter(cartAdapter);
+            cartAdapter=new CartAdapter();
+            cartAdapter.notifyDataSetChanged();
             list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-            cart_lv.onRefreshComplete();
+            cart_lv.setAdapter(cartAdapter);
         }
         if (requestUrl.contains("Cart/delCart")) {
             showToast("删除成功！");
@@ -383,6 +388,7 @@ public class CartFgt extends BaseFgt {
                         }
                     }
                 }
+
                 toChangePrice();
                 cartAdapter.notifyDataSetChanged();
 

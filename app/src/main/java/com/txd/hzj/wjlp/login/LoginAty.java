@@ -252,8 +252,15 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("cccceeee"+error.get("message"));
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("cccc"+jsonStr);
         if (requestUrl.contains("registerOne")) {// 注册第一步
 //            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 //            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -277,16 +284,14 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             return;
         }
         if (requestUrl.contains("Register/login")) {
-            showRightTip("登录成功");
+            showToast("登录成功");
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
-
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
-
             // 友盟统计
             MobclickAgent.onProfileSignIn(data.get("user_id"));
 
@@ -297,8 +302,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
             if (0 == skip_type) {
-                startActivity(MainAty.class, null);
                 AppManager.getInstance().killAllActivity();
+                startActivity(MainAty.class, null);
             }
             finish();
             return;

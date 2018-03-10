@@ -342,6 +342,12 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private static final int MSG_AUTH_COMPLETE = 5;
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("cccccc"+error);
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("bindOther")) {

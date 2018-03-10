@@ -22,10 +22,12 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -45,6 +47,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -143,6 +146,15 @@ public class BuildOrderAty extends BaseAty {
     private TextView tv_invoice;
     @ViewInject(R.id.et_leave_message)
     private EditText et_leave_message;
+    @ViewInject(R.id.tv_youfei)
+    private TextView tv_youfei;//邮费
+    private List<Goods>goodsList=new ArrayList<>();//商品快递属性list
+    private List<SplitNew>splitNewList=new ArrayList<>();//配送方式属性list
+    private int choice_goods=-1;//选择商品下标
+    private List<Invoice>invoiceList=new ArrayList<>();//商品类型
+    private Bundle bundle;
+    private double total_price=0.00f;//总价格
+    private double tp=0.00;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,17 +183,17 @@ public class BuildOrderAty extends BaseAty {
 
                 break;
             case R.id.layout_sle:
-                if (!TextUtils.isEmpty(address_id)) {
-                    if (TextUtils.isEmpty(freightJson)) {
-                        Gson gson = new Gson();
-                        freightJson = gson.toJson(list_bean);
-                    }
-                    Freight.split(address_id, freightJson, this);
-                    showProgressDialog();
-                    view_ads = v;
-                } else {
-                    showToast("请选择收货地址！");
-                }
+//                if (!TextUtils.isEmpty(address_id)) {
+//                    if (TextUtils.isEmpty(freightJson)) {
+//                        Gson gson = new Gson();
+//                        freightJson = gson.toJson(list_bean);
+//                    }
+//                    Freight.split(address_id, freightJson, this);
+//                    showProgressDialog();
+//                    view_ads = v;
+//                } else {
+//                    showToast("请选择收货地址！");
+//                }
                 break;
             case R.id.build_order_left_layout:// 线上商城
                 order_type = 0;
@@ -196,13 +208,21 @@ public class BuildOrderAty extends BaseAty {
                     showToast("请选择收货地址！");
                     return;
                 }
-                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
-                    showToast("请选择配送方式");
-                    return;
+                //是否选择了快递
+                for(Goods temp:goodsList){
+                    while (TextUtils.isEmpty(temp.getTem_id())){
+                        showToast("请完善所有商品的快递方式！");
+                        return;
+                    }
                 }
-                Gson gson = new Gson();
+//                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
+//                    showToast("请选择配送方式");
+//                    return;
+//                }
+                Gson gson=new Gson();
+
                 String json = gson.toJson(i_bean);
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("type", type);
                 bundle.putString("order_type", type.equals("1") ? "0" : "1");
                 bundle.putString("num", num);
@@ -211,13 +231,17 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("product_id", product_id);
                 bundle.putString("address_id", address_id);
                 bundle.putString("shop_name", tv_merchant_name.getText().toString());
+                bundle.putString("money", String.valueOf(total_price+tp));
                 bundle.putString("cart_id", cart_id);
                 bundle.putString("freight", freight);
                 bundle.putString("freight_type", freight_type);
                 bundle.putString("json", json);
                 bundle.putString("leave_message", et_leave_message.getText().toString());
+                bundle.putString("goodsList", gson.toJson(goodsList));
+                bundle.putString("invoiceList", gson.toJson(invoiceList));
                 startActivity(PayForAppAty.class, bundle);
                 finish();
+
                 break;
             case R.id.layout_choose_address:
                 bundle = new Bundle();
@@ -319,14 +343,24 @@ public class BuildOrderAty extends BaseAty {
         if (requestUrl.contains("split")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             List<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-            if (view_ads != null) {
+            if (choice_goods != -1) {
                 showPop(view_ads, data);
             }
             if (TextUtils.isEmpty(price)) {
                 price = order_price_at_last_tv.getText().toString();
             }
 
-        } else {
+        } else if(requestUrl.contains("setOrder")){
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if(map.get("code").equals("1")){
+                showToast(map.get("message"));
+
+            }else{
+                showToast(map.get("message"));
+            }
+
+        }else {
+            //购物车结算页信息
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 //            if (map.get("welfare_status").equals("1")) {
@@ -350,22 +384,38 @@ public class BuildOrderAty extends BaseAty {
 
             tv_merchant_name.setText(map.get("merchant_name"));
             if (!type.equals("10")) {
+                total_price= Double.parseDouble(map.get("sum_shop_price"));
 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
-                order_price_at_last_tv.setText("合计：¥" + map.get("sum_shop_price"));
+                order_price_at_last_tv.setText("合计：¥" + total_price);
 //            if (map.get("sum_discount").equals("0")) {
                 tv_sum_discount.setVisibility(View.GONE);
             } else {
                 tv_sum_discount.setVisibility(View.GONE);
                 order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
-
             }
             if (ToolKit.isList(map, "item")) {
+                /*
+                * json , 请按顺序传入！！！
+[{"发票类型id":"1","发票抬头（1->个人，2->公司）":"1","发票抬头名":"name","发票明细":"detail","发票id":"1","识别号”:1111,"是否开发票（1->是，0->否）”:1},
+{"t_id":"1","rise":"1","rise_name":"name","invoice_detail":"detail","invoice_id":"3",,"recognition”:1111,"is_invoice”:1}]
+                * */
                 if (p == 1) {
                     data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
-                    goodsAdapter = new GoodsByOrderAdapter(this, data);
+                    for(Map<String, String> temp:data){
+                        goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        splitNewList.add(new SplitNew("","","","","","0",""));
+                        invoiceList.add(new Invoice("","","","","","",0));
+                    }
+                    goodsAdapter = new GoodsByOrderAdapter(this, data,goodsList);
                     goods_fot_order_lv.setAdapter(goodsAdapter);
                 } else {
+
                     more = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
+                    for(Map<String, String> temp:more){
+                        goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        splitNewList.add(new SplitNew("","","","","","0",""));
+                        invoiceList.add(new Invoice("","","","","","",0));
+                    }
                     data.addAll(more);
                     goodsAdapter.notifyDataSetChanged();
                 }
@@ -400,12 +450,40 @@ public class BuildOrderAty extends BaseAty {
                         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                tv_sle_left.setText("配送方式");
-                                freight = data.get(position).get("pay");
-                                freight_type = data.get(position).get("type");
-                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
-                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
+
+//                                tv_sle_left.setText("配送方式");
+//                                freight = data.get(position).get("pay");
+//                                freight_type = data.get(position).get("type");
+//                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
+                                splitNewList.get(choice_goods).setId(data.get(position).get("id"));
+                                splitNewList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+                                splitNewList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
+                                splitNewList.get(choice_goods).setShipping_name(data.get(position).get("shipping_name"));
+                                splitNewList.get(choice_goods).setType(data.get(position).get("type"));
+                                splitNewList.get(choice_goods).setPay(data.get(position).get("pay"));
+                                splitNewList.get(choice_goods).setDesc(data.get(position).get("desc"));
+                                goodsList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
+                                goodsList.get(choice_goods).setTem_id(data.get(position).get("id"));
+                                goodsList.get(choice_goods).setFreight(data.get(position).get("pay"));
+                                goodsList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+//                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
+                                goodsAdapter.notifyDataSetChanged();
+                                tp=0.00;
+                                for (SplitNew temp:splitNewList){
+                                    tp+=Double.parseDouble(temp.getPay());
+                                }
+                                tp=(double)Math.round(tp*100)/100;
+                                BigDecimal bg = new BigDecimal(tp);
+                                tp = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                                if(tp==0.00){
+                                    tv_youfei.setVisibility(View.GONE);
+                                }else{
+                                    tv_youfei.setVisibility(View.VISIBLE);
+                                    tv_youfei.setText("+"+tp+"元运费");
+                                }
+                                order_price_at_last_tv.setText("合计：¥" + total_price);
+
                             }
                         });
                     }
@@ -429,12 +507,12 @@ public class BuildOrderAty extends BaseAty {
 
         @Override
         public Object getItem(int position) {
-            return null;
+            return data.get(position);
         }
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
@@ -442,8 +520,8 @@ public class BuildOrderAty extends BaseAty {
             View view = View.inflate(BuildOrderAty.this, R.layout.item_sle_address, null);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
-            tv_name.setText(data.get(position).get("type"));
-            tv_price.setText(data.get(position).get("pay") + "元");
+            tv_name.setText(data.get(position).get("type")+"("+data.get(position).get("shipping_name")+")\n"+data.get(position).get("desc"));
+            tv_price.setText(data.get(position).get("pay").equals("0")?"包邮": data.get(position).get("pay")+ "元");
             return view;
         }
     }
@@ -495,13 +573,13 @@ public class BuildOrderAty extends BaseAty {
                     Gson gson = new Gson();
                     freightJson = gson.toJson(list_bean);
                 }
-                Freight.split(address_id, freightJson, this);
-                showProgressDialog();
-                freight = "";
-                freight_type = "";
-                tv_sle_left.setText("请选择配送方式");
-                tv_sle_right.setText("");
-                order_price_at_last_tv.setText(price);
+//                Freight.split(address_id, freightJson, this);
+//                showProgressDialog();
+//                freight = "";
+//                freight_type = "";
+//                tv_sle_left.setText("请选择配送方式");
+//                tv_sle_right.setText("");
+//                order_price_at_last_tv.setText(price);
             }
             address_id = data.getStringExtra("id");
             tv_c_ads.setVisibility(View.GONE);
@@ -509,7 +587,7 @@ public class BuildOrderAty extends BaseAty {
         }
         if (requestCode == 1000) {
             if (data != null) {
-               invoice1 =data.getParcelableExtra("data1");
+                invoice1 =data.getParcelableExtra("data1");
                 Bean b = data.getParcelableExtra("data");
                 i_bean.set(index, b);
                 goodsAdapter.notifyDataSetChanged();
@@ -537,11 +615,13 @@ public class BuildOrderAty extends BaseAty {
         private LayoutInflater inflater;
         private GoodsByOrderAdapter.GOVH govh;
         List<Map<String, String>> data;
+        private List<Goods>goodsList;
 
-        public GoodsByOrderAdapter(Context context, List<Map<String, String>> data) {
+        public GoodsByOrderAdapter(Context context, List<Map<String, String>> data,List<Goods>goodsList) {
             this.data = data;
             this.context = context;
             inflater = LayoutInflater.from(context);
+            this.goodsList=goodsList;
         }
 
         @Override
@@ -585,7 +665,7 @@ public class BuildOrderAty extends BaseAty {
 //                govh.textview.setText(TextUtils.isEmpty(invoice1.getInvoice_type()) ? "无" : invoice1.getInvoice_type());
             } else {
                 govh.layout.setVisibility(View.GONE);
-        }
+            }
             govh.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -595,6 +675,44 @@ public class BuildOrderAty extends BaseAty {
                     bundle.putParcelable("data1",invoice1);
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
 //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
+                }
+            });
+            govh.tv_sle_left.setText(TextUtils.isEmpty(splitNewList.get(i).getId())?"请选择配送方式":"");
+            if(!TextUtils.isEmpty(splitNewList.get(i).getId())){
+                govh.tv_sle_right.setText("配送方式："+(splitNewList.get(i).getPay().equals("0")?splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+"包邮":splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+" ¥"+splitNewList.get(i).getPay()));
+            }
+            //是否存在公益宝贝
+            if(getItem(i).get("is_welfare").equals("1")){
+                govh.layout_gongyi.setVisibility(View.VISIBLE);
+                govh.tv_gongyi.setText("成交后卖家将捐赠"+getItem(i).get("welfare")+"元给公益计划");
+            }else{
+                govh.layout_gongyi.setVisibility(View.GONE);
+            }
+            //是否存在售后
+            if(getItem(i).get("after_sale_status").equals("1")){
+                govh.layout_shouhou.setVisibility(View.VISIBLE);
+                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+            }else{
+                govh.layout_shouhou.setVisibility(View.GONE);
+            }
+
+            //选择配送方式
+            govh.layout_sle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!TextUtils.isEmpty(address_id)) {
+                        if (TextUtils.isEmpty(freightJson)) {
+                            Gson gson = new Gson();
+                            freightJson = gson.toJson(list_bean);
+                        }
+                        view_ads = view;
+
+                        Freight.split(getItem(i).get("goods_id"),address_id, getItem(i).get("product_id"), getItem(i).get("num"),BuildOrderAty.this);
+                        showProgressDialog();
+                        choice_goods=i;
+                    } else {
+                        showToast("请选择收货地址！");
+                    }
                 }
             });
             return view;
@@ -614,7 +732,20 @@ public class BuildOrderAty extends BaseAty {
             private LinearLayout layout;
             @ViewInject(R.id.textview)
             private TextView textview;
-
+            @ViewInject(R.id.layout_sle)
+            private LinearLayout layout_sle;
+            @ViewInject(R.id.tv_sle_left)
+            private TextView tv_sle_left;
+            @ViewInject(R.id.tv_sle_right)
+            private TextView tv_sle_right;//配送金额
+            @ViewInject(R.id.layout_shouhou)
+            private LinearLayout layout_shouhou;//售后
+            @ViewInject(R.id.tv_shouhou)
+            private TextView tv_shouhou;
+            @ViewInject(R.id.layout_gongyi)
+            private LinearLayout layout_gongyi;//公益宝贝
+            @ViewInject(R.id.tv_gongyi)
+            private TextView tv_gongyi;
         }
     }
 
@@ -773,6 +904,233 @@ public class BuildOrderAty extends BaseAty {
             }
         };
     }
+    //快递公司实体
+    class SplitNew{
+        private String id;
+        private String type_status;
+        private String shipping_id;
+        private String shipping_name;
+        private String type;
+        private String pay;
+        private String desc;
+
+        public SplitNew(String id, String type_status, String shipping_id, String shipping_name, String type, String pay, String desc) {
+            this.id = id;
+            this.type_status = type_status;
+            this.shipping_id = shipping_id;
+            this.shipping_name = shipping_name;
+            this.type = type;
+            this.pay = pay;
+            this.desc = desc;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getType_status() {
+            return type_status;
+        }
+
+        public void setType_status(String type_status) {
+            this.type_status = type_status;
+        }
+
+        public String getShipping_id() {
+            return shipping_id;
+        }
+
+        public void setShipping_id(String shipping_id) {
+            this.shipping_id = shipping_id;
+        }
+
+        public String getShipping_name() {
+            return shipping_name;
+        }
+
+        public void setShipping_name(String shipping_name) {
+            this.shipping_name = shipping_name;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getPay() {
+            return pay;
+        }
+
+        public void setPay(String pay) {
+            this.pay = pay;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
+    class Goods{
+        private String product_id;//属性id
+        private String  goods_id;//商品id
+        private String freight;//快递金额
+        private String tem_id;//模板id
+        private String num;//购买数量
+        private String type_status;//配送类型
+        private String shipping_id;//快递公司id
+
+        public Goods(String product_id, String goods_id, String freight, String tem_id, String num, String type_status, String shipping_id) {
+            this.product_id = product_id;
+            this.goods_id = goods_id;
+            this.freight = freight;
+            this.tem_id = tem_id;
+            this.num = num;
+            this.type_status = type_status;
+            this.shipping_id = shipping_id;
+        }
+
+        public String getProduct_id() {
+            return product_id;
+        }
+
+        public void setProduct_id(String product_id) {
+            this.product_id = product_id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getFreight() {
+            return freight;
+        }
+
+        public void setFreight(String freight) {
+            this.freight = freight;
+        }
+
+        public String getTem_id() {
+            return tem_id;
+        }
+
+        public void setTem_id(String tem_id) {
+            this.tem_id = tem_id;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+
+        public String getType_status() {
+            return type_status;
+        }
+
+        public void setType_status(String type_status) {
+            this.type_status = type_status;
+        }
+
+        public String getShipping_id() {
+            return shipping_id;
+        }
+
+        public void setShipping_id(String shipping_id) {
+            this.shipping_id = shipping_id;
+        }
+    }
+    class Invoice{
+        private String t_id;//发票类型
+        private String rise;//发票抬头
+        private String rise_name;//发票抬头名
+        private String invoice_detail;//发票明细
+        private String invoice_id;//发票id
+        private String recognition;//识别号
+        private int is_invoice;//是否开发票
+
+        public Invoice(String t_id, String rise, String rise_name, String invoice_detail, String invoice_id, String recognition, int is_invoice) {
+            this.t_id = t_id;
+            this.rise = rise;
+            this.rise_name = rise_name;
+            this.invoice_detail = invoice_detail;
+            this.invoice_id = invoice_id;
+            this.recognition = recognition;
+            this.is_invoice = is_invoice;
+        }
+
+        public String getT_id() {
+            return t_id;
+        }
+
+        public void setT_id(String t_id) {
+            this.t_id = t_id;
+        }
+
+        public String getRise() {
+            return rise;
+        }
+
+        public void setRise(String rise) {
+            this.rise = rise;
+        }
+
+        public String getRise_name() {
+            return rise_name;
+        }
+
+        public void setRise_name(String rise_name) {
+            this.rise_name = rise_name;
+        }
+
+        public String getInvoice_detail() {
+            return invoice_detail;
+        }
+
+        public void setInvoice_detail(String invoice_detail) {
+            this.invoice_detail = invoice_detail;
+        }
+
+        public String getInvoice_id() {
+            return invoice_id;
+        }
+
+        public void setInvoice_id(String invoice_id) {
+            this.invoice_id = invoice_id;
+        }
+
+        public String getRecognition() {
+            return recognition;
+        }
+
+        public void setRecognition(String recognition) {
+            this.recognition = recognition;
+        }
+
+        public int getIs_invoice() {
+            return is_invoice;
+        }
+
+        public void setIs_invoice(int is_invoice) {
+            this.is_invoice = is_invoice;
+        }
+    }
+
 
 
 }

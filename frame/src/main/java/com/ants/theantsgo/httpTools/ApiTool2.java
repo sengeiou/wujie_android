@@ -1,10 +1,11 @@
 package com.ants.theantsgo.httpTools;
 
-import com.ants.theantsgo.base.BaseMode;
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.base.BaseView;
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.MapUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -44,7 +45,6 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
-        params.addHeader("token", Config.getToken());
         httpUtils.send(HttpRequest.HttpMethod.GET, url, params, new DefaultRequestCallBack(apiListener));
     }
 
@@ -59,8 +59,7 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
-
-        params.addHeader("token", Config.getToken());
+        params.addHeader("token", PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", ""));
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }
 
@@ -83,13 +82,9 @@ public class ApiTool2 {
         // 如果jsonObject有flag属性则返回flag对应的值，否则返回""
         String flag = jsonObject.optString("code");
         // code的值是null或者不为1的时候，返回map,否则返回null
-        if (flag != null && flag.equals("1")) {
+        if (flag != null && flag.equals("1"))
             return null;
-        }
-        //2018.2.24 增加地址校验导致接口获取数据异常
-        else if(flag != null && flag.equals("0")){
-            return null;
-        }
+
         return JSONUtils.parseKeyAndValueToMap(json);
     }
 
@@ -125,13 +120,10 @@ public class ApiTool2 {
         @Override
         public void onSuccess(ResponseInfo<String> responseInfo) {
             try {
-                System.out.println("wrong============"+responseInfo.result);
                 Map<String, String> map = parseError(responseInfo.result);
                 if (MapUtils.isEmpty(map)) {// 返回的Map为null的时候，执行OnComplete方法
-                    System.out.println("1111111111111111"+responseInfo.result);
                     baseView.onComplete(getRequestUrl(), responseInfo.result);
-                }else {// 返回的Map不为null执行onError方法
-                    System.out.println("2222222222============");
+                } else {// 返回的Map不为null执行onError方法
                     baseView.onError(getRequestUrl(), map);
                 }
             } catch (Exception e) {
