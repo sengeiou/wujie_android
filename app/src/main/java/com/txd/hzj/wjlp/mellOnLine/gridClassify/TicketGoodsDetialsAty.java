@@ -1010,7 +1010,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("addCart")) {
-            L.e("cccc33333333");
             showToast("添加成功！");
             if (0 == from) {
                 ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
@@ -1038,7 +1037,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             share_img = data.get("share_img");
 
             share_content = data.get("share_content");
-            L.e("cccc"+share_content);
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -1053,7 +1051,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
 
             goodsName = goodsInfo.get("goods_name");
-            L.e("ccccname"+goodsName);
             forGoodsInfo(goodsInfo);
             tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {

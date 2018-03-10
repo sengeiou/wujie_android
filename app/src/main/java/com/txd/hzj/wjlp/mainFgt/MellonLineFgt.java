@@ -769,6 +769,79 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
+        if (requestUrl.contains("index")) {
+            try {
+                String message = error.get("message");
+                if(message.equals("请先填写个人所在地")&&!Config.getToken().equals("")){
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("请完善个人资料地区信息")
+                            .setMessage("前往个人个人资料页面？")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+
+                                    if(Config.getToken().equals("")){
+                                        Intent intent = new Intent();
+                                        intent.setClass(getActivity(), LoginAty.class);
+
+                                        getActivity().startActivity(intent);
+                                    }else {
+                                        Intent intent = new Intent();
+                                        intent.setClass(getActivity(), EditProfileAty.class);
+
+                                        getActivity().startActivity(intent);
+                                    }
+
+                                }
+                            })
+                            .setNegativeButton("取消", null)
+                            .show();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(error.get("data"));
+            // 消息
+            forMes(data);
+
+            // 轮播图
+            if (ToolKit.isList(data, "index_banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("index_banner"));
+                forBanner();
+            }
+            // 横向菜单
+            if (ToolKit.isList(data, "top_nav")) {
+                forHorizontalMenu(data);
+            }
+            // xfte头条
+            if (ToolKit.isList(data, "headlines")) {
+                updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
+                setView();
+                upview1.setViews(views);
+            }
+            // 三个活动图片
+            threeAdsInfo(data);
+            // 限量购
+            forLimit(data);
+            // 票券区
+            forTicket(data);
+            // xfte预购
+            orPre(data);
+            // 进口馆
+            forCountry(data);
+            // 竞拍汇
+            forAuction(data);
+            // 积分夺宝
+            forOneBuy(data);
+            // 汽车购
+            forCar(data);
+            // 房产购
+            forHouse(data);
+            // 拼团购
+            forGroup(data);
+
+        }
     }
 
     @Override
@@ -776,6 +849,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("index")) {
+            L.e("ccccc"+map.get("message"));
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String message = jsonObject.getString("message");
