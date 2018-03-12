@@ -96,6 +96,7 @@ public class RegisterGetCodeAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("checkVerify")) {// 检查验证码
+
             Bundle bundle = new Bundle();
             bundle.putString("phone", phone);
             startActivity(RegisterSetPwdAty.class, bundle);
