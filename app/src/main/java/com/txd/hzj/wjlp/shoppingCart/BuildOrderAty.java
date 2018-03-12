@@ -61,6 +61,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class BuildOrderAty extends BaseAty {
+    //tijiao
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
@@ -336,7 +337,6 @@ public class BuildOrderAty extends BaseAty {
     List<GoodBean> list_bean = new ArrayList<GoodBean>();
     List<Bean> i_bean = new ArrayList<Bean>();
     private String price;
-
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
