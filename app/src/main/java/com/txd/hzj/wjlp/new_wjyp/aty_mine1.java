@@ -39,6 +39,7 @@ public class aty_mine1 extends BaseAty {
      */
     private int ads_w = 0;
     private int ads_h = 0;
+    private LinearLayout.LayoutParams layoutParams;
 
     @OnClick({R.id.im1, R.id.im2})
     public void OnClick(View v) {
@@ -68,10 +69,13 @@ public class aty_mine1 extends BaseAty {
     @Override
     protected void initialized() {
         // 广告宽高
-        ads_h = Settings.displayWidth * 800 / 1242;
+        ads_h = Settings.displayWidth * 1058 / 750;
         ads_w = Settings.displayWidth;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ads_w, ads_h);
+        layoutParams = new LinearLayout.LayoutParams(ads_w, Settings.displayWidth * 1058 / 750);
+        im_main.setLayoutParams(layoutParams);
+        layoutParams = new LinearLayout.LayoutParams(ads_w, Settings.displayWidth * 783 / 750);
         im1.setLayoutParams(layoutParams);
+        layoutParams = new LinearLayout.LayoutParams(ads_w, Settings.displayWidth * 864 / 750);
         im2.setLayoutParams(layoutParams);
     }
 
@@ -90,10 +94,6 @@ public class aty_mine1 extends BaseAty {
         L.e(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-        int h = Settings.displayWidth * Integer.parseInt(list.get(0).get("height")) / Integer.parseInt(list.get(0).get("width"));
-        int w = Settings.displayWidth;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(w, h);
-        im_main.setLayoutParams(layoutParams);
         Glide.with(getApplicationContext()).load(list.get(0).get("picture")).into(im_main);
         Glide.with(getApplicationContext()).load(list.get(1).get("picture")).into(im1);
         Glide.with(getApplicationContext()).load(list.get(2).get("picture")).into(im2);

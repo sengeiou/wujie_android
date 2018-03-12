@@ -23,6 +23,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -319,6 +320,11 @@ public class fragment1 extends BaseFgt {
         }
     }
 
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("cccc"+error.get("message"));
+    }
 
     private void download() {
 

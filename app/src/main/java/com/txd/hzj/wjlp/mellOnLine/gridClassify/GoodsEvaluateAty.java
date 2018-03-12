@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -232,14 +233,13 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         }
     }
 
-    List<Comment.CommentList> data;
-    List<Comment.CommentList> data2;
+    List<Comment.CommentList> data=new ArrayList<>();//lec2018年3月10日15:57:38解决初始化bug
+    List<Comment.CommentList> data2=new ArrayList<>();
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("Merchant/commentList")) {
-
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
             evaluate_num_tv.setText("已有 " + numall + "条评价");

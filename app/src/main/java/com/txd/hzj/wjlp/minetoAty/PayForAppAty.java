@@ -217,7 +217,7 @@ public class PayForAppAty extends BaseAty {
             case R.id.tv_submit:
                 if (pay_by_wechat_cb.isChecked()) {
 
-                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")) {
+                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5")|| type.equals("0")) {
                         Pay.getJsTine(data.get("order_id"), getType(), "4", this);
                     } else if (type.equals("2") || type.equals("3")) {
                         Pay.getJsTine(data.get("group_buy_order_id"), getType(), "6", this);
@@ -227,6 +227,7 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(data.get("order_id"), getType(), "8", this);
                     }
                     showProgressDialog();
+                    return;
                 }
                 if (pay_by_ali_cb.isChecked()) {
                     if (type.equals("0")|| type.equals("1") || type.equals("5")) {
@@ -239,14 +240,18 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(data.get("order_id"), getType(), "8", this);
                     }
                     showProgressDialog();
+                    return;
                 }
                 if (pay_by_balance_cb.isChecked()) {
                     showPwdPop(v);
+                    return;
                 }
 
                 if (cb_jfzf.isChecked()) {
                     showPwdPop(v);
+                    return;
                 }
+                showToast("请选择支付方式！");
                 break;
         }
     }
@@ -336,7 +341,8 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
-        if (type.equals("0") || type.equals("0") || type.equals("1")) {
+        L.e("ccccc"+type);
+        if (type.equals("0") || type.equals("0") || type.equals("1")||TextUtils.isEmpty(type)) {
             Order.setOrder(address_id, cart_id, order_type, order_id, cart_id, "0", order_id, group_buy_id, freight, freight_type, "", getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
         } else if (type.equals("2")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
@@ -454,7 +460,7 @@ public class PayForAppAty extends BaseAty {
             L.e("verificationPayPwd"+jsonStr+"---"+type+"---"+pay_by_balance_cb.isChecked());
             if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) {
-                    if (type.equals("0") || type.equals("1") || type.equals("5")) {
+                    if (type.equals("0") || type.equals("1") || type.equals("5")||TextUtils.isEmpty(type)) {
                         BalancePay.BalancePay(data.get("order_id"), "1", getType(), getString("num"), this);
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
                         BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
@@ -507,7 +513,7 @@ public class PayForAppAty extends BaseAty {
 
         }
         if (requestUrl.contains("BalancePay")) {
-            L.e("ccccc"+jsonStr);
+            L.e("ccccc"+jsonStr+"--"+map.get("code"));
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if(map.get("code").equals("1")){
                 showToast(map.get("message"));
@@ -605,7 +611,7 @@ public class PayForAppAty extends BaseAty {
 
     private void OrderList() {
         mBundle = new Bundle();
-        if (type.equals("0")|| type.equals("0") || type.equals("1") || type.equals("5") || type.equals("11")) {
+        if (TextUtils.isEmpty(type)||type.equals("0")|| type.equals("0") || type.equals("1") || type.equals("5") || type.equals("11")) {
             mBundle.putString("title", "线上商城");
             mBundle.putString("type", "0");
         }

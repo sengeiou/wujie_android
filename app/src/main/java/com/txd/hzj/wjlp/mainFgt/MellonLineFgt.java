@@ -768,7 +768,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
+//        super.onError(requestUrl, error);
+        removeProgressDialog();
         if (requestUrl.contains("index")) {
             try {
                 String message = error.get("message");
@@ -849,7 +850,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("index")) {
-            L.e("ccccc"+map.get("message"));
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String message = jsonObject.getString("message");

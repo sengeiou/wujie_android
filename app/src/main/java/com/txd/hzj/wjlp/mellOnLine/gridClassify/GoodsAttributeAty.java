@@ -105,9 +105,11 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
+                L.e("cccccc"+list.size()+"--"+pro_id+"--"+from);
                 if (2 == from) {
                     Intent intent = new Intent();
                     intent.putExtra("num", num);
+
                     if (ListUtils.isEmpty(list)) {
                         intent.putExtra("product_id", "");
                         intent.putExtra("pro_value", "");
@@ -130,8 +132,10 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
                 if (4 == from) {
+
                     Intent intent = new Intent();
                     if (!TextUtils.isEmpty(pro_id)) {
+                        L.e("cccc444");
                         intent.putExtra("product_id", pro_id);
                         intent.putExtra("pro_value", pro_value);
                         intent.putExtra("num", num);
@@ -145,7 +149,7 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("wy_price", val.getWy_price());
                         intent.putExtra("yx_price", val.getYx_price());
                         intent.putExtra("data", mapList.get(position).get("dj_ticket"));
-                        setResult(RESULT_OK, intent);
+                        setResult(0x0002, intent);
                         finish();
                     } else {
                         showToast("库存不足！");
@@ -274,7 +278,7 @@ public class GoodsAttributeAty extends BaseAty {
         showToast("添加成功");
         finish();
     }
-
+    //直接购买
     private void goodAttChange() {
         if (ListUtils.isEmpty(list)) {
             if (is_go) {
@@ -298,7 +302,9 @@ public class GoodsAttributeAty extends BaseAty {
         }
 
         if (!TextUtils.isEmpty(pro_id)) {
+
             if (is_go) {
+
                 Intent intent = new Intent();
                 intent.putExtra("mid", mid);
                 intent.putExtra("type", type);
@@ -306,8 +312,10 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
-                intent.setClass(this, BuildOrderAty.class);
-                startActivity(intent);
+                L.e("cccc"+mid+"--"+type+"--"+goods_id+"--"+group_buy_id+"--"+num+"--"+pro_id);
+//                intent.setClass(this, BuildOrderAty.class);
+                setResult(0x0001,intent);
+//                startActivity(intent);
                 finish();
                 return;
             }

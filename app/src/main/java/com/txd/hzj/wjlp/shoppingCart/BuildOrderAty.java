@@ -296,6 +296,7 @@ public class BuildOrderAty extends BaseAty {
         num = getString("num");
         //  ordertype = getString("order_type");
         product_id = getString("product_id");
+        L.e("ccccc"+group_buy_id+"--"+type+"--"+mid+"--"+cart_id+"--"+goods_id+"--"+num+"--"+product_id);
         if (type.equals("0")) {
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
         } else if (type.equals("1")) {
@@ -305,7 +306,6 @@ public class BuildOrderAty extends BaseAty {
         } else if (type.equals("3") || type.equals("4")) {
             GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, group_buy_id, this);
         } else if (type.equals("5")) {
-
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("6")) {
             PreOrder.preShoppingCart(group_buy_id, num, this);
@@ -340,6 +340,7 @@ public class BuildOrderAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("cccc"+jsonStr);
         if (requestUrl.contains("split")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             List<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
@@ -681,7 +682,9 @@ public class BuildOrderAty extends BaseAty {
             if(!TextUtils.isEmpty(splitNewList.get(i).getId())){
                 govh.tv_sle_right.setText("配送方式："+(splitNewList.get(i).getPay().equals("0")?splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+"包邮":splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+" ¥"+splitNewList.get(i).getPay()));
             }
+
             //是否存在公益宝贝
+            L.e("aaaa"+getItem(i).get("is_welfare"));
             if(getItem(i).get("is_welfare").equals("1")){
                 govh.layout_gongyi.setVisibility(View.VISIBLE);
                 govh.tv_gongyi.setText("成交后卖家将捐赠"+getItem(i).get("welfare")+"元给公益计划");

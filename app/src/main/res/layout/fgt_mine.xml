@@ -91,6 +91,7 @@
                                 android:paddingTop="4dp">
 
                                 <ImageView
+                                    android:scaleType="centerCrop"
                                     android:id="@+id/level_icon_iv"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
@@ -117,6 +118,7 @@
                                 android:paddingTop="4dp">
 
                                 <ImageView
+                                    android:scaleType="centerCrop"
                                     android:id="@+id/rank_icon_iv"
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
@@ -427,7 +429,7 @@
                     android:drawablePadding="10dp"
                     android:drawableStart="@drawable/icon_mine_shuyuan"
                     android:padding="12dp"
-                    android:text="xfte书院"
+                    android:text="无界书院"
                     android:textColor="@color/app_text_color" />
 
                 <View

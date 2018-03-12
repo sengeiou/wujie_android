@@ -404,8 +404,15 @@ public class VipPayAty extends BaseAty {
     Map<String, String> ticker_map;
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("cccc"+error.get("message"));
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("cccc"+jsonStr);
         if (requestUrl.contains("setOrder")) {
             switch (type) {
                 case "1":
@@ -451,6 +458,7 @@ public class VipPayAty extends BaseAty {
         if (requestUrl.contains("ticket")) {
             ticker_map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             ticker_map = JSONUtils.parseKeyAndValueToMap(ticker_map.get("data"));
+            L.e("ccccc"+ticker_map);
             if (is_c) {
                 setCheck(this_num);
                 showPop(this_view, this_num);

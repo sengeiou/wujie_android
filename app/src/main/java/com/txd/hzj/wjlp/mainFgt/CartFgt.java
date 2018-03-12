@@ -194,6 +194,7 @@ public class CartFgt extends BaseFgt {
         removeDialog();
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
+            cart_lv.onRefreshComplete();
             titlt_right_tv.setVisibility(View.GONE);
             cart_bottom_lin_layout.setVisibility(View.GONE);
             textview.setText(error.get("message"));
@@ -228,6 +229,7 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
+            cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");
             toChangePrice();
             shopingCarts.clear();
@@ -365,6 +367,8 @@ public class CartFgt extends BaseFgt {
 //                        string = string.substring(0 , string.length()- 1);
                         bundle.putString("json", stringBuffer.toString());
                         startActivity(BuildOrderAty.class, bundle);
+                    }else{
+                        showToast("您还没有选择商品哦");
                     }
                 }
                 break;

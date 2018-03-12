@@ -158,7 +158,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         //申请权限
         requestSomePermission();
         // 电源管理
-        forPowerManager();
+//        forPowerManager();
         // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
         keepActivity();
         // 意外弹窗
