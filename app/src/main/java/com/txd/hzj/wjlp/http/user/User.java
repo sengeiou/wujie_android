@@ -432,7 +432,7 @@ public class User {
         params.addBodyParameter("verify", verify);
         params.addBodyParameter("newPayPwd", newPayPwd);
         params.addBodyParameter("rePayPwd", rePayPwd);
-        apiTool2.postApi(url + "myRecommend", params, baseView);
+        apiTool2.postApi(url + "resetPayPwd", params, baseView);
     }
 
     /**

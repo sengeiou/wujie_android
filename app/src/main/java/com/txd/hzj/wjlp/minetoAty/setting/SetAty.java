@@ -138,6 +138,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 startActivity(EditPayPasswordAty.class, bundle);
                 break;
             case R.id.rel_realname:// 实名认证
+                userPst.userInfo();
+                showProgressDialog();
 //                if (auth_status.equals("2")) {
 //                    showRightTip("已认证成功");
 //                    break;
@@ -145,10 +147,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 //                bundle = new Bundle();
 //                bundle.putString("auth_status", auth_status);
 //                startActivity(RealnameAty.class, bundle);
-                Bundle bb = new Bundle();
-                bb.putString("auth_status",auth_status);
-                bb.putString("comp_auth_status",comp_auth_status);
-                startActivity(aty_authentication.class, bb);
+
                 break;
             case R.id.rel_bind_phone:// 绑定手机号
                 if (phone.equals("")) {
@@ -361,6 +360,23 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             userPst.setting();
             showProgressDialog();
             return;
+        }
+        if(requestUrl.contains("userInfo")){
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if(data.get("code").equals("1")){
+                data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
+                if(data.get("personal_data_status").equals("0")){
+                    showToast("请先完善个人资料");
+                    startActivity(EditProfileAty.class,null);
+                    return;
+                }
+                Bundle bb = new Bundle();
+                bb.putString("auth_status",auth_status);
+                bb.putString("comp_auth_status",comp_auth_status);
+                startActivity(aty_authentication.class, bb);
+            }
+            return;
+
         }
         Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
         Map<String, String> data = (Map<String, String>) map.get("data");

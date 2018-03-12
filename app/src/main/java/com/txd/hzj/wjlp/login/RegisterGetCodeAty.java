@@ -5,12 +5,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.tool.CodeCountDown;
+
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -102,5 +105,11 @@ public class RegisterGetCodeAty extends BaseAty {
             startActivity(RegisterSetPwdAty.class, bundle);
             finish();
         }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        L.e("eeeeee"+error.get("message"));
     }
 }

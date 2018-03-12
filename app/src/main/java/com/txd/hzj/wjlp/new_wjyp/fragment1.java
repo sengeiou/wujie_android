@@ -146,6 +146,7 @@ public class fragment1 extends BaseFgt {
     private boolean is_Long = false;
     private TimePickerView pvTime;
     private boolean check;
+    private boolean isFirst=true;
 
     @OnClick({R.id.layout_sex, R.id.ads0, R.id.ads1, R.id.image1, R.id.image2, R.id.id_card_start_time, R.id.id_card_end_time, R.id.tv_submit})
     public void OnClick(View v) {
@@ -160,7 +161,7 @@ public class fragment1 extends BaseFgt {
                     showToast("请输入真实姓名!");
                     return;
                 }
-                if (TextUtils.isEmpty(sex)) {
+                if (TextUtils.isEmpty(sex)&&isFirst) {
                     showToast("请选择性别！");
                     return;
                 }
@@ -168,33 +169,34 @@ public class fragment1 extends BaseFgt {
                     showToast("请输入身份证号！");
                     return;
                 }
-                if (TextUtils.isEmpty(start_time)) {
+                if (TextUtils.isEmpty(start_time)&&isFirst) {
                     showToast("请选择身份开始时间");
                     return;
                 }
-                if (TextUtils.isEmpty(end_time)) {
+                if (TextUtils.isEmpty(end_time)&&isFirst) {
                     showToast("请选择身份结束时间");
                     return;
                 }
 
-                if (TextUtils.isEmpty(province)) {
+                if (TextUtils.isEmpty(province)&&isFirst) {
                     showToast("请选择所在地区!");
                     return;
                 }
-                if (TextUtils.isEmpty(street_id)) {
+                if (TextUtils.isEmpty(street_id)&&isFirst) {
                     showToast("请选择所在街道！");
                     return;
                 }
-                if (flie1 == null) {
-                    showToast("请上传身份证正面照！");
+                if (flie1 == null&&isFirst) {
+                    showToast("请上传身份证正面照");
                     return;
                 }
-                if (flie2 == null) {
+                if (flie2 == null&&isFirst) {
                     showToast("请上传身份证反面照！");
                     return;
                 }
                 RequestParams params = new RequestParams();
                 ApiTool2 apiTool2 = new ApiTool2();
+                L.e("cccc"+start_time+"--"+end_time);
                 params.addBodyParameter("real_name", name.getText().toString());
                 params.addBodyParameter("sex", sex);
                 params.addBodyParameter("id_card_num", idcard.getText().toString());
@@ -204,9 +206,10 @@ public class fragment1 extends BaseFgt {
                 params.addBodyParameter("auth_city_id", city_id);
                 params.addBodyParameter("auth_area_id", area_id);
                 params.addBodyParameter("auth_street_id", street_id);
-                params.addBodyParameter("auth_province_id", province_id);
-                params.addBodyParameter("positive_id_card", flie1);
-                params.addBodyParameter("back_id_card", flie2);
+                if(isFirst){
+                    params.addBodyParameter("positive_id_card", flie1);
+                    params.addBodyParameter("back_id_card", flie2);
+                }
                 apiTool2.postApi(Config.BASE_URL + "User/personalAuth", params, this);
                 showProgressDialog();
                 break;
@@ -300,19 +303,36 @@ public class fragment1 extends BaseFgt {
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) {
+            L.e("cccc"+jsonStr);
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
+                Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
+                Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
             } else {
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
             }
+            isFirst=(TextUtils.isEmpty(data.get("positive_id_card"))&&TextUtils.isEmpty(data.get("back_id_card")))?true:false;
+            sex = data.get("sex");
+//            start_time=Integer.parseInt(data.get("id_card_start_date"))/1000+"";
+            start_time=data.get("id_card_start_date");
+            end_time=data.get("id_card_end_time");
+//            end_time=Integer.parseInt(data.get("id_card_end_time"))/1000+"";
+            province=data.get("auth_province_name");
+            street_id=data.get("auth_street_id");
+            city_id=data.get("auth_city_id");
+            area_id=data.get("auth_area_id");
             name.setText(data.get("real_name"));
+            province_id=data.get("auth_province_id");
             tv_Sex.setText(data.get("sex").equals("1") ? "男" : "女");
             idcard.setText(data.get("id_card_num"));
+            idcard.setTextColor(Color.BLACK);
+            name.setTextColor(Color.BLACK);
             id_card_start_time.setText(data.get("id_card_start_date"));
             id_card_end_time.setText(data.get("id_card_end_date").equals("0") ? "永久" : data.get("id_card_end_date"));
             ads0.setText(data.get("auth_province_name") + data.get("auth_city_name") + data.get("auth_area_name"));
             ads1.setText(data.get("auth_street_name"));
+
         }
         if (requestUrl.equals(Config.BASE_URL + "User/personalAuth")) {
             showToast("成功！");

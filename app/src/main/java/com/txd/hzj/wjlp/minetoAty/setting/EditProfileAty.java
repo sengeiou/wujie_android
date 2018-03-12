@@ -181,6 +181,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      * 昵称
      */
     private String nickname = "";
+    private String personal_data_status="0";//是否完善了个人资料
 
 
     @Override
@@ -271,6 +272,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             parent_alliance_merchant_sn.setText(data.get("parent_alliance_merchant_sn"));
             hidden_parent_name.setText(data.get("hidden_parent_name"));
             hidden_parent_phone.setText(data.get("hidden_parent_phone"));
+            personal_data_status=data.get("personal_data_status");
             return;
         }
         if (requestUrl.contains("editInfo")) {
@@ -292,6 +294,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             case R.id.rel_Sex: {// 性别
 //                show();
+                if(personal_data_status.equals("0")){
+                    showToast("请先完善个人资料");
+                    return;
+                }
                 if (!auth_status.equals("2")) {
                     Bundle b = new Bundle();
                     b.putString("auth_status", auth_status);
@@ -301,6 +307,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_card_num_tv: {
+                if(personal_data_status.equals("0")){
+                    showToast("请先完善个人资料");
+                    return;
+                }
 
                 if (!auth_status.equals("2")) {
                     Bundle b = new Bundle();
@@ -311,6 +321,10 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_real_name_tv: {
+                if(personal_data_status.equals("0")){
+                    showToast("请先完善个人资料");
+                    return;
+                }
 
                 if (!auth_status.equals("2")) {
                     Bundle b = new Bundle();

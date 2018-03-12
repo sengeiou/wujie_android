@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.new_wjyp;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.TextView;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
@@ -26,6 +27,8 @@ public class aty_authentication extends BaseAty {
     private FragmentChangeManager fragmentChangeManager;
     @ViewInject(R.id.switchmultibutton)
     private SwitchMultiButton switchmultibutton;
+    @ViewInject(R.id.view_top)
+    private View view_top;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,26 @@ public class aty_authentication extends BaseAty {
 
     @Override
     protected void requestData() {
+        if(getIntent().getStringExtra("auth_status").equals("0")||getIntent().getStringExtra("auth_status").equals("1")||getIntent().getStringExtra("auth_status").equals("3")){
+            view_top.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            switchmultibutton.setText("个人", "企业").setOnSwitchListener(new SwitchMultiButton.OnSwitchListener() {
+                @Override
+                public void onSwitch(int position, String tabText) {
+                    switch (tabText) {
+                        case "个人":
+                            break;
+                        case "企业":
+                            break;
+                    }
+                }
+            });
+            return;
+        }
         switchmultibutton.setText("个人", "企业").setOnSwitchListener(new SwitchMultiButton.OnSwitchListener() {
             @Override
             public void onSwitch(int position, String tabText) {

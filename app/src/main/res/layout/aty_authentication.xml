@@ -24,21 +24,31 @@
             android:text="认证类型"
             android:textColor="#666666"
             android:textSize="14sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <lib.kingja.switchbutton.SwitchMultiButton
+                android:id="@+id/switchmultibutton"
+                android:layout_width="140dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="4dp"
+                app:selectedColor="#F23030"
+                app:selectedTab="0"
+                app:strokeRadius="5dp"
+                app:strokeWidth="1dp"
+                app:textSize="14sp" />
+            <View
+                android:id="@+id/view_top"
+                android:layout_marginLeft="10dp"
+                android:layout_width="140dp"
+                android:layout_height="30dp"/>
+        </RelativeLayout>
 
-        <lib.kingja.switchbutton.SwitchMultiButton
-            android:id="@+id/switchmultibutton"
-            android:layout_width="140dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="4dp"
-            app:selectedColor="#F23030"
-            app:selectedTab="0"
-            app:strokeRadius="5dp"
-            app:strokeWidth="1dp"
-            app:textSize="14sp" />
+
     </LinearLayout>
 
     <FrameLayout

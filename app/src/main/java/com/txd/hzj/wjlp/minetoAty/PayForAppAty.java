@@ -341,25 +341,24 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
-        L.e("ccccc"+type);
-        if (type.equals("0") || type.equals("0") || type.equals("1")||TextUtils.isEmpty(type)) {
-            Order.setOrder(address_id, cart_id, order_type, order_id, cart_id, "0", order_id, group_buy_id, freight, freight_type, "", getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
+        if (type.equals("0") ||  type.equals("1")||TextUtils.isEmpty(type)) {
+            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("2")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("3")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), getString("goodsList"),this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"),this);
         } else if (type.equals("5")) {
-            Order.setOrder(address_id, num, goods_id, product_id, cart_id, "1", order_id, group_buy_id, freight, freight_type, "", getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
+            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("4")) {
             String[] strings = group_buy_id.split("-");
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("6")) {
-            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goodsList"), this);
+            PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("7")) {
             if (!order_type.equals("7")) {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goods"), this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
             } else {
-                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", freight, freight_type, getString("invoiceList"), getString("leave_message"),getString("goods"), this);
+                IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "1", freight, freight_type, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
             }
             layout_wx.setVisibility(View.GONE);
             layout_ali.setVisibility(View.GONE);
@@ -371,15 +370,15 @@ public class PayForAppAty extends BaseAty {
             layout_ali.setVisibility(View.GONE);
             return;
         } else if (type.equals("9")) {
-            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"),getString("goods"), this);
+            AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
 
         } else if (type.equals("10")) {
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, getString("invoiceList"), getString("leave_message"),getString("goods") ,this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList") ,this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
         } else if (type.equals("11")) {
-            Order.setOrder(address_id, num, goods_id, product_id, "", "4", order_id, group_buy_id, freight, freight_type, cart_id, getString("invoiceList"), getString("leave_message"),getString("goods"), this);
+            Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         }
         showProgressDialog();
     }
@@ -421,10 +420,10 @@ public class PayForAppAty extends BaseAty {
     Map<String, String> data;
     Map<String, String> map;
 
-
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("cccccvvvv"+jsonStr);
         if (!requestUrl.contains("verificationPayPwd")) {
             data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
@@ -432,6 +431,7 @@ public class PayForAppAty extends BaseAty {
         }
 
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
+
             if (!type.equals("10")) {
                 tv_price.setText("¥" + data.get("order_price"));
             } else {
@@ -605,6 +605,11 @@ public class PayForAppAty extends BaseAty {
 
         }if(requestUrl.contains("BalancePay")){
             L.e("cccccc"+error.get("message"));
+            return;
+        }
+        if(requestUrl.contains("setOrder")){
+            L.e("ccccccaaaaa"+error.get("message"));
+            return;
         }
         finish();
     }

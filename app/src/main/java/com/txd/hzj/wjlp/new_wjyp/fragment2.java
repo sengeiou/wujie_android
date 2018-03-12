@@ -118,6 +118,7 @@ public class fragment2 extends BaseFgt {
     private String end_time;
     private boolean check;
     private boolean isLoaded = false;
+    private boolean isFirst=true;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -215,7 +216,7 @@ public class fragment2 extends BaseFgt {
                     return;
                 }
 
-                if (flie1 == null) {
+                if (flie1 == null&&isFirst) {
                     showToast("请上传营业执照！");
                     return;
                 }
@@ -230,7 +231,9 @@ public class fragment2 extends BaseFgt {
                 params.addBodyParameter("comp_city_id", city_id);
                 params.addBodyParameter("comp_area_id", area_id);
                 params.addBodyParameter("comp_street_id", street_id);
-                params.addBodyParameter("comp_business_license", flie1);
+                if(isFirst){
+                    params.addBodyParameter("comp_business_license", flie1);
+                }
                 apiTool2.postApi(Config.BASE_URL + "User/compAuth", params, this);
                 showProgressDialog();
                 break;
@@ -321,15 +324,26 @@ public class fragment2 extends BaseFgt {
         if (requestUrl.contains("User/personalAuthInfo")) {
             if (data.get("comp_auth_status").equals("3")) {
                 textview.setText("认证：已拒绝\n拒绝原因：" + data.get("comp_desc"));
+                Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             } else {
+
                 Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             }
+            isFirst=TextUtils.isEmpty(data.get("comp_business_license"))?true:false;
+            start_time=data.get("comp_start_time");
+            end_time=data.get("comp_end_time");
+            province_id=data.get("comp_province_id");
+            city_id=data.get("comp_city_id");
+            area_id=data.get("comp_area_id");
+            street_id=data.get("comp_street_id");
             name.setText(data.get("com_name"));
             num.setText(data.get("comp_reg_num"));
             comp_start_time.setText(data.get("comp_start_date"));
             comp_end_time.setText(data.get("comp_end_date").equals("0") ? "永久" : data.get("comp_end_date"));
             ads0.setText(data.get("comp_province_name") + data.get("comp_city_name") + data.get("comp_area_name"));
             ads1.setText(data.get("comp_street_name"));
+            name.setTextColor(Color.BLACK);
+            num.setTextColor(Color.BLACK);
         }
         if (requestUrl.contains("User/compAuth")) {
             showToast("成功！");

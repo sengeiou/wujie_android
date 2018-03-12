@@ -149,7 +149,8 @@ public class BuildOrderAty extends BaseAty {
     private EditText et_leave_message;
     @ViewInject(R.id.tv_youfei)
     private TextView tv_youfei;//邮费
-    private List<Goods>goodsList=new ArrayList<>();//商品快递属性list
+    private List<Goods>goodsList=new ArrayList<>();//普通商品快递属性list
+    private List<GoodsCart>goodsCartList=new ArrayList<>();//购物车商品属性list
     private List<SplitNew>splitNewList=new ArrayList<>();//配送方式属性list
     private int choice_goods=-1;//选择商品下标
     private List<Invoice>invoiceList=new ArrayList<>();//商品类型
@@ -238,7 +239,14 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("freight_type", freight_type);
                 bundle.putString("json", json);
                 bundle.putString("leave_message", et_leave_message.getText().toString());
-                bundle.putString("goodsList", gson.toJson(goodsList));
+                //判断是普通商品下单还是购物车下单
+                if(TextUtils.isEmpty(cart_id)){
+                    //普通下单
+                    bundle.putString("goodsList", gson.toJson(goodsList));
+                }else{
+                    //购物车下单
+                    bundle.putString("goodsCartList", gson.toJson(goodsCartList));
+                }
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
                 startActivity(PayForAppAty.class, bundle);
                 finish();
@@ -293,9 +301,10 @@ public class BuildOrderAty extends BaseAty {
         type = getIntent().getStringExtra("type");
         mid = getIntent().getStringExtra("mid");
         cart_id = getIntent().getStringExtra("json");
+        L.e("cart"+cart_id);
         goods_id = getString("goods_id");
         num = getString("num");
-        //  ordertype = getString("order_type");
+          ordertype = getString("order_type");
         product_id = getString("product_id");
         L.e("ccccc"+group_buy_id+"--"+type+"--"+mid+"--"+cart_id+"--"+goods_id+"--"+num+"--"+product_id);
         if (type.equals("0")) {
@@ -403,7 +412,12 @@ public class BuildOrderAty extends BaseAty {
                 if (p == 1) {
                     data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
                     for(Map<String, String> temp:data){
-                        goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        if(TextUtils.isEmpty(cart_id)){
+                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        }else{
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
+                        }
+
                         splitNewList.add(new SplitNew("","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
                     }
@@ -413,7 +427,11 @@ public class BuildOrderAty extends BaseAty {
 
                     more = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
                     for(Map<String, String> temp:more){
-                        goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        if(TextUtils.isEmpty(cart_id)){
+                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                        }else{
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
+                        }
                         splitNewList.add(new SplitNew("","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
                     }
@@ -463,10 +481,18 @@ public class BuildOrderAty extends BaseAty {
                                 splitNewList.get(choice_goods).setType(data.get(position).get("type"));
                                 splitNewList.get(choice_goods).setPay(data.get(position).get("pay"));
                                 splitNewList.get(choice_goods).setDesc(data.get(position).get("desc"));
-                                goodsList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
-                                goodsList.get(choice_goods).setTem_id(data.get(position).get("id"));
-                                goodsList.get(choice_goods).setFreight(data.get(position).get("pay"));
-                                goodsList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+                                if(TextUtils.isEmpty(cart_id)){
+                                    goodsList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
+                                    goodsList.get(choice_goods).setTem_id(data.get(position).get("id"));
+                                    goodsList.get(choice_goods).setFreight(data.get(position).get("pay"));
+                                    goodsList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+                                }else{
+                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
+                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("id"));
+                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("pay"));
+                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("type_status"));
+                                }
+
 //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                                 goodsAdapter.notifyDataSetChanged();
@@ -983,6 +1009,10 @@ public class BuildOrderAty extends BaseAty {
             this.desc = desc;
         }
     }
+
+    /**
+     * 普通商品下单goods参数实体类型
+     */
     class Goods{
         private String product_id;//属性id
         private String  goods_id;//商品id
@@ -1016,6 +1046,71 @@ public class BuildOrderAty extends BaseAty {
 
         public void setGoods_id(String goods_id) {
             this.goods_id = goods_id;
+        }
+
+        public String getFreight() {
+            return freight;
+        }
+
+        public void setFreight(String freight) {
+            this.freight = freight;
+        }
+
+        public String getTem_id() {
+            return tem_id;
+        }
+
+        public void setTem_id(String tem_id) {
+            this.tem_id = tem_id;
+        }
+
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+
+        public String getType_status() {
+            return type_status;
+        }
+
+        public void setType_status(String type_status) {
+            this.type_status = type_status;
+        }
+
+        public String getShipping_id() {
+            return shipping_id;
+        }
+
+        public void setShipping_id(String shipping_id) {
+            this.shipping_id = shipping_id;
+        }
+    }
+    class GoodsCart{
+        private String cate_ids;//购物车id
+        private String freight;//快递金额
+        private String tem_id;//模板id
+        private String num;//购买数量
+        private String type_status;//配送类型
+        private String shipping_id;//快递公司id
+
+        public GoodsCart(String cate_ids, String freight, String tem_id, String num, String type_status, String shipping_id) {
+            this.cate_ids = cate_ids;
+            this.freight = freight;
+            this.tem_id = tem_id;
+            this.num = num;
+            this.type_status = type_status;
+            this.shipping_id = shipping_id;
+        }
+
+        public String getCart_ids() {
+            return cate_ids;
+        }
+
+        public void setCart_ids(String cate_ids) {
+            this.cate_ids = cate_ids;
         }
 
         public String getFreight() {

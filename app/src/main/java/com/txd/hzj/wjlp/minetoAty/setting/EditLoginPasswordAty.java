@@ -20,6 +20,7 @@ import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.login.LoginAty;
 
 /**
  * Created by lienchao on 2017/7/14 0014.
@@ -110,12 +111,14 @@ public class EditLoginPasswordAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("changePassword")) {
             showRightTip("修改成功");
-            Config.setLoginState(true);
+            Config.setLoginState(false);
             PreferencesUtils.putString(this, "pwd", "");
             //收起键盘
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            finish();
+            AppManager.getInstance().killAllActivity();
+            startActivity(LoginAty.class,null);
+//            finish();
 //            logout();
             return;
         }

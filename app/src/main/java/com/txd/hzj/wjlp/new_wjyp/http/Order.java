@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
@@ -51,27 +52,16 @@ public class Order {
      * @param limit_buy_id
      * @param baseView
      */
-    public static void setOrder(String address_id, String goods_num, String goods_id,
-                                String product_id, String cart_ids, String order_type, String order_id, String limit_buy_id,
-                                String freight,
-                                String freight_type,
-                                String collocation,
-                                String invoice,
-                                String leave_message,
-                                String goods,
+    public static void setOrder(String address_id, String order_type, String order_id,
+                                String limit_buy_id, String collocation, String invoice, String leave_message, String goods,
                                 BaseView baseView) {
+        L.e("address_id="+address_id+"\norder_type="+order_type+"\norder_id="+order_id+"\nlimit_buy_id="+limit_buy_id+"\ncollocation="+collocation+"\ninvoice="+invoice+"\nleave_message="+leave_message+"\ngoods="+goods);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("cart_ids", cart_ids);
         requestParams.addBodyParameter("address_id", address_id);
-        requestParams.addBodyParameter("goods_num", goods_num);
-        requestParams.addBodyParameter("goods_id", goods_id);
-        requestParams.addBodyParameter("product_id", product_id);
         requestParams.addBodyParameter("order_type", order_type);
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("limit_buy_id", limit_buy_id);
-        requestParams.addBodyParameter("freight", freight);
-        requestParams.addBodyParameter("freight_type", freight_type);
         requestParams.addBodyParameter("collocation", collocation);
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("leave_message", leave_message);
