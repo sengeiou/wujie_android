@@ -340,6 +340,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
+
+
     private void authorize(Platform plat) {
         // 判断指定平台是否已经完成授权
         if (plat.isAuthValid()) {
@@ -358,6 +360,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             return;
         }
         // 授权监听
+
         plat.setPlatformActionListener(this);
         // true不使用SSO授权，false使用SSO授权，(即true不使用客户端登录，false有客户端则使用客户端登录，没有则使用web网页登录)
         plat.SSOSetting(false);
