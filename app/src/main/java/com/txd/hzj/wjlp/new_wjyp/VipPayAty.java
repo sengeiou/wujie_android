@@ -111,20 +111,21 @@ public class VipPayAty extends BaseAty {
                 break;
 
             case R.id.pay_by_balance_cb:
-
+                setCheck(1);
                 if (is_c) {
                     this_num = 1;
                     this_view = view;
                     MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
-                setCheck(1);
+
                 showPop(view, 1);
                 break;
             case R.id.cb_jfzf:
                 setCheck(5);
                 break;
             case R.id.pay_by_ali_cb:
+                setCheck(2);
 
                 if (is_c) {
                     this_num = 2;
@@ -132,17 +133,16 @@ public class VipPayAty extends BaseAty {
                     MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
-                setCheck(2);
                 showPop(view, 2);
                 break;
             case R.id.pay_by_wechat_cb:
+                setCheck(3);
                 if (is_c) {
                     this_num = 3;
                     this_view = view;
                     MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
                     return;
                 }
-                setCheck(3);
                 showPop(view, 3);
                 break;
             case R.id.tv_xieyi:
@@ -459,10 +459,13 @@ public class VipPayAty extends BaseAty {
             ticker_map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             ticker_map = JSONUtils.parseKeyAndValueToMap(ticker_map.get("data"));
             L.e("ccccc"+ticker_map);
-            if (is_c) {
-                setCheck(this_num);
-                showPop(this_view, this_num);
+            if(ticker_map.get("discount").equals("0")&&ticker_map.get("yellow_discount").equals("0")&&ticker_map.get("blue_discount").equals("0")){
+                is_c=true;
             }
+//            if (is_c) {
+//                setCheck(this_num);
+//                showPop(this_view, this_num);
+//            }
         }
         if (requestUrl.contains("settlement")) {
             date = JSONUtils.parseKeyAndValueToMap(jsonStr);

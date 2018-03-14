@@ -152,6 +152,7 @@ public class BuildOrderAty extends BaseAty {
     private List<Goods>goodsList=new ArrayList<>();//普通商品快递属性list
     private List<GoodsCart>goodsCartList=new ArrayList<>();//购物车商品属性list
     private List<SplitNew>splitNewList=new ArrayList<>();//配送方式属性list
+    private List<Goods_info>goods_infoList=new ArrayList<>();//所有商品的神秘参数
     private int choice_goods=-1;//选择商品下标
     private List<Invoice>invoiceList=new ArrayList<>();//商品类型
     private Bundle bundle;
@@ -352,7 +353,12 @@ public class BuildOrderAty extends BaseAty {
         L.e("cccc"+jsonStr);
         if (requestUrl.contains("split")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            List<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+            map=JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+            if(!map.get("tem").equals("[]")){
+                 data = JSONUtils.parseKeyAndValueToMapList(map.get("tem"));
+            }
+
             if (choice_goods != -1) {
                 showPop(view_ads, data);
             }
@@ -417,6 +423,7 @@ public class BuildOrderAty extends BaseAty {
                         }else{
                             goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
                         }
+                        goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
 
                         splitNewList.add(new SplitNew("","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
@@ -432,6 +439,7 @@ public class BuildOrderAty extends BaseAty {
                         }else{
                             goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
                         }
+                        goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
                         splitNewList.add(new SplitNew("","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
                     }
@@ -498,6 +506,7 @@ public class BuildOrderAty extends BaseAty {
                                 goodsAdapter.notifyDataSetChanged();
                                 tp=0.00;
                                 for (SplitNew temp:splitNewList){
+                                    L.e("tp"+temp.getPay());
                                     tp+=Double.parseDouble(temp.getPay());
                                 }
                                 tp=(double)Math.round(tp*100)/100;
@@ -736,7 +745,7 @@ public class BuildOrderAty extends BaseAty {
                         }
                         view_ads = view;
 
-                        Freight.split(getItem(i).get("goods_id"),address_id, getItem(i).get("product_id"), getItem(i).get("num"),BuildOrderAty.this);
+                        Freight.split(getItem(i).get("goods_id"),address_id, getItem(i).get("product_id"), getItem(i).get("num"),new Gson().toJson(goods_infoList),BuildOrderAty.this);
                         showProgressDialog();
                         choice_goods=i;
                     } else {
@@ -1226,6 +1235,45 @@ public class BuildOrderAty extends BaseAty {
 
         public void setIs_invoice(int is_invoice) {
             this.is_invoice = is_invoice;
+        }
+    }
+
+    /**
+     * 一天改一遍系列，永无止境
+     */
+    class Goods_info{
+        private String goods_id;
+        private String product_id;
+        private String goods_num;
+
+        public Goods_info(String goods_id, String product_id, String goods_num) {
+            this.goods_id = goods_id;
+            this.product_id = product_id;
+            this.goods_num = goods_num;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
+        }
+
+        public String getProduct_id() {
+            return product_id;
+        }
+
+        public void setProduct_id(String product_id) {
+            this.product_id = product_id;
+        }
+
+        public String getGoods_num() {
+            return goods_num;
+        }
+
+        public void setGoods_num(String goods_num) {
+            this.goods_num = goods_num;
         }
     }
 

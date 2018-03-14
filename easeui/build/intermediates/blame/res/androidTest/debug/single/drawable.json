@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_tab_indicator_material.xml",
-        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_tab_indicator_material.xml"
-    },
-    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_chat_location_selector.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chat_location_selector.xml"
+    },
+    {
+        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_tab_indicator_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_tab_indicator_material.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\ease_timestampe_bg.xml",
@@ -32,12 +32,12 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_sidebar_background_pressed.xml"
     },
     {
-        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_ic_ab_back_material.xml",
-        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_ab_back_material.xml"
-    },
-    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_ic_search_api_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_search_api_material.xml"
+    },
+    {
+        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_ic_ab_back_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_ab_back_material.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",

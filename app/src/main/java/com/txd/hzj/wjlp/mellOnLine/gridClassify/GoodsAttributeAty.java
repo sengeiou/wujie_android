@@ -371,10 +371,10 @@ public class GoodsAttributeAty extends BaseAty {
                     if (TextUtils.isEmpty(getItem(i).getFirst_list_val().get(position).getStatus())) {
                         getItem(i).getFirst_list_val().get(position).setStatus("2");
                     }
-                    if (getCount() == 1) {
-                        getItem(i).getFirst_list_val().get(position).setStatus("1");
+//                    if (getCount() == 1) {
+                        getItem(0).getFirst_list_val().get(0).setStatus("1");
 
-                    }
+//                    }
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
                         case "1":
                             tv.setEnabled(true);

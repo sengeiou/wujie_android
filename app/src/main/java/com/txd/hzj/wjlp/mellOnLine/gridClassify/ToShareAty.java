@@ -7,6 +7,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.share.ShareBeBackListener;
 import com.ants.theantsgo.share.ShareForApp;
 import com.ants.theantsgo.tools.CheckAppExist;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -53,6 +54,7 @@ public class ToShareAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.share_to_wachar:// 微信
+                L.e("微信");
                 shareType = "1";
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");

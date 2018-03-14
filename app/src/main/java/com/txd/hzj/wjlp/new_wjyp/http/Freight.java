@@ -31,13 +31,12 @@ public class Freight {
      * @param goods
      * @param baseView
      */
-    public static void split(String goods_id,String address_id, String product_id,String goods_num ,BaseView baseView) {
+    public static void split(String goods_id,String address_id, String product_id,String goods_num ,String goods_info,BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
-        params.addBodyParameter("goods_id", goods_id);
+        params.addBodyParameter("now_goods_id", goods_id);
         params.addBodyParameter("address_id", address_id);
-        params.addBodyParameter("product_id", product_id);
-        params.addBodyParameter("goods_num", goods_num);
+        params.addBodyParameter("goods_info", goods_info);
         apiTool2.postApi(url + "splitNew", params, baseView);
     }
 }

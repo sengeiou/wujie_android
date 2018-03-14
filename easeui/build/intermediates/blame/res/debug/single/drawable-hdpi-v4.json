@@ -1,11 +1,11 @@
 [
     {
-        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_15.png",
-        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_15.png"
-    },
-    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_appitem_del_btn_pressed.png",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_appitem_del_btn_pressed.png"
+    },
+    {
+        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_15.png",
+        "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ee_15.png"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_29.png",
@@ -72,12 +72,12 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable-hdpi\\ease_record_animate_07.png"
     },
     {
-        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png",
-        "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable-hdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
-    },
-    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_btn_radio_to_on_mtrl_000.png",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable-hdpi-v4\\abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable-hdpi-v4\\abc_ic_menu_cut_mtrl_alpha.png"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_msg_state_fail_resend.png",

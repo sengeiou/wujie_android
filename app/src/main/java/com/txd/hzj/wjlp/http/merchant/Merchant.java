@@ -55,13 +55,14 @@ class Merchant {
      * @param p           分页
      * @param baseView    回调
      */
-    void goodsList(String merchant_id, String is_hot, String new_buy, int p, BaseView baseView) {
+    void goodsList(String merchant_id, String is_hot, String new_buy, int p,String search_goods, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("merchant_id", merchant_id);
         params.addBodyParameter("is_hot", is_hot);
         params.addBodyParameter("new_buy", new_buy);
         params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("search_goods", search_goods);
         apiTool2.postApi(url + "goodsList", params, baseView);
     }
 

@@ -23,6 +23,7 @@ import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
+import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -338,4 +339,5 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         intent.setData(data);
         startActivity(intent);
     }
+
 }

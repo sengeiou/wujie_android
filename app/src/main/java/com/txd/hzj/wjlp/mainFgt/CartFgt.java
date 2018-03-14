@@ -267,7 +267,7 @@ public class CartFgt extends BaseFgt {
         switch (v.getId()) {
             case R.id.titlt_right_tv:// 编辑，保存
                 String str = titlt_right_tv.getText().toString();
-                if (str.equals("编辑")) {// 之前是不可编辑状态，点击之后是可编辑状态
+                if (str.equals("编辑")) {// 之前是不可编辑状态，点击之后是可编辑状态,现在是保存状态
                     canEdit = true;
                     titlt_right_tv.setText("保存");
                     // 全选按钮显示
@@ -422,12 +422,13 @@ public class CartFgt extends BaseFgt {
     }
 
     private void toJson(int type, String json) {
+        L.e("type="+type+"\njson="+json);
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("cart_id_json", json);
         if (type == 1) {
             apiTool2.postApi(Config.BASE_URL + "Cart/delCart", params, this);
-        } else if (type == 3) {
+        } else if (type == 2) {
             apiTool2.postApi(Config.BASE_URL + "Cart/addCollect", params, this);
         } else if (type == 3) {
 
@@ -616,7 +617,7 @@ public class CartFgt extends BaseFgt {
             // 数量
             cgvh.cart_goods_num_tv.setText("x" + String.valueOf(cg.getNum()));
             cgvh.operation_goods_num_tv.setText(String.valueOf(cg.getNum()));
-
+            L.e("canEdit"+canEdit);
             if (canEdit) {
                 cgvh.cart_num_attrs_layout.setVisibility(View.VISIBLE);
                 cgvh.cart_goods_info_layout.setVisibility(View.GONE);

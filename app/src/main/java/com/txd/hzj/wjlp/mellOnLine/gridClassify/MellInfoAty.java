@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -119,6 +120,11 @@ public class MellInfoAty extends BaseAty {
      */
     @ViewInject(R.id.mell_tool_bar)
     private Toolbar mell_tool_bar;
+    /**
+     * 搜索输入框
+     */
+    @ViewInject(R.id.title_search_ev)
+    private EditText title_search_ev;
 
     /**
      * xfte头条View
@@ -324,7 +330,7 @@ public class MellInfoAty extends BaseAty {
     @Override
     @OnClick({R.id.popularity_tv, R.id.mell_price_tv, R.id.sales_tv, R.id.at_laster_tv,
             R.id.all_classify_tv, R.id.mell_info_by_off_line, R.id.off_line_mell_collect_layout, R.id.mell_ads_tv,
-            R.id.check_all_coupon_tv, R.id.off_line_mell_share_tv})
+            R.id.check_all_coupon_tv, R.id.off_line_mell_share_tv, R.id.search_title_right_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -398,6 +404,10 @@ public class MellInfoAty extends BaseAty {
                 });
                 mellCouponDialog.show();
                 break;
+            case R.id.search_title_right_tv://搜索
+                p = 1;
+                getData(soft_type);
+                break;
         }
     }
 
@@ -431,7 +441,7 @@ public class MellInfoAty extends BaseAty {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
-                bundle.putInt("from",1);
+                bundle.putInt("from", 1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
@@ -448,7 +458,7 @@ public class MellInfoAty extends BaseAty {
                     bundle.putInt("from", 1);
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {
-                    Bundle  bundle = new Bundle();
+                    Bundle bundle = new Bundle();
                     bundle.putString("desc", ads_list.get(position).get("href"));
                     bundle.putString("href", ads_list.get(position).get("desc"));
                     bundle.putInt("from", 2);
@@ -461,7 +471,9 @@ public class MellInfoAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+        String message = map.get("message");
         if (requestUrl.contains("merIndex") || requestUrl.contains("goodsList")) {
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -470,6 +482,7 @@ public class MellInfoAty extends BaseAty {
                 share_content = data.get("share_content");
                 if (1 == p) {
                     ads_list.clear();
+
                     // 顶部数据
                     forBaseTitle(data);
 
@@ -486,8 +499,10 @@ public class MellInfoAty extends BaseAty {
                             ticket_list = JSONUtils.parseKeyAndValueToMapList(data.get("ticket_list"));
                         }
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
-                    } else if (requestUrl.contains("goodsList"))// 商品
+                    } else if (requestUrl.contains("goodsList")){
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
+                    }
+                    L.e("eeee"+ListUtils.isEmpty(ads_list));
                     if (!ListUtils.isEmpty(ads_list)) {
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
                         if (requestUrl.contains("merIndex")) {// 首页
@@ -496,7 +511,6 @@ public class MellInfoAty extends BaseAty {
                             mell_ads_lv.setVisibility(View.VISIBLE);
                             mell_ads_lv.setAdapter(mellGoodsAndAdsAdapter);
                         } else if (requestUrl.contains("goodsList")) {//商品
-                            L.e("商品");
                             mell_ads_lv.setVisibility(View.GONE);
                             mell_goods_gv.setVisibility(View.VISIBLE);
                             mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
@@ -546,24 +560,29 @@ public class MellInfoAty extends BaseAty {
         }
         if (requestUrl.contains("limitList") || requestUrl.contains("groupList") || requestUrl.contains("preList")
                 || requestUrl.contains("auctionList") || requestUrl.contains("oneBuyList")) {
-
-            L.e("=====链接=====", requestUrl);
-
             mell_ads_lv.setVisibility(View.GONE);
             mell_goods_gv.setVisibility(View.VISIBLE);
 
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
                 if (1 == p) {
                     ads_list.clear();
+
                     forBaseTitle(data);
                     if (ToolKit.isList(data, "goods_list")) {
+
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                         L.e("=====数据=====", ads_list.toString());
 //                        if (mellGoodsAndAdsAdapter != null)
 //                            mellGoodsAndAdsAdapter.notifyDataSetChanged();
 //                        else {
 //                        }
+                        mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
+                        mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
+                    }else{
+                        //空数据
+                        ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
                         mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
                     }
@@ -618,6 +637,7 @@ public class MellInfoAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
+        L.e("eeeee" + error.get("message"));
         if (1 == p) {
             ads_list.clear();
             if (!frist) {
@@ -712,13 +732,13 @@ public class MellInfoAty extends BaseAty {
                 merchantPst.merIndex(mell_id, p);
                 break;
             case 1:// 全部商品
-                merchantPst.goodsList(mell_id, "", "", p);
+                merchantPst.goodsList(mell_id, "", "", p, title_search_ev.getText().toString());
                 break;
             case 2:// 热销商品
-                merchantPst.goodsList(mell_id, "1", "", p);
+                merchantPst.goodsList(mell_id, "1", "", p, title_search_ev.getText().toString());
                 break;
             case 3:// 分页商品
-                merchantPst.goodsList(mell_id, "", "1", p);
+                merchantPst.goodsList(mell_id, "", "1", p, title_search_ev.getText().toString());
                 break;
             case 4:// 活动商品
                 switch (data_type) {

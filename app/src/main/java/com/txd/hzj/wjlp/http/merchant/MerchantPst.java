@@ -34,9 +34,9 @@ public class MerchantPst extends BasePresenter {
     }
 
     // 商品页
-    public void goodsList(String merchant_id, String is_hot, String new_buy, int p) {
+    public void goodsList(String merchant_id, String is_hot, String new_buy, int p,String search_goods) {
         baseView.showDialog();
-        merchant.goodsList(merchant_id, is_hot, new_buy, p, baseView);
+        merchant.goodsList(merchant_id, is_hot, new_buy, p,search_goods, baseView);
     }
 
     // 获取评论列表

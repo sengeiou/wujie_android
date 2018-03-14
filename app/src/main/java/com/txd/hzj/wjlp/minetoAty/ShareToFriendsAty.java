@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -62,8 +63,10 @@ public class ShareToFriendsAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_share_friends_tv:// 分享
+                L.e("ccc"+share_url);
                 String context = share_context_ev.getText().toString().trim();
-                toShare(share_title, share_img, share_url, context, share_id, "5");
+                toShare(share_title, share_img, share_url, share_url, share_id, "1");
+//                toShare(share_title, share_img, share_url, context, share_id, "5");
                 break;
         }
     }
@@ -86,7 +89,6 @@ public class ShareToFriendsAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("shareFriend")) {
             final Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -100,6 +102,7 @@ public class ShareToFriendsAty extends BaseAty {
                     .into(share_frind_iv);
             share_title = data.get("share_title");
             share_url = data.get("share_url");
+            L.e("share_url"+share_url);
             share_title_tv.setText(share_title);
             share_frind_iv.setOnClickListener(new View.OnClickListener() {
                 @Override

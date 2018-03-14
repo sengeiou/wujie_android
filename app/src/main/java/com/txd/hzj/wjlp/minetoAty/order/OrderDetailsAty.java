@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -678,8 +679,10 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh = (TGVH) view.getTag();
             }
             tgvh.tv_btn_right.setVisibility(View.GONE);
-            if (order_status.equals("0")) {
+            L.e("order_sta"+order_status);
+            if (order_status.equals("0")||order_status.equals("5")) {
                 tgvh.tv_btn_left.setVisibility(View.GONE);
+                tgvh.tv_btn_right.setVisibility(View.GONE);
             } else {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
             }
@@ -687,7 +690,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.GONE);
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             }
-            if (getItem(i).get("after_type").equals("0")&&!order_status.equals("1")) {
+            if (getItem(i).get("after_type").equals("0")&&!order_status.equals("1")&&!order_status.equals("0")&&!order_status.equals("5")) {
                 tgvh.tv_btn_left.setText("申请售后");
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setText("确认收货");
@@ -737,10 +740,17 @@ public class OrderDetailsAty extends BaseAty {
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
             tgvh.name.setText(getItem(i).get("goods_name"));
             tgvh.num.setText("x" + getItem(i).get("goods_num"));
-            tgvh.title.setText("规格" + getItem(i).get("attr"));
+            tgvh.title.setText(getItem(i).get("attr"));
 //            if (getItem(i).get("sale_status").equals("1")) {
 //                tgvh.textview.setVisibility(View.VISIBLE);
-            tgvh.textview.setText("收货时间:" + getItem(i).get("sure_delivery_time"));
+            L.e("time"+getItem(i).get("sure_delivery_time"));
+            if(getItem(i).get("status").equals("1")){
+                tgvh.textview.setText("收货时间：" + getItem(i).get("sure_delivery_time"));
+            }else{
+                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time"));
+
+            }
+
 //            } else {
 //                tgvh.textview.setVisibility(View.GONE);
 //            }
