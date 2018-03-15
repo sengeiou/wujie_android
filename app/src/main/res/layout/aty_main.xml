@@ -23,47 +23,92 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
-
-        <RadioGroup
-            android:id="@+id/app_main_rg"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+            <RadioGroup
+                android:id="@+id/app_main_rg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/home_pager_rb"
-                style="@style/main_tab_bottom_style"
-                android:drawableTop="@drawable/selector_tab_main_bottom_homepage"
-                android:text="线上商城"
-                />
+                <RadioButton
+                    android:id="@+id/home_pager_rb"
+                    style="@style/main_tab_bottom_style"
+                    android:drawableTop="@drawable/selector_tab_main_bottom_homepage"
+                    android:text="线上商城"
+                    />
 
-            <RadioButton
-                android:id="@+id/mell_offline_rb"
-                style="@style/main_tab_bottom_style"
-                android:drawableTop="@drawable/selector_tab_main_bottom_mell_offline"
-                android:text="线下店铺"
-                />
+                <RadioButton
+                    android:id="@+id/mell_offline_rb"
+                    style="@style/main_tab_bottom_style"
+                    android:drawableTop="@drawable/selector_tab_main_bottom_mell_offline"
+                    android:text="线下店铺"
+                    />
 
-            <RadioButton
-                style="@style/main_tab_bottom_style"
-                android:text="更多"
-                android:visibility="invisible"
-                />
+                <RadioButton
+                    style="@style/main_tab_bottom_style"
+                    android:text="更多"
+                    android:visibility="invisible"
+                    />
 
-            <RadioButton
-                android:id="@+id/cart_rb"
-                style="@style/main_tab_bottom_style"
-                android:drawableTop="@drawable/selector_tab_main_bottom_cart"
-                android:text="购物车"
-                />
+                <RadioButton
+                    android:id="@+id/cart_rb"
+                    style="@style/main_tab_bottom_style"
+                    android:drawableTop="@drawable/selector_tab_main_bottom_cart"
+                    android:text="购物车"
+                    />
 
-            <RadioButton
-                android:id="@+id/mine_rb"
-                style="@style/main_tab_bottom_style"
-                android:drawableTop="@drawable/selector_tab_main_bottom_mine"
-                android:text="我的"
-                />
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/mine_rb"
+                    style="@style/main_tab_bottom_style"
+                    android:drawableTop="@drawable/selector_tab_main_bottom_mine"
+                    android:text="我的"
+                    />
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <RelativeLayout
+                    android:gravity="right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1">
+                    <TextView
+                        android:layout_marginRight="14dp"
+                        android:textSize="10sp"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:id="@+id/tv_cart_num"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:text="3"
+                        android:background="@drawable/shape_red_cart"/>
+                </RelativeLayout>
+                <TextView
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+        </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/mach_more_lin_layout"

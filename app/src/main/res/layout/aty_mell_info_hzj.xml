@@ -8,246 +8,6 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/mell_info_app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/mell_info_tool_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
-            app:contentScrim="@color/colorAccent"
-            app:expandedTitleMarginEnd="48dp"
-            app:expandedTitleMarginStart="48dp"
-            app:expandedTitleTextAppearance="@style/transparentText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <LinearLayout
-                android:id="@+id/mell_info_head_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_new_mell_online_bg_hzj"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:padding="12dp"
-                app:layout_collapseMode="pin"
-                app:layout_collapseParallaxMultiplier="0.7">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/mell_logo_pic_iv"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/icon_temp_mell_head"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/merchant_name_tv"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="康尔馨酒店家纺"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center">
-
-                            <TextView
-                                android:id="@+id/merchant_slogan_tv"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="12dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/shape_mell_info_tv_hzj"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:paddingBottom="2dp"
-                                android:paddingEnd="4dp"
-                                android:paddingStart="4dp"
-                                android:paddingTop="2dp"
-                                android:text="To be NO.1. To be NO.1. To be NO.1. To be NO.1."
-                                android:textColor="@color/white"
-                                android:textSize="8sp" />
-
-
-                        </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/mell_ads_tv"
-                        android:layout_width="0dp"
-                        android:layout_weight="8"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/icon_notifiy_w_package"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp" />
-                    <LinearLayout
-                        android:id="@+id/mell_info_by_off_line"
-                        android:layout_width="0dp"
-                        android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/shape_show_mell_ac_layout"
-                        android:gravity="center_vertical"
-                        android:layout_marginEnd="12dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:text="店铺信息"
-                            android:textColor="@color/white"
-                            android:textSize="8sp" />
-
-                        <ImageView
-                            android:id="@+id/show_or_hide_info_iv"
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@drawable/icon_turn_right" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-
-
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/mell_tool_bar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/icon_be_back_w">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="end"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/off_line_mell_collect_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        >
-
-                        <ImageView
-                            android:id="@+id/goods_title_collect_iv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/icon_collect_w_hzj"
-                            />
-
-                        <TextView
-                            android:id="@+id/goods_title_collect_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="6dp"
-                            android:gravity="center"
-                            android:text="收藏"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/off_line_mell_share_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:drawablePadding="6dp"
-                        android:drawableTop="@drawable/icon_goods_title_share_w_hzj"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="分享"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        />
-                </LinearLayout>
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                >
-
-                <EditText
-                    android:id="@+id/title_search_ev"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="12dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/shape_search_tv_bg"
-                    android:gravity="center_vertical"
-                    android:hint="搜索本店"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="8dp"
-                    android:textColor="@color/app_text_color"
-                    android:textColorHint="@color/gray_text_color"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:id="@+id/search_title_right_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/shape_sraech_title_right_tv"
-                    android:padding="6dp"
-                    android:text="搜索"
-                    android:textColor="@color/white"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color"/>
-
-            <include layout="@layout/aty_mell_filtrate_layout"/>
-        </LinearLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/mell_super_sr_layout"
         android:layout_width="match_parent"
@@ -344,6 +104,248 @@
 
         </android.support.v4.widget.NestedScrollView>
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/mell_info_app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/mell_info_tool_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:collapsedTitleTextAppearance="@style/ToolBarTitleText"
+            app:contentScrim="@color/colorAccent"
+            app:expandedTitleMarginEnd="48dp"
+            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleTextAppearance="@style/transparentText"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:id="@+id/mell_info_head_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/icon_new_mell_online_bg_hzj"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:padding="12dp"
+                app:layout_collapseMode="pin"
+                app:layout_collapseParallaxMultiplier="0.7">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="60dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/mell_logo_pic_iv"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/icon_temp_mell_head" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/merchant_name_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="康尔馨酒店家纺"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                            <LinearLayout
+                                android:layout_alignParentRight="true"
+                                android:id="@+id/mell_info_by_off_line"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:background="@drawable/shape_show_mell_ac_layout"
+                                android:gravity="center_vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="4dp"
+                                    android:text="店铺信息"
+                                    android:textColor="@color/white"
+                                    android:textSize="8sp" />
+
+                                <ImageView
+                                    android:id="@+id/show_or_hide_info_iv"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:src="@drawable/icon_turn_right" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/merchant_slogan_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/shape_mell_info_tv_hzj"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:paddingBottom="2dp"
+                                android:paddingEnd="4dp"
+                                android:paddingStart="4dp"
+                                android:paddingTop="2dp"
+                                android:text="To be NO.1. To be NO.1. To be NO.1. To be NO.1."
+                                android:textColor="@color/white"
+                                android:textSize="8sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/mell_ads_tv"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="8"
+                                android:drawableStart="@drawable/icon_notifiy_w_package"
+                                android:paddingBottom="4dp"
+                                android:paddingTop="4dp" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/mell_tool_bar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/icon_be_back_w">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/off_line_mell_collect_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <ImageView
+                            android:id="@+id/goods_title_collect_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_collect_w_hzj" />
+
+                        <TextView
+                            android:id="@+id/goods_title_collect_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="6dp"
+                            android:gravity="center"
+                            android:text="收藏"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/off_line_mell_share_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:drawablePadding="6dp"
+                        android:drawableTop="@drawable/icon_goods_title_share_w_hzj"
+                        android:gravity="center"
+                        android:padding="8dp"
+                        android:text="分享"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/title_search_ev"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="12dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_search_tv_bg"
+                    android:gravity="center_vertical"
+                    android:hint="搜索本店"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:textColor="@color/app_text_color"
+                    android:textColorHint="@color/gray_text_color"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/search_title_right_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shape_sraech_title_right_tv"
+                    android:padding="6dp"
+                    android:text="搜索"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/bg_color" />
+
+            <include layout="@layout/aty_mell_filtrate_layout" />
+        </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

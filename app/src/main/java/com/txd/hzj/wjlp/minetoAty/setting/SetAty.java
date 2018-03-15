@@ -56,6 +56,13 @@ import cn.sharesdk.wechat.friends.Wechat;
  * ===============Txunda===============
  */
 public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener {
+    private Handler handler=new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            startActivity(EditProfileAty.class,null);
+            return false;
+        }
+    });
     /**
      * 设置标题
      */
@@ -367,7 +374,20 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
                 if(data.get("personal_data_status").equals("0")){
                     showToast("请先完善个人资料");
-                    startActivity(EditProfileAty.class,null);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Message message=new Message();
+                            message.what=0;
+                            message.obj=0;
+                            handler.sendMessage(message);
+                        }
+                    }).start();
                     return;
                 }
                 Bundle bb = new Bundle();

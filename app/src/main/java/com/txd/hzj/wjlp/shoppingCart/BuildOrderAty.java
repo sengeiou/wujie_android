@@ -212,10 +212,19 @@ public class BuildOrderAty extends BaseAty {
                     return;
                 }
                 //是否选择了快递
-                for(Goods temp:goodsList){
-                    while (TextUtils.isEmpty(temp.getTem_id())){
-                        showToast("请完善所有商品的快递方式！");
-                        return;
+                if(goodsList.size()!=0){
+                    for(Goods temp:goodsList){
+                        while (TextUtils.isEmpty(temp.getTem_id())){
+                            showToast("请完善所有商品的快递方式！");
+                            return;
+                        }
+                    }
+                }else{
+                    for(GoodsCart temp:goodsCartList){
+                        while (TextUtils.isEmpty(temp.getTem_id())){
+                            showToast("请完善所有商品的快递方式！");
+                            return;
+                        }
                     }
                 }
 //                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
@@ -419,9 +428,9 @@ public class BuildOrderAty extends BaseAty {
                     data = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
                     for(Map<String, String> temp:data){
                         if(TextUtils.isEmpty(cart_id)){
-                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"",temp.get("num"),"","","0","","",""));
                         }else{
-                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","",""));
                         }
                         goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
 
@@ -435,9 +444,9 @@ public class BuildOrderAty extends BaseAty {
                     more = JSONUtils.parseKeyAndValueToMapList(map.get("item"));
                     for(Map<String, String> temp:more){
                         if(TextUtils.isEmpty(cart_id)){
-                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"0","",temp.get("num"),"",""));
+                            goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"",temp.get("num"),"","","0","","",""));
                         }else{
-                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"0",temp.get("product_id"),temp.get("num"),"",""));
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","",""));
                         }
                         goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
                         splitNewList.add(new SplitNew("","","","","","0",""));
@@ -492,13 +501,19 @@ public class BuildOrderAty extends BaseAty {
                                 if(TextUtils.isEmpty(cart_id)){
                                     goodsList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
                                     goodsList.get(choice_goods).setTem_id(data.get(position).get("id"));
-                                    goodsList.get(choice_goods).setFreight(data.get(position).get("pay"));
+                                    goodsList.get(choice_goods).setPay(data.get(position).get("pay"));
                                     goodsList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+                                    goodsList.get(choice_goods).setType(data.get(position).get("type"));
+                                    goodsList.get(choice_goods).setDesc(data.get(position).get("desc"));
+                                    goodsList.get(choice_goods).setSame_tem_id(data.get(position).get("same_tem_id"));
                                 }else{
                                     goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
-                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("id"));
-                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("pay"));
-                                    goodsCartList.get(choice_goods).setShipping_id(data.get(position).get("type_status"));
+                                    goodsCartList.get(choice_goods).setTem_id(data.get(position).get("id"));
+                                    goodsCartList.get(choice_goods).setPay(data.get(position).get("pay"));
+                                    goodsCartList.get(choice_goods).setType_status(data.get(position).get("type_status"));
+                                    goodsCartList.get(choice_goods).setType(data.get(position).get("type"));
+                                    goodsCartList.get(choice_goods).setDesc(data.get(position).get("desc"));
+                                    goodsCartList.get(choice_goods).setSame_tem_id(data.get(position).get("same_tem_id"));
                                 }
 
 //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
@@ -1025,20 +1040,26 @@ public class BuildOrderAty extends BaseAty {
     class Goods{
         private String product_id;//属性id
         private String  goods_id;//商品id
-        private String freight;//快递金额
         private String tem_id;//模板id
         private String num;//购买数量
         private String type_status;//配送类型
         private String shipping_id;//快递公司id
+        private String pay;//邮费
+        private String type;//快递类型
+        private String desc;//描述
+        private String same_tem_id;//相同模板的商品ID
 
-        public Goods(String product_id, String goods_id, String freight, String tem_id, String num, String type_status, String shipping_id) {
+        public Goods(String product_id, String goods_id, String tem_id, String num, String type_status, String shipping_id, String pay, String type, String desc, String same_tem_id) {
             this.product_id = product_id;
             this.goods_id = goods_id;
-            this.freight = freight;
             this.tem_id = tem_id;
             this.num = num;
             this.type_status = type_status;
             this.shipping_id = shipping_id;
+            this.pay = pay;
+            this.type = type;
+            this.desc = desc;
+            this.same_tem_id = same_tem_id;
         }
 
         public String getProduct_id() {
@@ -1057,14 +1078,6 @@ public class BuildOrderAty extends BaseAty {
             this.goods_id = goods_id;
         }
 
-        public String getFreight() {
-            return freight;
-        }
-
-        public void setFreight(String freight) {
-            this.freight = freight;
-        }
-
         public String getTem_id() {
             return tem_id;
         }
@@ -1095,39 +1108,69 @@ public class BuildOrderAty extends BaseAty {
 
         public void setShipping_id(String shipping_id) {
             this.shipping_id = shipping_id;
+        }
+
+        public String getPay() {
+            return pay;
+        }
+
+        public void setPay(String pay) {
+            this.pay = pay;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getSame_tem_id() {
+            return same_tem_id;
+        }
+
+        public void setSame_tem_id(String same_tem_id) {
+            this.same_tem_id = same_tem_id;
         }
     }
     class GoodsCart{
         private String cate_ids;//购物车id
-        private String freight;//快递金额
         private String tem_id;//模板id
+        private String type_status;//配送方式类型
         private String num;//购买数量
-        private String type_status;//配送类型
         private String shipping_id;//快递公司id
+        private String pay;//快递金额
+        private String type;//快递类型
+        private String desc;//描述
+        private String same_tem_id;//相同模板的商品id
 
-        public GoodsCart(String cate_ids, String freight, String tem_id, String num, String type_status, String shipping_id) {
+        public GoodsCart(String cate_ids, String tem_id, String type_status, String num, String shipping_id, String pay, String type, String desc, String same_tem_id) {
             this.cate_ids = cate_ids;
-            this.freight = freight;
             this.tem_id = tem_id;
-            this.num = num;
             this.type_status = type_status;
+            this.num = num;
             this.shipping_id = shipping_id;
+            this.pay = pay;
+            this.type = type;
+            this.desc = desc;
+            this.same_tem_id = same_tem_id;
         }
 
-        public String getCart_ids() {
+        public String getCate_ids() {
             return cate_ids;
         }
 
-        public void setCart_ids(String cate_ids) {
+        public void setCate_ids(String cate_ids) {
             this.cate_ids = cate_ids;
-        }
-
-        public String getFreight() {
-            return freight;
-        }
-
-        public void setFreight(String freight) {
-            this.freight = freight;
         }
 
         public String getTem_id() {
@@ -1138,14 +1181,6 @@ public class BuildOrderAty extends BaseAty {
             this.tem_id = tem_id;
         }
 
-        public String getNum() {
-            return num;
-        }
-
-        public void setNum(String num) {
-            this.num = num;
-        }
-
         public String getType_status() {
             return type_status;
         }
@@ -1154,12 +1189,52 @@ public class BuildOrderAty extends BaseAty {
             this.type_status = type_status;
         }
 
+        public String getNum() {
+            return num;
+        }
+
+        public void setNum(String num) {
+            this.num = num;
+        }
+
         public String getShipping_id() {
             return shipping_id;
         }
 
         public void setShipping_id(String shipping_id) {
             this.shipping_id = shipping_id;
+        }
+
+        public String getPay() {
+            return pay;
+        }
+
+        public void setPay(String pay) {
+            this.pay = pay;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getSame_tem_id() {
+            return same_tem_id;
+        }
+
+        public void setSame_tem_id(String same_tem_id) {
+            this.same_tem_id = same_tem_id;
         }
     }
     class Invoice{
@@ -1276,6 +1351,7 @@ public class BuildOrderAty extends BaseAty {
             this.goods_num = goods_num;
         }
     }
+
 
 
 

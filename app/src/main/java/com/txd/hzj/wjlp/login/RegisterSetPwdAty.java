@@ -8,11 +8,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
@@ -136,23 +138,46 @@ public class RegisterSetPwdAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("register")) {
-            showRightTip("注册并登录成功");
+            registerPst.login(phone, password);
+//            showRightTip("注册并登录成功");
+//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//
+//            application.setUserInfo(data);
+//            Config.setLoginState(true);
+//
+//            PreferencesUtils.putString(this, "phone", phone);
+//            PreferencesUtils.putString(this, "pwd", password);
+//            PreferencesUtils.putString(this, "token", data.get("token"));
+//            // 友盟统计
+//            MobclickAgent.onProfileSignIn(data.get("user_id"));
+//            // 极光设置Tag或者别名
+//            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+//            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+//            // 环信登录
+//            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
+//            finish();
+        }
+        if(requestUrl.contains("login")){
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
-
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
             // 友盟统计
             MobclickAgent.onProfileSignIn(data.get("user_id"));
+
             // 极光设置Tag或者别名
             JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
-            finish();
+//            if (0 == skip_type) {
+            AppManager.getInstance().killAllActivity();
+            startActivity(MainAty.class, null);
         }
     }
 }

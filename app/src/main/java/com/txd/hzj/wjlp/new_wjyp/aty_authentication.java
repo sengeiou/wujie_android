@@ -66,7 +66,7 @@ public class aty_authentication extends BaseAty {
             view_top.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    showToast("请先进行个人实名认证!");
                 }
             });
             switchmultibutton.setText("个人", "企业").setOnSwitchListener(new SwitchMultiButton.OnSwitchListener() {

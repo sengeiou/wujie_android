@@ -36,6 +36,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.util.StringUtils;
@@ -68,11 +69,17 @@ import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.NotifyUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,6 +131,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      */
     @ViewInject(R.id.mach_more_tv)
     private TextView mach_more_tv;
+    /**
+     * 购物车数量
+     */
+    @ViewInject(R.id.tv_cart_num)
+    private TextView tv_cart_num;
 
     private int page_index = 0;
     private ArrayList<Fragment> fragments;
@@ -197,6 +209,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void initialized() {
+        EventBus.getDefault().register(this);
         page_index = getIntent().getIntExtra("index", 0);
         MellonLineFgt mellonLineFgt = new MellonLineFgt();
         MellOffLineFgt mellOffLineFgt = new MellOffLineFgt();
@@ -218,6 +231,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onResume() {
         super.onResume();
+        if(Config.isLogin()){
+            User.userCenter(this);
+            tv_cart_num.setVisibility(View.VISIBLE);
+        }else{
+            tv_cart_num.setVisibility(View.GONE);
+        }
         if (Config.isLogin()) {
             switch (page_index) {
                 case 0:// 线上商城
@@ -470,6 +489,15 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        if(requestUrl.contains("userCenter")){
+            Map<String,String>data= JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if(data.get("code").equals("1")){
+                data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
+                tv_cart_num.setVisibility(data.get("cart_num").equals("0")?View.GONE:View.VISIBLE);
+                tv_cart_num.setText(data.get("cart_num"));
+            }
+            return;
+        }
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
         showAppUpdateDialog(updataApp);
     }
@@ -750,11 +778,22 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private void unregisterBroadcastReceiver() {
         broadcastManager.unregisterReceiver(broadcastReceiver);
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        if(Config.isLogin()){
+            User.userCenter(this);
+        }
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        /**
+         * 解除事件总线
+         */
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
         if (exceptionBuilder != null) {
             exceptionBuilder.create().dismiss();
             exceptionBuilder = null;
@@ -1117,6 +1156,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onMessageChanged(EMMessage message, Object change) {
     }
+
 
 
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
@@ -323,6 +324,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 break;
         }
         if (0 != type) {
+            L.e("ticket"+map.get("ticket_buy_id"));
             if (map.get("ticket_buy_id").equals("0")) {
                 holder.use_coupon_tv.setText("不可使用代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);

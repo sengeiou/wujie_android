@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -197,7 +198,7 @@ public class OffLineMellInfoAty extends BaseAty {
                 other_info_tv.setText("商品数量：" + mer_info.get("goods_total")
                         + "件\n月销单量：" + mer_info.get("goods_month_num")
                         + "件\n关注人数：" + mer_info.get("\"view_num")
-                        + "人\n营业时间：09:00-20:00\n门店地址：" + mer_info.get("address") +
+                        + "人\n营业时间："+mer_info.get("open_time")+"\n门店地址：" + mer_info.get("address") +
                         "\n门店电话：" + mer_info.get("phone"));
 
             }

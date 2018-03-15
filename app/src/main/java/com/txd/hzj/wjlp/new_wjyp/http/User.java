@@ -19,4 +19,13 @@ public class User {
         apiTool2.postApi(url + "myIntegral", new RequestParams(), baseView);
 
     }
+
+    /**
+     *  个人中心
+     * @param baseView
+     */
+    public static void userCenter(BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userCenter", new RequestParams(), baseView);
+    }
 }

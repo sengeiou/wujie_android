@@ -102,5 +102,6 @@ dependencies {
     //   compile 'com.contrarywind:Android-PickerView:3.2.5'
     compile 'com.tamic.novate:novate:1.5.4.3'
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'org.greenrobot:eventbus:3.0.0'
 //>>>>>>> master
 }

@@ -206,9 +206,13 @@ public class fragment1 extends BaseFgt {
                 params.addBodyParameter("auth_city_id", city_id);
                 params.addBodyParameter("auth_area_id", area_id);
                 params.addBodyParameter("auth_street_id", street_id);
-                if(isFirst){
-                    params.addBodyParameter("positive_id_card", flie1);
-                    params.addBodyParameter("back_id_card", flie2);
+                if(isFirst||(flie1!=null||flie2!=null)){
+                    if(flie1!=null){
+                        params.addBodyParameter("positive_id_card", flie1);
+                    }
+                    if(flie2!=null){
+                        params.addBodyParameter("back_id_card", flie2);
+                    }
                 }
                 apiTool2.postApi(Config.BASE_URL + "User/personalAuth", params, this);
                 showProgressDialog();

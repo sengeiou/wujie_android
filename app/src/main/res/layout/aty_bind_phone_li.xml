@@ -62,8 +62,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             style="@style/mine_text_list"
@@ -72,16 +71,16 @@
             android:drawablePadding="10dp"
             android:padding="12dp"
             android:text="验证码"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/mod_bind_code_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="还未发送验证码"
+            android:hint="请输入验证码"
             android:padding="12dp"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <View

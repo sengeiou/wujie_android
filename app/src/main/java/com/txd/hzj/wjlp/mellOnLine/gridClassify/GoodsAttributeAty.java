@@ -135,7 +135,6 @@ public class GoodsAttributeAty extends BaseAty {
 
                     Intent intent = new Intent();
                     if (!TextUtils.isEmpty(pro_id)) {
-                        L.e("cccc444");
                         intent.putExtra("product_id", pro_id);
                         intent.putExtra("pro_value", pro_value);
                         intent.putExtra("num", num);
@@ -233,6 +232,9 @@ public class GoodsAttributeAty extends BaseAty {
         Glide.with(this).load(imageurl).into(imageview);
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
+        for(int i=0;i<list.size();i++){
+            list.get(i).getFirst_list_val().get(0).setStatus("1");
+        }
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
         mapList = JSONUtils.parseKeyAndValueToMapList(getIntent().getStringExtra("goods_val"));
 
@@ -372,8 +374,7 @@ public class GoodsAttributeAty extends BaseAty {
                         getItem(i).getFirst_list_val().get(position).setStatus("2");
                     }
 //                    if (getCount() == 1) {
-                        getItem(0).getFirst_list_val().get(0).setStatus("1");
-
+//                        getItem(0).getFirst_list_val().get(0).setStatus("1");
 //                    }
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
                         case "1":

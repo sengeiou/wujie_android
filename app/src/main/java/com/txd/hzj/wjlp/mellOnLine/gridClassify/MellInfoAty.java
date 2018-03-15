@@ -371,7 +371,7 @@ public class MellInfoAty extends BaseAty {
                 soft_type = 4;
                 setStyle(soft_type);
                 break;
-            case R.id.mell_info_by_off_line:// 详情
+            case R.id.mell_info_by_off_line:// 商城详情
                 Bundle bundle = new Bundle();
                 bundle.putInt("type", 1);
                 bundle.putString("merchant_id", mell_id);
@@ -502,7 +502,6 @@ public class MellInfoAty extends BaseAty {
                     } else if (requestUrl.contains("goodsList")){
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                     }
-                    L.e("eeee"+ListUtils.isEmpty(ads_list));
                     if (!ListUtils.isEmpty(ads_list)) {
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
                         if (requestUrl.contains("merIndex")) {// 首页

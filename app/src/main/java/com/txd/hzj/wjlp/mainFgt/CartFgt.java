@@ -41,6 +41,9 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.new_wjyp.Card_bean;
 import com.txd.hzj.wjlp.new_wjyp.http.Goods;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -194,6 +197,7 @@ public class CartFgt extends BaseFgt {
         removeDialog();
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
+            EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             titlt_right_tv.setVisibility(View.GONE);
             cart_bottom_lin_layout.setVisibility(View.GONE);
@@ -208,6 +212,7 @@ public class CartFgt extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Goods/attrApi")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -229,6 +234,7 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
+            EventBus.getDefault().post(new MessageEvent("更新购物"));
             cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");
             toChangePrice();
@@ -408,6 +414,10 @@ public class CartFgt extends BaseFgt {
                             );
                         }
                     }
+                }
+                if(json_list.size()==0){
+                    showToast("请先选择商品");
+                    return;
                 }
                 Gson gson = new Gson();
                 String json = gson.toJson(json_list);

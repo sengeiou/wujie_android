@@ -231,7 +231,7 @@ public class fragment2 extends BaseFgt {
                 params.addBodyParameter("comp_city_id", city_id);
                 params.addBodyParameter("comp_area_id", area_id);
                 params.addBodyParameter("comp_street_id", street_id);
-                if(isFirst){
+                if(isFirst||flie1!=null){
                     params.addBodyParameter("comp_business_license", flie1);
                 }
                 apiTool2.postApi(Config.BASE_URL + "User/compAuth", params, this);
