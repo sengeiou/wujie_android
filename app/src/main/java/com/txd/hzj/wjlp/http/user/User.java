@@ -551,5 +551,16 @@ public class User {
         params.addBodyParameter("PayPwd", PayPwd);
         apiTool2.postApi(Config.BASE_URL + "User/verificationPayPwd", params, baseView);
     }
+    /**
+     * 个人设置
+     *
+     * @param baseView 回调
+     */
+    public static void settings(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(Config.BASE_URL + "User/setting", params, baseView);
+    }
+
 
 }

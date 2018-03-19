@@ -172,7 +172,8 @@ public class ShareGradeAty extends BaseAty {
 //        }
 
         my_share_grade_lv.setEmptyView(no_data_layout);
-
+        p = 1;
+        userPst.gradeRank(p, city_id, type, city_name, true);
         changeViewStatus(0);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -247,62 +248,6 @@ public class ShareGradeAty extends BaseAty {
         userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
     }
 
-    public void shareHttp(){
-//        http://wjyp.txunda.com/index.php/Api/User/gradeRank
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("p", "1");
-        parameters.put("city_name", "天津 ");
-        parameters.put("type", "share");
-
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL)
-                .build()
-                .rxPost("User/gradeRank", parameters, new RxStringCallback() {
-
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-//                        Toast.makeText(ShareGradeAty.this, response, Toast.LENGTH_SHORT).show();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String data = jsonObject.getString("data");
-                            JSONObject jsonObject2 = new JSONObject(data);
-                            JSONArray jsonArray = jsonObject2.getJSONArray("rank_list");
-                            ArrayList<ShareBean> list = new ArrayList<ShareBean>();
-                            for(int i=0;i<jsonArray.length();i++){
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String num =jsonObject1.getString("num");
-                                String nickname = jsonObject1.getString("nickname");
-                              String head_pic =jsonObject1.getString("head_pic");
-                                list.add(new ShareBean(num,nickname,head_pic));
-                            }
-                            shareAdapter = new ShareAdapter(ShareGradeAty.this,list);
-                            my_share_grade_lv.setAdapter(shareAdapter);
-                            shareAdapter.notifyDataSetChanged();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-
-
-
-
-
-    }
     @Override
     @OnClick({R.id.recommend_success_layout, R.id.sh_left_lin_layout, R.id.sh_right_lin_layout, R.id
             .grade_location_tv, R.id.share_time_layout})
@@ -368,8 +313,61 @@ public class ShareGradeAty extends BaseAty {
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> map) {
+        super.onError(requestUrl, map);
+        if (requestUrl.contains("gradeRank")) {
+            if (ToolKit.isList(map, "data")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                if (1 == p) {
+                    Glide.with(this).load(data.get("head_pic"))
+                            .override(size, size)
+                            .placeholder(R.drawable.ic_default)
+                            .error(R.drawable.ic_default)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(user_head_iv);
+                    nick_name_tv.setText(data.get("nickname") + "\n推荐人：" + data.get("parent_name"));
+                    share_num_tv.setText(data.get("share_num"));
+                    recommend_num_tv.setText(data.get("recommend_num"));
+                    if (ToolKit.isList(data, "rank_list")) {
+                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
+                        my_share_grade_lv.setAdapter(rankingListAdapter);
+
+                    }
+
+                    if (!frist) {
+//                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    if (ToolKit.isList(data, "rank_list")) {
+                        rankList.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")));
+                        my_share_grade_lv.setAdapter(rankingListAdapter);
+
+                    }
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+//                    swipe_refresh.setLoadMore(false);
+                }
+            } else {
+                if (1 == p) {
+                    if (!frist) {
+//                        swipe_refresh.setRefreshing(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                } else {
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+//                    swipe_refresh.setLoadMore(false);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("gradeRank"+jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("gradeRank")) {
             if (ToolKit.isList(map, "data")) {

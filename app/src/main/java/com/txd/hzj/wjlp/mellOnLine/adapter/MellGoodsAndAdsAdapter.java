@@ -314,7 +314,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 * 是否可以使用代金券
                 * 使用多少优惠
                 */
-                if (map.get("ticket_buy_id").equals("0")) {
+                if (map.get("ticket_buy_discount").equals("0")) {
                     holder.use_coupon_tv.setText("不可使用代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 } else {
@@ -324,8 +324,8 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 break;
         }
         if (0 != type) {
-            L.e("ticket"+map.get("ticket_buy_id"));
-            if (map.get("ticket_buy_id").equals("0")) {
+            L.e("ticket"+map.get("ticket_buy_discount"));
+            if (map.get("ticket_buy_discount").equals("0")) {
                 holder.use_coupon_tv.setText("不可使用代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             } else {

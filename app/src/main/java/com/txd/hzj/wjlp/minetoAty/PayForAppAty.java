@@ -159,6 +159,7 @@ public class PayForAppAty extends BaseAty {
     private RelativeLayout layout_yue;
     @ViewInject(R.id.textview)
     private TextView textview;
+    private String is_pay_password="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,7 +231,7 @@ public class PayForAppAty extends BaseAty {
                     return;
                 }
                 if (pay_by_ali_cb.isChecked()) {
-                    if (type.equals("0")|| type.equals("1") || type.equals("5")) {
+                    if (TextUtils.isEmpty(type) || type.equals("0")|| type.equals("1") || type.equals("5")) {
                         Pay.getAlipayParam(data.get("order_id"), getType(), "4", this);
                     } else if (type.equals("2") || type.equals("3")) {
                         Pay.getAlipayParam(data.get("group_buy_order_id"), getType(), "6", this);
@@ -243,7 +244,19 @@ public class PayForAppAty extends BaseAty {
                     return;
                 }
                 if (pay_by_balance_cb.isChecked()) {
-                    showPwdPop(v);
+                    if(is_pay_password.equals("1")){
+                        //已设置密码跳入输入密码页
+                        showPwdPop(v);
+                    }else{
+                        //未设置密码跳入设置密码页
+                        showToast("请设置支付密码");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("is_pay_password", "0");
+                        bundle.putString("phone", "");
+                        startActivity(EditPayPasswordAty.class, bundle);
+
+                    }
+
                     return;
                 }
 
@@ -312,6 +325,7 @@ public class PayForAppAty extends BaseAty {
             } else {
                 removeProgressDialog();
                 showToast("支付失败");
+                finish();
             }
         }
     }
@@ -419,17 +433,18 @@ public class PayForAppAty extends BaseAty {
 
     Map<String, String> data;
     Map<String, String> map;
+    Map<String,String>order;
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("cccccvvvv"+jsonStr);
-        if (!requestUrl.contains("verificationPayPwd")) {
+        if (!requestUrl.contains("verificationPayPwd")||!requestUrl.contains("getJsTine")) {
             data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
-
+            if(requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")){
+                order=data;
+            }
         }
-
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
 
             if (!type.equals("10")) {
@@ -461,7 +476,12 @@ public class PayForAppAty extends BaseAty {
             if (map.get("status").equals("1")) {
                 if (pay_by_balance_cb.isChecked()) {
                     if (type.equals("0") || type.equals("1") || type.equals("5")||TextUtils.isEmpty(type)) {
-                        BalancePay.BalancePay(data.get("order_id"), "1", getType(), getString("num"), this);
+                        try {
+                            BalancePay.BalancePay(order.get("order_id"), "1", getType(), getString("num"), this);
+                        } catch (Exception e) {
+
+                            e.printStackTrace();
+                        }
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
                         BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
                     } else if (type.equals("6")) {
@@ -513,7 +533,6 @@ public class PayForAppAty extends BaseAty {
 
         }
         if (requestUrl.contains("BalancePay")) {
-            L.e("ccccc"+jsonStr+"--"+map.get("code"));
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if(map.get("code").equals("1")){
                 showToast(map.get("message"));
@@ -536,15 +555,15 @@ public class PayForAppAty extends BaseAty {
             finish();
         }
         if (requestUrl.contains("getJsTine")) {
+            Map<String,String>data=JSONUtils.parseKeyAndValueToMap(jsonStr);
+            data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
             GetPrepayIdTask wxPay = new GetPrepayIdTask(this, data.get("sign"), data.get("appid"),
                     data.get("nonce_str"), data.get("package"), data.get("time_stamp"), data.get("prepay_id"),
                     data.get("mch_id"), "");
             wxPay.execute();
 
         }
-        if (requestUrl.contains("getAlipayParam"))
-
-        {
+        if (requestUrl.contains("getAlipayParam")) {
             showProgressDialog();
             AliPay aliPay = new AliPay(data.get("pay_string"), new AliPayCallBack() {
                 @Override
@@ -564,6 +583,7 @@ public class PayForAppAty extends BaseAty {
                 public void onFailure() {
                     showToast("支付失败！");
                     removeProgressDialog();
+                    finish();
                 }
 
                 @Override
@@ -573,9 +593,7 @@ public class PayForAppAty extends BaseAty {
             });
             aliPay.pay();
         }
-        if (requestUrl.contains("findPayResult"))
-
-        {
+        if (requestUrl.contains("findPayResult")) {
             if (type.equals("4")) {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
@@ -586,6 +604,9 @@ public class PayForAppAty extends BaseAty {
         }
         if (requestUrl.contains("DeleteOrder")) {
             finish();
+        }
+        if(requestUrl.contains("setting")){
+            is_pay_password=data.get("is_pay_password");
         }
 
     }
@@ -604,11 +625,9 @@ public class PayForAppAty extends BaseAty {
             }
 
         }if(requestUrl.contains("BalancePay")){
-            L.e("cccccc"+error.get("message"));
             return;
         }
         if(requestUrl.contains("setOrder")){
-            L.e("ccccccaaaaa"+error.get("message"));
             return;
         }
         finish();
@@ -641,7 +660,7 @@ public class PayForAppAty extends BaseAty {
     }
 
     public void showPop(View view, final int type) {
-        if (data.get("discount").equals("0") && data.get("yellow_discount").equals("0") && data.get("blue_discount").equals("0"))
+        if (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0"))
             return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
 
@@ -835,5 +854,11 @@ public class PayForAppAty extends BaseAty {
         }
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User.settings(this);
     }
 }

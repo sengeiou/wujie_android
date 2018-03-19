@@ -130,6 +130,44 @@
             android:text="房产购"
             android:textColor="@color/black" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_vip_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="6dp"
+            android:drawableTop="@mipmap/icon_order_vipcard"
+            android:gravity="center"
+            android:text="会员卡"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="6dp"
+            android:drawableTop="@drawable/icon_order_center_08"
+            android:gravity="center"
+            android:text="汽车购"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="6dp"
+            android:drawableTop="@drawable/icon_order_center_09"
+            android:gravity="center"
+            android:text="房产购"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
 
 </LinearLayout>

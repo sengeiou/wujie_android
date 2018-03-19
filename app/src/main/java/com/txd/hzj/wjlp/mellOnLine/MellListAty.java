@@ -1,8 +1,11 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -10,10 +13,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
@@ -83,6 +88,7 @@ public class MellListAty extends BaseAty {
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
     private int allNum = 0;
+    private int search_type = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +100,8 @@ public class MellListAty extends BaseAty {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
-                goodsPst.search("2", keyword, p, false);
+
+                goodsPst.search(type.equals("商品")?"1":"2", keyword, p, false);
 
             }
 
@@ -105,7 +112,7 @@ public class MellListAty extends BaseAty {
                     return;
                 }
                 p++;
-                goodsPst.search("2", keyword, p, false);
+                goodsPst.search(type.equals("商品")?"1":"2", keyword, p, false);
             }
         });
 
@@ -132,12 +139,15 @@ public class MellListAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.search_title_right_tv})
+    @OnClick({R.id.search_title_right_tv,R.id.search_type_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.search_title_right_tv:
                 forSearch();
+                break;
+            case R.id.search_type_tv:
+                finish();
                 break;
         }
     }
@@ -177,7 +187,7 @@ public class MellListAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        goodsPst.search("2", keyword, p, true);
+        goodsPst.search(type.equals("商品")?"1":"2", keyword, p, true);
     }
 
     private void forTitle() {

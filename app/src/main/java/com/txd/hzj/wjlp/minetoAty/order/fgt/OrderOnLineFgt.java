@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -89,6 +90,7 @@ public class OrderOnLineFgt extends BaseFgt {
     private boolean frist = true;
     private GoodsAdapter goodsAdapter;
     private IndianaRecordAdapter indianarecordAdp;
+    private String is_pay_password="0";//是否设置密码
 
     public OrderOnLineFgt() {
 
@@ -511,7 +513,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     }
                 }
             });
-
+            is_pay_password=getItem(position).get("is_pay_password");
             holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data));
             holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -564,6 +566,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("order_id", getItem(position).get("order_id"));
                 bundle.putString("group_buy_id", "");
                 bundle.putString("type", "6");
+                bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
@@ -615,6 +618,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
                 bundle.putString("group_buy_id", getItem(position).get("group_buy_id"));
                 bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
+                bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
@@ -690,6 +694,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 if (from.equals("7")) {
                     bundle.putString("type","10");
                 }
+                bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();

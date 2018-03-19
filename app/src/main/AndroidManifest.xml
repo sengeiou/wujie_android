@@ -997,6 +997,10 @@
         <activity android:name=".new_wjyp.InvoiceAty" />
         <!--订单物流-->
         <activity android:name=".minetoAty.OrderLogisticsAty"/>
+        <!--会员卡-->
+        <activity android:name=".minetoAty.order.VipCardAty"/>
+        <!--会员卡详情页-->
+        <activity android:name=".minetoAty.order.VipCardDetailsAty"/>
     </application>
 <!--测试提交 LH-->
 </manifest>

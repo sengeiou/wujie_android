@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -114,6 +115,7 @@ public class _GradeOfMemberAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
         list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));

@@ -11,10 +11,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.util.JSONUtils;
@@ -23,10 +25,17 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
+import com.txd.hzj.wjlp.new_wjyp.http.BalancePay;
+import com.txd.hzj.wjlp.new_wjyp.http.IntegralPay;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.http.MemberOrder;
+import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
@@ -88,6 +97,7 @@ public class VipPayAty extends BaseAty {
     private int this_num = 0;
     private View this_view;
     String type = "";
+    String order_id="";
 
     @OnClick({R.id.im_1, R.id.im_2, R.id.pay_by_balance_cb, R.id.cb_jfzf, R.id.pay_by_ali_cb, R.id.pay_by_wechat_cb, R.id.tv_xieyi, R.id.tv_submit})
     public void OnClick(View view) {
@@ -167,7 +177,12 @@ public class VipPayAty extends BaseAty {
                     showToast("请选择支付方式！");
                     return;
                 }
-                MemberOrder.setOrder(map.get("member_coding"), String.valueOf(num), getType(), type, this);
+                if(type.equals("1")){
+                    //余额支付
+                    showPwdPop(view);
+                    return;
+                }
+                MemberOrder.setOrder(map.get("member_coding"), String.valueOf(num), getType(), type,order_id ,this);
                 showProgressDialog();
 
                 break;
@@ -379,12 +394,19 @@ public class VipPayAty extends BaseAty {
     @Override
     protected void initialized() {
         data = getIntent().getStringExtra("data");
+        order_id=getIntent().getStringExtra("order_id");
+        L.e("mmmm"+data);
         map = JSONUtils.parseKeyAndValueToMap(data);
         titlt_conter_tv.setText("购买" + map.get("rank_name"));
         tv_type.setText(map.get("rank_name"));
         prescription.setText(map.get("prescription").equals("0") ? "永久" : "按年付费");
-        tv_money.setText("¥" + map.get("money"));
-        money = Double.parseDouble(map.get("money"));
+        if(!TextUtils.isEmpty(map.get("pay_money"))){
+            tv_money.setText("¥" + map.get("pay_money"));
+            money = Double.parseDouble(map.get("pay_money"));
+        }else{
+            tv_money.setText("¥" + map.get("money"));
+            money = Double.parseDouble(map.get("money"));
+        }
 
     }
 
@@ -408,16 +430,15 @@ public class VipPayAty extends BaseAty {
         super.onError(requestUrl, error);
         L.e("cccc"+error.get("message"));
     }
-
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("cccc"+jsonStr);
         if (requestUrl.contains("setOrder")) {
             switch (type) {
                 case "1":
                 case "2":
                     showToast("支付成功！");
+                    EventBus.getDefault().post(new MessageEvent("更新会员卡列表"));
                     finish();
                     break;
                 case "3":
@@ -428,6 +449,7 @@ public class VipPayAty extends BaseAty {
                         @Override
                         public void onComplete() {
                             showToast("支付成功！");
+                            EventBus.getDefault().post(new MessageEvent("更新会员卡列表"));
                             finish();
                         }
 
@@ -458,7 +480,6 @@ public class VipPayAty extends BaseAty {
         if (requestUrl.contains("ticket")) {
             ticker_map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             ticker_map = JSONUtils.parseKeyAndValueToMap(ticker_map.get("data"));
-            L.e("ccccc"+ticker_map);
             if(ticker_map.get("discount").equals("0")&&ticker_map.get("yellow_discount").equals("0")&&ticker_map.get("blue_discount").equals("0")){
                 is_c=true;
             }
@@ -476,6 +497,24 @@ public class VipPayAty extends BaseAty {
 //            cb_jfzf.setText("积分支付 (" + date.get("integral") + ")");
 
         }
+        if (requestUrl.contains("verificationPayPwd")) {
+            Map<String,String> maps = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            maps = JSONUtils.parseKeyAndValueToMap(maps.get("data"));
+            if (maps.get("status").equals("1")) {
+                if (pay_by_balance_cb.isChecked()) {
+                    //验证成功
+                    MemberOrder.setOrder(map.get("member_coding"), String.valueOf(num), getType(), type,order_id, this);
+                    showProgressDialog();
+                }
+            } else {
+                showToast("请设置支付密码");
+                Bundle bundle = new Bundle();
+                bundle.putString("is_pay_password", "0");
+                bundle.putString("phone", "");
+                startActivity(EditPayPasswordAty.class, bundle);
+            }
+
+        }
     }
 
     private WxPayReceiver wxPayReceiver;
@@ -487,11 +526,45 @@ public class VipPayAty extends BaseAty {
             int errCode = intent.getIntExtra("errCode", 5);
             if (errCode == 0) {
                 showToast("支付成功");
+                EventBus.getDefault().post(new MessageEvent("更新会员卡列表"));
                 finish();
             } else {
                 removeProgressDialog();
                 showToast("支付失败");
             }
         }
+    }
+
+    /**
+     * 输入支付密码
+     * @param view
+     */
+    public void showPwdPop(View view) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_pwd)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        final EditText et_password = view.findViewById(R.id.et_password);
+                        TextView submit = view.findViewById(R.id.submit);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (TextUtils.isEmpty(et_password.getText().toString())) {
+                                    showToast("请输入支付密码");
+                                    return;
+                                }
+                                User.verificationPayPwd(et_password.getText().toString(), VipPayAty.this);
+                                showProgressDialog();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 }

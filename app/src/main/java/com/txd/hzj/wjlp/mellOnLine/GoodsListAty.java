@@ -148,12 +148,15 @@ public class GoodsListAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.search_title_right_tv})
+    @OnClick({R.id.search_title_right_tv,R.id.search_type_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.search_title_right_tv:
                 forSearch();
+                break;
+            case R.id.search_type_tv:
+                finish();
                 break;
         }
     }

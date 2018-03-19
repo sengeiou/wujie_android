@@ -64,6 +64,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
      */
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
+    /**
+     * 会员卡
+     */
+    @ViewInject(R.id.tv_vip_card)
+    private TextView tv_vip_card;
 
     Bundle mBundle = new Bundle();
 
@@ -86,6 +91,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
         tv_yydb.setOnClickListener(this);
         tv_car_buy.setOnClickListener(this);
         tv_home_buy.setOnClickListener(this);
+        tv_vip_card.setOnClickListener(this);
     }
 
     @Override
@@ -149,6 +155,9 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
                 mBundle.putString("title", "房产购");
                 mBundle.putString("type", "2");
                 startActivity(OnlineShopAty.class, mBundle);
+                break;
+            case R.id.tv_vip_card:
+                startActivity(VipCardAty.class,null);
                 break;
         }
         super.onClick(v);

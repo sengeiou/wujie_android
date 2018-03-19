@@ -13,7 +13,7 @@
         AppSecret="7603d8595ee38675d60d66ee3737bbaf"
         Enable="true"
         Id="1"
-        RedirectUrl="http://www.wujiemall.com/OAuth2.html"
+        RedirectUrl="http://api.wujiemall.com/OAuth2.html"
         ShareByAppClient="true"
         SortId="1"/>
 

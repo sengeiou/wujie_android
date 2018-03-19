@@ -59,6 +59,12 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private Handler handler=new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
+            switch (message.what){
+                case MSG_AUTH_COMPLETE://授权成功
+
+                    break;
+
+            }
             startActivity(EditProfileAty.class,null);
             return false;
         }
@@ -168,13 +174,13 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 }
                 break;
             case R.id.sing_out_tv:// 退出登录
-                new MikyouCommonDialog(this, "确定要退出吗?", "提示", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog
+                new MikyouCommonDialog(this, "确定要退出吗?", "提示", "取消", "确定").setOnDiaLogListener(new MikyouCommonDialog
                         .OnDialogListener() {
                     @Override
                     public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
                             which) {
                         switch (btnType) {
-                            case MikyouCommonDialog.OK:
+                            case MikyouCommonDialog.NO:
                                 Platform qq = ShareSDK.getPlatform(QZone.NAME);
                                 Platform wx = ShareSDK.getPlatform(Wechat.NAME);
                                 Platform sl = ShareSDK.getPlatform(SinaWeibo.NAME);
@@ -197,21 +203,21 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
                                 logout();
                                 break;
-                            case MikyouCommonDialog.NO:
+                            case MikyouCommonDialog.OK:
                                 break;
                         }
                     }
                 }).showDialog();
                 break;
             case R.id.clear_cach_layout:// 清除缓存
-                new MikyouCommonDialog(this, "提示", "确定要清除缓存？", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog
+                new MikyouCommonDialog(this, "确定要清除缓存？","提示",  "取消", "确定").setOnDiaLogListener(new MikyouCommonDialog
                         .OnDialogListener() {
 
                     @Override
                     public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
                             which) {
                         switch (btnType) {
-                            case MikyouCommonDialog.OK:
+                            case MikyouCommonDialog.NO:
                                 showProgressDialog();
                                 GlideCacheUtil.getInstance().clearImageAllCache(getApplicationContext());
                                 TimerTask task = new TimerTask() {
@@ -223,15 +229,15 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 timer.schedule(task, 500);
                                 tv_data_number.setText("0.00M");
                                 break;
-                            case MikyouCommonDialog.NO:
+                            case MikyouCommonDialog.OK:
                                 break;
                         }
                     }
                 }).showDialog();
                 break;
-            case R.id.layout_wechat_bind:
+            case R.id.layout_wechat_bind://微信绑定
+                loginType = "1";
                 if (wx_bind.get("is_bind").equals("0")) {
-                    loginType = "1";
                     showDialog();
                     authorize(new Wechat(this));
                 } else {
@@ -356,6 +362,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("类型"+jsonStr);
         if (requestUrl.contains("bindOther")) {
             showToast("绑定成功！");
             userPst.setting();
@@ -431,6 +438,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     }
 
     private void setBindText(TextView textView, Map<String, String> map) {
+        L.e("map"+map.toString());
         if (map.get("is_bind").equals("0")) {
             textView.setText("未绑定");
             return;
@@ -538,10 +546,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             } else {
                 openid = platform.getDb().getUserId();
             }
+            L.e("授权成功"+platform.getDb().getUserName());
             nick = platform.getDb().getUserName();
             head_pic = platform.getDb().getUserIcon();
-            userPst.bindOther(openid, loginType, nick);
-            //getHeadPicAndLogin(head_pic);
+//            userPst.bindOther(openid, loginType, nick);
+            getHeadPicAndLogin(head_pic);
             // 三方登陆
             L.e("=====openid=====", openid);
             L.e("=====nick=====", nick);
@@ -592,6 +601,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             case MSG_AUTH_COMPLETE: {
                 String text = getString(com.ants.theantsgo.R.string.auth_complete);
                 showRightTip(text);
+                msg.obj="正在登录";
+//                handler.sendMessage(msg);
             }
             break;
         }

@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CartGoods;
 import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.new_wjyp.Card_bean;
@@ -215,13 +216,14 @@ public class CartFgt extends BaseFgt {
 
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Goods/attrApi")) {
+            L.e("cart"+jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             Intent intent = new Intent();
             intent.setClass(getActivity(), GoodsAttributeAty.class);
             intent.putExtra("from", 2);
             intent.putExtra("imageurl", map.get("goods_img"));
-            intent.putExtra("num", Integer.parseInt(map.get("goods_num")));
+            intent.putExtra("num", map.get("goods_num"));
             intent.putExtra("price", map.get("shop_price"));
             intent.putExtra("is_attr", map.get("is_attr") + "-" + map.get("goods_num"));
             intent.putExtra("goods_attr", map.get("first_list"));
@@ -234,7 +236,7 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
-            EventBus.getDefault().post(new MessageEvent("更新购物"));
+            EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");
             toChangePrice();
@@ -621,7 +623,7 @@ public class CartFgt extends BaseFgt {
             cgvh.goods_name_tv.setText(cg.getGoods_name());
             // 属性
             cgvh.goods_attrs_tv.setText(cg.getGoods_attr_name());
-            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name());
+            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name()+"(库存："+cg.getGoods_num()+")");
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
             // 数量
@@ -681,8 +683,11 @@ public class CartFgt extends BaseFgt {
                 public void onClick(View view) {
                     int num = Integer.parseInt(cg.getNum());
                     num++;
-                    cg.setNum(String.valueOf(num));
-                    notifyDataSetChanged();
+                    if(num<=Integer.parseInt(cg.getGoods_num())){
+                        cg.setNum(String.valueOf(num));
+                        notifyDataSetChanged();
+                    }
+
                 }
             });
             // 数量减
@@ -706,6 +711,15 @@ public class CartFgt extends BaseFgt {
                     position_group = groupPosion;
                     Goods.attrApi(getItem(i).getGoods_id(), "", CartFgt.this);
                     showProgressDialog();
+                }
+            });
+            cgvh.lin_goods.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", getItem(i).getGoods_id());
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
                 }
             });
             return view;
@@ -771,6 +785,11 @@ public class CartFgt extends BaseFgt {
             private TextView reset_goods_attrs_tv;
             @ViewInject(R.id.im_goods)
             private ImageView im_goods;
+            /**
+             * 跳转商品详情
+             */
+            @ViewInject(R.id.lin_goods)
+            private LinearLayout lin_goods;
         }
 
     }

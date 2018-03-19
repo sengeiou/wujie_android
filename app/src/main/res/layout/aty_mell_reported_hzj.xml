@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="top"
-        android:hint="请输入。。。"
+        android:hint="请描述您的理由"
         android:lines="7"
         android:padding="12dp"
         android:textSize="14sp"/>

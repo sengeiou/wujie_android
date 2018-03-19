@@ -109,6 +109,7 @@ public class OrderDetailsAty extends BaseAty {
     private TextView tv_address;
     @ViewInject(R.id.leave_message)
     private TextView leave_message;
+    private String is_pay_password="0";//是否设置支付密码
 
 
     private CommonPopupWindow commonPopupWindow;
@@ -191,6 +192,7 @@ public class OrderDetailsAty extends BaseAty {
                         if (type.equals("7")) {
                             bundle.putString("type", "10");
                         }
+                        bundle.putString("is_pay_password",is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
                         if (type.equals("0")) {
@@ -229,6 +231,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("type", String.valueOf(Integer.parseInt(order_type) + 1));
+                        bundle.putString("is_pay_password",is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
                         GroupBuyOrder.receiving(order_id, OrderDetailsAty.this);
@@ -260,6 +263,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("type", "6");
+                        bundle.putString("is_pay_password",is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
                         PreOrder.preReceiving(order_id, OrderDetailsAty.this);
@@ -394,6 +398,7 @@ public class OrderDetailsAty extends BaseAty {
             order_price_info_tv.setText("共" +
                     list.size() + "件商品 合计：¥" + data.get("order_price"));
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
+            is_pay_password=data.get("is_pay_password");
             tv_create_time.setText("创建时间：" + data.get("create_time"));
             tv_pay_time.setText("付款时间：" + data.get("pay_time"));
             if (type.equals("3")) {

@@ -19,7 +19,7 @@ public class BalancePay {
      * @param baseView
      */
     public static void BalancePay(String order_id, String order_type, String discount_type, String inte_id, BaseView baseView) {
-        L.e(order_id+"--"+order_type+"--"+discount_type+"--"+inte_id);
+        L.e("order"+order_id+"--"+order_type+"--"+discount_type+"--"+inte_id);
         if (TextUtils.isEmpty(order_type)) {
             order_type = "1";
         }

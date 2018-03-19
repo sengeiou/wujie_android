@@ -780,8 +780,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
-        if(Config.isLogin()){
-            User.userCenter(this);
+        if(messageEvent.getMessage().equals("更新购物车")){
+            if(Config.isLogin()){
+                User.userCenter(this);
+            }
         }
     }
 

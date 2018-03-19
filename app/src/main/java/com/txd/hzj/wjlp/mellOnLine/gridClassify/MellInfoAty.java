@@ -475,6 +475,7 @@ public class MellInfoAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         String message = map.get("message");
         if (requestUrl.contains("merIndex") || requestUrl.contains("goodsList")) {
+            L.e("goodsList"+map);
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 share_img = data.get("share_img");

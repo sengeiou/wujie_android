@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -364,6 +365,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 //                        }
 //                    }
 //                }).showDialog();
+                if(TextUtils.isEmpty(service_easemob_account)){
+                    showToast("客服不在线，请稍后重试！");
+                    return;
+                }
                 toChat(service_easemob_account, service_head_pic, service_nickname);
 
                 break;

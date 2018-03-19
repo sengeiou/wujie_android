@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
     <com.synnapps.carouselview.CarouselView
         android:id="@+id/online_carvouse_view"
         android:layout_width="match_parent"
@@ -25,4 +24,5 @@
         app:strokeColor="@color/transparent"
         app:strokeWidth="1dp"
         />
+
 </LinearLayout>

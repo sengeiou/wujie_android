@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -52,6 +53,7 @@ public class VipDetailsAty extends BaseAty {
                 if (map.get("sale_status").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("data", data);
+                    bundle.putString("order_id", "");
                     startActivity(VipPayAty.class, bundle);
                 } else {
                     showToast("此会员级别禁止申请");

@@ -49,7 +49,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     private boolean showSelect;
 
-    private int goods_pic = 0;
+//    private int goods_pic = 0;
 
     private int logo_size1 = 0;
     private int logo_size2 = 0;
@@ -58,7 +58,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         this.context = context;
         this.list = list;
         this.inflater = LayoutInflater.from(context);
-        goods_pic = ToolKit.dip2px(context, 180);
+//        goods_pic = ToolKit.dip2px(context, 180);
         logo_size1 = ToolKit.dip2px(context, 36);
         logo_size2 = ToolKit.dip2px(context, 23);
     }
@@ -153,9 +153,13 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .into(holder.country_logo_iv);
 
         Glide.with(context).load(cfGoodsList.getGoods_img())
-                .override(goods_pic, goods_pic)
+                .override((ToolKit.getScreenWidth(context)-10)/2, (ToolKit.getScreenWidth(context)-10)/2)
                 .centerCrop().placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default).into(holder.goods_pic_iv);
+//        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();
+//        layoutParams.width=(ToolKit.getScreenWidth(context)-10)/2;
+//        layoutParams.height=(ToolKit.getScreenWidth(context)-10)/2;
+//        holder.goods_pic_iv.setLayoutParams(layoutParams);
 
         holder.item_goods_name_tv.setText(cfGoodsList.getGoods_name());
         holder.peice_tv.setText(cfGoodsList.getShop_price());

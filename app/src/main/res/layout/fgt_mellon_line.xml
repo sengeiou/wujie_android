@@ -20,8 +20,16 @@
             android:layout_height="match_parent"
             android:background="@color/bg_color"
             android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/aty_banner" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_main_top_bg"/>
+            </RelativeLayout>
 
-            <include layout="@layout/aty_banner" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/on_line_rv"

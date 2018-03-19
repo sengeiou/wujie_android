@@ -37,6 +37,7 @@ public class CartGoods {
     private String goods_name;
     private String goods_attr_name;
     private String shop_price;
+    private String goods_num;
     private String goods_img;
     private String attr_group;
     private boolean check;
@@ -44,6 +45,12 @@ public class CartGoods {
     private List<GoodsAttributeAty.Goods_Attr> goods_attr_first;
     private List<GoodsAttrs.product> product;
 
+    public String getGoods_num(){
+        return goods_num;
+    }
+    public void setGoods_num(String goods_num){
+        this.goods_num=goods_num;
+    }
     public String getGoods_attr_name() {
         return goods_attr_name;
     }

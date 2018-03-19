@@ -18,7 +18,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/aty_banner"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include layout="@layout/aty_banner" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_main_top_bg"/>
+            </RelativeLayout>
 
             <Space
                 android:layout_width="match_parent"

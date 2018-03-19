@@ -158,6 +158,8 @@ public class BuildOrderAty extends BaseAty {
     private Bundle bundle;
     private double total_price=0.00f;//总价格
     private double tp=0.00;
+    private String is_pay_password="0";//是否设置密码
+    private int[] same_tem_id;//相同模板id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,6 +260,7 @@ public class BuildOrderAty extends BaseAty {
                     bundle.putString("goodsCartList", gson.toJson(goodsCartList));
                 }
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
+                bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
                 finish();
 
@@ -364,8 +367,14 @@ public class BuildOrderAty extends BaseAty {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map=JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
-            if(!map.get("tem").equals("[]")){
-                 data = JSONUtils.parseKeyAndValueToMapList(map.get("tem"));
+            try {
+                if(!map.get("tem").equals("[]")){
+                     data = JSONUtils.parseKeyAndValueToMapList(map.get("tem"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                showToast("此商品参数问题啊！");
+                return;
             }
 
             if (choice_goods != -1) {
@@ -388,6 +397,7 @@ public class BuildOrderAty extends BaseAty {
             //购物车结算页信息
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            is_pay_password=map.get("is_pay_password");
 //            if (map.get("welfare_status").equals("1")) {
 //                layout1.setVisibility(View.VISIBLE);
 //                textview.setText("成交后卖家将捐款" + map.get("welfare_pay") + "元给公益计划");
@@ -430,11 +440,11 @@ public class BuildOrderAty extends BaseAty {
                         if(TextUtils.isEmpty(cart_id)){
                             goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"",temp.get("num"),"","","0","","",""));
                         }else{
-                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","",""));
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","","",temp.get("goods_id")));
                         }
                         goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
 
-                        splitNewList.add(new SplitNew("","","","","","0",""));
+                        splitNewList.add(new SplitNew("","","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
                     }
                     goodsAdapter = new GoodsByOrderAdapter(this, data,goodsList);
@@ -446,10 +456,10 @@ public class BuildOrderAty extends BaseAty {
                         if(TextUtils.isEmpty(cart_id)){
                             goodsList.add(new Goods(temp.get("product_id"),temp.get("goods_id"),"",temp.get("num"),"","","0","","",""));
                         }else{
-                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","",""));
+                            goodsCartList.add(new GoodsCart(temp.get("cart_id"),"","",temp.get("num"),"","","","","",temp.get("goods_id")));
                         }
                         goods_infoList.add(new Goods_info(temp.get("goods_id"),temp.get("product_id"),temp.get("num")));
-                        splitNewList.add(new SplitNew("","","","","","0",""));
+                        splitNewList.add(new SplitNew("","","","","","","0",""));
                         invoiceList.add(new Invoice("","","","","","",0));
                     }
                     data.addAll(more);
@@ -470,7 +480,7 @@ public class BuildOrderAty extends BaseAty {
     private TextView tv_sle_right;
 
     /**
-     * 选择地址
+     * 选择配送方式
      */
     public void showPop(View view, final List<Map<String, String>> data) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
@@ -491,6 +501,54 @@ public class BuildOrderAty extends BaseAty {
 //                                freight = data.get(position).get("pay");
 //                                freight_type = data.get(position).get("type");
 //                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
+                                same_tem_id=getSameID(data.get(position).get("same_tem_id"));
+                                for(int temp:same_tem_id){
+                                    String same_id= String.valueOf(temp);
+                                    if(goodsList.size()!=0){
+                                        for(int g=0;g<goodsList.size();g++){
+                                            if(goodsList.get(g).getGoods_id().equals(same_id)){
+                                                goodsList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                goodsList.get(g).setTem_id(data.get(position).get("id"));
+                                                goodsList.get(g).setPay(data.get(position).get("pay"));
+                                                goodsList.get(g).setType_status(data.get(position).get("type_status"));
+                                                goodsList.get(g).setType(data.get(position).get("type"));
+                                                goodsList.get(g).setDesc(data.get(position).get("desc"));
+                                                goodsList.get(g).setSame_tem_id(data.get(position).get("same_tem_id"));
+                                                splitNewList.get(g).setId(data.get(position).get("id"));
+                                                splitNewList.get(g).setType_status(data.get(position).get("type_status"));
+                                                splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
+                                                splitNewList.get(g).setType(data.get(position).get("type"));
+                                                splitNewList.get(g).setPay(data.get(position).get("pay"));
+                                                splitNewList.get(g).setDesc(data.get(position).get("desc"));
+                                                splitNewList.get(g).setType_name(data.get(position).get("type_name"));
+                                            }
+                                        }
+                                    }else if(goodsCartList.size()!=0){
+                                        for(int g=0;g<goodsCartList.size();g++){
+                                            L.e("same_id="+same_id+"goodsCartList="+goodsCartList.get(g).getGoods_id());
+                                            L.e("same_id"+goodsCartList.get(g).getGoods_id().equals(same_id));
+                                            if(goodsCartList.get(g).getGoods_id().equals(same_id)){
+                                                goodsCartList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                goodsCartList.get(g).setTem_id(data.get(position).get("id"));
+                                                goodsCartList.get(g).setPay(data.get(position).get("pay"));
+                                                goodsCartList.get(g).setType_status(data.get(position).get("type_status"));
+                                                goodsCartList.get(g).setType(data.get(position).get("type"));
+                                                goodsCartList.get(g).setDesc(data.get(position).get("desc"));
+                                                goodsCartList.get(g).setSame_tem_id(data.get(position).get("same_tem_id"));
+                                                splitNewList.get(g).setId(data.get(position).get("id"));
+                                                splitNewList.get(g).setType_status(data.get(position).get("type_status"));
+                                                splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
+                                                splitNewList.get(g).setType(data.get(position).get("type"));
+                                                splitNewList.get(g).setPay(data.get(position).get("pay"));
+                                                splitNewList.get(g).setDesc(data.get(position).get("desc"));
+                                                splitNewList.get(g).setType_name(data.get(position).get("type_name"));
+                                            }
+                                        }
+
+                                    }
+                                }
                                 splitNewList.get(choice_goods).setId(data.get(position).get("id"));
                                 splitNewList.get(choice_goods).setType_status(data.get(position).get("type_status"));
                                 splitNewList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
@@ -498,6 +556,7 @@ public class BuildOrderAty extends BaseAty {
                                 splitNewList.get(choice_goods).setType(data.get(position).get("type"));
                                 splitNewList.get(choice_goods).setPay(data.get(position).get("pay"));
                                 splitNewList.get(choice_goods).setDesc(data.get(position).get("desc"));
+                                splitNewList.get(choice_goods).setType_name(data.get(position).get("type_name"));
                                 if(TextUtils.isEmpty(cart_id)){
                                     goodsList.get(choice_goods).setShipping_id(data.get(position).get("shipping_id"));
                                     goodsList.get(choice_goods).setTem_id(data.get(position).get("id"));
@@ -571,7 +630,7 @@ public class BuildOrderAty extends BaseAty {
             View view = View.inflate(BuildOrderAty.this, R.layout.item_sle_address, null);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
-            tv_name.setText(data.get(position).get("type")+"("+data.get(position).get("shipping_name")+")\n"+data.get(position).get("desc"));
+            tv_name.setText(data.get(position).get("type_name")+"("+data.get(position).get("shipping_name")+")\n"+data.get(position).get("desc"));
             tv_price.setText(data.get(position).get("pay").equals("0")?"包邮": data.get(position).get("pay")+ "元");
             return view;
         }
@@ -730,7 +789,7 @@ public class BuildOrderAty extends BaseAty {
             });
             govh.tv_sle_left.setText(TextUtils.isEmpty(splitNewList.get(i).getId())?"请选择配送方式":"");
             if(!TextUtils.isEmpty(splitNewList.get(i).getId())){
-                govh.tv_sle_right.setText("配送方式："+(splitNewList.get(i).getPay().equals("0")?splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+"包邮":splitNewList.get(i).getType()+"("+splitNewList.get(i).getShipping_name()+")"+" ¥"+splitNewList.get(i).getPay()));
+                govh.tv_sle_right.setText("配送方式："+(splitNewList.get(i).getPay().equals("0")?splitNewList.get(i).getType_name()+"("+splitNewList.get(i).getShipping_name()+")"+"包邮":splitNewList.get(i).getType_name()+"("+splitNewList.get(i).getShipping_name()+")"+" ¥"+splitNewList.get(i).getPay()));
             }
 
             //是否存在公益宝贝
@@ -749,7 +808,9 @@ public class BuildOrderAty extends BaseAty {
                 govh.layout_shouhou.setVisibility(View.GONE);
             }
 
-            //选择配送方式
+            /**
+             * 选择配送方式
+             */
             govh.layout_sle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -964,15 +1025,17 @@ public class BuildOrderAty extends BaseAty {
         private String shipping_id;
         private String shipping_name;
         private String type;
+        private String type_name;
         private String pay;
         private String desc;
 
-        public SplitNew(String id, String type_status, String shipping_id, String shipping_name, String type, String pay, String desc) {
+        public SplitNew(String id, String type_status, String shipping_id, String shipping_name, String type, String type_name, String pay, String desc) {
             this.id = id;
             this.type_status = type_status;
             this.shipping_id = shipping_id;
             this.shipping_name = shipping_name;
             this.type = type;
+            this.type_name = type_name;
             this.pay = pay;
             this.desc = desc;
         }
@@ -1015,6 +1078,14 @@ public class BuildOrderAty extends BaseAty {
 
         public void setType(String type) {
             this.type = type;
+        }
+
+        public String getType_name() {
+            return type_name;
+        }
+
+        public void setType_name(String type_name) {
+            this.type_name = type_name;
         }
 
         public String getPay() {
@@ -1152,8 +1223,9 @@ public class BuildOrderAty extends BaseAty {
         private String type;//快递类型
         private String desc;//描述
         private String same_tem_id;//相同模板的商品id
+        private String goods_id;//商品id
 
-        public GoodsCart(String cate_ids, String tem_id, String type_status, String num, String shipping_id, String pay, String type, String desc, String same_tem_id) {
+        public GoodsCart(String cate_ids, String tem_id, String type_status, String num, String shipping_id, String pay, String type, String desc, String same_tem_id, String goods_id) {
             this.cate_ids = cate_ids;
             this.tem_id = tem_id;
             this.type_status = type_status;
@@ -1163,6 +1235,7 @@ public class BuildOrderAty extends BaseAty {
             this.type = type;
             this.desc = desc;
             this.same_tem_id = same_tem_id;
+            this.goods_id = goods_id;
         }
 
         public String getCate_ids() {
@@ -1235,6 +1308,14 @@ public class BuildOrderAty extends BaseAty {
 
         public void setSame_tem_id(String same_tem_id) {
             this.same_tem_id = same_tem_id;
+        }
+
+        public String getGoods_id() {
+            return goods_id;
+        }
+
+        public void setGoods_id(String goods_id) {
+            this.goods_id = goods_id;
         }
     }
     class Invoice{
@@ -1351,8 +1432,14 @@ public class BuildOrderAty extends BaseAty {
             this.goods_num = goods_num;
         }
     }
-
-
+    private int[] getSameID(String str){
+        String[] arr = str.split(",");
+        int[] intArr = new int[arr.length];
+        for(int i = 0; i< arr.length; i++){
+            intArr[i] = Integer.parseInt(arr[i]);
+        }
+        return intArr;
+    }
 
 
 }
