@@ -691,16 +691,25 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
             }
-            if(order_status.equals("1")){
-                tgvh.tv_btn_left.setVisibility(View.GONE);
-                tgvh.tv_btn_right.setVisibility(View.GONE);
-            }
-            if (getItem(i).get("after_type").equals("0")&&!order_status.equals("1")&&!order_status.equals("0")&&!order_status.equals("5")) {
+
+            if (getItem(i).get("after_type").equals("0")) {
                 tgvh.tv_btn_left.setText("申请售后");
-                tgvh.tv_btn_right.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_right.setText("确认收货");
+
             } else {
                 tgvh.tv_btn_left.setText("售后中");
+            }
+            if(order_status.equals("1")){
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
+                tgvh.tv_btn_right.setVisibility(View.GONE);
+            }
+            if(order_status.equals("2")){
+                if (getItem(i).get("sale_status").equals("0")) {
+                    tgvh.delayReceiving.setVisibility(View.VISIBLE);
+                } else {
+                    tgvh.delayReceiving.setVisibility(View.GONE);
+                }
+                tgvh.tv_btn_right.setVisibility(View.VISIBLE);
+                tgvh.tv_btn_right.setText("确认收货");
             }
             if(getItem(i).get("after_sale_status").equals("1")){
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE);
@@ -759,11 +768,24 @@ public class OrderDetailsAty extends BaseAty {
 //            } else {
 //                tgvh.textview.setVisibility(View.GONE);
 //            }
-            if (getItem(i).get("sale_status").equals("1")) {
-                tgvh.delayReceiving.setVisibility(View.VISIBLE);
-            } else {
-                tgvh.delayReceiving.setVisibility(View.GONE);
+
+            //是否存在公益宝贝
+            if(!getItem(i).get("welfare").equals("0")){
+                tgvh.layout_gongyi.setVisibility(View.VISIBLE);
+                tgvh.tv_gongyi.setText("成交后卖家将捐赠"+getItem(i).get("welfare")+"元给公益计划");
+            }else{
+                tgvh.layout_gongyi.setVisibility(View.GONE);
             }
+            //是否有特殊描述
+            if(getItem(i).get("server_status").equals("1")){
+                tgvh.lin_server_status.setVisibility(View.VISIBLE);
+                tgvh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
+                tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
+                tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
+            }else{
+                tgvh.lin_server_status.setVisibility(View.GONE);
+            }
+
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -797,7 +819,18 @@ public class OrderDetailsAty extends BaseAty {
             private LinearLayout lin_shouhou;
             @ViewInject(R.id.tv_shouhou)
             private TextView tv_shouhou;
-
+            @ViewInject(R.id.layout_gongyi)
+            private LinearLayout layout_gongyi;
+            @ViewInject(R.id.tv_gongyi)
+            private TextView tv_gongyi;
+            @ViewInject(R.id.lin_server_status)
+            private LinearLayout lin_server_status;
+            @ViewInject(R.id.tv_pinzhibaozhang)
+            private TextView tv_pinzhibaozhang;
+            @ViewInject(R.id.tv_fuwuchengnuo)
+            private TextView tv_fuwuchengnuo;
+            @ViewInject(R.id.tv_fahuoshijian)
+            private TextView tv_fahuoshijian;
         }
     }
 

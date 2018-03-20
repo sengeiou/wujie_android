@@ -56,7 +56,7 @@ public class WujieTopHzjAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("xfte头条");
+        titlt_conter_tv.setText("无界头条");
         wujie_top_lv.setAdapter(topAdapter);
 
         wujie_top_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {

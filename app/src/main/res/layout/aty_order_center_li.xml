@@ -77,7 +77,7 @@
             android:drawablePadding="6dp"
             android:drawableTop="@drawable/icon_order_center_05"
             android:gravity="center"
-            android:text="xfte预购"
+            android:text="无界预购"
             android:textColor="@color/black" />
 
         <TextView

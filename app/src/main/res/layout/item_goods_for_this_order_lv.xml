@@ -8,25 +8,183 @@
 
     <include layout="@layout/aty_goods_for_order"/>
     <LinearLayout
-        android:id="@+id/lin_shouhou"
-        android:padding="12dp"
-        android:background="@color/white"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="发票"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:drawableRight="@mipmap/icon_more"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="无"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_shouhou"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="8dp"
             android:text="售后服务类型"
-            android:textSize="12sp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
         <TextView
             android:id="@+id/tv_shouhou"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="(免费换货，免费维修)7天"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layout_gongyi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="公益宝贝"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_gongyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:maxLines="1"
+            android:padding="8dp"
+            android:text="成交后卖家将捐赠0.02元"
+            android:textColor="@color/app_text_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_server_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:text="(免费退换)"
-            android:textSize="12sp"
-            android:textColor="@color/black"/>
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="品质保障"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_pinzhibaozhang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="成交后卖家将捐赠0.02元"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="服务承诺"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_fuwuchengnuo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="成交后卖家将捐赠0.02元"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="发货时间"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_fahuoshijian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="10dp"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:text="成交后卖家将捐赠0.02元"
+                android:textColor="@color/app_text_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <include layout="@layout/layout_order_btn"/>

@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.bean.CartGoods;
 import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.new_wjyp.Card_bean;
@@ -45,6 +46,8 @@ import com.txd.hzj.wjlp.new_wjyp.http.Goods;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -149,6 +152,7 @@ public class CartFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+        EventBus.getDefault().register(this);
         cartAdapter = new CartAdapter();
         all_price = new BigDecimal("0.00");
     }
@@ -793,5 +797,25 @@ public class CartFgt extends BaseFgt {
         }
 
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void Event(MessageEvent messageEvent) {
+        if(messageEvent.getMessage().equals("更新购物车")){
+            if(Config.isLogin()){
+                RequestParams params = new RequestParams();
+                ApiTool2 apiTool2 = new ApiTool2();
+                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+            }
+        }
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        /**
+         * 解除事件总线
+         */
+        if(EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 }

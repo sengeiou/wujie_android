@@ -18,6 +18,7 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,4 +161,5 @@ public class VipDetailsAty extends BaseAty {
     protected void requestData() {
 
     }
+
 }

@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -74,7 +76,7 @@ public class TricketAdapter extends BaseAdapter {
             mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_past_due_ticket_bg_hzj);
             mcvh.tricket_cost_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
         }
-
+        Glide.with(context).load(map.get("logo")).into(mcvh.img_cover);
         mcvh.tricket_cost_tv.setText("￥" + map.get("money"));
         mcvh.end_time_tv.setText("过期时间：" + map.get("end_time"));
         return view;
@@ -91,5 +93,7 @@ public class TricketAdapter extends BaseAdapter {
 
         @ViewInject(R.id.end_time_tv)
         private TextView end_time_tv;
+        @ViewInject(R.id.img_cover)
+        private ImageView img_cover;
     }
 }

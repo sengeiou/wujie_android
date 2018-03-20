@@ -46,6 +46,9 @@ import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.MessageEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -149,6 +152,7 @@ public class BuildOrderAty extends BaseAty {
     private EditText et_leave_message;
     @ViewInject(R.id.tv_youfei)
     private TextView tv_youfei;//邮费
+
     private List<Goods>goodsList=new ArrayList<>();//普通商品快递属性list
     private List<GoodsCart>goodsCartList=new ArrayList<>();//购物车商品属性list
     private List<SplitNew>splitNewList=new ArrayList<>();//配送方式属性list
@@ -233,6 +237,7 @@ public class BuildOrderAty extends BaseAty {
 //                    showToast("请选择配送方式");
 //                    return;
 //                }
+                EventBus.getDefault().post(new MessageEvent("更新购物车"));
                 Gson gson=new Gson();
 
                 String json = gson.toJson(i_bean);
@@ -262,6 +267,7 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
+
                 finish();
 
                 break;
@@ -519,7 +525,7 @@ public class BuildOrderAty extends BaseAty {
                                                 splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
                                                 splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
                                                 splitNewList.get(g).setType(data.get(position).get("type"));
-                                                splitNewList.get(g).setPay(data.get(position).get("pay"));
+                                                splitNewList.get(g).setPay("0");
                                                 splitNewList.get(g).setDesc(data.get(position).get("desc"));
                                                 splitNewList.get(g).setType_name(data.get(position).get("type_name"));
                                             }
@@ -541,7 +547,7 @@ public class BuildOrderAty extends BaseAty {
                                                 splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
                                                 splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
                                                 splitNewList.get(g).setType(data.get(position).get("type"));
-                                                splitNewList.get(g).setPay(data.get(position).get("pay"));
+                                                splitNewList.get(g).setPay("0");
                                                 splitNewList.get(g).setDesc(data.get(position).get("desc"));
                                                 splitNewList.get(g).setType_name(data.get(position).get("type_name"));
                                             }
@@ -807,6 +813,15 @@ public class BuildOrderAty extends BaseAty {
             }else{
                 govh.layout_shouhou.setVisibility(View.GONE);
             }
+            //是否有特殊描述
+            if(getItem(i).get("server_status").equals("0")){
+                govh.lin_server_status.setVisibility(View.GONE);
+            }else{
+                govh.lin_server_status.setVisibility(View.VISIBLE);
+                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
+                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
+                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
+            }
 
             /**
              * 选择配送方式
@@ -860,6 +875,14 @@ public class BuildOrderAty extends BaseAty {
             private LinearLayout layout_gongyi;//公益宝贝
             @ViewInject(R.id.tv_gongyi)
             private TextView tv_gongyi;
+            @ViewInject(R.id.lin_server_status)
+            private LinearLayout lin_server_status;
+            @ViewInject(R.id.tv_pinzhibaozhang)
+            private TextView tv_pinzhibaozhang;
+            @ViewInject(R.id.tv_fuwuchengnuo)
+            private TextView tv_fuwuchengnuo;
+            @ViewInject(R.id.tv_fahuoshijian)
+            private TextView tv_fahuoshijian;
         }
     }
 

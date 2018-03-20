@@ -64,7 +64,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         this.list = list;
         if (0 == type) {
             adsSize = Settings.displayWidth;
-            adsSize1 = Settings.displayWidth * 3 / 5;
+            adsSize1 = Settings.displayWidth;
         } else {
             logo_size1 = ToolKit.dip2px(context, 36);
             logo_size2 = ToolKit.dip2px(context, 24);

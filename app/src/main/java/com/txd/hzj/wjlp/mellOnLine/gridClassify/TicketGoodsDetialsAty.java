@@ -674,6 +674,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 showDjqPop(v, dj_ticket);
                 break;
             case R.id.tv_showClassify:
+                //查看分类
                 Intent intent = new Intent();
                 intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
                 intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));

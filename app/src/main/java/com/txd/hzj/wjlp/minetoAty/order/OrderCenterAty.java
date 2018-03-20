@@ -122,7 +122,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
 //                startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wj_shop:
-                mBundle.putString("title", "xfte商店");
+                mBundle.putString("title", "无界商店");
                 mBundle.putString("type", "7");
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
@@ -132,7 +132,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
                 startActivity(OnlineShopAty.class, mBundle);
                 break;
             case R.id.tv_wjyg:
-                mBundle.putString("title", "xfte预购");
+                mBundle.putString("title", "无界预购");
                 mBundle.putString("type", "4");
                 startActivity(OnlineShopAty.class, mBundle);
                 break;

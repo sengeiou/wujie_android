@@ -97,7 +97,7 @@ public class NoticeDetailsAty extends BaseAty {
             userMessagePst.announceInfo(id);
         } else if (1 == from) {
             only_for_top_layout.setVisibility(View.VISIBLE);
-            titlt_conter_tv.setText("xfte头条");
+            titlt_conter_tv.setText("无界头条");
             String headlines_id = getIntent().getStringExtra("headlines_id");
             indexPst.headInfo(headlines_id);
 //            initWebView();

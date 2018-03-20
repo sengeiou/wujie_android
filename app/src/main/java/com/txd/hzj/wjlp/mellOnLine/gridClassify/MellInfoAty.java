@@ -426,7 +426,7 @@ public class MellInfoAty extends BaseAty {
         ads_list = new ArrayList<>();
         aty_type.add("限量购");
         aty_type.add("拼单购");
-        aty_type.add("xfte预购");
+        aty_type.add("无界预购");
         aty_type.add("比价购");
         aty_type.add("积分抽奖");
         mell_id = getIntent().getStringExtra("mell_id");
