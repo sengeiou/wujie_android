@@ -36,6 +36,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -395,8 +396,26 @@ public class OrderDetailsAty extends BaseAty {
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
+            double total_price=0.00f;//总价格
+            BigDecimal bd = null;
+            total_price=Double.parseDouble(data.get("order_price"));
+            String ticket_color = null;
+            switch (data.get("ticket_color")){
+                case "1":
+                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color="红券";
+                    break;
+                case "2":
+                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color="黄券";
+                    break;
+                case "3":
+                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color="蓝券";
+                    break;
+            }
             order_price_info_tv.setText("共" +
-                    list.size() + "件商品 合计：¥" + data.get("order_price"));
+                    list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0")?data.get("order_price"):(bd.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"(已抵"+data.get("pay_tickets")+ticket_color+")")));
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
             is_pay_password=data.get("is_pay_password");
             tv_create_time.setText("创建时间：" + data.get("create_time"));

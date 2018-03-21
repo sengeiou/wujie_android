@@ -237,7 +237,7 @@ public class BuildOrderAty extends BaseAty {
 //                    showToast("请选择配送方式");
 //                    return;
 //                }
-                EventBus.getDefault().post(new MessageEvent("更新购物车"));
+                EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
                 Gson gson=new Gson();
 
                 String json = gson.toJson(i_bean);

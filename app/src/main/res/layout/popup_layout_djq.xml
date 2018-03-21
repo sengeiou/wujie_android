@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="完成"
+            android:text="不使用"
             android:textColor="#FF534C"
             android:textSize="14sp" />
     </LinearLayout>

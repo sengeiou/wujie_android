@@ -48,6 +48,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -160,6 +161,8 @@ public class PayForAppAty extends BaseAty {
     @ViewInject(R.id.textview)
     private TextView textview;
     private String is_pay_password="0";
+    private double total_price=0.00f;//总价格
+    private BigDecimal bd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -340,6 +343,7 @@ public class PayForAppAty extends BaseAty {
 
     @Override
     protected void requestData() {
+
         goods_id = getString("goods_id");
         num = getString("num");
         type = getString("type");
@@ -449,6 +453,7 @@ public class PayForAppAty extends BaseAty {
 
             if (!type.equals("10")) {
                 tv_price.setText("¥" + data.get("order_price"));
+                total_price=Double.parseDouble(data.get("order_price"));
             } else {
                 tv_price.setText(data.get("order_price") + "积分");
             }
@@ -502,7 +507,10 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
                 if (cb_jfzf.isChecked()) {
-                    if (type.equals("0")|| type.equals("1") || type.equals("5")) {
+                    if (type.equals("0")|| type.equals("1") || type.equals("5")||TextUtils.isEmpty(type)) {
+                        if(TextUtils.isEmpty(type)){
+                            type="1";
+                        }
                         IntegralPay.integralPay(data.get("order_id"), type, "", "", this);
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
                         IntegralPay.integralPay(data.get("group_buy_order_id"), "2", "", "", this);
@@ -660,6 +668,7 @@ public class PayForAppAty extends BaseAty {
     }
 
     public void showPop(View view, final int type) {
+        L.e("order"+order.toString());
         if (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0"))
             return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
@@ -678,18 +687,21 @@ public class PayForAppAty extends BaseAty {
                         r = (CheckBox) view.findViewById(R.id.cb_1);
                         y = (CheckBox) view.findViewById(R.id.cb_2);
                         b = (CheckBox) view.findViewById(R.id.cb_3);
-                        r.setText(data.get("red_desc"));
-                        y.setText(data.get("yellow_desc"));
-                        b.setText(data.get("blue_desc"));
+                        r.setText(order.get("red_desc"));
+                        y.setText(order.get("yellow_desc"));
+                        b.setText(order.get("blue_desc"));
                         TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
-                        r.setVisibility(data.get("discount").equals("1") ? View.VISIBLE : View.GONE);
-                        y.setVisibility(data.get("yellow_discount").equals("1") ? View.VISIBLE : View.GONE);
-                        b.setVisibility(data.get("blue_discount").equals("1") ? View.VISIBLE : View.GONE);
+
+                        r.setVisibility(order.get("discount").equals("1") ? View.VISIBLE : View.GONE);
+                        y.setVisibility(order.get("yellow_discount").equals("1") ? View.VISIBLE : View.GONE);
+                        b.setVisibility(order.get("blue_discount").equals("1") ? View.VISIBLE : View.GONE);
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
                                 setCheck(1);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
                             }
                         });
                         y.setOnClickListener(new View.OnClickListener() {
@@ -697,6 +709,8 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
 
                                 setCheck(2);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
 
                             }
                         });
@@ -705,6 +719,9 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
 
                                 setCheck(3);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
+
 
                             }
                         });
@@ -715,6 +732,7 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 commonPopupWindow.dismiss();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                setCheck(4);
                             }
                         });
                     }
@@ -747,14 +765,30 @@ public class PayForAppAty extends BaseAty {
         this.is_y = is_y;
         this.is_b = is_b;
         if (is_r) {
-            textview.setText(data.get("red_desc"));
+            textview.setText(order.get("red_desc"));
+            bd = new BigDecimal(total_price-Double.parseDouble(order.get("discount_price")));
+
+            tv_price.setText("¥"+bd.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue());
         }
         if (is_y) {
-            textview.setText(data.get("yellow_desc"));
+            textview.setText(order.get("yellow_desc"));
+            bd = new BigDecimal(total_price-Double.parseDouble(order.get("yellow_price")));
+
+            tv_price.setText("¥"+bd.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue());
         }
         if (is_b) {
-            textview.setText(data.get("blue_desc"));
+            textview.setText(order.get("blue_desc"));
+            bd = new BigDecimal(total_price-Double.parseDouble(order.get("blue_price")));
+
+            tv_price.setText("¥"+bd.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue());
         }
+        if(!is_r&&!is_y&&!is_b){
+            textview.setText("");
+            tv_price.setText("¥" + (total_price - 0));
+        }
+//        else{
+
+//        }
         switch (from) {
             case 1:
                 im1.setVisibility(is_r ? View.VISIBLE : View.GONE);

@@ -182,7 +182,7 @@
         android:paddingTop="12dp"
         android:text="积分支付"
         android:textColor="@color/app_text_color"
-        android:visibility="gone" />
+         />
 
 
     <TextView

@@ -155,6 +155,7 @@ public class CartFgt extends BaseFgt {
         EventBus.getDefault().register(this);
         cartAdapter = new CartAdapter();
         all_price = new BigDecimal("0.00");
+//        cart_lv.setRefreshing();
     }
 
     private void getDate() {
@@ -202,6 +203,7 @@ public class CartFgt extends BaseFgt {
         removeDialog();
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
+            L.e("ccccc");
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             titlt_right_tv.setVisibility(View.GONE);
@@ -240,6 +242,7 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
+            L.e("cccccccgengxin");
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");
@@ -799,11 +802,9 @@ public class CartFgt extends BaseFgt {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
-        if(messageEvent.getMessage().equals("更新购物车")){
+        if(messageEvent.getMessage().equals("更新购物车列表")){
             if(Config.isLogin()){
-                RequestParams params = new RequestParams();
-                ApiTool2 apiTool2 = new ApiTool2();
-                apiTool2.postApi(Config.BASE_URL + "Cart/cartList", params, CartFgt.this);
+
             }
         }
     }

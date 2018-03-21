@@ -24,5 +24,11 @@ public class GoodsCategory {
         params.addBodyParameter("cate_id", cate_id);
         apiTool2.postApi(url + "cateIndex", params, baseView);
     }
+    public static void cateIndexs(String cate_id, BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("cate_id", cate_id);
+        apiTool2.postApi(Config.BASE_URL + "GoodsCategory/" + "cateIndex", params, baseView);
+    }
 
 }

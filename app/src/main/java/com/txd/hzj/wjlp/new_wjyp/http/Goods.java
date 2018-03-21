@@ -23,4 +23,18 @@ public class Goods {
         requestParams.addBodyParameter("product_id", product_id);
         apiTool2.postApi(url + "attrApi", requestParams, baseView);
     }
+
+    /**
+     * 商品列表页
+     * @param p 	分页参数u
+     * @param cate_id   分类id 默认显示分类的推荐(0为全部)
+     * @param baseView
+     */
+    public static void goodsList(String p,String cate_id,BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("p", p);
+        requestParams.addBodyParameter("cate_id", cate_id);
+        apiTool2.postApi(url + "goodsList", requestParams, baseView);
+    }
 }

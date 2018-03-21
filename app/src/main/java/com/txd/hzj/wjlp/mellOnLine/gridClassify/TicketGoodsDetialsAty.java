@@ -59,6 +59,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.http.category.GoodsCategory;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
@@ -70,6 +71,7 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
+import com.txd.hzj.wjlp.new_wjyp.http.Goods;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -485,6 +487,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String product_id = "";
     private boolean is_C = false;
     private String goodsName="";
+    private String cate_id;
+    private String pcate_id;
 
 
     @Override
@@ -674,12 +678,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 showDjqPop(v, dj_ticket);
                 break;
             case R.id.tv_showClassify:
-                //查看分类
-                Intent intent = new Intent();
-                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
-                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
-                intent.setClass(this, SubclassificationAty.class);
-                startActivity(intent);
+                cate_id = goodsInfo.get("cate_id");
+                pcate_id = goodsInfo.get("pcate_id");
+                GoodsCategory.cateIndexs(cate_id,this);
+                showProgressDialog();
+
                 break;
             case R.id.tv_quxiao://促销弹框
                 showCXPop(v);
@@ -1180,6 +1183,29 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             is_collect = "0";
             goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
             goods_title_collect_tv.setText("收藏");
+        }
+        if(requestUrl.contains("cateIndex")){
+            L.e("json"+jsonStr);
+            Map<String,String>datas=JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if(datas.get("code").equals("1")){
+                datas= JSONUtils.parseKeyAndValueToMap(datas.get("data"));
+                List<Map<String,String>>mapList=JSONUtils.parseKeyAndValueToMapList(datas.get("two_cate"));
+                int mm=0;
+                for(int m=0;m<mapList.size();m++){
+                    L.e("cate_id"+mapList.get(m).get("cate_id"));
+                    if(mapList.get(m).get("cate_id").equals(pcate_id)){
+                        mm=m+1;
+                        break;
+                    }
+                }
+                //查看分类
+                Intent intent = new Intent();
+                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
+                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
+                intent.putExtra("page", mm);
+                intent.setClass(this, SubclassificationAty.class);
+                startActivity(intent);
+            }
         }
     }
 

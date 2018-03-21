@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -99,12 +100,7 @@ public class SubclassificationAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             if (ToolKit.isList(data, "three_cate_list")) {
                 mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
-                int x=0;
                 for (Map<String, String> title : mTitles) {
-                    x++;
-                    if(title.get("three_cate_id").equals(two_cate_id)){
-
-                    }
                     mFragments.add(SubClassifyListFgt.getFgt(two_cate_id, title.get("three_cate_id")));
                 }
                 myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
