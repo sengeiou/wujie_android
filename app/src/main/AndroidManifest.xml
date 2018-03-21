@@ -1003,4 +1003,5 @@
         <activity android:name=".minetoAty.order.VipCardDetailsAty"/>
     </application>
 <!--测试提交 LH-->
+
 </manifest>

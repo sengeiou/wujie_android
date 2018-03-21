@@ -16,6 +16,10 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_in.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_from_left.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\slide_in_from_left.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_out2.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_out2.xml"
     },
@@ -28,12 +32,20 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\head_out.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\anim\\abc_fade_in.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_slide_in_bottom.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_out.xml",
@@ -50,6 +62,10 @@
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_in2.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_in2.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_left.xml",
@@ -76,12 +92,28 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\fade_in.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\fade_in.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_fade_out.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_left.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\slide_out_to_left.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\head_in.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\head_in.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
@@ -100,8 +132,16 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\fade_in.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_from_right.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\slide_in_from_right.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_bottom_out.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_bottom_out.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\head_in.xml",
@@ -116,6 +156,10 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_in2.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_bottom_in.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_bottom_in.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\head_out.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\head_out.xml"
     },
@@ -126,6 +170,14 @@
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\head_in.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\head_in.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_out2.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_out2.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_popup_exit.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\fade_out.xml",
@@ -148,8 +200,28 @@
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_slide_in_bottom.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_from_right.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\slide_in_from_right.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_out.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_out.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\head_out.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\head_out.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_bottom_out.xml",
@@ -162,6 +234,22 @@
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_right.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\slide_out_to_right.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\hold.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\hold.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\fade_out.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\fade_out.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_right.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\slide_out_to_right.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
@@ -188,12 +276,24 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_in.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_left.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\slide_out_to_left.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\push_top_in.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\push_top_in.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_to_right.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\anim\\slide_out_to_right.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\fade_in.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\anim\\fade_in.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",

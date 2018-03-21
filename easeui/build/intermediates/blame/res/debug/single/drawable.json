@@ -8,12 +8,20 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_common_tab_bg.xml"
     },
     {
+        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_pressed_shape.xml",
+        "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_pressed_shape.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_normal_shape.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_cancel_normal_shape.xml"
     },
     {
-        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_pressed_shape.xml",
-        "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_pressed_shape.xml"
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_send_btn_selector.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_send_btn_selector.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_image_selector.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_image_selector.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatfrom_bg.xml",
@@ -32,16 +40,24 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_recording_hint_bg.xml"
     },
     {
-        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
-        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_item_background_holo_dark.xml"
-    },
-    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_go_search_api_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_go_search_api_material.xml"
     },
     {
+        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_item_background_holo_dark.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_mm_listitem.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_mm_listitem.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_mm_listitem.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_mm_listitem.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_bj.xml",
@@ -60,6 +76,10 @@
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_holo_light.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_item_background_holo_dark.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_cab_background_internal_bg.xml"
     },
@@ -68,12 +88,24 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\voice_to_icon.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_mm_listitem_grey.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_mm_listitem_grey.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_light.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_item_background_holo_light.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_pressed_shape.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_cancel_pressed_shape.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_recording_hint_bg.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_recording_hint_bg.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_takepic_selector.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_takepic_selector.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_tick_mark_material.xml",
@@ -92,20 +124,48 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_mm_listitem_grey.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_go_search_api_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_go_search_api_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_indicator_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ratingbar_indicator_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_cab_background_top_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_voice_search_api_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_voice_search_api_material.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_bj.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_cancel_bj.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_ab_back_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_ab_back_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_dark.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_holo_dark.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_search_clear.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_search_clear.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_text_cursor_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_colored_material.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_press_speak_btn.xml",
@@ -120,6 +180,10 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_edit_text_bg.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ratingbar_small_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_spinner_textfield_background_material.xml"
     },
@@ -128,16 +192,32 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_seekbar_thumb_material.xml"
     },
     {
-        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_type_select_btn.xml",
-        "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_type_select_btn.xml"
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_normal_shape.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_normal_shape.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_check_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_check_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_selector.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_selector.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatting_setmode_keyboard_btn.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatting_setmode_keyboard_btn.xml"
     },
     {
+        "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_type_select_btn.xml",
+        "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_type_select_btn.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_textfield_search_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_edit_text_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_edit_text_material.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_dark.xml",
@@ -152,6 +232,10 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_item_background_holo_light.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_dark.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_holo_dark.xml"
     },
@@ -164,8 +248,20 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_send_btn_selector.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_borderless_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_borderless_material.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_ratingbar_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_text_cursor_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_switch_thumb_material.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_msg_state_failed_resend.xml",
@@ -184,6 +280,10 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_dialog_material_background.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_type_select_btn.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_type_select_btn.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_takepic_selector.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_takepic_selector.xml"
     },
@@ -192,8 +292,16 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\voice_from_icon.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_tick_mark_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_seekbar_tick_mark_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ratingbar_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_press_speak_btn.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_press_speak_btn.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
@@ -212,6 +320,10 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_ic_menu_overflow_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_dialog_material_background.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_radio_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_radio_material.xml"
     },
@@ -222,6 +334,14 @@
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_mm_listitem.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_mm_listitem.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_timestampe_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_timestampe_bg.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_vector_test.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_vector_test.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\voice_to_icon.xml",
@@ -248,12 +368,32 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_btn_check_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_internal_bg.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_cab_background_internal_bg.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ratingbar_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_arrow_drop_right_black_24dp.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_arrow_drop_right_black_24dp.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_edit_text_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_edit_text_bg.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_spinner_textfield_background_material.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ratingbar_small_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ratingbar_small_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatting_setmode_voice_btn.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatting_setmode_voice_btn.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatting_setmode_keyboard_btn.xml",
@@ -276,6 +416,14 @@
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_search_clear.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\voice_to_icon.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\voice_to_icon.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_normal_shape.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_cancel_normal_shape.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
     },
@@ -292,12 +440,24 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_type_select_btn.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_textfield_search_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_textfield_search_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_dialog_material_background.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_search_api_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_search_api_material.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_image_selector.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_image_selector.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_radio_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_radio_material.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_colored_material.xml",
@@ -308,12 +468,28 @@
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_clear_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_spinner_textfield_background_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_spinner_textfield_background_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_holo_light.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_list_selector_holo_light.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_image_selector.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_image_selector.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_seekbar_track_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\voice_from_icon.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\voice_from_icon.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatting_setmode_keyboard_btn.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatting_setmode_keyboard_btn.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
@@ -322,6 +498,10 @@
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_text_cursor_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_text_cursor_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_btn_default_mtrl_shape.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
@@ -372,6 +552,14 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_sidebar_background_pressed.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_tab_indicator_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_tab_indicator_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_clear_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_clear_material.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_switch_thumb_material.xml"
     },
@@ -380,8 +568,16 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_ratingbar_small_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_item_background_holo_light.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_item_background_holo_light.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_dark.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_list_selector_background_transition_holo_dark.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatto_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatto_bg.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_search_clear.xml",
@@ -392,16 +588,40 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_msg_state_failed_resend.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_common_tab_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_common_tab_bg.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\voice_from_icon.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\voice_from_icon.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_cab_background_top_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_voice_search_api_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_voice_search_api_material.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_pressed_shape.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_pressed_shape.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_search_api_material.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_ic_search_api_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_msg_state_failed_resend.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_msg_state_failed_resend.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_timestampe_bg.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_timestampe_bg.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_recording_text_hint_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_recording_text_hint_bg.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_vector_test.xml",
@@ -432,8 +652,20 @@
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_search_api_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_bj.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_cancel_bj.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_recording_hint_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_recording_hint_bg.xml"
+    },
+    {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_list_selector_background_transition_holo_light.xml",
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_list_selector_background_transition_holo_light.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_sidebar_background_pressed.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_sidebar_background_pressed.xml"
     },
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_thumb_material.xml",
@@ -446,6 +678,10 @@
     {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_arrow_drop_right_black_24dp.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_arrow_drop_right_black_24dp.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chatfrom_bg.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatfrom_bg.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_press_speak_btn.xml",
@@ -468,6 +704,10 @@
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chatting_setmode_voice_btn.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_menu_overflow_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_menu_overflow_material.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_ic_menu_overflow_material.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_ic_menu_overflow_material.xml"
     },
@@ -480,12 +720,20 @@
         "source": "C:\\Users\\Administrator\\.android\\build-cache\\7ffe22983786941a65e852f44750e23ea17f1abb\\output\\res\\drawable\\abc_edit_text_material.xml"
     },
     {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_location_selector.xml",
+        "source": "D:\\jie_workspace\\Application\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_location_selector.xml"
+    },
+    {
         "merged": "D:\\xf\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_chat_location_selector.xml",
         "source": "D:\\xf\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_chat_location_selector.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_blue_pressed_shape.xml",
         "source": "F:\\WJYP\\wjlp\\easeui\\src\\main\\res\\drawable\\ease_btn_blue_pressed_shape.xml"
+    },
+    {
+        "merged": "D:\\jie_workspace\\Application\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_thumb_material.xml",
+        "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\a5f16620972c4a77d082b66e0aa78b7cdd9f8995\\output\\res\\drawable\\abc_seekbar_thumb_material.xml"
     },
     {
         "merged": "F:\\WJYP\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable\\ease_btn_cancel_pressed_shape.xml",
