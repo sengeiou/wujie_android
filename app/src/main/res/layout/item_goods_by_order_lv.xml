@@ -263,7 +263,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:text="成交后卖家将捐赠0.02元"
                 android:textColor="@color/app_text_color"

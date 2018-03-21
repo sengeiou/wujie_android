@@ -58,6 +58,7 @@
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
+
                 <TextView
                     android:id="@+id/tv_merchant_name"
                     android:layout_width="match_parent"
@@ -67,13 +68,14 @@
                     android:drawableStart="@drawable/icon_cart_mell_left_hzj"
                     android:padding="12dp"
                     android:textColor="@color/app_text_color" />
+
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/layout_sle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@android:color/white"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tv_sle_left"
@@ -353,22 +355,24 @@
                 android:gravity="right"
                 android:text="合计：￥0.00"
                 android:textColor="@color/app_text_color" />
+
             <TextView
-                android:visibility="gone"
-                android:textColor="@color/holo_red_light"
-                android:text="+0.00元邮费"
-                android:layout_weight="1"
                 android:id="@+id/tv_youfei"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="+0.00元邮费"
+                android:textColor="@color/holo_red_light"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_invoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
-                android:textSize="12dp"
-                android:textColor="@color/app_text_color" />
+                android:textColor="@color/app_text_color"
+                android:textSize="12dp" />
 
 
             <TextView

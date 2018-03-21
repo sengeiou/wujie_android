@@ -486,7 +486,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private int goods_number = 0;
     private String product_id = "";
     private boolean is_C = false;
-    private String goodsName="";
+    private String goodsName = "";
     private String cate_id;
     private String pcate_id;
 
@@ -680,7 +680,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.tv_showClassify:
                 cate_id = goodsInfo.get("cate_id");
                 pcate_id = goodsInfo.get("pcate_id");
-                GoodsCategory.cateIndexs(cate_id,this);
+                GoodsCategory.cateIndexs(cate_id, this);
                 showProgressDialog();
 
                 break;
@@ -1025,8 +1025,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    map.get("pay").equals("包邮")?"运费 " + map.get("pay") :map.get("pay"), 2, Color.parseColor("#FD8214"));
-            tv_freight.setText(map.get("pay").equals("包邮")?"运费 " + map.get("pay") :map.get("pay"));
+                    map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"), 2, Color.parseColor("#FD8214"));
+            tv_freight.setText(map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"));
         }
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
             L.e("cccc" + jsonStr);
@@ -1184,17 +1184,17 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
             goods_title_collect_tv.setText("收藏");
         }
-        if(requestUrl.contains("cateIndex")){
-            L.e("json"+jsonStr);
-            Map<String,String>datas=JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if(datas.get("code").equals("1")){
-                datas= JSONUtils.parseKeyAndValueToMap(datas.get("data"));
-                List<Map<String,String>>mapList=JSONUtils.parseKeyAndValueToMapList(datas.get("two_cate"));
-                int mm=0;
-                for(int m=0;m<mapList.size();m++){
-                    L.e("cate_id"+mapList.get(m).get("cate_id"));
-                    if(mapList.get(m).get("cate_id").equals(pcate_id)){
-                        mm=m+1;
+        if (requestUrl.contains("cateIndex")) {
+            L.e("json" + jsonStr);
+            Map<String, String> datas = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (datas.get("code").equals("1")) {
+                datas = JSONUtils.parseKeyAndValueToMap(datas.get("data"));
+                List<Map<String, String>> mapList = JSONUtils.parseKeyAndValueToMapList(datas.get("two_cate"));
+                int mm = 0;
+                for (int m = 0; m < mapList.size(); m++) {
+                    L.e("cate_id" + mapList.get(m).get("cate_id"));
+                    if (mapList.get(m).get("cate_id").equals(pcate_id)) {
+                        mm = m + 1;
                         break;
                     }
                 }
@@ -1876,22 +1876,31 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
-        L.e("返回商品详情"+requestCode+resultCode);
-        if (requestCode == 1000 ) {
+        L.e("返回商品详情" + requestCode + resultCode);
+        if (requestCode == 1000) {
             L.e("返回商品详情");
-            if(resultCode==0x0001){
-                Bundle bundle=new Bundle();
+            if (resultCode == 0x0001) {
+                Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
                 bundle.putString("type", "1");
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", "");
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
-                startActivity(BuildOrderAty.class,bundle);
+                startActivity(BuildOrderAty.class, bundle);
                 return;
-            }else if(resultCode==0x0002){
+            } else if (resultCode == 0x0002) {
                 is_C = true;
-                goods_select_attr_tv.setText(data.getStringExtra("pro_value") + " x" + data.getIntExtra("num", 0));
+
+                // 去除字符串末位的加号
+                String proValueStr = data.getStringExtra("pro_value"); // 获取回传的字符串
+                int addLastIndexOf = proValueStr.lastIndexOf("+"); // 获取字符串中最后一个加号位置
+                if (addLastIndexOf == proValueStr.length() - 1) {
+                    // 如果最后一个加号在字符串末位，则截取最后一个加号之前的数据赋值给proValueStr
+                    proValueStr = proValueStr.substring(0, addLastIndexOf);
+                }
+
+                goods_select_attr_tv.setText(proValueStr + " x" + data.getIntExtra("num", 0));
                 tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
                 tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
@@ -1954,13 +1963,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             } else {
                 goodsPst.goodsInfo(ticket_buy_id, page);
             }
-                is_C = false;
+            is_C = false;
 //
-
 
 
         }
     }
+
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
                         String price,
                         String group_buy_id, String goods_attr, String goods_val, String is_attr) {
@@ -1974,7 +1983,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         bundle.putString("goods_attr", goods_attr);
         bundle.putString("goods_val", goods_val);
         bundle.putString("is_attr", is_attr);
-        startActivityForResult(GoodsAttributeAty.class, bundle,1000);
+        startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
 
 }
