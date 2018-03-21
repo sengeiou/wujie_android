@@ -481,6 +481,7 @@ public class OrderDetailsAty extends BaseAty {
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
                 layout_choose_address.setVisibility(View.GONE);
+                tv_pay_time.setVisibility(View.GONE); // 待支付状态不显示付款时间
                 break;
             case "1":
                 tv_state.setText("待发货");

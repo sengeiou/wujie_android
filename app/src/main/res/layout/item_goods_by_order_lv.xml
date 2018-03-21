@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="10dp"
-            android:maxLines="1"
+            android:maxLines="2"
             android:padding="8dp"
             android:text="(免费换货，免费维修)7天"
             android:textColor="@color/app_text_color"

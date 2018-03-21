@@ -204,6 +204,7 @@ public class GoodsListAty extends BaseAty {
         if (requestUrl.contains("search")) {
             SeaechBean goods = GsonUtil.GsonToBean(jsonStr, SeaechBean.class);
             L.e("商品=====解析数据=====", goods.toString());
+            L.e("商品=====解析数据=====", jsonStr);
             allNum = goods.getNums();
             if (1 == p) {
                 data = goods.getData().getList();

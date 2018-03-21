@@ -147,6 +147,7 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("blue_discount", val.getBlue_discount());
                         intent.putExtra("wy_price", val.getWy_price());
                         intent.putExtra("yx_price", val.getYx_price());
+                        intent.putExtra("goods_num", val.getGoods_num());
                         intent.putExtra("data", mapList.get(position).get("dj_ticket"));
                         setResult(0x0002, intent);
                         finish();

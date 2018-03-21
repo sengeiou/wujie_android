@@ -169,6 +169,7 @@ public class PayForAppAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("支付");
+
 //        if (0 == order_type) {
 //            for_member_layout.setVisibility(View.VISIBLE);
 //            for_order_layout.setVisibility(View.GONE);
@@ -359,6 +360,7 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
+        L.e("wang", "===========>>>>>>>>>>>>>" + getString("invoiceList"));
         if (type.equals("0") ||  type.equals("1")||TextUtils.isEmpty(type)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("2")) {

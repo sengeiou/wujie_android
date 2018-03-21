@@ -1336,7 +1336,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             tv_expirationdate.setVisibility(View.GONE);
         }
         tv_salesvolume.setText("销量\t" + goodsInfo.get("sell_num"));
-        tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
+        tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));// TODO ===============================================================
         is_attr = is_attr + "-" + goodsInfo.get("goods_num");
         //tv_freight.setText(goodsInfo.get(""));
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
@@ -1902,10 +1902,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
                 goods_select_attr_tv.setText(proValueStr + " x" + data.getIntExtra("num", 0));
                 tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
-                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
+                tv_yx_price.setText("¥" + data.getStringExtra("yx_price"));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
+                tv_inventory.setText("库存\t" + data.getStringExtra("goods_num"));
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
                 ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));

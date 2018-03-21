@@ -711,11 +711,11 @@ public class BuildOrderAty extends BaseAty {
                 double express_fee = 0;
                 for (Bean bean : i_bean) {
                     if (!TextUtils.isEmpty(bean.getIs_invoice()) && !bean.getIs_invoice().equals("0")) {
-                        tax_pay += Double.parseDouble(bean.getExpress_fee());
-                        express_fee += Double.parseDouble(bean.getTax_pay());
+                        tax_pay += Double.parseDouble(bean.getTax_pay());
+                        express_fee += Double.parseDouble(bean.getExpress_fee());
                     }
                 }
-                tv_invoice.setText("+税金:" + tax_pay + "发票运费:" + express_fee);
+                tv_invoice.setText("+税金:" + tax_pay + "发票运费:" + express_fee); // TODO 如果有开发票，发票的Json字符串传入后台
             }
         }
     }
