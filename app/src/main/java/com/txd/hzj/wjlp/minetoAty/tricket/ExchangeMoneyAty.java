@@ -3,7 +3,9 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,8 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tamic.novate.Novate;
@@ -21,7 +25,11 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
+import com.txd.hzj.wjlp.new_wjyp.VipPayAty;
+import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,6 +124,11 @@ public class ExchangeMoneyAty extends BaseAty {
     LinearLayout ll;
     @ViewInject(R.id.operation_type_tv21)
     TextView operation_type_tv21;
+    @ViewInject(R.id.password_et)
+    EditText password_et;
+
+    private CommonPopupWindow commonPopupWindow;
+    private String rate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +162,7 @@ public class ExchangeMoneyAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv,R.id.my_bal_tv2,R.id.submit_op_tv})
+    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv, R.id.my_bal_tv2, R.id.submit_op_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -161,7 +174,7 @@ public class ExchangeMoneyAty extends BaseAty {
 //                if (2 == type) {
 //                    money_ev.setText(balance);
 //                }
-                money_ev.setText( my_bal_tv1.getText().toString().replace("我的积分:",""));
+                money_ev.setText(my_bal_tv1.getText().toString().replace("我的积分:", ""));
 
                 break;
 
@@ -179,7 +192,7 @@ public class ExchangeMoneyAty extends BaseAty {
                     showErrorTip("余额不足");
                     break;
                 }
-                if(TextUtils.isEmpty(bank_card_id)){
+                if (TextUtils.isEmpty(bank_card_id)) {
                     showErrorTip("请选择银行卡");
                     break;
                 }
@@ -189,7 +202,13 @@ public class ExchangeMoneyAty extends BaseAty {
 //                }
 //                balancePst.getCash(et_password.getText().toString(),money,rate_tv.getText()
 //                        .toString(),bank_card_id);
-                download2();
+//                download2();
+                if (TextUtils.isEmpty(password_et.getText().toString())) {
+                    showToast("请输入支付密码");
+                    break;
+                }
+                UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
+
                 break;
         }
     }
@@ -227,6 +246,7 @@ public class ExchangeMoneyAty extends BaseAty {
             bal = new BigDecimal(balance);
             my_bal_tv1.setText("我的余额" + (data != null ? data.get("balance") : "0.00") + " ");
             rate_tv.setText(data.get("rate") + "%");
+            rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));
         }
     }
@@ -247,21 +267,21 @@ public class ExchangeMoneyAty extends BaseAty {
                             JSONObject jsonObject = new JSONObject(response);
                             String data = jsonObject.getString("data");
                             JSONObject jsonObject2 = new JSONObject(data);
-                            String my_integral =jsonObject2.getString("my_integral");
-                            String integral_percentage =jsonObject2.getString("integral_percentage");
+                            String my_integral = jsonObject2.getString("my_integral");
+                            String integral_percentage = jsonObject2.getString("integral_percentage");
                             rate_tv.setText(integral_percentage);
 
                             String status = jsonObject2.getString("status");
                             JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
                             ArrayList<String> list = new ArrayList<String>();
-                            for(int i=0;i<jsonArray.length();i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String my_change_integral =jsonObject1.getString("my_change_integral");
-                                my_bal_tv1.setText("可兑换积分:"+my_change_integral);
+                                String my_change_integral = jsonObject1.getString("my_change_integral");
+                                my_bal_tv1.setText("可兑换积分:" + my_change_integral);
 
                                 String point_num = jsonObject1.getString("point_num");
-                                String change =jsonObject1.getString("change");
-                                String date =jsonObject1.getString("date");
+                                String change = jsonObject1.getString("change");
+                                String date = jsonObject1.getString("date");
 
 
                             }
@@ -284,45 +304,48 @@ public class ExchangeMoneyAty extends BaseAty {
                 });
 
     }
-    private void download2() {
 
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        Map<String, Object> parameters1 = new HashMap<String, Object>();
-//        integral
-//        parameters.addHeader("token", Config.getToken());
-        parameters.put("token", Config.getToken());
-        parameters1.put("integral", money_ev.getText().toString());
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters)
-                .build()
-                .rxPost("User/changeIntegral", parameters1, new RxStringCallback() {
-                    @Override
-                    public void onNext(Object tag, String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                             String code =jsonObject.getString("code");
-                            String message =jsonObject.getString("message");
-                            showToast(message);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
+//    private void download2() {
+//
+//        L.e("=========>>>>>>>download2");
+//        Map<String, Object> parameters = new HashMap<String, Object>();
+//        Map<String, Object> parameters1 = new HashMap<String, Object>();
+////        integral
+////        parameters.addHeader("token", Config.getToken());
+//        parameters.put("token", Config.getToken());
+//        parameters1.put("integral", money_ev.getText().toString());
+//        new Novate.Builder(this)
+//                .baseUrl(Config.BASE_URL)
+//                .addHeader(parameters)
+//                .build()
+//                .rxPost("User/changeIntegral", parameters1, new RxStringCallback() {
+//                    @Override
+//                    public void onNext(Object tag, String response) {
+//                        try {
+//                            L.e("=========>>>>>>>" + response);
+//                            JSONObject jsonObject = new JSONObject(response);
+//                            String code = jsonObject.getString("code");
+//                            String message = jsonObject.getString("message");
+//                            showToast(message);
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Object tag, Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel(Object tag, Throwable e) {
+//
+//                    }
+//
+//                });
+//
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -343,4 +366,5 @@ public class ExchangeMoneyAty extends BaseAty {
             }
         }
     }
+
 }

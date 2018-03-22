@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
-    android:orientation="vertical"
     android:clipToPadding="true"
-    android:fitsSystemWindows="true">
-    <include
-        layout="@layout/aty_title"/>
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/aty_title" />
+
     <ListView
         android:id="@+id/lv_goods"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
 
 
 </LinearLayout>

@@ -1445,7 +1445,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
         Glide.with(this).load(goodsInfo.get("country_logo")).into(im_country_logo);
         tv_country_desc.setText(goodsInfo.get("country_desc"));
-        tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
+//        tv_country_tax.setText(goodsInfo.get("country_tax") + "元");
+        tv_country_tax.setText(goodsInfo.get("country_tax"));
         if (Double.parseDouble(goodsInfo.get("country_tax")) <= 0) {
             layou_jinkoushui.setVisibility(View.GONE);
         }

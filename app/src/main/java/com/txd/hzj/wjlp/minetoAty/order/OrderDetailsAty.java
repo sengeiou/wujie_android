@@ -110,7 +110,7 @@ public class OrderDetailsAty extends BaseAty {
     private TextView tv_address;
     @ViewInject(R.id.leave_message)
     private TextView leave_message;
-    private String is_pay_password="0";//是否设置支付密码
+    private String is_pay_password = "0";//是否设置支付密码
 
 
     private CommonPopupWindow commonPopupWindow;
@@ -129,7 +129,7 @@ public class OrderDetailsAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right,R.id.lin_logistics})
+    @OnClick({R.id.tv_btn_left, R.id.tv_btn_right, R.id.lin_logistics})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -142,9 +142,9 @@ public class OrderDetailsAty extends BaseAty {
 
                 break;
             case R.id.lin_logistics://订单物流
-                Bundle bundle=new Bundle();
-                bundle.putString("order_id",order_id);
-                startActivity(OrderLogisticsAty.class,bundle);
+                Bundle bundle = new Bundle();
+                bundle.putString("order_id", order_id);
+                startActivity(OrderLogisticsAty.class, bundle);
                 break;
         }
     }
@@ -193,7 +193,7 @@ public class OrderDetailsAty extends BaseAty {
                         if (type.equals("7")) {
                             bundle.putString("type", "10");
                         }
-                        bundle.putString("is_pay_password",is_pay_password);
+                        bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("2")) {
                         if (type.equals("0")) {
@@ -232,7 +232,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("type", String.valueOf(Integer.parseInt(order_type) + 1));
-                        bundle.putString("is_pay_password",is_pay_password);
+                        bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
                         GroupBuyOrder.receiving(order_id, OrderDetailsAty.this);
@@ -264,7 +264,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("order_id", order_id);
                         bundle.putString("group_buy_id", group_buy_id);
                         bundle.putString("type", "6");
-                        bundle.putString("is_pay_password",is_pay_password);
+                        bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
                         PreOrder.preReceiving(order_id, OrderDetailsAty.this);
@@ -396,28 +396,28 @@ public class OrderDetailsAty extends BaseAty {
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-            double total_price=0.00f;//总价格
+            double total_price = 0.00f;//总价格
             BigDecimal bd = null;
-            total_price=Double.parseDouble(data.get("order_price"));
+            total_price = Double.parseDouble(data.get("order_price"));
             String ticket_color = null;
-            switch (data.get("ticket_color")){
+            switch (data.get("ticket_color")) {
                 case "1":
-                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
-                    ticket_color="红券";
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "红券";
                     break;
                 case "2":
-                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
-                    ticket_color="黄券";
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "黄券";
                     break;
                 case "3":
-                    bd = new BigDecimal(total_price-Double.parseDouble(data.get("pay_tickets")));
-                    ticket_color="蓝券";
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "蓝券";
                     break;
             }
             order_price_info_tv.setText("共" +
-                    list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0")?data.get("order_price"):(bd.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue()+"(已抵"+data.get("pay_tickets")+ticket_color+")")));
+                    list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") : (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")));
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
-            is_pay_password=data.get("is_pay_password");
+            is_pay_password = data.get("is_pay_password");
             tv_create_time.setText("创建时间：" + data.get("create_time"));
             tv_pay_time.setText("付款时间：" + data.get("pay_time"));
             if (type.equals("3")) {
@@ -704,8 +704,8 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh = (TGVH) view.getTag();
             }
             tgvh.tv_btn_right.setVisibility(View.GONE);
-            L.e("order_sta"+order_status);
-            if (order_status.equals("0")||order_status.equals("5")) {
+            L.e("order_sta" + order_status);
+            if (order_status.equals("0") || order_status.equals("5")) {
                 tgvh.tv_btn_left.setVisibility(View.GONE);
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             } else {
@@ -718,11 +718,11 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.tv_btn_left.setText("售后中");
             }
-            if(order_status.equals("1")){
+            if (order_status.equals("1")) {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             }
-            if(order_status.equals("2")){
+            if (order_status.equals("2")) {
                 if (getItem(i).get("sale_status").equals("0")) {
                     tgvh.delayReceiving.setVisibility(View.VISIBLE);
                 } else {
@@ -731,10 +731,10 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setText("确认收货");
             }
-            if(getItem(i).get("after_sale_status").equals("1")){
+            if (getItem(i).get("after_sale_status").equals("1")) {
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE);
                 tgvh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
-            }else{
+            } else {
                 tgvh.lin_shouhou.setVisibility(View.GONE);
             }
             tgvh.tv_price.setText("¥" + getItem(i).get("shop_price"));
@@ -776,33 +776,35 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.num.setText("x" + getItem(i).get("goods_num"));
             tgvh.title.setText(getItem(i).get("attr"));
 //            if (getItem(i).get("sale_status").equals("1")) {
-//                tgvh.textview.setVisibility(View.VISIBLE);
-            L.e("time"+getItem(i).get("sure_delivery_time"));
-            if(getItem(i).get("status").equals("1")){
-                tgvh.textview.setText("收货时间：" + getItem(i).get("sure_delivery_time"));
-            }else{
-                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time"));
+            tgvh.textviews.setVisibility(View.VISIBLE);
+            tgvh.textviews.setText(getItem(i).get("invoice_name"));
 
-            }
+            L.e("time" + getItem(i).get("sure_delivery_time"));
+//            if (getItem(i).get("status").equals("1")) {
+//                tgvh.textview.setText("收货时间：" + getItem(i).get("sure_delivery_time"));
+//            } else {
+//                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time"));
+//
+//            }
 
 //            } else {
 //                tgvh.textview.setVisibility(View.GONE);
 //            }
 
             //是否存在公益宝贝
-            if(!getItem(i).get("welfare").equals("0")){
+            if (!getItem(i).get("welfare").equals("0")) {
                 tgvh.layout_gongyi.setVisibility(View.VISIBLE);
-                tgvh.tv_gongyi.setText("成交后卖家将捐赠"+getItem(i).get("welfare")+"元给公益计划");
-            }else{
+                tgvh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            } else {
                 tgvh.layout_gongyi.setVisibility(View.GONE);
             }
             //是否有特殊描述
-            if(getItem(i).get("server_status").equals("1")){
+            if (getItem(i).get("server_status").equals("1")) {
                 tgvh.lin_server_status.setVisibility(View.VISIBLE);
                 tgvh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
                 tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
                 tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
-            }else{
+            } else {
                 tgvh.lin_server_status.setVisibility(View.GONE);
             }
 
@@ -831,8 +833,8 @@ public class OrderDetailsAty extends BaseAty {
             public TextView tv_btn_left;
             @ViewInject(R.id.tv_btn_right)
             public TextView tv_btn_right;
-            @ViewInject(R.id.textview)
-            private TextView textview;
+            @ViewInject(R.id.itemGoods_invoiceName_tv)
+            private TextView textviews;
             @ViewInject(R.id.delayReceiving)
             private TextView delayReceiving;
             @ViewInject(R.id.lin_shouhou)

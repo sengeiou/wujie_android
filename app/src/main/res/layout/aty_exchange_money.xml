@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,11 +8,11 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="积分："
-            android:textColor="@color/app_text_color"
-            />
+            android:textColor="@color/app_text_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,14 +39,15 @@
                 android:id="@+id/type_logo_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_exchange_hzj"/>
+                android:src="@drawable/icon_exchange_hzj" />
 
             <EditText
                 android:id="@+id/money_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_bg_foe_edit_hzj"
-                android:padding="8dp"/>
+                android:inputType="numberDecimal"
+                android:padding="8dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +60,7 @@
                 android:id="@+id/my_bal_tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的积分300"/>
+                android:text="我的积分300" />
 
             <TextView
                 android:id="@+id/my_bal_tv2"
@@ -69,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="全部使用"
-                android:textColor="#2E77FE"/>
+                android:textColor="#2E77FE" />
         </LinearLayout>
 
     </LinearLayout>
@@ -81,14 +80,13 @@
         android:orientation="horizontal"
         android:paddingBottom="4dp"
         android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        >
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/operation_type_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="积分转余额，手续费率"/>
+            android:text="积分转余额，手续费率" />
 
         <TextView
             android:id="@+id/rate_tv"
@@ -96,9 +94,11 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
 
-            android:textColor="#2E77FE"/>
+            android:textColor="#2E77FE" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -106,9 +106,7 @@
         android:paddingBottom="4dp"
         android:paddingStart="16dp"
         android:paddingTop="4dp"
-        android:id="@+id/ll"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/operation_type_tv21"
@@ -116,11 +114,11 @@
             android:layout_height="wrap_content"
             android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。
 "
-            android:textColor="@color/colorRed"
-            />
+            android:textColor="@color/colorRed" />
 
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/select_bank_card_layout"
         android:layout_width="match_parent"
@@ -138,20 +136,20 @@
             android:paddingStart="16dp"
             android:paddingTop="12dp"
             android:text="请选择银行卡"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <TextView
             android:id="@+id/card_num_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/icon_turn_right_g"
-            android:padding="12dp"/>
+            android:padding="12dp" />
 
     </LinearLayout>
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -170,7 +168,7 @@
             android:paddingStart="16dp"
             android:paddingTop="12dp"
             android:text="支付密码       "
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <EditText
             android:id="@+id/et_password"
@@ -179,8 +177,18 @@
             android:background="@color/white"
             android:inputType="numberPassword"
             android:padding="12dp"
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/password_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@color/white"
+        android:hint="请输入支付密码"
+        android:padding="10sp"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/submit_op_tv"
@@ -193,7 +201,7 @@
         android:gravity="center"
         android:padding="12dp"
         android:text="确认"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:id="@+id/bottom_tip_layout"
@@ -207,7 +215,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提现到账周期为"/>
+            android:text="提现到账周期为" />
 
         <TextView
             android:id="@+id/delay_time_tv"
@@ -215,11 +223,11 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:text="T+1"
-            android:textColor="#2E77FE"/>
+            android:textColor="#2E77FE" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=",节假日顺延"/>
+            android:text=",节假日顺延" />
     </LinearLayout>
 </LinearLayout>

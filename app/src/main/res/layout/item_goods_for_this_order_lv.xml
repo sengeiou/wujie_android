@@ -26,14 +26,14 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/itemGoods_invoiceName_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="10dp"
             android:drawableRight="@mipmap/icon_more"
             android:maxLines="1"
             android:padding="8dp"
-            android:text="无"
+            android:text="无rdd"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
 

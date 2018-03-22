@@ -19,6 +19,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -584,12 +585,15 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
      * @param goodsInfo 商品信息
      */
     private void forGoodsInfo(Map<String, String> goodsInfo) {
+        for (Map.Entry entry : goodsInfo.entrySet()) {
+            L.e(entry.getKey() + " : " + entry.getValue());
+        }
         // 商品id
         goods_id = goodsInfo.get("goods_id");
         // 商品价格
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
         // 商品原价
-        old_price_tv.setText("￥"+goodsInfo.get("market_price"));
+        old_price_tv.setText("￥" + goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,

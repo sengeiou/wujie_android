@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tamic.novate.Novate;
@@ -80,7 +81,7 @@ public class IntegralAty extends BaseAty {
                             JSONObject jsonObject2 = new JSONObject(data);
                             String my_integral =jsonObject2.getString("my_integral");
                             String integral_percentage =jsonObject2.getString("integral_percentage");
-
+                            layout_bottom_tv.setText(my_integral);
                             String time_out_status = jsonObject2.getString("time_out_status");
                             String exchange_status = jsonObject2.getString("exchange_status");
                             if(time_out_status.equals("1")){
@@ -111,14 +112,12 @@ public class IntegralAty extends BaseAty {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                 String my_change_integral =jsonObject1.getString("my_change_integral");
 
-
-
                                 String point_num = jsonObject1.getString("point_num");
                                 String change =jsonObject1.getString("change");
                                 String date =jsonObject1.getString("date");
 
                                 date.replace("~","-");
-                                layout_bottom_tv.setText(my_change_integral);
+//                                layout_bottom_tv.setText(my_change_integral);
                                 tv_point_num.setText("xfte指数"+point_num);
                                 tv1.setText(change);
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
@@ -265,6 +264,7 @@ public class IntegralAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e(jsonStr);
         if (requestUrl.contains("myIntegral")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -273,7 +273,7 @@ public class IntegralAty extends BaseAty {
             if(time_out_status.equals("1")){
 
             }
-            layout_bottom_tv.setText(map.get("my_integral"));
+//            layout_bottom_tv.setText(map.get("my_integral"));
             map = JSONUtils.parseKeyAndValueToMap(map.get("point_list"));
 
             tv_date.setText(map.get("date"));

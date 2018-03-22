@@ -155,6 +155,9 @@ public class InvoiceAty extends BaseAty {
                             showToast("请选择发票明细");
                             return;
                         }
+
+
+
                         bean.setT_id(list.get(touch).get("t_id"));
                         bean.setRise("1");
                         bean.setRise_name(et_title.getText().toString());

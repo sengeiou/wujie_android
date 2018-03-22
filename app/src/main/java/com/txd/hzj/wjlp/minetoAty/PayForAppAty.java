@@ -360,7 +360,6 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
-        L.e("wang", "===========>>>>>>>>>>>>>" + getString("invoiceList"));
         if (type.equals("0") ||  type.equals("1")||TextUtils.isEmpty(type)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"),TextUtils.isEmpty(cart_id)?getString("goodsList"):getString("goodsCartList"), this);
         } else if (type.equals("2")) {
