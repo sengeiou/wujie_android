@@ -629,8 +629,15 @@ public class CartFgt extends BaseFgt {
             Glide.with(getActivity().getApplicationContext()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
             cgvh.goods_name_tv.setText(cg.getGoods_name());
             // 属性
-            cgvh.goods_attrs_tv.setText(cg.getGoods_attr_name());
-            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name()+"(库存："+cg.getGoods_num()+")");
+
+            String goodsAttrNameStr = cg.getGoods_attr_name();
+            int lastIndexOf = goodsAttrNameStr.lastIndexOf("+");
+            if (lastIndexOf == goodsAttrNameStr.length() - 1){
+                goodsAttrNameStr = goodsAttrNameStr.substring(0, lastIndexOf);
+            }
+
+            cgvh.goods_attrs_tv.setText(goodsAttrNameStr);
+            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name() + "(库存：" + cg.getGoods_num() + ")");
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
             // 数量
@@ -807,6 +814,12 @@ public class CartFgt extends BaseFgt {
 
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        requestData(); // TODO 进入的时候重新加载
     }
 
     @Override

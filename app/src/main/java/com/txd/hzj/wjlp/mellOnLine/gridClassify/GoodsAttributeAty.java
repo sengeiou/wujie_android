@@ -105,7 +105,12 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-                L.e("cccccc"+list.size()+"--"+pro_id+"--"+from);
+                if (num <= 0) {
+                    showToast("库存不足或购买数量为0");
+                    return;
+                }
+                L.e("cccccc==" + num);
+                L.e("cccccc" + list.size() + "--" + pro_id + "--" + from);
                 if (2 == from) {
                     Intent intent = new Intent();
                     intent.putExtra("num", num);
@@ -233,7 +238,7 @@ public class GoodsAttributeAty extends BaseAty {
         Glide.with(this).load(imageurl).into(imageview);
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             list.get(i).getFirst_list_val().get(0).setStatus("1");
         }
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
@@ -250,7 +255,9 @@ public class GoodsAttributeAty extends BaseAty {
         } else {
             maxNumber = Integer.parseInt(string[1]);
             tv_kucun.setText("(库存：" + string[1] + ")");
-            num = 1;
+//            if (Integer.parseInt(string[1]) > 0){
+//                num = 1;
+//            }
             tv_num.setText(String.valueOf(num));
             list.clear();
         }
@@ -263,11 +270,15 @@ public class GoodsAttributeAty extends BaseAty {
                     maxNumber = Integer.parseInt(goods_val.getGoods_num());
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
-                    tv_num.setText(String.valueOf(1));
+
+                    // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
+                    tv_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
+                    num = Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0;
+
                     pro_value = goods_val.getArrtValue();
                     image = goods_val.getGoods_img();
                     pro_id = goods_val.getId();
-                    num = 1;
+//                    num = 1;
                     break;
                 }
             }
@@ -281,6 +292,7 @@ public class GoodsAttributeAty extends BaseAty {
         showToast("添加成功");
         finish();
     }
+
     //直接购买
     private void goodAttChange() {
         if (ListUtils.isEmpty(list)) {
@@ -315,9 +327,9 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
-                L.e("cccc"+mid+"--"+type+"--"+goods_id+"--"+group_buy_id+"--"+num+"--"+pro_id);
+                L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
 //                intent.setClass(this, BuildOrderAty.class);
-                setResult(0x0001,intent);
+                setResult(0x0001, intent);
 //                startActivity(intent);
                 finish();
                 return;
@@ -415,7 +427,7 @@ public class GoodsAttributeAty extends BaseAty {
             avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
                 @Override
                 public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    if( getItem(i).getFirst_list_val().get(0).getStatus().equals("3")){
+                    if (getItem(i).getFirst_list_val().get(0).getStatus().equals("3")) {
                         return true;
                     }
 
@@ -477,7 +489,7 @@ public class GoodsAttributeAty extends BaseAty {
                                 pro_value = val.getArrtValue();
                                 image = val.getGoods_img();
                                 pro_id = val.getId();
-                                num = 1;
+//                                num = 1;
                                 position++;
                                 break;
                             } else {
@@ -796,6 +808,34 @@ public class GoodsAttributeAty extends BaseAty {
 
         public void setArrtValue(String arrtValue) {
             this.arrtValue = arrtValue;
+        }
+
+        @Override
+        public String toString() {
+            return "Goods_val{" +
+                    "id='" + id + '\'' +
+                    ", goods_id='" + goods_id + '\'' +
+                    ", attr_combine_id='" + attr_combine_id + '\'' +
+                    ", arrt_name='" + arrt_name + '\'' +
+                    ", arrt_value='" + arrt_value + '\'' +
+                    ", settlement_price='" + settlement_price + '\'' +
+                    ", shop_price='" + shop_price + '\'' +
+                    ", market_price='" + market_price + '\'' +
+                    ", goods_num='" + goods_num + '\'' +
+                    ", goods_code='" + goods_code + '\'' +
+                    ", goods_img='" + goods_img + '\'' +
+                    ", is_default='" + is_default + '\'' +
+                    ", create_time='" + create_time + '\'' +
+                    ", all_goods_num='" + all_goods_num + '\'' +
+                    ", arrtValue='" + arrtValue + '\'' +
+                    ", discount='" + discount + '\'' +
+                    ", red_return_integral='" + red_return_integral + '\'' +
+                    ", yellow_discount='" + yellow_discount + '\'' +
+                    ", blue_discount='" + blue_discount + '\'' +
+                    ", wy_price='" + wy_price + '\'' +
+                    ", yx_price='" + yx_price + '\'' +
+                    ", dt=" + dt +
+                    '}';
         }
     }
 

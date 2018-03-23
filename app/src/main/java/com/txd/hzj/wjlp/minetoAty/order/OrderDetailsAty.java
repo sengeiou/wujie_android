@@ -396,6 +396,7 @@ public class OrderDetailsAty extends BaseAty {
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
+            L.e("wang", "" + list.size()); // TODO ==============================================
             double total_price = 0.00f;//总价格
             BigDecimal bd = null;
             total_price = Double.parseDouble(data.get("order_price"));
@@ -798,15 +799,15 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.layout_gongyi.setVisibility(View.GONE);
             }
-            //是否有特殊描述
-            if (getItem(i).get("server_status").equals("1")) {
-                tgvh.lin_server_status.setVisibility(View.VISIBLE);
-                tgvh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
-                tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
-                tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
-            } else {
+            //是否有特殊描述 // TODO 该段报错，返回值中该字段已删除
+//            if (getItem(i).get("server_status").equals("1")) {
+//                tgvh.lin_server_status.setVisibility(View.VISIBLE);
+//                tgvh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
+//                tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
+//                tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
+//            } else {
                 tgvh.lin_server_status.setVisibility(View.GONE);
-            }
+//            }
 
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override

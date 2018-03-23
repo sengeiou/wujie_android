@@ -309,6 +309,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {

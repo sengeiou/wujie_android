@@ -17,7 +17,6 @@ public class User {
     public static void myIntegral(BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "myIntegral", new RequestParams(), baseView);
-
     }
 
     /**

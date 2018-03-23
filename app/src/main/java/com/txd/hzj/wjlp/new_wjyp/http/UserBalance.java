@@ -27,7 +27,6 @@ public class UserBalance {
      * @param bank_card_id 银行卡id
      */
     public static void getCash(BaseView baseView, String pay_password, String money, String rate, String bank_card_id) {
-        L.e("============>>>>" + pay_password);
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("pay_password", pay_password);

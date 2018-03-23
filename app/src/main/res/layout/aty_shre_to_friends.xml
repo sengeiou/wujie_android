@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp"
-                android:text="相对好友说的话"
+                android:text="想对好友说的话"
                 android:textColor="@color/app_text_color"/>
 
             <EditText

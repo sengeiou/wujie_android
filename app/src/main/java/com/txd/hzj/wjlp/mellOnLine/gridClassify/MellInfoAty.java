@@ -406,7 +406,12 @@ public class MellInfoAty extends BaseAty {
                 break;
             case R.id.search_title_right_tv://搜索
                 p = 1;
-                getData(soft_type);
+                if(soft_type==0){
+                    setStyle(1);
+                }else{
+                    setStyle(soft_type);
+                }
+//                getData(soft_type);
                 break;
         }
     }
@@ -729,6 +734,7 @@ public class MellInfoAty extends BaseAty {
     private void getData(int type) {
         switch (type) {
             case 0:// 首页
+
                 merchantPst.merIndex(mell_id, p);
                 break;
             case 1:// 全部商品

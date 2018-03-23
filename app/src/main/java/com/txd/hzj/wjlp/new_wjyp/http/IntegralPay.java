@@ -25,6 +25,5 @@ public class IntegralPay {
         params.addBodyParameter("auct_id", auct_id);
         params.addBodyParameter("goods_num", goods_num);
         apiTool2.postApi(url + "integralPay", params, baseView);
-
     }
 }

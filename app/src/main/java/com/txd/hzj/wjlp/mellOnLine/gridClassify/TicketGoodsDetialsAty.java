@@ -1989,4 +1989,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        L.e("wang", "onRestart");
+        goodsPst.goodsInfo(ticket_buy_id, page);
+    }
 }

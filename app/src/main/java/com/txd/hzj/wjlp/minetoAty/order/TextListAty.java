@@ -83,7 +83,7 @@ public class TextListAty extends BaseAty {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent data = new Intent();
                 if (title.equals("售后类型")) {
-                    data.putExtra("type", list.get(i).get("name"));
+                    data.putExtra("type", dataList.get(i).get("name"));
                 } else if (title.equals("原因")) {
                     data.putExtra("cause", dataList.get(i).get("name"));
                 } else if (title.equals("货物状态")) {
@@ -113,7 +113,7 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("选择类型")) {
                     data.putExtra("type", dataList.get(i).get("type"));
                     data.putExtra("rec_type_id", dataList.get(i).get("rec_type_id"));
-                }else if (title.equals("发票明细")) {
+                } else if (title.equals("发票明细")) {
                     data.putExtra("list", dataList.get(i).get("list"));
                 }
                 setResult(RESULT_OK, data);
@@ -183,7 +183,7 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("银行卡类型")) {
             balancePst.getBankType();
         } else if (title.equals("售后类型")) {
-                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),this);
+            AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
             showProgressDialog();
 //            map = new HashMap<>();
 //            map.put("name", "我要退款");
@@ -218,6 +218,7 @@ public class TextListAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+        L.e("wang", "========>>>>>>>>>requestUrl：" + requestUrl + "  jsonStr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
         Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
         if (requestUrl.contains("getStreet")) {//街道
@@ -270,10 +271,10 @@ public class TextListAty extends BaseAty {
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
         }
-        if(requestUrl.contains("backApplyType")){
-           map = (Map<String, Object>) map.get("data");
+        if (requestUrl.contains("backApplyType")) {
+            map = (Map<String, Object>) map.get("data");
             dataList = (List<Map<String, String>>) map.get("list");
-            tAdapter = new TextAdapter(list);
+            tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
 
         }
