@@ -110,8 +110,6 @@ public class InvoiceAty extends BaseAty {
 //
 //        }
 
-
-
         cb1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,8 +153,6 @@ public class InvoiceAty extends BaseAty {
                             showToast("请选择发票明细");
                             return;
                         }
-
-
 
                         bean.setT_id(list.get(touch).get("t_id"));
                         bean.setRise("1");

@@ -901,17 +901,6 @@ public class PayForAppAty extends BaseAty {
             }
         }).showDialog();
 
-//        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-//        builder.setTitle("放弃付款？");
-//        builder.setMessage("放弃后，可前往订单中心支付此订单");
-//        builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                PayForAppAty.this.finish();
-//            }
-//        });
-//        builder.setPositiveButton("取消",null);
-//        return builder.create();
     }
 
     @Override

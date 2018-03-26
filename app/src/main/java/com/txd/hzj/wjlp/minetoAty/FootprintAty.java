@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -61,9 +63,11 @@ public class FootprintAty extends BaseAty {
 
     private ArrayList<Fragment> mFragment;
 
-    private int selected = 0;
-    private boolean status = false;
-    int index = 0;
+    public int selected = 0; // TODO 在Fragment中获取该界面的变量，并设置刷新
+    public int index = 0; // TODO 在Fragment中获取该界面的变量，并设置刷新
+
+    public Fragment f; // TODO 在Fragment中获取该界面的变量，并设置刷新
+    public boolean status = false; // TODO 在Fragment中获取该界面的变量，并设置刷新
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +106,7 @@ public class FootprintAty extends BaseAty {
 
                 break;
             case R.id.foot_right_tv:// 编辑，完成
-                Fragment f = mFragment.get(selected);
+                f = mFragment.get(selected);
                 String tv = foot_right_tv.getText().toString();
                 if (tv.equals("编辑")) {
                     foot_right_tv.setText("完成");
@@ -116,14 +120,14 @@ public class FootprintAty extends BaseAty {
         }
     }
 
-    private void setNewStatus(Fragment f) {
+    public void setNewStatus(Fragment f) {
         if (0 == selected) {// 商品
             ((CollectGoodsHzjFgt) f).setStatus(status);
             ((CollectGoodsHzjFgt) f).r();
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
             ((CollectMellHzjFgt) f).r();
-        } else {
+        } else { // 应该是书院
             ((CollectBooksFgt) f).setStatus(status);
             ((CollectBooksFgt) f).r();
         }
@@ -193,4 +197,5 @@ public class FootprintAty extends BaseAty {
         super.onDestroy();
         unregisterReceiver(mBroadcastReceiver);
     }
+
 }

@@ -197,6 +197,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 racycleAllAdapter.notifyDataSetChanged();
                 break;
             case R.id.operation_goods_tv:
+
+                L.e("wang", "======>>>>>>>>>operation_goods_tv，删除按钮");
+
                 List<String> ids;
                 if (0 == dataType) {// 足迹
                     ids = new ArrayList<>();

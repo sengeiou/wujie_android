@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -55,6 +56,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -156,6 +158,8 @@ public class BuildOrderAty extends BaseAty {
     private EditText et_leave_message;
     @ViewInject(R.id.tv_youfei)
     private TextView tv_youfei;//邮费
+    @ViewInject(R.id.buildOrder_scrollView)
+    private ScrollView buildOrder_scrollView;
 
     private List<Goods> goodsList = new ArrayList<>();//普通商品快递属性list
     private List<GoodsCart> goodsCartList = new ArrayList<>();//购物车商品属性list
@@ -390,9 +394,12 @@ public class BuildOrderAty extends BaseAty {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
-            JSONObject itemJson = (JSONObject) jsonArray.get(0);
-            countryTax = itemJson.getDouble("country_tax");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject itemJson = (JSONObject) jsonArray.get(i);
+                countryTax += itemJson.getDouble("country_tax");
+            }
             if (countryTax > 0) {
+                // 刚开始乳沟有进口税则只显示进口税
                 tv_invoice.append("+进口税" + countryTax);
             }
         } catch (JSONException e) {
@@ -747,8 +754,11 @@ public class BuildOrderAty extends BaseAty {
                         express_fee += Double.parseDouble(bean.getExpress_fee());
                     }
                 }
-                tv_invoice.setText("+税金:" + tax_pay + "\n+发票运费:" + express_fee);
+
+                DecimalFormat df = new DecimalFormat(".##");
+                tv_invoice.setText("+税金:" + df.format(tax_pay) + "\n+发票运费:" + express_fee);
                 if (countryTax > 0) {
+                    // 界面返回的时候显示税金、发票运费等，如果先前包含进口税，则添加进口税显示
                     tv_invoice.append("\n+进口税" + countryTax);
                 }
             }
@@ -821,6 +831,7 @@ public class BuildOrderAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     index = i;
+
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
                     bundle.putParcelable("data1", invoice1);
