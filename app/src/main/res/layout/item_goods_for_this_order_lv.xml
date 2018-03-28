@@ -7,8 +7,9 @@
     android:orientation="vertical">
 
     <include layout="@layout/aty_goods_for_order"/>
+
     <LinearLayout
-        android:id="@+id/layout"
+        android:id="@+id/layout_fapiao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -30,10 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="10dp"
-            android:drawableRight="@mipmap/icon_more"
             android:maxLines="1"
             android:padding="8dp"
-            android:text="无rdd"
+            android:text="无"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
 
@@ -102,6 +102,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/layout_zhengpinbaozheng"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -113,16 +114,16 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="品质保障"
+                android:text="正品保证"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_pinzhibaozhang"
+                android:id="@+id/tv_zhengpinbaozheng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:text="成交后卖家将捐赠0.02元"
                 android:textColor="@color/app_text_color"
@@ -130,6 +131,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_fuwuchengnuo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -150,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:text="成交后卖家将捐赠0.02元"
                 android:textColor="@color/app_text_color"
@@ -158,6 +160,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_fahuoshijian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -178,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="10dp"
-                android:maxLines="1"
+                android:maxLines="2"
                 android:padding="8dp"
                 android:text="成交后卖家将捐赠0.02元"
                 android:textColor="@color/app_text_color"

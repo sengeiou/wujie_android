@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -69,29 +70,36 @@ public class TricketAdapter extends BaseAdapter {
         }
         if (0 == type) {
             mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
-            mcvh.tricket_cost_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+            mcvh.tricket_nowMoney_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         } else {
             // icon_un_valid_ticket_bg_hzj
             // icon_no_uses_tick_bg_hzj
             mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_past_due_ticket_bg_hzj);
-            mcvh.tricket_cost_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
+            mcvh.tricket_nowMoney_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
         }
+
         Glide.with(context).load(map.get("logo")).into(mcvh.img_cover);
-        mcvh.tricket_cost_tv.setText("￥" + map.get("money"));
-        mcvh.end_time_tv.setText("过期时间：" + map.get("end_time"));
+        mcvh.tricket_nowMoney_tv.setText("￥" + map.get("now_money"));
+        mcvh.tricket_userticketId_tv.setText("代金券编码：" + map.get("id"));
+        mcvh.tricket_money_tv.setText("代金券面值：" + map.get("money"));
+        mcvh.end_sourceStatus_tv.setText("获取途径：" + map.get("source_status"));
+        mcvh.end_time_tv.setText("失效时间：" + map.get("end_time"));
         return view;
     }
 
     class MCVH {
         @ViewInject(R.id.ticket_lin_layout)
         private LinearLayout ticket_lin_layout;
-        /**
-         * 价格
-         */
-        @ViewInject(R.id.tricket_cost_tv)
-        private TextView tricket_cost_tv;
 
-        @ViewInject(R.id.end_time_tv)
+        @ViewInject(R.id.tricket_nowMoney_tv) // 当前金额
+        private TextView tricket_nowMoney_tv;
+        @ViewInject(R.id.tricket_userticketId_tv) // 编码
+        private TextView tricket_userticketId_tv;
+        @ViewInject(R.id.tricket_money_tv) // 面值
+        private TextView tricket_money_tv;
+        @ViewInject(R.id.end_sourceStatus_tv) // 途径
+        private TextView end_sourceStatus_tv;
+        @ViewInject(R.id.end_time_tv) // 失效时间
         private TextView end_time_tv;
         @ViewInject(R.id.img_cover)
         private ImageView img_cover;

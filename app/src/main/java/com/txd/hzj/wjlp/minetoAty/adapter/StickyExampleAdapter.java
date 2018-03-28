@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -57,6 +58,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) viewHolder;
             // 获取明细实体类
             final TricketDetailks stickyExampleModel = stickyExampleModels.get(position);
+            L.e("wang", "=======>>>>>>>stickyExampleModel:" + stickyExampleModel);
             // 费吸顶文本标题
             recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
             // 交易记录时间
@@ -119,7 +121,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else if (3 == type) {
 
                 // 获得，消费积分(转出，消费)
-                if (stickyExampleModel.getAct_type().equals("6") || stickyExampleModel.getAct_type().equals("3")) {
+                if (stickyExampleModel.getAdd_sub().equals("0")) {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);

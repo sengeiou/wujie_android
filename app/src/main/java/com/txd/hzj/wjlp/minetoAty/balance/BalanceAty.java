@@ -5,15 +5,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.tamic.novate.Novate;
+import com.tamic.novate.Throwable;
+import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -41,6 +56,11 @@ public class BalanceAty extends BaseAty {
     @ViewInject(R.id.layout_top_tv)
     public TextView layout_top_tv;
 
+    @ViewInject(R.id.withdraw_tv) // 提现按钮
+    private TextView withdraw_tv;
+    @ViewInject(R.id.transfer_accounts_tv) // 转账按钮
+    private TextView transfer_accounts_tv;
+
     /**
      * 金额
      */
@@ -60,6 +80,51 @@ public class BalanceAty extends BaseAty {
 
         layout_bg_ic.setImageResource(R.drawable.icon_balance_bg_hzj);
         layout_top_tv.setText("账户余额(元)");
+
+        btnVisibility();
+
+    }
+
+    private void btnVisibility(){
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("token", Config.getToken());
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL)
+                .addHeader(parameters)
+                .build()
+                .rxPost("User/userCenter", parameters, new RxStringCallback() {
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            int user_card_type = Integer.parseInt(data.getString("user_card_type"));
+                            switch (user_card_type) {
+                                case 1:
+                                    // 提现、转账隐藏
+                                    withdraw_tv.setVisibility(View.GONE);
+                                    transfer_accounts_tv.setVisibility(View.GONE);
+                                    break;
+                                case 2:
+                                    // 转账隐藏
+                                    transfer_accounts_tv.setVisibility(View.GONE);
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
+                    }
+
+                });
     }
 
     @Override
@@ -111,6 +176,13 @@ public class BalanceAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+//        withdraw_tv // 提现
+//        transfer_accounts_tv // 转账
+
+        // TODO 控件隐藏
+        L.e("wang", "===========+>>>>>>>>>" + requestUrl + "\t" + jsonStr);
+
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("")) {

@@ -460,7 +460,6 @@ public class PayForAppAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("wang", "========>>>>>>>>>> " + jsonStr);
         // 验证支付密码
         if (!requestUrl.contains("verificationPayPwd") || !requestUrl.contains("getJsTine")) {
             data = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -503,12 +502,11 @@ public class PayForAppAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             L.e("verificationPayPwd" + jsonStr + "---" + type + "---" + pay_by_balance_cb.isChecked());
             if (map.get("status").equals("1")) {
-                if (pay_by_balance_cb.isChecked()) {
+                if (pay_by_balance_cb.isChecked()) { // 余额支付选中
                     if (type.equals("0") || type.equals("1") || type.equals("5") || TextUtils.isEmpty(type)) {
                         try {
                             BalancePay.BalancePay(order.get("order_id"), "1", getType(), getString("num"), this);
                         } catch (Exception e) {
-
                             e.printStackTrace();
                         }
                     } else if (type.equals("2") || type.equals("3") || type.equals("4")) {

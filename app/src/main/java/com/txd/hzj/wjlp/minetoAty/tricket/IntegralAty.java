@@ -4,9 +4,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -20,6 +22,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
+import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 
 import org.json.JSONArray;
@@ -50,12 +53,19 @@ public class IntegralAty extends BaseAty {
     CheckBox cb;
     @ViewInject(R.id.exchange_money_tv)
     TextView exchange_money_tv;
+    @ViewInject(R.id.layout_show_down)
+    private LinearLayout layout_show_down;
+    @ViewInject(R.id.layout_zidongduihuan)
+    private LinearLayout layout_zidongduihuan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("积分");
         download();
+        setDownVisibility();
+
     }
 
     private void download() {
@@ -66,10 +76,8 @@ public class IntegralAty extends BaseAty {
         new Novate.Builder(this)
                 .baseUrl(Config.BASE_URL)
                 .addHeader(parameters)
-
                 .build()
                 .rxPost("User/myIntegral", parameters, new RxStringCallback() {
-
 
                     @Override
                     public void onNext(Object tag, String response) {
@@ -79,52 +87,52 @@ public class IntegralAty extends BaseAty {
                             String data = jsonObject.getString("data");
 
                             JSONObject jsonObject2 = new JSONObject(data);
-                            String my_integral =jsonObject2.getString("my_integral");
-                            String integral_percentage =jsonObject2.getString("integral_percentage");
+                            String my_integral = jsonObject2.getString("my_integral");
+                            String integral_percentage = jsonObject2.getString("integral_percentage");
                             layout_bottom_tv.setText(my_integral);
                             String time_out_status = jsonObject2.getString("time_out_status");
                             String exchange_status = jsonObject2.getString("exchange_status");
-                            if(time_out_status.equals("1")){
+                            if (time_out_status.equals("1")) {
                                 exchange_money_tv.setText("暂时不可兑换");
                                 exchange_money_tv.setEnabled(false);
                                 exchange_money_tv.setBackgroundResource(R.drawable.shape2);
-                            }else if(time_out_status.equals("0")&&exchange_status.equals("1")){
+                            } else if (time_out_status.equals("0") && exchange_status.equals("1")) {
                                 exchange_money_tv.setText("今日不可兑换");
                                 exchange_money_tv.setEnabled(false);
                                 exchange_money_tv.setBackgroundResource(R.drawable.shape2);
-                            }else if(time_out_status.equals("0")&&exchange_status.equals("0")){
+                            } else if (time_out_status.equals("0") && exchange_status.equals("0")) {
                                 exchange_money_tv.setText("今日可以兑换");
                                 exchange_money_tv.setEnabled(true);
                             }
 
 
                             String status = jsonObject2.getString("status");
-                            if(status.equals("1")){
+                            if (status.equals("1")) {
                                 cb.setChecked(true);
 //                                cb.setBackgroundResource(R.drawable.icon_auto_open_hzj);
-                            }else {
+                            } else {
                                 cb.setChecked(false);
 //                                cb.setBackgroundResource(R.drawable.icon_auto_close_hzj);
                             }
                             JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
                             ArrayList<String> list = new ArrayList<String>();
-                            for(int i=0;i<jsonArray.length();i++){
+                            for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String my_change_integral =jsonObject1.getString("my_change_integral");
+                                String my_change_integral = jsonObject1.getString("my_change_integral");
 
                                 String point_num = jsonObject1.getString("point_num");
-                                String change =jsonObject1.getString("change");
-                                String date =jsonObject1.getString("date");
+                                String change = jsonObject1.getString("change");
+                                String date = jsonObject1.getString("date");
 
-                                date.replace("~","-");
+                                date.replace("~", "-");
 //                                layout_bottom_tv.setText(my_change_integral);
-                                tv_point_num.setText("xfte指数"+point_num);
+                                tv_point_num.setText("无界指数：" + point_num);
                                 tv1.setText(change);
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                                 Date date1 = new Date(System.currentTimeMillis());
-                                String time =simpleDateFormat.format(date1);
+                                String time = simpleDateFormat.format(date1);
                                 tv_date.setText(time);
-                                tv2.setText("提示：今日若不兑换，此兑换机会将作废"+"\n兑换时间："+date);
+                                tv2.setText("提示：今日若不兑换，此兑换机会将作废" + "\n兑换时间：" + date);
                             }
 
                         } catch (JSONException e) {
@@ -140,6 +148,50 @@ public class IntegralAty extends BaseAty {
                     @Override
                     public void onCancel(Object tag, Throwable e) {
 
+                    }
+
+                });
+
+    }
+
+    /**
+     * 获取后台个人信息，设置控件的显示隐藏
+     */
+    private void setDownVisibility() {
+
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("token", Config.getToken());
+        new Novate.Builder(this)
+                .baseUrl(Config.BASE_URL)
+                .addHeader(parameters)
+                .build()
+                .rxPost("User/userCenter", parameters, new RxStringCallback() {
+
+                    @Override
+                    public void onNext(Object tag, String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            int user_card_type = Integer.parseInt(data.getString("user_card_type"));
+                            switch (user_card_type) {
+                                case 1:
+                                    layout_show_down.setVisibility(View.GONE);
+                                    break;
+                                case 2:
+                                    layout_zidongduihuan.setVisibility(View.GONE);
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Object tag, Throwable e) {
+                    }
+
+                    @Override
+                    public void onCancel(Object tag, Throwable e) {
                     }
 
                 });
@@ -217,7 +269,7 @@ public class IntegralAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.check_details_tv, R.id.exchange_money_tv,R.id.cb})
+    @OnClick({R.id.check_details_tv, R.id.exchange_money_tv, R.id.cb})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -232,9 +284,9 @@ public class IntegralAty extends BaseAty {
                 startActivity(ExchangeMoneyAty.class, bundle);
                 break;
             case R.id.cb:
-                if(cb.isChecked()){
+                if (cb.isChecked()) {
                     download1("0");
-                }else {
+                } else {
                     download1("1");
                 }
 
@@ -270,7 +322,7 @@ public class IntegralAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String time_out_status = map.get("time_out_status");
             String exchange_status = map.get("exchange_status");
-            if(time_out_status.equals("1")){
+            if (time_out_status.equals("1")) {
 
             }
 //            layout_bottom_tv.setText(map.get("my_integral"));

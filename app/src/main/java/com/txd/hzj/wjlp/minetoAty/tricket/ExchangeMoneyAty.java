@@ -129,6 +129,7 @@ public class ExchangeMoneyAty extends BaseAty {
 
     private CommonPopupWindow commonPopupWindow;
     private String rate;
+    private String balanceStr; // 余额数值
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +175,8 @@ public class ExchangeMoneyAty extends BaseAty {
 //                if (2 == type) {
 //                    money_ev.setText(balance);
 //                }
-                money_ev.setText(my_bal_tv1.getText().toString().replace("我的积分:", ""));
+//                money_ev.setText(my_bal_tv1.getText().toString().replace("我的积分", ""));
+                money_ev.setText(balanceStr);
 
                 break;
 
@@ -244,7 +246,8 @@ public class ExchangeMoneyAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             balance = data != null ? data.get("balance") : "0.00";
             bal = new BigDecimal(balance);
-            my_bal_tv1.setText("我的余额" + (data != null ? data.get("balance") : "0.00") + " ");
+            balanceStr = data != null ? data.get("balance").trim() : "0.00";
+            my_bal_tv1.setText("我的余额" + balanceStr + " ");
             rate_tv.setText(data.get("rate") + "%");
             rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));

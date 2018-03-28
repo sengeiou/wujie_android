@@ -40,8 +40,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.Map;
 
-
-
 public class VipPayAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
@@ -235,21 +233,21 @@ public class VipPayAty extends BaseAty {
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                commonPopupWindow.dismiss();
                                 setCheckPup(1);
                             }
                         });
                         y.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                commonPopupWindow.dismiss();
                                 setCheckPup(2);
                             }
                         });
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                commonPopupWindow.dismiss();
                                 setCheckPup(3);
                             }
                         });

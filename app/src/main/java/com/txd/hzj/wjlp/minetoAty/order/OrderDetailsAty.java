@@ -110,11 +110,12 @@ public class OrderDetailsAty extends BaseAty {
     private TextView tv_address;
     @ViewInject(R.id.leave_message)
     private TextView leave_message;
+    @ViewInject(R.id.order_freight_tv)
+    private TextView order_freight_tv;
+
     private String is_pay_password = "0";//是否设置支付密码
 
-
     private CommonPopupWindow commonPopupWindow;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -374,8 +375,7 @@ public class OrderDetailsAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("details") ||
-                requestUrl.contains("preDetails")) {
+        if (requestUrl.contains("details") || requestUrl.contains("preDetails")) {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
@@ -395,6 +395,7 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics_time.setText(data.get("logistics_time"));
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
+            order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
             L.e("wang", "" + list.size()); // TODO ==============================================
             double total_price = 0.00f;//总价格
@@ -696,8 +697,7 @@ public class OrderDetailsAty extends BaseAty {
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = LayoutInflater.from(OrderDetailsAty.this).
-                        inflate(R.layout.item_goods_for_this_order_lv, null);
+                view = LayoutInflater.from(OrderDetailsAty.this).inflate(R.layout.item_goods_for_this_order_lv, null);
                 tgvh = new TGVH();
                 ViewUtils.inject(tgvh, view);
                 view.setTag(tgvh);
@@ -781,12 +781,12 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.textviews.setText(getItem(i).get("invoice_name"));
 
             L.e("time" + getItem(i).get("sure_delivery_time"));
-//            if (getItem(i).get("status").equals("1")) {
-//                tgvh.textview.setText("收货时间：" + getItem(i).get("sure_delivery_time"));
-//            } else {
-//                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time"));
-//
-//            }
+            if (getItem(i).get("status").equals("1")) {
+                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("sure_delivery_time"));
+            } else {
+                tgvh.textview.setText("收货时间：" + getItem(i).get("auto_time"));
+
+            }
 
 //            } else {
 //                tgvh.textview.setVisibility(View.GONE);
@@ -799,15 +799,20 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.layout_gongyi.setVisibility(View.GONE);
             }
-            //是否有特殊描述 // TODO 该段报错，返回值中该字段已删除
-//            if (getItem(i).get("server_status").equals("1")) {
-//                tgvh.lin_server_status.setVisibility(View.VISIBLE);
-//                tgvh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
-//                tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
-//                tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
-//            } else {
-                tgvh.lin_server_status.setVisibility(View.GONE);
-//            }
+
+            tgvh.lin_server_status.setVisibility(View.VISIBLE); // 该控件设置显隐可能多余
+
+            // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
+            tgvh.layout_fapiao.setVisibility(Integer.parseInt(getItem(i).get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
+            // 正品保证
+            tgvh.layout_zhengpinbaozheng.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+            tgvh.tv_zhengpinbaozheng.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
+            // 服务承诺
+            tgvh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+            tgvh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
+            // 发货时间
+            tgvh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+            tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
 
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -834,6 +839,8 @@ public class OrderDetailsAty extends BaseAty {
             public TextView tv_btn_left;
             @ViewInject(R.id.tv_btn_right)
             public TextView tv_btn_right;
+            @ViewInject(R.id.textview)
+            private TextView textview;
             @ViewInject(R.id.itemGoods_invoiceName_tv)
             private TextView textviews;
             @ViewInject(R.id.delayReceiving)
@@ -848,10 +855,20 @@ public class OrderDetailsAty extends BaseAty {
             private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
             private LinearLayout lin_server_status;
-            @ViewInject(R.id.tv_pinzhibaozhang)
-            private TextView tv_pinzhibaozhang;
+
+            @ViewInject(R.id.layout_fapiao)
+            private LinearLayout layout_fapiao;
+
+            @ViewInject(R.id.layout_zhengpinbaozheng) // 正品保证
+            private LinearLayout layout_zhengpinbaozheng;
+            @ViewInject(R.id.tv_zhengpinbaozheng)
+            private TextView tv_zhengpinbaozheng;
+            @ViewInject(R.id.layout_fuwuchengnuo) // 服务承诺
+            private LinearLayout layout_fuwuchengnuo;
             @ViewInject(R.id.tv_fuwuchengnuo)
             private TextView tv_fuwuchengnuo;
+            @ViewInject(R.id.layout_fahuoshijian) // 发货时间
+            private LinearLayout layout_fahuoshijian;
             @ViewInject(R.id.tv_fahuoshijian)
             private TextView tv_fahuoshijian;
         }

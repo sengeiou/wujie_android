@@ -13,9 +13,10 @@ public class BalancePay {
     private static String url = Config.BASE_URL + "/BalancePay/";
 
     /**
-     * @param order_id      订单id
-     * @param order_type   订单类型1普通订单 2拼单购 3xfte预购 4比价购 5限量购 6积分抽奖
-     * @param discount_type 使用代金券：0不使用代金券 1使用红券 2使用黄券 3使用蓝(多个选择用','隔开)
+     * @param order_id 订单id
+     * @param order_type 订单类型
+     * @param discount_type
+     * @param inte_id 商品数量
      * @param baseView
      */
     public static void BalancePay(String order_id, String order_type, String discount_type, String inte_id, BaseView baseView) {

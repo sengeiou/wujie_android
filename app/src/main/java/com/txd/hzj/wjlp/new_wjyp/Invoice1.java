@@ -7,11 +7,11 @@ import android.os.Parcelable;
  * Created by Administrator on 2018/2/12.
  */
 
-public  class Invoice1  implements Parcelable {
+public class Invoice1 implements Parcelable {
     String tax;
     String express_fee;
     String invoice_type;
-    String text1,text2,text3,text4,text5;
+    String text1, text2, text3, text4, text5;
 
     public Invoice1() {
     }
@@ -84,8 +84,8 @@ public  class Invoice1  implements Parcelable {
         tax = in.readString();
         express_fee = in.readString();
         invoice_type = in.readString();
-        text1=in.readString();
-        text2=in.readString();
+        text1 = in.readString();
+        text2 = in.readString();
         text3 = in.readString();
         text4 = in.readString();
         text5 = in.readString();
@@ -118,5 +118,19 @@ public  class Invoice1  implements Parcelable {
         dest.writeString(text3);
         dest.writeString(text4);
         dest.writeString(text5);
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice1{" +
+                "tax='" + tax + '\'' +
+                ", express_fee='" + express_fee + '\'' +
+                ", invoice_type='" + invoice_type + '\'' +
+                ", text1='" + text1 + '\'' +
+                ", text2='" + text2 + '\'' +
+                ", text3='" + text3 + '\'' +
+                ", text4='" + text4 + '\'' +
+                ", text5='" + text5 + '\'' +
+                '}';
     }
 }

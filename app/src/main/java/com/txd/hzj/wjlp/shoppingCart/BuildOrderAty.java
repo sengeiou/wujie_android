@@ -60,6 +60,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * ===============Txunda===============
@@ -121,7 +122,7 @@ public class BuildOrderAty extends BaseAty {
 //    private TextView order_price_at_last_tv;
     private String mid = "";
     private String cart_id = "";
-    private int p = 1;
+    private int p = 1; // 订单类型 0:普通 1限量购 2无界商店 3进口馆 4搭配购
     @ViewInject(R.id.tv_name)
     private TextView tv_name;
     @ViewInject(R.id.tv_tel)
@@ -277,8 +278,14 @@ public class BuildOrderAty extends BaseAty {
                 }
 
                 invoiceList.removeAll(invoiceList); // 移除之前添加的发票信息
-                if (bean != null) {
-                    invoiceList.add(new Invoice(bean.getT_id(), bean.getRise(), bean.getRise_name(), bean.getInvoice_detail(), bean.getInvoice_id(), bean.getRecognition(), Integer.parseInt(bean.getIs_invoice()))); // 添加最新的发票信息
+                if (i_bean.size() > 0) {
+                    for (Bean bean : i_bean) { // 遍历所有发票信息，将信息全部添加到invoiceList列表中
+                        if (bean != null && !bean.getExpress_fee().isEmpty() && !bean.getTax_pay().isEmpty()) {
+                            invoiceList.add(new Invoice(bean.getT_id(), bean.getRise(), bean.getRise_name(), bean.getInvoice_detail(), bean.getInvoice_id(), bean.getRecognition(), Integer.parseInt(bean.getIs_invoice()))); // 添加最新的发票信息
+                        }else {
+                            invoiceList.add(new Invoice("", "", "", "", "", "", 0)); // 添加最新的发票信息
+                        }
+                    }
                 }
 
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
@@ -382,12 +389,13 @@ public class BuildOrderAty extends BaseAty {
     List<Map<String, String>> more;
     List<GoodBean> list_bean = new ArrayList<GoodBean>();
     List<Bean> i_bean = new ArrayList<Bean>();
+    List<Invoice1> invoice1s = new ArrayList<Invoice1>();
     private String price;
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("cccc=====>>>>>" + jsonStr);
+        L.e(requestUrl + "cccc=====>>>>>" + jsonStr);
 
         // 设置显示的进口税字段
         try {
@@ -399,7 +407,7 @@ public class BuildOrderAty extends BaseAty {
                 countryTax += itemJson.getDouble("country_tax");
             }
             if (countryTax > 0) {
-                // 刚开始乳沟有进口税则只显示进口税
+                // 刚开始如果有进口税则只显示进口税
                 tv_invoice.append("+进口税" + countryTax);
             }
         } catch (JSONException e) {
@@ -429,6 +437,7 @@ public class BuildOrderAty extends BaseAty {
 
         } else if (requestUrl.contains("setOrder")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+
             if (map.get("code").equals("1")) {
                 showToast(map.get("message"));
             } else {
@@ -436,9 +445,10 @@ public class BuildOrderAty extends BaseAty {
             }
 
         } else {
-            //购物车结算页信息
+            // TODO 购物车结算页信息
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
             is_pay_password = map.get("is_pay_password");
 //            if (map.get("welfare_status").equals("1")) {
 //                layout1.setVisibility(View.VISIBLE);
@@ -449,8 +459,7 @@ public class BuildOrderAty extends BaseAty {
             if (map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
-                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") +
-                        map.get("address"));
+                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") + map.get("address"));
                 tv_c_ads.setVisibility(View.GONE);
                 layout_choose_address.setVisibility(View.VISIBLE);
             } else {
@@ -470,7 +479,7 @@ public class BuildOrderAty extends BaseAty {
                 tv_sum_discount.setVisibility(View.GONE);
                 order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
             }
-            if (ToolKit.isList(map, "item")) {
+            if (ToolKit.isList(map, "item")) { // 判断该Map是否可解析成List
                 /*
                 * json , 请按顺序传入！！！
 [{"发票类型id":"1","发票抬头（1->个人，2->公司）":"1","发票抬头名":"name","发票明细":"detail","发票id":"1","识别号”:1111,"是否开发票（1->是，0->否）”:1},
@@ -511,6 +520,7 @@ public class BuildOrderAty extends BaseAty {
             for (int i = 0; i < data.size(); i++) {
                 list_bean.add(new GoodBean(data.get(i).get("num"), data.get(i).get("goods_id")));
                 i_bean.add(new Bean());
+                invoice1s.add(new Invoice1()); // 创建同等长度的Invoice1集合
             }
         }
 
@@ -727,13 +737,6 @@ public class BuildOrderAty extends BaseAty {
                     Gson gson = new Gson();
                     freightJson = gson.toJson(list_bean);
                 }
-//                Freight.split(address_id, freightJson, this);
-//                showProgressDialog();
-//                freight = "";
-//                freight_type = "";
-//                tv_sle_left.setText("请选择配送方式");
-//                tv_sle_right.setText("");
-//                order_price_at_last_tv.setText(price);
             }
             address_id = data.getStringExtra("id");
             tv_c_ads.setVisibility(View.GONE);
@@ -742,19 +745,24 @@ public class BuildOrderAty extends BaseAty {
         if (requestCode == 1000) {
             if (data != null) {
                 invoice1 = data.getParcelableExtra("data1");
+                invoice1s.set(index, invoice1);
+
                 Bean b = data.getParcelableExtra("data");
                 bean = b; // 将回传的Bean赋值给成员变量
-                i_bean.set(index, b);
-                goodsAdapter.notifyDataSetChanged();
-                double tax_pay = 0;
-                double express_fee = 0;
+
+                i_bean.set(index, b); // 设置对应的bean
+
+                goodsAdapter.notifyDataSetChanged(); // 设置adapter刷新
+                double tax_pay = 0; // 税金
+                double express_fee = 0; // 发票运费
                 for (Bean bean : i_bean) {
                     if (!TextUtils.isEmpty(bean.getIs_invoice()) && !bean.getIs_invoice().equals("0")) {
-                        tax_pay += Double.parseDouble(bean.getTax_pay());
-                        express_fee += Double.parseDouble(bean.getExpress_fee());
+                        tax_pay += Double.parseDouble(bean.getTax_pay().equals("") ? "0" : bean.getTax_pay());
+                        express_fee += Double.parseDouble(bean.getExpress_fee().equals("") ? "0" : bean.getExpress_fee());
                     }
                 }
 
+                // 设置税金四舍五入显示到界面上
                 DecimalFormat df = new DecimalFormat(".##");
                 tv_invoice.setText("+税金:" + df.format(tax_pay) + "\n+发票运费:" + express_fee);
                 if (countryTax > 0) {
@@ -834,7 +842,21 @@ public class BuildOrderAty extends BaseAty {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
-                    bundle.putParcelable("data1", invoice1);
+                    bundle.putString("shop_price", getItem(i).get("shop_price"));
+
+//                    bundle.putParcelable("data1", i_bean.get(i).getExpress_fee().isEmpty() ? null : invoice1);
+                    L.e("wang", "==========>>>>>>>>>>invoice1s.get(index) = " + invoice1s.get(index));
+                    if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
+                        bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
+                    } else {
+                        bundle.putParcelable("data1", invoice1s.get(index));
+                    }
+                    // ==================================================
+                    if (i_bean.get(i).getExpress_fee().isEmpty()) {
+                        bundle.putString("data2", "data1 is null so intent data2.");
+                    }
+                    // ==================================================
+
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
 //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
                 }
@@ -1479,6 +1501,19 @@ public class BuildOrderAty extends BaseAty {
 
         public void setIs_invoice(int is_invoice) {
             this.is_invoice = is_invoice;
+        }
+
+        @Override
+        public String toString() {
+            return "Invoice{" +
+                    "t_id='" + t_id + '\'' +
+                    ", rise='" + rise + '\'' +
+                    ", rise_name='" + rise_name + '\'' +
+                    ", invoice_detail='" + invoice_detail + '\'' +
+                    ", invoice_id='" + invoice_id + '\'' +
+                    ", recognition='" + recognition + '\'' +
+                    ", is_invoice=" + is_invoice +
+                    '}';
         }
     }
 

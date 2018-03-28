@@ -36,6 +36,7 @@
                 android:textColor="@color/app_text_color" />
 
             <LinearLayout
+                android:id="@+id/layout_show_down"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -79,36 +80,36 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="666"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="积分兑换"
                         android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="666"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="余额"
                         android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -119,28 +120,28 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="另赠送您"
                         android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="666"
                         android:textColor="@color/colorAccent"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
 
                     <TextView
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="购物券"
                         android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <TextView
@@ -149,14 +150,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:background="@drawable/shape_for_integral_tv"
+                    android:enabled="false"
                     android:paddingBottom="8dp"
                     android:paddingEnd="32dp"
                     android:paddingStart="32dp"
                     android:paddingTop="8dp"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:enabled="false"/>
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv2"
@@ -174,6 +175,7 @@
                     android:background="@color/view_color" />
 
                 <LinearLayout
+                    android:id="@+id/layout_zidongduihuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

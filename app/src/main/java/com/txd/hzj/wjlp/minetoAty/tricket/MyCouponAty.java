@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -101,9 +102,11 @@ public class MyCouponAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e(requestUrl);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("vouchersList")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
             if (ToolKit.isList(data, "out")) {
                 out = JSONUtils.parseKeyAndValueToMapList(data.get("out"));
                 TricketAdapter tricketAdapter1 = new TricketAdapter(1, this, out);

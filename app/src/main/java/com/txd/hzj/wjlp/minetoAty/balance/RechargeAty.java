@@ -28,6 +28,7 @@ import com.ants.theantsgo.util.PreferencesUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lidroid.xutils.db.annotation.Check;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -167,6 +168,10 @@ public class RechargeAty extends BaseAty {
     @ViewInject(R.id.off_line_recharge_pwd_ev)
     private EditText off_line_recharge_pwd_ev;
 
+    @ViewInject(R.id.cb_jfzf)
+    private CheckBox cb_jfzf;
+
+
     private int picSize = 0;
     private File pic;
 
@@ -185,6 +190,8 @@ public class RechargeAty extends BaseAty {
 
         pay_by_balance_cb.setVisibility(View.GONE);
         selectCheckBoxBottom(bottom_type);
+
+        cb_jfzf.setVisibility(View.GONE);
 
 
         PreferencesUtils.remove(RechargeAty.this,"band_id");

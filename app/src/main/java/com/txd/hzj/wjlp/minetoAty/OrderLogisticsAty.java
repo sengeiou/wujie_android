@@ -1,14 +1,18 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
@@ -100,10 +104,9 @@ public class OrderLogisticsAty extends BaseAty {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
-                view = LayoutInflater.from(OrderLogisticsAty.this).
-                        inflate(R.layout.item_goods, null);
+                view = LayoutInflater.from(OrderLogisticsAty.this).inflate(R.layout.item_goods, null);
                 viewHolder = new ViewHolder();
                 ViewUtils.inject(viewHolder, view);
                 view.setTag(viewHolder);
@@ -111,6 +114,21 @@ public class OrderLogisticsAty extends BaseAty {
                 viewHolder = (ViewHolder) view.getTag();
             }
             Glide.with(OrderLogisticsAty.this).load(list.get(i).getGoods_img()).into(viewHolder.image);
+
+            viewHolder.goosOrderItem_wuliu_layout.setVisibility(View.VISIBLE);
+            viewHolder.goosOrderItem_wuliuNumber_tv.setText(list.get(i).getExpress_no());
+            viewHolder.goosOrderItem_showLogistics_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO 点击查看物流按钮
+                    Intent intent = new Intent(OrderLogisticsAty.this, ExpressAtv.class); // TODO 跳转至快递详情查询界面
+                    Bundle bundle = new Bundle();
+                    bundle.putString("express_no", list.get(i).getExpress_no()); // 快递单号
+                    bundle.putString("express_company", list.get(i).getExpress_company()); // 快递公司代号
+                    startActivity(ExpressAtv.class, bundle);
+                }
+            });
+
             viewHolder.name.setText(list.get(i).getGoods_name());
             viewHolder.num.setText("x" + list.get(i).getGoods_num());
             viewHolder.title.setText("规格" + list.get(i).getAttr());
@@ -119,6 +137,14 @@ public class OrderLogisticsAty extends BaseAty {
             return view;
         }
         class ViewHolder{
+
+            @ViewInject(R.id.goosOrderItem_wuliu_layout) // 显示头
+            private LinearLayout goosOrderItem_wuliu_layout;
+            @ViewInject(R.id.goosOrderItem_wuliuNumber_tv) // 物流单号
+            private TextView goosOrderItem_wuliuNumber_tv;
+            @ViewInject(R.id.goosOrderItem_showLogistics_btn) // 查看物流按钮
+            private Button goosOrderItem_showLogistics_btn;
+
             @ViewInject(R.id.image)
             private ImageView image;
             @ViewInject(R.id.name)

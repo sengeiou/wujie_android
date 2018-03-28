@@ -105,7 +105,7 @@
                     android:drawableStart="@drawable/icon_cart_mell_left_hzj"
                     android:paddingBottom="8dp"
                     android:paddingStart="16dp"
-                    android:paddingTop="8dp"  />
+                    android:paddingTop="8dp" />
 
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/goods_for_this_order_lv"
@@ -119,9 +119,9 @@
                 <LinearLayout
                     android:id="@+id/layout_yugou"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/first_tep_layout"
@@ -371,6 +371,7 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/order_freight_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="end"
@@ -379,7 +380,6 @@
                             android:textColor="@color/app_text_color"
                             android:textSize="16sp" />
                     </LinearLayout>
-
 
 
                     <TextView
@@ -424,6 +424,7 @@
                         android:text="付款时间：" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

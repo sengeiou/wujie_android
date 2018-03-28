@@ -490,7 +490,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String cate_id;
     private String pcate_id;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -1992,7 +1991,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     protected void onRestart() {
         super.onRestart();
-        L.e("wang", "onRestart");
         goodsPst.goodsInfo(ticket_buy_id, page);
     }
 }

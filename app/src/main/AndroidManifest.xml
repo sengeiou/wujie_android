@@ -1001,6 +1001,8 @@
         <activity android:name=".minetoAty.order.VipCardAty"/>
         <!--会员卡详情页-->
         <activity android:name=".minetoAty.order.VipCardDetailsAty"/>
+        <!-- 快递物流详情 -->
+        <activity android:name=".minetoAty.ExpressAtv" />
     </application>
 <!--测试提交 LH-->
 
