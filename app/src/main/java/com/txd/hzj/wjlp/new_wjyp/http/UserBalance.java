@@ -37,4 +37,15 @@ public class UserBalance {
 
     }
 
+    /**
+     * 提现操作
+     *
+     * @param baseView
+     */
+    public static void cashIndex(BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "cashIndex", params, baseView);
+    }
+
 }

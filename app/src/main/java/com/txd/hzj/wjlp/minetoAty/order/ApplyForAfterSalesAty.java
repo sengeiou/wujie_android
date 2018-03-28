@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -28,6 +30,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -104,12 +107,18 @@ public class ApplyForAfterSalesAty extends BaseAty {
     private EditText edittext;
     private String order_id;
     private String order_goods_id;
+    @ViewInject(R.id.layoutlayout)
+    private LinearLayout layouttuikuan;
+    private int moneyStatus; // 订单商品状态 0不显示退款金额，1显示退款金额
+    private String typeTypeId; // 售后类型id
+    private String causeTypeId; // 原因id
+    private String statusTypeId; // 物流状态id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("订单详情");
+        titlt_conter_tv.setText("申请售后");
 
         manager = new FullyGridLayoutManager(ApplyForAfterSalesAty.this, 3, GridLayoutManager.VERTICAL, false);
         apply_updata_pic_rv.setLayoutManager(manager);
@@ -156,14 +165,16 @@ public class ApplyForAfterSalesAty extends BaseAty {
                     return;
                 }
                 price = money_be_back_ev.getText().toString();
-                BigDecimal temp_price = new BigDecimal(price);
-                if (temp_price.compareTo(maxPrice.setScale(2, BigDecimal.ROUND_DOWN)) > 0) {
-                    showErrorTip("最多只能退" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
-                    return;
+                if (moneyStatus == 1 && !price.equals("")) { // 如果显示退款金额
+                    BigDecimal temp_price = new BigDecimal(price);
+                    if (temp_price.compareTo(maxPrice.setScale(2, BigDecimal.ROUND_DOWN)) > 0) {
+                        showErrorTip("最多只能退" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
+                        return;
+                    }
                 }
-                AfterSale.backApply(apply_type_tv.getText().toString().equals("我要退款") ? "1" : "2",
-                        String.valueOf(price), edittext.getText().toString(), pic, apply_cause_tv.getText().toString(),
-                        goods_status_tv.getText().toString().equals("已收到货")?"1":"2", order_id, type, order_goods_id, this);
+
+                AfterSale.backApply(typeTypeId, String.valueOf(price), edittext.getText().toString(), pic, causeTypeId,
+                        statusTypeId, order_id, type, order_goods_id, this);
                 showProgressDialog();
                 break;
         }
@@ -183,9 +194,13 @@ public class ApplyForAfterSalesAty extends BaseAty {
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
         order_goods_id = getIntent().getStringExtra("order_goods_id");
+        // 获取到order_goods_id，先请求一下商品状态=============================================
+        AfterSale.backApplyType(order_goods_id, this);
+
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
         maxPrice = new BigDecimal(Double.parseDouble(getIntent().getStringExtra("price")));
+        L.e("wang", "=========>>>>>>>>>>>maxPrice:" + maxPrice);
         tv_price.setText("最多" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
         switch (type) {
             case "0":
@@ -206,8 +221,20 @@ public class ApplyForAfterSalesAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 
-        if(requestUrl.contains("backApply")){
-            showToast("提交成功！");
+        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+
+        L.e("wang", "=======ApplyForAfterSalesAty>>>>>>>jsonStr:" + jsonStr + "\trequestUrl:" + requestUrl);
+        String[] split = requestUrl.split("/");
+
+        if (split[split.length - 1].equals("backApplyType")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            moneyStatus = Integer.parseInt(data.get("money_status"));
+            if (moneyStatus == 0){
+                layouttuikuan.setVisibility(View.GONE);
+            }
+        }
+        if (split[split.length - 1].equals("backApply")) {
+            showToast(map.get("message"));
             finish();
         }
     }
@@ -230,8 +257,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == 100) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker
-                        .EXTRA_RESULT_ITEMS);
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 for (ImageItem img : images) {
                     String pic_path = CompressionUtil.compressionBitmap(img.path);
                     File file = new File(pic_path);
@@ -250,14 +276,16 @@ public class ApplyForAfterSalesAty extends BaseAty {
             switch (requestCode) {
                 case 101:// 售后类型
                     apply_type_tv.setText(data.getStringExtra("type"));
+                    typeTypeId = data.getStringExtra("typeTypeId");
                     break;
                 case 102:// 货物状态
                     status = data.getStringExtra("status");
-
+                    statusTypeId = data.getStringExtra("statusTypeId");
                     goods_status_tv.setText(status);
                     break;
                 case 103:// 原因
                     cause = data.getStringExtra("cause");
+                    causeTypeId = data.getStringExtra("causeTypeId");
                     apply_cause_tv.setText(cause);
                     break;
             }

@@ -140,7 +140,11 @@ public class _GradeOfMemberAty extends BaseAty {
             holder.tv_ms.setText(getItem(position).get("this_description"));
             if (!getItem(position).get("is_get").equals("0")) {
                 holder.im.setVisibility(View.VISIBLE);
-                holder.tv_time.setText(getItem(position).get("over_time"));
+                if (getItem(position).get("over_time").equals("0")) {
+                    holder.tv_time.setText("永久有效");
+                } else {
+                    holder.tv_time.setText(getItem(position).get("over_time"));
+                }
                 if (getItem(position).get("is_discount").equals("1")) {
                     holder.im.setImageResource(R.mipmap.icon_vip_h);
                 } else {
@@ -154,12 +158,12 @@ public class _GradeOfMemberAty extends BaseAty {
             holder.layout_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(getItem(position).get("sale_status").equals("1")){
+                    if (getItem(position).get("sale_status").equals("1")) {
                         String data = getItem(position).toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("data", data);
                         startActivity(VipDetailsAty.class, bundle);
-                    }else if(getItem(position).get("sale_status").equals("0")){
+                    } else if (getItem(position).get("sale_status").equals("0")) {
                         String data = getItem(position).toString();
                         Bundle bundle = new Bundle();
                         bundle.putString("data", data);

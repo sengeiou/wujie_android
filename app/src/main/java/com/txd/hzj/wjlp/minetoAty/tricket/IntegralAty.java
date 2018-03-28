@@ -81,6 +81,7 @@ public class IntegralAty extends BaseAty {
 
                     @Override
                     public void onNext(Object tag, String response) {
+                        L.e("wang", "==========>>>>>>>IntegralAty===response:" + response);
 //                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
                         try {
                             JSONObject jsonObject = new JSONObject(response);

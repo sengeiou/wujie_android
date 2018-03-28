@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * ===============Txunda===============
@@ -78,16 +79,20 @@ public class TextListAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText(title);
+
         all_text_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent data = new Intent();
                 if (title.equals("售后类型")) {
                     data.putExtra("type", dataList.get(i).get("name"));
+                    data.putExtra("typeTypeId", dataList.get(i).get("type_id"));
                 } else if (title.equals("原因")) {
                     data.putExtra("cause", dataList.get(i).get("name"));
+                    data.putExtra("causeTypeId", dataList.get(i).get("id"));
                 } else if (title.equals("货物状态")) {
-                    data.putExtra("status", list.get(i).get("name"));
+                    data.putExtra("status", dataList.get(i).get("name"));
+                    data.putExtra("statusTypeId", dataList.get(i).get("type_id"));
                 } else if (title.equals("选择快递")) {
                     data.putExtra("express", dataList.get(i).get("shipping_name"));
                     data.putExtra("id", dataList.get(i).get("shopping_id"));
@@ -155,6 +160,7 @@ public class TextListAty extends BaseAty {
     protected void initialized() {
         title = getIntent().getStringExtra("title");
 
+
         addressPst = new AddressPst(this);
 
         dataList = new ArrayList<>();
@@ -169,6 +175,7 @@ public class TextListAty extends BaseAty {
 
     @Override
     protected void requestData() {
+
         if (title.equals("选择街道")) {
             String area_id = getIntent().getStringExtra("area_id");
             addressPst.getStreet(area_id);
@@ -185,23 +192,17 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("售后类型")) {
             AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
             showProgressDialog();
+        } else if (title.equals("货物状态")) {
+            AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
+            showProgressDialog();
 //            map = new HashMap<>();
-//            map.put("name", "我要退款");
+//            map.put("name", "已收到货");
 //            list.add(map);
 //            map = new HashMap<>();
-//            map.put("name", "我要退货");
+//            map.put("name", "未收到货");
 //            list.add(map);
 //            tAdapter = new TextAdapter(list);
 //            all_text_lv.setAdapter(tAdapter);
-        } else if (title.equals("货物状态")) {
-            map = new HashMap<>();
-            map.put("name", "已收到货");
-            list.add(map);
-            map = new HashMap<>();
-            map.put("name", "未收到货");
-            list.add(map);
-            tAdapter = new TextAdapter(list);
-            all_text_lv.setAdapter(tAdapter);
         } else if (title.equals("原因")) {
             AfterSale.cause(this);
         } else if (title.equals("选择快递")) {
@@ -272,11 +273,18 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
         }
         if (requestUrl.contains("backApplyType")) {
-            map = (Map<String, Object>) map.get("data");
-            dataList = (List<Map<String, String>>) map.get("list");
-            tAdapter = new TextAdapter(dataList);
-            all_text_lv.setAdapter(tAdapter);
-
+            if (title.equals("货物状态")){
+                map = (Map<String, Object>) map.get("data");
+                dataList = (List<Map<String, String>>) map.get("goods_status");
+                tAdapter = new TextAdapter(dataList);
+                all_text_lv.setAdapter(tAdapter);
+            }
+            if (title.equals("售后类型")) {
+                map = (Map<String, Object>) map.get("data");
+                dataList = (List<Map<String, String>>) map.get("list");
+                tAdapter = new TextAdapter(dataList);
+                all_text_lv.setAdapter(tAdapter);
+            }
         }
     }
 

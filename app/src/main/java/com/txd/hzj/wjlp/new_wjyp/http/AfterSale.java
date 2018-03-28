@@ -3,11 +3,11 @@ package com.txd.hzj.wjlp.new_wjyp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
 import java.util.List;
-
 
 
 public class AfterSale {
@@ -41,6 +41,10 @@ public class AfterSale {
                                  String goods_status, String order_id, String order_type, String order_goods_id, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+
+        L.e("reason=" + reason + ", back_money=" + back_money + ", back_desc=" + back_desc + ", list=" + list
+                + ", cause=" + cause + ", goods_status=" + goods_status + ", order_id=" + order_id + ", order_type=" + order_type + ", order_goods_id=" + order_goods_id);
+
         requestParams.addBodyParameter("reason", reason);
         requestParams.addBodyParameter("back_money", back_money);
         requestParams.addBodyParameter("back_desc", back_desc);
@@ -111,7 +115,7 @@ public class AfterSale {
     }
 
 
-//售后类型及货物状态
+    //售后类型及货物状态
     public static void backApplyType(String order_goods_id, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();

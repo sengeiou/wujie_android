@@ -470,7 +470,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="8dp" />
 
-                        <include layout="@layout/aty_goods_details_mell_info" />
+                        <include
+                            layout="@layout/aty_goods_details_mell_info" />
 
                         <Space
                             android:layout_width="match_parent"

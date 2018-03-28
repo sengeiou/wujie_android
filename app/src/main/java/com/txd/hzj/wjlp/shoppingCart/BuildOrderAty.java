@@ -336,7 +336,7 @@ public class BuildOrderAty extends BaseAty {
     @Override
     protected void initialized() {
 //        postAdapter = new PostAdapter(this, points);
-
+        buildOrder_scrollView.smoothScrollTo(0,0);
     }
 
     @Override

@@ -34,11 +34,15 @@
                 android:layout_weight="1"
                 android:text="123456789" />
 
-            <Button
-                android:id="@+id/goosOrderItem_showLogistics_btn"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/goosOrderItem_showLogistics_tv"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="查看物流" />
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_red_btn_01_li"
+                android:gravity="center"
+                android:text="查看物流"
+                android:textColor="@color/colorRed" />
 
         </LinearLayout>
 

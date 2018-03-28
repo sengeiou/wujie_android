@@ -117,7 +117,7 @@ public class OrderLogisticsAty extends BaseAty {
 
             viewHolder.goosOrderItem_wuliu_layout.setVisibility(View.VISIBLE);
             viewHolder.goosOrderItem_wuliuNumber_tv.setText(list.get(i).getExpress_no());
-            viewHolder.goosOrderItem_showLogistics_btn.setOnClickListener(new View.OnClickListener() {
+            viewHolder.goosOrderItem_showLogistics_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO 点击查看物流按钮
@@ -142,8 +142,8 @@ public class OrderLogisticsAty extends BaseAty {
             private LinearLayout goosOrderItem_wuliu_layout;
             @ViewInject(R.id.goosOrderItem_wuliuNumber_tv) // 物流单号
             private TextView goosOrderItem_wuliuNumber_tv;
-            @ViewInject(R.id.goosOrderItem_showLogistics_btn) // 查看物流按钮
-            private Button goosOrderItem_showLogistics_btn;
+            @ViewInject(R.id.goosOrderItem_showLogistics_tv) // 查看物流按钮
+            private Button goosOrderItem_showLogistics_tv;
 
             @ViewInject(R.id.image)
             private ImageView image;

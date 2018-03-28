@@ -25,9 +25,9 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.new_wjyp.VipPayAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
@@ -55,7 +55,7 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
-    private int type = 1;
+    private int type = 1; // 1:积分转余额 2：提现
 
     /**
      * 类型
@@ -130,36 +130,13 @@ public class ExchangeMoneyAty extends BaseAty {
     private CommonPopupWindow commonPopupWindow;
     private String rate;
     private String balanceStr; // 余额数值
+    private String myIntegralStr; // 积分总数
+    private String moneyStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        if (1 == type) {
-            titlt_conter_tv.setText("积分转余额");
-            type_logo_iv.setImageResource(R.drawable.icon_exchange_hzj);
-            submit_op_tv.setText("确定");
-            select_bank_card_layout.setVisibility(View.GONE);
-            bottom_tip_layout.setVisibility(View.GONE);
-            operation_type_tv.setText("积分");
-            my_bal_tv2.setText("全部使用");
-            my_bal_tv1.setText("我的积分300 ");
-            ll.setVisibility(View.VISIBLE);
-            operation_type_tv21.setText(" 积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。");
-        } else {
-            titlt_conter_tv.setText("提现");
-            operation_type_tv.setText("提现金额");
-            type_logo_iv.setImageResource(R.drawable.icon_withdraw_hzj_);
-            submit_op_tv.setText("提交");
-            select_bank_card_layout.setVisibility(View.VISIBLE);
-            bottom_tip_layout.setVisibility(View.VISIBLE);
-            operation_type_tv2.setText("提现到银行卡，手续费率");
-            my_bal_tv2.setText("全部提现");
-            MoneyUtils.setPricePoint(money_ev);
-            ll.setVisibility(View.VISIBLE);
-            operation_type_tv21.setText(" 每次提现为100的倍数，最大额度为50000，每次提现收取5%综合服务费，每次收取综合服务费100元封顶。");
-        }
-        download();
     }
 
     @Override
@@ -172,44 +149,58 @@ public class ExchangeMoneyAty extends BaseAty {
                 startActivityForResult(BankCardHzjAty.class, null, 100);
                 break;
             case R.id.my_bal_tv2:// 全部使用
-//                if (2 == type) {
-//                    money_ev.setText(balance);
-//                }
-//                money_ev.setText(my_bal_tv1.getText().toString().replace("我的积分", ""));
-                money_ev.setText(balanceStr);
+
+//                1:积分转余额 2：提现
+                if (type == 1) {
+                    money_ev.setText(myIntegralStr);
+                } else {
+                    money_ev.setText(balanceStr);
+                }
 
                 break;
 
             case R.id.submit_op_tv:// 确认，提交
-                String money = money_ev.getText().toString();
 
-                if (money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
+                moneyStr = money_ev.getText().toString();
+                if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
                     showErrorTip("请输入有效数字");
                     break;
                 }
 
-                BigDecimal input = new BigDecimal(money);
-                // 输入的比余额达
-                if (input.compareTo(bal) == 1) {
-                    showErrorTip("余额不足");
-                    break;
+//                1:积分转余额 2：提现
+                if (type == 1) {
+                    if (Double.parseDouble(moneyStr) - Double.parseDouble(myIntegralStr) > 0) {
+                        // 如果输入数值大于总积分
+                        showErrorTip("积分不足，请检查积分剩余量");
+                        break;
+                    } else {
+                        //  调用积分转余额接口进行操作
+                        if (TextUtils.isEmpty(password_et.getText().toString())) {
+                            // 判断密码
+                            showErrorTip("请输入支付密码");
+                        } else {
+                            User.verificationPayPwd(this, password_et.getText().toString());
+//                            User.changeIntegral(this, moneyStr);
+                        }
+                    }
+                } else {
+                    if (TextUtils.isEmpty(bank_card_id)) {
+                        showErrorTip("请选择银行卡");
+                        break;
+                    }
+                    if (Double.parseDouble(moneyStr) - Double.parseDouble(balanceStr) > 0) {
+                        // 如果输入提现数值大于总余额
+                        showErrorTip("余额不足，请检查账户余额");
+                        break;
+                    } else {
+                        if (TextUtils.isEmpty(password_et.getText().toString())) {
+                            showErrorTip("请输入支付密码");
+                            break;
+                        } else {
+                            User.verificationPayPwd(this, password_et.getText().toString());
+                        }
+                    }
                 }
-                if (TextUtils.isEmpty(bank_card_id)) {
-                    showErrorTip("请选择银行卡");
-                    break;
-                }
-//                if(TextUtils.isEmpty(et_password.getText().toString())){
-//                    showToast("请输入支付密码");
-//                    return;
-//                }
-//                balancePst.getCash(et_password.getText().toString(),money,rate_tv.getText()
-//                        .toString(),bank_card_id);
-//                download2();
-                if (TextUtils.isEmpty(password_et.getText().toString())) {
-                    showToast("请输入支付密码");
-                    break;
-                }
-                UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
 
                 break;
         }
@@ -223,26 +214,74 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("to", 1);
-        balancePst = new BalancePst(this);
-        bal = new BigDecimal("0.00");
+
+        if (1 == type) {
+            titlt_conter_tv.setText("积分转余额");
+            type_logo_iv.setImageResource(R.drawable.icon_exchange_hzj);
+            submit_op_tv.setText("确定");
+            select_bank_card_layout.setVisibility(View.GONE);
+            bottom_tip_layout.setVisibility(View.GONE);
+            operation_type_tv.setText("积分");
+            my_bal_tv2.setText("全部使用");
+            my_bal_tv1.setText("我的积分300 ");
+            ll.setVisibility(View.VISIBLE);
+            operation_type_tv21.setText(" 积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。");
+            User.myIntegral(this); // 获取积分
+        } else {
+            titlt_conter_tv.setText("提现");
+            operation_type_tv.setText("提现金额");
+            type_logo_iv.setImageResource(R.drawable.icon_withdraw_hzj_);
+            submit_op_tv.setText("提交");
+            select_bank_card_layout.setVisibility(View.VISIBLE);
+            bottom_tip_layout.setVisibility(View.VISIBLE);
+            operation_type_tv2.setText("提现到银行卡，手续费率");
+            my_bal_tv2.setText("全部提现");
+            MoneyUtils.setPricePoint(money_ev);
+            ll.setVisibility(View.VISIBLE);
+            operation_type_tv21.setText(" 每次提现为100的倍数，最大额度为50000，每次提现收取5%综合服务费，每次收取综合服务费100元封顶。");
+            UserBalance.cashIndex(this); // 提现首页
+        }
+
     }
 
     @Override
     protected void requestData() {
-        if (type == 2) {// 提现
-            balancePst.cashIndex();
-        }
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+        L.e("wang", "========>>>>>>>>>>>ExchangeMoneyAty===jsonStr" + jsonStr + "      requestUrl:" + requestUrl);
+
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("getCash")) {
+
+        if (requestUrl.contains("verificationPayPwd")){
+            if (map.get("code").equals("1")) { // 返回code为1说明验证成功
+                if (type == 1) { // 积分转余额
+                    User.changeIntegral(this, moneyStr);
+                } else { // 余额提现操作
+                    UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
+                }
+            } else {
+                showErrorTip(map.get("message"));
+            }
+        }
+        if (requestUrl.contains("changeIntegral")) { // 积分转余额
+            showToast(map.get("message"));
+        }
+        if (requestUrl.contains("getCash")) { // 余额提现
             showToast(map.get("message"));
             finish();
         }
-        if (requestUrl.contains("cashIndex")) {
+        if (requestUrl.contains("myIntegral")) { // 获取积分
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
+            // 我的积分总数
+            myIntegralStr = data.get("my_integral");
+            my_bal_tv1.setText("我的积分" + myIntegralStr + " "); // 显示积分总数
+            rate_tv.setText(data.get("integral_percentage")); // 手续费率
+        }
+        if (requestUrl.contains("cashIndex")) { // 提现首页
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             balance = data != null ? data.get("balance") : "0.00";
             bal = new BigDecimal(balance);
@@ -266,6 +305,7 @@ public class ExchangeMoneyAty extends BaseAty {
                 .rxPost("User/myIntegral", parameters, new RxStringCallback() {
                     @Override
                     public void onNext(Object tag, String response) {
+                        L.e("wang", "========>>>>>>>>>>>>>response:" + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String data = jsonObject.getString("data");

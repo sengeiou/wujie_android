@@ -20,6 +20,30 @@ public class User {
     }
 
     /**
+     * 积分兑换余额
+     * @param baseView
+     * @param integral 要兑换的积分
+     */
+    public static void changeIntegral(BaseView baseView, String integral) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("integral", integral);
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "changeIntegral", params, baseView);
+    }
+
+    /**
+     * 验证支付密码
+     * @param baseView
+     * @param payPwd 待验证的密码
+     */
+    public static void verificationPayPwd(BaseView baseView, String payPwd) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("PayPwd", payPwd);
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "verificationPayPwd", params, baseView);
+    }
+
+    /**
      *  个人中心
      * @param baseView
      */

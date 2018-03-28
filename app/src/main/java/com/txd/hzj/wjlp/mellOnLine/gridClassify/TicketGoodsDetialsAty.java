@@ -400,8 +400,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      * 商品条数
      */
     @ViewInject(R.id.all_comment_num_tv)
-    private TextView
-            all_comment_num_tv;
+    private TextView all_comment_num_tv;
     /**
      * 评价商品的买家头像
      */

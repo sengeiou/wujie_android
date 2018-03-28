@@ -134,15 +134,15 @@ public class OrderDetailsAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.tv_btn_left:// 最底部左侧按钮
+            case R.id.tv_btn_left: // 最底部左侧按钮
                 // 申请售后
                 startActivity(ApplyForAfterSalesAty.class, null);
                 break;
-            case R.id.tv_btn_right:// 最底部右侧按钮
+            case R.id.tv_btn_right: // 最底部右侧按钮
                 // 评价商品
 
                 break;
-            case R.id.lin_logistics://订单物流
+            case R.id.lin_logistics: // 订单物流
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", order_id);
                 startActivity(OrderLogisticsAty.class, bundle);
@@ -373,6 +373,7 @@ public class OrderDetailsAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+        L.e("wang", "=======>>>>>>>>>" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("details") || requestUrl.contains("preDetails")) {
@@ -398,6 +399,11 @@ public class OrderDetailsAty extends BaseAty {
             order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
             L.e("wang", "" + list.size()); // TODO ==============================================
+
+            for (Map<String, String> map : list) {
+                L.e("wang", "" + map.toString()); // TODO ==============================================
+            }
+
             double total_price = 0.00f;//总价格
             BigDecimal bd = null;
             total_price = Double.parseDouble(data.get("order_price"));
@@ -416,8 +422,7 @@ public class OrderDetailsAty extends BaseAty {
                     ticket_color = "蓝券";
                     break;
             }
-            order_price_info_tv.setText("共" +
-                    list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") : (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")));
+            order_price_info_tv.setText("共" + list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") : (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")));
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
             is_pay_password = data.get("is_pay_password");
             tv_create_time.setText("创建时间：" + data.get("create_time"));
@@ -715,7 +720,6 @@ public class OrderDetailsAty extends BaseAty {
 
             if (getItem(i).get("after_type").equals("0")) {
                 tgvh.tv_btn_left.setText("申请售后");
-
             } else {
                 tgvh.tv_btn_left.setText("售后中");
             }
@@ -740,14 +744,13 @@ public class OrderDetailsAty extends BaseAty {
             }
             tgvh.tv_price.setText("¥" + getItem(i).get("shop_price"));
             tgvh.tv_price.setVisibility(View.VISIBLE);
+
             tgvh.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getItem(i).get("after_type").equals("0")) {
+                    if (getItem(i).get("after_type").equals("0")) { // 申请售后
                         Bundle bundle = new Bundle();
-                        bundle.putString("price", String.valueOf(
-                                Double.parseDouble(getItem(i).get("shop_price"))
-                                        * Integer.parseInt(getItem(i).get("goods_num"))));
+                        bundle.putString("price", String.valueOf(Double.parseDouble(getItem(i).get("shop_price")) * Integer.parseInt(getItem(i).get("goods_num"))));
                         bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
