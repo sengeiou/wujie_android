@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CartGoods;
 import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
@@ -487,7 +488,7 @@ public class CartFgt extends BaseFgt {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             final ShopingCart sc = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(getActivity()).inflate(R.layout.item_cart_lv_hzj, null);
@@ -506,6 +507,16 @@ public class CartFgt extends BaseFgt {
             }
 
             cartVh.cart_mell_name_tv.setText(sc.getMerchant_name());
+            // 点击店铺名称直接跳转到店铺首页
+            cartVh.cart_mell_name_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", sc.getMerchant_id());
+                    startActivity(MellInfoAty.class, bundle);
+                }
+            });
+
             cartVh.cart_mell_goods_lv.setAdapter(new CartGoodsAdapter(shopingCarts, i));
 
             cartVh.mell_goods_all_select_iv.setOnClickListener(new View.OnClickListener() {

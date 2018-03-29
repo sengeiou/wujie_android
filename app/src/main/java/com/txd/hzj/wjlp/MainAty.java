@@ -926,10 +926,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         PendingIntent rightPendIntent = PendingIntent.getActivity(this,
                 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         int smallIcon = R.mipmap.ic_launcher;
-        String ticker = "正在下载xfte优品更新包...";
+        String ticker = "正在下载无界优品更新包...";
         //实例化工具类，并且调用接口
         notifyUtils = new NotifyUtil(this, 0);
-        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "xfte优品 下载", "正在下载中...", false, false, false);
+        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "无界优品 下载", "正在下载中...", false, false, false);
     }
 
     // ====================android M+动态授权====================

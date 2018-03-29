@@ -75,9 +75,8 @@
                         android:id="@+id/tv1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="今日您可使用"
-                        android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
+                        android:text="积分大于等于100时可申请..."
+                        android:textColor="@color/colorRed" />
 
                     <TextView
                         android:layout_width="wrap_content"

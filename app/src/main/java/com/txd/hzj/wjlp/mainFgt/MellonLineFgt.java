@@ -742,8 +742,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
 
-        superSwipeRefreshLayout
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
                     @Override
                     public void onRefresh() {

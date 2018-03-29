@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -19,7 +20,9 @@ import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 售后列表
+ */
 public class aty_after extends BaseAty {
 
     @ViewInject(R.id.tv_btn_left)
@@ -67,20 +70,17 @@ public class aty_after extends BaseAty {
     @Override
     protected void initialized() {
         rv.setLayoutManager(new LinearLayoutManager(this));
-
+        AfterSale.showAfter(getIntent().getStringExtra("back_apply_id"), this);
     }
 
     @Override
     protected void requestData() {
-
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        AfterSale.showAfter(getIntent().getStringExtra("order_goods_id"), getIntent().getStringExtra("back_apply_id"), this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//    }
 
     Map<String, String> map;
     List<Map<String, String>> list;
@@ -96,7 +96,6 @@ public class aty_after extends BaseAty {
         if (requestUrl.contains("showAfter")) {
             list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
             rv.setAdapter(new MyAdapter());
-
         }
     }
 

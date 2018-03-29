@@ -16,35 +16,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/cart_bottom_lin_layout"
+            android:orientation="vertical">
 
-
-            <LinearLayout
-                android:layout_above="@+id/cart_bottom_lin_layout"
+            <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
+                android:id="@+id/cart_lv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_above="@+id/cart_bottom_lin_layout"
+                android:divider="@color/bg_color"
+                android:dividerHeight="8dp" />
 
-                <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
-                    android:id="@+id/cart_lv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_above="@+id/cart_bottom_lin_layout"
-                    android:divider="@color/bg_color"
-                    android:dividerHeight="8dp" />
-
-                <TextView
-                    android:id="@+id/textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50dp"
-                    android:visibility="gone"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/icon_no_data_pic"
-                    android:gravity="center"
-                    android:textColor="@color/hint_text_color"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:drawablePadding="14dp"
+                android:drawableTop="@drawable/icon_no_data_pic"
+                android:gravity="center"
+                android:textColor="@color/hint_text_color"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/cart_bottom_lin_layout"

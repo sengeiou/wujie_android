@@ -21,6 +21,7 @@ public class User {
 
     /**
      * 积分兑换余额
+     *
      * @param baseView
      * @param integral 要兑换的积分
      */
@@ -33,8 +34,9 @@ public class User {
 
     /**
      * 验证支付密码
+     *
      * @param baseView
-     * @param payPwd 待验证的密码
+     * @param payPwd   待验证的密码
      */
     public static void verificationPayPwd(BaseView baseView, String payPwd) {
         RequestParams params = new RequestParams();
@@ -44,11 +46,26 @@ public class User {
     }
 
     /**
-     *  个人中心
+     * 个人中心
+     *
      * @param baseView
      */
-    public static void userCenter(BaseView baseView){
+    public static void userCenter(BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "userCenter", new RequestParams(), baseView);
     }
+
+    /**
+     * 积分自动兑换
+     *
+     * @param baseView
+     * @param status   自动兑换状态 0关闭 1开启
+     */
+    public static void changeIntegralStatus(BaseView baseView, String status) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("status", status);
+        apiTool2.postApi(url + "changeIntegralStatus", params, baseView);
+    }
+
 }

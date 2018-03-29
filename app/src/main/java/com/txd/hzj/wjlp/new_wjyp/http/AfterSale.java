@@ -63,15 +63,13 @@ public class AfterSale {
     /**
      * 展示售后信息
      *
-     * @param order_goods_id
-     * @param back_apply_id
+     * @param apply_id 售后id
      * @param baseView
      */
-    public static void showAfter(String order_goods_id, String back_apply_id, BaseView baseView) {
+    public static void showAfter(String apply_id, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("order_goods_id", order_goods_id);
-        requestParams.addBodyParameter("back_apply_id", back_apply_id);
+        requestParams.addBodyParameter("apply_id", apply_id);
         apiTool2.postApi(url + "showAfter", requestParams, baseView);
     }
 

@@ -155,6 +155,9 @@ public class VipDetailsAty extends BaseAty {
         };
         online_carvouse_view.setPageCount(list_pic.size());
         online_carvouse_view.setImageListener(imageListener);
+        for (Map<String, String> map: list_pic) {
+            L.e("wang", "===>>>>>>>map:" + map.toString());
+        }
     }
 
     @Override

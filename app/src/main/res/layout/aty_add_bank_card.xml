@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="持卡人"/>
+                android:text="持卡人" />
 
             <EditText
                 android:id="@+id/card_name_ev"
@@ -45,7 +45,7 @@
                 android:background="@color/white"
                 android:hint="持卡人姓名"
                 android:padding="12dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -57,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卡类型"/>
+                android:text="卡类型" />
 
             <TextView
                 android:id="@+id/card_type_tv"
@@ -67,7 +67,7 @@
                 android:drawableEnd="@drawable/icon_turn_right_g"
                 android:hint="选择银行卡类型"
                 android:padding="12dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -78,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="开户行"/>
+                android:text="开户行" />
 
             <EditText
                 android:id="@+id/open_card_ev"
@@ -87,7 +87,7 @@
                 android:background="@color/white"
                 android:hint="填写银行卡开户行"
                 android:padding="12dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="卡号    "/>
+                android:text="卡号    " />
 
             <EditText
                 android:id="@+id/card_num_ev"
@@ -108,7 +108,7 @@
                 android:hint="银行卡号"
                 android:inputType="number"
                 android:padding="12dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -119,7 +119,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机号"/>
+                android:text="手机号" />
 
             <EditText
                 android:id="@+id/phone_ev"
@@ -129,7 +129,7 @@
                 android:hint="银行卡预留手机号"
                 android:inputType="phone"
                 android:padding="12dp"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
 

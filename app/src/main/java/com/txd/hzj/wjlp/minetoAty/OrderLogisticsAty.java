@@ -108,8 +108,11 @@ public class OrderLogisticsAty extends BaseAty {
             if (view == null) {
                 view = LayoutInflater.from(OrderLogisticsAty.this).inflate(R.layout.item_goods, null);
                 viewHolder = new ViewHolder();
-                ViewUtils.inject(viewHolder, view);
+                L.e("wang", "======>>>>>>>>>>>>view=" + view + "\tviewHolder=" + viewHolder);
                 view.setTag(viewHolder);
+                ViewUtils.inject(viewHolder, view);
+
+
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
@@ -143,7 +146,7 @@ public class OrderLogisticsAty extends BaseAty {
             @ViewInject(R.id.goosOrderItem_wuliuNumber_tv) // 物流单号
             private TextView goosOrderItem_wuliuNumber_tv;
             @ViewInject(R.id.goosOrderItem_showLogistics_tv) // 查看物流按钮
-            private Button goosOrderItem_showLogistics_tv;
+            private TextView goosOrderItem_showLogistics_tv;
 
             @ViewInject(R.id.image)
             private ImageView image;

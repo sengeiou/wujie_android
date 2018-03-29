@@ -116,6 +116,8 @@ public class OrderDetailsAty extends BaseAty {
     private String is_pay_password = "0";//是否设置支付密码
 
     private CommonPopupWindow commonPopupWindow;
+    private Map<String, String> clickMap;
+    private View clickView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -398,11 +400,6 @@ public class OrderDetailsAty extends BaseAty {
             tv_merchant_name.setText(data.get("merchant_name"));
             order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-            L.e("wang", "" + list.size()); // TODO ==============================================
-
-            for (Map<String, String> map : list) {
-                L.e("wang", "" + map.toString()); // TODO ==============================================
-            }
 
             double total_price = 0.00f;//总价格
             BigDecimal bd = null;
@@ -478,6 +475,21 @@ public class OrderDetailsAty extends BaseAty {
         if (requestUrl.contains("delayReceiving")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             showToast(data.get("message"));
+        }
+        // 验证密码回传结果
+        if (requestUrl.contains("verificationPayPwd")) {
+            // TODO ======================== 验证支付密码回传结果 ========================
+            String requestCodeStr = data.get("code");
+            if (requestCodeStr.equals("1")) {
+                if (clickMap.get("sure_status").equals("1")) {
+                    showPwdPop(clickView, 0);
+                } else {
+                    Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    showProgressDialog();
+                }
+            } else {
+                showToast(data.get("message"));
+            }
         }
     }
 
@@ -683,6 +695,7 @@ public class OrderDetailsAty extends BaseAty {
     private class ThisGoodsAdapter extends BaseAdapter {
 
         private TGVH tgvh;
+        public String asfasfasdasdasdasdasdasdasdasd;
 
         @Override
         public int getCount() {
@@ -759,7 +772,6 @@ public class OrderDetailsAty extends BaseAty {
                         Bundle bundle = new Bundle();
                         bundle.putString("is_sales", getItem(i).get("is_sales"));
                         bundle.putString("back_apply_id", getItem(i).get("back_apply_id"));
-                        bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
                         startActivity(aty_after.class, bundle);
                     }
                 }
@@ -767,12 +779,10 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (list.get(i).get("sure_status").equals("1")) {
-                        showPwdPop(v, i);
-                    } else {
-                        Order.receiving(order_id, list.get(i).get("order_goods_id"), "", OrderDetailsAty.this);
-                        showProgressDialog();
-                    }
+                    // TODO 确认收货================================================================================
+                    clickMap = list.get(i);
+                    clickView = v;
+                    showPwxPopWindow(v); // 显示弹框提示输入密码
                 }
             });
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
@@ -877,6 +887,35 @@ public class OrderDetailsAty extends BaseAty {
         }
     }
 
+    public void showPwxPopWindow(View view) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_pwd)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        final EditText et_password = view.findViewById(R.id.et_password);
+                        TextView submit = view.findViewById(R.id.submit);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (TextUtils.isEmpty(et_password.getText().toString())) {
+                                    showToast("请输入支付密码");
+                                    return;
+                                }
+                                User.verificationPayPwd(et_password.getText().toString(), OrderDetailsAty.this);
+                                commonPopupWindow.dismiss();
+                                showProgressDialog();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
 
     public void showPwdPop(View view, int i) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
@@ -896,7 +935,9 @@ public class OrderDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
+                                // 确定放弃七天售后
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
                             }
@@ -904,7 +945,8 @@ public class OrderDetailsAty extends BaseAty {
                         tv2.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                L.e("wang", "===============>>>>>>>>>>>>>>> tv2 click status = 2");
+                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
 

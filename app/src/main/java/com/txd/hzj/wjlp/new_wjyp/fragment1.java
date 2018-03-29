@@ -390,10 +390,6 @@ public class fragment1 extends BaseFgt {
 
     }
 
-
-
-
-
     @Override
     protected void initialized() {
         ImagePicker imagePicker = ImagePicker.getInstance();
@@ -424,20 +420,22 @@ public class fragment1 extends BaseFgt {
                 area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
                 // 设置省市区
                 String tx = province + city + area;
+                street_id = "";
+                ads1.setText("请选择所在街道");
                 ads0.setText(tx);
             }
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
-                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                .setTextColorCenter(Color.BLACK) // 设置选中项文字颜色
                 .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
+                .setOutSideCancelable(false) // default is true
                 .build();
         pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
         pvOptions.show();
     }
 
     @ViewInject(R.id.textview)
-    private TextView textview;//一个提示
+    private TextView textview; // 一个提示
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
 

@@ -301,8 +301,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
 //            if (0 == skip_type) {
-                AppManager.getInstance().killAllActivity();
-                startActivity(MainAty.class, null);
+//                AppManager.getInstance().killAllActivity();
+//                startActivity(MainAty.class, null);
 //            }
             finish();
             return;

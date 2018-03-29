@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.balance;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -43,10 +45,13 @@ public class BankInfoForReChargeAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
+    @ViewInject(R.id.titlt_right_tv)
+    private TextView titlt_right_tv;
+
     @ViewInject(R.id.bank_info_lv)
     private ListView bank_info_lv;
 
-//    private BankInfoAdapter bankInfoAdapter;
+    //  private BankInfoAdapter bankInfoAdapter;
     HkBaseAdapter hkBaseAdapter;
     PtBaseAdapter ptBaseAdapter;
     private BalancePst balancePst;
@@ -59,6 +64,7 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     ArrayList<PtEntity> list1 = new ArrayList<>();
     ArrayList<HkEntity> list2 = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,23 +75,23 @@ public class BankInfoForReChargeAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                if(PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("1")){
-                    PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_id",list2.get(i).getBank_num());
-                    PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_id1",list2.get(i).getId());
-                    System.out.println(list2.get(i).getId()+"======测试测试");
-                }else if (PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("0")){
-                    PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_code",list1.get(i).getBank_card_code());
-                    PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_code1",list1.get(i).getBank_card_id());
+                if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("1")) {
+                    PreferencesUtils.putString(BankInfoForReChargeAty.this, "band_id", list2.get(i).getBank_num());
+                    PreferencesUtils.putString(BankInfoForReChargeAty.this, "band_id1", list2.get(i).getId());
+                    System.out.println(list2.get(i).getId() + "======测试测试");
+                } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
+                    PreferencesUtils.putString(BankInfoForReChargeAty.this, "band_code", list1.get(i).getBank_card_code());
+                    PreferencesUtils.putString(BankInfoForReChargeAty.this, "band_code1", list1.get(i).getBank_card_id());
 
                 }
 
-                    Intent intent = new Intent();
-                    // 卡号
+                Intent intent = new Intent();
+                // 卡号
 //                    intent.putExtra("card_num", list.get(i-1).get("bank_card_code"));
 //                    intent.putExtra("bank_card_id", list.get(i-1).get("bank_card_id"));
 //                    intent.putExtra("platform_id", list.get(i).get("id"));
-                    setResult(RESULT_OK, intent);
-                    finish();
+                setResult(RESULT_OK, intent);
+                finish();
 
 
             }
@@ -101,22 +107,48 @@ public class BankInfoForReChargeAty extends BaseAty {
     protected void initialized() {
         list = new ArrayList<>();
         balancePst = new BalancePst(this);
+        titlt_conter_tv.setText("银行卡");
+        titlt_right_tv.setVisibility(View.VISIBLE);
+        titlt_right_tv.setText("+");
+        titlt_right_tv.setTextSize(32);
+        titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
 //        bankInfoAdapter = new BankInfoAdapter();
 
     }
 
     @Override
+    @OnClick(R.id.titlt_right_tv)
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()){
+            case R.id.titlt_right_tv:
+                startActivity(AddBankCardAty.class, null);
+                break;
+        }
+
+    }
+
+    @Override
     protected void requestData() {
-        if(PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("1")){
-         download("UserBalance/platformAccount");
-        }else if (PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("0")){
+        if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("1")) {
+            download("UserBalance/platformAccount");
+        } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
             download("UserBalance/bankList");
         }
 
 
     }
 
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("1")) {
+            download("UserBalance/platformAccount");
+        } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
+            download("UserBalance/bankList");
+        }
+    }
 
     private void download(final String str) {
 
@@ -133,41 +165,42 @@ public class BankInfoForReChargeAty extends BaseAty {
                     public void onNext(Object tag, String response) {
 //                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
                         try {
-                            if(str.equals("UserBalance/bankList")){
+                            if (str.equals("UserBalance/bankList")) {
+                                list1.removeAll(list1);
+
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String bank_card_id = jsonObject1.getString("bank_card_id");
+                                    String bank_card_code = jsonObject1.getString("bank_card_code");
+                                    String open_bank = jsonObject1.getString("open_bank");
+                                    String bank_name = jsonObject1.getString("bank_name");
+                                    list1.add(new PtEntity(bank_card_id, bank_card_code, bank_name, open_bank, null));
+                                    ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this, list1);
+                                    bank_info_lv.setAdapter(ptBaseAdapter);
+                                    ptBaseAdapter.notifyDataSetChanged();
+
+                                }
 
 
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray =jsonObject.getJSONArray("data");
-                                    for (int i = 0; i <jsonArray.length() ; i++) {
-                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                        String bank_card_id = jsonObject1.getString("bank_card_id");
-                                        String bank_card_code = jsonObject1.getString("bank_card_code");
-                                        String open_bank = jsonObject1.getString("open_bank");
-                                        String bank_name = jsonObject1.getString("bank_name");
-                                        list1.add(new PtEntity(bank_card_id,bank_card_code,bank_name,open_bank,null));
-                                        ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this,list1);
-                                        bank_info_lv.setAdapter(ptBaseAdapter);
-                                        ptBaseAdapter.notifyDataSetChanged();
+                            } else if (str.equals("UserBalance/platformAccount")) {
+                                list2.removeAll(list2);
 
-                                    }
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String id = jsonObject1.getString("id");
 
-
-                            }else if(str.equals("UserBalance/platformAccount")){
-
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    JSONArray jsonArray =jsonObject.getJSONArray("data");
-                                    for (int i = 0; i <jsonArray.length() ; i++) {
-                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                        String id = jsonObject1.getString("id");
-
-                                        String bank_num = jsonObject1.getString("bank_num");
-                                        String open_bank = jsonObject1.getString("open_bank");
-                                        String bank_name = jsonObject1.getString("bank_name");
-                                        list2.add(new HkEntity(id,bank_num,open_bank,bank_name));
-                                        hkBaseAdapter = new HkBaseAdapter(BankInfoForReChargeAty.this,list2);
-                                        bank_info_lv.setAdapter(hkBaseAdapter);
-                                        hkBaseAdapter.notifyDataSetChanged();
-                                    }
+                                    String bank_num = jsonObject1.getString("bank_num");
+                                    String open_bank = jsonObject1.getString("open_bank");
+                                    String bank_name = jsonObject1.getString("bank_name");
+                                    list2.add(new HkEntity(id, bank_num, open_bank, bank_name));
+                                    hkBaseAdapter = new HkBaseAdapter(BankInfoForReChargeAty.this, list2);
+                                    bank_info_lv.setAdapter(hkBaseAdapter);
+                                    hkBaseAdapter.notifyDataSetChanged();
+                                }
                             }
 
 //
@@ -190,24 +223,11 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     }
 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-
-    /**
-     * 提现银行卡列表适配器
-     */
+/**
+ * 提现银行卡列表适配器
+ */
 //    private class BankInfoAdapter extends BaseAdapter {
 //
 //        private BIVH bivh;

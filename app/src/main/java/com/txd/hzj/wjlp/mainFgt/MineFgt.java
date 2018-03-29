@@ -6,9 +6,11 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,11 +20,14 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
@@ -65,6 +70,17 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * ===============Txunda===============
  */
 public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
+
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+    private String lat;
+    private String lng;
+    private IndexPst indexPst;
+    @ViewInject(R.id.super_mine_layout)
+    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
+
     /**
      * 标题栏
      */
@@ -403,6 +419,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     protected void initialized() {
+        indexPst = new IndexPst(this);
         userPst = new UserPst(this);
         size = ToolKit.dip2px(getActivity(), 80);
         tit_size = ToolKit.dip2px(getActivity(), 40);
@@ -418,7 +435,47 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     protected void requestData() {
+        lat = DemoApplication.getInstance().getLocInfo().get("lat");
+        lng = DemoApplication.getInstance().getLocInfo().get("lon");
+        indexPst.index(lng, lat);
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
+        superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        superSwipeRefreshLayout.setTargetScrollWithLayout(true);
 
+        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                indexPst.index(lng, lat);
+                userPst.userCenter();
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
     @ViewInject(R.id.tv_dljm)
@@ -517,6 +574,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 //                    .override(icon_size, icon_size)
                     .into(level_icon_iv);
         }
+
+        superSwipeRefreshLayout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+
     }
 
     private void forMsg(Map<String, String> data) {
@@ -543,6 +604,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
+        superSwipeRefreshLayout.setRefreshing(false);
         removeContent();
         removeDialog();
     }

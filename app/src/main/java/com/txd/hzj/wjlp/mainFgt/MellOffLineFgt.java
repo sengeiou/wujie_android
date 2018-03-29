@@ -4,10 +4,12 @@ package com.txd.hzj.wjlp.mainFgt;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -25,6 +28,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
+import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.point.PointWjAty;
@@ -47,6 +51,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
+
     /**
      * 标题栏
      */
@@ -98,6 +103,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private int ads_w = 0;
     private int ads_h = 0;
     private Bundle bundle;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -199,7 +205,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             case R.id.to_location_tv:// 当前位置
                 startActivity(MellCitySelectAty.class, null);
                 break;
-            case R.id.point_by_wj_tv:// xfte驿站
+            case R.id.point_by_wj_tv:// 无界驿站
                 startActivity(PointWjAty.class, null);
                 break;
         }
@@ -228,6 +234,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     protected void requestData() {
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
+
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
     }
 
     Map<String, String> data;
@@ -256,7 +268,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                     startActivity(MellInfoAty.class, bundle);
                 } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id",list_ads.get(0).get("goods_id"));
+                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
                     bundle.putInt("from", 1);
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {
@@ -279,7 +291,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                     startActivity(MellInfoAty.class, bundle);
                 } else if (!TextUtils.isEmpty(list_brand.get(0).get("goods_id")) && !list_brand.get(0).get("goods_id").equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id",list_brand.get(0).get("goods_id"));
+                    bundle.putString("ticket_buy_id", list_brand.get(0).get("goods_id"));
                     bundle.putInt("from", 1);
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {
@@ -301,7 +313,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                     startActivity(MellInfoAty.class, bundle);
                 } else if (!TextUtils.isEmpty(list_brand.get(1).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id",list_brand.get(1).get("goods_id"));
+                    bundle.putString("ticket_buy_id", list_brand.get(1).get("goods_id"));
                     bundle.putInt("from", 1);
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {
@@ -323,7 +335,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                     startActivity(MellInfoAty.class, bundle);
                 } else if (!TextUtils.isEmpty(list_brand.get(2).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id",list_brand.get(2).get("goods_id"));
+                    bundle.putString("ticket_buy_id", list_brand.get(2).get("goods_id"));
                     bundle.putInt("from", 1);
                     startActivity(TicketGoodsDetialsAty.class, bundle);
                 } else {

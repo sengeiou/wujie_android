@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 积分首页
+ * 网络框架：RxJAVA
+ */
 public class IntegralAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -57,6 +62,7 @@ public class IntegralAty extends BaseAty {
     private LinearLayout layout_show_down;
     @ViewInject(R.id.layout_zidongduihuan)
     private LinearLayout layout_zidongduihuan;
+    private boolean isYouXiang; // 当前是否是优享会员
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,9 @@ public class IntegralAty extends BaseAty {
 
     }
 
+    /**
+     * 访问网络获取数据，RxJava框架
+     */
     private void download() {
 
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -106,15 +115,18 @@ public class IntegralAty extends BaseAty {
                                 exchange_money_tv.setEnabled(true);
                             }
 
-
                             String status = jsonObject2.getString("status");
-                            if (status.equals("1")) {
+                            if (status.equals("1")){
+                                // 如果是优享会员并且自动兑换状态为打开
                                 cb.setChecked(true);
-//                                cb.setBackgroundResource(R.drawable.icon_auto_open_hzj);
-                            } else {
-                                cb.setChecked(false);
-//                                cb.setBackgroundResource(R.drawable.icon_auto_close_hzj);
                             }
+//                            if (status.equals("1")) {
+//                                cb.setChecked(true);
+////                                cb.setBackgroundResource(R.drawable.icon_auto_open_hzj);
+//                            } else {
+//                                cb.setChecked(false);
+////                                cb.setBackgroundResource(R.drawable.icon_auto_close_hzj);
+//                            }
                             JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
                             ArrayList<String> list = new ArrayList<String>();
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -128,7 +140,7 @@ public class IntegralAty extends BaseAty {
                                 date.replace("~", "-");
 //                                layout_bottom_tv.setText(my_change_integral);
                                 tv_point_num.setText("无界指数：" + point_num);
-                                tv1.setText(change);
+                                tv1.setText("积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以无界指数。");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                                 Date date1 = new Date(System.currentTimeMillis());
                                 String time = simpleDateFormat.format(date1);
@@ -157,6 +169,8 @@ public class IntegralAty extends BaseAty {
 
     /**
      * 获取后台个人信息，设置控件的显示隐藏
+     * <p>
+     * 访问网络获取数据，RxJava框架
      */
     private void setDownVisibility() {
 
@@ -181,6 +195,9 @@ public class IntegralAty extends BaseAty {
                                 case 2:
                                     layout_zidongduihuan.setVisibility(View.GONE);
                                     break;
+                                case 3:
+                                    isYouXiang = true;
+                                    break;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -193,76 +210,6 @@ public class IntegralAty extends BaseAty {
 
                     @Override
                     public void onCancel(Object tag, Throwable e) {
-                    }
-
-                });
-
-    }
-
-    private void download1(String str) {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        Map<String, Object> parameters1 = new HashMap<String, Object>();
-        parameters1.put("token", Config.getToken());
-        parameters.put("status", str);
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters1)
-                .build()
-                .rxPost("User/changeIntegralStatus", parameters, new RxStringCallback() {
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String data = jsonObject.getString("data");
-
-//                            JSONObject jsonObject2 = new JSONObject(data);
-//                            String my_integral =jsonObject2.getString("my_integral");
-                            String message = jsonObject.getString("message");
-                            Toast.makeText(IntegralAty.this, message, Toast.LENGTH_SHORT).show();
-
-//                            if(status.equals("1")){
-//                                cb.setChecked(true);
-////                                cb.setBackgroundResource(R.drawable.icon_auto_open_hzj);
-//                            }else {
-//                                cb.setChecked(false);
-////                                cb.setBackgroundResource(R.drawable.icon_auto_close_hzj);
-//                            }
-//                            JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
-//                            ArrayList<String> list = new ArrayList<String>();
-//                            for(int i=0;i<jsonArray.length();i++){
-//                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-//                                String my_change_integral =jsonObject1.getString("my_change_integral");
-//                                String point_num = jsonObject1.getString("point_num");
-//                                String change =jsonObject1.getString("change");
-//                                String date =jsonObject1.getString("date");
-//
-//                                date.replace("~","-");
-//                                layout_bottom_tv.setText(my_change_integral);
-//                                tv_point_num.setText("xfte指数"+point_num);
-//                                tv1.setText(change);
-//                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
-//                                Date date1 = new Date(System.currentTimeMillis());
-//                                String time =simpleDateFormat.format(date1);
-//                                tv_date.setText(time);
-//                                tv2.setText("提示：今日若不兑换，此兑换机会将作废"+"\n兑换时间："+date);
-//                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
                     }
 
                 });
@@ -285,13 +232,8 @@ public class IntegralAty extends BaseAty {
                 startActivity(ExchangeMoneyAty.class, bundle);
                 break;
             case R.id.cb:
-                if (cb.isChecked()) {
-                    download1("0");
-                } else {
-                    download1("1");
-                }
-
-
+//                cb.setChecked(!cb.isClickable());
+                User.changeIntegralStatus(IntegralAty.this, cb.isChecked() ? "1" : "0");
                 break;
         }
     }
@@ -303,7 +245,6 @@ public class IntegralAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
     }
 
     @Override
@@ -316,13 +257,24 @@ public class IntegralAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
         super.onComplete(requestUrl, jsonStr);
         L.e(jsonStr);
+
+        L.e("wang", "==========jsonStr>>>>>>>IntegralAty===response:" + jsonStr);
+
         if (requestUrl.contains("myIntegral")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String time_out_status = map.get("time_out_status");
             String exchange_status = map.get("exchange_status");
+
+            String status = map.get("status");
+            if (isYouXiang && status.equals("1")){
+                // 如果是优享会员并且自动兑换状态为打开
+                cb.setChecked(true);
+            }
+
             if (time_out_status.equals("1")) {
 
             }
@@ -331,6 +283,15 @@ public class IntegralAty extends BaseAty {
 
             tv_date.setText(map.get("date"));
 
+        }
+
+        if (requestUrl.contains("changeIntegralStatus")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (map.get("code").equals("1")) {
+                Toast.makeText(IntegralAty.this, map.get("message"), Toast.LENGTH_SHORT).show();
+            } else {
+                cb.setChecked(!cb.isChecked());
+            }
         }
     }
 }

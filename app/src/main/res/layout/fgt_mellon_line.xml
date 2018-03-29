@@ -9,283 +9,288 @@
         android:id="@+id/super_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.txd.hzj.wjlp.view.ObservableScrollView
-        android:id="@+id/mell_on_line_sc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
 
-        <LinearLayout
+        <com.txd.hzj.wjlp.view.ObservableScrollView
+            android:id="@+id/mell_on_line_sc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bg_color"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include layout="@layout/aty_banner" />
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/icon_main_top_bg"/>
-            </RelativeLayout>
-
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/on_line_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white" />
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/under_banner_menu_vp"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:background="@color/white" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/bg_color" />
+            android:scrollbars="none">
 
             <LinearLayout
-                android:id="@+id/wujie_top_lin_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@color/white"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:background="@color/bg_color"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/aty_banner" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/icon_main_top_bg" />
+                </RelativeLayout>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/on_line_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/under_banner_menu_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/bg_color" />
+
+                <LinearLayout
+                    android:id="@+id/wujie_top_lin_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="4dp"
+                        android:paddingEnd="16dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="4dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_top_wj" />
+
+                    <com.txd.hzj.wjlp.view.UPMarqueeView
+                        android:id="@+id/upview1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="4dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/bg_color" />
+
+                <include layout="@layout/for_on_off_line_hzj" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/view_color" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/ads_by_limit_buy_iv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:paddingTop="4dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_top_wj" />
+                    android:scaleType="fitXY" />
 
-                <com.txd.hzj.wjlp.view.UPMarqueeView
-                    android:id="@+id/upview1"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_ticket" />
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/purchase_gv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="4dp" />
-            </LinearLayout>
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="@color/bg_color" />
+                <ImageView
+                    android:id="@+id/group_buy_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <include layout="@layout/for_on_off_line_hzj" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_9" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/view_color" />
-
-            <ImageView
-                android:id="@+id/ads_by_limit_buy_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_ticket" />
-
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/purchase_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
-
-            <ImageView
-                android:id="@+id/group_buy_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_9" />
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/group_shopping_lv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/group_shopping_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
 
-
-            <!--<com.ants.theantsgo.view.inScroll.ListViewForScrollView-->
+                <!--<com.ants.theantsgo.view.inScroll.ListViewForScrollView-->
                 <!--android:id="@+id/group_shopping_lv"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:scrollbars="none" />-->
 
-            <ImageView
-                android:id="@+id/ticket_buy_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/ticket_buy_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_purchase" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_purchase" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/ticket_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/ticket_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/pre_buy_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/pre_buy_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_3" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_3" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/limit_shopping_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/limit_shopping_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/country_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/country_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_4" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_4" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/import_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/import_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/auction_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/auction_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_5" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_5" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/auction_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/auction_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/one_buy_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/one_buy_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_6" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_6" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/good_luck_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/good_luck_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/car_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/car_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_7" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_7" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/car_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/car_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
-            <ImageView
-                android:id="@+id/house_ads_iv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="fitXY" />
+                <ImageView
+                    android:id="@+id/house_ads_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_8" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_8" />
 
-            <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-                android:id="@+id/house_gv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:scrollbars="none"
-                android:verticalSpacing="4dp" />
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/house_gv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </com.txd.hzj.wjlp.view.ObservableScrollView>
+        </com.txd.hzj.wjlp.view.ObservableScrollView>
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
     <include layout="@layout/aty_search_title" />
 
     <ImageView

@@ -104,6 +104,9 @@ public class AddBankCardAty extends BaseAty {
             if (100 == requestCode) {
                 card_type_tv.setText(data.getStringExtra("card_type"));
                 bank_type_id = data.getStringExtra("bank_type_id");
+
+                open_card_ev.setText(""); // 清空开户行
+                card_num_ev.setText(""); // 清空银行卡号
             }
         }
     }

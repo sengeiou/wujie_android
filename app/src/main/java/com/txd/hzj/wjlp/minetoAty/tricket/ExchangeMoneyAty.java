@@ -17,6 +17,8 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tamic.novate.Novate;
@@ -152,6 +154,8 @@ public class ExchangeMoneyAty extends BaseAty {
 
 //                1:积分转余额 2：提现
                 if (type == 1) {
+//                    String[] split = myIntegralStr.split(".");
+//                    String myIntegralTemp = split[0];
                     money_ev.setText(myIntegralStr);
                 } else {
                     money_ev.setText(balanceStr);
@@ -175,13 +179,7 @@ public class ExchangeMoneyAty extends BaseAty {
                         break;
                     } else {
                         //  调用积分转余额接口进行操作
-                        if (TextUtils.isEmpty(password_et.getText().toString())) {
-                            // 判断密码
-                            showErrorTip("请输入支付密码");
-                        } else {
-                            User.verificationPayPwd(this, password_et.getText().toString());
-//                            User.changeIntegral(this, moneyStr);
-                        }
+                        User.changeIntegral(this, moneyStr);
                     }
                 } else {
                     if (TextUtils.isEmpty(bank_card_id)) {
@@ -216,6 +214,7 @@ public class ExchangeMoneyAty extends BaseAty {
         type = getIntent().getIntExtra("to", 1);
 
         if (1 == type) {
+            password_et.setVisibility(View.GONE); // 隐藏密码输入框
             titlt_conter_tv.setText("积分转余额");
             type_logo_iv.setImageResource(R.drawable.icon_exchange_hzj);
             submit_op_tv.setText("确定");
@@ -225,7 +224,6 @@ public class ExchangeMoneyAty extends BaseAty {
             my_bal_tv2.setText("全部使用");
             my_bal_tv1.setText("我的积分300 ");
             ll.setVisibility(View.VISIBLE);
-            operation_type_tv21.setText(" 积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。");
             User.myIntegral(this); // 获取积分
         } else {
             titlt_conter_tv.setText("提现");
@@ -249,20 +247,19 @@ public class ExchangeMoneyAty extends BaseAty {
     }
 
     @Override
-    public void onComplete(String requestUrl, String jsonStr) {
-
-        L.e("wang", "========>>>>>>>>>>>ExchangeMoneyAty===jsonStr" + jsonStr + "      requestUrl:" + requestUrl);
+    public void onComplete(String requestUrl, String jsonStr) {;
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
         if (requestUrl.contains("verificationPayPwd")){
             if (map.get("code").equals("1")) { // 返回code为1说明验证成功
-                if (type == 1) { // 积分转余额
-                    User.changeIntegral(this, moneyStr);
-                } else { // 余额提现操作
+//                if (type == 1) { // 积分转余额
+//                    User.changeIntegral(this, moneyStr);
+//                } else {
+                    // 余额提现操作
                     UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
-                }
+//                }
             } else {
                 showErrorTip(map.get("message"));
             }
@@ -280,6 +277,15 @@ public class ExchangeMoneyAty extends BaseAty {
             myIntegralStr = data.get("my_integral");
             my_bal_tv1.setText("我的积分" + myIntegralStr + " "); // 显示积分总数
             rate_tv.setText(data.get("integral_percentage")); // 手续费率
+//            data.get("point_list")
+            String pointListStr = data.get("point_list");
+            try {
+                JSONArray jsonArray = new JSONArray(pointListStr);
+                JSONObject json = (JSONObject) jsonArray.get(0);
+                operation_type_tv21.setText(json.getString("change")); // 提示：你可以使用xx积分....
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         if (requestUrl.contains("cashIndex")) { // 提现首页
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
