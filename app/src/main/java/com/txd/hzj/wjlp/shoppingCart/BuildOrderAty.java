@@ -445,7 +445,9 @@ public class BuildOrderAty extends BaseAty {
             }
 
         } else {
-            // TODO 购物车结算页信息
+
+            L.e("wang", "=====>>>>>>>>>jsonStr:" + jsonStr);
+
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
@@ -842,20 +844,17 @@ public class BuildOrderAty extends BaseAty {
 
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
-                    bundle.putString("shop_price", getItem(i).get("shop_price"));
-
-//                    bundle.putParcelable("data1", i_bean.get(i).getExpress_fee().isEmpty() ? null : invoice1);
-                    L.e("wang", "==========>>>>>>>>>>invoice1s.get(index) = " + invoice1s.get(index));
+                    bundle.putString("wj_price", getItem(i).get("wj_price"));
                     if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
                         bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
                         bundle.putParcelable("data1", invoice1s.get(index));
+                        // 传入下一界面=======================================================================
                     }
-                    // ==================================================
+
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {
                         bundle.putString("data2", "data1 is null so intent data2.");
                     }
-                    // ==================================================
 
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
 //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);

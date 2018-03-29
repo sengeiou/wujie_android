@@ -11,7 +11,7 @@ public class Invoice1 implements Parcelable {
     String tax;
     String express_fee;
     String invoice_type;
-    String text1, text2, text3, text4, text5;
+    String text1, text2, text3, text4, text5, text6;
 
     public Invoice1() {
     }
@@ -80,6 +80,15 @@ public class Invoice1 implements Parcelable {
         return invoice_type;
     }
 
+
+    public String getText6() {
+        return text6;
+    }
+
+    public void setText6(String text6) {
+        this.text6 = text6;
+    }
+
     protected Invoice1(Parcel in) {
         tax = in.readString();
         express_fee = in.readString();
@@ -89,6 +98,7 @@ public class Invoice1 implements Parcelable {
         text3 = in.readString();
         text4 = in.readString();
         text5 = in.readString();
+        text6 = in.readString();
     }
 
     public static final Creator<Invoice1> CREATOR = new Creator<Invoice1>() {
@@ -118,6 +128,7 @@ public class Invoice1 implements Parcelable {
         dest.writeString(text3);
         dest.writeString(text4);
         dest.writeString(text5);
+        dest.writeString(text6);
     }
 
     @Override
@@ -131,6 +142,7 @@ public class Invoice1 implements Parcelable {
                 ", text3='" + text3 + '\'' +
                 ", text4='" + text4 + '\'' +
                 ", text5='" + text5 + '\'' +
+                ", text6='" + text6 + '\'' +
                 '}';
     }
 }

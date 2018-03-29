@@ -191,6 +191,9 @@ public class InvoiceAty extends BaseAty {
                             invoice1.setText2(tv_type.getText().toString());
                             invoice1.setText3(et_number.getText().toString());
                             invoice1.setText4(bean.getRise());
+                            if (!tv_tax.getText().toString().equals("")) {
+                                invoice1.setText6(tv_tax.getText().toString());
+                            }
                         } else if (cb2.isChecked()) { // 否则如果公司发票选中
                             if (TextUtils.isEmpty(et_title.getText().toString())) {
                                 showToast("请输入发票抬头");
@@ -236,6 +239,9 @@ public class InvoiceAty extends BaseAty {
                             invoice1.setText2(tv_type.getText().toString());
                             invoice1.setText3(et_number.getText().toString());
                             invoice1.setText4(bean.getRise());
+                            if (!tv_tax.getText().toString().equals("")) {
+                                invoice1.setText6(tv_tax.getText().toString());
+                            }
                         }
                         Intent intent = new Intent();
                         intent.putExtra("data", bean);
@@ -259,6 +265,9 @@ public class InvoiceAty extends BaseAty {
                         invoice1.setText2(tv_type.getText().toString());
                         invoice1.setText3(et_number.getText().toString());
                         invoice1.setText4(bean.getRise());
+                        if (!tv_tax.getText().toString().equals("")) {
+                            invoice1.setText6(tv_tax.getText().toString());
+                        }
                         Intent intent = new Intent();
                         intent.putExtra("data", bean);
                         setResult(RESULT_OK, intent);
@@ -314,7 +323,7 @@ public class InvoiceAty extends BaseAty {
             noCb.setChecked(false);
             needCb.setChecked(true);
             layout.setVisibility(View.VISIBLE);
-            tv_tax.setText("税金" + invoice1.getTax() + "%");
+            tv_tax.setText("税金" + invoice1.getText6());
             tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
 
             et_title.setText(invoice1.getText1());
@@ -352,9 +361,9 @@ public class InvoiceAty extends BaseAty {
                 invoice1 = (Invoice1) data.getParcelableExtra("data1");
 //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
-                L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()) + "  价格：" + Double.parseDouble(getIntent().getStringExtra("shop_price")));
+                L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()) + "  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
                 DecimalFormat df = new DecimalFormat(".##");
-                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("shop_price")) / 100));
+                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
                 layout.setVisibility(View.VISIBLE);
 //                L.e("===========",invoice1+"");
@@ -453,7 +462,6 @@ public class InvoiceAty extends BaseAty {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // TODO 界面关闭的时候直接销毁掉以便再次打开本界面的时候确保状态是初始创建的
         this.finish();
     }
 }

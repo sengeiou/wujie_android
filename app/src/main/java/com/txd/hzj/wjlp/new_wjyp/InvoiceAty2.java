@@ -21,7 +21,6 @@ import com.txd.hzj.wjlp.new_wjyp.http.Invoice;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +42,7 @@ public class InvoiceAty2 extends BaseAty {
     private String goods_id = "";
     private int size = 0;
     aty_invoce2BaseAdapter aty_invoce2BaseAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +56,6 @@ public class InvoiceAty2 extends BaseAty {
             public void onClick(View v) {
 
 
-
             }
         });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,7 +63,7 @@ public class InvoiceAty2 extends BaseAty {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String json = getIntent().getStringExtra("json1");
-                Intent intent =getIntent();
+                Intent intent = getIntent();
 //                intent.putExtra("data", list.get(position).get("invoice_type"));
 //                PreferencesUtils.putString(InvoiceAty2.this,"tax",list.get(position).get("tax"));
 //                PreferencesUtils.putString(InvoiceAty2.this,"express_fee",list.get(position).get("express_fee"));
@@ -78,7 +77,7 @@ public class InvoiceAty2 extends BaseAty {
                 invoice.setText3("");
                 invoice.setText4("");
 
-                intent.putExtra("data1",invoice);
+                intent.putExtra("data1", invoice);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -102,13 +101,13 @@ public class InvoiceAty2 extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Log.d("test=====",jsonStr);
+        Log.d("test=====", jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 //        tv_explain.setText(map.get("explain"));
         list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));
 
-        aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list,this);
+        aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list, this);
         lv.setAdapter(aty_invoce2BaseAdapter);
         aty_invoce2BaseAdapter.notifyDataSetChanged();
 
@@ -125,7 +124,6 @@ public class InvoiceAty2 extends BaseAty {
     }
 
 
-
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_invoice2;
@@ -135,9 +133,10 @@ public class InvoiceAty2 extends BaseAty {
     protected void initialized() {
 
     }
+
     @Override
-    public boolean onKeyDown(int keyCode,KeyEvent event){
-        if(keyCode==KeyEvent.KEYCODE_BACK)
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK)
             return true;//不执行父类点击事件
         return super.onKeyDown(keyCode, event);//继续执行父类其他点击事件
     }
