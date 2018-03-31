@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,13 +59,14 @@ public class ApplyForAfterSalesAty extends BaseAty {
     @ViewInject(R.id.money_be_back_ev)
     private EditText money_be_back_ev;
     /**
-     * 允许输入的最大金额
+     * 允许退款的最大金额
      */
-    private BigDecimal maxPrice;
+    private double maxPrice;
+
     /**
      * 用户输入的金额
      */
-    private String price;
+    private String priceStr;
     private Bundle bundle;
 
     /**
@@ -100,6 +102,9 @@ public class ApplyForAfterSalesAty extends BaseAty {
      */
     private String cause;
 
+    /**
+     * 最多可退款
+     */
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
 
@@ -113,6 +118,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
     private String typeTypeId; // 售后类型id
     private String causeTypeId; // 原因id
     private String statusTypeId; // 物流状态id
+    private DecimalFormat df; // 格式化金额
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,16 +170,18 @@ public class ApplyForAfterSalesAty extends BaseAty {
                     showToast("请选择售后原因！");
                     return;
                 }
-                price = money_be_back_ev.getText().toString();
-                if (moneyStatus == 1 && !price.equals("")) { // 如果显示退款金额
-                    BigDecimal temp_price = new BigDecimal(price);
-                    if (temp_price.compareTo(maxPrice.setScale(2, BigDecimal.ROUND_DOWN)) > 0) {
-                        showErrorTip("最多只能退" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
+                priceStr = money_be_back_ev.getText().toString();
+                if (moneyStatus == 1 && !priceStr.equals("")) { // 如果显示退款金额
+
+                    double parseDouble = Double.parseDouble(priceStr.equals("") ? "0.0" : priceStr);
+                    if (parseDouble > maxPrice){
+                        showErrorTip("当前商品最多只能退" + df.format(maxPrice));
                         return;
                     }
+
                 }
 
-                AfterSale.backApply(typeTypeId, String.valueOf(price), edittext.getText().toString(), pic, causeTypeId,
+                AfterSale.backApply(typeTypeId, df.format(maxPrice), edittext.getText().toString(), pic, causeTypeId,
                         statusTypeId, order_id, type, order_goods_id, this);
                 showProgressDialog();
                 break;
@@ -187,6 +195,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        df = new DecimalFormat("#.00");
         imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 使用Glide加载
         imagePicker.setMultiMode(true);// 多选
@@ -199,9 +208,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
-        maxPrice = new BigDecimal(Double.parseDouble(getIntent().getStringExtra("price")));
-        L.e("wang", "=========>>>>>>>>>>>maxPrice:" + maxPrice);
-        tv_price.setText("最多" + maxPrice.setScale(2, BigDecimal.ROUND_DOWN));
+        maxPrice = Double.parseDouble(getIntent().getStringExtra("price"));
+        tv_price.setText("最多可退：" + df.format(maxPrice));
         switch (type) {
             case "0":
                 type = "1";

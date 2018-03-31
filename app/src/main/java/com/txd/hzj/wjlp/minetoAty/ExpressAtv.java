@@ -9,8 +9,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
+import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -27,6 +29,8 @@ public class ExpressAtv extends BaseAty {
     private WebView express_webView;
     @ViewInject(R.id.express_loading_pb)
     private ProgressBar express_loading_pb;
+    @ViewInject(R.id.titlt_conter_tv)
+    private TextView titlt_conter_tv;
 
     // https://m.kuaidi100.com/index_all.html?type=[快递公司编码]&postid=[快递单号]&callbackurl=[点击"返回"跳转的地址，非必须]
     private String expressUrl = "https://m.kuaidi100.com/index_all.html?";
@@ -38,7 +42,7 @@ public class ExpressAtv extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        titlt_conter_tv.setText("物流详情");
         String express_company = getIntent().getStringExtra("express_company"); // 快递公司 测试数据：yunda
         String express_nu = getIntent().getStringExtra("express_no"); // 快递单号 测试数据：1300110640157
         L.e("wang", "======>>>>>>> 快递公司代码：" + express_company + "  快递单号：" + express_nu);

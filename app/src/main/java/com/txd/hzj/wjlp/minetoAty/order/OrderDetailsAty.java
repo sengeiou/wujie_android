@@ -120,6 +120,9 @@ public class OrderDetailsAty extends BaseAty {
     private View clickView; // 点击时创建Dialog需要传入的View
     private int clickIndex; // 确认收货时点击的商品信息索引
 
+    @ViewInject(R.id.lin_logistics) // 订单物流入口
+    private LinearLayout lin_logistics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -393,6 +396,10 @@ public class OrderDetailsAty extends BaseAty {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
+            if (order_status.equals("0") || order_status.equals("1")){
+                // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
+                lin_logistics.setVisibility(View.GONE);
+            }
             if (type.equals("0") || type.equals("7")) {
                 setOrderStatus();
             } else if (type.equals("3")) {
@@ -848,7 +855,7 @@ public class OrderDetailsAty extends BaseAty {
                 if (getItem(i).get("status").equals("2")) { // 如果是未收货
                     tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
-                    tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time")); // TODO 设置文字为系统自动收货的时间
+                    tgvh.textview.setText(getItem(i).get("auto_time")); // TODO 设置文字为系统自动收货的时间
                 } else { // 否则商品未发货
 //                    if (getItem(i).get("remind_status").equals("0")) {
                     // 如果未提醒过发货，则将提醒发货按钮设置为显示

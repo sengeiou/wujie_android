@@ -68,4 +68,14 @@ public class User {
         apiTool2.postApi(url + "changeIntegralStatus", params, baseView);
     }
 
+    /**
+     * 获取个人资料
+     *
+     * @param baseView
+     */
+    public static void userInfo(BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "userInfo", new RequestParams(), baseView);
+    }
+
 }

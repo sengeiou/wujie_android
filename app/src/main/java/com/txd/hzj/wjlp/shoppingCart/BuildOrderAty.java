@@ -200,8 +200,6 @@ public class BuildOrderAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.et_leave_message:
-
-
                 break;
             case R.id.layout_sle:
 //                if (!TextUtils.isEmpty(address_id)) {
@@ -827,7 +825,7 @@ public class BuildOrderAty extends BaseAty {
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
-                govh.price_for_goods_tv.setText("规格：" + getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
+                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
             } else {
                 govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
             }

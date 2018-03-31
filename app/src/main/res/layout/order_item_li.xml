@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:descendantFocusability="blocksDescendants"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        >
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/ItemTitle"
@@ -24,8 +23,7 @@
             android:drawableLeft="@drawable/icon_home_pager"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/icon_turn_right_gray"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/tv_state"
@@ -33,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="待付款"
-            android:textColor="@color/colorRed"/>
+            android:textColor="@color/colorRed" />
     </RelativeLayout>
 
     <com.ants.theantsgo.view.inScroll.ListViewForScrollView
@@ -42,7 +40,7 @@
         android:layout_height="wrap_content"
         android:divider="@color/white"
         android:dividerHeight="4dp"
-        android:scrollbars="none"/>
+        android:scrollbars="none" />
 
     <TextView
         android:id="@+id/goods_price_info_tv"
@@ -51,13 +49,13 @@
         android:gravity="end"
         android:padding="10dp"
         android:text="共2件商品 合计：￥190.00(含运费￥10.00)"
-        android:textColor="@color/app_text_color"/>
+        android:textColor="@color/app_text_color" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bg_color"/>
+        android:background="@color/bg_color" />
 
-    <include layout="@layout/layout_order_btn"/>
+    <include layout="@layout/layout_order_btn" />
 
 </LinearLayout>

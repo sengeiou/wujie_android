@@ -786,12 +786,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                                     if(Config.getToken().equals("")){
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), LoginAty.class);
-
                                         getActivity().startActivity(intent);
                                     }else {
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), EditProfileAty.class);
-
                                         getActivity().startActivity(intent);
                                     }
 

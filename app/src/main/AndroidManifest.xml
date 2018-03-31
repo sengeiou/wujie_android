@@ -371,7 +371,6 @@
         <activity android:name=".huanxin.ui.ForwardMessageActivity" />
         <activity android:name=".huanxin.ui.PickContactNoCheckboxActivity" />
 
-
            <activity android:name=".new_wjyp.InvoiceAty2"/>
 
         <!--重置支付密码-->

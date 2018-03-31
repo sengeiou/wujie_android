@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,12 +8,11 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.balance.RechargeAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        />
+        android:layout_height="1dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,18 +34,18 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="线上充值"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent" />
 
             <View
                 android:id="@+id/re_left_view"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent"/>
+                android:background="@color/colorAccent" />
         </LinearLayout>
 
         <Space
             android:layout_width="48dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/re_right_layout"
@@ -61,13 +59,13 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="线下充值"
-                android:textColor="@color/colorAccent"/>
+                android:textColor="@color/colorAccent" />
 
             <View
                 android:id="@+id/re_right_view"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent"/>
+                android:background="@color/colorAccent" />
         </LinearLayout>
 
     </LinearLayout>
@@ -158,7 +156,8 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
+
                 <LinearLayout
                     android:id="@+id/select_card_num_layout1"
                     android:layout_width="match_parent"
@@ -170,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="12dp"
                         android:text="平台银行卡号"
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
 
                     <TextView
                         android:id="@+id/bank_cart_num_tv1"
@@ -179,11 +178,13 @@
                         android:drawableEnd="@drawable/icon_turn_right_g"
                         android:hint="请选择"
                         android:padding="12dp"
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
                 </LinearLayout>
+
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
+
                 <LinearLayout
                     android:id="@+id/select_card_num_layout"
                     android:layout_width="match_parent"
@@ -195,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="12dp"
                         android:text="汇款银行卡号"
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
 
                     <TextView
                         android:id="@+id/bank_cart_num_tv"
@@ -204,13 +205,13 @@
                         android:drawableEnd="@drawable/icon_turn_right_g"
                         android:hint="请选择"
                         android:padding="12dp"
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
                 </LinearLayout>
 
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -231,7 +232,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
                             android:text="汇款时间        "
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color" />
 
                         <TextView
                             android:id="@+id/picker_time_tv"
@@ -240,7 +241,7 @@
                             android:drawableEnd="@drawable/icon_turn_right_g"
                             android:hint="请选择"
                             android:padding="12dp"
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -253,7 +254,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
                             android:text="汇款金额(元)  "
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color" />
 
                         <EditText
                             android:id="@+id/off_line_recharge_money_tv"
@@ -264,7 +265,7 @@
                             android:inputType="numberDecimal"
                             android:padding="12dp"
                             android:textColor="@color/app_text_color"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -277,7 +278,7 @@
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
                             android:text="汇款人姓名    "
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color" />
 
                         <EditText
                             android:id="@+id/off_line_recharge_name_tv"
@@ -287,7 +288,7 @@
                             android:hint="请输入"
                             android:padding="12dp"
                             android:textColor="@color/app_text_color"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -301,7 +302,7 @@
                             android:layout_height="wrap_content"
                             android:padding="12dp"
                             android:text="汇款凭证        "
-                            android:textColor="@color/app_text_color"/>
+                            android:textColor="@color/app_text_color" />
 
                         <ImageView
                             android:id="@+id/off_line_recharge_pic_iv"
@@ -309,13 +310,13 @@
                             android:layout_height="100dp"
                             android:layout_marginBottom="12dp"
                             android:layout_marginStart="12dp"
-                            android:src="@drawable/icon_updata_pic_hzj"/>
+                            android:src="@drawable/icon_updata_pic_hzj" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -328,7 +329,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="12dp"
                         android:text="汇款说明"
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
 
                     <EditText
                         android:id="@+id/off_line_recharge_desc_ev"
@@ -341,12 +342,12 @@
                         android:lines="5"
                         android:padding="12dp"
                         android:textColor="@color/app_text_color"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -358,7 +359,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="12dp"
                         android:text="安全密码        "
-                        android:textColor="@color/app_text_color"/>
+                        android:textColor="@color/app_text_color" />
 
                     <EditText
                         android:id="@+id/off_line_recharge_pwd_ev"
@@ -369,7 +370,7 @@
                         android:inputType="textPassword"
                         android:padding="12dp"
                         android:textColor="@color/app_text_color"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <TextView
@@ -384,8 +385,7 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="确认"
-                    android:textColor="@color/white"
-                    />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
 

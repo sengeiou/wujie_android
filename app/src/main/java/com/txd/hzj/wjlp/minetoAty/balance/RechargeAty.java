@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
@@ -40,8 +42,13 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.txd.hzj.wjlp.new_wjyp.http.Pay;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONArray;
@@ -57,6 +64,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.R.attr.data;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -66,6 +75,21 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class RechargeAty extends BaseAty {
+
+    private String auth_status = "";
+    private String comp_auth_status = "";
+
+    private Handler handler = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            Bundle bb = new Bundle();
+            bb.putString("auth_status", auth_status);
+            bb.putString("comp_auth_status", comp_auth_status);
+            startActivity(aty_authentication.class, bb);
+            return false;
+        }
+    });
+
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     @ViewInject(R.id.titlt_right_tv)
@@ -194,9 +218,9 @@ public class RechargeAty extends BaseAty {
         cb_jfzf.setVisibility(View.GONE);
 
 
-        PreferencesUtils.remove(RechargeAty.this,"band_id");
+        PreferencesUtils.remove(RechargeAty.this, "band_id");
 //        PreferencesUtils.remove(RechargeAty.this,"band_id1");
-        PreferencesUtils.remove(RechargeAty.this,"band_code");
+        PreferencesUtils.remove(RechargeAty.this, "band_code");
     }
 
     /**
@@ -246,26 +270,26 @@ public class RechargeAty extends BaseAty {
     @Override
     @OnClick({R.id.re_left_layout, R.id.re_right_layout, R.id.pay_by_wechat_cb,
             R.id.pay_by_ali_cb, R.id.select_card_num_layout, R.id.picker_time_layout,
-            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit,R.id.titlt_right_tv,R.id.select_card_num_layout1})
+            R.id.off_line_recharge_tv, R.id.off_line_recharge_pic_iv, R.id.tv_submit, R.id.titlt_right_tv, R.id.select_card_num_layout1})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
 
 
             case R.id.titlt_right_tv:
-                if(type==0){
+                if (type == 0) {
 
 //                    setResult(RESULT_OK, intent);
 //                    finish();
                     Intent intent = new Intent();
-                    intent.setClass(RechargeAty.this,ParticularsUsedByTricketAty.class);
-                    intent.putExtra("from",3);
+                    intent.setClass(RechargeAty.this, ParticularsUsedByTricketAty.class);
+                    intent.putExtra("from", 3);
                     startActivity(intent);
                     finish();
-                }else if(type==1){
+                } else if (type == 1) {
                     Intent intent = new Intent();
-                    intent.setClass(RechargeAty.this,ParticularsUsedByTricketAty.class);
-                    intent.putExtra("from",4);
+                    intent.setClass(RechargeAty.this, ParticularsUsedByTricketAty.class);
+                    intent.putExtra("from", 4);
 //                    setResult(RESULT_OK, intent);
 //                    finish();
                     startActivity(intent);
@@ -303,11 +327,12 @@ public class RechargeAty extends BaseAty {
                 selectCheckBoxBottom(bottom_type);
                 break;
             case R.id.select_card_num_layout:// 线下支付，选择银行卡号
-                PreferencesUtils.putString(RechargeAty.this,"key1","0");
-                startActivityForResult(BankInfoForReChargeAty.class, null, 100);
+
+                User.userInfo(this); // 获取用户信息
+
                 break;
-            case R.id.select_card_num_layout1:// 线下支付，选择银行卡号
-                PreferencesUtils.putString(RechargeAty.this,"key1","1");
+            case R.id.select_card_num_layout1:// 线下支付，选择平台银行卡号
+                PreferencesUtils.putString(RechargeAty.this, "key1", "1");
                 startActivityForResult(BankInfoForReChargeAty.class, null, 100);
                 break;
             case R.id.picker_time_layout:// 线下支付，选择汇款时间
@@ -334,8 +359,8 @@ public class RechargeAty extends BaseAty {
 //                L.e("======凭证=====", pic.getAbsolutePath());
 //                L.e("======说明=====", desc);
 //                L.e("======密码=====", pay_pwd);
-                L.e("========>>>>>>>>>>"+PreferencesUtils.getString(RechargeAty.this,"band_id1"));
-                balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this,"band_code1"), act_time, money, name, pic, desc, pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
+                L.e("========>>>>>>>>>>" + PreferencesUtils.getString(RechargeAty.this, "band_id1"));
+                balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this, "band_code1"), act_time, money, name, pic, desc, pay_pwd, PreferencesUtils.getString(RechargeAty.this, "band_id1"));
 //                download(PreferencesUtils.getString(RechargeAty.this,"band_code1"),act_time,money,name,pic,desc,pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
                 break;
 
@@ -377,7 +402,7 @@ public class RechargeAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("underMoney")) {
-            L.e("==========",jsonStr);
+            L.e("==========", jsonStr);
             showRightTip(map.get("message"));
             finish();
         }
@@ -437,6 +462,44 @@ public class RechargeAty extends BaseAty {
             showProgressDialog();
 
         }
+        if (requestUrl.contains("userInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (data.get("code").equals("1")) {
+                data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+                auth_status = data.get("auth_status");
+                comp_auth_status = data.get("comp_auth_status");
+                if (auth_status.equals("0") || auth_status.equals("3")) {
+                    showToast(auth_status.equals("0") ? "请先进行实名认证" : "您的认证被拒绝，请重新进行认证");
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Message message = new Message();
+                            message.what = 0;
+                            message.obj = 0;
+                            handler.sendMessage(message);
+                        }
+                    }).start();
+                    return;
+                }
+                if (auth_status.equals("1")) {
+                    showToast("正在实名认证中，请耐心等待");
+                    return;
+                }
+                if (auth_status.equals("2")) {
+                    PreferencesUtils.putString(RechargeAty.this, "key1", "0");
+                    startActivityForResult(BankInfoForReChargeAty.class, null, 100);
+                    return;
+                }
+            }
+            return;
+
+        }
+
     }
 
     private class WxPayReceiver extends BroadcastReceiver {
@@ -468,8 +531,8 @@ public class RechargeAty extends BaseAty {
         if (RESULT_OK == resultCode) {
             switch (requestCode) {
                 case 100:// 银行卡号
-                    bank_cart_num_tv1.setText(PreferencesUtils.getString(RechargeAty.this,"band_id"));
-                    bank_cart_num_tv.setText(PreferencesUtils.getString(RechargeAty.this,"band_code"));
+                    bank_cart_num_tv1.setText(PreferencesUtils.getString(RechargeAty.this, "band_id"));
+                    bank_cart_num_tv.setText(PreferencesUtils.getString(RechargeAty.this, "band_code"));
 //                    String card_num = data.getStringExtra("card_num");
 //                    bank_cart_num_tv.setText(card_num);
 //                    bank_card_id = data.getStringExtra("bank_card_id");
@@ -531,7 +594,7 @@ public class RechargeAty extends BaseAty {
                 //年月日时分秒 的显示与否，不设置则默认全部显示
                 .setType(new boolean[]{true, true, true, true, true, false})
                 .setLabel("年", "月", "日", "点", "分", "")
-                
+
                 .isCenterLabel(false)
                 .setDividerColor(Color.DKGRAY)
                 .setContentSize(18)
@@ -557,6 +620,7 @@ public class RechargeAty extends BaseAty {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return format.format(date);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -567,22 +631,22 @@ public class RechargeAty extends BaseAty {
     }
 
 
-    private void download(String s1,String s2,String s3,String s4,File s5,String s6,String s7,String s8) {
+    private void download(String s1, String s2, String s3, String s4, File s5, String s6, String s7, String s8) {
 
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("token", Config.getToken());
         Map<String, Object> params = new HashMap<String, Object>();
-        String json=null;
+        String json = null;
 //       try {
 //           JSONObject params = new JSONObject();
-           params.put("bank_card_id", s1);
-           params.put("act_time", s2);
-           params.put("money", s3);
-           params.put("name", s4);
-           params.put("pic", s5);
-           params.put("desc", s6);
-           params.put("pay_password", s7);
-           params.put("platform_account_id", s8);
+        params.put("bank_card_id", s1);
+        params.put("act_time", s2);
+        params.put("money", s3);
+        params.put("name", s4);
+        params.put("pic", s5);
+        params.put("desc", s6);
+        params.put("pay_password", s7);
+        params.put("platform_account_id", s8);
 //           json=params.toString();
 //       }catch (Exception e){
 //           e.printStackTrace();
@@ -598,10 +662,10 @@ public class RechargeAty extends BaseAty {
                     public void onNext(Object tag, String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            String code =jsonObject.getString("code");
-                            String message =jsonObject.getString("message");
+                            String code = jsonObject.getString("code");
+                            String message = jsonObject.getString("message");
                             showToast(message);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -616,7 +680,6 @@ public class RechargeAty extends BaseAty {
 
                     }
                 });
-
 
 
 //
