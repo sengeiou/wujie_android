@@ -17,6 +17,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -35,7 +36,6 @@ import java.util.Map;
 /**
  * Created by lienchao on 2017/7/14 0014.
  */
-
 public class MyOrderAdapter extends BaseAdapter {
     private Context context;
     private List<Order> list;
@@ -271,9 +271,9 @@ public class MyOrderAdapter extends BaseAdapter {
             } else {
                 str = "房款";
             }
-            goVh.title.setText("可抵：¥" +list.get(p).getTrue_pre_money()+ str);
+            goVh.title.setText("可抵：¥" + list.get(p).getTrue_pre_money() + str);
             goVh.tv_price.setVisibility(View.VISIBLE);
-            goVh.tv_price.setText("¥" + list.get(p).getPre_money() );
+            goVh.tv_price.setText("¥" + list.get(p).getPre_money());
             return view;
         }
 
@@ -282,6 +282,8 @@ public class MyOrderAdapter extends BaseAdapter {
             private ImageView image;
             @ViewInject(R.id.name)
             private TextView name;
+            @ViewInject(R.id.jifenTv)
+            private TextView jifenTv;
             @ViewInject(R.id.num)
             private TextView num;
             @ViewInject(R.id.title)

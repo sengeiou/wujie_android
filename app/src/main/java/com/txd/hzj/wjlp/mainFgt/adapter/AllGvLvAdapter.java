@@ -46,7 +46,7 @@ public class AllGvLvAdapter extends BaseAdapter {
      * 标识
      * 0.限量购
      * 1.票券区
-     * 2.xfte预购
+     * 2.无界预购
      * 3.进口馆
      * 4.竞拍汇
      * 5.一元夺宝
@@ -103,7 +103,7 @@ public class AllGvLvAdapter extends BaseAdapter {
         if (view == null) {
             switch (type) {
                 case 0:// 限量购
-                case 2:// xfte预购
+                case 2:// 无界预购
                     view = inflater.inflate(R.layout.item_purchase_gv, viewGroup, false);
                     break;
                 case 1:// 票券区
@@ -142,7 +142,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 
         switch (type) {
             case 0:// 限量购
-            case 2:// xfte预购
+            case 2:// 无界预购
                 long now = System.currentTimeMillis() / 1000;
                 long end;
                 try {

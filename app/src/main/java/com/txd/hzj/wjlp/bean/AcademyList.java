@@ -5,7 +5,7 @@ package com.txd.hzj.wjlp.bean;
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：10:57
- * 描述：xfte书院
+ * 描述：无界书院
  * ===============Txunda===============
  */
 

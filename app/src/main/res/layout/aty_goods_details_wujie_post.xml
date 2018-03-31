@@ -25,7 +25,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:padding="8dp"
-                android:text="xfte驿站"
+                android:text="无界驿站"
                 android:textColor="@color/app_text_color" />
 
             <ImageView

@@ -25,7 +25,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：上午 9:26
- * 描述：xfte书院
+ * 描述：无界书院
  * ===============Txunda===============
  */
 public class BooksAty extends BaseAty {
@@ -48,7 +48,7 @@ public class BooksAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("xfte书院");
+        titlt_conter_tv.setText("无界书院");
     }
 
     @Override

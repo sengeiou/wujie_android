@@ -84,7 +84,7 @@ public class SnatchChenAty extends BaseAty {
      */
     private List<OneBuyBean.Data.NewsBean> data;
     /**
-     * xfte头条View
+     * 无界头条View
      */
     private List<View> views;
 

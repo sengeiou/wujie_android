@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/im_head"
-            android:text="xfte优品"
+            android:text="无界优品"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 

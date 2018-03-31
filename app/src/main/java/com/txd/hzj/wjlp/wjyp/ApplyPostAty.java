@@ -25,7 +25,7 @@ public class ApplyPostAty
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_applypost);
         tv_title = (TextView) findViewById(R.id.tv_title);
-        tv_title.setText("xfte驿站升级");
+        tv_title.setText("无界驿站升级");
         im4 = (ImageView) findViewById(R.id.im4);
         image4 = (ImageView) findViewById(R.id.image4);
         size = getResources().getDisplayMetrics().widthPixels;

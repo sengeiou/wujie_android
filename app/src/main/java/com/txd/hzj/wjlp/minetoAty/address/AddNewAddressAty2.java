@@ -150,34 +150,30 @@ public class AddNewAddressAty2 extends BaseAty {
                 String receiver = address_name_tv.getText().toString().trim();
                 String phone = address_phone_tv.getText().toString().trim();
                 String address = address_details_tv.getText().toString().trim();
-                if(receiver.equals("")){
+                if (receiver.equals("")) {
                     showToast("姓名不能为空");
-                }else if(phone.equals("")){
+                } else if (phone.equals("")) {
                     showToast("电话不能为空");
-                }else if(zore_tv.getText().toString().trim().equals("")){
+                } else if (zore_tv.getText().toString().trim().equals("")) {
                     showToast("区域不能为空");
-                }else if(street_tv.getText().toString().trim().equals("")){
+                } else if (street_tv.getText().toString().trim().equals("")) {
                     showToast("街道不能为空");
-                }else if(address.equals("")){
+                } else if (address.equals("")) {
                     showToast("详细地址不能为空");
-                }
+                } else {
 
-
-                else{
-
-
-                if (0 == type) {
-                    Log.d("cehshi","111111");
-                    addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
-                            street_id, address, lng, lat);
+                    if (0 == type) {
+                        Log.d("cehshi", "111111");
+                        addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
+                                street_id, address, lng, lat);
 //                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id,
 //                            street_id, address, lng, lat);
 
-                } else {
-                    Log.d("cehshi","222222");
-                    addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id,
-                            city_id, area_id, street_id, address, lng, lat);
-                }
+                    } else {
+                        Log.d("cehshi", "222222");
+                        addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id,
+                                city_id, area_id, street_id, address, lng, lat);
+                    }
                 }
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
@@ -420,7 +416,7 @@ public class AddNewAddressAty2 extends BaseAty {
     }
 
 
-    private void download(String receiver,String phone,String province,String city,String area,String street,String province_id,String city_id,String area_id,String street_id,String address,String lng,String lat) {
+    private void download(String receiver, String phone, String province, String city, String area, String street, String province_id, String city_id, String area_id, String street_id, String address, String lng, String lat) {
 
         Map<String, Object> parameters = new HashMap<String, Object>();
 
@@ -475,9 +471,6 @@ public class AddNewAddressAty2 extends BaseAty {
                 });
 
     }
-
-
-
 
 
 }

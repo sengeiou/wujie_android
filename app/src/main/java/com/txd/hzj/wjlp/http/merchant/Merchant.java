@@ -97,7 +97,7 @@ class Merchant {
     }
 
     /**
-     * 活动商品——xfte预购
+     * 活动商品——无界预购
      *
      * @param merchant_id 商店id
      * @param p           分类

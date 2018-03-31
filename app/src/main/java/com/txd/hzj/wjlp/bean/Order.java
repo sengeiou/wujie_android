@@ -54,6 +54,7 @@ public class Order {
 
     private String style_name;
     private String tags;
+    private String return_integral;
 
 
     public String getHouse_id() {
@@ -249,6 +250,14 @@ public class Order {
         this.status = status;
     }
 
+    public String getReturn_integral() {
+        return return_integral;
+    }
+
+    public void setReturn_integral(String return_integral) {
+        this.return_integral = return_integral;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -270,6 +279,7 @@ public class Order {
                 ", pay_type='" + pay_type + '\'' +
                 ", true_pre_money='" + true_pre_money + '\'' +
                 ", status='" + status + '\'' +
+                ", return_integral='" + return_integral + '\'' +
                 '}';
     }
 }

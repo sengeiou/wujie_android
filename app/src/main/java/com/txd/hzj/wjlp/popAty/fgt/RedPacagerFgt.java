@@ -55,7 +55,7 @@ public class RedPacagerFgt extends BaseFgt {
     private UPMarqueeView mell_noty_up_view;
     private List<Map<String, String>> announce;
     /**
-     * xfte头条View
+     * 无界头条View
      */
     private List<View> views;
 

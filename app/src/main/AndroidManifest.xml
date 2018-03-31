@@ -571,8 +571,7 @@
             </intent-filter>
         </activity>
 
-=======
-        <!-- xfte预购三级分类商品列表 -->
+        <!-- 无界预购三级分类商品列表 -->
         <activity
             android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
 

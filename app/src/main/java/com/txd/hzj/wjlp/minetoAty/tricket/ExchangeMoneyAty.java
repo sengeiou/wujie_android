@@ -132,7 +132,7 @@ public class ExchangeMoneyAty extends BaseAty {
     private CommonPopupWindow commonPopupWindow;
     private String rate;
     private String balanceStr; // 余额数值
-    private String myIntegralStr; // 积分总数
+    private String myChangeIntegralStr; // 可兑换积分总数
     private String moneyStr;
 
     @Override
@@ -142,7 +142,7 @@ public class ExchangeMoneyAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv, R.id.my_bal_tv2, R.id.submit_op_tv})
+    @OnClick({R.id.select_bank_card_layout, R.id.my_bal_tv2, R.id.submit_op_tv, R.id.submit_op_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -154,9 +154,8 @@ public class ExchangeMoneyAty extends BaseAty {
 
 //                1:积分转余额 2：提现
                 if (type == 1) {
-//                    String[] split = myIntegralStr.split(".");
-//                    String myIntegralTemp = split[0];
-                    money_ev.setText(myIntegralStr);
+//                    String[] split = msubmit_op_tv
+                    money_ev.setText(myChangeIntegralStr);
                 } else {
                     money_ev.setText(balanceStr);
                 }
@@ -173,7 +172,7 @@ public class ExchangeMoneyAty extends BaseAty {
 
 //                1:积分转余额 2：提现
                 if (type == 1) {
-                    if (Double.parseDouble(moneyStr) - Double.parseDouble(myIntegralStr) > 0) {
+                    if (Double.parseDouble(moneyStr) - Double.parseDouble(myChangeIntegralStr) > 0) {
                         // 如果输入数值大于总积分
                         showErrorTip("积分不足，请检查积分剩余量");
                         break;
@@ -247,18 +246,21 @@ public class ExchangeMoneyAty extends BaseAty {
     }
 
     @Override
-    public void onComplete(String requestUrl, String jsonStr) {;
+    public void onComplete(String requestUrl, String jsonStr) {
+        ;
+
+        L.e("wang", "jsonStr:" + jsonStr + "\trequestUrl:" + requestUrl);
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
-        if (requestUrl.contains("verificationPayPwd")){
+        if (requestUrl.contains("verificationPayPwd")) {
             if (map.get("code").equals("1")) { // 返回code为1说明验证成功
 //                if (type == 1) { // 积分转余额
 //                    User.changeIntegral(this, moneyStr);
 //                } else {
-                    // 余额提现操作
-                    UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
+                // 余额提现操作
+                UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
 //                }
             } else {
                 showErrorTip(map.get("message"));
@@ -266,6 +268,9 @@ public class ExchangeMoneyAty extends BaseAty {
         }
         if (requestUrl.contains("changeIntegral")) { // 积分转余额
             showToast(map.get("message"));
+            if (map.get("code").equals("1")){
+                finish();
+            }
         }
         if (requestUrl.contains("getCash")) { // 余额提现
             showToast(map.get("message"));
@@ -273,9 +278,21 @@ public class ExchangeMoneyAty extends BaseAty {
         }
         if (requestUrl.contains("myIntegral")) { // 获取积分
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
-            // 我的积分总数
-            myIntegralStr = data.get("my_integral");
-            my_bal_tv1.setText("我的积分" + myIntegralStr + " "); // 显示积分总数
+            // 可兑换积分总数
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONObject data1 = jsonObject.getJSONObject("data");
+                JSONArray point_list = data1.getJSONArray("point_list");
+                JSONObject jsonObject1 = (JSONObject) point_list.get(0);
+                myChangeIntegralStr = jsonObject1.getString("my_change_integral");
+                String[] split = myChangeIntegralStr.split("\\.");
+                myChangeIntegralStr = split[0];
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+//            myChangeIntegralStr = JSONUtils.parseKeyAndValueToMap(data.get("point_list")).get("my_change_integral");
+            L.e("wang", "=======>>>>>>>>>>> myChangeIntegralStr:" + myChangeIntegralStr);
+            my_bal_tv1.setText("可兑换积分：" + myChangeIntegralStr + " "); // 显示积分总数
             rate_tv.setText(data.get("integral_percentage")); // 手续费率
 //            data.get("point_list")
             String pointListStr = data.get("point_list");

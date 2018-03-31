@@ -60,7 +60,7 @@
                                 android:layout_height="8dp"/>
                             <!--选择的商品属性-->
                             <include layout="@layout/aty_goods_details_attribute"/>
-                            <!--xfte驿站-->
+                            <!--无界驿站-->
                             <include layout="@layout/aty_goods_details_wujie_post"/>
                             <!--服务-->
                             <include layout="@layout/aty_goods_details_serve"/>

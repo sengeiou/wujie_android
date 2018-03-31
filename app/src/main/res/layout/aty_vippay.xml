@@ -378,7 +378,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
-            android:text="《xfte优品会员协议》"
+            android:text="《无界优品会员协议》"
             android:textColor="#F23232" />
 
     </LinearLayout>

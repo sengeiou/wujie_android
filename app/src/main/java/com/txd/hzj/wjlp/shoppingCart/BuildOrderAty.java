@@ -822,6 +822,8 @@ public class BuildOrderAty extends BaseAty {
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
             govh.tv_number.setText("x" + getItem(i).get("num"));
+            govh.jifen_tv.setText("（赠送:" + getItem(i).get("return_integral") + "积分）");
+            L.e("wang", "====>>>>>>>>>>>getItem(i):" + getItem(i));
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
@@ -849,7 +851,6 @@ public class BuildOrderAty extends BaseAty {
                         bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
                         bundle.putParcelable("data1", invoice1s.get(index));
-                        // 传入下一界面=======================================================================
                     }
 
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {
@@ -922,6 +923,8 @@ public class BuildOrderAty extends BaseAty {
             private TextView goods_title_for_evaluate_tv;
             @ViewInject(R.id.price_for_goods_tv)
             private TextView price_for_goods_tv;
+            @ViewInject(R.id.jifen_tv)
+            private TextView jifen_tv;
             @ViewInject(R.id.tv_number)
             private TextView tv_number;
             @ViewInject(R.id.layout)

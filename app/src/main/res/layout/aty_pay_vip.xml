@@ -195,7 +195,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="《xfte优品会员协议》"
+            android:text="《无界优品会员协议》"
             android:textColor="#F21B1B"
             android:textSize="14sp" />
     </LinearLayout>

@@ -135,7 +135,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private LinearLayout mell_point_lin_layout;
 
     /**
-     * xfte驿站
+     * 无界驿站
      */
     @ViewInject(R.id.mine_mell_point_tv)
     private TextView mine_mell_point_tv;
@@ -361,7 +361,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.share_grade_tv:// 分享成绩
                 startActivity(ShareGradeAty.class, null);
                 break;
-            case R.id.books_tv:// xfte书院
+            case R.id.books_tv:// 无界书院
                 startActivity(BooksAty.class, null);
                 break;
             case R.id.call_service_tv:// 客服

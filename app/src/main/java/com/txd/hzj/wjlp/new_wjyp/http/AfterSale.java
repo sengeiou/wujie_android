@@ -103,12 +103,22 @@ public class AfterSale {
      * @param back_apply_id
      * @param baseView
      */
-    public static void addShipping(String shipping_id, String invoice, String back_apply_id, BaseView baseView) {
+    public static void addShipping(String shipping_id, String invoice, String back_apply_id, String receiver,
+                                   String receiver_phone, String province, String city, String area,
+                                   String street, String address, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("invoice", invoice);
         requestParams.addBodyParameter("shipping_id", shipping_id);
         requestParams.addBodyParameter("back_apply_id", back_apply_id);
+
+        requestParams.addBodyParameter("receiver", receiver);
+        requestParams.addBodyParameter("receiver_phone", receiver_phone);
+        requestParams.addBodyParameter("province", province);
+        requestParams.addBodyParameter("city", city);
+        requestParams.addBodyParameter("area", area);
+        requestParams.addBodyParameter("street", street);
+        requestParams.addBodyParameter("address", address);
         apiTool2.postApi(url + "addShipping", requestParams, baseView);
     }
 

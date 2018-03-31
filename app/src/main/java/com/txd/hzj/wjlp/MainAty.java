@@ -91,7 +91,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：下午 1:16
- * 描述：xfte优品主页
+ * 描述：无界优品主页
  * ===============Txunda===============
  */
 public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
@@ -420,7 +420,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
 
         /*
-         * xfte商城
+         * 无界商城
          */
         contentView.findViewById(R.id.main_wj_shop_iv).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -431,7 +431,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                startActivity(OnlineShopAty.class, mBundle);
 
                 mBundle.putInt("type", 10);
-                mBundle.putString("title", "xfte商店");
+                mBundle.putString("title", "无界商店");
                 startActivity(TicketZoonAty.class, mBundle);
 
                 popupWindow.dismiss();
@@ -849,7 +849,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 })
                 .show();
 
-        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "xfte优品 " + appUpdateInfo.getData().getMessage(),
+        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "无界优品 " + appUpdateInfo.getData().getMessage(),
                 new
                         InstallUtils.DownloadCallBack() {
                             @Override

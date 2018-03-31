@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="xfte优品"
+            android:text="无界优品"
             android:textColor="#696969"
             android:textSize="14sp" />
 

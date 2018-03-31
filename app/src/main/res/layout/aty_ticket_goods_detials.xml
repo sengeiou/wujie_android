@@ -182,7 +182,7 @@
                                     android:drawablePadding="10dp"
                                     android:gravity="center_vertical"
                                     android:padding="10dp"
-                                    android:text="此商品可以使用466积分兑换，如想使用积分兑换请到xfte商店进行兑换"
+                                    android:text="此商品可以使用466积分兑换，如想使用积分兑换请到无界商店进行兑换"
                                     android:textColor="#6C6C6C"
                                     android:textSize="10sp" />
 

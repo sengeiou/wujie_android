@@ -163,6 +163,7 @@ public class Order {
      * @param baseView
      */
     public static void receiving(String order_id,String order_goods_id,String status, BaseView baseView) {
+        L.e("wang", "========>>>>>>>>>order_id:" + order_id + "\torder_goods_id:" + order_goods_id + "\tstatus:" + status);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
@@ -249,5 +250,18 @@ public class Order {
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
         apiTool2.postApi(url + "orderLogistics", requestParams, baseView);
+    }
+
+    /**
+     * 提醒发货
+     * @param baseView
+     * @param order_goods_id 订单商品id
+     */
+    public static void remind(BaseView baseView, String order_goods_id){
+        L.e("wang", "remind ========== order_goods_id:" + order_goods_id);
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        apiTool2.postApi(url + "remind", requestParams, baseView);
     }
 }

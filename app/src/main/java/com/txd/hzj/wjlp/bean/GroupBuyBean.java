@@ -85,11 +85,11 @@ public class GroupBuyBean {
         private List<TwoCateListBean> two_cate_list;
         //==========拼团购==========
         private List<AllGoodsBean> group_buy_list;
-        // ==========xfte预购==========
+        // ==========无界预购==========
         private List<AllGoodsBean> pre_buy_list;
         // ==========票券区=========
         private List<AllGoodsBean> ticket_buy_list;
-        // ==========xfte商店=========
+        // ==========无界商店=========
         private List<AllGoodsBean> integral_buy_list;
         // ==========进口馆==========
         private List<AllGoodsBean> list;

@@ -51,7 +51,7 @@ public class MerchantPst extends BasePresenter {
         merchant.groupList(merchant_id, p, baseView);
     }
 
-    // 活动商品——xfte预购
+    // 活动商品——无界预购
     public void preList(String merchant_id, int p) {
         baseView.showDialog();
         merchant.preList(merchant_id, p, baseView);

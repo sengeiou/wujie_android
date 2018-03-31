@@ -116,8 +116,9 @@ public class OrderDetailsAty extends BaseAty {
     private String is_pay_password = "0";//是否设置支付密码
 
     private CommonPopupWindow commonPopupWindow;
-    private Map<String, String> clickMap;
-    private View clickView;
+    private Map<String, String> clickMap; // 点击列表中按钮时选择的项
+    private View clickView; // 点击时创建Dialog需要传入的View
+    private int clickIndex; // 确认收货时点击的商品信息索引
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,6 @@ public class OrderDetailsAty extends BaseAty {
                 break;
             case R.id.tv_btn_right: // 最底部右侧按钮
                 // 评价商品
-
                 break;
             case R.id.lin_logistics: // 订单物流
                 Bundle bundle = new Bundle();
@@ -165,6 +165,13 @@ public class OrderDetailsAty extends BaseAty {
     @Override
     protected void onResume() {
         super.onResume();
+        efreshPage(); // 刷新界面
+    }
+
+    /**
+     * 刷新界面
+     */
+    private void efreshPage() {
         if (TextUtils.isEmpty(order_id)) {
             order_id = getIntent().getStringExtra("id");
             type = getIntent().getStringExtra("type");
@@ -181,7 +188,6 @@ public class OrderDetailsAty extends BaseAty {
         } else if (type.equals("7")) {
             IntegralBuyOrder.details(order_id, this);
         }
-        showProgressDialog();
     }
 
     @Override
@@ -375,10 +381,15 @@ public class OrderDetailsAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("wang", "=======>>>>>>>>>" + jsonStr);
+        L.e("wang", requestUrl + "=======>>>>>>>>>" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
+
+        // 返回的Url中有好多字段包含在其他返回值中，所以字段截取进行精确匹配
+        String[] split = requestUrl.split("/");
+        String requestUrlSplit = split[split.length - 1];
+
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("details") || requestUrl.contains("preDetails")) {
+        if (requestUrlSplit.equals("details") || requestUrlSplit.equals("preDetails")) {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消
             order_status = data.get("order_status");
@@ -431,9 +442,9 @@ public class OrderDetailsAty extends BaseAty {
             goods_for_this_order_lv.setAdapter(thisAdapter);
         }
 
-        if (requestUrl.contains("cancelOrder") ||
-                requestUrl.contains("preCancelOrder") ||
-                requestUrl.contains("CancelOrder")) {
+        if (requestUrlSplit.equals("cancelOrder") ||
+                requestUrlSplit.equals("preCancelOrder") ||
+                requestUrlSplit.equals("CancelOrder")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
@@ -448,9 +459,9 @@ public class OrderDetailsAty extends BaseAty {
             showProgressDialog();
 
         }
-        if (requestUrl.contains("receiving") ||
-                requestUrl.contains("preReceiving") ||
-                requestUrl.contains("Receiving")) {
+        if (requestUrlSplit.equals("receiving") ||
+                requestUrlSplit.equals("preReceiving") ||
+                requestUrlSplit.equals("Receiving")) {
             if (type.equals("0")) {
                 Order.details(order_id, this);
             } else if (type.equals("3")) {
@@ -465,23 +476,27 @@ public class OrderDetailsAty extends BaseAty {
             showProgressDialog();
 
         }
-        if (requestUrl.contains("deleteOrder") ||
-                requestUrl.contains("preDeleteOrder") ||
-                requestUrl.contains("DeleteOrder")) {
+        if (requestUrlSplit.equals("deleteOrder") ||
+                requestUrlSplit.equals("preDeleteOrder") ||
+                requestUrlSplit.equals("DeleteOrder")) {
             showToast("删除成功！");
             finish();
 
         }
-        if (requestUrl.contains("delayReceiving")) {
+        if (requestUrlSplit.equals("delayReceiving")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             showToast(data.get("message"));
         }
+        if (requestUrlSplit.equals("remind")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            efreshPage();
+            showToast(data.get("message"));
+        }
         // 验证密码回传结果
-        if (requestUrl.contains("verificationPayPwd")) {
-            // TODO ======================== 验证支付密码回传结果 ========================
+        if (requestUrlSplit.equals("verificationPayPwd")) {
             String requestCodeStr = data.get("code");
             if (requestCodeStr.equals("1")) {
-                if (clickMap.get("sure_status").equals("1")) {
+                if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
                 } else {
                     Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
@@ -695,7 +710,6 @@ public class OrderDetailsAty extends BaseAty {
     private class ThisGoodsAdapter extends BaseAdapter {
 
         private TGVH tgvh;
-        public String asfasfasdasdasdasdasdasdasdasd;
 
         @Override
         public int getCount() {
@@ -722,98 +736,137 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh = (TGVH) view.getTag();
             }
-            tgvh.tv_btn_right.setVisibility(View.GONE);
+            tgvh.tv_btn_right.setVisibility(View.GONE); // 设置中间按钮为隐藏
             L.e("order_sta" + order_status);
-            if (order_status.equals("0") || order_status.equals("5")) {
-                tgvh.tv_btn_left.setVisibility(View.GONE);
-                tgvh.tv_btn_right.setVisibility(View.GONE);
+
+            L.e("wang", "status = " + getItem(i).get("status") + "\tgetItem:" + getItem(i));
+
+//            if (getItem(i).get("status").equals("1")){
+//                tgvh.tv_btn_right.setVisibility(View.GONE);
+//                tgvh.delayReceiving.setVisibility(View.GONE);
+//            }
+
+            if (order_status.equals("0") || order_status.equals("5")) { // 订单为0待支付或5已取消
+                tgvh.tv_btn_left.setVisibility(View.GONE); // 右侧按钮隐藏
+                tgvh.tv_btn_right.setVisibility(View.GONE); // 中间按钮隐藏
             } else {
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为1待发货、2待收货、3待评价、4已完成
             }
 
-            if (getItem(i).get("after_type").equals("0")) {
-                tgvh.tv_btn_left.setText("申请售后");
-            } else {
-                tgvh.tv_btn_left.setText("售后中");
+            // 设置右侧按钮显示的文字
+            switch (Integer.parseInt(getItem(i).get("after_type"))) {
+                case 0:
+                    tgvh.tv_btn_left.setText("申请售后");
+                    break;
+                case 1:
+                    tgvh.tv_btn_left.setText("售后中");
+                    break;
+                case 2:
+                    tgvh.tv_btn_left.setText("售后完成");
+                    break;
+                case 3:
+                    tgvh.tv_btn_left.setText("售后拒绝");
+                    break;
             }
-            if (order_status.equals("1")) {
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_right.setVisibility(View.GONE);
+
+            if (order_status.equals("1")) { // 订单状态待发货
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
+                tgvh.tv_btn_right.setVisibility(View.GONE); // 中间按钮催发货显示
             }
-            if (order_status.equals("2")) {
-                if (getItem(i).get("sale_status").equals("0")) {
-                    tgvh.delayReceiving.setVisibility(View.VISIBLE);
+            if (order_status.equals("2")) { // 订单待收货状态
+                if (getItem(i).get("sale_status").equals("0")) { // 如果订单商品还没有延长收货
+                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 延长收货按钮显示
                 } else {
-                    tgvh.delayReceiving.setVisibility(View.GONE);
+                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮隐藏
                 }
-                tgvh.tv_btn_right.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_right.setText("确认收货");
+                tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
+                tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
             }
-            if (getItem(i).get("after_sale_status").equals("1")) {
-                tgvh.lin_shouhou.setVisibility(View.VISIBLE);
-                tgvh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+            if (getItem(i).get("after_sale_status").equals("1")) { // 如果存在售后售后
+                tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
+                tgvh.tv_shouhou.setText(getItem(i).get("after_sale_type")); // 设置要显示的售后类型文字
             } else {
-                tgvh.lin_shouhou.setVisibility(View.GONE);
+                tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
             }
-            tgvh.tv_price.setText("¥" + getItem(i).get("shop_price"));
-            tgvh.tv_price.setVisibility(View.VISIBLE);
+            tgvh.tv_price.setText("¥" + getItem(i).get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
 
+            // 右侧按钮点击事件
             tgvh.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getItem(i).get("after_type").equals("0")) { // 申请售后
+                    if (getItem(i).get("after_type").equals("0")) { // 如果订单中商品为申请售后
+                        // 跳转至申请售后界面发起售后
                         Bundle bundle = new Bundle();
                         bundle.putString("price", String.valueOf(Double.parseDouble(getItem(i).get("shop_price")) * Integer.parseInt(getItem(i).get("goods_num"))));
                         bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
                         startActivity(ApplyForAfterSalesAty.class, bundle);
-                    } else {
+                    } else { // 否则商品状态为售后中或已完成
+                        // 跳转至查看售后详情信息的界面
                         Bundle bundle = new Bundle();
                         bundle.putString("is_sales", getItem(i).get("is_sales"));
+                        bundle.putString("after_type", getItem(i).get("after_type"));
                         bundle.putString("back_apply_id", getItem(i).get("back_apply_id"));
+
+                        // 继续申请售后需要传的参数
+                        bundle.putString("price", String.valueOf(Double.parseDouble(getItem(i).get("shop_price")) * Integer.parseInt(getItem(i).get("goods_num"))));
+                        bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
+                        bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
+
                         startActivity(aty_after.class, bundle);
                     }
                 }
             });
+            // 中间按钮点击事件
             tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO 确认收货================================================================================
-                    clickMap = list.get(i);
-                    clickView = v;
+                    clickIndex = i;
+                    clickMap = list.get(i); // 点击时选的列表项
+                    clickView = v; // View
                     showPwxPopWindow(v); // 显示弹框提示输入密码
+                    // 思路：点击确认收货按钮，先弹出密码输入框，验证成功后弹出是否放弃权益提示框，让用户选择
                 }
             });
+
             Glide.with(OrderDetailsAty.this).load(getItem(i).get("goods_img")).into(tgvh.image);
-            tgvh.name.setText(getItem(i).get("goods_name"));
-            tgvh.num.setText("x" + getItem(i).get("goods_num"));
-            tgvh.title.setText(getItem(i).get("attr"));
-//            if (getItem(i).get("sale_status").equals("1")) {
-            tgvh.textviews.setVisibility(View.VISIBLE);
-            tgvh.textviews.setText(getItem(i).get("invoice_name"));
-
+            tgvh.name.setText(getItem(i).get("goods_name")); // 设置商品名称显示
+            tgvh.num.setText("x" + getItem(i).get("goods_num")); // 设置商品数量显示
+            tgvh.title.setText(getItem(i).get("attr")); // 设置商品属性
+            tgvh.jifenTv.setText("（赠送:" + getItem(i).get("return_integral") + "积分）");
+            tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
+            tgvh.textviews.setText(getItem(i).get("invoice_name")); // 设置发票名称
             L.e("time" + getItem(i).get("sure_delivery_time"));
-            if (getItem(i).get("status").equals("1")) {
-                tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("sure_delivery_time"));
-            } else {
-                tgvh.textview.setText("收货时间：" + getItem(i).get("auto_time"));
-
+            if (getItem(i).get("status").equals("1")) { // 判断商品收货状态如果1已收货
+                tgvh.tv_btn_right.setVisibility(View.GONE); // 将中间确认收货按钮隐藏
+                tgvh.delayReceiving.setVisibility(View.GONE); // 将左侧延长收货按钮隐藏
+                tgvh.textview.setText("签收时间：" + getItem(i).get("sure_delivery_time")); // TODO 设置文字为用户的收货时间
+            } else { // 否则商品状态为2未收货或者是0未发货
+                if (getItem(i).get("status").equals("2")) { // 如果是未收货
+                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
+                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
+                    tgvh.textview.setText("系统自动收货时间：" + getItem(i).get("auto_time")); // TODO 设置文字为系统自动收货的时间
+                } else { // 否则商品未发货
+//                    if (getItem(i).get("remind_status").equals("0")) {
+                    // 如果未提醒过发货，则将提醒发货按钮设置为显示
+                    tgvh.tv_btn_remind.setVisibility(getItem(i).get("remind_status").equals("0") ? View.VISIBLE : View.GONE);
+//                    }
+                }
             }
-
-//            } else {
-//                tgvh.textview.setVisibility(View.GONE);
-//            }
 
             //是否存在公益宝贝
-            if (!getItem(i).get("welfare").equals("0")) {
-                tgvh.layout_gongyi.setVisibility(View.VISIBLE);
-                tgvh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            if (getItem(i).get("welfare").equals("0")) { // 如果不存在公益宝贝
+                tgvh.layout_gongyi.setVisibility(View.GONE); // 那么隐藏公益宝贝控件
             } else {
-                tgvh.layout_gongyi.setVisibility(View.GONE);
+                // 否则存在公益宝贝
+                tgvh.layout_gongyi.setVisibility(View.VISIBLE); // 显示公益宝贝控件
+                tgvh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划"); // 直接显示金额
             }
 
-            tgvh.lin_server_status.setVisibility(View.VISIBLE); // 该控件设置显隐可能多余
+//            tgvh.lin_server_status.setVisibility(View.VISIBLE); // 该控件设置显隐可能多余
 
             // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
             tgvh.layout_fapiao.setVisibility(Integer.parseInt(getItem(i).get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
@@ -827,11 +880,20 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
             tgvh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
 
+            // 左侧延长收货按钮点击事件
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    showProgressDialog();
+                    Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
+                    showProgressDialog(); // 显示加载框
+                }
+            });
+            // 提醒发货按钮
+            tgvh.tv_btn_remind.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    showProgressDialog(); // 显示加载框
                 }
             });
             return view;
@@ -846,12 +908,16 @@ public class OrderDetailsAty extends BaseAty {
             private TextView num;
             @ViewInject(R.id.title)
             private TextView title;
+            @ViewInject(R.id.jifenTv)
+            private TextView jifenTv;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
             @ViewInject(R.id.tv_btn_left)
             public TextView tv_btn_left;
             @ViewInject(R.id.tv_btn_right)
             public TextView tv_btn_right;
+            @ViewInject(R.id.tv_btn_remind)
+            public TextView tv_btn_remind;
             @ViewInject(R.id.textview)
             private TextView textview;
             @ViewInject(R.id.itemGoods_invoiceName_tv)
@@ -935,7 +1001,7 @@ public class OrderDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
                                 showProgressDialog();

@@ -127,7 +127,7 @@ public class MellInfoAty extends BaseAty {
     private EditText title_search_ev;
 
     /**
-     * xfte头条View
+     * 无界头条View
      */
     private List<View> views;
     private NoticeDialog noticeDialog;
@@ -144,7 +144,7 @@ public class MellInfoAty extends BaseAty {
      * 1.全部商品，热销商品，最新上架
      * 2.限量购
      * 3.拼团购
-     * 4.xfte预购
+     * 4.无界预购
      * 5.竞拍汇
      * 6.一元夺宝
      */
@@ -336,7 +336,7 @@ public class MellInfoAty extends BaseAty {
         switch (v.getId()) {
             case R.id.off_line_mell_share_tv:
 
-                toShare("xfte优品", share_img, share_url, share_content, mell_id, "1");
+                toShare("无界优品", share_img, share_url, share_content, mell_id, "1");
 
                 break;
             case R.id.popularity_tv:// 店铺首页
@@ -754,7 +754,7 @@ public class MellInfoAty extends BaseAty {
                     case 3:// 拼团购
                         merchantPst.groupList(mell_id, p);
                         break;
-                    case 4:// xfte预购
+                    case 4:// 无界预购
                         merchantPst.preList(mell_id, p);
                         break;
                     case 5:// 竞拍汇

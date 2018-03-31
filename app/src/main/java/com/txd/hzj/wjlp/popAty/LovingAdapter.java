@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
@@ -26,7 +27,6 @@ import java.util.List;
  * 描述：
  * ===============Txunda===============
  */
-
 public class LovingAdapter extends BaseAdapter {
 
     private Context context;

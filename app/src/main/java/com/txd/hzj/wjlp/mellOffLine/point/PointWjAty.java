@@ -24,7 +24,7 @@ import java.util.List;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/28 0028
  * 时间：下午 2:46
- * 描述：xfte驿站
+ * 描述：无界驿站
  * ===============Txunda===============
  */
 public class PointWjAty extends BaseAty {
@@ -59,7 +59,7 @@ public class PointWjAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("xfte驿站");
+        titlt_conter_tv.setText("无界驿站");
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth,
                 Settings.displayWidth / 2);

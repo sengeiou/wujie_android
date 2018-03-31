@@ -145,7 +145,7 @@
             android:id="@+id/operation_type_tv21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以xfte指数。
+            android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以无界指数。
 "
             android:textColor="@color/colorRed"
             />

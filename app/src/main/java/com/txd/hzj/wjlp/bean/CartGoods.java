@@ -42,6 +42,7 @@ public class CartGoods {
     private String attr_group;
     private boolean check;
     private String attr_group_num;
+    private String return_integral;
     private List<GoodsAttributeAty.Goods_Attr> goods_attr_first;
     private List<GoodsAttrs.product> product;
 
@@ -154,6 +155,14 @@ public class CartGoods {
     public void setGoods_attr_first(List<GoodsAttributeAty.Goods_Attr> goods_attr_first) {
         this.goods_attr_first = goods_attr_first;
     }
+
+    public String getReturn_integral() {
+        return return_integral;
+    }
+
+    public void setReturn_integral(String return_integral) {
+        this.return_integral = return_integral;
+    }
     //
 //    public List<GoodsAttrs> getGoods_attr() {
 //        return goods_attr;
@@ -186,6 +195,7 @@ public class CartGoods {
                 ", attr_group='" + attr_group + '\'' +
                 ", check=" + check +
                 ", attr_group_num='" + attr_group_num + '\'' +
+                ", return_integral='" + return_integral + '\'' +
                  ", goods_attr_first=" + goods_attr_first +
 //                ", product=" + product +
                 '}';

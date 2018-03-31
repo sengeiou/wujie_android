@@ -25,7 +25,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
     @ViewInject(R.id.tv_offline_shop)
     TextView tv_offline_shop;
     /**
-     * xfte商店
+     * 无界商店
      */
     @ViewInject(R.id.tv_wj_shop)
     TextView tv_wj_shop;
@@ -35,7 +35,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
     @ViewInject(R.id.tv_pintuan)
     TextView tv_pintuan;
     /**
-     * xfte预购
+     * 无界预购
      */
     @ViewInject(R.id.tv_wjyg)
     TextView tv_wjyg;

@@ -28,7 +28,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：13:53
- * 描述：xfte预购三级分类
+ * 描述：无界预购三级分类
  * ===============Txunda===============
  */
 
@@ -63,7 +63,7 @@ public class PreBuyThirdAty extends BaseAty {
      */
     private String two_cate_id = "";
     /**
-     * xfte预购
+     * 无界预购
      */
     private GroupBuyPst groupBuyPst;
     /**
@@ -71,7 +71,7 @@ public class PreBuyThirdAty extends BaseAty {
      */
     private TicketBuyPst ticketBuyPst;
     /**
-     * xfte商店
+     * 无界商店
      */
     private IntegralBuyPst integralBuyPst;
     /**
@@ -81,7 +81,7 @@ public class PreBuyThirdAty extends BaseAty {
     /**
      * 数据类型
      * 1.票券区
-     * 2.xfte预购
+     * 2.无界预购
      */
     private int type = 0;
     private String country_id = "";
@@ -119,14 +119,14 @@ public class PreBuyThirdAty extends BaseAty {
             case 1:// 票券区
                 ticketBuyPst.threeList(two_cate_id, "", 1);
                 break;
-            case 2:// xfte预购
+            case 2:// 无界预购
                 groupBuyPst.threeList(two_cate_id, 1, "");
                 break;
             case 3:// 进口馆
                 country_id = getIntent().getStringExtra("country_id");
                 countryPst.threeList(two_cate_id, country_id, 1, "");
                 break;
-            case 10:// xfte商店
+            case 10:// 无界商店
                 integralBuyPst.threeList(two_cate_id, "", 1);
                 break;
         }

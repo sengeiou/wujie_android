@@ -143,7 +143,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.upview1)
     private UPMarqueeView upview1;
     /**
-     * xfte头条View
+     * 无界头条View
      */
     private List<View> views;
     private List<Map<String, String>> updata;
@@ -162,7 +162,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @ViewInject(R.id.ticket_gv)
     private GridViewForScrollView ticket_gv;
     /**
-     * xfte优购
+     * 无界优购
      */
     @ViewInject(R.id.limit_shopping_gv)
     private GridViewForScrollView limit_shopping_gv;
@@ -351,7 +351,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         title_scan_tv.setVisibility(View.VISIBLE);
         title_classify_tv.setVisibility(View.VISIBLE);
         // 轮播图高度
-        allHeight = Settings.displayWidth * 3 / 5;
+        allHeight = Settings.displayWidth * 2 / 3;
         // 设置轮播图高度
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(Settings.displayWidth, allHeight);
         online_carvouse_view.setLayoutParams(layoutParams);
@@ -416,10 +416,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                         case 3:// 主题街
                             startActivity(ThemeStreetHzjAty.class, null);
                             break;
-                        case 4:// xfte预购
+                        case 4:// 无界预购
                             bundle = new Bundle();
                             bundle.putInt("type", 2);
-                            bundle.putString("title", "xfte预购");
+                            bundle.putString("title", "无界预购");
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 5:// 进口馆
@@ -494,7 +494,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
         });
 
-        // xfte预购
+        // 无界预购
         limit_shopping_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -613,10 +613,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.wujie_top_lin_layout:// xfte头条
+            case R.id.wujie_top_lin_layout:// 无界头条
                 startActivity(WujieTopHzjAty.class, null);
                 break;
-            case R.id.on_line_be_back_top_iv:// xfte头条
+            case R.id.on_line_be_back_top_iv:// 无界头条
                 mell_on_line_sc.smoothScrollTo(0, 0);
                 break;
             // R.id.three_image_left_iv,
@@ -641,7 +641,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                forShowAds(ticket_desc, ticket_href);
 //                break;
             //        R.id.pre_buy_ads_iv,
-//            case R.id.pre_buy_ads_iv:// xfte预购
+//            case R.id.pre_buy_ads_iv:// 无界预购
 //                forShowAds(pre_desc, pre_href);
 //                break;
             // R.id.country_ads_iv,
@@ -715,7 +715,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("票券区");
         gv_classify.add("拼单购");
         gv_classify.add("主题街");
-        gv_classify.add("xfte预购");
+        gv_classify.add("无界预购");
         gv_classify.add("进口馆");
         gv_classify.add("比价购");
         gv_classify.add("汽车购");
@@ -816,7 +816,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             if (ToolKit.isList(data, "top_nav")) {
                 forHorizontalMenu(data);
             }
-            // xfte头条
+            // 无界头条
             if (ToolKit.isList(data, "headlines")) {
                 updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
                 setView();
@@ -828,7 +828,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             forLimit(data);
             // 票券区
             forTicket(data);
-            // xfte预购
+            // 无界预购
             orPre(data);
             // 进口馆
             forCountry(data);
@@ -892,7 +892,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 if (ToolKit.isList(data, "top_nav")) {
                     forHorizontalMenu(data);
                 }
-                // xfte头条
+                // 无界头条
                 if (ToolKit.isList(data, "headlines")) {
                     updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
                     setView();
@@ -904,7 +904,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 forLimit(data);
                 // 票券区
                 forTicket(data);
-                // xfte预购
+                // 无界预购
                 orPre(data);
                 // 进口馆
                 forCountry(data);
@@ -1167,7 +1167,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
     }
 
-    // xfte预购
+    // 无界预购
     private void orPre(Map<String, String> data) {
         Map<String, String> pre_buy = JSONUtils.parseKeyAndValueToMap(data.get("pre_buy"));
         final Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));

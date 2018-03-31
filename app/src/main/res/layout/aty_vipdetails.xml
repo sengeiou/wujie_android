@@ -20,7 +20,7 @@
             <com.synnapps.carouselview.CarouselView
                 android:id="@+id/online_carvouse_view"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
                 android:background="@color/bg_color"
                 app:animateOnBoundary="true"
                 app:autoPlay="true"

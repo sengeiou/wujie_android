@@ -100,11 +100,11 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
     // 拼团购
     private GroupBuyPst groupBuyPst;
-    // xfte预购
+    // 无界预购
     private PerBuyPst perBuyPst;
     // 票券区
     private TicketBuyPst ticketBuyPst;
-    // xfte书院
+    // 无界书院
     private IntegralBuyPst integralBuyPst;
     // 进口馆
     private CountryPst countryPst;
@@ -163,12 +163,12 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
-                    case 2:// xfte预购
+                    case 2:// 无界预购
                         bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
                         bundle.putInt("type", 2);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case 10:// xfte商家
+                    case 10:// 无界商家
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
                         bundle.putInt("type", 10);
                         startActivity(LimitGoodsAty.class, bundle);
@@ -271,7 +271,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             case 1:// 票券区
                 ticketBuyPst.ticketBuyIndex(p, title);
                 break;
-            case 2:// xfte预购
+            case 2:// 无界预购
                 perBuyPst.preBuyIndex(p, title);
                 break;
             case 3:// 进口馆
@@ -280,7 +280,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             case 8:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
                 break;
-            case 10:// xfte商店
+            case 10:// 无界商店
                 integralBuyPst.integralBuyIndex(p, title);
                 break;
         }
@@ -361,7 +361,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             }
             return;
         }
-        if (requestUrl.contains("preBuyIndex")) {// xfte预购
+        if (requestUrl.contains("preBuyIndex")) {// 无界预购
             forOtherData(jsonStr);
             return;
         }
@@ -369,7 +369,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             forOtherData(jsonStr);
             return;
         }
-        if (requestUrl.contains("integralBuyIndex")) {// xfte商店
+        if (requestUrl.contains("integralBuyIndex")) {// 无界商店
             forOtherData(jsonStr);
             return;
         }
@@ -405,13 +405,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 case 1:// 票券区
                     data = groupBuyBean.getData().getTicket_buy_list();
                     break;
-                case 2:// xfte预购
+                case 2:// 无界预购
                     data = groupBuyBean.getData().getPre_buy_list();
                     break;
                 case 3:// 进口馆
                     data = groupBuyBean.getData().getList();
                     break;
-                case 10:// xfte商店
+                case 10:// 无界商店
                     data = groupBuyBean.getData().getIntegral_buy_list();
                     break;
             }
@@ -468,13 +468,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
                     data2 = groupBuyBean.getData().getTicket_buy_list();
                     break;
-                case 2:// xfte预购
+                case 2:// 无界预购
                     data2 = groupBuyBean.getData().getPre_buy_list();
                     break;
                 case 3:// 进口馆
                     data = groupBuyBean.getData().getList();
                     break;
-                case 10:// xfte商店
+                case 10:// 无界商店
                     data = groupBuyBean.getData().getIntegral_buy_list();
                     break;
             }
@@ -528,9 +528,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         bundle.putString("country_id", country_id);
                     switch (type) {
                         case 1:// 票券区
-                        case 2:// xfte预购
+                        case 2:// 无界预购
                         case 3:// 进口馆
-                        case 10:// xfte商店
+                        case 10:// 无界商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;
                         case 8:// 拼团购

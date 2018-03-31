@@ -126,7 +126,7 @@ public class GetRedPackageAty extends BaseAty {
             case R.id.to_share_and_get_rp_tv:// 分享
                 welfarePst.shareContent(bonus_id);
 
-//                toShare("xfte优品", "", "", "", "", "4");
+//                toShare("无界优品", "", "", "", "", "4");
                 break;
         }
     }

@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
@@ -648,6 +649,8 @@ public class CartFgt extends BaseFgt {
             }
 
             cgvh.goods_attrs_tv.setText(goodsAttrNameStr);
+            L.e("wang", "cg.tostring=" + cg.toString());
+            cgvh.goods_jifen_tv.setText("（赠送:" + cg.getReturn_integral() + "积分）");
             cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name() + "(库存：" + cg.getGoods_num() + ")");
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
@@ -768,6 +771,11 @@ public class CartFgt extends BaseFgt {
             @ViewInject(R.id.goods_attrs_tv)
             private TextView goods_attrs_tv;
             /**
+             * 显示返回的积分
+             */
+            @ViewInject(R.id.goods_jifen_tv)
+            private TextView goods_jifen_tv;
+            /**
              * 商品价格
              */
             @ViewInject(R.id.cart_goods_price_tv)
@@ -782,7 +790,7 @@ public class CartFgt extends BaseFgt {
              * 商品基本属性布局
              */
             @ViewInject(R.id.cart_goods_info_layout)
-            private FrameLayout cart_goods_info_layout;
+            private RelativeLayout cart_goods_info_layout;
             /**
              * 商品数量，属性操作布局
              */

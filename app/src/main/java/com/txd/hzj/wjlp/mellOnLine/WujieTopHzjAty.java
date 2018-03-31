@@ -31,7 +31,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/12 0012
  * 时间：上午 10:03
- * 描述：xfte头条
+ * 描述：无界头条
  * ===============Txunda===============
  */
 public class WujieTopHzjAty extends BaseAty {

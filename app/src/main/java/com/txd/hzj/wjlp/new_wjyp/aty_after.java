@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.minetoAty.order.ApplyForAfterSalesAty;
 import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.util.List;
@@ -25,41 +27,57 @@ import java.util.Map;
  */
 public class aty_after extends BaseAty {
 
-    @ViewInject(R.id.tv_btn_left)
-    private TextView tv_btn_left;
-
-    @ViewInject(R.id.tv_btn_right)
-    private TextView tv_btn_right;
+    @ViewInject(R.id.tv_btn_quxiao)
+    private TextView tv_btn_quxiao;
+    @ViewInject(R.id.tv_btn_tuihuo)
+    private TextView tv_btn_tuihuo;
+    @ViewInject(R.id.tv_btn_chongxinshenqing)
+    private TextView tv_btn_chongxinshenqing;
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     @ViewInject(R.id.rv)
     RecyclerView rv;
+
+    private String is_sales; // 退货按钮显隐状态 0不显示退货按钮 1显示退货按钮
+    private String after_type; // 售后状态 0 申请售后  1售后中 2售后完成 3售后拒绝
+    private String back_apply_id; // 售后id
+    // ↓↓↓↓↓↓继续申请售后需要使用的参数↓↓↓↓↓↓↓
+    private String price;
+    private String order_goods_id;
+    private String order_id;
+    private String type;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("协商退货退款");
-        if (getIntent().getStringExtra("is_sales").equals("1")) {
-            tv_btn_right.setVisibility(View.VISIBLE);
-        } else {
-            tv_btn_right.setVisibility(View.GONE);
-        }
-        tv_btn_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AfterSale.cancelAfter(getIntent().getStringExtra("back_apply_id"), aty_after.this);
-                showProgressDialog();
-            }
-        });
-        tv_btn_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("id", getIntent().getStringExtra("back_apply_id"));
+    }
+
+    @Override
+    @OnClick({R.id.tv_btn_tuihuo, R.id.tv_btn_quxiao, R.id.tv_btn_chongxinshenqing})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.tv_btn_tuihuo: // 退货跳转至输入运单号等信息界面
+                bundle = new Bundle();
+                bundle.putString("id", back_apply_id);
                 startActivity(aty_addshipping.class, bundle);
-            }
-        });
+                break;
+            case R.id.tv_btn_quxiao: // 取消售后申请
+                AfterSale.cancelAfter(back_apply_id, aty_after.this);
+                showProgressDialog();
+                break;
+            case R.id.tv_btn_chongxinshenqing: // 跳转至申请售后界面
+                bundle = new Bundle();
+                bundle.putString("price", price);
+                bundle.putString("order_goods_id", order_goods_id);
+                bundle.putString("order_id",order_id );
+                bundle.putString("type", type);
+                startActivity(ApplyForAfterSalesAty.class, bundle);
+                break;
+        }
     }
 
     @Override
@@ -69,18 +87,36 @@ public class aty_after extends BaseAty {
 
     @Override
     protected void initialized() {
+        is_sales = getIntent().getStringExtra("is_sales");
+        after_type = getIntent().getStringExtra("after_type");
+        back_apply_id = getIntent().getStringExtra("back_apply_id");
+
+        // 继续申请售后需要使用的参数
+        price = getIntent().getStringExtra("price");
+        order_goods_id = getIntent().getStringExtra("order_goods_id");
+        order_id = getIntent().getStringExtra("order_id");
+        type = getIntent().getStringExtra("type");
+
+        tv_btn_tuihuo.setVisibility(is_sales.equals("1") ? View.VISIBLE : View.GONE);
+        switch (Integer.parseInt(after_type)){
+            case 1:
+                tv_btn_quxiao.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                tv_btn_quxiao.setVisibility(View.GONE);
+                break;
+            case 3:
+                tv_btn_quxiao.setVisibility(View.VISIBLE);
+                tv_btn_chongxinshenqing.setVisibility(View.VISIBLE);
+                break;
+        }
         rv.setLayoutManager(new LinearLayoutManager(this));
-        AfterSale.showAfter(getIntent().getStringExtra("back_apply_id"), this);
+        AfterSale.showAfter(back_apply_id, this);
     }
 
     @Override
     protected void requestData() {
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
 
     Map<String, String> map;
     List<Map<String, String>> list;
@@ -123,7 +159,10 @@ public class aty_after extends BaseAty {
                     holder.view.setVisibility(View.GONE);
                 }
             } else {
-                if (getItem(position).get("setting").equals("1")) {
+
+                L.e("wang", "getItem(position) = " + getItem(position));
+
+                if (getItem(position).get("type").equals("1")) {
                     holder.layout.setBackgroundResource(R.mipmap.icon_qipao2);
                 } else {
                     holder.layout.setBackgroundResource(R.mipmap.icon_qipao3);
