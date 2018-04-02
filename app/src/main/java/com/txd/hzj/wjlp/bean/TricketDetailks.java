@@ -50,7 +50,7 @@ public class TricketDetailks {
     public String act_id;
 
     /**
-     * 积分正负号 0减，1加
+     * 积分正负号
      */
     public String add_sub;
 

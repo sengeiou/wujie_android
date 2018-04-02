@@ -181,8 +181,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
                 }
 
-                AfterSale.backApply(typeTypeId, df.format(maxPrice), edittext.getText().toString(), pic, causeTypeId,
-                        statusTypeId, order_id, type, order_goods_id, this);
+                AfterSale.backApply(typeTypeId, df.format(maxPrice), edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
                 showProgressDialog();
                 break;
         }
@@ -208,8 +207,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
-        maxPrice = Double.parseDouble(getIntent().getStringExtra("price"));
-        tv_price.setText("最多可退：" + df.format(maxPrice));
+        maxPrice = Double.parseDouble(getIntent().getStringExtra("maxPrice"));
+        tv_price.setText("最多可退：" + df.format(maxPrice) + "(若涉及运费、税费退还问题，请与商家协商解决。)");
         switch (type) {
             case "0":
                 type = "1";

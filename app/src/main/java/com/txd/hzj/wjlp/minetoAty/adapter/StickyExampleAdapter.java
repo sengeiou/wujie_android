@@ -60,7 +60,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             final TricketDetailks stickyExampleModel = stickyExampleModels.get(position);
             L.e("wang", "=======>>>>>>>stickyExampleModel:" + stickyExampleModel);
             // 费吸顶文本标题
-            recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
+            recyclerViewHolder.tvName.setText(stickyExampleModel.getReason());
             // 交易记录时间
             recyclerViewHolder.tvGender.setText(stickyExampleModel.gender);
             if (position == 0) {// 第一条
@@ -86,56 +86,60 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PreferencesUtils.putString(context,"idid",stickyExampleModel.log_id);
+                    PreferencesUtils.putString(context, "idid", stickyExampleModel.log_id);
                     Intent intent = new Intent(context, RechargeOffLineAty.class);
-                    intent.putExtra("act_id",stickyExampleModel.log_id);
+                    intent.putExtra("act_id", stickyExampleModel.log_id);
                     context.startActivity(intent);
                 }
             });
             // 查看线下充值详情----隐藏
 //            recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
-            if (1 == type) {// 购物券
 
-                // 获得，消费积分(转出，消费)
-                if (stickyExampleModel.getAct_type().equals("1")) {
+//            // 购物券明细
+//            if (stickyExampleModel.getUrlLineStr().equals("vouchersLog") || type == 1) {
+//                // add_sub: 0加 1减
+//                recyclerViewHolder.t_details_price_tv.setText(stickyExampleModel.getAdd_sub().equals("0") ? "+" : "-" + stickyExampleModel.profession);
+//                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+//            } else if (stickyExampleModel.getUrlLineStr().equals("userDevelopLog") || type == 4){
+//                // 成长值，全为正
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
+//            }
+
+            if (1 == type) {// 购物券明细
+                // 获得，消费积分(转出，消费) add_sub: 0加 1减
+                if (stickyExampleModel.getAdd_sub().equals("0")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
 
-                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
-                        (), "drawable", context.getPackageName());
+                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
-            } else if (2 == type) {
-                // 获得，消费积分
+            } else if (2 == type) { // 积分明细
+                // 获得，消费积分 add_sub：0减 1加
                 if (stickyExampleModel.getAct_type().equals("1") || stickyExampleModel.getAct_type().equals("3")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
-
-                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type
-                        (), "drawable", context.getPackageName());
+                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
-            } else if (3 == type) {
-
-                // 获得，消费积分(转出，消费)
-                if (stickyExampleModel.getAdd_sub().equals("0")) {
-                    recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
-                } else {
+            } else if (3 == type) { // 余额明细
+                // 获得，消费积分(转出，消费) add_sub：1加 2减
+                if (stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+                } else {
+                    recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
-
                 int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
                 recyclerViewHolder.t_details_logo_tv.setImageResource(res);
                 // 查看线下充值详情----显示
-                if (stickyExampleModel.getAct_type().equals("2")) {
+//                if (stickyExampleModel.getAct_type().equals("2")) {
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
-
-                }
-
+//                }
             } else if (4 == type) {
                 recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             }

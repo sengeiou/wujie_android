@@ -268,13 +268,16 @@ public class ExchangeMoneyAty extends BaseAty {
         }
         if (requestUrl.contains("changeIntegral")) { // 积分转余额
             showToast(map.get("message"));
-            if (map.get("code").equals("1")){
+            if (map.get("code").equals("1")) {
                 finish();
             }
         }
         if (requestUrl.contains("getCash")) { // 余额提现
             showToast(map.get("message"));
-            finish();
+            if (map.get("code").equals("1")) {
+                // 提现成功，关闭该界面
+                finish();
+            }
         }
         if (requestUrl.contains("myIntegral")) { // 获取积分
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);

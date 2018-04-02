@@ -805,7 +805,8 @@ public class OrderDetailsAty extends BaseAty {
                     if (getItem(i).get("after_type").equals("0")) { // 如果订单中商品为申请售后
                         // 跳转至申请售后界面发起售后
                         Bundle bundle = new Bundle();
-                        bundle.putString("price", String.valueOf(Double.parseDouble(getItem(i).get("shop_price")) * Integer.parseInt(getItem(i).get("goods_num"))));
+//                        bundle.putString("price", String.valueOf(Double.parseDouble(getItem(i).get("shop_price")) * Integer.parseInt(getItem(i).get("goods_num"))));
+                        bundle.putString("maxPrice", String.valueOf(Double.parseDouble(getItem(i).get("refund_price")))); // 此商品可退换的全部金额
                         bundle.putString("order_goods_id", getItem(i).get("order_goods_id"));
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
@@ -903,6 +904,14 @@ public class OrderDetailsAty extends BaseAty {
                     showProgressDialog(); // 显示加载框
                 }
             });
+
+            // 最后将设置按钮隐藏
+            if (getItem(i).get("after_type").equals("2") && getItem(i).get("is_back_money").equals("1")){
+                tgvh.delayReceiving.setVisibility(View.GONE);
+                tgvh.tv_btn_remind.setVisibility(View.GONE);
+                tgvh.tv_btn_right.setVisibility(View.GONE);
+            }
+
             return view;
         }
 
@@ -941,6 +950,8 @@ public class OrderDetailsAty extends BaseAty {
             private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
             private LinearLayout lin_server_status;
+
+//            android:id="@+id/tv_btn_right"
 
             @ViewInject(R.id.layout_fapiao)
             private LinearLayout layout_fapiao;

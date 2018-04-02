@@ -87,6 +87,10 @@ public class aty_after extends BaseAty {
 
     @Override
     protected void initialized() {
+        initPage();
+    }
+
+    private void initPage(){
         is_sales = getIntent().getStringExtra("is_sales");
         after_type = getIntent().getStringExtra("after_type");
         back_apply_id = getIntent().getStringExtra("back_apply_id");
@@ -111,6 +115,12 @@ public class aty_after extends BaseAty {
                 break;
         }
         rv.setLayoutManager(new LinearLayoutManager(this));
+        AfterSale.showAfter(back_apply_id, this);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         AfterSale.showAfter(back_apply_id, this);
     }
 
@@ -159,9 +169,7 @@ public class aty_after extends BaseAty {
                     holder.view.setVisibility(View.GONE);
                 }
             } else {
-
                 L.e("wang", "getItem(position) = " + getItem(position));
-
                 if (getItem(position).get("type").equals("1")) {
                     holder.layout.setBackgroundResource(R.mipmap.icon_qipao2);
                 } else {

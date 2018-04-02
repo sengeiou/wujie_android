@@ -249,8 +249,6 @@ public class IntegralAty extends BaseAty {
 
     @Override
     protected void requestData() {
-//        User.myIntegral(this);
-//        showProgressDialog();
     }
 
     Map<String, String> map;
@@ -293,5 +291,14 @@ public class IntegralAty extends BaseAty {
                 cb.setChecked(!cb.isChecked());
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        showStatusBar(R.id.title_re_layout);
+        titlt_conter_tv.setText("积分");
+        download();
+        setDownVisibility();
     }
 }

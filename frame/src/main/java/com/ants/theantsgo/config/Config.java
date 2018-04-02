@@ -27,13 +27,13 @@ public class Config {
     private static View[] aty = new View[1];
 
     /**
-     * 主URL
+     * 主URL（测试服务器）
      */
-      // public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
+       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
     /**
-     * 正式URL
+     * 主URL（正式服务器）
      */
-      public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/";
+//      public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/";
 
 //    public final static String BASE_URL = "http://wjyp.txunda.com/index.php/Api/";
 //    public final static String BASE_URL = "http://www.wujiemall.com/index.php/Api/";
