@@ -101,7 +101,6 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
     private String is_attr = "";
 
-
     /**
      * 商品TextView
      */
@@ -522,7 +521,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
+                bundle.putInt("from", 0);
+                bundle.putString("goods_id", goods_id);
                 bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;

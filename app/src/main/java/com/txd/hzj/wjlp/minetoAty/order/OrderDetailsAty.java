@@ -367,6 +367,7 @@ public class OrderDetailsAty extends BaseAty {
                                 showProgressDialog();
                             }
                         }
+                        efreshPage();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -776,15 +777,6 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 中间按钮催发货显示
             }
-            if (order_status.equals("2")) { // 订单待收货状态
-                if (getItem(i).get("sale_status").equals("0")) { // 如果订单商品还没有延长收货
-                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 延长收货按钮显示
-                } else {
-                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮隐藏
-                }
-                tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
-                tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
-            }
             if (getItem(i).get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
                 tgvh.tv_shouhou.setText(getItem(i).get("after_sale_type")); // 设置要显示的售后类型文字
@@ -822,6 +814,7 @@ public class OrderDetailsAty extends BaseAty {
 
                         startActivity(aty_after.class, bundle);
                     }
+                    efreshPage();
                 }
             });
             // 中间按钮点击事件
@@ -833,6 +826,7 @@ public class OrderDetailsAty extends BaseAty {
                     clickView = v; // View
                     showPwxPopWindow(v); // 显示弹框提示输入密码
                     // 思路：点击确认收货按钮，先弹出密码输入框，验证成功后弹出是否放弃权益提示框，让用户选择
+                    efreshPage();
                 }
             });
 
@@ -890,6 +884,7 @@ public class OrderDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     showProgressDialog(); // 显示加载框
+                    efreshPage();
                 }
             });
             // 提醒发货按钮
@@ -898,6 +893,7 @@ public class OrderDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
                     showProgressDialog(); // 显示加载框
+                    efreshPage();
                 }
             });
 
@@ -917,6 +913,20 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
             } else if (getItem(i).get("status").equals("5")){ // 免费换货商家已发货状态
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
+            }
+
+            if (getItem(i).get("status").equals("0") && getItem(i).get("remind_status").equals("0")){ // 待发货状态
+                tgvh.tv_btn_remind.setVisibility(View.VISIBLE); // 提醒发货按钮显示
+            }
+
+            if (order_status.equals("2")) { // 订单待收货状态
+                if (getItem(i).get("sale_status").equals("0")) { // 如果订单商品还没有延长收货
+                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 延长收货按钮显示
+                } else {
+                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮隐藏
+                }
+                tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
+                tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
             }
 
             return view;
@@ -1041,7 +1051,7 @@ public class OrderDetailsAty extends BaseAty {
                                 Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
-
+                                efreshPage();
                             }
                         });
                     }

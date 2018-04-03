@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.PullToRefreshLayout;
@@ -128,20 +129,6 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        if (0 == from) {
-            titlt_conter_tv.setText("全部评价" + getIntent().getStringExtra("num"));
-            evaluate_lin_layout.setVisibility(View.GONE);
-            goods_comment_tag.setVisibility(View.VISIBLE);
-        } else if (1 == from) {
-            titlt_conter_tv.setText("我的评价");
-            evaluate_lin_layout.setVisibility(View.VISIBLE);
-            goods_comment_tag.setVisibility(View.GONE);
-        } else {
-            titlt_conter_tv.setText("店铺评价");
-            evaluate_lin_layout.setVisibility(View.VISIBLE);
-            goods_comment_tag.setVisibility(View.GONE);
-        }
-
 
         // 滚动到顶部
         goods_comment_sc.smoothScrollTo(0, 0);
@@ -154,15 +141,13 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
 
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-
-
                 p = 1;
                 if (1 == from) {
                     userPst.myCommentList(p);
                     layout_top.setVisibility(View.GONE);
                     goods_comment_tag.setVisibility(View.GONE);
                 } else if (2 == from) {
-                    merchantPst.commentList(getIntent().getStringExtra("mid"), p);
+                    merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                 } else if (3 == from) {
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                     showProgressDialog();
@@ -172,9 +157,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
 
             @Override
             public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-
                 // 加载操作
-
 
                 p++;
                 if (1 == from) {
@@ -182,7 +165,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     layout_top.setVisibility(View.GONE);
                     goods_comment_tag.setVisibility(View.GONE);
                 } else if (2 == from) {
-                    merchantPst.commentList(getIntent().getStringExtra("mid"), p);
+                    merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                 } else if (3 == from) {
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
 
@@ -215,20 +198,37 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         userPst = new UserPst(this);
         merchantPst = new MerchantPst(this);
 
+        if (0 == from) {
+            titlt_conter_tv.setText("商品评价");
+            evaluate_lin_layout.setVisibility(View.GONE);
+            goods_comment_tag.setVisibility(View.VISIBLE);
+        } else if (1 == from) {
+            titlt_conter_tv.setText("我的评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+            goods_comment_tag.setVisibility(View.GONE);
+        } else {
+            titlt_conter_tv.setText("店铺评价");
+            evaluate_lin_layout.setVisibility(View.VISIBLE);
+            goods_comment_tag.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void requestData() {
-        if (1 == from) {
+        if (1 == from) { // 我的评价
             p = 1;
             userPst.myCommentList(p);
             layout_top.setVisibility(View.GONE);
             goods_comment_tag.setVisibility(View.GONE);
-        } else if (2 == from) {
+        } else if (2 == from) { // 商店评价
             p = 1;
-            merchantPst.commentList(getIntent().getStringExtra("mid"), p);
-        } else if (3 == from) {
-            CarBuy.commentList(getIntent().getStringExtra("id"), "", p, this);
+            merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
+        } else if (3 == from) { // 汽车购评价
+            CarBuy.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p, this);
+            showProgressDialog();
+        } else if (0 == from){ // 商品评价
+            merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
+            L.e("商品评价");
             showProgressDialog();
         }
     }

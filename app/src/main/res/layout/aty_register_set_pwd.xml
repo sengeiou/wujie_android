@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +7,21 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.login.ReSetPwdAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_color"
-        />
+        android:background="@color/view_color" />
 
-    <include layout="@layout/aty_to_set_pwd_hzj"/>
+    <include layout="@layout/aty_to_set_pwd_hzj" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="* 密码必须6-16位并且必须包含大写字母和数字"
+        android:textColor="@color/colorRed" />
 
     <TextView
         android:id="@+id/register_success_tv"
@@ -30,5 +35,5 @@
         android:padding="16dp"
         android:text="完成"
         android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 </LinearLayout>

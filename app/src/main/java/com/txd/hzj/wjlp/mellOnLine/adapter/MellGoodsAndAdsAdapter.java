@@ -124,17 +124,21 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         switch (type) {
             case 0:// TODO==========店铺首页==========
 
-                Glide.with(context).load(map.get("ads_pic")).into(holder.image_for_mell);
+                ViewGroup.LayoutParams lp = holder.image_for_mell.getLayoutParams();
+                lp.width = adsSize;
+                lp.height = adsSize * 2 / 3 ;
+                holder.image_for_mell.setLayoutParams(lp);
+                holder.image_for_mell.setMaxWidth(adsSize);
+                holder.image_for_mell.setMaxHeight(adsSize * 2 / 3);
 
-//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adsSize, adsSize1);
-//                holder.image_for_mell.setLayoutParams(params);
-//                Glide.with(context).load(map.get("ads_pic"))
-//                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                        .error(R.drawable.ic_default)
-//                        .placeholder(R.drawable.ic_default)
-//                        .override(adsSize, adsSize1)
-//                        .centerCrop()
-//                        .into(holder.image_for_mell);
+                Glide.with(context).load(map.get("ads_pic"))
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .error(R.drawable.ic_default)
+                        .placeholder(R.drawable.ic_default)
+                        .centerCrop()
+                        .dontAnimate()
+                        .into(holder.image_for_mell);
+
 
                 break;
             case 1:// TODO==========全部商品，热销，新上==========
@@ -327,7 +331,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 break;
         }
         if (0 != type) {
-            L.e("ticket"+map.get("ticket_buy_discount"));
+            L.e("ticket" + map.get("ticket_buy_discount"));
             if (map.get("ticket_buy_discount").equals("0")) {
                 holder.use_coupon_tv.setText("不可使用代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);

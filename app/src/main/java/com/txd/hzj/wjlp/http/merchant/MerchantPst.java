@@ -40,9 +40,9 @@ public class MerchantPst extends BasePresenter {
     }
 
     // 获取评论列表
-    public void commentList(String merchant_id, int p) {
+    public void commentList(String merchant_id, String goods_id, int p) {
         baseView.showDialog();
-        merchant.commentList(merchant_id, p, baseView);
+        merchant.commentList(merchant_id, goods_id, p, baseView);
     }
 
     // 活动商品——拼团购
@@ -75,7 +75,7 @@ public class MerchantPst extends BasePresenter {
         merchant.limitList(merchant_id, p, baseView);
     }
 
-    // 商检资质
+    // 商家资质
     public void license(String merchant_id) {
         baseView.showDialog();
         merchant.license(merchant_id, baseView);

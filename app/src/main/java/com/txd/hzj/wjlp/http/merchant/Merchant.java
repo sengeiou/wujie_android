@@ -73,10 +73,11 @@ class Merchant {
      * @param p           分类
      * @param baseView    回调
      */
-    void commentList(String merchant_id, int p, BaseView baseView) {
+    void commentList(String merchant_id, String goods_id, int p, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("merchant_id", merchant_id);
+        params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "commentList", params, baseView);
     }

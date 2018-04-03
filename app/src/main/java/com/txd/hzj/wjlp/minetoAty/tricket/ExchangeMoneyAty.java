@@ -254,23 +254,32 @@ public class ExchangeMoneyAty extends BaseAty {
             @Override
             public void afterTextChanged(Editable s) {
                 if (1 == type) {
-                    // TODO ========================================新添加接口===============================================
                     String integral = money_ev.getText().toString().trim(); // 获取输入的数值
-                    if (integral != null && !integral.isEmpty() && !integral.equals("")) { // 如果输入数值不为空
-                        L.e("wang", "Integer.parseInt(integral):" + Integer.parseInt(integral));
-                        L.e("wang", "Integer.parseInt(myChangeIntegralStr):" + Integer.parseInt(myChangeIntegralStr));
-                        if (Integer.parseInt(integral) != 0 && Integer.parseInt(integral) <= Integer.parseInt(myChangeIntegralStr)) {
-                            // 如果输入数值不为0 并且输入的数值小于等于可兑换积分数 则直接请求数据库接口
-                            User.autoChange(ExchangeMoneyAty.this, integral);
-                        } else if (Integer.parseInt(integral) > Integer.parseInt(myChangeIntegralStr)) {
-                            // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
-                            money_ev.setText(myChangeIntegralStr);
-                            money_ev.setSelection(myChangeIntegralStr.length());
-                            User.autoChange(ExchangeMoneyAty.this, myChangeIntegralStr);
-                        } else if (Integer.parseInt(integral) == 0) {
-                            operation_type_tv21.setText(changeStr);
-                        }
+
+                    if (Integer.parseInt(integral.isEmpty() ? "0" : integral) > Integer.parseInt(myChangeIntegralStr)) {
+                        // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
+                        integral = myChangeIntegralStr;
+                        money_ev.setText(myChangeIntegralStr);
+                        money_ev.setSelection(myChangeIntegralStr.length());
                     }
+                    User.autoChange(ExchangeMoneyAty.this, integral);
+
+
+//                    if (integral != null && !integral.isEmpty() && !integral.equals("")) { // 如果输入数值不为空
+//                        L.e("wang", "Integer.parseInt(integral):" + Integer.parseInt(integral));
+//                        L.e("wang", "Integer.parseInt(myChangeIntegralStr):" + Integer.parseInt(myChangeIntegralStr));
+//                        if (Integer.parseInt(integral) != 0 && Integer.parseInt(integral) <= Integer.parseInt(myChangeIntegralStr)) {
+//                            // 如果输入数值不为0 并且输入的数值小于等于可兑换积分数 则直接请求数据库接口
+//                            User.autoChange(ExchangeMoneyAty.this, integral);
+//                        } else if (Integer.parseInt(integral) > Integer.parseInt(myChangeIntegralStr)) {
+//                            // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
+//                            money_ev.setText(myChangeIntegralStr);
+//                            money_ev.setSelection(myChangeIntegralStr.length());
+//                            User.autoChange(ExchangeMoneyAty.this, myChangeIntegralStr);
+//                        } else if (Integer.parseInt(integral) == 0) {
+//                            operation_type_tv21.setText(changeStr);
+//                        }
+//                    }
                 }
             }
         });
@@ -359,114 +368,13 @@ public class ExchangeMoneyAty extends BaseAty {
             delay_time_tv.setText(data.get("delay_time"));
         }
         if (urlLastStr.equals("autoChange")) { // 获取详情提示
-            if (map.get("code").equals("1")){
-                try {
-                    JSONObject jsonObject = new JSONObject(map.get("data"));
-                    String descStr = jsonObject.getString("desc");
-                    operation_type_tv21.setText(descStr);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            if (map.get("code").equals("1")) {
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                rate_tv.setText(data.get("integral_percentage")); // 手续费率
+                operation_type_tv21.setText(data.get("desc"));
             }
         }
     }
-
-    private void download() {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-//        parameters.addHeader("token", Config.getToken());
-        parameters.put("token", Config.getToken());
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters)
-                .build()
-                .rxPost("User/myIntegral", parameters, new RxStringCallback() {
-                    @Override
-                    public void onNext(Object tag, String response) {
-                        L.e("wang", "========>>>>>>>>>>>>>response:" + response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            String data = jsonObject.getString("data");
-                            JSONObject jsonObject2 = new JSONObject(data);
-                            String my_integral = jsonObject2.getString("my_integral");
-                            String integral_percentage = jsonObject2.getString("integral_percentage");
-                            rate_tv.setText(integral_percentage);
-
-                            String status = jsonObject2.getString("status");
-                            JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
-                            ArrayList<String> list = new ArrayList<String>();
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                String my_change_integral = jsonObject1.getString("my_change_integral");
-                                my_bal_tv1.setText("可兑换积分:" + my_change_integral);
-
-                                String point_num = jsonObject1.getString("point_num");
-                                String change = jsonObject1.getString("change");
-                                String date = jsonObject1.getString("date");
-
-
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
-
-//    private void download2() {
-//
-//        L.e("=========>>>>>>>download2");
-//        Map<String, Object> parameters = new HashMap<String, Object>();
-//        Map<String, Object> parameters1 = new HashMap<String, Object>();
-////        integral
-////        parameters.addHeader("token", Config.getToken());
-//        parameters.put("token", Config.getToken());
-//        parameters1.put("integral", money_ev.getText().toString());
-//        new Novate.Builder(this)
-//                .baseUrl(Config.BASE_URL)
-//                .addHeader(parameters)
-//                .build()
-//                .rxPost("User/changeIntegral", parameters1, new RxStringCallback() {
-//                    @Override
-//                    public void onNext(Object tag, String response) {
-//                        try {
-//                            L.e("=========>>>>>>>" + response);
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            String code = jsonObject.getString("code");
-//                            String message = jsonObject.getString("message");
-//                            showToast(message);
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(Object tag, Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel(Object tag, Throwable e) {
-//
-//                    }
-//
-//                });
-//
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

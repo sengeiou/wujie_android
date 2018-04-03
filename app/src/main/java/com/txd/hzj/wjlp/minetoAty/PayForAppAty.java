@@ -673,7 +673,7 @@ public class PayForAppAty extends BaseAty {
         if (requestUrl.contains("setOrder")) {
             return;
         }
-        finish();
+//        finish();
     }
 
     private void OrderList() {

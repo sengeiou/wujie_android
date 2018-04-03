@@ -8,18 +8,8 @@
     <ImageView
         android:id="@+id/image_for_mell"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/icon_temp_discount"/>
-
-    <!-- <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
-        android:id="@+id/image_for_mell"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        android:src="@drawable/icon_temp_discount"
-        app:round_radius="0dp"
-        app:shape_mode="round_rect"
-        app:stroke_color="@color/bg_color"
-        app:stroke_width="1dp" /> -->
+        android:src="@drawable/icon_temp_discount"/>
 
 </LinearLayout>

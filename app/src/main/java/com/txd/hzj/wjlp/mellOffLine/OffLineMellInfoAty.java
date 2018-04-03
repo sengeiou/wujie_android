@@ -78,6 +78,7 @@ public class OffLineMellInfoAty extends BaseAty {
     @ViewInject(R.id.mell_score_rating_bar)
     private RatingBar mell_score_rating_bar;
     private Bundle bundle;
+    private String goods_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class OffLineMellInfoAty extends BaseAty {
             case R.id.check_all_comment_tv:
                 bundle = new Bundle();
                 bundle.putInt("from", 2);
+                bundle.putString("mid", merchant_id);
+                bundle.putString("goods_id", "");
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             case R.id.mell_reported_tv:// 举报商家
@@ -154,6 +157,9 @@ public class OffLineMellInfoAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+        L.e(jsonStr);
+
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("merInfo")) {
@@ -174,6 +180,8 @@ public class OffLineMellInfoAty extends BaseAty {
 
             if (ToolKit.isList(mer_comment, "one_comment")) {
                 Map<String, String> one_comment = JSONUtils.parseKeyAndValueToMap(mer_comment.get("one_comment"));
+
+                goods_id = one_comment.get("goods_id");
 
                 Glide.with(this).load(one_comment.get("head_pic"))
                         .error(R.drawable.ic_default)
@@ -197,7 +205,7 @@ public class OffLineMellInfoAty extends BaseAty {
                 Map<String, String> mer_info = JSONUtils.parseKeyAndValueToMap(data.get("mer_info"));
                 other_info_tv.setText("商品数量：" + mer_info.get("goods_total")
                         + "件\n月销单量：" + mer_info.get("goods_month_num")
-                        + "件\n关注人数：" + mer_info.get("\"view_num")
+                        + "件\n关注人数：" + mer_info.get("view_num")
                         + "人\n营业时间："+mer_info.get("open_time")+"\n门店地址：" + mer_info.get("address") +
                         "\n门店电话：" + mer_info.get("phone"));
 

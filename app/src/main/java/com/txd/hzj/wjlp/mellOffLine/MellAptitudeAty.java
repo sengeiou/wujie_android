@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -59,17 +60,21 @@ public class MellAptitudeAty extends BaseAty {
     @Override
     protected void initialized() {
         merchant_id = getIntent().getStringExtra("merchant_id");
+        L.e(merchant_id);
         merchantPst = new MerchantPst(this);
         list = new ArrayList<>();
-    }
-
-    @Override
-    protected void requestData() {
         merchantPst.license(merchant_id);
     }
 
     @Override
+    protected void requestData() {
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+        L.e(jsonStr);
+
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("license")) {
