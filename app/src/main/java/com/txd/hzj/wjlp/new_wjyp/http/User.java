@@ -78,4 +78,16 @@ public class User {
         apiTool2.postApi(url + "userInfo", new RequestParams(), baseView);
     }
 
+    /**
+     * 获取积分兑换金额详细信息
+     * @param baseView
+     * @param integral
+     */
+    public static void autoChange(BaseView baseView, String integral){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("integral", integral);
+        apiTool2.postApi(url + "autoChange", params, baseView);
+    }
+
 }

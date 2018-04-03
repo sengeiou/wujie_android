@@ -748,10 +748,6 @@ public class OrderDetailsAty extends BaseAty {
 
             L.e("wang", "status = " + getItem(i).get("status") + "\tgetItem:" + getItem(i));
 
-//            if (getItem(i).get("status").equals("1")){
-//                tgvh.tv_btn_right.setVisibility(View.GONE);
-//                tgvh.delayReceiving.setVisibility(View.GONE);
-//            }
 
             if (order_status.equals("0") || order_status.equals("5")) { // 订单为0待支付或5已取消
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 右侧按钮隐藏
@@ -912,6 +908,17 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             }
 
+            if (getItem(i).get("status").equals("0")){ // 收货状态 0已收货 1未收货 2待发货
+                L.e("wang", "===============================================================>>>" + getItem(i).get("status").equals("5"));
+                tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏
+                tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
+                tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
+            } else if (getItem(i).get("status").equals("1")){
+                tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
+            } else if (getItem(i).get("status").equals("5")){ // 免费换货商家已发货状态
+                tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
+            }
+
             return view;
         }
 
@@ -1016,6 +1023,7 @@ public class OrderDetailsAty extends BaseAty {
                         t2.setText(list.get(position).get("server_else"));
                         TextView tv1 = view.findViewById(R.id.textview1);
                         TextView tv2 = view.findViewById(R.id.textview2);
+                        tv2.setText("再等等");
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+    <ImageView
+        android:id="@+id/image_for_mell"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:src="@drawable/icon_temp_discount"/>
+
+    <!-- <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+        android:id="@+id/image_for_mell"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerInside"
-        app:shape_mode="round_rect"
+        android:src="@drawable/icon_temp_discount"
         app:round_radius="0dp"
-        app:stroke_width="1dp"
-        android:id="@+id/image_for_mell"
+        app:shape_mode="round_rect"
         app:stroke_color="@color/bg_color"
-        android:src="@drawable/icon_temp_discount"/>
+        app:stroke_width="1dp" /> -->
 
 </LinearLayout>

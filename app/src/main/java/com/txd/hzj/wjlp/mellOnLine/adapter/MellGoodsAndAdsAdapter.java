@@ -123,15 +123,18 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         }
         switch (type) {
             case 0:// TODO==========店铺首页==========
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adsSize, adsSize1);
-                holder.image_for_mell.setLayoutParams(params);
-                Glide.with(context).load(map.get("ads_pic"))
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .error(R.drawable.ic_default)
-                        .placeholder(R.drawable.ic_default)
-                        .override(adsSize, adsSize1)
-                        .centerCrop()
-                        .into(holder.image_for_mell);
+
+                Glide.with(context).load(map.get("ads_pic")).into(holder.image_for_mell);
+
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adsSize, adsSize1);
+//                holder.image_for_mell.setLayoutParams(params);
+//                Glide.with(context).load(map.get("ads_pic"))
+//                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                        .error(R.drawable.ic_default)
+//                        .placeholder(R.drawable.ic_default)
+//                        .override(adsSize, adsSize1)
+//                        .centerCrop()
+//                        .into(holder.image_for_mell);
 
                 break;
             case 1:// TODO==========全部商品，热销，新上==========
@@ -404,8 +407,11 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         /**
          * 广告
          */
+//        @ViewInject(R.id.image_for_mell)
+//        private ShapedImageView image_for_mell;
+
         @ViewInject(R.id.image_for_mell)
-        private ShapedImageView image_for_mell;
+        private ImageView image_for_mell;
 
 
         /**

@@ -2,99 +2,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="vertical">
 
-    >
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
 
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_rank_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="无界会员"
-                android:textSize="16sp"
-                android:textColor="@color/app_text_color"/>
+                android:textColor="@color/app_text_color"
+                android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/tv_create_time"
-                android:layout_marginLeft="4dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_rank_name"
-                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_toRightOf="@id/tv_rank_name"
                 android:maxLines="1"
+                android:singleLine="true"
                 android:text="(购买时间:2018-03-16 09:36:58，年限：1年)"
-                android:singleLine="true"/>
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/tv_order_status"
-                android:textColor="@color/holo_red_light"
-                android:gravity="right"
-                android:layout_toRightOf="@id/tv_create_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/tv_create_time"
+                android:gravity="right"
                 android:text="已支付"
-                android:textSize="14sp"
-                android:layout_alignParentRight="true"/>
+                android:textColor="@color/holo_red_light"
+                android:textSize="14sp" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_marginTop="14dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp">
+
             <TextView
                 android:id="@+id/tv_order_sn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="会员编码"
-                android:textSize="14sp"
-                />
+                android:text="订单编号:"
+                android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/tv_validity"
-                android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/tv_order_sn"
-                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/tv_order_sn"
                 android:maxLines="1"
-                android:text="有效期:"/>
+                android:text="有效期:"
+                android:textSize="14sp" />
         </RelativeLayout>
+
         <View
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/gray"/>
+            android:layout_marginTop="10dp"
+            android:background="@color/gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:gravity="right">
+
             <TextView
                 android:id="@+id/tv_btn_left"
-                android:padding="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="取消订单"
-                android:background="@drawable/shape_gray_btn_li"/>
+                android:background="@drawable/shape_gray_btn_li"
+                android:padding="6dp"
+                android:text="取消订单" />
+
             <TextView
                 android:id="@+id/tv_btn_right"
-                android:layout_marginLeft="10dp"
-                android:padding="6dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_red_btn_bg"
+                android:padding="6dp"
                 android:text="删除订单"
-                android:textColor="@color/holo_red_light"
-                android:background="@drawable/shape_red_btn_bg"/>
+                android:textColor="@color/holo_red_light" />
         </LinearLayout>
     </LinearLayout>
-
 
 </LinearLayout>

@@ -2,7 +2,9 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,6 +136,7 @@ public class ExchangeMoneyAty extends BaseAty {
     private String balanceStr; // 余额数值
     private String myChangeIntegralStr; // 可兑换积分总数
     private String moneyStr;
+    private String changeStr; // 初始获取的提示信息
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,6 +242,39 @@ public class ExchangeMoneyAty extends BaseAty {
             UserBalance.cashIndex(this); // 提现首页
         }
 
+        money_ev.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (1 == type) {
+                    // TODO ========================================新添加接口===============================================
+                    String integral = money_ev.getText().toString().trim(); // 获取输入的数值
+                    if (integral != null && !integral.isEmpty() && !integral.equals("")) { // 如果输入数值不为空
+                        L.e("wang", "Integer.parseInt(integral):" + Integer.parseInt(integral));
+                        L.e("wang", "Integer.parseInt(myChangeIntegralStr):" + Integer.parseInt(myChangeIntegralStr));
+                        if (Integer.parseInt(integral) != 0 && Integer.parseInt(integral) <= Integer.parseInt(myChangeIntegralStr)) {
+                            // 如果输入数值不为0 并且输入的数值小于等于可兑换积分数 则直接请求数据库接口
+                            User.autoChange(ExchangeMoneyAty.this, integral);
+                        } else if (Integer.parseInt(integral) > Integer.parseInt(myChangeIntegralStr)) {
+                            // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
+                            money_ev.setText(myChangeIntegralStr);
+                            money_ev.setSelection(myChangeIntegralStr.length());
+                            User.autoChange(ExchangeMoneyAty.this, myChangeIntegralStr);
+                        } else if (Integer.parseInt(integral) == 0) {
+                            operation_type_tv21.setText(changeStr);
+                        }
+                    }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -247,14 +283,18 @@ public class ExchangeMoneyAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        ;
 
-        L.e("wang", "jsonStr:" + jsonStr + "\trequestUrl:" + requestUrl);
+        L.e("wang", "integral jsonStr:" + jsonStr + "\trequestUrl:" + requestUrl);
+        String[] splitTemp = requestUrl.split("\\/");
+        String urlLastStr = splitTemp[splitTemp.length - 1];
+        for (String str : splitTemp) {
+            L.e("wang", "string:" + str);
+        }
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
-        if (requestUrl.contains("verificationPayPwd")) {
+        if (urlLastStr.equals("verificationPayPwd")) {
             if (map.get("code").equals("1")) { // 返回code为1说明验证成功
 //                if (type == 1) { // 积分转余额
 //                    User.changeIntegral(this, moneyStr);
@@ -266,20 +306,20 @@ public class ExchangeMoneyAty extends BaseAty {
                 showErrorTip(map.get("message"));
             }
         }
-        if (requestUrl.contains("changeIntegral")) { // 积分转余额
+        if (urlLastStr.equals("changeIntegral")) { // 积分转余额
             showToast(map.get("message"));
             if (map.get("code").equals("1")) {
                 finish();
             }
         }
-        if (requestUrl.contains("getCash")) { // 余额提现
+        if (urlLastStr.equals("getCash")) { // 余额提现
             showToast(map.get("message"));
             if (map.get("code").equals("1")) {
                 // 提现成功，关闭该界面
                 finish();
             }
         }
-        if (requestUrl.contains("myIntegral")) { // 获取积分
+        if (urlLastStr.equals("myIntegral")) { // 获取积分
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             // 可兑换积分总数
             try {
@@ -302,12 +342,13 @@ public class ExchangeMoneyAty extends BaseAty {
             try {
                 JSONArray jsonArray = new JSONArray(pointListStr);
                 JSONObject json = (JSONObject) jsonArray.get(0);
-                operation_type_tv21.setText(json.getString("change")); // 提示：你可以使用xx积分....
+                changeStr = json.getString("change");
+                operation_type_tv21.setText(changeStr); // 提示：你可以使用xx积分....
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        if (requestUrl.contains("cashIndex")) { // 提现首页
+        if (urlLastStr.equals("cashIndex")) { // 提现首页
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             balance = data != null ? data.get("balance") : "0.00";
             bal = new BigDecimal(balance);
@@ -316,6 +357,17 @@ public class ExchangeMoneyAty extends BaseAty {
             rate_tv.setText(data.get("rate") + "%");
             rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));
+        }
+        if (urlLastStr.equals("autoChange")) { // 获取详情提示
+            if (map.get("code").equals("1")){
+                try {
+                    JSONObject jsonObject = new JSONObject(map.get("data"));
+                    String descStr = jsonObject.getString("desc");
+                    operation_type_tv21.setText(descStr);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/icon_bg_foe_edit_hzj"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:padding="8dp" />
         </LinearLayout>
 
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:text="全部使用"
                 android:textColor="#2E77FE" />
         </LinearLayout>

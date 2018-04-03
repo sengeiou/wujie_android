@@ -73,6 +73,13 @@ public class _GradeOfMemberAty extends BaseAty {
         showProgressDialog();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        User.userCard(this);
+        showProgressDialog();
+    }
+
     /**
      * 初始化需要循环的View
      * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
