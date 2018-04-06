@@ -29,11 +29,11 @@ public class Config {
     /**
      * 主URL（测试服务器）
      */
-//       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
+       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
     /**
      * 主URL（正式服务器）
      */
-      public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/";
+//      public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/";
 
 //    public final static String BASE_URL = "http://wjyp.txunda.com/index.php/Api/";
 //    public final static String BASE_URL = "http://www.wujiemall.com/index.php/Api/";

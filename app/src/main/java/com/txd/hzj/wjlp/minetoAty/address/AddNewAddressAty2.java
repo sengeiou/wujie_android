@@ -30,6 +30,7 @@ import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
+import com.txd.hzj.wjlp.http.address.Address;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
@@ -161,7 +162,6 @@ public class AddNewAddressAty2 extends BaseAty {
                 } else if (address.equals("")) {
                     showToast("详细地址不能为空");
                 } else {
-
                     if (0 == type) {
                         Log.d("cehshi", "111111");
                         addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
@@ -205,6 +205,7 @@ public class AddNewAddressAty2 extends BaseAty {
         type = getIntent().getIntExtra("type", 0);
         addressPst = new AddressPst(this);
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        addressPst.getRegion("");
     }
 
     @Override
@@ -248,6 +249,10 @@ public class AddNewAddressAty2 extends BaseAty {
             finish();
         }
 
+        if (requestUrl.contains("getRegion")){
+            L.e("wang", "getRegion:" + jsonStr);
+        }
+
     }
 
     // TODO==========城市选择==========
@@ -264,10 +269,8 @@ public class AddNewAddressAty2 extends BaseAty {
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
 
-
-    private void ShowPickerView() {// 弹出选择器
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
-                .OnOptionsSelectListener() {
+    private void ShowPickerView() { // 弹出选择器
+        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
                 // 省
@@ -291,7 +294,7 @@ public class AddNewAddressAty2 extends BaseAty {
                 .setOutSideCancelable(false)// default is true
                 .build();
 
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.setPicker(options1Items, options2Items, options3Items); // 三级选择器
         pvOptions.show();
     }
 
@@ -300,7 +303,7 @@ public class AddNewAddressAty2 extends BaseAty {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
+                    if (thread == null) { // 如果已创建就不再重新创建子线程了
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -332,8 +335,8 @@ public class AddNewAddressAty2 extends BaseAty {
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
-        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json"); // 获取assets目录下的json文件数据
+        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData); // 用Gson转成实体
 
         /*
          * 添加省份数据
@@ -353,8 +356,7 @@ public class AddNewAddressAty2 extends BaseAty {
 
                 ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
                 //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
-                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                if (jsonBean.get(i).getCities().get(c).getDistricts() == null || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
                     City_AreaList.add(new DistrictsForTxd("", ""));
                 } else {
                     for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
@@ -414,63 +416,5 @@ public class AddNewAddressAty2 extends BaseAty {
 
         }
     }
-
-
-    private void download(String receiver, String phone, String province, String city, String area, String street, String province_id, String city_id, String area_id, String street_id, String address, String lng, String lat) {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        Map<String, Object> params = new HashMap<String, Object>();
-
-        params.put("receiver", receiver);
-        params.put("phone", phone);
-        params.put("province", province);
-        params.put("city", city);
-        params.put("area", area);
-        params.put("street", street);
-        params.put("province_id", province_id);
-        params.put("city_id", city_id);
-        params.put("area_id", area_id);
-        params.put("street_id", street_id);
-        params.put("address", address);
-        params.put("lng", lng);
-        params.put("lat", lat);
-
-        parameters.put("token", Config.getToken());
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL + "Address/")
-                .addHeader(parameters)
-                .addLog(true)
-
-                .build()
-                .rxPost("addAddress", params, new RxStringCallback() {
-
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-                        Toast.makeText(AddNewAddressAty2.this, response, Toast.LENGTH_SHORT).show();
-//                        try {
-//
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
-
 
 }

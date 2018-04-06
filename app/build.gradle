@@ -22,10 +22,14 @@ android {
 
     signingConfigs {
         releaseConfig {
-            keyAlias 'wjlpkey'
-            keyPassword 'android'
-            storeFile file('D:/Txunda/KeyStore/wjlp.jks')
-            storePassword 'android'
+//            keyAlias 'wjlpkey'
+//            keyPassword 'android'
+//            storeFile file('D:/Txunda/KeyStore/wjlp.jks')
+//            storePassword 'android'
+            keyAlias 'wotiankeji'
+            keyPassword 'wotian999888'
+            storeFile file('D:/wotian_sign.keystore')
+            storePassword 'wotian999888'
         }
     }
 

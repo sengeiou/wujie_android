@@ -841,27 +841,28 @@ public class OrderDetailsAty extends BaseAty {
             if (getItem(i).get("status").equals("1")) { // 判断商品收货状态如果1已收货
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 将中间确认收货按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 将左侧延长收货按钮隐藏
-                tgvh.textview.setText("签收时间：" + getItem(i).get("sure_delivery_time")); // TODO 设置文字为用户的收货时间
+                tgvh.textview.setText("签收时间：" + getItem(i).get("sure_delivery_time")); // 设置文字为用户的收货时间
             } else { // 否则商品状态为2未收货或者是0未发货
                 if (getItem(i).get("status").equals("2")) { // 如果是未收货
                     tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
-                    tgvh.textview.setText(getItem(i).get("auto_time")); // TODO 设置文字为系统自动收货的时间
-                } else { // 否则商品未发货
+                    tgvh.textview.setText(getItem(i).get("auto_time")); // 设置文字为系统自动收货的时间
+                } else if(getItem(i).get("status").equals("0")){ // 否则商品未发货
 //                    if (getItem(i).get("remind_status").equals("0")) {
                     // 如果未提醒过发货，则将提醒发货按钮设置为显示
+                    tgvh.textview.setText(getItem(i).get("auto_time")); // 设置文字为最晚收货的时间
                     tgvh.tv_btn_remind.setVisibility(getItem(i).get("remind_status").equals("0") ? View.VISIBLE : View.GONE);
 //                    }
                 }
             }
 
             //是否存在公益宝贝
-            if (getItem(i).get("welfare").equals("0")) { // 如果不存在公益宝贝
+            if (getItem(i).get("integrity_d").equals("")) { // 如果不存在公益宝贝
                 tgvh.layout_gongyi.setVisibility(View.GONE); // 那么隐藏公益宝贝控件
             } else {
                 // 否则存在公益宝贝
                 tgvh.layout_gongyi.setVisibility(View.VISIBLE); // 显示公益宝贝控件
-                tgvh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划"); // 直接显示金额
+                tgvh.tv_gongyi.setText(getItem(i).get("integrity_d")); // 直接显示公益宝贝
             }
 
 //            tgvh.lin_server_status.setVisibility(View.VISIBLE); // 该控件设置显隐可能多余

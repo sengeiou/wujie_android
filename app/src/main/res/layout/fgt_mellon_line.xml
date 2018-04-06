@@ -93,13 +93,15 @@
                     android:id="@+id/ads_by_limit_buy_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_ticket" />
+                    android:src="@drawable/icon_ticket"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/purchase_gv"
@@ -114,13 +116,15 @@
                     android:id="@+id/group_buy_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_9" />
+                    android:src="@drawable/icon_9"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/group_shopping_lv"
@@ -142,13 +146,15 @@
                     android:id="@+id/ticket_buy_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_purchase" />
+                    android:src="@drawable/icon_purchase"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/ticket_gv"
@@ -163,13 +169,15 @@
                     android:id="@+id/pre_buy_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_3" />
+                    android:src="@drawable/icon_3"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/limit_shopping_gv"
@@ -184,13 +192,15 @@
                     android:id="@+id/country_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_4" />
+                    android:src="@drawable/icon_4"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/import_gv"
@@ -205,13 +215,15 @@
                     android:id="@+id/auction_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_5" />
+                    android:src="@drawable/icon_5"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/auction_gv"
@@ -226,13 +238,15 @@
                     android:id="@+id/one_buy_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_6" />
+                    android:src="@drawable/icon_6"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/good_luck_gv"
@@ -247,13 +261,15 @@
                     android:id="@+id/car_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_7" />
+                    android:src="@drawable/icon_7"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/car_gv"
@@ -268,13 +284,15 @@
                     android:id="@+id/house_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY" />
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/icon_8" />
+                    android:src="@drawable/icon_8"
+                    android:visibility="gone" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/house_gv"

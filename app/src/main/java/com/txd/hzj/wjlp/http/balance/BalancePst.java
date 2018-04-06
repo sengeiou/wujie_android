@@ -31,9 +31,9 @@ public class BalancePst extends BasePresenter {
     }
 
     // 线上充值
-    public void upMoney(String money, String pay_type, String note) {
+    public void upMoney(String order_id, String money, String pay_type, String note) {
         baseView.showDialog();
-        userBalance.upMoney(money, pay_type, note, baseView);
+        userBalance.upMoney(order_id, money, pay_type, note, baseView);
     }
 
     // 线下充值

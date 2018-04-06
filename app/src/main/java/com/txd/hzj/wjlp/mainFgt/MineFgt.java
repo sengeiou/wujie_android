@@ -318,7 +318,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.footprint_tv:// 我的足迹
                 startActivity(FootprintAty.class, null);
                 break;
-            case R.id.merchant_will_move_into_tv:// 商家入驻
+            case R.id.merchant_will_move_into_tv:// 商家推荐
                 startActivity(aty_mine1.class, null);
                 break;
             case R.id.evaluate_tv:// 我的评价

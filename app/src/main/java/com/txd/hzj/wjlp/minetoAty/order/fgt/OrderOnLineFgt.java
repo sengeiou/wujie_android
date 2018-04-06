@@ -21,16 +21,20 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
+import com.txd.hzj.wjlp.bean.UserBalanceHjs;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
@@ -40,6 +44,10 @@ import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -91,6 +99,7 @@ public class OrderOnLineFgt extends BaseFgt {
     private GoodsAdapter goodsAdapter;
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
+    private UserBalanceHjs userBalanceHjs;
 
     public OrderOnLineFgt() {
 
@@ -191,6 +200,8 @@ public class OrderOnLineFgt extends BaseFgt {
             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("7")) {
             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("8")) { // 获取线上充值订单列表
+            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
         }
     }
 
@@ -212,6 +223,8 @@ public class OrderOnLineFgt extends BaseFgt {
             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("7")) {
             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+        } else if (from.equals("8")) {
+            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
         }
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
@@ -243,6 +256,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("7")) {
                             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("8")) {
+                            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
                         }
                     }
 
@@ -283,6 +298,8 @@ public class OrderOnLineFgt extends BaseFgt {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("7")) {
                             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+                        } else if (from.equals("8")) {
+                            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
                         }
                     }
 
@@ -366,6 +383,29 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             }
         }
+
+        if (requestUrl.contains("userBalanceHjs")) { // 线上充值订单列表
+
+            L.e("wang", "jsonstr:" + jsonStr);
+
+            Gson gson = new Gson();
+            userBalanceHjs = gson.fromJson(jsonStr, UserBalanceHjs.class);
+            if (userBalanceHjs.getData() != null && userBalanceHjs.getData().size() > 0) {
+                order_on_line_lv.setAdapter(new OnlineChongAdapter(getActivity(), userBalanceHjs.getData(), this));
+            }
+            if (!frist) {
+                swipe_refresh.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);
+            }
+        }
+
+        if (requestUrl.contains("delHjsInfo")){
+            if (data.get("code").equals("1")) {
+                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
+            }
+            showToast(data.get("message"));
+        }
+
         if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
@@ -378,6 +418,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("7")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("8")) {
+                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
@@ -392,6 +434,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("7")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("8")) {
+                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
             }
         }
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
@@ -405,6 +449,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("7")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
+            } else if (from.equals("8")) {
+                UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
             }
         }
     }
@@ -427,14 +473,10 @@ public class OrderOnLineFgt extends BaseFgt {
     }
 
     private View createFooterView() {
-        View footerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_footer, null);
-        footerProgressBar = footerView
-                .findViewById(R.id.footer_pb_view);
-        footerImageView = footerView
-                .findViewById(R.id.footer_image_view);
-        footerTextView = footerView
-                .findViewById(R.id.footer_text_view);
+        View footerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
         footerProgressBar.setVisibility(View.GONE);
         footerImageView.setVisibility(View.VISIBLE);
         footerImageView.setImageResource(R.drawable.down_arrow);
@@ -443,8 +485,7 @@ public class OrderOnLineFgt extends BaseFgt {
     }
 
     private View createHeaderView() {
-        View headerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_head, null);
+        View headerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_head, null);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");

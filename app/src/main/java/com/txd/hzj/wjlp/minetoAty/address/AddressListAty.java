@@ -126,7 +126,7 @@ public class AddressListAty extends BaseAty {
             case R.id.add_address_tv:// 新增地址
                 bundle = new Bundle();
                 bundle.putInt("type", 0);
-                startActivity(AddNewAddressAty2.class, bundle);
+                startActivity(AddNewAddressAty.class, bundle);
                 break;
             case R.id.edit_address_tv://编辑
                 bundle = new Bundle();

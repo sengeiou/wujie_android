@@ -260,6 +260,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 
+        L.e("login jsonStr:" + jsonStr);
+
         if (requestUrl.contains("registerOne")) {// 注册第一步
 //            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 //            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));

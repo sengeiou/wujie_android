@@ -74,7 +74,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void onCreate() {
       //  FreelineCore.init(this);
         super.onCreate();
-        L.isDebug = false; // 头部header
+//        L.isDebug = false; // 头部header正式
+        L.isDebug = true; // 头部header测试
         MultiDex.install(this);
         applicationContext = this;
         instance = this;

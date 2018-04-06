@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -83,9 +84,10 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         title = getIntent().getStringExtra("title");
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店")
-                || title.equals("无界商店")) {
+        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店") || title.equals("无界商店")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
+        } else if (title.equals("线上充值")){
+            mTitleList = OrderTitleUtils.getInstance().orderTitle6();
         } else if (title.equals("拼团区")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
         } else if (title.equals("无界预购")) {
@@ -102,6 +104,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         }
         // 添加碎片
         for (Map<String, String> fgt : mTitleList) {
+            L.e("wang", title + "\t" + fgt.get("type") + "\t" + getIntent().getStringExtra("type"));
             mFragment.add(OrderOnLineFgt.getFgt(title, fgt.get("type"),getIntent().getStringExtra("type")));
         }
     }

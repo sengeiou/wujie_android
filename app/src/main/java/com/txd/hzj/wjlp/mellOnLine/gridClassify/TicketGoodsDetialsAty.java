@@ -48,6 +48,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
@@ -79,6 +80,7 @@ import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.new_wjyp.http.Easemob;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -1297,7 +1299,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         String tx = DemoApplication.getInstance().getLocInfo().get("province")
                 + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
-        tv_chose_ads.setText(tx);
+        if (tx.equals(",,,")) { // 如果获取的信息为空，那么获取的字段就应该为三个相连的逗号
+            // 直接获取首界面定位的信息
+            tv_chose_ads.setText(MainAty.GDLOC_MAP.get("province") + "," + MainAty.GDLOC_MAP.get("city") + "," + MainAty.GDLOC_MAP.get("district"));
+        } else {
+            tv_chose_ads.setText(tx);
+        }
         Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格

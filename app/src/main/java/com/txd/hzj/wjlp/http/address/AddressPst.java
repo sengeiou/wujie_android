@@ -122,9 +122,9 @@ public class AddressPst extends BasePresenter {
      * @param parent_id 上一级id,可以为空
      */
     public void getRegion(String parent_id) {
-        if (parent_id.equals("")) {
-            baseView.showDialog();
-        }
+//        if (parent_id.equals("")) {
+//            baseView.showDialog();
+//        }
         address.getRegion(parent_id, baseView);
     }
 

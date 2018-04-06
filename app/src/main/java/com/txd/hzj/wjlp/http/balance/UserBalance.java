@@ -38,9 +38,10 @@ class UserBalance {
      * @param note     备注
      * @param baseView 回调
      */
-    void upMoney(String money, String pay_type, String note, BaseView baseView) {
+    void upMoney(String order_id, String money, String pay_type, String note, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("money", money);
         params.addBodyParameter("pay_type", pay_type);
         params.addBodyParameter("note", note);

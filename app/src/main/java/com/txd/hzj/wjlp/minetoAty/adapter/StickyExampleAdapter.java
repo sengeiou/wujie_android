@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -115,8 +116,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
 
-                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
-                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
+//                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (2 == type) { // 积分明细
                 // 获得，消费积分 add_sub：0减 1加
                 if (stickyExampleModel.getAct_type().equals("1") || stickyExampleModel.getAct_type().equals("3")) {
@@ -124,8 +126,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
-                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
-                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
+//                int res = context.getResources().getIdentifier("icon_part_details_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (3 == type) { // 余额明细
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
                 if (stickyExampleModel.getAdd_sub().equals("1")) {
@@ -133,15 +136,17 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
-                int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
-                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
+//                int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
                 // 查看线下充值详情----显示
 //                if (stickyExampleModel.getAct_type().equals("2")) {
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
 //                }
             } else if (4 == type) {
-                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
+//                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             }
         }
     }

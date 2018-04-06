@@ -156,6 +156,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
     private LocationService locationService;
+    public static Map<String, String> GDLOC_MAP; // 高德定位信息Map
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +205,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_main;
-
     }
 
     @Override
@@ -1100,6 +1100,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
 
+                // 将定位信息赋值给全局变量
+                GDLOC_MAP = locMap;
+                L.e("wang", locMap.toString());
 
             }
         }

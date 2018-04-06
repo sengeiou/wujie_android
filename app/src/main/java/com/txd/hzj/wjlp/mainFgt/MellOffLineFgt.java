@@ -206,7 +206,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 startActivity(MellCitySelectAty.class, null);
                 break;
             case R.id.point_by_wj_tv:// 无界驿站
-                startActivity(PointWjAty.class, null);
+//                startActivity(PointWjAty.class, null); // TODO 暂不开发
                 break;
         }
     }

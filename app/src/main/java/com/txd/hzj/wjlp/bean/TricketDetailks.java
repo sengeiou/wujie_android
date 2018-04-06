@@ -53,9 +53,13 @@ public class TricketDetailks {
      * 积分正负号
      */
     public String add_sub;
+    /**
+     * 图标
+     */
+    public String imgStr;
 
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-            log_id, String act_type,String act_id, String add_sub) {
+            log_id, String act_type,String act_id, String add_sub, String imgStr) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
@@ -65,6 +69,7 @@ public class TricketDetailks {
         this.act_type = act_type;
         this.act_id = act_id;
         this.add_sub = add_sub;
+        this.imgStr = imgStr;
     }
 
     public String getSticky() {
@@ -139,6 +144,14 @@ public class TricketDetailks {
         this.add_sub = add_sub;
     }
 
+    public String getImgStr() {
+        return imgStr;
+    }
+
+    public void setImgStr(String imgStr) {
+        this.imgStr = imgStr;
+    }
+
     @Override
     public String toString() {
         return "TricketDetailks{" +
@@ -151,6 +164,7 @@ public class TricketDetailks {
                 ", act_type='" + act_type + '\'' +
                 ", act_id='" + act_id + '\'' +
                 ", add_sub='" + add_sub + '\'' +
+                ", imgStr='" + imgStr + '\'' +
                 '}';
     }
 }

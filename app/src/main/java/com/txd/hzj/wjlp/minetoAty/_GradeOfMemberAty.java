@@ -86,19 +86,20 @@ public class _GradeOfMemberAty extends BaseAty {
      * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
      */
     private void setView() {
-        for (int i = 0; i < advertisement.size(); i = i + 2) {
-            if (advertisement.get(i).get("type").equals("1")) {
-                //设置滚动的单个布局
-                LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(
-                        R.layout.iten_wj_top_view, null);
-                //初始化布局的控件
-                TextView tv1 = moreView.findViewById(R.id.top_tv1);
-                tv1.setTextColor(Color.WHITE);
-                tv1.setTextSize(20f);
-                //初始化布局的控件
-                TextView tv2 = moreView.findViewById(R.id.top_tv2);
-                //进行对控件赋值
-                tv1.setText(advertisement.get(i).get("content"));
+        if (advertisement != null && advertisement.size() > 0) {
+            for (int i = 0; i < advertisement.size(); i = i + 2) {
+                if (advertisement.get(i).get("type").equals("1")) {
+                    //设置滚动的单个布局
+                    LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(
+                            R.layout.iten_wj_top_view, null);
+                    //初始化布局的控件
+                    TextView tv1 = moreView.findViewById(R.id.top_tv1);
+                    tv1.setTextColor(Color.WHITE);
+                    tv1.setTextSize(20f);
+                    //初始化布局的控件
+                    TextView tv2 = moreView.findViewById(R.id.top_tv2);
+                    //进行对控件赋值
+                    tv1.setText(advertisement.get(i).get("content"));
 //
 //                if (advertisement.size() > i + 1) {
 //                    //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
@@ -107,10 +108,11 @@ public class _GradeOfMemberAty extends BaseAty {
 //                    tv2.setVisibility(View.GONE);
 //                }
 
-                //添加到循环滚动数组里面去
-                views.add(moreView);
-            } else {
-                tv_tk.setText(advertisement.get(i).get("content"));
+                    //添加到循环滚动数组里面去
+                    views.add(moreView);
+                } else {
+                    tv_tk.setText(advertisement.get(i).get("content"));
+                }
             }
         }
     }
@@ -121,6 +123,9 @@ public class _GradeOfMemberAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+        L.e("wang", requestUrl + "\t============>>>>>>>>>>>>>>>>>>>>>>>>会员卡：" + jsonStr);
+
         super.onComplete(requestUrl, jsonStr);
 
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);

@@ -201,6 +201,9 @@ public class RechargeAty extends BaseAty {
 
     private BalancePst balancePst;
     private WxPayReceiver wxPayReceiver;
+    private boolean orderIn; // 订单界面跳转进入
+    private String money; // 金额
+    private String order_id1; // 订单id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,12 +214,10 @@ public class RechargeAty extends BaseAty {
         titlt_right_tv.setText("明细");
         changeTVAndViewStyle(type);
 
-
         pay_by_balance_cb.setVisibility(View.GONE);
         selectCheckBoxBottom(bottom_type);
 
         cb_jfzf.setVisibility(View.GONE);
-
 
         PreferencesUtils.remove(RechargeAty.this, "band_id");
 //        PreferencesUtils.remove(RechargeAty.this,"band_id1");
@@ -303,7 +304,12 @@ public class RechargeAty extends BaseAty {
                     return;
                 }
                 if (pay_by_ali_cb.isChecked()) {
-                    balancePst.upMoney(et_price.getText().toString(), "2", "");
+                    // TODO ============================================================================================================================================
+                    if (orderIn) {
+                        balancePst.upMoney(order_id1, et_price.getText().toString(), "2", "");
+                    } else {
+                        balancePst.upMoney("", et_price.getText().toString(), "2", "");
+                    }
                 } else if (pay_by_wechat_cb.isChecked()) {
 //                    balancePst.upMoney(et_price.getText().toString(), "1", "");
                     Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
@@ -385,6 +391,15 @@ public class RechargeAty extends BaseAty {
         imagePicker.setShowCamera(true);// 显示拍照按钮
         balancePst = new BalancePst(this);
 
+        orderIn = getIntent().getBooleanExtra("orderIn", false);
+        if (orderIn) {
+            money = getIntent().getStringExtra("money");
+            et_price.setText(money);
+            et_price.setFocusable(false);
+            et_price.setFocusableInTouchMode(false);
+            order_id1 = getIntent().getStringExtra("order_id");
+        }
+
     }
 
     @Override
@@ -399,6 +414,7 @@ public class RechargeAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+        L.e("wang", requestUrl + "\tjsonStr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("underMoney")) {
@@ -414,12 +430,29 @@ public class RechargeAty extends BaseAty {
             }
         }
         if (requestUrl.contains("getHjsp")) {
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            order_id = map.get("order_id");
-            GetPrepayIdTask wxPay = new GetPrepayIdTask(this, map.get("sign"), map.get("appid"),
-                    map.get("nonce_str"), map.get("package"), map.get("time_stamp"), map.get("prepay_id"),
-                    map.get("mch_id"), "");
-            wxPay.execute();
+
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String code = jsonObject.getString("code");
+                if (code.equals("1")){
+                    JSONObject jsonData = jsonObject.getJSONObject("data");
+                    L.e("sign:" + jsonData.getString("sign") + "\nappid:" + jsonData.getString("appid") + "\nnonce_str:" +
+                            jsonData.getString("nonce_str") + "\npackage:" + jsonData.getString("package") + "\ntime_stamp:" + jsonData.getString("time_stamp") + "\nprepay_id:" + jsonData.getString("prepay_id") +
+                            "\nmch_id:" + jsonData.getString("mch_id"));
+
+                    GetPrepayIdTask wxPay = new GetPrepayIdTask(this, jsonData.getString("sign"), jsonData.getString("appid"),
+                            jsonData.getString("nonce_str"), jsonData.getString("package"), jsonData.getString("time_stamp"), jsonData.getString("prepay_id"),
+                            jsonData.getString("mch_id"), "");
+                    wxPay.execute();
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+//            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//            L.e("wang", "getHjsp:" + map.get("data"));
+//            order_id = map.get("order_id");
         }
         if (requestUrl.contains("getJsTine")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));

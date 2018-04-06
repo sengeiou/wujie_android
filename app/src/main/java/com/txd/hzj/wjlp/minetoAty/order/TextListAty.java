@@ -178,6 +178,7 @@ public class TextListAty extends BaseAty {
 
         if (title.equals("选择街道")) {
             String area_id = getIntent().getStringExtra("area_id");
+            L.e("wang", "==============>>>>>>>>>>>>area_id:" + area_id);
             addressPst.getStreet(area_id);
         } else if (title.equals("选择经营范围")) {
             userPst.getRange();

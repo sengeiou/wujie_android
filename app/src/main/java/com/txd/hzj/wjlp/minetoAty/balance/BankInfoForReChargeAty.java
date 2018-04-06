@@ -164,6 +164,7 @@ public class BankInfoForReChargeAty extends BaseAty {
                     @Override
                     public void onNext(Object tag, String response) {
 //                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+                        L.e("wang", "=========>>>>>>>>>>>>response:" + response);
                         try {
                             if (str.equals("UserBalance/bankList")) {
                                 list1.removeAll(list1);

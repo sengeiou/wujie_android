@@ -69,6 +69,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
      */
     @ViewInject(R.id.tv_vip_card)
     private TextView tv_vip_card;
+    /**
+     * 线上充值
+     */
+    @ViewInject(R.id.tv_online_chong)
+    private TextView tv_online_chong;
 
     Bundle mBundle = new Bundle();
 
@@ -92,6 +97,7 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
         tv_car_buy.setOnClickListener(this);
         tv_home_buy.setOnClickListener(this);
         tv_vip_card.setOnClickListener(this);
+        tv_online_chong.setOnClickListener(this);
     }
 
     @Override
@@ -158,6 +164,11 @@ public class OrderCenterAty extends BaseAty implements View.OnClickListener {
                 break;
             case R.id.tv_vip_card:
                 startActivity(VipCardAty.class,null);
+                break;
+            case R.id.tv_online_chong:
+                mBundle.putString("title", "线上充值");
+                mBundle.putString("type", "8");
+                startActivity(OnlineShopAty.class, mBundle);
                 break;
         }
         super.onClick(v);
