@@ -60,6 +60,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
 import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
 import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.category.GoodsCategory;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
@@ -84,6 +85,8 @@ import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -489,6 +492,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String goodsName = "";
     private String cate_id;
     private String pcate_id;
+    private AddressPst addressPst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -787,7 +791,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -808,13 +812,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
     };
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /*
@@ -969,6 +973,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         imageViews.add(level_3_iv);
         imageViews.add(level_4_iv);
         imageViews.add(level_5_iv);
+
+        addressPst = new AddressPst(this);
+        addressPst.androidAddress();
     }
 
     private int page = 1;
@@ -1207,6 +1214,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(intent);
             }
         }
+
+        if (requestUrl.contains("androidAddress")) {
+            L.e("wang", jsonStr);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String data = jsonObject.getString("data");
+                L.e("wang", data);
+                initJsonData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     /**

@@ -197,16 +197,13 @@ public class BalanceAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
 
-//        withdraw_tv // 提现
-//        transfer_accounts_tv // 转账
-
         // TODO 控件隐藏
         L.e("wang", "===========+>>>>>>>>>" + requestUrl + "\t" + jsonStr);
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        if (requestUrl.contains("")) {
+        if (requestUrl.contains("balanceIndex")) {
             balance = data != null ? data.get("balance") : "0.00";
             layout_bottom_tv.setText(balance);
         }
@@ -243,9 +240,19 @@ public class BalanceAty extends BaseAty {
 
                     if (clickIndex == R.id.transfer_accounts_tv){ // 转账
                         // 转账
+
+//                        Intent intent = new Intent(this, TransferAccountsAty.class);
+//                        intent.putExtra("balance", layout_bottom_tv.getText().toString());
+////                        bundle = new Bundle();
+//                        L.e("wang", "layout_bottom_tv.getText().toString():" + layout_bottom_tv.getText().toString());
+////                        bundle.putString("balance", layout_bottom_tv.getText().toString());
+//                        startActivity(intent);
+
                         bundle = new Bundle();
                         bundle.putString("balance", balance);
+                        L.e("wang", "layout_bottom_tv.getText().toString():" + balance);
                         startActivity(TransferAccountsAty.class, bundle);
+//                        startActivity(TransferAccountsAty.class, bundle);
                     } else if (clickIndex == R.id.withdraw_tv){ // 提现
                         // 提现
                         bundle = new Bundle();

@@ -20,6 +20,15 @@ import java.util.List;
 public class ProvinceForTxd implements IPickerViewData, Parcelable {
 
 
+    @Override
+    public String toString() {
+        return "ProvinceForTxd{" +
+                "provincename='" + provincename + '\'' +
+                ", province_id='" + province_id + '\'' +
+                ", cities=" + cities +
+                '}';
+    }
+
     /**
      * cities : [{"city_id":"52","districts":[{"districtName":"东城区","district_id":"500"},{"districtName":"西城区",
      * "district_id":"501"},{"districtName":"海淀区","district_id":"502"},{"districtName":"朝阳区","district_id":"503"},
@@ -33,16 +42,16 @@ public class ProvinceForTxd implements IPickerViewData, Parcelable {
      * province_id : 2
      */
 
-    private String provinceName;
+    private String provincename;
     private String province_id;
     private List<CityForTxd> cities;
 
-    public String getProvinceName() {
-        return provinceName;
+    public String getProvincename() {
+        return provincename;
     }
 
-    public void setProvinceName(String provinceName) {
-        this.provinceName = provinceName;
+    public void setProvincename(String provincename) {
+        this.provincename = provincename;
     }
 
     public String getProvince_id() {
@@ -63,7 +72,7 @@ public class ProvinceForTxd implements IPickerViewData, Parcelable {
 
     @Override
     public String getPickerViewText() {
-        return getProvinceName();
+        return getProvincename();
     }
 
     @Override
@@ -73,7 +82,7 @@ public class ProvinceForTxd implements IPickerViewData, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.provinceName);
+        dest.writeString(this.provincename);
         dest.writeString(this.province_id);
         dest.writeList(this.cities);
     }
@@ -82,7 +91,7 @@ public class ProvinceForTxd implements IPickerViewData, Parcelable {
     }
 
     protected ProvinceForTxd(Parcel in) {
-        this.provinceName = in.readString();
+        this.provincename = in.readString();
         this.province_id = in.readString();
         this.cities = new ArrayList<CityForTxd>();
         in.readList(this.cities, CityForTxd.class.getClassLoader());

@@ -11,141 +11,141 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"> -->
 
-        <com.txd.hzj.wjlp.view.ObservableScrollView
-            android:id="@+id/off_line_to_change_sc"
+    <com.txd.hzj.wjlp.view.ObservableScrollView
+        android:id="@+id/off_line_to_change_sc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/aty_banner" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_main_top_bg" />
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <include layout="@layout/aty_banner" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/icon_main_top_bg" />
-                </RelativeLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/icon_nice_foods_hzj"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="餐饮美食"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="8dp"
-                        android:drawableTop="@drawable/icon_nice_foods_hzj"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="餐饮美食"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/point_by_wj_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="8dp"
-                        android:drawableTop="@drawable/icon_wujie_post_hzj"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="无界驿店"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="8dp"
-                        android:drawableTop="@drawable/icon_wujie_post_hzj"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp"
-                        android:text="商户地图"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <include layout="@layout/for_on_off_line_hzj" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/view_color" />
-
-                <ImageView
-                    android:id="@+id/im_ads"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/point_by_wj_tv"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_temp_discount" />
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/icon_wujie_post_hzj"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="无界驿店"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp" />
 
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="0.8dp"
-                        android:background="@color/app_text_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="附近的店铺"
-                        android:textColor="@color/app_text_color"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="60dp"
-                        android:layout_height="0.8dp"
-                        android:background="@color/app_text_color" />
-
-                </LinearLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp" />
-
-                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                    android:id="@+id/mell_near_by_lv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@color/bg_color"
-                    android:dividerHeight="1dp"
-                    android:scrollbars="none" />
+                    android:drawablePadding="8dp"
+                    android:drawableTop="@drawable/icon_wujie_post_hzj"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:text="商户地图"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
-        </com.txd.hzj.wjlp.view.ObservableScrollView>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <include layout="@layout/for_on_off_line_hzj" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view_color" />
+
+            <ImageView
+                android:id="@+id/im_ads"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_temp_discount" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="0.8dp"
+                    android:background="@color/app_text_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="附近的店铺"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="18sp" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="0.8dp"
+                    android:background="@color/app_text_color" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                android:id="@+id/mell_near_by_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/bg_color"
+                android:dividerHeight="1dp"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+    </com.txd.hzj.wjlp.view.ObservableScrollView>
     <!-- </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout> -->
 
     <include layout="@layout/off_line_title" />

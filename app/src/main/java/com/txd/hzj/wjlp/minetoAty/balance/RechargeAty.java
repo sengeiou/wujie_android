@@ -10,7 +10,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -43,12 +46,14 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import org.json.JSONArray;
@@ -201,9 +206,10 @@ public class RechargeAty extends BaseAty {
 
     private BalancePst balancePst;
     private WxPayReceiver wxPayReceiver;
-    private boolean orderIn; // 订单界面跳转进入
-    private String money; // 金额
-    private String order_id1; // 订单id
+    private CommonPopupWindow commonPopupWindow;
+    //    private boolean orderIn; // 订单界面跳转进入
+//    private String money; // 金额
+//    private String order_id1; // 订单id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,18 +309,24 @@ public class RechargeAty extends BaseAty {
                     showToast("请输入充值金额！");
                     return;
                 }
-                if (pay_by_ali_cb.isChecked()) {
-                    // TODO ============================================================================================================================================
-                    if (orderIn) {
-                        balancePst.upMoney(order_id1, et_price.getText().toString(), "2", "");
-                    } else {
-                        balancePst.upMoney("", et_price.getText().toString(), "2", "");
-                    }
-                } else if (pay_by_wechat_cb.isChecked()) {
-//                    balancePst.upMoney(et_price.getText().toString(), "1", "");
-                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
-                }
-                showProgressDialog();
+                showPwdPop(v); // 弹出密码输入框
+
+//                if (pay_by_ali_cb.isChecked()) {
+//
+//
+//                    // TODO ============================================================================================================================================
+////                    if (orderIn) {
+////                        balancePst.upMoney(order_id1, et_price.getText().toString(), "2", "");
+////                    } else {
+//                    L.e("wang", "balancePst.upMoney===============================");
+//                    balancePst.upMoney("", et_price.getText().toString(), "2", "");
+////                    }
+//                } else if (pay_by_wechat_cb.isChecked()) {
+//                    L.e("wang", "Pay.getHjsp===============================");
+////                    balancePst.upMoney(et_price.getText().toString(), "1", "");
+//                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
+//                }
+//                showProgressDialog();
                 break;
             case R.id.re_left_layout:// 线上充值
                 type = 0;
@@ -391,14 +403,14 @@ public class RechargeAty extends BaseAty {
         imagePicker.setShowCamera(true);// 显示拍照按钮
         balancePst = new BalancePst(this);
 
-        orderIn = getIntent().getBooleanExtra("orderIn", false);
-        if (orderIn) {
-            money = getIntent().getStringExtra("money");
-            et_price.setText(money);
-            et_price.setFocusable(false);
-            et_price.setFocusableInTouchMode(false);
-            order_id1 = getIntent().getStringExtra("order_id");
-        }
+//        orderIn = getIntent().getBooleanExtra("orderIn", false);
+//        if (orderIn) {
+//            money = getIntent().getStringExtra("money");
+//            et_price.setText(money);
+//            et_price.setFocusable(false);
+//            et_price.setFocusableInTouchMode(false);
+//            order_id = getIntent().getStringExtra("order_id");
+//        }
 
     }
 
@@ -431,10 +443,13 @@ public class RechargeAty extends BaseAty {
         }
         if (requestUrl.contains("getHjsp")) {
 
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            order_id = map.get("order_id");
+
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String code = jsonObject.getString("code");
-                if (code.equals("1")){
+                if (code.equals("1")) {
                     JSONObject jsonData = jsonObject.getJSONObject("data");
                     L.e("sign:" + jsonData.getString("sign") + "\nappid:" + jsonData.getString("appid") + "\nnonce_str:" +
                             jsonData.getString("nonce_str") + "\npackage:" + jsonData.getString("package") + "\ntime_stamp:" + jsonData.getString("time_stamp") + "\nprepay_id:" + jsonData.getString("prepay_id") +
@@ -450,9 +465,6 @@ public class RechargeAty extends BaseAty {
                 e.printStackTrace();
             }
 
-//            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-//            L.e("wang", "getHjsp:" + map.get("data"));
-//            order_id = map.get("order_id");
         }
         if (requestUrl.contains("getJsTine")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -484,6 +496,7 @@ public class RechargeAty extends BaseAty {
             aliPay.pay();
         }
         if (requestUrl.contains("upMoney")) {
+            L.e("wang", "orderid=========" + jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             order_id = map.get("order_id");
             if (pay_by_ali_cb.isChecked()) {
@@ -533,6 +546,17 @@ public class RechargeAty extends BaseAty {
 
         }
 
+        if (requestUrl.contains("verificationPayPwd")) {
+            if (map.get("code").equals("1")) {
+                if (pay_by_ali_cb.isChecked()) {
+                    balancePst.upMoney("", et_price.getText().toString(), "2", "");
+                } else if (pay_by_wechat_cb.isChecked()) {
+                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
+                }
+                showProgressDialog();
+            }
+        }
+
     }
 
     private class WxPayReceiver extends BroadcastReceiver {
@@ -544,6 +568,7 @@ public class RechargeAty extends BaseAty {
             if (errCode == 0) {
 //
 //                showToast("支付成功");
+                L.e("wang", "orderid:" + order_id);
                 Pay.findPayResult(order_id, "1", RechargeAty.this);
                 showProgressDialog();
             } else {
@@ -738,5 +763,35 @@ public class RechargeAty extends BaseAty {
 //
 //                });
 
+    }
+
+    public void showPwdPop(View view) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_pwd)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        final EditText et_password = view.findViewById(R.id.et_password);
+                        TextView submit = view.findViewById(R.id.submit);
+                        submit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (TextUtils.isEmpty(et_password.getText().toString())) {
+                                    showToast("请输入支付密码");
+                                    return;
+                                }
+                                com.txd.hzj.wjlp.http.user.User.verificationPayPwd(et_password.getText().toString(), RechargeAty.this);
+                                showProgressDialog();
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 }

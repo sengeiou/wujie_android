@@ -10,10 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -21,16 +18,11 @@ import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
-import com.tamic.novate.Novate;
-import com.tamic.novate.Throwable;
-import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
-import com.txd.hzj.wjlp.http.address.Address;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
@@ -39,10 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -204,8 +193,7 @@ public class AddNewAddressAty2 extends BaseAty {
     protected void initialized() {
         type = getIntent().getIntExtra("type", 0);
         addressPst = new AddressPst(this);
-        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        addressPst.getRegion("");
+        addressPst.androidAddress();
     }
 
     @Override
@@ -249,8 +237,16 @@ public class AddNewAddressAty2 extends BaseAty {
             finish();
         }
 
-        if (requestUrl.contains("getRegion")){
-            L.e("wang", "getRegion:" + jsonStr);
+        if (requestUrl.contains("androidAddress")) {
+            L.e("wang", jsonStr);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String data = jsonObject.getString("data");
+                L.e("wang", data);
+                initJsonData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -260,7 +256,6 @@ public class AddNewAddressAty2 extends BaseAty {
     // TODO==========城市选择==========
     // TODO==========城市选择==========
     // TODO==========城市选择==========
-
     private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
     private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
     private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
@@ -287,6 +282,7 @@ public class AddNewAddressAty2 extends BaseAty {
                 zore_tv.setText(tx);
                 street_tv.setText("");
             }
+
         }).setTitleText("城市选择")
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
@@ -308,7 +304,7 @@ public class AddNewAddressAty2 extends BaseAty {
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -329,14 +325,17 @@ public class AddNewAddressAty2 extends BaseAty {
         }
     };
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json"); // 获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json"); // 获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData); // 用Gson转成实体
+        for (ProvinceForTxd pro : jsonBean) {
+            L.e("wang", "=-=-=-=-=-=-=-=" + pro.toString());
+        }
 
         /*
          * 添加省份数据
@@ -393,7 +392,7 @@ public class AddNewAddressAty2 extends BaseAty {
         } catch (Exception e) {
             L.e("=====异常=====", e.getMessage());
             e.printStackTrace();
-            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+//            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
         }
         return detail;
     }

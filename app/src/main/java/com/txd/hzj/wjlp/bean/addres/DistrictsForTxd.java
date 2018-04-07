@@ -15,25 +15,34 @@ import com.bigkoo.pickerview.model.IPickerViewData;
  */
 
 public class DistrictsForTxd implements IPickerViewData, Parcelable {
+
+    @Override
+    public String toString() {
+        return "DistrictsForTxd{" +
+                "districtname='" + districtname + '\'' +
+                ", district_id='" + district_id + '\'' +
+                '}';
+    }
+
     /**
      * districtName : 东城区
      * district_id : 500
      */
 
-    private String districtName;
+    private String districtname;
     private String district_id;
 
-    public DistrictsForTxd(String districtName, String district_id) {
-        this.districtName = districtName;
+    public DistrictsForTxd(String districtname, String district_id) {
+        this.districtname = districtname;
         this.district_id = district_id;
     }
 
-    public String getDistrictName() {
-        return districtName;
+    public String getDistrictname() {
+        return districtname;
     }
 
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
+    public void setDistrictname(String districtname) {
+        this.districtname = districtname;
     }
 
     public String getDistrict_id() {
@@ -46,7 +55,7 @@ public class DistrictsForTxd implements IPickerViewData, Parcelable {
 
     @Override
     public String getPickerViewText() {
-        return getDistrictName();
+        return getDistrictname();
     }
 
     @Override
@@ -56,12 +65,12 @@ public class DistrictsForTxd implements IPickerViewData, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.districtName);
+        dest.writeString(this.districtname);
         dest.writeString(this.district_id);
     }
 
     protected DistrictsForTxd(Parcel in) {
-        this.districtName = in.readString();
+        this.districtname = in.readString();
         this.district_id = in.readString();
     }
 

@@ -181,7 +181,9 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
                 }
 
-                AfterSale.backApply(typeTypeId, df.format(maxPrice), edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
+//                L.e("wang", df.format(money_be_back_ev.getText().toString()) + "=====================");
+
+                AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
                 showProgressDialog();
                 break;
         }

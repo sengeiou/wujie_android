@@ -1,8 +1,11 @@
 [
   {
+    "provinceName": "北京",
+    "province_id": "2",
     "cities": [
       {
         "city_id": "52",
+        "cityName": "北京",
         "districts": [
           {
             "districtName": "东城区",
@@ -76,12 +79,9 @@
             "districtName": "延庆县",
             "district_id": "517"
           }
-        ],
-        "cityName": "北京"
+        ]
       }
-    ],
-    "provinceName": "北京",
-    "province_id": "2"
+    ]
   },
   {
     "cities": [

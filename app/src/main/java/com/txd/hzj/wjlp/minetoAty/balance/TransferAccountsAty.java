@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -66,32 +67,6 @@ public class TransferAccountsAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("转账");
-        MoneyUtils.setPricePoint(tr_acc_money_et);
-        can_use_money_tv.setText(balance);
-        ll.setVisibility(View.VISIBLE);
-        operation_type_tv21.setText(" 每次转账金额必须为整数，系统自动扣除转账额的1%综合服务费。");
-        opposite_side_ev.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEND || (keyEvent != null &&
-                        keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
-                    code = opposite_side_ev.getText().toString();
-                    balancePst.getUserName(code);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        opposite_side_ev.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    code = opposite_side_ev.getText().toString();
-                    balancePst.getUserName(code);
-                }
-            }
-        });
 
     }
 
@@ -120,7 +95,36 @@ public class TransferAccountsAty extends BaseAty {
     @Override
     protected void initialized() {
         balancePst = new BalancePst(this);
+
         balance = getIntent().getStringExtra("balance");
+        L.e("wang", "balance:" + balance);
+
+        MoneyUtils.setPricePoint(tr_acc_money_et);
+        can_use_money_tv.setText(balance);
+        ll.setVisibility(View.VISIBLE);
+        operation_type_tv21.setText(" 每次转账金额必须为整数，系统自动扣除转账额的1%综合服务费。");
+        opposite_side_ev.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEND || (keyEvent != null &&
+                        keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    code = opposite_side_ev.getText().toString();
+                    balancePst.getUserName(code);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        opposite_side_ev.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    code = opposite_side_ev.getText().toString();
+                    balancePst.getUserName(code);
+                }
+            }
+        });
     }
 
     @Override

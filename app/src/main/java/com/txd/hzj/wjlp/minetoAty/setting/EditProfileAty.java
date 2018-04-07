@@ -35,6 +35,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
@@ -42,6 +43,8 @@ import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -182,6 +185,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      */
     private String nickname = "";
     private String personal_data_status="0";//是否完善了个人资料
+    private AddressPst addressPst;
 
 
     @Override
@@ -204,6 +208,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         size = ToolKit.dip2px(this, 80);
         forImagePacker();
         userPst = new UserPst(this);
+        addressPst = new AddressPst(this);
+        addressPst.androidAddress(); // 获取地址数据
     }
 
     private void forImagePacker() {
@@ -280,6 +286,19 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             showRightTip("修改成功");
             finish();
         }
+
+        if (requestUrl.contains("androidAddress")) {
+            L.e("wang", jsonStr);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String data = jsonObject.getString("data");
+                L.e("wang", data);
+                initJsonData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     String auth_status, comp_auth_status;
@@ -491,7 +510,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 .setOutSideCancelable(false)// default is true
                 .build();
 
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+        pvOptions.setPicker(options1Items, options2Items, options3Items); // 三级选择器
         pvOptions.show();
     }
 
@@ -505,7 +524,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -526,13 +545,13 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         }
     };
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /*

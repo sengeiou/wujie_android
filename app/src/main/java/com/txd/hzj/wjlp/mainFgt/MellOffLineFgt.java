@@ -259,90 +259,94 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200).into(im_ads);
-        im_ads.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
-                }
-            }
-        });
+        // TODO 暂时取消点击事件
+//        im_ads.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
+//                }
+//            }
+//        });
         list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
         Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop().into(three_image_left_iv);
-        three_image_left_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(list_brand.get(0).get("merchant_id")) && !list_brand.get(0).get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(list_brand.get(0).get("goods_id")) && !list_brand.get(0).get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", list_brand.get(0).get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(list_brand.get(0).get("desc"), list_brand.get(0).get("href"));
-                }
-            }
-        });
+        // TODO 暂时取消点击事件
+//        three_image_left_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(list_brand.get(0).get("merchant_id")) && !list_brand.get(0).get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(list_brand.get(0).get("goods_id")) && !list_brand.get(0).get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", list_brand.get(0).get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(list_brand.get(0).get("desc"), list_brand.get(0).get("href"));
+//                }
+//            }
+//        });
         Glide.with(getActivity()).load(list_brand.get(1).get("picture")).override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop().into(three_image_center_iv);
-        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(list_brand.get(1).get("merchant_id")) && !list_brand.get(1).get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", list_brand.get(1).get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(list_brand.get(1).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", list_brand.get(1).get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(list_brand.get(1).get("desc"), list_brand.get(1).get("href"));
-                }
-            }
-        });
+        // TODO 暂时取消点击事件
+//        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(list_brand.get(1).get("merchant_id")) && !list_brand.get(1).get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", list_brand.get(1).get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(list_brand.get(1).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", list_brand.get(1).get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(list_brand.get(1).get("desc"), list_brand.get(1).get("href"));
+//                }
+//            }
+//        });
         Glide.with(getActivity()).load(list_brand.get(2).get("picture")).override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop().into(three_image_right_iv);
-        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(list_brand.get(2).get("merchant_id")) && !list_brand.get(2).get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", list_brand.get(2).get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(list_brand.get(2).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", list_brand.get(2).get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(list_brand.get(2).get("desc"), list_brand.get(2).get("href"));
-                }
-            }
-        });
+        // TODO 暂时取消点击事件
+//        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(list_brand.get(2).get("merchant_id")) && !list_brand.get(2).get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", list_brand.get(2).get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(list_brand.get(2).get("goods_id")) && !list_brand.get(1).get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", list_brand.get(2).get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(list_brand.get(2).get("desc"), list_brand.get(2).get("href"));
+//                }
+//            }
+//        });
     }
 
     @Override

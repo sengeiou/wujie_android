@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,20 +11,22 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_color"/>
+        android:background="@color/view_color" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <RadioGroup
                 android:id="@+id/app_main_rg"
                 android:layout_width="match_parent"
@@ -36,76 +37,78 @@
                     android:id="@+id/home_pager_rb"
                     style="@style/main_tab_bottom_style"
                     android:drawableTop="@drawable/selector_tab_main_bottom_homepage"
-                    android:text="线上商城"
-                    />
+                    android:text="线上商城" />
 
                 <RadioButton
                     android:id="@+id/mell_offline_rb"
                     style="@style/main_tab_bottom_style"
                     android:drawableTop="@drawable/selector_tab_main_bottom_mell_offline"
-                    android:text="线下店铺"
-                    />
+                    android:text="线下店铺" />
 
                 <RadioButton
                     style="@style/main_tab_bottom_style"
                     android:text="更多"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
 
                 <RadioButton
                     android:id="@+id/cart_rb"
                     style="@style/main_tab_bottom_style"
                     android:drawableTop="@drawable/selector_tab_main_bottom_cart"
-                    android:text="购物车"
-                    />
+                    android:text="购物车" />
 
                 <RadioButton
                     android:id="@+id/mine_rb"
                     style="@style/main_tab_bottom_style"
                     android:drawableTop="@drawable/selector_tab_main_bottom_mine"
-                    android:text="我的"
-                    />
+                    android:text="我的" />
             </RadioGroup>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
-                    android:visibility="invisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:visibility="invisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-                <TextView
-                    android:visibility="invisible"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-                <RelativeLayout
-                    android:gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:text="1">
+
                     <TextView
-                        android:layout_marginRight="14dp"
-                        android:textSize="10sp"
-                        android:textColor="@color/white"
-                        android:gravity="center"
                         android:id="@+id/tv_cart_num"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
+                        android:layout_marginRight="14dp"
+                        android:background="@drawable/shape_red_cart"
+                        android:gravity="center"
                         android:text="3"
-                        android:background="@drawable/shape_red_cart"/>
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
                 </RelativeLayout>
+
                 <TextView
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:visibility="invisible" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -126,16 +129,16 @@
                 android:id="@+id/mach_more_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_main_more"/>
+                android:src="@drawable/icon_main_more" />
 
             <TextView
                 android:id="@+id/mach_more_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="更多"
                 android:layout_marginTop="4dp"
+                android:text="更多"
                 android:textColor="@color/gray_text_color"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
     </FrameLayout>

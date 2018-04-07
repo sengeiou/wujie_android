@@ -10,9 +10,18 @@
 
     <include layout="@layout/aty_title" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="   亲，若申请退款退货/退款不退货成功，全额/部分退款商品使用的代金券都将作废，相应积分也不再赠送，请注意呦！"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="10sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ScrollView
             android:layout_width="match_parent"

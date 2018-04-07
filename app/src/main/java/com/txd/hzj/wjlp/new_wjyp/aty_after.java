@@ -75,6 +75,7 @@ public class aty_after extends BaseAty {
                 bundle.putString("order_goods_id", order_goods_id);
                 bundle.putString("order_id",order_id );
                 bundle.putString("type", type);
+                bundle.putString("maxPrice", price);
                 startActivity(ApplyForAfterSalesAty.class, bundle);
                 break;
         }

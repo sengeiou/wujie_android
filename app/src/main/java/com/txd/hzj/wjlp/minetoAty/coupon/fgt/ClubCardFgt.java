@@ -51,8 +51,8 @@ public class ClubCardFgt extends BaseFgt {
         show_delete_iv.setVisibility(View.GONE);
         card_status_tv.setText("未激活会员卡");
 
-        valid_ticket_lv.setAdapter(clubCartAdapter);
-        un_valid_ticket_lv.setAdapter(clubCartAdapter1);
+//        valid_ticket_lv.setAdapter(clubCartAdapter);
+//        un_valid_ticket_lv.setAdapter(clubCartAdapter1);
 
     }
 
@@ -65,6 +65,10 @@ public class ClubCardFgt extends BaseFgt {
     protected void initialized() {
         clubCartAdapter = new ClubCartAdapter(0);
         clubCartAdapter1 = new ClubCartAdapter(1);
+
+//        valid_ticket_lv.setVisibility(View.GONE);
+//        un_valid_ticket_lv.setVisibility(View.GONE);
+
     }
 
     @Override

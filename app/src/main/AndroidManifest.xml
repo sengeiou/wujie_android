@@ -294,7 +294,6 @@
         <!-- 添加地址 -->
         <activity android:name=".minetoAty.address.AddNewAddressAty2" />
         <!-- 添加地址再用 -->
-        <activity android:name=".minetoAty.address.AddNewAddressAty" />
         <!-- 意见反馈 -->
         <activity android:name=".minetoAty.feedback.FeedBackAty" />
         <!-- 分享给好友 -->

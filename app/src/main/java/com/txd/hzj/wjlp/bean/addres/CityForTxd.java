@@ -18,14 +18,22 @@ import java.util.List;
  */
 
 public class CityForTxd implements IPickerViewData, Parcelable {
+    @Override
+    public String toString() {
+        return "CityForTxd{" +
+                "city_id='" + city_id + '\'' +
+                ", cityname='" + cityname + '\'' +
+                ", districts=" + districts +
+                '}';
+    }
 
     private String city_id;
-    private String cityName;
+    private String cityname;
     private List<DistrictsForTxd> districts;
 
-    public CityForTxd(String city_id, String cityName, List<DistrictsForTxd> districts) {
+    public CityForTxd(String city_id, String cityname, List<DistrictsForTxd> districts) {
         this.city_id = city_id;
-        this.cityName = cityName;
+        this.cityname = cityname;
         this.districts = districts;
     }
 
@@ -37,12 +45,12 @@ public class CityForTxd implements IPickerViewData, Parcelable {
         this.city_id = city_id;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCityname() {
+        return cityname;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCityname(String cityname) {
+        this.cityname = cityname;
     }
 
     public List<DistrictsForTxd> getDistricts() {
@@ -55,7 +63,7 @@ public class CityForTxd implements IPickerViewData, Parcelable {
 
     @Override
     public String getPickerViewText() {
-        return getCityName();
+        return getCityname();
     }
 
     @Override
@@ -66,13 +74,13 @@ public class CityForTxd implements IPickerViewData, Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.city_id);
-        dest.writeString(this.cityName);
+        dest.writeString(this.cityname);
         dest.writeList(this.districts);
     }
 
     protected CityForTxd(Parcel in) {
         this.city_id = in.readString();
-        this.cityName = in.readString();
+        this.cityname = in.readString();
         this.districts = new ArrayList<DistrictsForTxd>();
         in.readList(this.districts, DistrictsForTxd.class.getClassLoader());
     }

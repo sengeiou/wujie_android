@@ -812,15 +812,17 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // Todo============================================
     // Todo============================================
     private void showAppUpdateDialog(final UpdataApp updataApp) {
-        String  code = updataApp.getData().getName();
 
-        Log.d("banben=========",String.valueOf(code));
-        if (!code.equals(BuildConfig.VERSION_NAME)) {
+        String name = updataApp.getData().getName();
+
+        L.e("wang", "=============>>>>>>>>>>>>>>>>>> name = " + name + "\tBuildConfig.VERSION_NAME = " + BuildConfig.VERSION_NAME);
+
+        Log.d("banben=========",String.valueOf(name));
+        if (!name.equals(BuildConfig.VERSION_NAME)) {
             new MikyouCommonDialog(this, "检测到新版本v" + updataApp.getData().getName(), "提示", "立即更新", "稍后更新")
                     .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                         @Override
-                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
-                                which) {
+                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
                             switch (btnType) {
                                 case MikyouCommonDialog.NO:// 取消
                                     break;

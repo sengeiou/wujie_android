@@ -29,6 +29,8 @@ import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -196,6 +198,7 @@ public class aty_addshipping extends BaseAty {
     protected void initialized() {
         addressPst = new AddressPst(this);
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        addressPst.androidAddress();
     }
 
     @Override
@@ -232,6 +235,19 @@ public class aty_addshipping extends BaseAty {
                 finish();
             }
         }
+
+        if (requestUrl.contains("androidAddress")) {
+            L.e("wang", jsonStr);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String data = jsonObject.getString("data");
+                L.e("wang", data);
+                initJsonData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     // TODO==========城市选择==========
@@ -289,7 +305,7 @@ public class aty_addshipping extends BaseAty {
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -310,13 +326,13 @@ public class aty_addshipping extends BaseAty {
         }
     };
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /*

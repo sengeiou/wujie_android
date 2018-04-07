@@ -51,7 +51,7 @@ public class AboutOursAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("关于我们");
-        app_version_tv.setText("当前版本:" + BuildConfig.VERSION_NAME);
+        app_version_tv.setText("当前版本:v" + BuildConfig.VERSION_NAME);
     }
 
     @Override

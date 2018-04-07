@@ -42,7 +42,8 @@ public class GetPrepayIdTask extends AsyncTask<Void, Void, Map<String, String>> 
      */
     public GetPrepayIdTask(Context con, String sign, String appid, String nonce_str, String package_name,
                            String time_stamp, String prepay_id, String mch_id, String order_sn) {
-        msgApi = WXAPIFactory.createWXAPI(con,null);
+        msgApi = WXAPIFactory.createWXAPI(con,"wxc971edce6f70ca57", false);
+//        msgApi = WXAPIFactory.createWXAPI(con,null);
         req = new PayReq();
         this.sign = sign;
         this.appid = appid;

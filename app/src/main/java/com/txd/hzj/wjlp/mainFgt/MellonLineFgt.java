@@ -1372,24 +1372,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     .into(three_image_left_iv);
             left_desc = brand.get("desc");
             left_href = brand.get("href");
-            three_image_left_iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(brand.get("merchant_id")) && !brand.get("merchant_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("mell_id", brand.get("merchant_id"));
-                        startActivity(MellInfoAty.class, bundle);
-                    } else if (!TextUtils.isEmpty(brand.get("goods_id")) && !brand.get("goods_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("ticket_buy_id", brand.get("goods_id"));
-                        bundle.putInt("from", 1);
-                        startActivity(TicketGoodsDetialsAty.class, bundle);
-                    } else {
-                        forShowAds(left_desc, left_href);
-                    }
-
-                }
-            });
+            // TODO 暂时将点击事件取消
+//            three_image_left_iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (!TextUtils.isEmpty(brand.get("merchant_id")) && !brand.get("merchant_id").equals("0")) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("mell_id", brand.get("merchant_id"));
+//                        startActivity(MellInfoAty.class, bundle);
+//                    } else if (!TextUtils.isEmpty(brand.get("goods_id")) && !brand.get("goods_id").equals("0")) {
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("ticket_buy_id", brand.get("goods_id"));
+//                        bundle.putInt("from", 1);
+//                        startActivity(TicketGoodsDetialsAty.class, bundle);
+//                    } else {
+//                        forShowAds(left_desc, left_href);
+//                    }
+//
+//                }
+//            });
 
         }
         // 中国制造(中间)
@@ -1401,24 +1402,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_center_iv);
-        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(china.get("merchant_id")) && !china.get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", china.get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(china.get("goods_id")) && !china.get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", china.get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(cent_desc, cent_href);
-                }
-
-            }
-        });
+        // TODO 暂时将点击事件取消
+//        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(china.get("merchant_id")) && !china.get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", china.get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(china.get("goods_id")) && !china.get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", china.get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(cent_desc, cent_href);
+//                }
+//
+//            }
+//        });
         cent_desc = china.get("desc");
         cent_href = china.get("href");
 
@@ -1431,24 +1433,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
                 .into(three_image_right_iv);
-        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(science.get("merchant_id")) && !science.get("merchant_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", science.get("merchant_id"));
-                    startActivity(MellInfoAty.class, bundle);
-                } else if (!TextUtils.isEmpty(science.get("goods_id")) && !science.get("goods_id").equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("ticket_buy_id", science.get("goods_id"));
-                    bundle.putInt("from", 1);
-                    startActivity(TicketGoodsDetialsAty.class, bundle);
-                } else {
-                    forShowAds(right_desc, right_href);
-                }
-
-            }
-        });
+        // TODO 暂时将点击事件取消
+//        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!TextUtils.isEmpty(science.get("merchant_id")) && !science.get("merchant_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("mell_id", science.get("merchant_id"));
+//                    startActivity(MellInfoAty.class, bundle);
+//                } else if (!TextUtils.isEmpty(science.get("goods_id")) && !science.get("goods_id").equals("0")) {
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("ticket_buy_id", science.get("goods_id"));
+//                    bundle.putInt("from", 1);
+//                    startActivity(TicketGoodsDetialsAty.class, bundle);
+//                } else {
+//                    forShowAds(right_desc, right_href);
+//                }
+//
+//            }
+//        });
         right_desc = science.get("desc");
         right_href = science.get("href");
     }

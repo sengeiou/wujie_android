@@ -166,6 +166,15 @@ public class Address {
         apiTool2.postApi(url + "getRegion", params, baseView);
     }
 
+    /**
+     * android 获取地址列表数据
+     * @param baseView
+     */
+    void androidAddress(BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "androidAddress", new RequestParams(), baseView);
+    }
+
 
     /**
      * 获取街道

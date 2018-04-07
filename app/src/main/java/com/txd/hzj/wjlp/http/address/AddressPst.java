@@ -129,6 +129,13 @@ public class AddressPst extends BasePresenter {
     }
 
     /**
+     * android 获取地址列表数据
+     */
+    public void androidAddress(){
+        address.androidAddress(baseView);
+    }
+
+    /**
      * 获取区域列表
      *
      * @param area_id 区县id

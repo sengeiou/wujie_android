@@ -184,6 +184,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:inputType="textPassword"
         android:background="@color/white"
         android:hint="请输入支付密码"
         android:padding="10sp"

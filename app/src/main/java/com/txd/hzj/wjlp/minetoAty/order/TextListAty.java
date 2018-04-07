@@ -132,7 +132,6 @@ public class TextListAty extends BaseAty {
                     if (list_check.get(i) == 1) {
                         scope += dataList.get(i).get("short_name") + ",";
                         cate_id += dataList.get(i).get("cate_id") + ",";
-
                     } else {
 
                     }
