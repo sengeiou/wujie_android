@@ -46,6 +46,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
@@ -279,7 +280,7 @@ public class fragment1 extends BaseFgt {
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -342,6 +343,21 @@ public class fragment1 extends BaseFgt {
             showToast("成功！");
             getActivity().finish();
         }
+
+        if (requestUrl.contains("androidAddress")){
+            if (requestUrl.contains("androidAddress")) {
+                L.e("wang", jsonStr);
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    String data = jsonObject.getString("data");
+                    L.e("wang", data);
+                    initJsonData(data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     @Override
@@ -402,6 +418,10 @@ public class fragment1 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
+
+        AddressPst addressPst = new AddressPst(this);
+        addressPst.androidAddress();
+
     }
 
     private void ShowPickerView() {// 弹出选择器
@@ -534,13 +554,13 @@ public class fragment1 extends BaseFgt {
         dialog.show();
     }
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "provinceFotTxd.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /*

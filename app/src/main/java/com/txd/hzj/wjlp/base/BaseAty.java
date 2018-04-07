@@ -50,6 +50,8 @@ import java.util.Map;
 public abstract class BaseAty extends BaseActivity implements ChatListener {
     private Bundle bundle;
 
+    public static boolean isExit = false; // 判断Activity是否被销毁
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

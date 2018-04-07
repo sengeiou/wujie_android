@@ -18,6 +18,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
@@ -37,10 +38,13 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -128,7 +132,7 @@ public class fragment2 extends BaseFgt {
                             @Override
                             public void run() {
                                 // 写子线程中的操作,解析省市区数据
-                                initJsonData();
+//                                initJsonData();
                             }
                         });
                         thread.start();
@@ -258,6 +262,10 @@ public class fragment2 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
+
+        AddressPst addressPst = new AddressPst(this);
+        addressPst.androidAddress();
+
     }
 
     @ViewInject(R.id.textview)
@@ -349,6 +357,19 @@ public class fragment2 extends BaseFgt {
             showToast("成功！");
             getActivity().finish();
         }
+
+        if (requestUrl.contains("androidAddress")) {
+            L.e("wang", jsonStr);
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                String data = jsonObject.getString("data");
+                L.e("wang", data);
+                initJsonData(data);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 
@@ -420,13 +441,13 @@ public class fragment2 extends BaseFgt {
         pvOptions.show();
     }
 
-    private void initJsonData() {//解析数据
+    private void initJsonData(String JsonData) {//解析数据
 
         /*
          * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
          * 关键逻辑在于循环体
          */
-        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "provinceFotTxd.json");//获取assets目录下的json文件数据
         ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
 
         /*

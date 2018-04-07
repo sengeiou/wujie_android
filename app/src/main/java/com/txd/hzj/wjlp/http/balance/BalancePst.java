@@ -140,7 +140,7 @@ public class BalancePst extends BasePresenter {
         baseView.showDialog();
         userBalance.balanceLog(p, baseView);
     }
-    // 余额明细
+    // 线下充值明细列表
     public void underMoneys(int p) {
         baseView.showDialog();
         userBalance.underMoneys(p, baseView);

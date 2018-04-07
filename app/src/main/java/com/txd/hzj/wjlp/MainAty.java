@@ -1164,6 +1164,4 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     public void onMessageChanged(EMMessage message, Object change) {
     }
 
-
-
 }

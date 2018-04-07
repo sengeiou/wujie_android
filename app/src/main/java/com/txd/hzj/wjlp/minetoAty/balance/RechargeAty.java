@@ -211,6 +211,8 @@ public class RechargeAty extends BaseAty {
 //    private String money; // 金额
 //    private String order_id1; // 订单id
 
+    public static boolean isPlatform = false; // 是否是选择平台银行卡
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -350,6 +352,7 @@ public class RechargeAty extends BaseAty {
 
                 break;
             case R.id.select_card_num_layout1:// 线下支付，选择平台银行卡号
+                isPlatform = true; // 选择平台银行卡号
                 PreferencesUtils.putString(RechargeAty.this, "key1", "1");
                 startActivityForResult(BankInfoForReChargeAty.class, null, 100);
                 break;
@@ -537,6 +540,7 @@ public class RechargeAty extends BaseAty {
                     return;
                 }
                 if (auth_status.equals("2")) {
+                    isPlatform = false; // 不是平台的银行卡号
                     PreferencesUtils.putString(RechargeAty.this, "key1", "0");
                     startActivityForResult(BankInfoForReChargeAty.class, null, 100);
                     return;

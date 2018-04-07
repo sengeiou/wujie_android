@@ -86,7 +86,7 @@ public class SearchGoodsAdapter extends BaseAdapter {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
         } else {
             holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
-            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "代金券");
+            holder.use_coupon_tv.setText("可使用" + cfGoodsList.getTicket_buy_discount() + "%代金券");
         }
         Glide.with(context).load(cfGoodsList.getCountry_logo())
                 .centerCrop()

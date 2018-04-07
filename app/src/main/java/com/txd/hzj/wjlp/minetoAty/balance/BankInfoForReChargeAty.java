@@ -41,6 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 线下充值选择银行卡
+ */
 public class BankInfoForReChargeAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -60,7 +63,6 @@ public class BankInfoForReChargeAty extends BaseAty {
     private LinearLayout layout;
 
     private List<Map<String, String>> list;
-
 
     ArrayList<PtEntity> list1 = new ArrayList<>();
     ArrayList<HkEntity> list2 = new ArrayList<>();
@@ -108,10 +110,14 @@ public class BankInfoForReChargeAty extends BaseAty {
         list = new ArrayList<>();
         balancePst = new BalancePst(this);
         titlt_conter_tv.setText("银行卡");
-        titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setText("+");
         titlt_right_tv.setTextSize(32);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        if (RechargeAty.isPlatform) { // 选择线上银行卡
+            titlt_right_tv.setVisibility(View.GONE);
+        } else {
+            titlt_right_tv.setVisibility(View.VISIBLE);
+        }
 //        bankInfoAdapter = new BankInfoAdapter();
 
     }
@@ -121,7 +127,7 @@ public class BankInfoForReChargeAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.titlt_right_tv:
                 startActivity(AddBankCardAty.class, null);
                 break;

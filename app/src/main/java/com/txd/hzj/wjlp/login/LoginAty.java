@@ -1,5 +1,8 @@
 package com.txd.hzj.wjlp.login;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -36,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.sharesdk.framework.Platform;
@@ -322,6 +326,11 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 finish();
             } else {
                 showRightTip("登录成功");
+                boolean existMainActivity = isExistMainActivity(MainAty.class);
+                L.e("wang", "existMainActivity:" + existMainActivity);
+                if (existMainActivity){
+                    startActivity(MainAty.class, null);
+                }
                 application.setUserInfo(data);
                 Config.setLoginState(true);
                 PreferencesUtils.putString(this, "token", data.get("token"));
@@ -341,7 +350,22 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
-
+    private boolean isExistMainActivity(Class<?> activity){
+        Intent intent = new Intent(this, activity);
+        ComponentName cmpName = intent.resolveActivity(getPackageManager());
+        boolean flag = false;
+        if (cmpName != null) { // 说明系统中存在这个activity
+            ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+            List<ActivityManager.RunningTaskInfo> taskInfoList = am.getRunningTasks(20);  //获取从栈顶开始往下查找的10个activity
+            for (ActivityManager.RunningTaskInfo taskInfo : taskInfoList) {
+                if (taskInfo.baseActivity.equals(cmpName)) { // 说明它已经启动了
+                    flag = true;
+                    break;  //跳出循环，优化效率
+                }
+            }
+        }
+        return flag;
+    }
 
     private void authorize(Platform plat) {
         // 判断指定平台是否已经完成授权

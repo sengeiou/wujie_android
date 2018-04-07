@@ -53,7 +53,7 @@ public class ToShareAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.share_to_wachar:// 微信
+            case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
@@ -105,11 +105,9 @@ public class ToShareAty extends BaseAty {
      */
     private void shareForApp(String name) {
 
-        ShareForApp shareForApp = new ShareForApp(name, pic, title, context,
-                link, new ShareBeBackListener() {
+        ShareForApp shareForApp = new ShareForApp(name, pic, title, context, link, new ShareBeBackListener() {
             @Override
-            public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare
-                    statusForShare, int code) {
+            public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
                 switch (statusForShare) {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, link);

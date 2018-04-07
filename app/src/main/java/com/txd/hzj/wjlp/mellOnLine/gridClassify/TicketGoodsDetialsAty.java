@@ -1045,6 +1045,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             remarks.setText(data.get("remarks"));
             forBase(data, cart_num);
             share_url = data.get("share_url");
+            L.e("wang", "share_url:" + share_url);
             share_img = data.get("share_img");
 
             share_content = data.get("share_content");

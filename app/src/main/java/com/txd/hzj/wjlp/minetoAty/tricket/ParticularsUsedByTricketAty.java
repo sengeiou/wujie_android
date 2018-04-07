@@ -24,6 +24,10 @@ import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.adapter.StickyExampleAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -244,7 +248,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             case 3:// 积分明细
                 balancePst.balanceLog(p);
                 break;
-            case 4:// 成长明细
+            case 4:// 线下充值明细列表
 //                userPst.userDevelopLog(p);
                 balancePst.underMoneys(p);
             case 5:// 成长明细
@@ -264,13 +268,16 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
+
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");
+
                         ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             L.e("22222222222222222" + temp2.get("money"));
-                            list.add(new TricketDetailks(time, "线下充值", temp2.get("create_time"),
+                            // 时间， 名称， 创建时间， 金额， 拒绝理由，Id，状态， ， 加减号状态， 图标
+                            list.add(new TricketDetailks(time, temp2.get("desc"), temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("refuse_desc"), temp2.get("id"), temp2.get
                                     ("status"), "", temp2.get("add_sub"), temp2.get("img")));
                         }
@@ -311,7 +318,6 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-
 
         if (requestUrl.contains("vouchersLog")) {
             if (1 == p) {

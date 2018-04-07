@@ -1088,7 +1088,7 @@ public class OrderOnLineFgt extends BaseFgt {
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
-            goVh.jifenTv.setText("(赠送：" + getItem(i).get("goods_num") + "积分）");
+            goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
 //            goVh.textview.setText("最晚发货时间");
             // TODO ============================================时间、积分设置=========================================================

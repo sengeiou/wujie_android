@@ -330,8 +330,6 @@
         <!-- 无界书院 -->
         <activity android:name=".minetoAty.books.BooksAty" />
         <!-- 无界驿站 -->
-
-
         <activity android:name=".mellOffLine.point.PointWjAty" />
         <!-- 线下商店详情 -->
         <activity android:name=".mellOffLine.OffLineMellInfoAty" />

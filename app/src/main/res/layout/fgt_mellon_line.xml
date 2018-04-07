@@ -39,15 +39,15 @@
                     android:id="@+id/on_line_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:visibility="visible" />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/under_banner_menu_vp"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
                     android:layout_height="160dp"
-                    android:background="@color/white" />
+                    android:background="@color/white"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="match_parent"
@@ -91,19 +91,25 @@
                     android:layout_height="0.5dp"
                     android:background="@color/view_color" />
 
-                <ImageView
-                    android:id="@+id/ads_by_limit_buy_iv"
+                <LinearLayout
+                    android:id="@+id/limitBuy_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_ticket"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/ads_by_limit_buy_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_ticket" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/purchase_gv"
@@ -114,19 +120,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/group_buy_ads_iv"
+                <LinearLayout
+                    android:id="@+id/groupBuy_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_9"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/group_buy_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_9" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/group_shopping_lv"
@@ -143,20 +155,25 @@
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:scrollbars="none" />-->
-
-                <ImageView
-                    android:id="@+id/ticket_buy_ads_iv"
+                <LinearLayout
+                    android:id="@+id/ticketBuy_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_purchase"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/ticket_buy_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_purchase" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/ticket_gv"
@@ -167,19 +184,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/pre_buy_ads_iv"
+                <LinearLayout
+                    android:id="@+id/pre_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_3"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/pre_buy_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_3" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/limit_shopping_gv"
@@ -190,19 +213,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/country_ads_iv"
+                <LinearLayout
+                    android:id="@+id/country_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_4"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/country_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_4" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/import_gv"
@@ -213,19 +242,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/auction_ads_iv"
+                <LinearLayout
+                    android:id="@+id/auction_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_5"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/auction_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_5" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/auction_gv"
@@ -236,19 +271,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/one_buy_ads_iv"
+                <LinearLayout
+                    android:id="@+id/oneBuy_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_6"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/one_buy_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_6" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/good_luck_gv"
@@ -259,19 +300,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/car_ads_iv"
+                <LinearLayout
+                    android:id="@+id/car_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_7"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/car_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_7" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/car_gv"
@@ -282,19 +329,25 @@
                     android:scrollbars="none"
                     android:verticalSpacing="4dp" />
 
-                <ImageView
-                    android:id="@+id/house_ads_iv"
+                <LinearLayout
+                    android:id="@+id/house_llayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/icon_8"
-                    android:visibility="gone" />
+                    <ImageView
+                        android:id="@+id/house_ads_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_8" />
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/house_gv"

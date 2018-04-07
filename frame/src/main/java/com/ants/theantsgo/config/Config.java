@@ -27,7 +27,7 @@ public class Config {
     private static View[] aty = new View[1];
 
     /**
-     * 主URL（测试服务器）
+     * 测试URL（测试使用服务器）
      */
 //       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/";
     /**

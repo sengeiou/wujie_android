@@ -34,7 +34,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
      * 1.购物券使用明细
      * 2.积分明细
      * 3.余额明细
-     * 4.成长值明细
+     * 4.线下充值
      */
     private int type = 1;
 
@@ -84,6 +84,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
             // 查看详情
+            if (type == 4){
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
+            }
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -145,6 +148,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
 //                }
             } else if (4 == type) {
+                recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             }
@@ -165,13 +169,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvGender;
         @ViewInject(R.id.check_details_for_balance_tv)
         TextView check_details_for_balance_tv;
-
         @ViewInject(R.id.t_details_logo_tv)
         ImageView t_details_logo_tv;
-
         @ViewInject(R.id.t_details_price_tv)
         TextView t_details_price_tv;
-
         RecyclerViewHolder(View itemView) {
             super(itemView);
         }

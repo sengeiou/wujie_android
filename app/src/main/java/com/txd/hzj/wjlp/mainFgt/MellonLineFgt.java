@@ -343,6 +343,28 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private String lat;
     private String lng;
 
+    /**
+     * 各个广告模块，初始隐藏
+     */
+    @ViewInject(R.id.limitBuy_llayout)
+    private LinearLayout limitBuy_llayout;
+    @ViewInject(R.id.groupBuy_llayout)
+    private LinearLayout groupBuy_llayout;
+    @ViewInject(R.id.ticketBuy_llayout)
+    private LinearLayout ticketBuy_llayout;
+    @ViewInject(R.id.pre_llayout)
+    private LinearLayout pre_llayout;
+    @ViewInject(R.id.country_llayout)
+    private LinearLayout country_llayout;
+    @ViewInject(R.id.auction_llayout)
+    private LinearLayout auction_llayout;
+    @ViewInject(R.id.oneBuy_llayout)
+    private LinearLayout oneBuy_llayout;
+    @ViewInject(R.id.car_llayout)
+    private LinearLayout car_llayout;
+    @ViewInject(R.id.house_llayout)
+    private LinearLayout house_llayout;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -593,12 +615,16 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     if (!TextUtils.isEmpty(image.get(position).get("merchant_id")) && !image.get(position).get("merchant_id").equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("mell_id", image.get(position).get("merchant_id"));
-                        startActivity(MellInfoAty.class, bundle);
+                        if (!image.get(position).get("merchant_id").equals("")) {
+                            startActivity(MellInfoAty.class, bundle);
+                        }
                     } else if (!TextUtils.isEmpty(image.get(position).get("goods_id")) && !image.get(position).get("goods_id").equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("ticket_buy_id", image.get(position).get("goods_id"));
                         bundle.putInt("from", 1);
-                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                        if (!image.get(position).get("goods_id").equals("")) {
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        }
                     } else {
                         forShowAds(image.get(position).get("desc"), image.get(position).get("href"));
                     }
@@ -619,55 +645,55 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             case R.id.on_line_be_back_top_iv:// 无界头条
                 mell_on_line_sc.smoothScrollTo(0, 0);
                 break;
-            // R.id.three_image_left_iv,
-//            case R.id.three_image_left_iv://左边
-//                forShowAds(left_desc, left_href);
-//                break;
-            // R.id.three_image_center_iv,
-//            case R.id.three_image_center_iv://中间
-//                forShowAds(cent_desc, cent_href);
-//                break;
+//             R.id.three_image_left_iv,
+            case R.id.three_image_left_iv://左边
+                forShowAds(left_desc, left_href);
+                break;
+//             R.id.three_image_center_iv,
+            case R.id.three_image_center_iv://中间
+                forShowAds(cent_desc, cent_href);
+                break;
 
-            //  R.id.three_image_right_iv,
-//            case R.id.three_image_right_iv://右边
-//                forShowAds(right_desc, right_href);
-//                break;
-            //   R.id.ads_by_limit_buy_iv,
-//            case R.id.ads_by_limit_buy_iv://限量购
-//                forShowAds(limit_desc, limit_href);
-//                break;
-            // R.id.ticket_buy_ads_iv,
-//            case R.id.ticket_buy_ads_iv:// 票券区
-//                forShowAds(ticket_desc, ticket_href);
-//                break;
-            //        R.id.pre_buy_ads_iv,
-//            case R.id.pre_buy_ads_iv:// 无界预购
-//                forShowAds(pre_desc, pre_href);
-//                break;
-            // R.id.country_ads_iv,
-//            case R.id.country_ads_iv:// 进口馆
-//                forShowAds(country_desc, country_href);
-//                break;
-            //R.id.auction_ads_iv,
-//            case R.id.auction_ads_iv:// 竞拍汇
-//                forShowAds(auction_desc, auction_href);
-//                break;
-            //            R.id.one_buy_ads_iv,
-//            case R.id.one_buy_ads_iv:// 一元夺宝(积分夺宝)
-//                forShowAds(one_buy_desc, one_buy_href);
-//                break;
-            // R.id.car_ads_iv,
-//            case R.id.car_ads_iv:// 汽车购
-//                forShowAds(car_desc, car_href);
-//                break;
-            //R.id.house_ads_iv,
-//            case R.id.house_ads_iv:// 房产购
-//                forShowAds(house_desc, house_href);
-//                break;
-            //group_buy_ads_iv R.id.
-//            case R.id.group_buy_ads_iv:// 团购
-//                forShowAds(group_desc, group_href);
-//                break;
+//              R.id.three_image_right_iv,
+            case R.id.three_image_right_iv://右边
+                forShowAds(right_desc, right_href);
+                break;
+//               R.id.ads_by_limit_buy_iv,
+            case R.id.ads_by_limit_buy_iv://限量购
+                forShowAds(limit_desc, limit_href);
+                break;
+//             R.id.ticket_buy_ads_iv,
+            case R.id.ticket_buy_ads_iv:// 票券区
+                forShowAds(ticket_desc, ticket_href);
+                break;
+//                    R.id.pre_buy_ads_iv,
+            case R.id.pre_buy_ads_iv:// 无界预购
+                forShowAds(pre_desc, pre_href);
+                break;
+//             R.id.country_ads_iv,
+            case R.id.country_ads_iv:// 进口馆
+                forShowAds(country_desc, country_href);
+                break;
+//            R.id.auction_ads_iv,
+            case R.id.auction_ads_iv:// 竞拍汇
+                forShowAds(auction_desc, auction_href);
+                break;
+//                        R.id.one_buy_ads_iv,
+            case R.id.one_buy_ads_iv:// 一元夺宝(积分夺宝)
+                forShowAds(one_buy_desc, one_buy_href);
+                break;
+//             R.id.car_ads_iv,
+            case R.id.car_ads_iv:// 汽车购
+                forShowAds(car_desc, car_href);
+                break;
+//            R.id.house_ads_iv,
+            case R.id.house_ads_iv:// 房产购
+                forShowAds(house_desc, house_href);
+                break;
+//            group_buy_ads_iv R.id.
+            case R.id.group_buy_ads_iv:// 团购
+                forShowAds(group_desc, group_href);
+                break;
         }
     }
 
@@ -852,6 +878,21 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String message = jsonObject.getString("message");
+
+                // 设置界面广告显示开关
+                Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                if (dataASD.get("activity_status").equals("1")){ // 如果活动页开启，则显示相应广告
+                    limitBuy_llayout.setVisibility(View.VISIBLE);
+                    groupBuy_llayout.setVisibility(View.VISIBLE);
+                    ticketBuy_llayout.setVisibility(View.VISIBLE);
+                    pre_llayout.setVisibility(View.VISIBLE);
+                    country_llayout.setVisibility(View.VISIBLE);
+                    auction_llayout.setVisibility(View.VISIBLE);
+                    oneBuy_llayout.setVisibility(View.VISIBLE);
+                    car_llayout.setVisibility(View.VISIBLE);
+                    house_llayout.setVisibility(View.VISIBLE);
+                }
+
                 if(message.equals("请先填写个人所在地")&&!Config.getToken().equals("")){
                     new AlertDialog.Builder(getActivity())
                             .setTitle("请完善个人资料地区信息")
