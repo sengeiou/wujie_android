@@ -2,12 +2,15 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -75,9 +78,9 @@ public class GoodsAttributeAty extends BaseAty {
     private int from = 0;
     private String price = "";
     private String imageurl = "";
-    @ViewInject(R.id.tv_num)
-    private TextView tv_num;
-    private int num = 0;
+    @ViewInject(R.id.et_num)
+    private EditText et_num;
+    private int num = 0; // 输入的购买件数
     private boolean is_go = false;
     private String goods_id = "";
     private String mid = "";
@@ -85,7 +88,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String type;
     List<GoodsAttr> list;
     List<Goods_val> list_val;
-    private int maxNumber;
+    private int maxNumber; // 库存件数
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
     private String pro_id;
@@ -106,10 +109,14 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-                if (num <= 0) {
-                    showToast("库存不足或购买数量为0");
+
+                // 获取输入框的输入件数
+                num = Integer.parseInt(et_num.getText().toString().trim());
+                if (num <= 0) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
+                    showErrorTip("请输入购买件数");
                     return;
                 }
+
                 L.e("cccccc==" + num);
                 L.e("cccccc" + list.size() + "--" + pro_id + "--" + from);
                 if (2 == from) {
@@ -170,14 +177,16 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
                 num++;
-                tv_num.setText(String.valueOf(num));
+                et_num.setText(String.valueOf(num));
+                et_num.setSelection(et_num.getText().length());
                 break;
             case R.id.im_jian:
                 if (num <= 1) {
                     return;
                 }
                 num--;
-                tv_num.setText(String.valueOf(num));
+                et_num.setText(String.valueOf(num));
+                et_num.setSelection(et_num.getText().length());
                 break;
         }
     }
@@ -189,6 +198,26 @@ public class GoodsAttributeAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        et_num.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 文字改变之后
+                String numStr = et_num.getText().toString().trim();
+                num = Integer.parseInt(numStr.equals("") ? "0" : numStr);
+                if (num > maxNumber){
+                    et_num.setText(maxNumber + "");
+                    et_num.setSelection(et_num.getText().length());
+                }
+            }
+        });
         from = getIntent().getIntExtra("from", 0);
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
@@ -213,21 +242,21 @@ public class GoodsAttributeAty extends BaseAty {
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 0);
-            tv_num.setText(String.valueOf(num));
+            et_num.setText(String.valueOf(num));
         }
         if (3 == from) {
             to_buy_must_tv.setText("参团");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 0);
-            tv_num.setText(String.valueOf(num));
+            et_num.setText(String.valueOf(num));
         }
         if (4 == from) {
             to_buy_must_tv.setText("确定");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 0);
-            tv_num.setText(String.valueOf(num));
+            et_num.setText(String.valueOf(num));
         }
     }
 
@@ -259,7 +288,7 @@ public class GoodsAttributeAty extends BaseAty {
 //            if (Integer.parseInt(string[1]) > 0){
 //                num = 1;
 //            }
-            tv_num.setText(String.valueOf(num));
+            et_num.setText(String.valueOf(num));
             list.clear();
         }
         if (list.size() == 1) {
@@ -273,7 +302,7 @@ public class GoodsAttributeAty extends BaseAty {
                     ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
 
                     // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
-                    tv_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
+                    et_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
                     num = Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0;
 
                     pro_value = goods_val.getArrtValue();
@@ -486,7 +515,7 @@ public class GoodsAttributeAty extends BaseAty {
                                 maxNumber = Integer.parseInt(val.getGoods_num());
                                 Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                                 ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
-                                tv_num.setText(String.valueOf(1));
+                                et_num.setText(String.valueOf(1));
                                 pro_value = val.getArrtValue();
                                 image = val.getGoods_img();
                                 pro_id = val.getId();
@@ -494,10 +523,7 @@ public class GoodsAttributeAty extends BaseAty {
                                 position++;
                                 break;
                             } else {
-                                maxNumber = 0;
-                                tv_kucun.setText("(库存：0)");
-                                num = 0;
-                                tv_num.setText(String.valueOf(maxNumber));
+                                et_num.setText(String.valueOf(maxNumber));
                                 pro_id = "";
                                 position = -1;
                             }

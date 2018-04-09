@@ -90,8 +90,7 @@ public class _GradeOfMemberAty extends BaseAty {
             for (int i = 0; i < advertisement.size(); i = i + 2) {
                 if (advertisement.get(i).get("type").equals("1")) {
                     //设置滚动的单个布局
-                    LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(
-                            R.layout.iten_wj_top_view, null);
+                    LinearLayout moreView = (LinearLayout) LayoutInflater.from(this).inflate(R.layout.iten_wj_top_view, null);
                     //初始化布局的控件
                     TextView tv1 = moreView.findViewById(R.id.top_tv1);
                     tv1.setTextColor(Color.WHITE);
@@ -150,6 +149,16 @@ public class _GradeOfMemberAty extends BaseAty {
             holder.textview1.setText(getItem(position).get("rank_name"));
             holder.layout_1.setBackgroundResource(getItem(position).get("is_get").equals("1") ? R.mipmap.icon_vip_card1 : R.mipmap.icon_vip_card2);
             holder.tv_ms.setText(getItem(position).get("this_description"));
+            L.e("wang", "getItem(position).get(\"is_discount\") = " + getItem(position).get("is_discount"));
+            if (getItem(position).get("is_discount").equals("1")) {
+                holder.im.setVisibility(View.VISIBLE);
+                holder.im.setImageResource(R.mipmap.icon_vip_h);
+            } else if (getItem(position).get("is_discount").equals("2")) {
+                holder.im.setVisibility(View.VISIBLE);
+                holder.im.setImageResource(R.mipmap.icon_vip_t);
+            } else {
+                holder.im.setVisibility(View.GONE);
+            }
             if (!getItem(position).get("is_get").equals("0")) {
                 holder.im.setVisibility(View.VISIBLE);
                 if (getItem(position).get("over_time").equals("0")) {
@@ -157,14 +166,7 @@ public class _GradeOfMemberAty extends BaseAty {
                 } else {
                     holder.tv_time.setText(getItem(position).get("over_time"));
                 }
-                if (getItem(position).get("is_discount").equals("1")) {
-                    holder.im.setImageResource(R.mipmap.icon_vip_h);
-                } else {
-                    holder.im.setImageResource(R.mipmap.icon_vip_t);
-
-                }
             } else {
-                holder.im.setVisibility(View.GONE);
                 holder.tv_time.setText("点击查看" + getItem(position).get("rank_name") + "权益详情");
             }
             holder.layout_1.setOnClickListener(new View.OnClickListener() {

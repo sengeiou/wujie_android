@@ -123,64 +123,62 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
 
-        swipe_refresh
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        swipe_refresh.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
-                    @Override
-                    public void onRefresh() {
-                        frist = false;
-                        textView.setText("正在刷新");
-                        imageView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        p = 1;
-                        if (0 == dataType)
-                            userPst.myfooter(p, "1");
-                        else
-                            collectPst.collectList(p, "1");
-                    }
+            @Override
+            public void onRefresh() {
+                frist = false;
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                if (0 == dataType)
+                    userPst.myfooter(p, "1");
+                else
+                    collectPst.collectList(p, "1");
+            }
 
-                    @Override
-                    public void onPullDistance(int distance) {
-                    }
+            @Override
+            public void onPullDistance(int distance) {
+            }
 
-                    @Override
-                    public void onPullEnable(boolean enable) {
-                        textView.setText(enable ? "松开刷新" : "下拉刷新");
-                        imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);
-                    }
-                });
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
 
-        swipe_refresh
-                .setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+        swipe_refresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
 
-                    @Override
-                    public void onLoadMore() {
-                        frist = false;
-                        footerTextView.setText("正在加载...");
-                        footerImageView.setVisibility(View.GONE);
-                        footerProgressBar.setVisibility(View.VISIBLE);
+            @Override
+            public void onLoadMore() {
+                frist = false;
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
 
-                        p++;
-                        if (0 == dataType)
-                            userPst.myfooter(p, "1");
-                        else
-                            collectPst.collectList(p, "1");
-                    }
+                p++;
+                if (0 == dataType)
+                    userPst.myfooter(p, "1");
+                else
+                    collectPst.collectList(p, "1");
+            }
 
-                    @Override
-                    public void onPushEnable(boolean enable) {
-                        footerTextView.setText(enable ? "松开加载" : "上拉加载");
-                        footerImageView.setVisibility(View.VISIBLE);
-                        footerImageView.setRotation(enable ? 0 : 180);
-                    }
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
 
-                    @Override
-                    public void onPushDistance(int distance) {
+            @Override
+            public void onPushDistance(int distance) {
 
-                    }
+            }
 
-                });
+        });
     }
 
 
@@ -313,9 +311,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();
                 }
-                footerImageView.setVisibility(View.VISIBLE);
-                footerProgressBar.setVisibility(View.GONE);
-                swipe_refresh.setLoadMore(false);
+//                footerImageView.setVisibility(View.VISIBLE);
+//                footerProgressBar.setVisibility(View.GONE);
+//                swipe_refresh.setLoadMore(false);
             }
             setStatus(status);
             return;
@@ -424,14 +422,10 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     private View createFooterView() {
-        View footerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_footer, null);
-        footerProgressBar = footerView
-                .findViewById(R.id.footer_pb_view);
-        footerImageView = footerView
-                .findViewById(R.id.footer_image_view);
-        footerTextView = footerView
-                .findViewById(R.id.footer_text_view);
+        View footerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
         footerProgressBar.setVisibility(View.GONE);
         footerImageView.setVisibility(View.VISIBLE);
         footerImageView.setImageResource(R.drawable.down_arrow);
@@ -440,8 +434,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     private View createHeaderView() {
-        View headerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_head, null);
+        View headerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_head, null);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");

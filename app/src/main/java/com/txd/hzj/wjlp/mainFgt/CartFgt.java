@@ -651,7 +651,11 @@ public class CartFgt extends BaseFgt {
             cgvh.goods_attrs_tv.setText(goodsAttrNameStr);
             L.e("wang", "cg.tostring=" + cg.toString());
             cgvh.goods_jifen_tv.setText("（赠送:" + cg.getReturn_integral() + "积分）");
-            cgvh.reset_goods_attrs_tv.setText(cg.getGoods_attr_name() + "(库存：" + cg.getGoods_num() + ")");
+            String goods_attr_name = cg.getGoods_attr_name(); // 获取规格字符串
+            if (goods_attr_name.substring(goods_attr_name.length() - 1, goods_attr_name.length()).equals("+")) { // 如果字符串最后一位是“+”
+                goods_attr_name = goods_attr_name.substring(0, goods_attr_name.length() - 1); // 那么截取前面的字符串，去掉加号
+            }
+            cgvh.reset_goods_attrs_tv.setText(goods_attr_name + "(库存：" + cg.getGoods_num() + ")");
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
 
             // 数量

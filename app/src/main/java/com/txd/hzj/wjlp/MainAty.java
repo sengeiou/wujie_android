@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,7 +16,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +56,7 @@ import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.huanxin.db.InviteMessgeDao;
 import com.txd.hzj.wjlp.huanxin.db.UserDao;
@@ -158,6 +159,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private LocationService locationService;
     public static Map<String, String> GDLOC_MAP; // 高德定位信息Map
 
+    private String auto_update_status; // 是否开启强制更新 0强制更新 1可以不更新
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -221,6 +224,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragments.add(cartFgt);
         fragments.add(mineFgt);
         updataPst = new UpdataPst(this);
+
+        IndexPst indexPst = new IndexPst(this);
+        String lng = DemoApplication.getInstance().getLocInfo().get("lon");
+        String lat = DemoApplication.getInstance().getLocInfo().get("lat");
+        indexPst.index(lng, lat);
+
     }
 
     @Override
@@ -498,6 +507,15 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             }
             return;
         }
+
+        if (requestUrl.contains("index")){
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            auto_update_status = data.get("auto_update_status");
+        }
+
+
+
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
         showAppUpdateDialog(updataApp);
     }
@@ -816,15 +834,39 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         String name = updataApp.getData().getName();
 
         L.e("wang", "=============>>>>>>>>>>>>>>>>>> name = " + name + "\tBuildConfig.VERSION_NAME = " + BuildConfig.VERSION_NAME);
+        L.e("wang", "=============>>>>>>>>>>>>>>>>>> updataApp toString:" + updataApp.toString());
 
-        Log.d("banben=========",String.valueOf(name));
         if (!name.equals(BuildConfig.VERSION_NAME)) {
+        L.e("wang", "=============>>>>>>>>>>>>>>>>>> !name.equals(BuildConfig.VERSION_NAME)");
+
+//            new AlertDialog.Builder(MainAty.this)
+//                    .setCancelable(!auto_update_status.equals("0"))
+//                    .setTitle("提示")
+//                    .setMessage("检查到新版本：v" + updataApp.getData().getName())
+//                    .setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            showDownloadDialog(updataApp);
+//                        }
+//                    })
+//                    .setNegativeButton("稍后更新", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            if (auto_update_status.equals("0")) { // 强制更新
+//                                System.exit(0);
+//                            }
+//                        }
+//                    }).create().show();
+
             new MikyouCommonDialog(this, "检测到新版本v" + updataApp.getData().getName(), "提示", "立即更新", "稍后更新")
                     .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                         @Override
                         public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
                             switch (btnType) {
                                 case MikyouCommonDialog.NO:// 取消
+//                                    if (auto_update_status.equals("0")){
+//                                        System.exit(0);
+//                                    }
                                     break;
                                 case MikyouCommonDialog.OK:// 更新
                                     showDownloadDialog(updataApp);
@@ -836,6 +878,14 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     private void showDownloadDialog(UpdataApp appUpdateInfo) {
+
+//        //通过浏览器去下载APK
+//        Intent intent = new Intent();
+//        intent.setAction("android.intent.action.VIEW");
+//        Uri content_url = Uri.parse(appUpdateInfo.getData().getUrl());
+//        intent.setData(content_url);
+//        startActivity(intent);
+
         dialogUpdate = new MaterialDialog.Builder(MainAty.this)
                 .title("正在下载最新版本")
                 .content("请稍等")
@@ -851,9 +901,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 })
                 .show();
 
-        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUri(), "无界优品 " + appUpdateInfo.getData().getMessage(),
-                new
-                        InstallUtils.DownloadCallBack() {
+        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUrl(), "无界优品 " + appUpdateInfo.getData().getMessage(),
+                new InstallUtils.DownloadCallBack() {
                             @Override
                             public void onStart() {
                                 if (dialogUpdate != null) {
@@ -871,8 +920,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                                  * @param callBack      安装界面成功调起的回调
                                  */
                                 InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
-                                        InstallUtils
-                                                .InstallCallBack
+                                        InstallUtils.InstallCallBack
                                                 () {
                                             @Override
                                             public void onSuccess() {

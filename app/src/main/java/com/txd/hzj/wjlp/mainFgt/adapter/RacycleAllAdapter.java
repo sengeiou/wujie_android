@@ -153,7 +153,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .into(holder.country_logo_iv);
 
         Glide.with(context).load(cfGoodsList.getGoods_img())
-                .override((ToolKit.getScreenWidth(context)-10)/2, (ToolKit.getScreenWidth(context)-10)/2)
+                .override((ToolKit.getScreenWidth(context) - 10) / 2, (ToolKit.getScreenWidth(context) - 10) / 2)
                 .centerCrop().placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default).into(holder.goods_pic_iv);
 //        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();

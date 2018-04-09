@@ -204,6 +204,7 @@ public class MellListAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("wang", "=========>>>>>>>>jsonstr:" + jsonStr);
         if (requestUrl.contains("search")) {
             SearchMell mell = GsonUtil.GsonToBean(jsonStr, SearchMell.class);
 

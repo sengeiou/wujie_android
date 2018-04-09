@@ -74,13 +74,13 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void onCreate() {
       //  FreelineCore.init(this);
         super.onCreate();
-        L.isDebug = false; // 头部header正式
-//        L.isDebug = true; // 头部header测试
+//        L.isDebug = false; // 头部header正式
+        L.isDebug = true; // 头部header测试
         MultiDex.install(this);
         applicationContext = this;
         instance = this;
         DemoHelper.getInstance().init(applicationContext);
-        //初始化ShareSDK
+        // 初始化ShareSDK
         ShareSDK.initSDK(getApplicationContext(), "20e25f8941c82");
         // 极光推送初始化
         JPushInterface.init(this);
@@ -109,7 +109,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         if (!TextUtils.isEmpty(keys)) {
             // 按照","分割keys
             String[] userInfos = keys.split(ListUtils.DEFAULT_JOIN_SEPARATOR);
-            for (String key : userInfos) {// 获取用户信息，将其保存到Map中
+            for (String key : userInfos) { // 获取用户信息，将其保存到Map中
                 locationInfo.put(key, PreferencesUtils.getString(this, key));
             }
         }

@@ -73,7 +73,7 @@ public class UpdataApp {
          */
 
         private String code;
-        private String uri;
+        private String url;
         private String message;
         private String name;
 
@@ -85,12 +85,12 @@ public class UpdataApp {
             this.code = code;
         }
 
-        public String getUri() {
-            return uri;
+        public String getUrl() {
+            return url;
         }
 
-        public void setUri(String uri) {
-            this.uri = uri;
+        public void setUrl(String url) {
+            this.url = url;
         }
 
         public String getMessage() {
@@ -113,7 +113,7 @@ public class UpdataApp {
         public String toString() {
             return "DataBean{" +
                     "code='" + code + '\'' +
-                    ", uri='" + uri + '\'' +
+                    ", url='" + url + '\'' +
                     ", message='" + message + '\'' +
                     ", name='" + name + '\'' +
                     '}';

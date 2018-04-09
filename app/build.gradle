@@ -30,6 +30,7 @@ android {
             keyPassword 'wotian999888'
             storeFile file('D:/wotian_sign.keystore')
             storePassword 'wotian999888'
+            v2SigningEnabled false
         }
     }
 

@@ -97,6 +97,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
      */
     @ViewInject(R.id.layout)
     private LinearLayout ll;
+    @ViewInject(R.id.apply_after_desc_tv)
+    private TextView apply_after_desc_tv; // 售后描述
     /**
      * 退款原因
      */
@@ -237,6 +239,15 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
         if (split[split.length - 1].equals("backApplyType")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            String after_desc = data.get("after_desc"); // 获取售后描述信息
+            if(after_desc.equals("")){
+                // 如果描述信息为空，则隐藏控件
+                apply_after_desc_tv.setVisibility(View.GONE);
+            } else {
+                // 否则的话显示控件并设置显示信息
+                apply_after_desc_tv.setVisibility(View.VISIBLE);
+                apply_after_desc_tv.setText(after_desc);
+            }
             moneyStatus = Integer.parseInt(data.get("money_status"));
             if (moneyStatus == 0){
                 layouttuikuan.setVisibility(View.GONE);

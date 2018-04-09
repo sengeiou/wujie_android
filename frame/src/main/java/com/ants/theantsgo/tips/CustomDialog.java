@@ -40,6 +40,7 @@ public class CustomDialog extends Dialog {
      */
     public static class Builder {
         private Context context;
+        private boolean canceble;
         /**
          * 标题
          */

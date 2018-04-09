@@ -1999,8 +1999,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         }
     }
 
-    public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
-                        String price,
+    public void toAttrs(View v, int from, String type, String goods_id, String imageurl, String price,
                         String group_buy_id, String goods_attr, String goods_val, String is_attr) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);

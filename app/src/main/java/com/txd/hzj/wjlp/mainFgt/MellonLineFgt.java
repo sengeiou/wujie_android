@@ -79,7 +79,7 @@ import java.util.Map;
 
 /**
  * ===============Txunda===============
- *
+ * <p>
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:05
@@ -364,7 +364,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private LinearLayout car_llayout;
     @ViewInject(R.id.house_llayout)
     private LinearLayout house_llayout;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -770,25 +769,25 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
         superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
-                    @Override
-                    public void onRefresh() {
-                        textView.setText("正在刷新");
-                        imageView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.VISIBLE);
-                        indexPst.index(lng, lat);
-                    }
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                indexPst.index(lng, lat);
+            }
 
-                    @Override
-                    public void onPullDistance(int distance) {
-                    }
+            @Override
+            public void onPullDistance(int distance) {
+            }
 
-                    @Override
-                    public void onPullEnable(boolean enable) {
-                        textView.setText(enable ? "松开刷新" : "下拉刷新");
-                        imageView.setVisibility(View.VISIBLE);
-                        imageView.setRotation(enable ? 180 : 0);
-                    }
-                });
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
     }
 
     @Override
@@ -800,20 +799,18 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (requestUrl.contains("index")) {
             try {
                 String message = error.get("message");
-                if(message.equals("请先填写个人所在地")&&!Config.getToken().equals("")){
+                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("请完善个人资料地区信息")
                             .setMessage("前往个人个人资料页面？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
-
-                                    if(Config.getToken().equals("")){
+                                    if (Config.getToken().equals("")) {
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), LoginAty.class);
                                         getActivity().startActivity(intent);
-                                    }else {
+                                    } else {
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), EditProfileAty.class);
                                         getActivity().startActivity(intent);
@@ -824,7 +821,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             .setNegativeButton("取消", null)
                             .show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(error.get("data"));
@@ -881,7 +878,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
                 // 设置界面广告显示开关
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-                if (dataASD.get("activity_status").equals("1")){ // 如果活动页开启，则显示相应广告
+                if (dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
+                    under_banner_menu_vp.setVisibility(View.VISIBLE);
                     limitBuy_llayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);
                     ticketBuy_llayout.setVisibility(View.VISIBLE);
@@ -893,18 +891,18 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     house_llayout.setVisibility(View.VISIBLE);
                 }
 
-                if(message.equals("请先填写个人所在地")&&!Config.getToken().equals("")){
+                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("请完善个人资料地区信息")
                             .setMessage("前往个人个人资料页面？")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    if(Config.getToken().equals("")){
+                                    if (Config.getToken().equals("")) {
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), LoginAty.class);
                                         getActivity().startActivity(intent);
-                                    }else {
+                                    } else {
                                         Intent intent = new Intent();
                                         intent.setClass(getActivity(), EditProfileAty.class);
                                         getActivity().startActivity(intent);
@@ -915,48 +913,48 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             .setNegativeButton("取消", null)
                             .show();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-                // 消息
-                forMes(data);
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            // 消息
+            forMes(data);
 
-                // 轮播图
-                if (ToolKit.isList(data, "index_banner")) {
-                    image = JSONUtils.parseKeyAndValueToMapList(data.get("index_banner"));
-                    forBanner();
-                }
-                // 横向菜单
-                if (ToolKit.isList(data, "top_nav")) {
-                    forHorizontalMenu(data);
-                }
-                // 无界头条
-                if (ToolKit.isList(data, "headlines")) {
-                    updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
-                    setView();
-                    upview1.setViews(views);
-                }
-                // 三个活动图片
-                threeAdsInfo(data);
-                // 限量购
-                forLimit(data);
-                // 票券区
-                forTicket(data);
-                // 无界预购
-                orPre(data);
-                // 进口馆
-                forCountry(data);
-                // 竞拍汇
-                forAuction(data);
-                // 积分夺宝
-                forOneBuy(data);
-                // 汽车购
-                forCar(data);
-                // 房产购
-                forHouse(data);
-                // 拼团购
-                forGroup(data);
+            // 轮播图
+            if (ToolKit.isList(data, "index_banner")) {
+                image = JSONUtils.parseKeyAndValueToMapList(data.get("index_banner"));
+                forBanner();
+            }
+            // 横向菜单
+            if (ToolKit.isList(data, "top_nav")) {
+                forHorizontalMenu(data);
+            }
+            // 无界头条
+            if (ToolKit.isList(data, "headlines")) {
+                updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
+                setView();
+                upview1.setViews(views);
+            }
+            // 三个活动图片
+            threeAdsInfo(data);
+            // 限量购
+            forLimit(data);
+            // 票券区
+            forTicket(data);
+            // 无界预购
+            orPre(data);
+            // 进口馆
+            forCountry(data);
+            // 竞拍汇
+            forAuction(data);
+            // 积分夺宝
+            forOneBuy(data);
+            // 汽车购
+            forCar(data);
+            // 房产购
+            forHouse(data);
+            // 拼团购
+            forGroup(data);
 
         }
 
@@ -1089,8 +1087,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         final Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
         if (ToolKit.isList(one_buy, "goodsList")) {
-
-
             one_buyList = GsonUtil.getObjectList(one_buy.get("goodsList"), AllGoodsBean.class);
             AllGvLvAdapter allGvLvAdapter5 = new AllGvLvAdapter(getActivity(), one_buyList, 5);
             good_luck_gv.setAdapter(allGvLvAdapter5);
@@ -1510,8 +1506,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void setView() {
         for (int i = 0; i < updata.size(); i = i + 2) {
             //设置滚动的单个布局
-            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(
-                    R.layout.iten_wj_top_view, null);
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.iten_wj_top_view, null);
             //初始化布局的控件
             TextView tv1 = moreView.findViewById(R.id.top_tv1);
             //初始化布局的控件
@@ -1544,7 +1539,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             tv1.setText(updata.get(i).get("title"));
 
             if (updata.size() > i + 1) {
-                //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
+                // 因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
                 tv2.setText(updata.get(i + 1).get("title"));
             } else {
                 tv2.setVisibility(View.GONE);
@@ -1558,7 +1553,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= 0) {
-            search_title_layout.setBackgroundColor(Color.TRANSPARENT);//AGB由相关工具获得，或者美工提供
+            search_title_layout.setBackgroundColor(Color.TRANSPARENT);// AGB由相关工具获得，或者美工提供
             on_line_be_back_top_iv.setVisibility(View.GONE);
         } else if (y > 0 && y <= allHeight) {
             float scale = (float) y / allHeight;
@@ -1574,8 +1569,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     private View createHeaderView() {
-        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext())
-                .inflate(R.layout.layout_head, null);
+        View headerView = LayoutInflater.from(superSwipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");
