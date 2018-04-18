@@ -222,7 +222,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     @Override
     public boolean onMessageBubbleClick(EMMessage message) {
         //消息框点击事件，demo这里不做覆盖，如需覆盖，return true
-
         return false;
     }
 

@@ -135,7 +135,7 @@ public class AddressListAty extends BaseAty {
                 startActivity(AddNewAddressAty2.class, bundle);
                 break;
             case R.id.delete_address_tv://删除
-                new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
+                new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
                         (new MikyouCommonDialog.OnDialogListener() {
 
                             @Override
@@ -348,7 +348,7 @@ public class AddressListAty extends BaseAty {
             avh.delete_address_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消").setOnDiaLogListener
+                    new MikyouCommonDialog(AddressListAty.this, "确定要删除地址吗?", "提示", "删除", "取消", true).setOnDiaLogListener
                             (new MikyouCommonDialog.OnDialogListener() {
 
                                 @Override

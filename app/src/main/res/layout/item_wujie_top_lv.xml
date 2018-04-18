@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -20,7 +19,7 @@
             android:layout_weight="1"
             android:text="你懒得有理,懒人生活家居大盘点"
             android:textColor="@color/app_text_color"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/top_source_tv"
@@ -28,13 +27,14 @@
             android:layout_height="wrap_content"
             android:text="来自：写意空间home"
             android:textColor="@color/gray_text_color"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/top_logo_iv"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:src="@drawable/icon_temp_top_hzj"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_temp_top_hzj" />
 
 </LinearLayout>

@@ -50,12 +50,11 @@ public class InvoiceAty2 extends BaseAty {
         titlt_conter_tv.setText("发票类型");
         titlt_right_tv.setVisibility(View.INVISIBLE);
         titlt_right_tv.setText("完成");
-        title_be_back_iv.setVisibility(View.INVISIBLE);
+        title_be_back_iv.setVisibility(View.VISIBLE);
         title_be_back_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
+                finish();
             }
         });
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,17 +109,6 @@ public class InvoiceAty2 extends BaseAty {
         aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list, this);
         lv.setAdapter(aty_invoce2BaseAdapter);
         aty_invoce2BaseAdapter.notifyDataSetChanged();
-
-//        size = list.size();
-//        size++;
-//        for (int i = 0; i < size; i++) {
-//            if (i == 0) {
-//                status.add(true);
-//                continue;
-//            }
-//            status.add(false);
-//        }
-//        recyclerView.setAdapter(new InvoiceAty.MyAdapter());
     }
 
 

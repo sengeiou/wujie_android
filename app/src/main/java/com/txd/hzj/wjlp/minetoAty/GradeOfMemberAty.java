@@ -127,7 +127,7 @@ public class GradeOfMemberAty extends BaseAty {
             case R.id.details_for_sb_tv:// 成长值
                 if (0 == from) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt("from", 4);
+                    bundle.putInt("from", 5);
                     startActivity(ParticularsUsedByTricketAty.class, bundle);
                 }
                 break;

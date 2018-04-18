@@ -171,16 +171,6 @@ public class MellListAdapter extends BaseAdapter {
                 } else {
                     footMellsBan.setSelect(!itemSelect);
                 }
-//                if (itemSelect) {
-//                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
-//                } else {
-//                    if (0 == type) {
-//                        mellInfoList.setSelect(true);
-//                    } else {
-//                        footMellsBan.setSelect(true);
-//                    }
-//                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
-//                }
                 selectNum = 0;
                 if (0 == type) {
                     for (MellInfoList mell : mells) {

@@ -3,12 +3,15 @@ package com.txd.hzj.wjlp.minetoAty.order;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -30,6 +33,7 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 import com.txd.hzj.wjlp.new_wjyp.http.Invoice;
 import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
+import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +57,12 @@ public class TextListAty extends BaseAty {
 
     @ViewInject(R.id.all_text_lv)
     private ListView all_text_lv;
+
+    /**
+     * 搜索银行卡控件
+     */
+    @ViewInject(R.id.textlist_select_et)
+    private EditText textlist_select_et;
 
     private String title;
 
@@ -112,7 +122,7 @@ public class TextListAty extends BaseAty {
                 } else if (title.equals("举报类型")) {
                     data.putExtra("type", dataList.get(i).get("title"));
                     data.putExtra("report_type_id", dataList.get(i).get("report_type_id"));
-                } else if (title.equals("银行卡类型")) {
+                } else if (title.equals("银行卡")) {
                     data.putExtra("card_type", dataList.get(i).get("bank_name"));
                     data.putExtra("bank_type_id", dataList.get(i).get("bank_type_id"));
                 } else if (title.equals("选择类型")) {
@@ -148,6 +158,27 @@ public class TextListAty extends BaseAty {
                 finish();
             }
         });
+
+        textlist_select_et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String selectCardName = textlist_select_et.getText().toString().trim();
+                if (selectCardName.equals("")){
+                    balancePst.getBankType();
+                } else {
+                    UserBalance.searchBank(selectCardName, TextListAty.this);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -158,7 +189,6 @@ public class TextListAty extends BaseAty {
     @Override
     protected void initialized() {
         title = getIntent().getStringExtra("title");
-
 
         addressPst = new AddressPst(this);
 
@@ -187,7 +217,8 @@ public class TextListAty extends BaseAty {
             list_check = getIntent().getIntegerArrayListExtra("number");
         } else if (title.equals("举报类型")) {
             merchantPst.reportType();
-        } else if (title.equals("银行卡类型")) {
+        } else if (title.equals("银行卡")) {
+            textlist_select_et.setVisibility(View.VISIBLE); // 显示搜索银行卡输入框
             balancePst.getBankType();
         } else if (title.equals("售后类型")) {
             AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
@@ -252,10 +283,13 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
             return;
         }
-        if (requestUrl.contains("getBankType")) {
+        if (requestUrl.contains("getBankType") || requestUrl.contains("searchBank")) {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
+            if (dataList.size() < 1){
+                balancePst.getBankType();
+            }
         }
         if (requestUrl.contains("cause")) {
             dataList = (List<Map<String, String>>) map.get("data");
@@ -349,7 +383,7 @@ public class TextListAty extends BaseAty {
                 tvvh.text_context_tv.setText(map.get("list"));
             } else if (title.equals("举报类型")) {
                 tvvh.text_context_tv.setText(map.get("title"));
-            } else if (title.equals("银行卡类型")) {
+            } else if (title.equals("银行卡")) {
                 tvvh.text_context_tv.setText(map.get("bank_name"));
                 Glide.with(getApplicationContext()).load(map.get("bank_pic")).into(tvvh.imageview);
                 tvvh.imageview.setVisibility(View.VISIBLE);

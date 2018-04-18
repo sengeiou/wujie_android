@@ -184,7 +184,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      * 昵称
      */
     private String nickname = "";
-    private String personal_data_status="0";//是否完善了个人资料
+    private String personal_data_status = "0";//是否完善了个人资料
     private AddressPst addressPst;
 
 
@@ -242,16 +242,27 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+        L.e("=================userInfo==============" + jsonStr);
+        super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("userInfo")) {
-            super.onComplete(requestUrl, jsonStr);
+
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
+
             img_head_edit.setVisibility(View.VISIBLE);
             Glide.with(this).load(data.get("head_pic")).error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .override(size, size).into(img_head_edit);
             auth_status = data.get("auth_status");
+
+            if (auth_status.equals("0") || auth_status.equals("3")){
+                // 未实名认证，真实姓名，身份证号，性别显示灰色字体
+                user_real_name_tv.setTextColor(Color.parseColor("#BCBBC1"));
+                user_card_num_tv.setTextColor(Color.parseColor("#BCBBC1"));
+                tv_Sex.setTextColor(Color.parseColor("#BCBBC1"));
+            }
+
             comp_auth_status = data.get("comp_auth_status");
             // 用户id
             user_id_tv.setText(data.get("user_id"));
@@ -278,7 +289,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             parent_alliance_merchant_sn.setText(data.get("parent_alliance_merchant_sn"));
             hidden_parent_name.setText(data.get("hidden_parent_name"));
             hidden_parent_phone.setText(data.get("hidden_parent_phone"));
-            personal_data_status=data.get("personal_data_status");
+            this.personal_data_status = data.get("personal_data_status");
             return;
         }
         if (requestUrl.contains("editInfo")) {
@@ -313,7 +324,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             case R.id.rel_Sex: {// 性别
 //                show();
-                if(personal_data_status.equals("0")){
+                if (personal_data_status.equals("0")) {
                     showToast("请先完善个人资料");
                     return;
                 }
@@ -326,7 +337,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_card_num_tv: {
-                if(personal_data_status.equals("0")){
+                if (personal_data_status.equals("0")) {
                     showToast("请先完善个人资料");
                     return;
                 }
@@ -340,7 +351,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_real_name_tv: {
-                if(personal_data_status.equals("0")){
+                if (personal_data_status.equals("0")) {
                     showToast("请先完善个人资料");
                     return;
                 }
@@ -374,18 +385,15 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 nickname = user_nickname_tv.getText().toString();
                 email = user_email_ev.getText().toString();
                 //2018.2.23 个人信息不能为空
-                if(user_nickname_tv.getText().toString().trim().equals("")){
+                if (user_nickname_tv.getText().toString().trim().equals("")) {
                     showToast("昵称不能为空");
-                }
-
-                else if(user_email_ev.getText().toString().trim().equals("")){
+                } else if (user_email_ev.getText().toString().trim().equals("")) {
                     showToast("邮箱不能为空");
-                } else if(  user_select_zoon_tv.getText().toString().trim().equals("")){
-                    Toast.makeText(this,"所在地区不能为空！",Toast.LENGTH_SHORT).show();
-                }else if( user_select_street_tv.getText().toString().trim().equals("")){
-                    Toast.makeText(this,"所在街道不能为空！",Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else if (user_select_zoon_tv.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "所在地区不能为空！", Toast.LENGTH_SHORT).show();
+                } else if (user_select_street_tv.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "所在街道不能为空！", Toast.LENGTH_SHORT).show();
+                } else {
                     userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
                 }
 

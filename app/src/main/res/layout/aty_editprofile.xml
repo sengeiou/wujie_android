@@ -79,11 +79,24 @@
                 android:gravity="center"
                 android:padding="12dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="昵称                        "
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="昵称                      "
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <com.txd.hzj.wjlp.view.flowlayout.ClearEditText
                     android:id="@+id/user_nickname_tv"
@@ -110,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:text="真实姓名                 "
+                    android:text="真实姓名                "
                     android:textSize="16sp" />
 
                 <TextView
@@ -184,12 +197,25 @@
                 android:background="@color/bg_color"
                 android:gravity="center_vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="邮箱                        "
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="邮箱                      "
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <com.txd.hzj.wjlp.view.flowlayout.ClearEditText
                     android:id="@+id/user_email_ev"
@@ -217,11 +243,24 @@
                 android:gravity="center"
                 android:padding="12dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="所在地区                "
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="所在地区              "
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/user_select_zoon_tv"
@@ -246,11 +285,24 @@
                 android:gravity="center"
                 android:padding="12dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="所在街道                "
-                    android:textSize="16sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="所在街道              "
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/user_select_street_tv"
@@ -259,7 +311,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:drawableEnd="@drawable/icon_turn_right_g"
-                    android:drawablePadding="8dp" />
+                    android:drawablePadding="8dp"
+                    android:text="asdasd" />
             </LinearLayout>
 
             <TextView

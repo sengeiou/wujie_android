@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOnLine;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -182,17 +185,18 @@ public class NoticeDetailsAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("getArticle")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
-            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
-                    "utf-8", null);
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
             return;
         }
         if (requestUrl.contains("announceInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
-            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
-                    "utf-8", null);
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
             return;
         }
         if (requestUrl.contains("headInfo")) {
+
+            L.e("wang", "toutiao=======" + jsonStr);
+
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
 
             books_title_tv.setText(data.get("title"));
@@ -201,14 +205,23 @@ public class NoticeDetailsAty extends BaseAty {
 
             books_other_info_tv.setText("创建时间：" + data.get("create_time") + "\n修改时间：" + data.get("update_time"));
 
+            ViewGroup.LayoutParams lp = books_logo_iv.getLayoutParams();
+            lp.width = Settings.displayWidth;
+            lp.height = Settings.displayWidth * 3 / 3;
+            books_logo_iv.setLayoutParams(lp);
+            books_logo_iv.setMaxWidth(lp.width);
+            books_logo_iv.setMaxHeight(lp.width  * 3 / 3);
+
             Glide.with(this).load(data.get("logo")).centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-                    .override(Settings.displayWidth, Settings.displayWidth)
+                    .centerCrop()
+                    .dontAnimate()
+//                    .override(Settings.displayWidth, Settings.displayWidth)
                     .into(books_logo_iv);
 
-            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html",
-                    "utf-8", null);
+            notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
         }
     }
 

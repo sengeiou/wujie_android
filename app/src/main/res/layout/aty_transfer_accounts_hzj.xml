@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +10,7 @@
     android:showDividers="middle"
     tools:context="com.txd.hzj.wjlp.minetoAty.balance.TransferAccountsAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="账户余额    "
-            android:textColor="@color/app_text_color"/>
+            android:text="可用余额    "
+            android:textColor="@color/app_text_color" />
 
         <TextView
             android:id="@+id/can_use_money_tv"
@@ -31,7 +30,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="5000"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent" />
 
     </LinearLayout>
 
@@ -44,21 +43,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="转让对方        "
-            android:textColor="@color/app_text_color"/>
+            android:text="收款方        "
+            android:textColor="@color/app_text_color" />
 
         <EditText
             android:id="@+id/opposite_side_ev"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="请输入对方会员编号或者手机号"
+            android:hint="请输入收款方"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -70,8 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="转让对方信息"
-            android:textColor="@color/app_text_color"/>
+            android:text="收款方信息"
+            android:textColor="@color/app_text_color" />
 
         <TextView
             android:id="@+id/opposite_real_name_tv"
@@ -80,7 +79,7 @@
             android:background="@color/white"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,7 +92,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="转账金额        "
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <EditText
             android:id="@+id/tr_acc_money_et"
@@ -104,7 +103,7 @@
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -117,7 +116,7 @@
             android:layout_height="wrap_content"
             android:padding="12dp"
             android:text="支付密码        "
-            android:textColor="@color/app_text_color"/>
+            android:textColor="@color/app_text_color" />
 
         <EditText
             android:id="@+id/pay_pwd_ev"
@@ -127,31 +126,29 @@
             android:inputType="textPassword"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="4dp"
-        android:paddingStart="16dp"
+        android:padding="16dp"
         android:paddingTop="4dp"
-        android:id="@+id/ll"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/operation_type_tv21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以无界指数。
-"
-            android:textColor="@color/colorRed"
-            />
-
+            android:text="转账金额必须为整数，每次系统自动扣除转账金额的1%作为综合服务费"
+            android:textColor="@color/colorRed" />
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/change_money_tv"
         android:layout_width="match_parent"
@@ -161,6 +158,6 @@
         android:gravity="center"
         android:padding="12dp"
         android:text="转账"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 
 </LinearLayout>

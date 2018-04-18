@@ -178,41 +178,49 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:gravity="center"
                         android:orientation="horizontal">
+
+                        <!-- 占位，防止未加载出图片时高度为0 -->
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="50dp"
+                            android:visibility="invisible" />
 
                         <ImageView
                             android:id="@+id/im_jin"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_weight="1"
                             android:src="@mipmap/icon_mine_jin0" />
 
                         <ImageView
                             android:id="@+id/im_yin"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_weight="1"
                             android:src="@mipmap/icon_mine_yin0" />
 
                         <ImageView
                             android:id="@+id/im_tong"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_weight="1"
                             android:src="@mipmap/icon_mine_tong0" />
 
                         <ImageView
                             android:id="@+id/im_gang"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_weight="1"
                             android:src="@mipmap/icon_mine_gang0" />
 
                         <ImageView
                             android:id="@+id/im_tie"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
                             android:layout_weight="1"
                             android:src="@mipmap/icon_mine_tie0" />
                     </LinearLayout>
@@ -505,14 +513,14 @@
                         android:id="@+id/merchant_will_move_into_tv"
                         style="@style/mine_text_list"
                         android:layout_width="match_parent"
-                        android:visibility="gone"
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/icon_turn_right_gray"
                         android:drawablePadding="10dp"
                         android:drawableStart="@drawable/icon_mine_ruzhu"
                         android:padding="12dp"
                         android:text="商家推荐"
-                        android:textColor="@color/app_text_color" />
+                        android:textColor="@color/app_text_color"
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="match_parent"

@@ -108,12 +108,17 @@ public class OnlineChongAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO 付款
-                Intent intent = new Intent(context, RechargeAty.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("order_id", dataBean.getId());
-                bundle.putBoolean("orderIn", true);
-                bundle.putString("money", dataBean.getMoney());
-                context.startActivity(intent, bundle);
+                Intent intent = new Intent();
+                intent.setClass(context, RechargeAty.class);
+                intent.putExtra("order_id", dataBean.getId());
+                intent.putExtra("orderIn", true);
+                intent.putExtra("money", dataBean.getMoney());
+//                Intent intent = new Intent(context, RechargeAty.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("order_id", dataBean.getId());
+//                bundle.putBoolean("orderIn", true);
+//                bundle.putString("money", dataBean.getMoney());
+                context.startActivity(intent);
             }
         });
         viewHolder.itemChong_delete_tv.setOnClickListener(new View.OnClickListener() {

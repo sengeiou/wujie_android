@@ -140,7 +140,7 @@ public class IntegralAty extends BaseAty {
                                 date.replace("~", "-");
 //                                layout_bottom_tv.setText(my_change_integral);
                                 tv_point_num.setText("无界指数：" + point_num);
-                                tv1.setText("积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以无界指数。");
+                                tv1.setText("积分大等于100时可申请积分转余额，每次积分转余额的额度=积分总额*无界指数（取整）。");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                                 Date date1 = new Date(System.currentTimeMillis());
                                 String time = simpleDateFormat.format(date1);

@@ -10,6 +10,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -266,12 +267,22 @@ public class ClassifyFgt extends BaseFgt {
                 if (1 == p) {
                     if (ToolKit.isList(data, "ads")) {
                         final Map<String, String> ads = JSONUtils.parseKeyAndValueToMap(data.get("ads"));
+
+//                        621:200
+                        ViewGroup.LayoutParams lp = classify_ads_iv.getLayoutParams();
+                        lp.width = Settings.displayWidth;
+                        lp.height = Settings.displayWidth * 200 / 621;
+                        classify_ads_iv.setLayoutParams(lp);
+                        classify_ads_iv.setMaxWidth(lp.width);
+                        classify_ads_iv.setMaxHeight(lp.width  * 200 / 621);
+
                         Glide.with(getActivity()).load(ads.get("picture"))
                                 .override(Settings.displayWidth, ads_h)
                                 .error(R.drawable.ic_default)
                                 .placeholder(R.drawable.ic_default)
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(classify_ads_iv);
+
                                   classify_ads_iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

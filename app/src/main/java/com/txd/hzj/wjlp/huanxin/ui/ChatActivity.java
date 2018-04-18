@@ -27,9 +27,9 @@ public class ChatActivity extends BaseActivity{
         activityInstance = this;
         // 获取用户id或者群组id
         toChatUsername = getIntent().getExtras().getString("userId");
-        //use EaseChatFratFragment
+        // use EaseChatFratFragment
         chatFragment = new ChatFragment();
-        //pass parameters to chat fragment
+        // pass parameters to chat fragment
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();
         

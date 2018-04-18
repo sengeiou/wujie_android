@@ -47,15 +47,15 @@ public class VipPayAty extends BaseAty {
     @ViewInject(R.id.tv_type)
     private TextView tv_type;
     @ViewInject(R.id.prescription)
-    private TextView prescription;
+    private TextView tv_prescription;
     @ViewInject(R.id.tv_money)
     private TextView tv_money;
-    private String data;
+    private String data123123;
     private int num = 1;
     @ViewInject(R.id.tv_num)
     private TextView tv_num;
 
-    private Map<String, String> map;
+//    private Map<String, String> map;
     @ViewInject(R.id.im_1)
     private ImageView im_1;
     @ViewInject(R.id.im_2)
@@ -99,6 +99,13 @@ public class VipPayAty extends BaseAty {
     String type = "";
     String order_id = "";
     private String is_pay_password = "0";//是否有支付密码
+    private String sale_status;
+    private String rank_name;
+    private String prescription;
+    private String big_gift;
+    private String score_status;
+    private String abs_url;
+    private String member_coding;
 
     @OnClick({R.id.im_1, R.id.im_2, R.id.pay_by_balance_cb, R.id.cb_jfzf, R.id.pay_by_ali_cb, R.id.pay_by_wechat_cb, R.id.tv_xieyi, R.id.tv_submit})
     public void OnClick(View view) {
@@ -126,7 +133,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 1;
                     this_view = view;
-                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
+                    MemberOrder.ticket(member_coding, String.valueOf(num), this);
                     return;
                 }
                 showPop(view, 1);
@@ -140,7 +147,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 2;
                     this_view = view;
-                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
+                    MemberOrder.ticket(member_coding, String.valueOf(num), this);
                     return;
                 }
                 showPop(view, 2);
@@ -150,7 +157,7 @@ public class VipPayAty extends BaseAty {
                 if (is_c) {
                     this_num = 3;
                     this_view = view;
-                    MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
+                    MemberOrder.ticket(member_coding, String.valueOf(num), this);
                     return;
                 }
                 showPop(view, 3);
@@ -417,26 +424,36 @@ public class VipPayAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        data = getIntent().getStringExtra("data");
+//        data = getIntent().getStringExtra("data");
         order_id = getIntent().getStringExtra("order_id");
-        map = JSONUtils.parseKeyAndValueToMap(data);
-        titlt_conter_tv.setText("购买" + map.get("rank_name"));
-        tv_type.setText(map.get("rank_name"));
-        prescription.setText(map.get("prescription").equals("0") ? "永久" : "按年付费");
-        if (!TextUtils.isEmpty(map.get("pay_money"))) {
-            tv_money.setText("¥" + map.get("pay_money"));
-            money = Double.parseDouble(map.get("pay_money"));
+        sale_status = getIntent().getStringExtra("sale_status");
+        rank_name = getIntent().getStringExtra("rank_name");
+        money = Double.parseDouble(getIntent().getStringExtra("money"));
+        prescription = getIntent().getStringExtra("prescription");
+        big_gift = getIntent().getStringExtra("big_gift");
+        score_status = getIntent().getStringExtra("score_status");
+        abs_url = getIntent().getStringExtra("abs_url");
+        member_coding = getIntent().getStringExtra("member_coding");
+//                    bundle.putString("data", data);
+
+//        map = JSONUtils.parseKeyAndValueToMap(data);
+        titlt_conter_tv.setText("购买" + rank_name);
+        tv_type.setText(rank_name);
+        tv_prescription.setText(prescription.equals("0") ? "永久" : "按年付费");
+        if (!TextUtils.isEmpty(money + "")) {
+            tv_money.setText("¥" + money);
+            money = Double.parseDouble(money + "");
         } else {
-            tv_money.setText("¥" + map.get("money"));
-            money = Double.parseDouble(map.get("money"));
+            tv_money.setText("¥" + money);
+            money = Double.parseDouble(money + "");
         }
 
     }
 
     @Override
     protected void requestData() {
-        MemberOrder.settlement(map.get("member_coding"), this);
-        MemberOrder.ticket(map.get("member_coding"), String.valueOf(num), this);
+        MemberOrder.settlement(member_coding, this);
+        MemberOrder.ticket(member_coding, String.valueOf(num), this);
         showProgressDialog();
 
         wxPayReceiver = new WxPayReceiver();
@@ -533,7 +550,7 @@ public class VipPayAty extends BaseAty {
 //                if (pay_by_balance_cb.isChecked()) {
                 //验证成功
                 //余额支付
-                MemberOrder.setOrder(map.get("member_coding"), String.valueOf(num), getType(), type, order_id, this);
+                MemberOrder.setOrder(member_coding, String.valueOf(num), getType(), type, order_id, this);
                 showProgressDialog();
 //                }
             } else {

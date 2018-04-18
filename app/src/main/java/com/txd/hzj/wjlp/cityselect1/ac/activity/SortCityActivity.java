@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.util.L;
 import com.tamic.novate.Novate;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
@@ -88,11 +89,12 @@ public class SortCityActivity extends Activity {
                     @Override
                     public void onNext(Object tag, String response) {
 //                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+                            L.e("response", response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String data = jsonObject.getString("data");
                             JSONObject jsonObject2 = new JSONObject(data);
-                            JSONArray jsonArray = jsonObject2.getJSONArray("province_list");
+                            JSONArray jsonArray = jsonObject2.getJSONArray("city"); // 原始获取的是 province_list
                             ArrayList<String> list = new ArrayList<String>();
                             for(int i=0;i<jsonArray.length();i++){
                                 JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -301,6 +303,7 @@ public class SortCityActivity extends Activity {
     private void SentDataForResult(String city) {
         Intent mIntent = new Intent();
         mIntent.putExtra("selected", city);
+        mIntent.putExtra("selectedId", city);
         SortCityActivity.this.setResult(EasySideBarBuilder.CODE_SIDEREQUEST, mIntent);
         SortCityActivity.this.finish();
     }

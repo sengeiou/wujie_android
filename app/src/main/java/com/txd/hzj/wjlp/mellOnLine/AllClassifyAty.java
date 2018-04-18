@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -109,6 +110,9 @@ public class AllClassifyAty extends BaseAty {
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
 
+    @ViewInject(R.id.classify_nullData_layout)
+    private LinearLayout classify_nullData_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,11 +196,15 @@ public class AllClassifyAty extends BaseAty {
                 }
             }
             right = cateIndex.getData().getTwo_cate();
-            if (!ListUtils.isEmpty(right)) {
+            if (!ListUtils.isEmpty(right)) { // 如果有数据
+                classify_nullData_layout.setVisibility(View.GONE);
+                classify_right_lv.setVisibility(View.VISIBLE);
                 rightAdapter = new RightAdapter();
                 classify_right_lv.setAdapter(rightAdapter);
+            } else { // 否则右侧没有数据
+                classify_nullData_layout.setVisibility(View.VISIBLE);
+                classify_right_lv.setVisibility(View.GONE);
             }
-
         }
     }
 

@@ -331,7 +331,7 @@ public class CartFgt extends BaseFgt {
             case R.id.operation_goods_tv:// 去结算，删除
 
                 if (canEdit) {// 删除
-                    new MikyouCommonDialog(getActivity(), "确定要删除商品么?", "提示", "确定", "取消").setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                    new MikyouCommonDialog(getActivity(), "确定要删除商品么?", "提示", "确定", "取消", true).setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
                         @Override
                         public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int

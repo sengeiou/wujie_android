@@ -15,8 +15,7 @@ public class UpdataApp {
     /**
      * code : 1
      * message : 请求成功
-     * data : {"code":"1","uri":"http://ysw.txunda.com/index.php/Api/Upgrade/memberUpgrade","message":"用户端正式版",
-     * "name":"V1.0"}
+     * data : {"code":"1","uri":"http://ysw.txunda.com/index.php/Api/Upgrade/memberUpgrade","message":"用户端正式版", "name":"V1.0"}
      * nums : 0
      */
 
@@ -76,6 +75,8 @@ public class UpdataApp {
         private String url;
         private String message;
         private String name;
+        private String update;
+        private String desc;
 
         public String getCode() {
             return code;
@@ -109,6 +110,22 @@ public class UpdataApp {
             this.name = name;
         }
 
+        public String getUpdate() {
+            return update;
+        }
+
+        public void setUpdate(String update) {
+            this.update = update;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
         @Override
         public String toString() {
             return "DataBean{" +
@@ -116,6 +133,8 @@ public class UpdataApp {
                     ", url='" + url + '\'' +
                     ", message='" + message + '\'' +
                     ", name='" + name + '\'' +
+                    ", update='" + update + '\'' +
+                    ", desc='" + desc + '\'' +
                     '}';
         }
     }

@@ -54,8 +54,7 @@ public class aty_authentication extends BaseAty {
         f2.setArguments(bundle);
         fragments.add(f1);
         fragments.add(f2);
-        fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.feamelayout,
-                fragments);
+        fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.feamelayout, fragments);
         fragmentChangeManager.setFragments(0);
     }
 

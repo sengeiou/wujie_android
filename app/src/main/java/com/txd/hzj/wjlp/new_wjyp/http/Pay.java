@@ -57,10 +57,11 @@ public class Pay {
         apiTool2.postApi(Config.BASE_URL + url + "getJsTine", params, baseView);
     }
 
-    public static void getHjsp(String totalPrice, BaseView baseView) {
+    public static void getHjsp(String order_id, String totalPrice, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("totalPrice", totalPrice);
+        params.addBodyParameter("order_id", order_id);
         apiTool2.postApi(Config.BASE_URL + url + "getHjsp", params, baseView);
 
     }

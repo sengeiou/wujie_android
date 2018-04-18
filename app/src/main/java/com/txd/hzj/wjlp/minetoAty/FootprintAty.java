@@ -88,22 +88,18 @@ public class FootprintAty extends BaseAty {
                 setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
                 foot_right_tv.setVisibility(View.GONE);
-
                 break;
             case R.id.title_right_layout:// 商家
                 index = 1;
                 setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
                 foot_right_tv.setVisibility(View.GONE);
-
                 break;
             case R.id.title_right_right_layout:// 书院
                 index = 2;
                 setTvAndViewStyle(index);
                 setNewStatus(mFragment.get(selected));
                 foot_right_tv.setVisibility(View.GONE);
-
-
                 break;
             case R.id.foot_right_tv:// 编辑，完成
                 f = mFragment.get(selected);

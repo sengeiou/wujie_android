@@ -30,7 +30,7 @@
                 app:indicatorMarginVertical="8dp"
                 app:pageColor="#FCE8A1"
                 app:pageTransformInterval="500"
-                app:pageTransformer="flow"
+                app:pageTransformer="slide_over"
                 app:radius="4dp"
                 app:slideInterval="5000"
                 app:strokeColor="@color/transparent" />

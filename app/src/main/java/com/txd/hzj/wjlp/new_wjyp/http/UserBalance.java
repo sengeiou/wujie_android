@@ -75,4 +75,16 @@ public class UserBalance {
         apiTool2.postApi(url + "delHjsInfo", params, baseView);
     }
 
+    /**
+     * 搜索银行卡
+     * @param
+     * @param baseView
+     */
+    public static void searchBank(String bank_name, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("bank_name", bank_name);
+        apiTool2.postApi(url + "searchBank", params, baseView);
+    }
+
 }

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;

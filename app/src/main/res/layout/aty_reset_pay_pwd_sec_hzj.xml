@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="center_vertical"
-                android:hint="6-14位字符"
+                android:hint="6-16位字符"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textSize="14sp"/>
@@ -134,6 +134,13 @@
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="* 密码必须6-16位并且必须包含大写字母和数字"
+        android:textColor="@color/colorRed" />
 
     <TextView
         android:id="@+id/reset_pay_pwd_tv"

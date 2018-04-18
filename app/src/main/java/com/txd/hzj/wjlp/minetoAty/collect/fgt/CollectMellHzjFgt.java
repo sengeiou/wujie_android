@@ -231,10 +231,10 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
-//            intent.putExtra("a","222");
 
-//            ((FootprintAty )getActivity()).setView(View.GONE);
+        L.e("=====onError========" + error.toString());
+
+        if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
             removeContent();
             removeDialog();
         } else {

@@ -20,6 +20,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -211,6 +212,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private TextView ticket_num_tv;
     private String head_pic = "";
 
+    @ViewInject(R.id.merchant_will_move_into_tv)
+    private TextView merchant_will_move_into_tv;
+
 
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
@@ -381,8 +385,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 //                        }
 //                    }
 //                }).showDialog();
-                if(TextUtils.isEmpty(service_easemob_account)){
-                    showToast("客服不在线，请稍后重试！");
+
+                if (TextUtils.isEmpty(service_easemob_account)) {
+                    showToast("暂无客服账号！");
                     return;
                 }
                 toChat(service_easemob_account, service_head_pic, service_nickname);
@@ -486,7 +491,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("jsonStr"+jsonStr);
+        L.e("jsonStr" + jsonStr);
         if (requestUrl.contains("userCenter")) {
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
@@ -498,11 +503,18 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             head_pic = data.get("head_pic");
             // 邀请码
             invite_code = data.get("invite_code");
+
             service_easemob_account = data.get("service_easemob_account");
             service_head_pic = data.get("service_head_pic");
             service_nickname = data.get("service_nickname");
             user_name_tv.setText(nickname);
             user_nick_tv.setText(nickname);
+
+            // 如果是无忧、优享会员则显示商家推荐
+            if (data.get("user_card_type").equals("2") || data.get("user_card_type").equals("3")) {
+                merchant_will_move_into_tv.setVisibility(View.VISIBLE);
+            }
+
             /**
              *  "is_gold": "0"//金，0不点亮 1点亮,
              "is_silver": "0",//银，0不点亮 1点亮,
@@ -510,6 +522,37 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
              "is_masonry": "0",//钢，0不点亮 1点亮,
              "is_iron": "0",//铁，0不点亮 1点亮,
              */
+
+            L.e("wang", "data:" + data);
+
+//            SOURCE：缓存原始数据，RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
+//            NONE：什么都不缓存，  ALL：缓存SOURC和RESULT。
+//            默认采用RESULT策略，对于Download Only操作要使用SOURCE。
+            Glide.with(getActivity()).load(data.get("is_gold_a"))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(im_jin);
+
+            Glide.with(getActivity()).load(data.get("is_silver_a"))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(im_yin);
+
+            Glide.with(getActivity()).load(data.get("is_copper_a"))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(im_tong);
+
+            Glide.with(getActivity()).load(data.get("is_masonry_a"))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(im_gang);
+
+            Glide.with(getActivity()).load(data.get("is_iron_a"))
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(im_tie);
+
+            L.e("wang", "data.get(\"is_gold_a\") = " + data.get("is_gold_a")
+                    + "\ndata.get(\"is_silver_a\") = " + data.get("is_silver_a")
+                    + "\ndata.get(\"is_copper_a\") = " + data.get("is_copper_a")
+                    + "\ndata.get(\"is_masonry_a\") = " + data.get("is_masonry_a")
+                    + "\ndata.get(\"is_iron_a\") = " + data.get("is_iron_a"));
 
             if (data.get("is_agent").equals("1")) {
                 tv_dljm.setVisibility(View.VISIBLE);
@@ -558,7 +601,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             mine_member_type_tv.setText(data.get("rank"));
             grade_of_member_tv.setText(data.get("level"));
             Glide.with(getActivity()).load(data.get("level_icon"))
-                    .transform(new GlideRoundTransform(getActivity(),20))
+                    .transform(new GlideRoundTransform(getActivity(), 20))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
 //                    .fitCenter()
@@ -566,7 +609,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 //                    .override(icon_size, icon_size)
                     .into(rank_icon_iv);
             Glide.with(getActivity()).load(data.get("rank_icon"))
-                    .transform(new GlideRoundTransform(getActivity(),20))
+                    .transform(new GlideRoundTransform(getActivity(), 20))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
 //                    .fitCenter()
@@ -644,11 +687,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             toLogin();
             return;
         }
-//        String my_easemob_account = application.getUserInfo().get("easemob_account");
-//        if (easemob_account.equals(my_easemob_account)) {
-//            showErrorTip("自己不能和自己聊天");
-//            return;
-//        }
         Bundle bundle = new Bundle();
         bundle.putString("userId", easemob_account);// 对方环信账号
         bundle.putString("userHead", head_pic);// 对方头像

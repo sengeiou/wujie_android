@@ -35,7 +35,6 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
-import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -51,7 +50,6 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.lidroid.xutils.view.annotation.event.OnTouch;
 import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -68,7 +66,6 @@ import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
@@ -240,10 +237,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onResume() {
         super.onResume();
-        if(Config.isLogin()){
+        if (Config.isLogin()) {
             User.userCenter(this);
             tv_cart_num.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             tv_cart_num.setVisibility(View.GONE);
         }
         if (Config.isLogin()) {
@@ -298,7 +295,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     @Override
-    @OnClick({R.id.mach_more_lin_layout,R.id.main_content})
+    @OnClick({R.id.mach_more_lin_layout, R.id.main_content})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -425,9 +422,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         // false时PopupWindow不处理返回键
         popupWindow.setFocusable(false);
 
-//
-
-
         /*
          * 无界商城
          */
@@ -490,7 +484,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     public boolean onTouchEvent(MotionEvent event) {
         if (mCurPopupWindow != null && mCurPopupWindow.isShowing()) {
             mCurPopupWindow.dismiss();
-            mCurPopupWindow= null;
+            mCurPopupWindow = null;
         }
         return super.onTouchEvent(event);
     }
@@ -498,26 +492,25 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if(requestUrl.contains("userCenter")){
-            Map<String,String>data= JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if(data.get("code").equals("1")){
-                data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
-                tv_cart_num.setVisibility(data.get("cart_num").equals("0")?View.GONE:View.VISIBLE);
+        if (requestUrl.contains("userCenter")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (data.get("code").equals("1")) {
+                data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+                tv_cart_num.setVisibility(data.get("cart_num").equals("0") ? View.GONE : View.VISIBLE);
                 tv_cart_num.setText(data.get("cart_num"));
             }
             return;
         }
 
-        if (requestUrl.contains("index")){
+        if (requestUrl.contains("index")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             auto_update_status = data.get("auto_update_status");
         }
 
-
-
         UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
         showAppUpdateDialog(updataApp);
+
     }
     // ============================== 环信 ==============================
     // Todo 环信=========================================================
@@ -586,8 +579,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
             DemoHelper.getInstance().logout(false, null);
+            L.e("======voodoo========", "keepActivity getIntent = null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
+            L.e("======voodoo========", "keepActivity getIntent != null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -608,6 +603,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                 intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
             this.finish();
+            L.e("======voodoo========", "showExceptionDialogFromIntent Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -627,29 +623,29 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         application.setUserInfo(map);
         exceptionBuilder = null;
         isExceptionDialogShow = false;
-        if (!MainAty.this.isFinishing()) {// 主页没有被销毁
+        if (!MainAty.this.isFinishing()) { // 主页没有被销毁
             // clear up global variables
             try {
-                if (exceptionBuilder == null)
+                if (exceptionBuilder == null) {
                     exceptionBuilder = new android.app.AlertDialog.Builder(MainAty.this);
-                exceptionBuilder.setTitle(st);
-                exceptionBuilder.setMessage(getExceptionMessageId(exceptionType));
-                exceptionBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(MainAty.this, LoginAty.class);
-                        intent.putExtra("type", 0);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-
-                        finish();
-                    }
-                });
-                exceptionBuilder.setCancelable(false);
-                exceptionBuilder.create().show();
-                isConflict = true;
+                    exceptionBuilder.setTitle(st);
+                    exceptionBuilder.setMessage(getExceptionMessageId(exceptionType));
+                    exceptionBuilder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(MainAty.this, LoginAty.class);
+                            intent.putExtra("type", 0);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            L.e("======voodoo========", "exceptionBuilder == null Start Login Activity");
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                    exceptionBuilder.setCancelable(false);
+                    exceptionBuilder.create().show();
+                    isConflict = true;
+                }
             } catch (Exception e) {
                 EMLog.e("=====MainAty=====", "---------color conflictBuilder error" + e.getMessage());
             }
@@ -796,10 +792,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     private void unregisterBroadcastReceiver() {
         broadcastManager.unregisterReceiver(broadcastReceiver);
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
-        if(messageEvent.getMessage().equals("更新购物车")){
-            if(Config.isLogin()){
+        if (messageEvent.getMessage().equals("更新购物车")) {
+            if (Config.isLogin()) {
                 User.userCenter(this);
             }
         }
@@ -811,7 +808,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         /**
          * 解除事件总线
          */
-        if(EventBus.getDefault().isRegistered(this)) {
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
         if (exceptionBuilder != null) {
@@ -833,47 +830,52 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         String name = updataApp.getData().getName();
 
-        L.e("wang", "=============>>>>>>>>>>>>>>>>>> name = " + name + "\tBuildConfig.VERSION_NAME = " + BuildConfig.VERSION_NAME);
-        L.e("wang", "=============>>>>>>>>>>>>>>>>>> updataApp toString:" + updataApp.toString());
-
         if (!name.equals(BuildConfig.VERSION_NAME)) {
-        L.e("wang", "=============>>>>>>>>>>>>>>>>>> !name.equals(BuildConfig.VERSION_NAME)");
 
-//            new AlertDialog.Builder(MainAty.this)
-//                    .setCancelable(!auto_update_status.equals("0"))
-//                    .setTitle("提示")
-//                    .setMessage("检查到新版本：v" + updataApp.getData().getName())
+            // 如果auto_update_status为空返回false，不强制更新，不为空则判断是否需要强制更新，如果为0则返回true开启强制更新，否则返回false不强制更新
+
+            String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
+            String exitBtnStr = updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新";
+
+            new MikyouCommonDialog(this, messageStr, "APP更新", "立即更新", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
+                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
+                        @Override
+                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                            switch (btnType) {
+                                case MikyouCommonDialog.OK: // 立即更新
+                                    showDownloadDialog(updataApp);
+                                    break;
+                                case MikyouCommonDialog.NO: // 稍后更新或退出
+                                    if (updataApp.getData().getUpdate().equals("0")) {
+                                        System.exit(0);
+                                    }
+                                    break;
+                            }
+                        }
+                    }).showDialog();
+
+//            final AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
+//            localBuilder.setTitle("提示")
+//                    .setIcon(R.mipmap.ic_launcher)
+//                    .setCancelable(!updataApp.getData().getUpdate().equals("0")) // 状态为false点击外侧不关闭对话框，否则点击外侧对话框消失
+//                    .setMessage("检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc()))
 //                    .setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
 //                        @Override
 //                        public void onClick(DialogInterface dialog, int which) {
 //                            showDownloadDialog(updataApp);
 //                        }
 //                    })
-//                    .setNegativeButton("稍后更新", new DialogInterface.OnClickListener() {
+//                    // update为0是开启强制更新，为1未开启强制更新
+//                    .setNegativeButton(updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新", new DialogInterface.OnClickListener() {
 //                        @Override
 //                        public void onClick(DialogInterface dialog, int which) {
-//                            if (auto_update_status.equals("0")) { // 强制更新
+//                            if (updataApp.getData().getUpdate().equals("0")) {
 //                                System.exit(0);
 //                            }
 //                        }
-//                    }).create().show();
-
-            new MikyouCommonDialog(this, "检测到新版本v" + updataApp.getData().getName(), "提示", "立即更新", "稍后更新")
-                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-                        @Override
-                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                            switch (btnType) {
-                                case MikyouCommonDialog.NO:// 取消
-//                                    if (auto_update_status.equals("0")){
-//                                        System.exit(0);
-//                                    }
-                                    break;
-                                case MikyouCommonDialog.OK:// 更新
-                                    showDownloadDialog(updataApp);
-                                    break;
-                            }
-                        }
-                    }).showDialog();
+//                    })
+//                    .create().show();
         }
     }
 
@@ -903,15 +905,15 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         new InstallUtils(MainAty.this, appUpdateInfo.getData().getUrl(), "无界优品 " + appUpdateInfo.getData().getMessage(),
                 new InstallUtils.DownloadCallBack() {
-                            @Override
-                            public void onStart() {
-                                if (dialogUpdate != null) {
-                                    dialogUpdate.setProgress(0);
-                                }
-                            }
+                    @Override
+                    public void onStart() {
+                        if (dialogUpdate != null) {
+                            dialogUpdate.setProgress(0);
+                        }
+                    }
 
-                            @Override
-                            public void onComplete(String path) {
+                    @Override
+                    public void onComplete(String path) {
                                 /*
                                  * 安装APK工具类
                                  * @param context       上下文
@@ -919,50 +921,50 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                                  * @param authorities   ---------Manifest中配置provider的authorities字段---------
                                  * @param callBack      安装界面成功调起的回调
                                  */
-                                InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
-                                        InstallUtils.InstallCallBack
-                                                () {
-                                            @Override
-                                            public void onSuccess() {
-                                                Toast.makeText(MainAty.this, "正在安装程序", Toast.LENGTH_SHORT).show();
-                                            }
+                        InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
+                                InstallUtils.InstallCallBack
+                                        () {
+                                    @Override
+                                    public void onSuccess() {
+                                        Toast.makeText(MainAty.this, "正在安装程序", Toast.LENGTH_SHORT).show();
+                                    }
 
-                                            @Override
-                                            public void onFail(Exception e) {
-                                                Toast.makeText(MainAty.this, "安装失败:" + e.toString(), Toast
-                                                        .LENGTH_SHORT).show();
-                                            }
-                                        });
-                                if (dialogUpdate != null && dialogUpdate.isShowing()) {
-                                    dialogUpdate.dismiss();
-                                }
-                                if (notifyUtils != null) {
-                                    notifyUtils.setNotifyProgressComplete();
-                                    notifyUtils.clear();
-                                }
-                            }
+                                    @Override
+                                    public void onFail(Exception e) {
+                                        Toast.makeText(MainAty.this, "安装失败:" + e.toString(), Toast
+                                                .LENGTH_SHORT).show();
+                                    }
+                                });
+                        if (dialogUpdate != null && dialogUpdate.isShowing()) {
+                            dialogUpdate.dismiss();
+                        }
+                        if (notifyUtils != null) {
+                            notifyUtils.setNotifyProgressComplete();
+                            notifyUtils.clear();
+                        }
+                    }
 
-                            @Override
-                            public void onLoading(long total, long current) {
-                                int currentProgress = (int) (current * 100 / total);
-                                if (dialogUpdate != null) {
-                                    dialogUpdate.setProgress(currentProgress);
-                                }
-                                if (notifyUtils != null) {
-                                    notifyUtils.setNotifyProgress(100, currentProgress, false);
-                                }
-                            }
+                    @Override
+                    public void onLoading(long total, long current) {
+                        int currentProgress = (int) (current * 100 / total);
+                        if (dialogUpdate != null) {
+                            dialogUpdate.setProgress(currentProgress);
+                        }
+                        if (notifyUtils != null) {
+                            notifyUtils.setNotifyProgress(100, currentProgress, false);
+                        }
+                    }
 
-                            @Override
-                            public void onFail(Exception e) {
-                                if (dialogUpdate != null && dialogUpdate.isShowing()) {
-                                    dialogUpdate.dismiss();
-                                }
-                                if (notifyUtils != null) {
-                                    notifyUtils.clear();
-                                }
-                            }
-                        }).downloadAPK();
+                    @Override
+                    public void onFail(Exception e) {
+                        if (dialogUpdate != null && dialogUpdate.isShowing()) {
+                            dialogUpdate.dismiss();
+                        }
+                        if (notifyUtils != null) {
+                            notifyUtils.clear();
+                        }
+                    }
+                }).downloadAPK();
 
     }
 
@@ -991,7 +993,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.CAMERA) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.RECORD_AUDIO)
                 ) {
             // 申请权限。
             AndPermission.with(MainAty.this)
@@ -1001,6 +1004,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             Manifest.permission.CALL_PHONE,
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.RECORD_AUDIO, // 启用录音权限
                             Manifest.permission.ACCESS_COARSE_LOCATION)
                     .send();
         }
@@ -1152,7 +1156,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
-                L.e("wang", locMap.toString());
 
             }
         }
@@ -1212,4 +1215,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     public void onMessageChanged(EMMessage message, Object change) {
     }
 
+    /**
+     * 页面销毁时
+     */
+    @Override
+    public void finish() {
+        super.finish();
+        isExit = true;
+    }
 }

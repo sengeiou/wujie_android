@@ -207,11 +207,10 @@ public class RechargeAty extends BaseAty {
     private BalancePst balancePst;
     private WxPayReceiver wxPayReceiver;
     private CommonPopupWindow commonPopupWindow;
-    //    private boolean orderIn; // 订单界面跳转进入
-//    private String money; // 金额
-//    private String order_id1; // 订单id
 
-    public static boolean isPlatform = false; // 是否是选择平台银行卡
+    private boolean orderIn; // 订单界面跳转进入
+    private String money; // 金额
+    private String order_id1; // 订单id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,7 +283,6 @@ public class RechargeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
 
-
             case R.id.titlt_right_tv:
                 if (type == 0) {
 
@@ -312,23 +310,6 @@ public class RechargeAty extends BaseAty {
                     return;
                 }
                 showPwdPop(v); // 弹出密码输入框
-
-//                if (pay_by_ali_cb.isChecked()) {
-//
-//
-//                    // TODO ============================================================================================================================================
-////                    if (orderIn) {
-////                        balancePst.upMoney(order_id1, et_price.getText().toString(), "2", "");
-////                    } else {
-//                    L.e("wang", "balancePst.upMoney===============================");
-//                    balancePst.upMoney("", et_price.getText().toString(), "2", "");
-////                    }
-//                } else if (pay_by_wechat_cb.isChecked()) {
-//                    L.e("wang", "Pay.getHjsp===============================");
-////                    balancePst.upMoney(et_price.getText().toString(), "1", "");
-//                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
-//                }
-//                showProgressDialog();
                 break;
             case R.id.re_left_layout:// 线上充值
                 type = 0;
@@ -352,9 +333,10 @@ public class RechargeAty extends BaseAty {
 
                 break;
             case R.id.select_card_num_layout1:// 线下支付，选择平台银行卡号
-                isPlatform = true; // 选择平台银行卡号
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isPlatform", true); // 选择平台银行卡
                 PreferencesUtils.putString(RechargeAty.this, "key1", "1");
-                startActivityForResult(BankInfoForReChargeAty.class, null, 100);
+                startActivityForResult(BankInfoForReChargeAty.class, bundle, 100);
                 break;
             case R.id.picker_time_layout:// 线下支付，选择汇款时间
                 if (pvCustomTime != null) {
@@ -406,14 +388,15 @@ public class RechargeAty extends BaseAty {
         imagePicker.setShowCamera(true);// 显示拍照按钮
         balancePst = new BalancePst(this);
 
-//        orderIn = getIntent().getBooleanExtra("orderIn", false);
-//        if (orderIn) {
-//            money = getIntent().getStringExtra("money");
-//            et_price.setText(money);
-//            et_price.setFocusable(false);
-//            et_price.setFocusableInTouchMode(false);
-//            order_id = getIntent().getStringExtra("order_id");
-//        }
+        orderIn = getIntent().getBooleanExtra("orderIn", false); // 是否是订单中心传入的
+        if (orderIn) { // 如果是订单中心传入的
+            order_id1 = getIntent().getStringExtra("order_id"); // 获取订单id
+            money = getIntent().getStringExtra("money"); // 获取金额
+            et_price.setText(money); // 设置金额
+            // 这两行设置金额输入框的Exittext不可编辑
+            et_price.setFocusable(false);
+            et_price.setFocusableInTouchMode(false);
+        }
 
     }
 
@@ -540,9 +523,10 @@ public class RechargeAty extends BaseAty {
                     return;
                 }
                 if (auth_status.equals("2")) {
-                    isPlatform = false; // 不是平台的银行卡号
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isPlatform", false); // 选择平台银行卡
                     PreferencesUtils.putString(RechargeAty.this, "key1", "0");
-                    startActivityForResult(BankInfoForReChargeAty.class, null, 100);
+                    startActivityForResult(BankInfoForReChargeAty.class, bundle, 100);
                     return;
                 }
             }
@@ -552,10 +536,10 @@ public class RechargeAty extends BaseAty {
 
         if (requestUrl.contains("verificationPayPwd")) {
             if (map.get("code").equals("1")) {
-                if (pay_by_ali_cb.isChecked()) {
-                    balancePst.upMoney("", et_price.getText().toString(), "2", "");
-                } else if (pay_by_wechat_cb.isChecked()) {
-                    Pay.getHjsp(et_price.getText().toString(), RechargeAty.this);
+                if (pay_by_ali_cb.isChecked()) { // 支付宝支付选中
+                    balancePst.upMoney(orderIn ? order_id1 : "", et_price.getText().toString(), "2", "");
+                } else if (pay_by_wechat_cb.isChecked()) { // 微信支付选中
+                    Pay.getHjsp(orderIn ? order_id1 : "", et_price.getText().toString(), RechargeAty.this);
                 }
                 showProgressDialog();
             }

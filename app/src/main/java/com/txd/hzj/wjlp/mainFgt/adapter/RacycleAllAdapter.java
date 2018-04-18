@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -214,6 +215,9 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
          */
         @ViewInject(R.id.older_price_tv)
         private TextView older_price_tv;
+
+        @ViewInject(R.id.fl_item_ticket_gv)
+        private FrameLayout fl_item_ticket_gv;
 //        /**
 //         * 倒计时(type=0,2)
 //         */

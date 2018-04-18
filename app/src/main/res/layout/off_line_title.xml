@@ -81,6 +81,7 @@
             android:layout_gravity="end"
             android:background="@drawable/shape_search_message_num_tv"
             android:gravity="center"
+            android:visibility="gone"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="10sp" />

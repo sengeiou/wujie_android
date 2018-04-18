@@ -20,6 +20,7 @@ public class MikyouCommonDialog {
     private String dialogMessage;
     private String positiveText;
     private String negativeText;
+    private boolean cancelable = true; // 点击弹窗外侧是否关闭弹窗 默认为关闭
 
     private View dialogView;
     private OnDialogListener listener;
@@ -35,15 +36,17 @@ public class MikyouCommonDialog {
      * @param dialogTitle
      * @param positiveText
      * @param negativeText
+     * @param cancelable 设置点击弹窗外侧是否关闭弹窗
      */
     public MikyouCommonDialog(Context context, int customeLayoutId, String dialogTitle, String positiveText,
-                              String negativeText) {
+                              String negativeText, boolean cancelable) {
         this.context = context;
         this.customeLayoutId = customeLayoutId;
         this.dialogTitle = dialogTitle;
         this.positiveText = positiveText;
         this.negativeText = negativeText;
         this.dialogView = View.inflate(context, customeLayoutId, null);
+        this.cancelable = cancelable;
     }
 
     /**
@@ -54,14 +57,16 @@ public class MikyouCommonDialog {
      * @param dialogTitle   标题
      * @param positiveText  按钮
      * @param negativeText  按钮
+     * @param cancelable 设置点击弹窗外侧是否关闭弹窗
      */
     public MikyouCommonDialog(Context context, String dialogMessage, String dialogTitle, String positiveText,
-                              String negativeText) {
+                              String negativeText, boolean cancelable) {
         this.context = context;
         this.dialogTitle = dialogTitle;
         this.dialogMessage = dialogMessage;
         this.positiveText = positiveText;
         this.negativeText = negativeText;
+        this.cancelable = cancelable;
     }
 
     public View getDialogView() {
@@ -75,6 +80,7 @@ public class MikyouCommonDialog {
     public void showDialog() {
         CustomDialog.Builder dialog = new CustomDialog.Builder(context);
         dialog.setTitle(dialogTitle);
+        dialog.setCancelable(cancelable); // 设置点击弹窗外侧是否关闭弹窗
         if (dialogMessage != null) {
             dialog.setMessage(dialogMessage);
         } else {

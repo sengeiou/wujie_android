@@ -5,72 +5,84 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/layout_v1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp" >
-
-        <TextView
-            android:id="@+id/textview1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="28dp"
-            android:textColor="@android:color/black"
-            android:textSize="24dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_qy1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/textview1"
-            android:layout_marginEnd="36dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/shape_vip"
-
-            android:paddingBottom="6dp"
-            android:paddingLeft="18dp"
-            android:paddingRight="18dp"
-            android:paddingTop="6dp"
-            android:text="权益"
-            android:textColor="#702A04"
-            android:textSize="18sp" />
+        android:layout_height="240dp"
+        android:layout_marginTop="10dp">
 
         <ImageView
-            android:id="@+id/im"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/tv_qy1"
-            android:layout_alignTop="@+id/textview1"
-            android:layout_marginLeft="64dp"
-            android:visibility="gone"
-            android:layout_marginTop="12dp"
-            android:src="@mipmap/icon_vip_h" />
+            android:id="@+id/image_vipBack_imgv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_vip_card2" />
 
-        <TextView
-            android:id="@+id/tv_ms"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview1"
             android:layout_marginLeft="28dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="35dp">
 
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_qy1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_vip"
+                android:paddingBottom="6dp"
+                android:paddingLeft="18dp"
+                android:paddingRight="18dp"
+                android:paddingTop="6dp"
+                android:text="权益"
+                android:textColor="#702A04"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tv_time"
+            <ImageView
+                android:id="@+id/im"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/icon_vip_h"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="28dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:layout_height="250dp"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="35dp">
 
+            <TextView
+                android:id="@+id/textview1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="无界会员"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_ms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textview1"
+                android:layout_marginTop="10dp"
+                android:text="点击查看无界权益详情"
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:text="2018-04-17"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

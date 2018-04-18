@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
 import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 
 import java.util.List;
@@ -66,6 +69,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             recyclerViewHolder.tvGender.setText(stickyExampleModel.gender);
             if (position == 0) {// 第一条
                 // 显示吸顶文本
+                // 显示吸顶文本
                 recyclerViewHolder.tvStickyHeader.setVisibility(View.VISIBLE);
                 // 设置吸顶文本内容
                 recyclerViewHolder.tvStickyHeader.setText(stickyExampleModel.sticky);
@@ -84,16 +88,55 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
             // 查看详情
-            if (type == 4){
+            if (type == 4 || type == 3 || type == 1){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             }
+            // 查看详情点击时间
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PreferencesUtils.putString(context, "idid", stickyExampleModel.log_id);
-                    Intent intent = new Intent(context, RechargeOffLineAty.class);
-                    intent.putExtra("act_id", stickyExampleModel.log_id);
-                    context.startActivity(intent);
+                    if (type == 4) {
+                        PreferencesUtils.putString(context, "idid", stickyExampleModel.log_id);
+                        Intent intent = new Intent(context, RechargeOffLineAty.class);
+                        intent.putExtra("act_id", stickyExampleModel.log_id);
+                        context.startActivity(intent);
+                    } else if (type == 3){
+                        L.e("========stickyExampleModel.act_type==type == 3=========" + stickyExampleModel.act_type);
+                        if (stickyExampleModel.act_type.equals("10")) { // 会员卡
+                            Intent intent = new Intent(context, VipCardDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", stickyExampleModel.log_id);
+                            bundle.putString("member_coding", stickyExampleModel.getMemberCoding());
+                            L.e("10101010order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        } else if (stickyExampleModel.act_type.equals("3")){ // 订单详情界面
+                            Intent intent = new Intent(context, OrderDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", stickyExampleModel.log_id);
+                            bundle.putString("type", "0");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
+                    } else if (type == 1){
+                        L.e("========stickyExampleModel.act_type==type == 1=========" + stickyExampleModel.act_type);
+                        if (stickyExampleModel.act_type.equals("1")) { // 会员卡
+                            Intent intent = new Intent(context, VipCardDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", stickyExampleModel.log_id);
+                            bundle.putString("member_coding", stickyExampleModel.getMemberCoding());
+                            L.e("1111order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        } else if (stickyExampleModel.act_type.equals("2")){ // 订单详情界面
+                            Intent intent = new Intent(context, OrderDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", stickyExampleModel.log_id);
+                            bundle.putString("type", "0");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
+                        }
+                    }
                 }
             });
             // 查看线下充值详情----隐藏
@@ -140,13 +183,9 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
-//                int res = context.getResources().getIdentifier("icon_bal_log_" + stickyExampleModel.getAct_type(), "drawable", context.getPackageName());
-//                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
-                // 查看线下充值详情----显示
-//                if (stickyExampleModel.getAct_type().equals("2")) {
-//                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
-//                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
-//                }
+
+
+
             } else if (4 == type) {
                 recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================

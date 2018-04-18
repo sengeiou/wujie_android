@@ -6,7 +6,6 @@
     android:gravity="end|center"
     android:padding="8dp">
 
-
     <TextView
         android:id="@+id/delayReceiving"
         android:layout_width="80dp"

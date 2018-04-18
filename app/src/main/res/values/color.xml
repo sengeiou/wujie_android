@@ -4,10 +4,13 @@
     <!-- 公用的背景颜色 -->
     <color name="color_background">#F9F9F9</color>
 
+    <!-- 背景灰色 -->
     <color name="color_background_gray">#F0F0F0</color>
 
+    <!-- 灰色透明色 -->
     <color name="color_gray_transparent">#88AAAAAA</color>
 
+    <!-- 纯透明色 -->
     <color name="color_transparent">#00000000</color>
 
 </resources>

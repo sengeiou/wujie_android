@@ -57,7 +57,6 @@ public class ShareAdapter extends BaseAdapter {
 
         }else {
             vh = (ViewHolder) convertView.getTag();
-
         }
 
 

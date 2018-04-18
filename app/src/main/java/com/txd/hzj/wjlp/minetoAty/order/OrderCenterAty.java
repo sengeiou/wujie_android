@@ -31,6 +31,9 @@ public class OrderCenterAty extends BaseAty {
     @ViewInject(R.id.orderCenter_show_gv)
     private GridView orderCenter_show_gv;
 
+    @ViewInject(R.id.titlt_conter_tv)
+    private TextView titlt_conter_tv;
+
     List<ShowItem> list;
 
     Bundle mBundle = new Bundle();
@@ -44,6 +47,8 @@ public class OrderCenterAty extends BaseAty {
     @Override
     protected void initialized() {
 
+        titlt_conter_tv.setText("订单中心");
+
         IndexPst indexPst = new IndexPst(this);
         indexPst.index("", "");
 
@@ -51,7 +56,7 @@ public class OrderCenterAty extends BaseAty {
 
         // 初始化添加三条记录
         list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
-        list.add(new ShowItem(R.drawable.icon_order_center_02, "线下商铺"));
+        list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
         list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
 
         itemAdapter = new ItemAdapter();

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -198,15 +199,21 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     }
 
     @Override
-    @OnClick({R.id.to_location_tv, R.id.point_by_wj_tv})
+    @OnClick({R.id.to_location_tv, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_location_tv:// 当前位置
                 startActivity(MellCitySelectAty.class, null);
                 break;
+            case R.id.point_by_food_tv:// 美食
+                showToast("开发中，敬请期待");
+                break;
             case R.id.point_by_wj_tv:// 无界驿站
-//                startActivity(PointWjAty.class, null); // TODO 暂不开发
+                showToast("开发中，敬请期待");
+                break;
+            case R.id.point_by_map_tv:// 地图
+                showToast("开发中，敬请期待");
                 break;
         }
     }
@@ -255,10 +262,21 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
         forBanner();
         list_ads = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
-        Glide.with(getActivity()).load(list_ads.get(0).get("picture")).override(ads_w, ads_h)
+
+        // 设置图片控件的宽高比
+        ViewGroup.LayoutParams lp = im_ads.getLayoutParams();
+        lp.width = Settings.displayWidth;
+        lp.height = Settings.displayWidth * 400 / 1242;
+        im_ads.setLayoutParams(lp);
+        im_ads.setMaxWidth(lp.width);
+        im_ads.setMaxHeight(lp.width  * 400 / 1242);
+
+        Glide.with(getActivity()).load(list_ads.get(0).get("picture"))
+                .override(lp.width, lp.height)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .error(R.mipmap.icon_200)
-                .placeholder(R.mipmap.icon_200).into(im_ads);
+                .placeholder(R.mipmap.icon_200)
+                .into(im_ads);
         // TODO 暂时取消点击事件
 //        im_ads.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -261,11 +261,11 @@ public class UserPst extends BasePresenter {
     }
 
     // 我的推荐
-    public void myRecommend(int p, boolean show) {
+    public void myRecommend(int p, String parent_id, boolean show) {
         if (show) {
             baseView.showDialog();
         }
-        user.myRecommend(p, baseView);
+        user.myRecommend(p, parent_id, baseView);
     }
 
     // 忘记支付密码

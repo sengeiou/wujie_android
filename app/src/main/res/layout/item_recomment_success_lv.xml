@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +12,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_margin="12dp"
-        app:shape_mode="circle"/>
+        app:shape_mode="circle" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +22,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -44,18 +42,18 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@color/app_text_color"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <ImageView
                         android:id="@+id/imageView2"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/icon_general_member_hzj"/>
+                        android:src="@drawable/icon_general_member_hzj" />
 
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/icon_glod_hjz"/>
+                        android:src="@drawable/icon_glod_hjz" />
 
                     <TextView
                         android:id="@+id/recommend_num_tv"
@@ -63,14 +61,14 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="14sp"/>
+                        android:textSize="10sp" />
                 </LinearLayout>
 
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <TextView
                     android:id="@+id/user_phone_tv"
@@ -79,7 +77,7 @@
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textSize="16sp"/>
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -88,10 +86,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="12dp"
+                android:layout_gravity="center"
                 android:gravity="end|bottom"
-                android:lineSpacingExtra="8dp"
                 android:paddingEnd="12dp"
-                android:paddingStart="4dp"/>
+                android:paddingStart="4dp"
+                android:text="201801010011"
+                android:textSize="10sp" />
 
         </LinearLayout>
 
@@ -99,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="12dp"
-            android:background="@color/bg_color"/>
+            android:background="@color/bg_color" />
 
     </LinearLayout>
 

@@ -29,7 +29,6 @@ import java.util.ArrayList;
  */
 public class WelfareServiceAty extends BaseAty {
 
-
     /**
      * 请红包
      */

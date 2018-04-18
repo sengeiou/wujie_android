@@ -24,6 +24,7 @@ public class CollectOrFootpointGoods {
     private String code;
     private String message;
     private int nums;
+    private List<CFGoodsList> data;
 
     public String getCode() {
         return code;
@@ -49,7 +50,6 @@ public class CollectOrFootpointGoods {
         this.nums = nums;
     }
 
-    private List<CFGoodsList> data;
 
     public List<CFGoodsList> getList() {
         return data;

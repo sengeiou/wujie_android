@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.txd.hzj.wjlp.bean.UserBalanceHjs;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
@@ -1076,7 +1078,7 @@ public class OrderOnLineFgt extends BaseFgt {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
                 view = View.inflate(getActivity(), R.layout.aty_goods_for_order, null);
                 goVh = new GOVH();
@@ -1105,6 +1107,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 goVh.tv_price.setVisibility(View.VISIBLE);
                 goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
             }
+
             return view;
         }
 
@@ -1123,6 +1126,8 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView jifenTv;
             @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
             private TextView textview;
+            @ViewInject(R.id.goodsForOrder_layout)
+            private LinearLayout goodsForOrder_layout;
         }
 
     }

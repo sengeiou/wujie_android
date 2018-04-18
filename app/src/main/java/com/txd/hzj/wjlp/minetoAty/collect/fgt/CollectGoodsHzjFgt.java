@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -30,8 +31,11 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +66,8 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @ViewInject(R.id.collect_operation_layout)
     private LinearLayout collect_operation_layout;
 
-    @ViewInject(R.id.swipe_refresh)
-    private SuperSwipeRefreshLayout swipe_refresh;
+    @ViewInject(R.id.super_layout)
+    private SuperSwipeRefreshLayout super_layout;
 
     // Header View
     private ProgressBar progressBar;
@@ -116,14 +120,15 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
         collect_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         collect_goods_rv.setItemAnimator(new DefaultItemAnimator());
         collect_goods_rv.setHasFixedSize(true);
-        collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
+        collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6"))); // 分割线
 
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
-        swipe_refresh.setHeaderView(createHeaderView());// add headerView
-        swipe_refresh.setFooterView(createFooterView());
-        swipe_refresh.setTargetScrollWithLayout(true);
+        super_layout.setHeaderViewBackgroundColor(0xff888888);
+        super_layout.setHeaderView(createHeaderView());// add headerView
+        super_layout.setFooterView(createFooterView());
 
-        swipe_refresh.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        super_layout.setTargetScrollWithLayout(true); // 跟随手指滑动
+
+        super_layout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
             @Override
             public void onRefresh() {
@@ -150,7 +155,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             }
         });
 
-        swipe_refresh.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+        super_layout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
 
             @Override
             public void onLoadMore() {
@@ -160,9 +165,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 footerProgressBar.setVisibility(View.VISIBLE);
 
                 p++;
-                if (0 == dataType)
+                if (0 == dataType) {
                     userPst.myfooter(p, "1");
-                else
+                } else
                     collectPst.collectList(p, "1");
             }
 
@@ -199,7 +204,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 L.e("wang", "======>>>>>>>>>operation_goods_tv，删除按钮");
 
                 List<String> ids;
-                if (0 == dataType) {// 足迹
+                if (0 == dataType) { // 足迹
                     ids = new ArrayList<>();
                     data3 = new ArrayList<>();
                     for (CFGoodsList cg : data) {
@@ -257,12 +262,11 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
+        removeProgressDialog();
         if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
 //            intent.putExtra("a","333");
-
 //            ((FootprintAty)getActivity()).setView(View.GONE);
-            removeContent();
-            removeDialog();
+            footerProgressBar.setVisibility(View.GONE);
         } else {
             super.onError(requestUrl, error);
         }
@@ -271,50 +275,61 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("myfooter")) {// 足迹
+        removeProgressDialog();
+
+        if (requestUrl.contains("myfooter")) { // 足迹
+            L.e("=====myfooter=====", jsonStr);
+
             getActivity().sendBroadcast(intent);
 //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
+
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
-            allNum = goods.getNums();
+            allNum = goods.getList().size();
+
+            L.e("wang", allNum + "\t" + p);
+
             if (allNum > 0) {
-                swipe_refresh.setVisibility(View.VISIBLE);
+                super_layout.setVisibility(View.VISIBLE);
                 no_data_layout.setVisibility(View.GONE);
             } else {
-                swipe_refresh.setVisibility(View.GONE);
+                super_layout.setVisibility(View.GONE);
                 no_data_layout.setVisibility(View.VISIBLE);
             }
             if (1 == p) {
-                data = goods.getList();
+                this.data = goods.getList();
 
-                if (!ListUtils.isEmpty(data)) {
+                if (!ListUtils.isEmpty(this.data)) {
                     // 适配器初始化
-                    racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
+                    racycleAllAdapter = new RacycleAllAdapter(getActivity(), this.data);
                     collect_goods_rv.setAdapter(racycleAllAdapter);
                     racycleAllAdapter.setSelectNum(this);
                     racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                         @Override
                         public void onItemClick(View view, int position) {
                             Bundle bundle = new Bundle();
-                            bundle.putString("ticket_buy_id", data.get(position).getGoods_id());
+                            bundle.putString("ticket_buy_id", CollectGoodsHzjFgt.this.data.get(position).getGoods_id());
                             bundle.putInt("from", 1);
                             startActivity(TicketGoodsDetialsAty.class, bundle);
                         }
                     });
                 }
                 if (!frist) {
-                    swipe_refresh.setRefreshing(false);
+                    super_layout.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
                 data2 = goods.getList();
+//                super_layout.
+                super_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
+                no_data_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
                 if (!ListUtils.isEmpty(data2)) {
-                    data.addAll(data2);
+                    this.data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();
                 }
-//                footerImageView.setVisibility(View.VISIBLE);
-//                footerProgressBar.setVisibility(View.GONE);
-//                swipe_refresh.setLoadMore(false);
             }
+            super_layout.setRefreshing(false);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
             setStatus(status);
             return;
         }
@@ -323,10 +338,10 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
             allNum = goods.getNums();
             if (allNum > 0) {
-                swipe_refresh.setVisibility(View.VISIBLE);
+                super_layout.setVisibility(View.VISIBLE);
                 no_data_layout.setVisibility(View.GONE);
             } else {
-                swipe_refresh.setVisibility(View.GONE);
+                super_layout.setVisibility(View.GONE);
                 no_data_layout.setVisibility(View.VISIBLE);
             }
             if (1 == p) {
@@ -347,7 +362,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     });
                 }
                 if (!frist) {
-                    swipe_refresh.setRefreshing(false);
+                    super_layout.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
@@ -359,7 +374,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
 
                 footerImageView.setVisibility(View.VISIBLE);
                 footerProgressBar.setVisibility(View.GONE);
-                swipe_refresh.setLoadMore(false);
+                super_layout.setLoadMore(false);
             }
             setStatus(status);
             return;
@@ -370,7 +385,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             racycleAllAdapter.notifyDataSetChanged();
             if (ListUtils.isEmpty(data)) {
                 collect_operation_layout.setVisibility(View.GONE);
-                swipe_refresh.setVisibility(View.VISIBLE);
+                super_layout.setVisibility(View.VISIBLE);
                 no_data_layout.setVisibility(View.GONE);
             }
             return;
@@ -381,7 +396,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             racycleAllAdapter.notifyDataSetChanged();
             if (ListUtils.isEmpty(data)) {
                 collect_operation_layout.setVisibility(View.GONE);
-                swipe_refresh.setVisibility(View.VISIBLE);
+                super_layout.setVisibility(View.VISIBLE);
                 no_data_layout.setVisibility(View.GONE);
             }
         }
@@ -422,7 +437,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     private View createFooterView() {
-        View footerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_footer, null);
+        View footerView = LayoutInflater.from(super_layout.getContext()).inflate(R.layout.layout_footer, null);
         footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
         footerImageView = footerView.findViewById(R.id.footer_image_view);
         footerTextView = footerView.findViewById(R.id.footer_text_view);
@@ -434,7 +449,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     private View createHeaderView() {
-        View headerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_head, null);
+        View headerView = LayoutInflater.from(super_layout.getContext()).inflate(R.layout.layout_head, null);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");

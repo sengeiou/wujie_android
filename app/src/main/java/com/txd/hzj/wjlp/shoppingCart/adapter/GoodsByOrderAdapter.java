@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 
 import java.util.List;
 import java.util.Map;

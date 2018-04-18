@@ -6,12 +6,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
@@ -24,6 +30,7 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.login.LoginAty;
@@ -33,6 +40,8 @@ import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
@@ -51,6 +60,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     private Bundle bundle;
 
     public static boolean isExit = false; // 判断Activity是否被销毁
+    private CommonPopupWindow commonPopupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,7 +146,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putString("goods_attr", goods_attr);
         bundle.putString("goods_val", goods_val);
         bundle.putString("is_attr", is_attr);
-        startActivityForResult(GoodsAttributeAty.class, bundle,1000);
+        startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
 
     /**

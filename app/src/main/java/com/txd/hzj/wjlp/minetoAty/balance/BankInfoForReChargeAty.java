@@ -113,12 +113,11 @@ public class BankInfoForReChargeAty extends BaseAty {
         titlt_right_tv.setText("+");
         titlt_right_tv.setTextSize(32);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-        if (RechargeAty.isPlatform) { // 选择线上银行卡
+        if (getIntent().getBooleanExtra("isPlatform", false)) { // 选择线上银行卡
             titlt_right_tv.setVisibility(View.GONE);
         } else {
             titlt_right_tv.setVisibility(View.VISIBLE);
         }
-//        bankInfoAdapter = new BankInfoAdapter();
 
     }
 

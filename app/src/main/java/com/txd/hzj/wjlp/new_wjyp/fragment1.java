@@ -49,6 +49,7 @@ import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
+import com.txd.hzj.wjlp.tool.TimeStampUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,7 +148,7 @@ public class fragment1 extends BaseFgt {
     private boolean is_Long = false;
     private TimePickerView pvTime;
     private boolean check;
-    private boolean isFirst=true;
+    private boolean isFirst = true;
 
     @OnClick({R.id.layout_sex, R.id.ads0, R.id.ads1, R.id.image1, R.id.image2, R.id.id_card_start_time, R.id.id_card_end_time, R.id.tv_submit})
     public void OnClick(View v) {
@@ -158,11 +159,12 @@ public class fragment1 extends BaseFgt {
                 }
                 break;
             case R.id.tv_submit:
+                start_time = id_card_start_time.getText().toString().trim();
                 if (TextUtils.isEmpty(name.getText().toString())) {
                     showToast("请输入真实姓名!");
                     return;
                 }
-                if (TextUtils.isEmpty(sex)&&isFirst) {
+                if (TextUtils.isEmpty(sex) && isFirst) {
                     showToast("请选择性别！");
                     return;
                 }
@@ -170,48 +172,49 @@ public class fragment1 extends BaseFgt {
                     showToast("请输入身份证号！");
                     return;
                 }
-                if (TextUtils.isEmpty(start_time)&&isFirst) {
+                if (TextUtils.isEmpty(start_time) && isFirst) {
                     showToast("请选择身份开始时间");
                     return;
                 }
-                if (TextUtils.isEmpty(end_time)&&isFirst) {
+                if (TextUtils.isEmpty(end_time) && isFirst) {
                     showToast("请选择身份结束时间");
                     return;
                 }
 
-                if (TextUtils.isEmpty(province)&&isFirst) {
+                if (TextUtils.isEmpty(province) && isFirst) {
                     showToast("请选择所在地区!");
                     return;
                 }
-                if (TextUtils.isEmpty(street_id)&&isFirst) {
+                if (TextUtils.isEmpty(street_id) && isFirst) {
                     showToast("请选择所在街道！");
                     return;
                 }
-                if (flie1 == null&&isFirst) {
+                if (flie1 == null && isFirst) {
                     showToast("请上传身份证正面照");
                     return;
                 }
-                if (flie2 == null&&isFirst) {
+                if (flie2 == null && isFirst) {
                     showToast("请上传身份证反面照！");
                     return;
                 }
+                L.e("cccc" + TimeStampUtil.getTimeFour(start_time) + "--" + end_time);
                 RequestParams params = new RequestParams();
                 ApiTool2 apiTool2 = new ApiTool2();
-                L.e("cccc"+start_time+"--"+end_time);
+
                 params.addBodyParameter("real_name", name.getText().toString());
                 params.addBodyParameter("sex", sex);
                 params.addBodyParameter("id_card_num", idcard.getText().toString());
-                params.addBodyParameter("id_card_start_time", start_time);
+                params.addBodyParameter("id_card_start_time", TimeStampUtil.getTimeFour(start_time));
                 params.addBodyParameter("id_card_end_time", end_time);
                 params.addBodyParameter("auth_province_id", province_id);
                 params.addBodyParameter("auth_city_id", city_id);
                 params.addBodyParameter("auth_area_id", area_id);
                 params.addBodyParameter("auth_street_id", street_id);
-                if(isFirst||(flie1!=null||flie2!=null)){
-                    if(flie1!=null){
+                if (isFirst || (flie1 != null || flie2 != null)) {
+                    if (flie1 != null) {
                         params.addBodyParameter("positive_id_card", flie1);
                     }
-                    if(flie2!=null){
+                    if (flie2 != null) {
                         params.addBodyParameter("back_id_card", flie2);
                     }
                 }
@@ -308,7 +311,7 @@ public class fragment1 extends BaseFgt {
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) {
-            L.e("cccc"+jsonStr);
+            L.e("cccc" + jsonStr);
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
@@ -317,18 +320,18 @@ public class fragment1 extends BaseFgt {
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
             }
-            isFirst=(TextUtils.isEmpty(data.get("positive_id_card"))&&TextUtils.isEmpty(data.get("back_id_card")))?true:false;
+            isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
             sex = data.get("sex");
 //            start_time=Integer.parseInt(data.get("id_card_start_date"))/1000+"";
-            start_time=data.get("id_card_start_date");
-            end_time=data.get("id_card_end_time");
+            start_time = data.get("id_card_start_date");
+            end_time = data.get("id_card_end_time");
 //            end_time=Integer.parseInt(data.get("id_card_end_time"))/1000+"";
-            province=data.get("auth_province_name");
-            street_id=data.get("auth_street_id");
-            city_id=data.get("auth_city_id");
-            area_id=data.get("auth_area_id");
+            province = data.get("auth_province_name");
+            street_id = data.get("auth_street_id");
+            city_id = data.get("auth_city_id");
+            area_id = data.get("auth_area_id");
             name.setText(data.get("real_name"));
-            province_id=data.get("auth_province_id");
+            province_id = data.get("auth_province_id");
             tv_Sex.setText(data.get("sex").equals("1") ? "男" : "女");
             idcard.setText(data.get("id_card_num"));
             idcard.setTextColor(Color.BLACK);
@@ -344,7 +347,7 @@ public class fragment1 extends BaseFgt {
             getActivity().finish();
         }
 
-        if (requestUrl.contains("androidAddress")){
+        if (requestUrl.contains("androidAddress")) {
             if (requestUrl.contains("androidAddress")) {
                 L.e("wang", jsonStr);
                 try {
@@ -363,7 +366,7 @@ public class fragment1 extends BaseFgt {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("cccc"+error.get("message"));
+        L.e("cccc" + error.get("message"));
     }
 
     private void download() {

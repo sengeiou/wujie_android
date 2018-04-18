@@ -18,12 +18,12 @@ import com.txd.hzj.wjlp.bean.UpdataApp;
 
 public class Upgrade {
 
-    private String url = Config.BASE_URL+"Upgrade/";
+    private String url = Config.BASE_URL + "Upgrade/";
 
-    public void upgrade(BaseView baseView){
+    public void upgrade(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool = new ApiTool2();
-        apiTool.postApi(url+"upgrade",params,baseView);
+        apiTool.postApi(url + "upgrade", params, baseView);
     }
 
 }

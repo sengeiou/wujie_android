@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
@@ -35,7 +37,6 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：我的推荐
  * ===============Txunda===============
  */
-
 public class RecommendSuccessAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
@@ -55,11 +56,13 @@ public class RecommendSuccessAty extends BaseAty {
     private int p = 1;
     private UserPst userPst;
 
+    private String parent_id;
+    private String nickname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("我推荐的人");
 
         share_times_lv.setEmptyView(layout);
 
@@ -67,13 +70,13 @@ public class RecommendSuccessAty extends BaseAty {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
-                userPst.myRecommend(p, false);
+                userPst.myRecommend(p, parent_id, false);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p++;
-                userPst.myRecommend(p, false);
+                userPst.myRecommend(p, parent_id, false);
             }
         });
     }
@@ -89,11 +92,28 @@ public class RecommendSuccessAty extends BaseAty {
         list = new ArrayList<>();
         userPst = new UserPst(this);
         reSuccessAdapter = new ReSuccessAdapter();
+
+        parent_id = getIntent().getStringExtra("parent_id"); // 查询id
+        nickname = getIntent().getStringExtra("nickname"); // 查询id
+
+        titlt_conter_tv.setText((nickname.equals("") ? "我" : nickname) + "的推荐");
+
+        share_times_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("parent_id", list.get(position - 1).get("id"));
+                bundle.putString("nickname", list.get(position - 1).get("nickname"));
+                startActivity(RecommendSuccessAty.class, bundle);
+            }
+        });
+
+        userPst.myRecommend(p, parent_id, true);
+
     }
 
     @Override
     protected void requestData() {
-        userPst.myRecommend(p, true);
     }
 
     @Override
@@ -101,6 +121,9 @@ public class RecommendSuccessAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("myRecommend")) {
+
+            list.removeAll(list);
+
             if (ToolKit.isList(map, "data")) {
                 if (1 == p) {
                     list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
@@ -109,6 +132,8 @@ public class RecommendSuccessAty extends BaseAty {
                     list.addAll(JSONUtils.parseKeyAndValueToMapList(map.get("data")));
                     reSuccessAdapter.notifyDataSetChanged();
                 }
+                reSuccessAdapter.notifyDataSetChanged();
+
             }
             share_times_lv.onRefreshComplete();
         }
@@ -162,7 +187,10 @@ public class RecommendSuccessAty extends BaseAty {
             rsvh.my_recommend_nick_tv.setText(map.get("nickname"));
             rsvh.recommend_num_tv.setText("成功推荐" + map.get("recommend_num") + "人");
             rsvh.user_phone_tv.setText(map.get("phone"));
-            rsvh.my_recommend_time_tv.setText("分享时间\n" + map.get("create_time"));
+
+            String create_time = map.get("create_time");
+            String[] split = create_time.split(" ");
+            rsvh.my_recommend_time_tv.setText("推荐时间\n" + split[0] + "\n" + split[1]);
 
 
             return view;
@@ -184,7 +212,6 @@ public class RecommendSuccessAty extends BaseAty {
 
             @ViewInject(R.id.user_phone_tv)
             private TextView user_phone_tv;
-
 
         }
 

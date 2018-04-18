@@ -117,7 +117,8 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="b1UKT3NV7vCEPFWojdSA3DESUIuixKgK" />
         <!-- 百度地图 End-->
-        <activity android:name=".MainAty">
+        <!-- 首页启动界面 android:name=".MainAty"-->
+        <activity android:name=".startPage.GuidanceAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -133,6 +134,10 @@
             </intent-filter>
 
         </activity>
+        <!-- APP主页 -->
+        <activity android:name=".MainAty" />
+        <!-- 引导页 -->
+        <activity android:name=".startPage.GuidePageAty" />
         <!-- 线上商城分类(1-1-1 首页 2) -->
         <activity android:name=".mellOnLine.MellOnLineClassifyAty" />
         <!-- 子分类(1-1-2)二级分类 -->

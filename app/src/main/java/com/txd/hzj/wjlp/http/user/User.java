@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.http.user;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
@@ -175,6 +176,8 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("type", type);
+        L.e("==========",String.valueOf(p));  L.e("==========",type);
+        L.e("============================================111111111111111");
         apiTool2.postApi(url + "myfooter", params, baseView);
     }
 
@@ -409,10 +412,11 @@ public class User {
      * @param p        分页
      * @param baseView 回调
      */
-    void myRecommend(int p, BaseView baseView) {
+    void myRecommend(int p, String parent_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("parent_id", parent_id);
         apiTool2.postApi(url + "myRecommend", params, baseView);
     }
 

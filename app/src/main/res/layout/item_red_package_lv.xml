@@ -12,4 +12,12 @@
         android:scaleType="centerInside"
         android:src="@drawable/icon_temp_discount"/>
 
+    <!-- 福利社和优质商家跳转入该页面获取的控件 -->
+    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+        android:id="@+id/image_for_mell1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_temp_discount"/>
+
 </LinearLayout>

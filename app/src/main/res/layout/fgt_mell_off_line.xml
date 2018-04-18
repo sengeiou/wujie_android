@@ -47,6 +47,7 @@
                 android:padding="8dp">
 
                 <TextView
+                    android:id="@+id/point_by_food_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
@@ -70,6 +71,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/point_by_map_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
@@ -97,7 +99,7 @@
                 android:id="@+id/im_ads"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/icon_temp_discount" />
 
             <Space

@@ -129,7 +129,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         fragmentArgs = getArguments();
-        // check if single chat or group chat
+        // 检查单聊还是组聊
         chatType = fragmentArgs.getInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
         // userId you are chat with or group id
         toChatUsername = fragmentArgs.getString(EaseConstant.EXTRA_USER_ID);
@@ -138,7 +138,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     /**
-     * init view
+     * 初始化视图View
      */
     protected void initView() {
         // hold to record voice
@@ -157,19 +157,22 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         registerExtendMenuItem();
         // init input menu
         inputMenu.init(null);
+        // 设置相关事件的监听
         inputMenu.setChatInputMenuListener(new ChatInputMenuListener() {
 
             @Override
             public void onSendMessage(String content) {
+                // 发送消息文本
                 sendTextMessage(content);
             }
 
             @Override
             public boolean onPressToSpeakBtnTouch(View v, MotionEvent event) {
+                // 监听Touch事件，进行录音
                 return voiceRecorderView.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderCallback() {
-
                     @Override
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
+                        // 发送语音消息
                         sendVoiceMessage(voiceFilePath, voiceTimeLength);
                     }
                 });
@@ -177,13 +180,13 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
             @Override
             public void onBigExpressionClicked(EaseEmojicon emojicon) {
+                // 发送大的动态表情
                 sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
             }
         });
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
-        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light,
-                R.color.holo_orange_light, R.color.holo_red_light);
+        swipeRefreshLayout.setColorSchemeResources(R.color.holo_blue_bright, R.color.holo_green_light, R.color.holo_orange_light, R.color.holo_red_light);
 
         inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -804,7 +807,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
 
     /**
-     * send image
+     * 发送图片
      *
      * @param selectedImage
      */
@@ -840,7 +843,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     /**
-     * send file
+     * 发送文件
      *
      * @param uri
      */
@@ -896,7 +899,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     /**
-     * select local image
+     * 选择本地图片
      */
     protected void selectPicFromLocal() {
         Intent intent;
@@ -912,7 +915,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
 
     /**
-     * clear the conversation history
+     * 清空历史会话
      */
     protected void emptyHistory() {
         String msg = getResources().getString(R.string.Whether_to_empty_all_chats);
@@ -951,7 +954,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     /**
-     * hide
+     * 隐藏键盘
      */
     protected void hideKeyboard() {
         if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams
@@ -963,7 +966,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
     }
 
     /**
-     * forward message
+     * 消息转发
      *
      * @param forward_msg_id
      */

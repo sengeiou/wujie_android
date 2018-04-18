@@ -50,6 +50,10 @@ public class CustomDialog extends Dialog {
          */
         private String message;
         /**
+         * 设置点击弹窗外侧是否关闭弹窗
+         */
+        private Boolean cancelable = true;
+        /**
          * 左边按钮内容
          */
         private String positiveButtonText;
@@ -123,6 +127,16 @@ public class CustomDialog extends Dialog {
             return this;
         }
 
+        /**
+         * 设置点击外侧是否关闭
+         * @param cancelable false为不关闭，默认为True
+         * @return
+         */
+        public Builder setCancelable(boolean cancelable){
+            this.cancelable = cancelable;
+            return this;
+        }
+
         public Builder setContentView(View v) {
             this.contentView = v;
             return this;
@@ -190,6 +204,7 @@ public class CustomDialog extends Dialog {
                         new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             }
             dialog.setContentView(layout);
+            dialog.setCancelable(cancelable); // 设置点击弹窗外侧是否关闭弹窗，默认为true关闭
             return dialog;
         }
     }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-    <include layout="@layout/aty_goods_for_order"/>
+    <include
+        android:id="@+id/itemGoods_goods_layout"
+        layout="@layout/aty_goods_for_order" />
 
     <LinearLayout
         android:id="@+id/layout_fapiao"
@@ -38,6 +39,7 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/lin_shouhou"
         android:layout_width="match_parent"
@@ -67,6 +69,7 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout_gongyi"
         android:layout_width="match_parent"
@@ -96,11 +99,13 @@
             android:textSize="14sp" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/lin_server_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/layout_zhengpinbaozheng"
             android:layout_width="match_parent"
@@ -130,6 +135,7 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout_fuwuchengnuo"
             android:layout_width="match_parent"
@@ -159,6 +165,7 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout_fahuoshijian"
             android:layout_width="match_parent"

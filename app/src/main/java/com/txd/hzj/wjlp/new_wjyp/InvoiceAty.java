@@ -273,7 +273,7 @@ public class InvoiceAty extends BaseAty {
                         setResult(RESULT_OK, intent);
                         InvoiceAty.this.finish();
                     }
-                } else if (noCb.isChecked()){
+                } else if (noCb.isChecked()) {
                     Intent intent = new Intent();
                     intent.putExtra("data", new BuildOrderAty.Bean());
                     setResult(RESULT_OK, intent);
@@ -353,7 +353,11 @@ public class InvoiceAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
+        if (resultCode != RESULT_OK) {
+            noCb.setChecked(true);
+            needCb.setChecked(false);
+            return;
+        }
         if (requestCode == 100) {
             tv_type.setText(data.getStringExtra("list"));
         } else if (requestCode == 108) {

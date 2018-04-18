@@ -31,7 +31,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
+import com.txd.hzj.wjlp.minetoAty.balance.BankInfoForReChargeAty;
+import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -56,16 +59,16 @@ import cn.sharesdk.wechat.friends.Wechat;
  * ===============Txunda===============
  */
 public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener {
-    private Handler handler=new Handler(new Handler.Callback() {
+    private Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
-            switch (message.what){
+            switch (message.what) {
                 case MSG_AUTH_COMPLETE://授权成功
 
                     break;
 
             }
-            startActivity(EditProfileAty.class,null);
+            startActivity(EditProfileAty.class, null);
             return false;
         }
     });
@@ -118,6 +121,15 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private TextView tv_wx_bind;
     @ViewInject(R.id.tv_wb_bind)
     private TextView tv_wb_bind;
+
+    /**
+     * 我的银行卡
+     */
+    @ViewInject(R.id.rel_myBankCard)
+    private TextView rel_myBankCard;
+
+    private boolean isMyBankCardClick = false; // 我的银行卡点击
+
     private Map<String, String> qq_bind;
     private Map<String, String> wx_bind;
     private Map<String, String> weibo_bind;
@@ -132,7 +144,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     @OnClick({R.id.rel_editprofile, R.id.rel_editpassword, R.id.rel_editpaypassword, R.id.rel_realname,
             R.id.rel_bind_phone, R.id.sing_out_tv, R.id.clear_cach_layout
-            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind})
+            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind, R.id.rel_myBankCard})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -153,16 +165,14 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             case R.id.rel_realname:// 实名认证
                 userPst.userInfo();
                 showProgressDialog();
-//                if (auth_status.equals("2")) {
-//                    showRightTip("已认证成功");
-//                    break;
-//                }
-//                bundle = new Bundle();
-//                bundle.putString("auth_status", auth_status);
-//                startActivity(RealnameAty.class, bundle);
-
                 break;
-            case R.id.rel_bind_phone:// 绑定手机号
+            case R.id.rel_myBankCard:
+                isMyBankCardClick = true;
+                User.userInfo(this); // 获取用户信息
+                L.e("wang", "rel_myBankCard  isMyBankCardClick = " + isMyBankCardClick);
+//                showDialog("我的银行卡"); // TODO ===============================================================
+                break;
+            case R.id.rel_bind_phone: // 绑定手机号
                 if (phone.equals("")) {
                     bundle = new Bundle();
                     bundle.putInt("from", 1);
@@ -173,8 +183,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     startActivity(BindPhoneAty.class, bundle);
                 }
                 break;
-            case R.id.sing_out_tv:// 退出登录
-                new MikyouCommonDialog(this, "确定要退出吗?", "提示", "取消", "确定").setOnDiaLogListener(new MikyouCommonDialog
+            case R.id.sing_out_tv: // 退出登录
+                new MikyouCommonDialog(this, "确定要退出吗?", "提示", "取消", "确定", true).setOnDiaLogListener(new MikyouCommonDialog
                         .OnDialogListener() {
                     @Override
                     public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
@@ -210,9 +220,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 }).showDialog();
                 break;
             case R.id.clear_cach_layout:// 清除缓存
-                new MikyouCommonDialog(this, "确定要清除缓存？","提示",  "取消", "确定").setOnDiaLogListener(new MikyouCommonDialog
-                        .OnDialogListener() {
-
+                new MikyouCommonDialog(this, "确定要清除缓存？", "提示", "取消", "确定", true).setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                     @Override
                     public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
                             which) {
@@ -235,7 +243,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     }
                 }).showDialog();
                 break;
-            case R.id.layout_wechat_bind://微信绑定
+            case R.id.layout_wechat_bind: // 绑定微信
                 loginType = "1";
                 if (wx_bind.get("is_bind").equals("0")) {
                     showDialog();
@@ -256,7 +264,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
                 }
                 break;
-            case R.id.layout_qq_bind:
+            case R.id.layout_qq_bind: // 绑定qq
                 if (qq_bind.get("is_bind").equals("0")) {
                     loginType = "3";
                     showDialog();
@@ -278,7 +286,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
                 }
                 break;
-            case R.id.layout_sina_bind:
+            case R.id.layout_sina_bind: // 绑定新浪
                 if (weibo_bind.get("is_bind").equals("0")) {
                     showDialog();
                     loginType = "2";
@@ -356,13 +364,13 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("cccccc"+error);
+        L.e("cccccc" + error);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("类型"+jsonStr);
+        L.e("类型" + jsonStr);
         if (requestUrl.contains("bindOther")) {
             showToast("绑定成功！");
             userPst.setting();
@@ -375,11 +383,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             showProgressDialog();
             return;
         }
-        if(requestUrl.contains("userInfo")){
+        if (requestUrl.contains("userInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if(data.get("code").equals("1")){
-                data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
-                if(data.get("personal_data_status").equals("0")){
+            if (data.get("code").equals("1")) {
+                data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+                if (data.get("personal_data_status").equals("0")) {
                     showToast("请先完善个人资料");
                     new Thread(new Runnable() {
                         @Override
@@ -389,18 +397,26 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            Message message=new Message();
-                            message.what=0;
-                            message.obj=0;
+                            Message message = new Message();
+                            message.what = 0;
+                            message.obj = 0;
                             handler.sendMessage(message);
                         }
                     }).start();
                     return;
                 }
-                Bundle bb = new Bundle();
-                bb.putString("auth_status",auth_status);
-                bb.putString("comp_auth_status",comp_auth_status);
-                startActivity(aty_authentication.class, bb);
+                if (isMyBankCardClick) { // 点击的我的银行卡
+                    isMyBankCardClick = false;
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("isPlatform", false); // 选择个人银行卡
+                    PreferencesUtils.putString(SetAty.this, "key1", "0");
+                    startActivity(BankInfoForReChargeAty.class, bundle);
+                } else { // 应该是去的实名认证
+                    Bundle bb = new Bundle();
+                    bb.putString("auth_status", auth_status);
+                    bb.putString("comp_auth_status", comp_auth_status);
+                    startActivity(aty_authentication.class, bb);
+                }
             }
             return;
 
@@ -438,7 +454,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     }
 
     private void setBindText(TextView textView, Map<String, String> map) {
-        L.e("map"+map.toString());
+        L.e("map" + map.toString());
         if (map.get("is_bind").equals("0")) {
             textView.setText("未绑定");
             return;
@@ -546,7 +562,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             } else {
                 openid = platform.getDb().getUserId();
             }
-            L.e("授权成功"+platform.getDb().getUserName());
+            L.e("授权成功" + platform.getDb().getUserName());
             nick = platform.getDb().getUserName();
             head_pic = platform.getDb().getUserIcon();
 //            userPst.bindOther(openid, loginType, nick);
@@ -601,7 +617,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             case MSG_AUTH_COMPLETE: {
                 String text = getString(com.ants.theantsgo.R.string.auth_complete);
                 showRightTip(text);
-                msg.obj="正在登录";
+                msg.obj = "正在登录";
 //                handler.sendMessage(msg);
             }
             break;

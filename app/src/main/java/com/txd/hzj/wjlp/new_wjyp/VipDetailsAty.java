@@ -21,6 +21,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +34,8 @@ public class VipDetailsAty extends BaseAty {
     private TextView titlt_conter_tv;
     @ViewInject(R.id.online_carvouse_view)
     private CarouselView online_carvouse_view;
-    private String data;
-    private Map<String, String> map;
+//    private String data;
+//    private Map<String, String> map;
     private List<Map<String, String>> list_pic = new ArrayList<>();
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
@@ -43,6 +46,15 @@ public class VipDetailsAty extends BaseAty {
     @ViewInject(R.id.tv2)
     TextView tv2;
     private int allHeight;
+    private String sale_status;
+    private String rank_name;
+    private String money;
+    private String prescription;
+    private String big_gift;
+    private String score_status;
+    private String abs_url;
+    private String member_coding;
+    private String pay_money;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,9 +66,18 @@ public class VipDetailsAty extends BaseAty {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.pay:
-                if (map.get("sale_status").equals("0")) {
+                if (sale_status.equals("0")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("data", data);
+                    bundle.putString("sale_status", sale_status);
+                    bundle.putString("rank_name", rank_name);
+                    bundle.putString("money", money);
+                    bundle.putString("prescription", prescription);
+                    bundle.putString("big_gift", big_gift);
+                    bundle.putString("score_status", score_status);
+                    bundle.putString("abs_url", abs_url);
+                    bundle.putString("member_coding", member_coding);
+                    bundle.putString("pay_money", money);
+//                    bundle.putString("data", data);
                     bundle.putString("order_id", "");
                     startActivity(VipPayAty.class, bundle);
                 } else {
@@ -73,54 +94,65 @@ public class VipDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        data = getIntent().getStringExtra("data");
-        map = JSONUtils.parseKeyAndValueToMap(data);
-        list_pic = JSONUtils.parseKeyAndValueToMapList(map.get("abs_url"));
-        titlt_conter_tv.setText(map.get("rank_name"));
-        String Y = "会员年费¥" + map.get("money") + "/" + (map.get("prescription").equals("0") ? "永久" : "年");//年or永久
+
+        sale_status = getIntent().getStringExtra("sale_status");
+        rank_name = getIntent().getStringExtra("rank_name");
+        money = getIntent().getStringExtra("money");
+        prescription = getIntent().getStringExtra("prescription");
+        big_gift = getIntent().getStringExtra("big_gift");
+        score_status = getIntent().getStringExtra("score_status");
+        abs_url = getIntent().getStringExtra("abs_url");
+        member_coding = getIntent().getStringExtra("member_coding");
+
+//        data = getIntent().getStringExtra("data");
+//        map = JSONUtils.parseKeyAndValueToMap(data); // TODO 报空指针
+
+        list_pic = JSONUtils.parseKeyAndValueToMapList(abs_url);
+        titlt_conter_tv.setText(rank_name);
+        String Y = "会员年费¥" + money + "/" + (prescription.equals("0") ? "永久" : "年");//年or永久
         tv_price.setText(Y);
 //        big_gift
 
-        if (map.get("sale_status").equals("0") && map.get("big_gift").equals("1") && map.get("score_status").equals("0")) {
+        if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("0")) {
             tv1.setText("已拥有更高级别会员卡");
             pay.setEnabled(false);
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("1") && map.get("score_status").equals("1")) {
+        } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("1")) {
             tv1.setText("续费");
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("1") && map.get("score_status").equals("2")) {
+        } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("2")) {
             tv1.setText("立即开通");
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("1") && map.get("score_status").equals("4")) {
+        } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("4")) {
             tv1.setText("永久有效");
             pay.setEnabled(false);
             tv1.setTextColor(Color.BLACK);
             pay.setBackgroundColor(Color.GRAY);
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("1")) {
+        } else if (sale_status.equals("1")) {
             pay.setVisibility(View.INVISIBLE);
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("2") && map.get("score_status").equals("0")) {
+        } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("0")) {
             tv2.setVisibility(View.INVISIBLE);
             tv1.setText("已拥有更高级别会员卡");
             pay.setEnabled(false);
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("2") && map.get("score_status").equals("1")) {
+        } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("1")) {
             tv1.setText("续费");
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("2") && map.get("score_status").equals("2")) {
+        } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("2")) {
             tv1.setText("立即开通");
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("0") && map.get("big_gift").equals("2") && map.get("score_status").equals("4")) {
+        } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("4")) {
             tv1.setText("永久有效");
             pay.setEnabled(false);
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);
             tv2.setVisibility(View.INVISIBLE);
-        } else if (map.get("sale_status").equals("1") && map.get("big_gift").equals("2")) {
+        } else if (sale_status.equals("1") && big_gift.equals("2")) {
             pay.setVisibility(View.INVISIBLE);
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);

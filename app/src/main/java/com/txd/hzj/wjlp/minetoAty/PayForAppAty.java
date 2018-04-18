@@ -938,7 +938,7 @@ public class PayForAppAty extends BaseAty {
 
     public void goBack() {
 
-        new MikyouCommonDialog(this, "放弃后，可前往订单中心支付此订单", "放弃付款?", "确定", "取消")
+        new MikyouCommonDialog(this, "放弃后，可前往订单中心支付此订单", "放弃付款?", "确定", "取消", false)
                 .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
             @Override

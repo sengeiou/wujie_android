@@ -46,8 +46,8 @@ public class VipCardDetailsAty extends BaseAty {
     private TextView tv_btn_right;
     private List<Map<String, String>> mapList;
     private String order_id;
-    private String member_coding;//会员卡编码
-    private boolean isDel=false;//是否是删除订单
+    private String member_coding; // 会员卡编码
+    private boolean isDel = false; // 是否是删除订单
 
 
     @Override
@@ -68,13 +68,13 @@ public class VipCardDetailsAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if(requestUrl.contains("memberOrderInfo")){
-            Map<String,String>data= JSONUtils.parseKeyAndValueToMap(jsonStr);
+        if (requestUrl.contains("memberOrderInfo")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             mapList = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
             lv_details.setAdapter(new OrderAdapter());
-            for(Map<String,String> temp:mapList){
-                if(temp.get("order_name").equals("支付状态")){
-                    switch (temp.get("order_value")){
+            for (Map<String, String> temp : mapList) {
+                if (temp.get("order_name").equals("支付状态")) {
+                    switch (temp.get("order_value")) {
                         case "未支付":
                             tv_btn_left.setVisibility(View.VISIBLE);
                             tv_btn_right.setVisibility(View.VISIBLE);
@@ -94,7 +94,7 @@ public class VipCardDetailsAty extends BaseAty {
                                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int j) {
-                                            MemberOrder.delMemberOrder(order_id,"5",VipCardDetailsAty.this);
+                                            MemberOrder.delMemberOrder(order_id, "5", VipCardDetailsAty.this);
                                             showProgressDialog();
                                         }
                                     });
@@ -105,7 +105,7 @@ public class VipCardDetailsAty extends BaseAty {
                                 @Override
                                 public void onClick(View view) {
                                     //立即支付
-                                    MemberOrder.settlement(member_coding,VipCardDetailsAty.this);
+                                    MemberOrder.settlement(member_coding, VipCardDetailsAty.this);
                                     showProgressDialog();
 
                                 }
@@ -129,8 +129,8 @@ public class VipCardDetailsAty extends BaseAty {
                                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int j) {
-                                            isDel=true;
-                                            MemberOrder.delMemberOrder(order_id,"9",VipCardDetailsAty.this);
+                                            isDel = true;
+                                            MemberOrder.delMemberOrder(order_id, "9", VipCardDetailsAty.this);
                                             showProgressDialog();
                                         }
                                     });
@@ -156,8 +156,8 @@ public class VipCardDetailsAty extends BaseAty {
                                     builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int j) {
-                                            isDel=true;
-                                            MemberOrder.delMemberOrder(order_id,"9",VipCardDetailsAty.this);
+                                            isDel = true;
+                                            MemberOrder.delMemberOrder(order_id, "9", VipCardDetailsAty.this);
                                             showProgressDialog();
                                         }
                                     });
@@ -171,29 +171,30 @@ public class VipCardDetailsAty extends BaseAty {
             }
 
         }
-        if(requestUrl.contains("delMemberOrder")){
-            Map<String,String>map=JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if(map.get("code").equals("1")){
+        if (requestUrl.contains("delMemberOrder")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (map.get("code").equals("1")) {
                 EventBus.getDefault().post(new MessageEvent("更新会员卡列表"));
-                if(isDel){
+                if (isDel) {
                     finish();
                     return;
                 }
-                MemberOrder.memberOrderInfo(order_id,this);
+                MemberOrder.memberOrderInfo(order_id, this);
                 showProgressDialog();
             }
 
         }
-        if(requestUrl.contains("settlement")){
-            Map<String,String>data=JSONUtils.parseKeyAndValueToMap(jsonStr);
-            data=JSONUtils.parseKeyAndValueToMap(data.get("data"));
+        if (requestUrl.contains("settlement")) {
+            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             Bundle bundle = new Bundle();
             bundle.putString("data", String.valueOf(data));
             bundle.putString("order_id", order_id);
             startActivity(VipPayAty.class, bundle);
         }
     }
-    class OrderAdapter extends BaseAdapter{
+
+    class OrderAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -213,20 +214,21 @@ public class VipCardDetailsAty extends BaseAty {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder viewHolder;
-            if(view==null){
-                viewHolder=new ViewHolder();
-                view= LayoutInflater.from(VipCardDetailsAty.this).inflate(R.layout.item_vip_card_details,null);
-                viewHolder.tv_left=view.findViewById(R.id.tv_left);
-                viewHolder.tv_rigth=view.findViewById(R.id.tv_rigth);
+            if (view == null) {
+                viewHolder = new ViewHolder();
+                view = LayoutInflater.from(VipCardDetailsAty.this).inflate(R.layout.item_vip_card_details, null);
+                viewHolder.tv_left = view.findViewById(R.id.tv_left);
+                viewHolder.tv_rigth = view.findViewById(R.id.tv_rigth);
                 view.setTag(viewHolder);
-            }else{
-                viewHolder= (ViewHolder) view.getTag();
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
             }
             viewHolder.tv_left.setText(mapList.get(i).get("order_name"));
             viewHolder.tv_rigth.setText(mapList.get(i).get("order_value"));
             return view;
         }
-        class ViewHolder{
+
+        class ViewHolder {
             private TextView tv_left;
             private TextView tv_rigth;
         }
@@ -235,10 +237,11 @@ public class VipCardDetailsAty extends BaseAty {
     @Override
     protected void onResume() {
         super.onResume();
-        Bundle bundle=this.getIntent().getExtras();
-        order_id = bundle.getString("order_id");
-        member_coding = bundle.getString("member_coding");
-        MemberOrder.memberOrderInfo(order_id,this);
+        Bundle bundle = getIntent().getExtras();
+        order_id = getIntent().getStringExtra("order_id");
+        member_coding = getIntent().getStringExtra("member_coding");
+        L.e("order_id:" + order_id + "\tmember_coding:" + member_coding);
+        MemberOrder.memberOrderInfo(order_id, this);
         showProgressDialog();
     }
 }

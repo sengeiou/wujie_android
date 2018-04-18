@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
@@ -11,8 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
@@ -40,19 +38,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
 
                     <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                         android:id="@+id/uer_head_iv"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:src="@drawable/icon_temp_head"
                         android:visibility="invisible"
                         app:shape_mode="circle"
                         app:stroke_color="@color/white"
-                        app:stroke_width="2dp"
-                        />
+                        app:stroke_width="2dp" />
+                        <!-- android:src="@drawable/icon_temp_head" -->
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -70,7 +66,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/icon_jinpai"/>
+                            android:src="@drawable/icon_jinpai" />
 
                         <TextView
                             android:id="@+id/grade_of_member_tv"
@@ -78,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="8dp"
                             android:gravity="center"
-                            android:text="金牌会员"/>
+                            android:text="金牌会员" />
                     </LinearLayout>
 
                     <TextView
@@ -87,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:text="成长值：88"
-                        android:textColor="@color/white"/>
+                        android:textColor="@color/white" />
 
                 </LinearLayout>
 
@@ -103,7 +99,7 @@
                         android:layout_height="wrap_content"
                         android:padding="12dp"
                         android:scaleType="center"
-                        android:src="@drawable/icon_member_logo_hzj"/>
+                        android:src="@drawable/icon_member_logo_hzj" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -122,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="会员成长"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/details_for_sb_tv"
@@ -133,7 +129,7 @@
                     android:padding="8dp"
                     android:text="成长明细"
                     android:textColor="@color/white"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -146,6 +142,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:background="@color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

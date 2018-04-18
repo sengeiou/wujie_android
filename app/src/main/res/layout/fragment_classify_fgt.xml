@@ -32,9 +32,7 @@
                     android:id="@+id/classify_ads_iv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop" />
-
-
+                    android:scaleType="fitCenter" />
 
                 <Space
                     android:layout_width="match_parent"

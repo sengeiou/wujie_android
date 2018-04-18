@@ -830,10 +830,8 @@ public class BuildOrderAty extends BaseAty {
                 govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
             }
             if (getItem(i).get("invoice_status").equals("1")) {
-
                 govh.layout.setVisibility(View.VISIBLE);
-                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "无" : i_bean.get(i).getInvoice_type());
-//                govh.textview.setText(TextUtils.isEmpty(invoice1.getInvoice_type()) ? "无" : invoice1.getInvoice_type());
+                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "不开发票" : i_bean.get(i).getInvoice_type());
             } else {
                 govh.layout.setVisibility(View.GONE);
             }
@@ -841,7 +839,6 @@ public class BuildOrderAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     index = i;
-
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
                     bundle.putString("wj_price", getItem(i).get("wj_price"));

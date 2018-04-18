@@ -58,8 +58,14 @@ public class TricketDetailks {
      */
     public String imgStr;
 
+    /**
+     * 会员编号 查看会员卡消费明细会用到
+     */
+    public String memberCoding;
+
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-            log_id, String act_type,String act_id, String add_sub, String imgStr) {
+//            log_id, String act_type,String act_id, String add_sub, String imgStr) {
+            log_id, String act_type,String act_id, String add_sub, String imgStr, String memberCoding) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
@@ -70,6 +76,7 @@ public class TricketDetailks {
         this.act_id = act_id;
         this.add_sub = add_sub;
         this.imgStr = imgStr;
+        this.memberCoding = memberCoding;
     }
 
     public String getSticky() {
@@ -152,6 +159,14 @@ public class TricketDetailks {
         this.imgStr = imgStr;
     }
 
+    public String getMemberCoding() {
+        return memberCoding;
+    }
+
+    public void setMemberCoding(String memberCoding) {
+        this.memberCoding = memberCoding;
+    }
+
     @Override
     public String toString() {
         return "TricketDetailks{" +
@@ -165,6 +180,7 @@ public class TricketDetailks {
                 ", act_id='" + act_id + '\'' +
                 ", add_sub='" + add_sub + '\'' +
                 ", imgStr='" + imgStr + '\'' +
+                ", memberCoding='" + memberCoding + '\'' +
                 '}';
     }
 }

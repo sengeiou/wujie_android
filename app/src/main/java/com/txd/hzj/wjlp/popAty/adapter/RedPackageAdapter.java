@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.ants.theantsgo.config.Settings;
@@ -55,6 +56,7 @@ public class RedPackageAdapter extends BaseAdapter {
 
     private List<Map<String, String>> list;
     private LinearLayout.LayoutParams layoutParams;
+    private RPVH rpvh;
 
     public RedPackageAdapter(Context context, int type, List<Map<String, String>> list) {
         this.context = context;
@@ -92,7 +94,6 @@ public class RedPackageAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         Map<String, String> map = getItem(i);
-        RPVH rpvh;
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_red_package_lv, viewGroup, false);
             rpvh = new RPVH();
@@ -102,20 +103,21 @@ public class RedPackageAdapter extends BaseAdapter {
             rpvh = (RPVH) view.getTag();
         }
         String picUrl;
+        rpvh.image_for_mell.setVisibility(View.GONE);
         if (0 == type) {
-            rpvh.image_for_mell.setShapeRadius(0);
+            rpvh.image_for_mell1.setShapeRadius(0);
             picUrl = map.get("face_img");
         } else {
             picUrl = map.get("bonus_face");
-            rpvh.image_for_mell.setShapeRadius(size);
+            rpvh.image_for_mell1.setShapeRadius(size);
         }
-        rpvh.image_for_mell.setLayoutParams(layoutParams);
+        rpvh.image_for_mell1.setLayoutParams(layoutParams);
         Glide.with(context).load(picUrl)
                 .override(wight, height)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(rpvh.image_for_mell);
+                .into(rpvh.image_for_mell1);
 
         return view;
     }
@@ -123,7 +125,9 @@ public class RedPackageAdapter extends BaseAdapter {
     private class RPVH {
 
         @ViewInject(R.id.image_for_mell)
-        private ShapedImageView image_for_mell;
+        private ImageView image_for_mell;
+        @ViewInject(R.id.image_for_mell1)
+        private ShapedImageView image_for_mell1;
 
     }
 }
