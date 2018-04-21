@@ -53,6 +53,7 @@ public class TimeStampUtil {
         }
         return re_time;
     }
+
     /**
      * 将字符串转换为时间戳
      *
@@ -73,13 +74,14 @@ public class TimeStampUtil {
         }
         return re_time;
     }
+
     /**
      * 将字符串转换为时间戳
      *
      * @param user_time 年月日
      * @return
      */
-        public static String getTimeThree(String user_time) {
+    public static String getTimeThree(String user_time) {
         String re_time = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Date d;
@@ -121,6 +123,7 @@ public class TimeStampUtil {
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
         return re_StrTime;
     }
+
     /**
      * 将时间戳转换成字符串
      *
@@ -134,6 +137,7 @@ public class TimeStampUtil {
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
         return re_StrTime;
     }
+
     /**
      * 将时间戳转换成字符串
      *
@@ -147,6 +151,7 @@ public class TimeStampUtil {
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
         return re_StrTime;
     }
+
     /**
      * 将时间戳转换成字符串
      *
@@ -160,6 +165,7 @@ public class TimeStampUtil {
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
         return re_StrTime;
     }
+
     /**
      * 将时间戳转换成字符串
      *

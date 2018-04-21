@@ -193,38 +193,32 @@
                             android:id="@+id/im_jin"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/icon_mine_jin0" />
+                            android:layout_weight="1" />
 
                         <ImageView
                             android:id="@+id/im_yin"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/icon_mine_yin0" />
+                            android:layout_weight="1" />
 
                         <ImageView
                             android:id="@+id/im_tong"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/icon_mine_tong0" />
+                            android:layout_weight="1" />
 
                         <ImageView
                             android:id="@+id/im_gang"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/icon_mine_gang0" />
+                            android:layout_weight="1" />
 
                         <ImageView
                             android:id="@+id/im_tie"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/icon_mine_tie0" />
+                            android:layout_weight="1" />
                     </LinearLayout>
-
 
                 </RelativeLayout>
 

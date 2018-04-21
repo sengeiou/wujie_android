@@ -785,79 +785,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-//        super.onError(requestUrl, error);
-        L.e("error");
+        L.e("onError======================error" + error.toString());
         removeProgressDialog();
         superSwipeRefreshLayout.setRefreshing(false);
-        if (requestUrl.contains("index")) {
-            try {
-                String message = error.get("message");
-                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("请完善个人资料地区信息")
-                            .setMessage("前往个人个人资料页面？")
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (Config.getToken().equals("")) {
-                                        Intent intent = new Intent();
-                                        intent.setClass(getActivity(), LoginAty.class);
-                                        getActivity().startActivity(intent);
-                                    } else {
-                                        Intent intent = new Intent();
-                                        intent.setClass(getActivity(), EditProfileAty.class);
-                                        getActivity().startActivity(intent);
-                                    }
-
-                                }
-                            })
-                            .setNegativeButton("取消", null)
-                            .show();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(error.get("data"));
-            // 消息
-            forMes(data);
-
-            // 轮播图
-            if (ToolKit.isList(data, "index_banner")) {
-                image = JSONUtils.parseKeyAndValueToMapList(data.get("index_banner"));
-                forBanner();
-            }
-            // 横向菜单
-            if (ToolKit.isList(data, "top_nav")) {
-                forHorizontalMenu(data);
-            }
-            // 无界头条
-            if (ToolKit.isList(data, "headlines")) {
-                updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
-                setView();
-                upview1.setViews(views);
-            }
-            // 三个活动图片
-            threeAdsInfo(data);
-            // 限量购
-            forLimit(data);
-            // 票券区
-            forTicket(data);
-            // 无界预购
-            orPre(data);
-            // 进口馆
-            forCountry(data);
-            // 竞拍汇
-            forAuction(data);
-            // 积分夺宝
-            forOneBuy(data);
-            // 汽车购
-            forCar(data);
-            // 房产购
-            forHouse(data);
-            // 拼团购
-            forGroup(data);
-
-        }
     }
 
     @Override
@@ -871,6 +801,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
                 // 设置界面广告显示开关
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                L.e("========dataASD========" + dataASD.toString());
                 if (dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
                     limitBuy_llayout.setVisibility(View.VISIBLE);
@@ -882,6 +813,18 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     oneBuy_llayout.setVisibility(View.VISIBLE);
                     car_llayout.setVisibility(View.VISIBLE);
                     house_llayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    under_banner_menu_vp.setVisibility(View.GONE);
+                    limitBuy_llayout.setVisibility(View.GONE);
+                    groupBuy_llayout.setVisibility(View.GONE);
+                    ticketBuy_llayout.setVisibility(View.GONE);
+                    pre_llayout.setVisibility(View.GONE);
+                    country_llayout.setVisibility(View.GONE);
+                    auction_llayout.setVisibility(View.GONE);
+                    oneBuy_llayout.setVisibility(View.GONE);
+                    car_llayout.setVisibility(View.GONE);
+                    house_llayout.setVisibility(View.GONE);
                 }
 
                 if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {

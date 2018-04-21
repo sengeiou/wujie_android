@@ -160,16 +160,6 @@ public class _GradeOfMemberAty extends BaseAty {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.textview1.setText(getItem(position).get("rank_name"));
 
-//            Glide.with(_GradeOfMemberAty.this).load(getItem(position).get("pic")).asBitmap().into(new SimpleTarget<Bitmap>() {
-//                @Override
-//                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                    BitmapDrawable bitmapDrawable = new BitmapDrawable(resource);
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-//                        holder.layout_1.setBackgroundDrawable(bitmapDrawable);
-//                    }
-//                }
-//            });
-
             // 设置图片控件的宽高比
             ViewGroup.LayoutParams lp = holder.image_vipBack_imgv.getLayoutParams();
             lp.width = Settings.displayWidth;
@@ -183,36 +173,27 @@ public class _GradeOfMemberAty extends BaseAty {
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.image_vipBack_imgv);
 
-//            ViewGroup.LayoutParams lp = holder.image_vipBack_imgv.getLayoutParams();
-//            lp.width = Settings.displayWidth;
-//            lp.height = Settings.displayWidth * 3 / 2;
-//            holder.image_vipBack_imgv.setLayoutParams(lp);
-//            holder.image_vipBack_imgv.setMaxWidth(lp.width);
-//            holder.image_vipBack_imgv.setMaxHeight(lp.width  * 3 / 2);
-//            Glide.with(_GradeOfMemberAty.this).load(getItem(position).get("pic")).into(holder.image_vipBack_imgv);
-
-//            holder.layout_1.setBackgroundResource(getItem(position).get("is_get").equals("1") ? R.mipmap.icon_vip_card1 : R.mipmap.icon_vip_card2);
-//            Glide.with(_GradeOfMemberAty.this).load(getItem(position).get("pic")).into(holder.image_itemVip_imgv); // 设置显示的背景图
             holder.tv_ms.setText(getItem(position).get("this_description"));
-            L.e("wang", "getItem(position).get(\"is_discount\") = " + getItem(position).get("is_discount"));
-            if (getItem(position).get("is_discount").equals("1")) {
-                holder.im.setVisibility(View.VISIBLE);
-                holder.im.setImageResource(R.mipmap.icon_vip_h);
-            } else if (getItem(position).get("is_discount").equals("2")) {
-                holder.im.setVisibility(View.VISIBLE);
-                holder.im.setImageResource(R.mipmap.icon_vip_t);
-            } else {
+            String is_discount = getItem(position).get("is_discount");
+            L.e("wang", "getItem(position).get(\"is_discount\") = " + is_discount);
+            if (is_discount.equals("0")){ // 没有活动
                 holder.im.setVisibility(View.GONE);
             }
-            if (!getItem(position).get("is_get").equals("0")) {
+            if (is_discount.equals("1")) { // 优惠
                 holder.im.setVisibility(View.VISIBLE);
-                if (getItem(position).get("over_time").equals("0")) {
-                    holder.tv_time.setText("永久有效");
-                } else {
-                    holder.tv_time.setText(getItem(position).get("over_time"));
-                }
-            } else {
+                holder.im.setImageResource(R.mipmap.icon_vip_h);
+            }
+            if (is_discount.equals("2")) { // 推广
+                holder.im.setVisibility(View.VISIBLE);
+                holder.im.setImageResource(R.mipmap.icon_vip_t);
+            }
+            if (!getItem(position).get("is_get").equals("0")) { // 没有获得该权限
+//                holder.im.setVisibility(View.VISIBLE);
+                String over_time = getItem(position).get("over_time");
+                holder.tv_time.setText(over_time.equals("0") ? "永久有效" : over_time);
+            } else { // 否则已获得该权限
                 holder.tv_time.setText("点击查看" + getItem(position).get("rank_name") + "权益详情");
+//                holder.im.setVisibility(View.GONE);
             }
 
             // 设置字体颜色
@@ -253,7 +234,7 @@ public class _GradeOfMemberAty extends BaseAty {
                         bundle.putString("member_coding", getItem(position).get("member_coding"));
                         startActivity(VipDetailsAty.class, bundle);
                     }
-
+                    finish();
                 }
             });
         }

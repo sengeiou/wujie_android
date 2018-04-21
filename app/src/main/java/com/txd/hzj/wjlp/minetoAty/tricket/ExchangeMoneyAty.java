@@ -131,6 +131,8 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.password_et)
     EditText password_et;
 
+    private boolean isClick = false; // 提交按钮是否点击
+
     private CommonPopupWindow commonPopupWindow;
     private String rate;
     private String balanceStr; // 余额数值
@@ -157,51 +159,53 @@ public class ExchangeMoneyAty extends BaseAty {
 
 //                1:积分转余额 2：提现
                 if (type == 1) {
-//                    String[] split = msubmit_op_tv
                     money_ev.setText(myChangeIntegralStr);
                 } else {
                     money_ev.setText(balanceStr);
                 }
 
+
                 break;
 
             case R.id.submit_op_tv:// 确认，提交
 
-                moneyStr = money_ev.getText().toString();
-                if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
-                    showErrorTip("请输入有效数字");
-                    break;
-                }
+                if (!isClick) { // 如果没有点击
+                    moneyStr = money_ev.getText().toString();
+                    if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
+                        showErrorTip("请输入有效数字");
+                        break;
+                    }
 
 //                1:积分转余额 2：提现
-                if (type == 1) {
-                    if (Double.parseDouble(moneyStr) - Double.parseDouble(myChangeIntegralStr) > 0) {
-                        // 如果输入数值大于总积分
-                        showErrorTip("积分不足，请检查积分剩余量");
-                        break;
-                    } else {
-                        //  调用积分转余额接口进行操作
-                        User.changeIntegral(this, moneyStr);
-                    }
-                } else {
-                    if (TextUtils.isEmpty(bank_card_id)) {
-                        showErrorTip("请选择银行卡");
-                        break;
-                    }
-                    if (Double.parseDouble(moneyStr) - Double.parseDouble(balanceStr) > 0) {
-                        // 如果输入提现数值大于总余额
-                        showErrorTip("余额不足，请检查账户余额");
-                        break;
-                    } else {
-                        if (TextUtils.isEmpty(password_et.getText().toString())) {
-                            showErrorTip("请输入支付密码");
+                    if (type == 1) {
+                        if (Double.parseDouble(moneyStr) - Double.parseDouble(myChangeIntegralStr) > 0) {
+                            // 如果输入数值大于总积分
+                            showErrorTip("积分不足，请检查积分剩余量");
                             break;
                         } else {
-                            User.verificationPayPwd(this, password_et.getText().toString());
+                            isClick = true; // 所有设置都正确则将按钮点击标识设为true，禁止连续点击
+                            User.changeIntegral(this, moneyStr); //  调用积分转余额接口进行操作
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(bank_card_id)) {
+                            showErrorTip("请选择银行卡");
+                            break;
+                        }
+                        if (Double.parseDouble(moneyStr) - Double.parseDouble(balanceStr) > 0) {
+                            // 如果输入提现数值大于总余额
+                            showErrorTip("余额不足，请检查账户余额");
+                            break;
+                        } else {
+                            if (TextUtils.isEmpty(password_et.getText().toString())) {
+                                showErrorTip("请输入支付密码");
+                                break;
+                            } else {
+                                isClick = true; // 所有设置都正确则将按钮点击标识设为true，禁止连续点击，在验证密码处验证失败再次设置为未点击状态
+                                User.verificationPayPwd(this, password_et.getText().toString());
+                            }
                         }
                     }
                 }
-
                 break;
         }
     }
@@ -312,6 +316,7 @@ public class ExchangeMoneyAty extends BaseAty {
                 UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
 //                }
             } else {
+                isClick = false;
                 showErrorTip(map.get("message"));
             }
         }

@@ -15,6 +15,8 @@ package com.txd.hzj.wjlp;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
@@ -74,8 +76,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void onCreate() {
       //  FreelineCore.init(this);
         super.onCreate();
-        L.isDebug = false; // 头部header正式
-//        L.isDebug = true; // 头部header测试
+//        L.isDebug = false; // 头部header正式
+        L.isDebug = true; // 头部header测试
         MultiDex.install(this);
         applicationContext = this;
         instance = this;
@@ -184,5 +186,14 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     public void removeLisetener() {
         EMClient.getInstance().chatManager().removeMessageListener(this);
+    }
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
     }
 }

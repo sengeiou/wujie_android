@@ -881,7 +881,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     private void showDownloadDialog(UpdataApp appUpdateInfo) {
 
-//        //通过浏览器去下载APK
+//        // 通过浏览器去下载APK
 //        Intent intent = new Intent();
 //        intent.setAction("android.intent.action.VIEW");
 //        Uri content_url = Uri.parse(appUpdateInfo.getData().getUrl());
@@ -972,12 +972,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * 开启通知栏
      */
     private void startNotifyProgress() {
-        //设置想要展示的数据内容
+        // 设置想要展示的数据内容
         Intent intent = new Intent(this, SetAty.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent rightPendIntent = PendingIntent.getActivity(this,
                 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        int smallIcon = R.mipmap.ic_launcher;
+        int smallIcon = R.mipmap.wjyp2;
         String ticker = "正在下载无界优品更新包...";
         //实例化工具类，并且调用接口
         notifyUtils = new NotifyUtil(this, 0);

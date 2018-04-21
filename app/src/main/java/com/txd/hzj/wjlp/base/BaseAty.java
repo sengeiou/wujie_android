@@ -2,6 +2,8 @@ package com.txd.hzj.wjlp.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -351,5 +353,14 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         intent.setData(data);
         startActivity(intent);
     }
+
+//    @Override
+//    public Resources getResources() {
+//        Resources res = super.getResources();
+//        Configuration config = new Configuration();
+//        config.setToDefaults();
+//        res.updateConfiguration(config, res.getDisplayMetrics());
+//        return res;
+//    }
 
 }

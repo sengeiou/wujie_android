@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.tamic.novate.Novate;
 import com.tamic.novate.Throwable;
@@ -81,7 +82,7 @@ public class SortCityActivity extends Activity {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("region_id", "");
         new Novate.Builder(this)
-                .baseUrl("http://test.wujiemall.com/index.php/Api/")
+                .baseUrl(Config.BASE_URL)
                 .build()
                 .rxPost("Address/getRegion", parameters, new RxStringCallback() {
 

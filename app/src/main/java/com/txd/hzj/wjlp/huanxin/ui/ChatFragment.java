@@ -78,7 +78,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         super.setUpView();
         // set click listener
         titleBar.setLeftLayoutClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 if (EasyUtils.isSingleActivity(getActivity())) {
@@ -91,7 +90,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         ((EaseEmojiconMenu) inputMenu.getEmojiconMenu()).addEmojiconGroup(EmojiconExampleGroupData.getData());
         if (chatType == EaseConstant.CHATTYPE_GROUP) {
             inputMenu.getPrimaryMenu().getEditText().addTextChangedListener(new TextWatcher() {
-
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     if (count == 1 && "@".equals(String.valueOf(s.charAt(start)))) {
@@ -126,20 +124,18 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_CONTEXT_MENU) {
             switch (resultCode) {
-                case ContextMenuActivity.RESULT_CODE_COPY: // copy
-                    clipboard.setPrimaryClip(ClipData.newPlainText(null,
-                            ((EMTextMessageBody) contextMenuMessage.getBody()).getMessage()));
+                case ContextMenuActivity.RESULT_CODE_COPY: // 复制
+                    clipboard.setPrimaryClip(ClipData.newPlainText(null, ((EMTextMessageBody) contextMenuMessage.getBody()).getMessage()));
                     break;
-                case ContextMenuActivity.RESULT_CODE_DELETE: // delete
+                case ContextMenuActivity.RESULT_CODE_DELETE: // 删除
                     conversation.removeMessage(contextMenuMessage.getMsgId());
                     messageList.refresh();
                     break;
 
-                case ContextMenuActivity.RESULT_CODE_FORWARD: // forward
+                case ContextMenuActivity.RESULT_CODE_FORWARD: // 转发
                     Intent intent = new Intent(getActivity(), ForwardMessageActivity.class);
                     intent.putExtra("forward_msg_id", contextMenuMessage.getMsgId());
                     startActivity(intent);
-
                     break;
 
                 default:
@@ -148,7 +144,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         }
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_SELECT_VIDEO: //send the video
+                case REQUEST_CODE_SELECT_VIDEO: // 发送视频
                     if (data != null) {
                         int duration = data.getIntExtra("dur", 0);
                         String videoPath = data.getStringExtra("path");
@@ -165,7 +161,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                         }
                     }
                     break;
-                case REQUEST_CODE_SELECT_FILE: //send the file
+                case REQUEST_CODE_SELECT_FILE: // 发送文件
                     if (data != null) {
                         Uri uri = data.getData();
                         if (uri != null) {
@@ -202,7 +198,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
 
     @Override
     public void onEnterToChatDetails() {
-
     }
 
     @Override
@@ -219,9 +214,14 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     }
 
 
+    /**
+     * 点击消息气泡
+     * @param message
+     * @return
+     */
     @Override
     public boolean onMessageBubbleClick(EMMessage message) {
-        //消息框点击事件，demo这里不做覆盖，如需覆盖，return true
+        // 消息框点击事件，demo这里不做覆盖，如需覆盖，return true
         return false;
     }
 
@@ -236,6 +236,10 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         super.onCmdMessageReceived(messages);
     }
 
+    /**
+     * 长按消息气泡
+     * @param message
+     */
     @Override
     public void onMessageBubbleLongClick(EMMessage message) {
         // no message forward when in chat room
@@ -257,11 +261,11 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
     }
 
     /**
-     * select file
+     * 查询本地文件
      */
     protected void selectFileFromLocal() {
         Intent intent = null;
-        if (Build.VERSION.SDK_INT < 19) { //api 19 and later, we can't use this way, demo just select from images
+        if (Build.VERSION.SDK_INT < 19) { // api 19 and later, we can't use this way, demo just select from images
             intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("*/*");
             intent.addCategory(Intent.CATEGORY_OPENABLE);

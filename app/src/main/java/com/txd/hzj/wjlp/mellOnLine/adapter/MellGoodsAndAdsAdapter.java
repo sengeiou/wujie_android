@@ -124,6 +124,8 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         switch (type) {
             case 0:// TODO==========店铺首页==========
 
+                holder.image_for_mell1.setVisibility(View.GONE);
+
                 ViewGroup.LayoutParams lp = holder.image_for_mell.getLayoutParams();
                 lp.width = adsSize;
                 lp.height = adsSize * 2 / 3 ;
@@ -411,12 +413,11 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         /**
          * 广告
          */
-//        @ViewInject(R.id.image_for_mell)
-//        private ShapedImageView image_for_mell;
-
         @ViewInject(R.id.image_for_mell)
         private ImageView image_for_mell;
 
+        @ViewInject(R.id.image_for_mell1)
+        private ImageView image_for_mell1;
 
         /**
          * 原价

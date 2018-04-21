@@ -45,7 +45,7 @@ public class ShareAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder vh;
-        if(convertView==null){
+        if(convertView == null){
             vh = new ViewHolder();
             convertView = View.inflate(context, R.layout.item_share_grade_lv,null);
             vh.rank_item_haed_iv = convertView.findViewById(R.id.rank_item_haed_iv);
@@ -59,8 +59,6 @@ public class ShareAdapter extends BaseAdapter {
             vh = (ViewHolder) convertView.getTag();
         }
 
-
-
         Glide.with(context).load(list.get(position).getHead_pic())
                 .override(ToolKit.dip2px(context, 80), ToolKit.dip2px(context, 80))
                 .placeholder(R.drawable.ic_default)
@@ -71,7 +69,6 @@ public class ShareAdapter extends BaseAdapter {
         vh.rank_nickname_Tv.setText(list.get(position).getNickname());
 
         vh.rank_num_tv.setText(list.get(position).getNum());
-
 
         return convertView;
     }

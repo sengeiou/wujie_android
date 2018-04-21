@@ -64,7 +64,6 @@ public class TricketDetailks {
     public String memberCoding;
 
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-//            log_id, String act_type,String act_id, String add_sub, String imgStr) {
             log_id, String act_type,String act_id, String add_sub, String imgStr, String memberCoding) {
         this.sticky = sticky;
         this.name = name;

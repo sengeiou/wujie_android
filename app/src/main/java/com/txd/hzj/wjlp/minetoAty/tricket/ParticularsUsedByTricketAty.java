@@ -112,7 +112,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             titlt_conter_tv.setText("余额明细");
         } else if (4 == from) {
             titlt_conter_tv.setText("线下充值");
-        } else {
+        } else if (5 == from) {
             titlt_conter_tv.setText("成长值明细");
         }
 
@@ -275,9 +275,9 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         for (Map<String, String> temp2 : list_temp) {
                             boolean inMemberCoding = false; // 存在会员编号
                             for (Map.Entry<String, String> entry : temp2.entrySet()) {
-                                if (entry.getKey().equals("member_coding")){
+                                if (entry.getKey().equals("member_coding")) {
                                     inMemberCoding = true;
-                                }else {
+                                } else {
                                     inMemberCoding = false;
                                 }
                             }
@@ -309,15 +309,15 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         for (Map<String, String> temp2 : list_temp) {
                             boolean inMemberCoding = false; // 存在会员编号
                             for (Map.Entry<String, String> entry : temp2.entrySet()) {
-                                if (entry.getKey().equals("member_coding")){
+                                if (entry.getKey().equals("member_coding")) {
                                     inMemberCoding = true;
-                                }else {
+                                } else {
                                     inMemberCoding = false;
                                 }
                             }
                             list.add(new TricketDetailks(time, "线下充值", temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("refuse_desc"), temp2.get("id"),
-                                    temp2.get("status"), "", temp2.get("add_sub"), temp2.get("img"), inMemberCoding?temp2.get("member_coding"):""));
+                                    temp2.get("status"), "", temp2.get("add_sub"), temp2.get("img"), inMemberCoding ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();
@@ -404,21 +404,25 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         if (requestUrl.contains("userDevelopLog")) {
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
-                    list.clear();
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                    list.removeAll(list);
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
-                        String time = temp.get("time");// 悬浮部分
+                        String time = temp.get("time"); // 悬浮部分
                         ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
+                        L.e("list_temp time:" + time);
+                        L.e("list_temp:" + list_temp.toString());
                         for (Map<String, String> temp2 : list_temp) {
-                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
-                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                            L.e("list_temp temp2:" + temp2.toString());
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"), temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", "", "", temp2.get("img"), ""));
                         }
                     }
+                    L.e("list_temp:" + list.toString());
+                    L.e("list_temp from:" + from);
                     stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
                     tricket_rv.setAdapter(stickyExampleAdapter);
 
-                    lv_layout.setVisibility(View.VISIBLE);
-                    no_data_layout.setVisibility(View.GONE);
                 } else {
                     lv_layout.setVisibility(View.GONE);
                     no_data_layout.setVisibility(View.VISIBLE);
@@ -432,11 +436,9 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");
-                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
-                                ("list"));
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
                         for (Map<String, String> temp2 : list_temp) {
-                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
-                                    temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"), temp2.get("get_point"), temp2.get("reason"), temp2.get("log_id"), "", "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10") ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();
@@ -455,12 +457,12 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");// 悬浮部分
-                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get
-                                ("list"));
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
-                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"),
+                                    temp2.get("act_type").equals("10") ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
@@ -486,7 +488,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                         for (Map<String, String> temp2 : list_temp) {
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("use_integral"), temp2.get("reason"), temp2.get("log_id"),
-                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10") ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();
@@ -510,7 +512,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                             String name = ActTypeForName(temp2);
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("reason"), temp2.get("order_id"),
-                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10") ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
@@ -536,7 +538,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                             String name = ActTypeForName(temp2);
                             list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
                                     temp2.get("money"), temp2.get("reason"), temp2.get("order_id"),
-                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10")?temp2.get("member_coding"):""));
+                                    temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("act_type").equals("10") ? temp2.get("member_coding") : ""));
                         }
                     }
                     stickyExampleAdapter.notifyDataSetChanged();

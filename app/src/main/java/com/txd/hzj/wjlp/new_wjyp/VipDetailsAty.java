@@ -80,6 +80,7 @@ public class VipDetailsAty extends BaseAty {
 //                    bundle.putString("data", data);
                     bundle.putString("order_id", "");
                     startActivity(VipPayAty.class, bundle);
+                    finish();
                 } else {
                     showToast("此会员级别禁止申请");
                 }

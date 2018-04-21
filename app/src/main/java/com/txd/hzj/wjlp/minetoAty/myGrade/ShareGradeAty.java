@@ -112,9 +112,6 @@ public class ShareGradeAty extends BaseAty {
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
-//    @ViewInject(R.id.grade_ssr_layout)
-//    private SuperSwipeRefreshLayout swipe_refresh;
-
     // Header View
     private ProgressBar progressBar;
     private TextView textView;
@@ -355,35 +352,35 @@ public class ShareGradeAty extends BaseAty {
                     recommend_num_tv.setText(data.get("recommend_num"));
                     if (ToolKit.isList(data, "rank_list")) {
                         rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
-                        L.e("========rankList========" + rankList.toString());
-                        my_share_grade_lv.setAdapter(rankingListAdapter);
+                        if (rankList.size() > 0) {
+                            my_share_grade_lv.setAdapter(rankingListAdapter);
+                        } else {
+                            footerImageView.setVisibility(View.VISIBLE);
+                            footerProgressBar.setVisibility(View.GONE);
+                        }
                     }
-
                     if (!frist) {
-//                        swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
-
                 } else {
                     if (ToolKit.isList(data, "rank_list")) {
-                        rankList.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")));
-                        L.e("========rankList========" + rankList.toString());
-                        my_share_grade_lv.setAdapter(rankingListAdapter);
+                        ArrayList<Map<String, String>> rank_list = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
+                        if (rank_list.size() > 0) {
+                            rankList.addAll(rank_list);
+                            rankingListAdapter.notifyDataSetChanged();
+                        } else {
+                            showToast("已经是最后一页，没有更多数据了");
+                        }
                     }
-                    footerImageView.setVisibility(View.VISIBLE);
-                    footerProgressBar.setVisibility(View.GONE);
-//                    swipe_refresh.setLoadMore(false);
                 }
             } else {
                 if (1 == p) {
                     if (!frist) {
-//                        swipe_refresh.setRefreshing(false);
                         progressBar.setVisibility(View.GONE);
                     }
                 } else {
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
-//                    swipe_refresh.setLoadMore(false);
                 }
             }
             rankingListAdapter.notifyDataSetChanged();
@@ -449,7 +446,6 @@ public class ShareGradeAty extends BaseAty {
                 if (p <= 1) {
                     rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 前三名勋章隐藏
                     rlvh.top_three_iv.setVisibility(View.VISIBLE); // 头饰显示
-//                R.drawable.icon_ranking_1
                     imageId = getResources().getIdentifier("icon_ranking_" + i, "drawable", getPackageName());
                     rlvh.top_three_iv.setImageResource(imageId);
                 } else {
@@ -518,7 +514,7 @@ public class ShareGradeAty extends BaseAty {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("region_id", "");
         new Novate.Builder(this)
-                .baseUrl("http://test.wujiemall.com/index.php/Api/")
+                .baseUrl(Config.BASE_URL)
                 .build()
                 .rxPost("Address/getRegion", parameters, new RxStringCallback() {
 

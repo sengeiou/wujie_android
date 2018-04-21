@@ -185,7 +185,7 @@ public class VipPayAty extends BaseAty {
                     return;
                 }
 
-                //余额支付
+                // 余额支付
                 User.settings(this);
                 showProgressDialog();
 
@@ -548,8 +548,8 @@ public class VipPayAty extends BaseAty {
             maps = JSONUtils.parseKeyAndValueToMap(maps.get("data"));
             if (maps.get("status").equals("1")) {
 //                if (pay_by_balance_cb.isChecked()) {
-                //验证成功
-                //余额支付
+                // 验证成功
+                // 余额支付
                 MemberOrder.setOrder(member_coding, String.valueOf(num), getType(), type, order_id, this);
                 showProgressDialog();
 //                }

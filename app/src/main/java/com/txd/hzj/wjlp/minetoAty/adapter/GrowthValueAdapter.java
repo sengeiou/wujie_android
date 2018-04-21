@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.StringUtils;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -62,6 +64,10 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
     @Override
     public void onBindViewHolder(final GVViewHolder holder, int position) {
         Map<String, String> map = list.get(position);
+
+        holder.value_head_imgv.setVisibility(View.VISIBLE);
+        Glide.with(context).load(map.get("icon")).into(holder.value_head_imgv);
+
         // 最后一条隐藏分割线
         if (position == (getItemCount() - 1)) {
             holder.bottom_view.setVisibility(View.GONE);
@@ -131,6 +137,12 @@ public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.
          */
         @ViewInject(R.id.get_value_tv)
         private TextView get_value_tv;
+
+        /**
+         * 图标
+         */
+        @ViewInject(R.id.value_head_imgv)
+        private ImageView value_head_imgv;
 
         /**
          * 成长值(说明文字)

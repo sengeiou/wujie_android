@@ -38,6 +38,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
      * 2.积分明细
      * 3.余额明细
      * 4.线下充值
+     * 5.成长值明细
      */
     private int type = 1;
 
@@ -90,8 +91,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 查看详情
             if (type == 4 || type == 3 || type == 1){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
+            } else {
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
             }
-            // 查看详情点击时间
+            // 查看详情点击事件
             recyclerViewHolder.check_details_for_balance_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -154,7 +157,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
 //            }
 
-            if (1 == type) {// 购物券明细
+            if (1 == type) { // 购物券明细
                 // 获得，消费积分(转出，消费) add_sub: 0加 1减
                 if (stickyExampleModel.getAdd_sub().equals("0")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
@@ -167,6 +170,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(res);
             } else if (2 == type) { // 积分明细
                 // 获得，消费积分 add_sub：0减 1加
+                recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE); // 积分明细不显示查看详情
                 if (stickyExampleModel.getAct_type().equals("1") || stickyExampleModel.getAct_type().equals("3")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
                 } else {
@@ -179,17 +183,17 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
                 if (stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
+                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
-
-
-
-            } else if (4 == type) {
+            } else if (4 == type) { // 线下充值
                 recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv); // ==================================================================================
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
+            } else if (5 == type) { // 成长值明细
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }
         }
     }

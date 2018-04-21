@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -145,7 +146,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
     @ViewInject(R.id.user_nickname_tv)
     private ClearEditText user_nickname_tv;
     /**
-     * 这是姓名
+     * 真实姓名
      */
     @ViewInject(R.id.user_real_name_tv)
     private TextView user_real_name_tv;
@@ -154,6 +155,12 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
      */
     @ViewInject(R.id.user_card_num_tv)
     private TextView user_card_num_tv;
+
+    /**
+     * 实名认证的容器，真实姓名、身份证号、性别
+     */
+    @ViewInject(R.id.user_authStatus_layout)
+    private LinearLayout user_authStatus_layout;
 
     /**
      * 邮箱
@@ -256,7 +263,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     .override(size, size).into(img_head_edit);
             auth_status = data.get("auth_status");
 
-            if (auth_status.equals("0") || auth_status.equals("3")){
+            if (!auth_status.equals("2")){ // 未实名认证或实名认证未通过或是认证中需要隐藏掉这三项，只有已认证状态才显示这三项
+                user_authStatus_layout.setVisibility(View.GONE);
                 // 未实名认证，真实姓名，身份证号，性别显示灰色字体
                 user_real_name_tv.setTextColor(Color.parseColor("#BCBBC1"));
                 user_card_num_tv.setTextColor(Color.parseColor("#BCBBC1"));
@@ -294,6 +302,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         }
         if (requestUrl.contains("editInfo")) {
             super.onComplete(requestUrl, jsonStr);
+            L.e("======editInfo==========" + jsonStr);
             showRightTip("修改成功");
             finish();
         }
@@ -382,8 +391,8 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 startActivityForResult(TextListAty.class, bundle, 101);
                 break;
             case R.id.titlt_right_tv:// 保存
-                nickname = user_nickname_tv.getText().toString();
-                email = user_email_ev.getText().toString();
+                nickname = user_nickname_tv.getText().toString().trim();
+                email = user_email_ev.getText().toString().trim();
                 //2018.2.23 个人信息不能为空
                 if (user_nickname_tv.getText().toString().trim().equals("")) {
                     showToast("昵称不能为空");

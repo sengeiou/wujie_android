@@ -1044,8 +1044,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"), 2, Color.parseColor("#FD8214"));
-            tv_freight.setText(map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"));
+//            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"), 2, Color.parseColor("#FD8214"));
+            freight_tv.setText(map.get("pay"));
+            freight_tv.setTextColor(Color.parseColor("#FD8214"));
+            tv_freight.setText(map.get("pay"));
         }
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
             L.e("cccc" + jsonStr);
@@ -1076,7 +1078,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
             goodsName = goodsInfo.get("goods_name");
             forGoodsInfo(goodsInfo);
-            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+
+            tv_jgsm.setText(data.get("price_desc")); // 价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {
                 if (page == 1) {
                     ticket = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
