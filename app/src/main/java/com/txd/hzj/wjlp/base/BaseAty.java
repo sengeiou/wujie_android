@@ -308,22 +308,18 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
     @Override
     public void onCmdMessageReceived(List<EMMessage> var1) {
-
     }
 
     @Override
     public void onMessageRead(List<EMMessage> var1) {
-
     }
 
     @Override
     public void onMessageDelivered(List<EMMessage> var1) {
-
     }
 
     @Override
     public void onMessageChanged(EMMessage var1, Object var2) {
-
     }
 
     @Override

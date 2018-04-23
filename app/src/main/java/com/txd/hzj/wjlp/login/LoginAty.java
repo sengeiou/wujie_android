@@ -25,6 +25,7 @@ import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.mob.tools.utils.UIHandler;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -149,12 +150,27 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.longin_title_layout);
+
+        if (DemoApplication.LOGIN_ACTIVITY_IS_RUN){
+            finish();
+        }
+
         toChangeTextViewStatus(0);
         for_third_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bg_color));
 
+        ChangeTextViewStyle.getInstance().forTextColor(this, terms_of_service_tv, "继续表示已经阅读并同意《服务条款》", 11, ContextCompat.getColor(this, R.color.theme_color));
+    }
 
-        ChangeTextViewStyle.getInstance().forTextColor(this, terms_of_service_tv, "继续表示已经阅读并同意《服务条款》", 11,
-                ContextCompat.getColor(this, R.color.theme_color));
+    @Override
+    protected void onStart() {
+        super.onStart();
+        DemoApplication.LOGIN_ACTIVITY_IS_RUN = true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DemoApplication.LOGIN_ACTIVITY_IS_RUN = false;
     }
 
     @Override

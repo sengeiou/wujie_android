@@ -27,6 +27,7 @@ import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.baidu.mapapi.SDKInitializer;
 import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
@@ -49,7 +50,9 @@ import cn.sharesdk.framework.ShareSDK;
  * 描述：环信Demo的Application
  * ===============Txunda===============
  */
-public class DemoApplication extends WeApplication implements EMMessageListener {
+public class DemoApplication extends WeApplication implements EMMessageListener{
+
+    public static boolean LOGIN_ACTIVITY_IS_RUN = false;
 
     public static Context applicationContext;
     private static DemoApplication instance;
