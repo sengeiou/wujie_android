@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.myGrade;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -24,6 +25,9 @@ import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.Poi;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -34,6 +38,7 @@ import com.tamic.novate.Novate;
 import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.DemoApplication;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.citySelect.CitySelectAty;
@@ -244,7 +249,6 @@ public class ShareGradeAty extends BaseAty {
     @Override
     protected void initialized() {
         userPst = new UserPst(this);
-        city_name = DemoApplication.getInstance().getLocInfo().get("city");
         rankingListAdapter = new RankingListAdapter();
         rankList = new ArrayList<>();
         size = ToolKit.dip2px(this, 80);
@@ -337,10 +341,11 @@ public class ShareGradeAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("gradeRank")) {
-            rankList.removeAll(rankList);
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                L.e("=========page===========" + p);
                 if (1 == p) {
+                    rankList.removeAll(rankList);
                     Glide.with(this).load(data.get("head_pic"))
                             .override(size, size)
                             .placeholder(R.drawable.ic_default)
@@ -432,31 +437,21 @@ public class ShareGradeAty extends BaseAty {
                 }
             }
 
-            if (i < 5 && i >= 3) {// 第四名和第五名
-                if (p <= 1) {
-                    rlvh.top_from_four_to_five_iv.setVisibility(View.VISIBLE); // 4到5右下角勋章显示
-                    rlvh.top_three_iv.setVisibility(View.GONE); // 头饰隐藏
-                    imageId = getResources().getIdentifier("icon_ranking_" + i, "drawable", getPackageName());
-                    rlvh.top_from_four_to_five_iv.setImageResource(imageId);
-                } else {
-                    rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 4到5右下角勋章隐藏
-                    rlvh.top_three_iv.setVisibility(View.GONE); // 头饰隐藏
-                }
+            if (i < 100 && i >= 3) {// 第四名和第五名
+                rlvh.top_from_four_to_five_iv.setVisibility(View.VISIBLE); // 4到5右下角勋章显示
+                rlvh.top_three_iv.setVisibility(View.GONE); // 头饰隐藏
+                imageId = getResources().getIdentifier("icon_ranking_more", "drawable", getPackageName());
+                rlvh.top_from_four_to_five_iv.setImageResource(imageId);
+                rlvh.top_from_four_to_five_tv.setText((i + 1) + "");
             } else if (i < 3) { // 前三名
-                if (p <= 1) {
-                    rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 前三名勋章隐藏
-                    rlvh.top_three_iv.setVisibility(View.VISIBLE); // 头饰显示
-                    imageId = getResources().getIdentifier("icon_ranking_" + i, "drawable", getPackageName());
-                    rlvh.top_three_iv.setImageResource(imageId);
-                } else {
-                    rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 勋章隐藏
-                    rlvh.top_three_iv.setVisibility(View.GONE); // 头饰隐藏
-                }
+                rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 前三名勋章隐藏
+                rlvh.top_three_iv.setVisibility(View.VISIBLE); // 头饰显示
+                imageId = getResources().getIdentifier("icon_ranking_" + i, "drawable", getPackageName());
+                rlvh.top_three_iv.setImageResource(imageId);
             } else {
                 rlvh.top_from_four_to_five_iv.setVisibility(View.GONE);
                 rlvh.top_three_iv.setVisibility(View.GONE);
             }
-
 
             Glide.with(ShareGradeAty.this).load(rank.get("head_pic"))
                     .override(size, size)
@@ -482,7 +477,11 @@ public class ShareGradeAty extends BaseAty {
              */
             @ViewInject(R.id.top_from_four_to_five_iv)
             private ImageView top_from_four_to_five_iv;
-
+            /**
+             * 第四第五的标签
+             */
+            @ViewInject(R.id.top_from_four_to_five_tv)
+            private TextView top_from_four_to_five_tv;
             /**
              * 头像
              */
@@ -537,6 +536,9 @@ public class ShareGradeAty extends BaseAty {
                                 list.add(region_name); // 给List中添加城市名称 region_name
                             }
 
+                            SharedPreferences pref = getSharedPreferences("HistoricalCity", MODE_PRIVATE);
+                            String historicalCityStr = pref.getString("historicalCity", ""); // 第二个参数为默认值
+
                             new EasySideBarBuilder(ShareGradeAty.this)
                                     .setTitle("城市选择")
                         /*.setIndexColor(Color.BLUE)*/
@@ -545,6 +547,7 @@ public class ShareGradeAty extends BaseAty {
                                     .setHotCityList(list) // 热门城市列表
                                     .setIndexItems(mIndexItems) // 索引字母
                                     .setLocationCity("天津") // 定位城市
+                                    .setHistoricalCity(historicalCityStr) // 上次选择的城市
                                     .setMaxOffset(60) // 索引的最大偏移量
                                     .start();
                         } catch (JSONException e) {
@@ -584,9 +587,7 @@ public class ShareGradeAty extends BaseAty {
                     left_view.setBackgroundColor(Color.parseColor("#E60012"));
                     type = "share";
 
-                    L.e(grade_location_tv.getText().toString() + "当前城市");
                     city_name = grade_location_tv.getText().toString();
-                    L.e("====================================================");
                     userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
                 }
                 break;

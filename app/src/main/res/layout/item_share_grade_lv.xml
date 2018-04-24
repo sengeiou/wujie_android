@@ -31,12 +31,26 @@
             android:src="@drawable/icon_ranking_0"
             android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/top_from_four_to_five_iv"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/icon_ranking_4" />
+            android:layout_gravity="bottom|start">
+
+            <ImageView
+                android:id="@+id/top_from_four_to_five_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_ranking_more" />
+
+            <TextView
+                android:id="@+id/top_from_four_to_five_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </RelativeLayout>
     </FrameLayout>
 
     <TextView

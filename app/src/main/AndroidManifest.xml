@@ -580,7 +580,6 @@
         <!-- 城市列表 -->
         <activity android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"
             android:windowSoftInputMode = "adjustPan">
-
         </activity>
 
         <!-- 环信相关服务等 ↓ BEGIN -->

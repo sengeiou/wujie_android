@@ -24,6 +24,7 @@ public class EasySideBarBuilder {
     private boolean isLazyRespond;
     private  String[] indexItems;
     private String LocationCity;
+    private String HistoricalCity;
     private int indexColor= 0xFF666666;//默认索引文字颜色
     private int maxOffset = 80;
 
@@ -61,6 +62,10 @@ public class EasySideBarBuilder {
         this.HotCityList = HotCityList;
         return this;
     }
+    public EasySideBarBuilder setHistoricalCity(String historicalCity){
+        this.HistoricalCity = historicalCity;
+        return this;
+    }
 
     public void start(){
         Activity activity = (Activity) mContext;
@@ -69,6 +74,7 @@ public class EasySideBarBuilder {
         intent.putExtra("isLazyRespond",isLazyRespond);
         intent.putExtra("indexItems",indexItems);
         intent.putExtra("LocationCity",LocationCity);
+        intent.putExtra("HistoricalCity",HistoricalCity);
         intent.putExtra("indexColor",indexColor);
         intent.putExtra("maxOffset",maxOffset);
         intent.putStringArrayListExtra("HotCityList",HotCityList);

@@ -153,7 +153,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
-    private LocationService locationService;
+    public static LocationService locationService;
     public static Map<String, String> GDLOC_MAP; // 高德定位信息Map
 
     private String auto_update_status; // 是否开启强制更新 0强制更新 1可以不更新
@@ -183,9 +183,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
         locationService = DemoApplication.getInstance().locationService;
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+        // 获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
         locationService.registerListener(mListener);
-        //注册监听
+        // 注册监听
         int type = getIntent().getIntExtra("from", 0);
         if (type == 0) {
             locationService.setLocationOption(locationService.getDefaultLocationClientOption());
@@ -1156,7 +1156,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
-
             }
         }
 

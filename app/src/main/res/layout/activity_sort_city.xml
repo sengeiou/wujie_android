@@ -6,46 +6,65 @@
     android:background="@color/color_background"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:background="#0088CC">
 
-   <RelativeLayout
-       android:layout_width="match_parent"
-       android:layout_height="46dp"
-       android:background="#0088CC">
-
-       <ImageView
-           android:id="@+id/iv_back"
-           android:layout_width="wrap_content"
-           android:layout_height="match_parent"
-           android:src="@mipmap/ic_back"
-           android:padding="12dp"/>
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@mipmap/ic_back" />
 
 
-      <TextView
-        android:id="@+id/tv_title"
-        android:text="标题"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="10dp"
-        android:textColor="#EEEEEE"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="10dp"
+            android:text="标题"
+            android:textColor="#EEEEEE" />
 
     </RelativeLayout>
 
 
     <com.txd.hzj.wjlp.cityselect1.ac.lib.EditTextWithDel
         android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_background"
         android:hint="请输入城市名"
         android:maxLines="1"
         android:paddingLeft="10dp"
-        android:textSize="15dp"
         android:textColorHint="@android:color/darker_gray"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edit_background"
+        android:textSize="15dp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/select_btn_white_gray"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:textSize="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前-" />
+
+        <TextView
+            android:id="@+id/tv_currentCity_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -58,7 +77,6 @@
             android:layout_gravity="center"
             android:divider="@null"
             android:scrollbars="none" />
-
 
         <com.txd.hzj.wjlp.cityselect1.ac.lib.EasySideBar
             android:id="@+id/sidebar"
