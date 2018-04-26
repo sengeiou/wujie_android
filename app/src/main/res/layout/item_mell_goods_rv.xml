@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:gravity="center"
@@ -8,107 +8,114 @@
     android:padding="8dp">
 
     <LinearLayout
-        android:id="@+id/coupon_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:gravity="center_vertical">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/coupon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/logo_for_country_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_temp_han" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/use_coupon_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/shape_tv_bg_by_orange"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <ImageView
-            android:id="@+id/logo_for_country_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_temp_han" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
+            android:id="@+id/imageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/use_coupon_tv"
-            android:layout_width="wrap_content"
+            android:id="@+id/mell_goods_name_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:background="@drawable/shape_tv_bg_by_orange"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp"
-            android:textColor="@color/white"
-            android:textSize="10sp" />
-    </LinearLayout>
+            android:layout_marginBottom="4dp"
+            android:ellipsize="end"
+            android:singleLine="true" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop" />
-
-    <TextView
-        android:id="@+id/mell_goods_name_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:ellipsize="end"
-        android:singleLine="true" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/now_price_tv"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="￥ "
-            android:textColor="@color/theme_color"
-            android:textSize="16sp" />
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/older_price_tv"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/now_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥ "
+                android:textColor="@color/theme_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/older_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="￥ "
+                android:textColor="@color/gray_text_color"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom_layout_for_goods"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="￥ "
-            android:textColor="@color/gray_text_color"
-            android:textSize="13sp" />
-    </LinearLayout>
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/bottom_layout_for_goods"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/icon_send"
+                android:drawablePadding="8dp"
+                android:text="积分"
+                android:textColor="@color/gray_text_color"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/icon_send"
-            android:drawablePadding="8dp"
-            android:text="积分"
-            android:textColor="@color/gray_text_color"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/integral_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#FD8214"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/integral_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#FD8214"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/sold_num_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已售0件"
+                android:textColor="@color/gray_text_color"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/sold_num_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="已售0件"
-            android:textColor="@color/gray_text_color"
-            android:textSize="12sp" />
-
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -82,6 +82,7 @@
                             android:textSize="14sp"/>
                     </LinearLayout>
                 </LinearLayout>
+
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/mell_ads_lv"
                     android:layout_width="match_parent"

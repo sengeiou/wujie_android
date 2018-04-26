@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -758,7 +759,16 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
+        superSwipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()){
 
+                }
+
+                return false;
+            }
+        });
         superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
             @Override

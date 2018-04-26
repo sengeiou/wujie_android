@@ -4,6 +4,7 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.io.File;
 
@@ -62,6 +63,7 @@ class Register {
         params.addBodyParameter("type", type);
         params.addBodyParameter("verify", verify);
         apiTool2.postApi(url + "checkVerify", params, baseView);
+        LogUtils.i("短信验证码============"+verify+"=====================");
     }
 
     /**
