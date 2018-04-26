@@ -1,7 +1,15 @@
 [
     {
+        "merged": "D:\\AndroidApplication\\wjyp\\easeui\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\f3435b6e8c33750d5c56fa3b2f2ce6751f922323\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
         "merged": "D:\\jie_workspace\\Application\\breakup\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
         "source": "C:\\Users\\Txunda-02\\.android\\build-cache\\e63a979d9b0aafe856000717e31939d8710da2b8\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "D:\\AndroidApplication\\wjyp\\easeui\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "C:\\Users\\Administrator\\.android\\build-cache\\f3435b6e8c33750d5c56fa3b2f2ce6751f922323\\output\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
     },
     {
         "merged": "D:\\jie_workspace\\Application\\breakup\\wjlp\\easeui\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",

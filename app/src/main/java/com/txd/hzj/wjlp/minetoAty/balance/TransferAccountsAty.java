@@ -145,7 +145,7 @@ public class TransferAccountsAty extends BaseAty {
             opposite_real_name_tv.setText(real_name);
             return;
         }
-        if (requestUrl.contains("changeMoney")) {// 转账成功
+        if (requestUrl.contains("changeMoney")) { // 转账成功
             showRightTip(map != null ? map.get("message") : "转账申请中，请耐心等待");
             finish();
         }

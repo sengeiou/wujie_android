@@ -224,7 +224,7 @@ public class CartFgt extends BaseFgt {
 
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Goods/attrApi")) {
-            L.e("cart"+jsonStr);
+            L.e("cart" + jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             Intent intent = new Intent();
@@ -254,7 +254,7 @@ public class CartFgt extends BaseFgt {
             cart_bottom_lin_layout.setVisibility(View.VISIBLE);
             titlt_right_tv.setVisibility(View.VISIBLE);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
-            cartAdapter=new CartAdapter();
+            cartAdapter = new CartAdapter();
             cartAdapter.notifyDataSetChanged();
             list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
             cart_lv.setAdapter(cartAdapter);
@@ -371,7 +371,7 @@ public class CartFgt extends BaseFgt {
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {
                             is_all = true;
                             mId = shopingCart.getMerchant_id();
-                         //   showToast("请选择同商店的商品");
+                            //   showToast("请选择同商店的商品");
                             break;
                         }
                     }
@@ -384,7 +384,7 @@ public class CartFgt extends BaseFgt {
 //                        string = string.substring(0 , string.length()- 1);
                         bundle.putString("json", stringBuffer.toString());
                         startActivity(BuildOrderAty.class, bundle);
-                    }else{
+                    } else {
                         showToast("您还没有选择商品哦");
                     }
                 }
@@ -426,7 +426,7 @@ public class CartFgt extends BaseFgt {
                         }
                     }
                 }
-                if(json_list.size()==0){
+                if (json_list.size() == 0) {
                     showToast("请先选择商品");
                     return;
                 }
@@ -443,7 +443,7 @@ public class CartFgt extends BaseFgt {
     }
 
     private void toJson(int type, String json) {
-        L.e("type="+type+"\njson="+json);
+        L.e("type=" + type + "\njson=" + json);
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("cart_id_json", json);
@@ -643,17 +643,21 @@ public class CartFgt extends BaseFgt {
             // 属性
 
             String goodsAttrNameStr = cg.getGoods_attr_name();
-            int lastIndexOf = goodsAttrNameStr.lastIndexOf("+");
-            if (lastIndexOf == goodsAttrNameStr.length() - 1){
-                goodsAttrNameStr = goodsAttrNameStr.substring(0, lastIndexOf);
+            if (!goodsAttrNameStr.isEmpty() && !goodsAttrNameStr.equals("")) {
+                int lastIndexOf = goodsAttrNameStr.lastIndexOf("+");
+                if (lastIndexOf == goodsAttrNameStr.length() - 1) {
+                    goodsAttrNameStr = goodsAttrNameStr.substring(0, lastIndexOf);
+                }
             }
 
             cgvh.goods_attrs_tv.setText(goodsAttrNameStr);
-            L.e("wang", "cg.tostring=" + cg.toString());
-            cgvh.goods_jifen_tv.setText("（赠送:" + cg.getReturn_integral() + "积分）");
+            String return_integral = cg.getReturn_integral();
+            cgvh.goods_jifen_tv.setText("（赠送:" + (return_integral == null || return_integral.equals("") ? "0" : return_integral) + "积分）");
             String goods_attr_name = cg.getGoods_attr_name(); // 获取规格字符串
-            if (goods_attr_name.substring(goods_attr_name.length() - 1, goods_attr_name.length()).equals("+")) { // 如果字符串最后一位是“+”
-                goods_attr_name = goods_attr_name.substring(0, goods_attr_name.length() - 1); // 那么截取前面的字符串，去掉加号
+            if (!goods_attr_name.isEmpty() && !goods_attr_name.equals("")) { // 如果名称不为空则查找字符串最后的加号
+                if (goods_attr_name.substring(goods_attr_name.length() - 1, goods_attr_name.length()).equals("+")) { // 如果字符串最后一位是“+”
+                    goods_attr_name = goods_attr_name.substring(0, goods_attr_name.length() - 1); // 那么截取前面的字符串，去掉加号
+                }
             }
             cgvh.reset_goods_attrs_tv.setText(goods_attr_name + "(库存：" + cg.getGoods_num() + ")");
             cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
@@ -661,7 +665,7 @@ public class CartFgt extends BaseFgt {
             // 数量
             cgvh.cart_goods_num_tv.setText("x" + String.valueOf(cg.getNum()));
             cgvh.operation_goods_num_tv.setText(String.valueOf(cg.getNum()));
-            L.e("canEdit"+canEdit);
+            L.e("canEdit" + canEdit);
             if (canEdit) {
                 cgvh.cart_num_attrs_layout.setVisibility(View.VISIBLE);
                 cgvh.cart_goods_info_layout.setVisibility(View.GONE);
@@ -715,7 +719,7 @@ public class CartFgt extends BaseFgt {
                 public void onClick(View view) {
                     int num = Integer.parseInt(cg.getNum());
                     num++;
-                    if(num<=Integer.parseInt(cg.getGoods_num())){
+                    if (num <= Integer.parseInt(cg.getGoods_num())) {
                         cg.setNum(String.valueOf(num));
                         notifyDataSetChanged();
                     }
@@ -830,10 +834,11 @@ public class CartFgt extends BaseFgt {
         }
 
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void Event(MessageEvent messageEvent) {
-        if(messageEvent.getMessage().equals("更新购物车列表")){
-            if(Config.isLogin()){
+        if (messageEvent.getMessage().equals("更新购物车列表")) {
+            if (Config.isLogin()) {
 
             }
         }
@@ -851,7 +856,7 @@ public class CartFgt extends BaseFgt {
         /**
          * 解除事件总线
          */
-        if(EventBus.getDefault().isRegistered(this)) {
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
     }
