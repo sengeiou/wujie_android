@@ -153,18 +153,33 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
         MultiDex.install(this);
     }
 
+    /**
+     * 环信
+     * //收到消息
+     * @param list
+     */
     @Override
     public void onMessageReceived(List<EMMessage> list) {
         if (chatListener != null)
             chatListener.onMessageReceived(list);
     }
 
+    /**
+     * * 环信
+     * /收到透传消息
+     * @param list
+     */
     @Override
     public void onCmdMessageReceived(List<EMMessage> list) {
         if (chatListener != null)
             chatListener.onMessageReceived(list);
     }
 
+    /**
+     * 环信
+     * //收到已读回执
+     * @param list
+     */
     @Override
     public void onMessageRead(List<EMMessage> list) {
         if (chatListener != null)
@@ -177,6 +192,11 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
             chatListener.onMessageDelivered(list);
     }
 
+    /**
+     * //消息状态变动
+     * @param emMessage 环信
+     * @param o
+     */
     @Override
     public void onMessageChanged(EMMessage emMessage, Object o) {
         if (chatListener != null)
@@ -191,6 +211,10 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
         EMClient.getInstance().chatManager().removeMessageListener(this);
     }
 
+    /**
+     * 解决系统改变字体大小的时候导致的界面布局混乱的问题
+     * @return
+     */
     @Override
     public Resources getResources() {
         Resources res = super.getResources();
