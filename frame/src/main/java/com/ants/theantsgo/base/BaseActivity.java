@@ -73,6 +73,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 默认设置
      */
     public boolean changeStatusBar = true;
+    /**
+     * 上面标识是哪个哪个Activity 的rootText
+     */
     public TextView rootText;
 
     @Override
@@ -170,6 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         content.addView(main);
         rootText = new TextView(this);
         rootText.setTextSize(20);
+        rootText.setTextColor(getResources().getColor(R.color.holo_red_light));
         content.addView(rootText);
     }
 
