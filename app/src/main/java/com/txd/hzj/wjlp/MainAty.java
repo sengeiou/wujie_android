@@ -70,6 +70,7 @@ import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
+import com.txd.hzj.wjlp.tool.HongKongIdentityCard;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.NotifyUtil;
 import com.yanzhenjie.permission.AndPermission;
@@ -164,10 +165,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //        L.e(ToolKit.sHA1(this, "MD5"));
 //        L.e(ToolKit.sHA1(this, "SHA1"));
 
-
         app_main_rg.setOnCheckedChangeListener(this);
-        fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content,
-                fragments);
+        fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content, fragments);
         //申请权限
         requestSomePermission();
         // 电源管理

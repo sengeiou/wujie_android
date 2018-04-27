@@ -17,7 +17,7 @@ import lib.kingja.switchbutton.SwitchMultiButton;
 
 /**
  * 什么坑爹的认证
- *   2017/11/25.
+ * 2017/11/25.
  */
 
 public class aty_authentication extends BaseAty {
@@ -61,7 +61,7 @@ public class aty_authentication extends BaseAty {
 
     @Override
     protected void requestData() {
-        if(getIntent().getStringExtra("auth_status").equals("0")||getIntent().getStringExtra("auth_status").equals("1")||getIntent().getStringExtra("auth_status").equals("3")){
+        if (getIntent().getStringExtra("auth_status").equals("0") || getIntent().getStringExtra("auth_status").equals("1") || getIntent().getStringExtra("auth_status").equals("3")) {
             view_top.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -139,6 +139,7 @@ public class ExchangeMoneyAty extends BaseAty {
     private String myChangeIntegralStr; // 可兑换积分总数
     private String moneyStr;
     private String changeStr; // 初始获取的提示信息
+    private int rateInt; // 回传的手续费率，用于计算具体的手续费
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,33 +258,27 @@ public class ExchangeMoneyAty extends BaseAty {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (1 == type) {
-                    String integral = money_ev.getText().toString().trim(); // 获取输入的数值
-
+                String integral = money_ev.getText().toString().trim(); // 获取输入的数值
+                if (1 == type) { //
                     if (Integer.parseInt(integral.isEmpty() ? "0" : integral) > Integer.parseInt(myChangeIntegralStr)) {
-                        // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
+                        // 否则如果输入的数字值大于可兑换积分，直接设置最大积分数值
                         integral = myChangeIntegralStr;
                         money_ev.setText(myChangeIntegralStr);
                         money_ev.setSelection(myChangeIntegralStr.length());
                     }
                     User.autoChange(ExchangeMoneyAty.this, integral);
-
-
-//                    if (integral != null && !integral.isEmpty() && !integral.equals("")) { // 如果输入数值不为空
-//                        L.e("wang", "Integer.parseInt(integral):" + Integer.parseInt(integral));
-//                        L.e("wang", "Integer.parseInt(myChangeIntegralStr):" + Integer.parseInt(myChangeIntegralStr));
-//                        if (Integer.parseInt(integral) != 0 && Integer.parseInt(integral) <= Integer.parseInt(myChangeIntegralStr)) {
-//                            // 如果输入数值不为0 并且输入的数值小于等于可兑换积分数 则直接请求数据库接口
-//                            User.autoChange(ExchangeMoneyAty.this, integral);
-//                        } else if (Integer.parseInt(integral) > Integer.parseInt(myChangeIntegralStr)) {
-//                            // 否则如果输入的数字值大于可兑换积分，直接设置最积分数值
-//                            money_ev.setText(myChangeIntegralStr);
-//                            money_ev.setSelection(myChangeIntegralStr.length());
-//                            User.autoChange(ExchangeMoneyAty.this, myChangeIntegralStr);
-//                        } else if (Integer.parseInt(integral) == 0) {
-//                            operation_type_tv21.setText(changeStr);
-//                        }
-//                    }
+                } else if (type == 2) { // 提现
+                    if (Double.parseDouble(integral.isEmpty() ? "0" : integral) > Double.parseDouble(balanceStr)) {
+                        // 否则如果输入的数字值大于可提现的数值，直接设置最大提现数值
+                        integral = balanceStr; // 将最大值赋给输入的值
+                        money_ev.setText(balanceStr); // 设置最大值到输入框
+                        money_ev.setSelection(balanceStr.length()); // 设置光标显示位置到输入框末位
+                    }
+                    if (integral.isEmpty()) { // 如果没有输入或输入值为空，则不显示括号中的内容
+                        rate_tv.setText(rate + "%");
+                    } else { // 否则显示括号中具体扣除的手续费
+                        rate_tv.setText(rate + "%（需扣除" + (Double.parseDouble(integral.isEmpty() ? "0" : integral) * rateInt / 100.0) + "元手续费）");
+                    }
                 }
             }
         });
@@ -309,12 +304,7 @@ public class ExchangeMoneyAty extends BaseAty {
 
         if (urlLastStr.equals("verificationPayPwd")) {
             if (map.get("code").equals("1")) { // 返回code为1说明验证成功
-//                if (type == 1) { // 积分转余额
-//                    User.changeIntegral(this, moneyStr);
-//                } else {
-                // 余额提现操作
                 UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
-//                }
             } else {
                 isClick = false;
                 showErrorTip(map.get("message"));
@@ -348,7 +338,6 @@ public class ExchangeMoneyAty extends BaseAty {
                 e.printStackTrace();
             }
 //            myChangeIntegralStr = JSONUtils.parseKeyAndValueToMap(data.get("point_list")).get("my_change_integral");
-            L.e("wang", "=======>>>>>>>>>>> myChangeIntegralStr:" + myChangeIntegralStr);
             my_bal_tv1.setText("可兑换积分：" + myChangeIntegralStr + " "); // 显示积分总数
             rate_tv.setText(data.get("integral_percentage")); // 手续费率
 //            data.get("point_list")
@@ -368,8 +357,10 @@ public class ExchangeMoneyAty extends BaseAty {
             bal = new BigDecimal(balance);
             balanceStr = data != null ? data.get("balance").trim() : "0.00";
             my_bal_tv1.setText("我的余额" + balanceStr + " ");
-            rate_tv.setText(data.get("rate") + "%");
-            rate = data.get("rate");
+            String rate = data.get("rate"); // 获取手续费费率字符串
+            rateInt = Integer.parseInt(rate); // 将手续费率字符串转换成Int用于计算具体金额
+            rate_tv.setText(rate + "%");
+            this.rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));
         }
         if (urlLastStr.equals("autoChange")) { // 获取详情提示

@@ -545,19 +545,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     ShowPickerView();
                 }
                 break;
-            case R.id.title_goods_layout://商品
+            case R.id.title_goods_layout:// 商品
                 clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 break;
-            case R.id.title_details_layout://详情
+            case R.id.title_details_layout:// 详情
                 clickType = 2;
                 limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                 break;
-            case R.id.title_evaluate_layout://评价
+            case R.id.title_evaluate_layout:// 评价
                 clickType = 3;
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
-            case R.id.goods_title_collect_layout://收藏
+            case R.id.goods_title_collect_layout:// 收藏
                 if (!Config.isLogin()) {
                     toLogin();
                     break;
@@ -568,7 +568,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 collectPst.delOneCollect("1", goods_id);
                 break;
-            case R.id.goods_title_share_tv://分享
+            case R.id.goods_title_share_tv: // 分享
                 toShare(goodsName, share_img, share_url, share_url, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
@@ -591,32 +591,32 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //                    show_or_hide_lv_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.show_or_hide_explain_iv://展开,隐藏(无界驿站)
-                getHeight();// 重新计算高度
-                if (goods_other_info_layout.getVisibility() == View.GONE) {// 隐藏状态
+            case R.id.show_or_hide_explain_iv: // 展开,隐藏(无界驿站)
+                getHeight(); // 重新计算高度
+                if (goods_other_info_layout.getVisibility() == View.GONE) { // 隐藏状态
                     goods_other_info_layout.setVisibility(View.VISIBLE);
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_show_other_layout);
-                } else {// 显示状态
+                } else { // 显示状态
                     goods_other_info_layout.setVisibility(View.GONE);
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.be_back_top_iv://回到顶部
+            case R.id.be_back_top_iv: // 回到顶部
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 setTextViewAndViewColor(0);
                 break;
-            case R.id.go_to_cart_layout:// 购物车
+            case R.id.go_to_cart_layout: // 购物车
                 backMain(2);
                 break;
-            case R.id.be_back_main_tv:// 首页
+            case R.id.be_back_main_tv: // 首页
                 backMain(0);
                 break;
-            case R.id.details_into_mell_tv:// 进店逛逛
+            case R.id.details_into_mell_tv: // 进店逛逛
                 Bundle bundle = new Bundle();
                 bundle.putString("mell_id", mell_id);
                 startActivity(MellInfoAty.class, bundle);
                 break;
-            case R.id.to_chat_tv:// 客服
+            case R.id.to_chat_tv: // 客服
 
                 Easemob.bind(mell_id, this); // 获取商铺的环信账号
 //                toChat(easemob_account, merchant_logo, merchant_name);
@@ -875,7 +875,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
 
-    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+    public ArrayList<ProvinceForTxd> parseData(String result) { // Gson 解析
         ArrayList<ProvinceForTxd> detail = new ArrayList<>();
         try {
             JSONArray data = new JSONArray(result);
@@ -1007,9 +1007,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             }
         });
 
-
     }
-
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
@@ -1022,9 +1020,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        if (requestUrl.contains("addCart")) {
-            L.e("cccc33333333");
-        }
     }
 
     @Override
@@ -1097,15 +1092,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             Map<String, String> mInfo = JSONUtils.parseKeyAndValueToMap(data.get("mInfo"));
             forMellInfo(mInfo);
 
-//            // 促销活动
-//            if (ToolKit.isList(data, "promotion")) {
-//                promotion_layout.setVisibility(View.VISIBLE);
-//                List<PromotionBean> promotionBeen = GsonUtil.getObjectList(goodsInfo.get("promotion"), PromotionBean.class);
-//                promotionAdapter = new PromotionAdapter(this, promotionBeen);
-//                promotion_lv.setAdapter(promotionAdapter);
-//            } else {
-//                promotion_layout.setVisibility(View.GONE);
-//            }
             if (ToolKit.isList(data, "promotion")) {
                 forPromotion(data);
                 promotion_layout.setVisibility(View.VISIBLE);

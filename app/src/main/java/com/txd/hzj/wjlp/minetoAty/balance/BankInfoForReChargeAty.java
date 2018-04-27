@@ -141,8 +141,6 @@ public class BankInfoForReChargeAty extends BaseAty {
         } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
             download("UserBalance/bankList");
         }
-
-
     }
 
     @Override
@@ -171,7 +169,7 @@ public class BankInfoForReChargeAty extends BaseAty {
 //                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
                         L.e("wang", "=========>>>>>>>>>>>>response:" + response);
                         try {
-                            if (str.equals("UserBalance/bankList")) {
+                            if (str.equals("UserBalance/bankList")) { // 个人银行卡
                                 list1.removeAll(list1);
 
                                 JSONObject jsonObject = new JSONObject(response);
@@ -182,7 +180,8 @@ public class BankInfoForReChargeAty extends BaseAty {
                                     String bank_card_code = jsonObject1.getString("bank_card_code");
                                     String open_bank = jsonObject1.getString("open_bank");
                                     String bank_name = jsonObject1.getString("bank_name");
-                                    list1.add(new PtEntity(bank_card_id, bank_card_code, bank_name, open_bank, null));
+                                    String name = jsonObject1.getString("name");
+                                    list1.add(new PtEntity(bank_card_id, bank_card_code, bank_name, open_bank, name));
                                     ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this, list1);
                                     bank_info_lv.setAdapter(ptBaseAdapter);
                                     ptBaseAdapter.notifyDataSetChanged();
@@ -190,7 +189,7 @@ public class BankInfoForReChargeAty extends BaseAty {
                                 }
 
 
-                            } else if (str.equals("UserBalance/platformAccount")) {
+                            } else if (str.equals("UserBalance/platformAccount")) { // 平台银行卡
                                 list2.removeAll(list2);
 
                                 JSONObject jsonObject = new JSONObject(response);

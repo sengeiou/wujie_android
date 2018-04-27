@@ -52,7 +52,7 @@ public class PtBaseAdapter extends BaseAdapter {
             vh = (ViewHolder) convertView.getTag();
         }
         vh.bank_card_num_tv.setText(alist.get(position).getBank_card_code());
-        vh.bank_card_owner_name.setText(alist.get(position).getBank_name());
+        vh.bank_card_owner_name.setText(alist.get(position).getName());
         vh.create_card_bank_name_tv.setText(alist.get(position).getOpen_bank());
 
         return convertView;
