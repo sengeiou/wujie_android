@@ -102,8 +102,10 @@ public class GoodsAttributeAty extends BaseAty {
     private String is_attr;
     private String image;
     private List<Map<String, String>> mapList;
+    private List<Map<Integer, String>> recordMutilMapList;
+    private Map<Integer, String> recordMutilMap;
     private int position = 0;
-    private Map<Integer, String> recordMaps;//记录点击的map;
+
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
     public void onClick(View v) {
@@ -274,10 +276,8 @@ public class GoodsAttributeAty extends BaseAty {
         }
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
         mapList = JSONUtils.parseKeyAndValueToMapList(getIntent().getStringExtra("goods_val"));
-        if(null==recordMaps){
-            recordMaps=new HashMap<>();
-        }
-        list = dealData(list, list_val);
+        recordMutilMapList = new ArrayList<>();
+        list = dealData(list, list_val, 0);
         String string[] = is_attr.split("-");
         is_attr = string[0];
         if (!ListUtils.isEmpty(list) && is_attr.equals(SELECTED)) {
@@ -984,12 +984,9 @@ public class GoodsAttributeAty extends BaseAty {
         @Override
         public boolean onTagClick(View view, int position, FlowLayout parent) {
             TextView textView = (TextView) view;
-            if(null==recordMaps){
-                recordMaps=new HashMap<>();
-            }
             String valStr = textView.getText().toString();
-            recordMaps.put(tag, valStr);
-            list = dealData(list, list_val);
+            recordMutilMap.put(tag, valStr);
+            list = dealData(list, list_val, tag);
             list_attrs.put(i, goods_attr);
             if (list_attrs.size() == list.size()) {
                 StringBuffer attrs = new StringBuffer();
@@ -1032,23 +1029,34 @@ public class GoodsAttributeAty extends BaseAty {
     }
 
     private List<GoodsAttr> dealData(List<GoodsAttr> list,
-                                     List<Goods_val> list_val) {
+                                     List<Goods_val> list_val, int clickWhichPos) {
 
+        recordMutilMapList.clear();
         List<String> lists = new ArrayList<>();
         for (int bd = 0; bd < list_val.size(); bd++) {
             StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(list_val.get(bd).getArrt_name());//白色
-            stringBuffer.append("+");
-            stringBuffer.append(list_val.get(bd).getArrt_value());//145/80A+150cm以下
-            String compareStr=String.valueOf(stringBuffer);
+//            stringBuffer.append(list_val.get(bd).getArrt_name());//白色
+//            stringBuffer.append("+");
+            stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下
+            String compareStr = String.valueOf(stringBuffer);
             lists.add(compareStr);
-            if (bd == 0 && recordMaps.size() == 0) {
-                String[] strings= compareStr.split("\\+");
-                for (int i=0;i<strings.length;i++){
-                    recordMaps.put(i,strings[i]);
+            HashMap recordMap = new HashMap();
+            String[] strings = compareStr.split("\\+");
+            for (int i = 0; i < strings.length; i++) {
+                recordMap.put(i, strings[i]);
+            }
+            recordMutilMapList.add(recordMap);
+
+            if (null == recordMutilMap) {
+                recordMutilMap = recordMutilMapList.get(0);
+            } else if (recordMutilMap.get(0).equals(strings[0])) {
+                for (int i = clickWhichPos+1; i < recordMutilMap.size(); i++) {
+                    recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
                 }
             }
         }
+
+
         for (int type = 0; type < list.size(); type++) {
             if (type == 0) {
                 //颜色
@@ -1064,14 +1072,14 @@ public class GoodsAttributeAty extends BaseAty {
                         }
                     }
                     if (falgChoice) {
-                        if(recordMaps.containsKey(type)){
-                            if(recordMaps.get(type).equals(valBean.getVal())){
+                        if (recordMutilMap.containsKey(type)) {
+                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
                                 valBean.setStatus(SELECTED);
-                            }else{
+                            } else {
                                 valBean.setStatus(UNSELECT);
                             }
                         }
-                    }else{
+                    } else {
                         valBean.setStatus(CANNOT_SELECT);
                     }
                 }
@@ -1084,19 +1092,19 @@ public class GoodsAttributeAty extends BaseAty {
                     boolean falgChoice = false;
                     for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
                         String compareStr = lists.get(bdPos);
-                        if (compareStr.contains(recordMaps.get(0) + "+" + valBean.getVal())) {
+                        if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
                             falgChoice = true;
                         }
                     }
                     if (falgChoice) {
-                        if(recordMaps.containsKey(type)){
-                            if(recordMaps.get(type).equals(valBean.getVal())){
+                        if (recordMutilMap.containsKey(type)) {
+                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
                                 valBean.setStatus(SELECTED);
-                            }else{
+                            } else {
                                 valBean.setStatus(UNSELECT);
                             }
                         }
-                    }else{
+                    } else {
                         valBean.setStatus(CANNOT_SELECT);
                     }
                 }
@@ -1109,20 +1117,20 @@ public class GoodsAttributeAty extends BaseAty {
                     boolean falgChoice = false;
                     for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
                         String compareStr = lists.get(bdPos);
-                        if (compareStr.contains(recordMaps.get(0) + "+" + recordMaps.get(1) + "+" + valBean.getVal())) {
+                        if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
                             falgChoice = true;
                             break;
                         }
                     }
                     if (falgChoice) {
-                        if(recordMaps.containsKey(type)){
-                            if(recordMaps.get(type).equals(valBean.getVal())){
+                        if (recordMutilMap.containsKey(type)) {
+                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
                                 valBean.setStatus(SELECTED);
-                            }else{
+                            } else {
                                 valBean.setStatus(UNSELECT);
                             }
                         }
-                    }else{
+                    } else {
                         valBean.setStatus(CANNOT_SELECT);
                     }
                 }
