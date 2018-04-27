@@ -16,7 +16,6 @@ import com.txd.hzj.wjlp.login.RegisterGetCodeAty;
  * 描述：找回密码，注册获取验证码
  * ===============Txunda===============
  */
-
 public class CodeCountDown extends CountDownTimer {
     private Context context;
     private TextView tv;

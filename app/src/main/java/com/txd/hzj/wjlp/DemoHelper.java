@@ -67,6 +67,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ *  环信helper类
+ */
 public class DemoHelper {
     /**
      * data sync listener
@@ -142,6 +145,7 @@ public class DemoHelper {
     Queue<String> msgQueue = new ConcurrentLinkedQueue<>();
 
     private DemoHelper() {
+//        创建一个可缓存线程池
         executor = Executors.newCachedThreadPool();
     }
 

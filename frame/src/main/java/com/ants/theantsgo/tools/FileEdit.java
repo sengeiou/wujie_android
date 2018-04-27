@@ -2,6 +2,9 @@ package com.ants.theantsgo.tools;
 
 import java.io.File;
 
+/**
+ * 计算文件或文件夹的大小
+ */
 public class FileEdit {
 	double size = 0.0;
 

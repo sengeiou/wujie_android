@@ -16,8 +16,7 @@ import com.txd.hzj.wjlp.R;
  * Created by lienchao on 2017/7/14 0014.
  */
 
-public class ClearEditText extends EditText implements View.OnFocusChangeListener,
-        TextWatcher {
+public class ClearEditText extends EditText implements View.OnFocusChangeListener, TextWatcher {
     //EditText右侧的删除按钮
     private Drawable mClearDrawable;
     private boolean hasFoucs;
@@ -114,14 +113,11 @@ public class ClearEditText extends EditText implements View.OnFocusChangeListene
     }
 
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count,
-                                  int after) {
-
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-
     }
 
 

@@ -11,6 +11,9 @@ import com.txd.hzj.wjlp.huanxin.utils.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户简介管理
+ */
 public class UserProfileManager {
 
 	/**

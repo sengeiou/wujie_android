@@ -105,10 +105,6 @@ public class NotifyUtil {
      */
     private void setBuilder(PendingIntent pendingIntent, int smallIcon, String ticker, boolean sound, boolean vibrate, boolean lights) {
         nBuilder = new Notification.Builder(mContext);
-        // 如果当前Activity启动在前台，则不开启新的Activity。
-//        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        PendingIntent pIntent = PendingIntent.getActivity(mContext,
-//                requestCode, intent, FLAG);
         nBuilder.setContentIntent(pendingIntent);
 
         nBuilder.setSmallIcon(smallIcon);
