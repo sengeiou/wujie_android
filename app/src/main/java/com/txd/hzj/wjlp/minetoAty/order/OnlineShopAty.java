@@ -29,6 +29,7 @@ import java.util.Map;
  * 日期：2017/7/19 0019
  * 时间：上午 11:48
  * 描述：订单列表
+ * 本类用来配置我的--》订单中心--》每一个按钮中页面的tablayout与viewpager
  * ===============Txunda===============
  */
 public class OnlineShopAty extends BaseAty implements View.OnClickListener {
@@ -65,11 +66,12 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         Bundle mBundle = getIntent().getExtras();
         title = mBundle.getString("title");
         titlt_conter_tv.setText(title);
-        if (mTitleList.size() >= 5) {
+        //取消动态设置tablayout模式
+       /* if (mTitleList.size() >= 4) {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
         } else {
             mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        }
+        }*/
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
     }

@@ -5,8 +5,8 @@
     android:background="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellonLineFgt">
 
-    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
-        android:id="@+id/super_layout"
+    <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+        android:id="@+id/super_layouts"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -362,7 +362,7 @@
             </LinearLayout>
 
         </com.txd.hzj.wjlp.view.ObservableScrollView>
-    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+    </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
     <include layout="@layout/aty_search_title" />
 

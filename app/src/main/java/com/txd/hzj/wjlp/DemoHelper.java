@@ -13,7 +13,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
-import com.ants.theantsgo.util.L;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -56,7 +55,6 @@ import com.txd.hzj.wjlp.huanxin.parse.UserProfileManager;
 import com.txd.hzj.wjlp.huanxin.receiver.CallReceiver;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.huanxin.utils.PreferenceManager;
-import com.txd.hzj.wjlp.login.LoginAty;
 
 import java.util.ArrayList;
 import java.util.HashMap;

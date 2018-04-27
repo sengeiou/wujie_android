@@ -71,6 +71,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import org.json.JSONObject;
 
@@ -93,8 +94,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;
-    @ViewInject(R.id.super_layout)
-    private SuperSwipeRefreshLayout superSwipeRefreshLayout;
+    @ViewInject(R.id.super_layouts)
+    private VpSwipeRefreshLayout superSwipeRefreshLayout;
     @ViewInject(R.id.search_title_layout)
     private RelativeLayout search_title_layout;
 
@@ -759,17 +760,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
-        superSwipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
 
-                }
-
-                return false;
-            }
-        });
-        superSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        superSwipeRefreshLayout.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
 
             @Override
             public void onRefresh() {
