@@ -50,6 +50,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class GoodsAttributeAty extends BaseAty {
+    public final String SELECTED = "1", UNSELECT = "2", CANNOT_SELECT = "3";
     @ViewInject(R.id.goods_price_tv)
     private TextView goods_price_tv;
 
@@ -102,7 +103,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String image;
     private List<Map<String, String>> mapList;
     private int position = 0;
-
+    private Map<Integer, String> recordMaps;//记录点击的map;
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
     public void onClick(View v) {
@@ -212,7 +213,7 @@ public class GoodsAttributeAty extends BaseAty {
                 // 文字改变之后
                 String numStr = et_num.getText().toString().trim();
                 num = Integer.parseInt(numStr.equals("") ? "0" : numStr);
-                if (num > maxNumber){
+                if (num > maxNumber) {
                     et_num.setText(maxNumber + "");
                     et_num.setSelection(et_num.getText().length());
                 }
@@ -269,25 +270,22 @@ public class GoodsAttributeAty extends BaseAty {
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
         for (int i = 0; i < list.size(); i++) {
-            list.get(i).getFirst_list_val().get(0).setStatus("1");
+            list.get(i).getFirst_list_val().get(0).setStatus(SELECTED);
         }
         list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
         mapList = JSONUtils.parseKeyAndValueToMapList(getIntent().getStringExtra("goods_val"));
-
-
+        if(null==recordMaps){
+            recordMaps=new HashMap<>();
+        }
+        list = dealData(list, list_val);
         String string[] = is_attr.split("-");
         is_attr = string[0];
-        if (!ListUtils.isEmpty(list) && is_attr.equals("1")) {
+        if (!ListUtils.isEmpty(list) && is_attr.equals(SELECTED)) {
             goodsAttrsAdapter = new GoodsAttrsAdapter();
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
-
-
         } else {
             maxNumber = Integer.parseInt(string[1]);
             tv_kucun.setText("(库存：" + string[1] + ")");
-//            if (Integer.parseInt(string[1]) > 0){
-//                num = 1;
-//            }
             et_num.setText(String.valueOf(num));
             list.clear();
         }
@@ -308,13 +306,13 @@ public class GoodsAttributeAty extends BaseAty {
                     pro_value = goods_val.getArrtValue();
                     image = goods_val.getGoods_img();
                     pro_id = goods_val.getId();
-//                    num = 1;
                     break;
                 }
             }
         }
 
     }
+
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -414,25 +412,25 @@ public class GoodsAttributeAty extends BaseAty {
                             parent, false);
                     tv.setText(goodsAttrses.getVal());
                     if (TextUtils.isEmpty(getItem(i).getFirst_list_val().get(position).getStatus())) {
-                        getItem(i).getFirst_list_val().get(position).setStatus("2");
+                        getItem(i).getFirst_list_val().get(position).setStatus(UNSELECT);
                     }
 //                    if (getCount() == 1) {
-//                        getItem(0).getFirst_list_val().get(0).setStatus("1");
+//                        getItem(0).getFirst_list_val().get(0).setStatus(SELECTED);
 //                    }
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
-                        case "1":
+                        case SELECTED:
                             tv.setEnabled(true);
                             tv.setClickable(true);
                             tv.setBackgroundResource(R.drawable.shape_tag_checked_bg);
                             tv.setTextColor(Color.WHITE);
                             break;
-                        case "2":
+                        case UNSELECT:
                             tv.setEnabled(false);
                             tv.setClickable(false);
                             tv.setBackgroundResource(R.drawable.shape_tag_normal_bg);
                             tv.setTextColor(Color.BLACK);
                             break;
-                        case "3":
+                        case CANNOT_SELECT:
                             tv.setEnabled(true);
                             tv.setClickable(true);
                             tv.setTextColor(Color.WHITE);
@@ -450,102 +448,98 @@ public class GoodsAttributeAty extends BaseAty {
             };
             if (i == 0) {
                 tagAdapter.setSelectedList(0);
-//                getItem(i).getFirst_list_val().get(0).setStatus("1");
+//                getItem(i).getFirst_list_val().get(0).setStatus(SELECTED);
             }
+            avh.goods_attr_tfl.setTag(i);
             avh.goods_attr_tfl.setAdapter(tagAdapter);
-
-            avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-                @Override
-                public boolean onTagClick(View view, int position, FlowLayout parent) {
-                    if (getItem(i).getFirst_list_val().get(0).getStatus().equals("3")) {
-                        return true;
-                    }
-
-                    getItem(i).getFirst_list_val().get(position).setStatus("1");
-                    for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
-                        if (position == j) {
-                            continue;
-                        }
-                        getItem(i).getFirst_list_val().get(j).setStatus("2");
-                    }
-                    goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
-                    try {
-                        if (list.get(i + 1).getFirst_list_val().size() == 1) {
-                            for (Goods_val val : list_val) {
-                                String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
-                                if (!val.arrtValue.contains(s)) {
-                                    getItem(i).getFirst_list_val().get(position).setStatus("3");
-                                } else {
-                                    getItem(i).getFirst_list_val().get(position).setStatus("1");
-                                    break;
-                                }
-                            }
-                            list_attrs.put(i + 1, list.get(i + 1).getFirst_list_val().get(0).getVal());
-                        } else {
-                            for (int j = 0; j < list.get(i + 1).getFirst_list_val().size(); j++) {
-                                for (Goods_val val : list_val) {
-                                    String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
-                                    if (!val.arrtValue.contains(s)) {
-                                        getItem(i + 1).getFirst_list_val().get(j).setStatus("3");
-                                    } else {
-                                        getItem(i + 1).getFirst_list_val().get(j).setStatus("2");
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    } catch (IndexOutOfBoundsException e) {
-                        getItem(i).getFirst_list_val().get(position).setStatus("1");
-                    }
-
-                    list_attrs.put(i, goods_attr);
-                    if (list_attrs.size() == list.size()) {
-                        StringBuffer attrs = new StringBuffer();
-                        for (int k = 0; k < list_attrs.size(); k++) {
-//                            if (k == list_attrs.size() - 1) {
-                            attrs.append(list_attrs.get(k) + "+");
-//                            } else {
-//                                attrs.append(list_attrs.get(k));
-//                            }
-                        }
-                        for (Goods_val val : list_val) {
-                            if (attrs.toString().contains(val.getArrtValue())) {
-                                GoodsAttributeAty.this.val = val;
-                                tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
-                                maxNumber = Integer.parseInt(val.getGoods_num());
-                                Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
-                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
-                                et_num.setText(String.valueOf(1));
-                                pro_value = val.getArrtValue();
-                                image = val.getGoods_img();
-                                pro_id = val.getId();
-//                                num = 1;
-                                position++;
-                                break;
-                            } else {
-                                et_num.setText(String.valueOf(maxNumber));
-                                pro_id = "";
-                                position = -1;
-                            }
-                        }
+            avh.goods_attr_tfl.setOnTagClickListener(new FlowLitener(Integer.parseInt(String.valueOf(avh.goods_attr_tfl.getTag())), GoodsAttrsAdapter.this, i, tagAdapter));
 
 
-                    } else {
-                        pro_id = "";
-                    }
-                    notifyDataSetChanged();
-                    return true;
-                }
-            });
-
-            //多选用的  这个在单选中貌似并没有用(多选记录下标)
-//            avh.goods_attr_tfl.setOnSelectListener(new TagFlowLayout.OnSelectListener() {
+//  处理的有问题，不要解开
+//     avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
 //                @Override
-//                public void onSelected(Set<Integer> selectPosSet) {
-//                    L.e("=====选中的=====", selectPosSet.toString());
-//                    showToast(selectPosSet.toString());
+//                public boolean onTagClick(View view, int position, FlowLayout parent) {
+//                    if (getItem(i).getFirst_list_val().get(0).getStatus().equals(CANNOT_SELECT)) {
+//                        return true;
+//                    }
+//
+//                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+//                    for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
+//                        if (position == j) {
+//                            continue;
+//                        }
+//                        getItem(i).getFirst_list_val().get(j).setStatus(UNSELECT);
+//                    }
+//                    goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
+//                    try {
+//                        if (list.get(i + 1).getFirst_list_val().size() == 1) {
+//                            for (Goods_val val : list_val) {
+//                                String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
+//                                if (!val.arrtValue.contains(s)) {
+//                                    getItem(i).getFirst_list_val().get(position).setStatus(CANNOT_SELECT);
+//                                } else {
+//                                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+//                                    break;
+//                                }
+//                            }
+//                            list_attrs.put(i + 1, list.get(i + 1).getFirst_list_val().get(0).getVal());
+//                        } else {
+//                            for (int j = 0; j < list.get(i + 1).getFirst_list_val().size(); j++) {
+//                                for (Goods_val val : list_val) {
+//                                    String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
+//                                    if (!val.arrtValue.contains(s)) {
+//                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(CANNOT_SELECT);
+//                                    } else {
+//                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(UNSELECT);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    } catch (IndexOutOfBoundsException e) {
+//                        getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+//                    }
+//
+//                    list_attrs.put(i, goods_attr);
+//                    if (list_attrs.size() == list.size()) {
+//                        StringBuffer attrs = new StringBuffer();
+//                        for (int k = 0; k < list_attrs.size(); k++) {
+////                            if (k == list_attrs.size() - 1) {
+//                            attrs.append(list_attrs.get(k) + "+");
+////                            } else {
+////                                attrs.append(list_attrs.get(k));
+////                            }
+//                        }
+//                        for (Goods_val val : list_val) {
+//                            if (attrs.toString().contains(val.getArrtValue())) {
+//                                GoodsAttributeAty.this.val = val;
+//                                tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
+//                                maxNumber = Integer.parseInt(val.getGoods_num());
+//                                Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
+//                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+//                                et_num.setText(String.valueOf(1));
+//                                pro_value = val.getArrtValue();
+//                                image = val.getGoods_img();
+//                                pro_id = val.getId();
+////                                num = 1;
+//                                position++;
+//                                break;
+//                            } else {
+//                                et_num.setText(String.valueOf(maxNumber));
+//                                pro_id = "";
+//                                position = -1;
+//                            }
+//                        }
+//
+//
+//                    } else {
+//                        pro_id = "";
+//                    }
+//                    notifyDataSetChanged();
+//                    return true;
 //                }
-//            });
+//            });  //  处理的有问题，不要解开
+
             return view;
         }
 
@@ -972,5 +966,171 @@ public class GoodsAttributeAty extends BaseAty {
             this.discount_desc = discount_desc;
         }
     }
+
+
+    private class FlowLitener implements TagFlowLayout.OnTagClickListener {
+        int tag;
+        GoodsAttrsAdapter goodsAttrsAdapter;
+        TagAdapter tagAdapter;
+        int i;
+
+        FlowLitener(int tag, GoodsAttrsAdapter goodsAttrsAdapter, int position, TagAdapter tagAdapter) {
+            this.tag = tag;
+            this.goodsAttrsAdapter = goodsAttrsAdapter;
+            i = position;
+            this.tagAdapter = tagAdapter;
+        }
+
+        @Override
+        public boolean onTagClick(View view, int position, FlowLayout parent) {
+            TextView textView = (TextView) view;
+            if(null==recordMaps){
+                recordMaps=new HashMap<>();
+            }
+            String valStr = textView.getText().toString();
+            recordMaps.put(tag, valStr);
+            list = dealData(list, list_val);
+            list_attrs.put(i, goods_attr);
+            if (list_attrs.size() == list.size()) {
+                StringBuffer attrs = new StringBuffer();
+                for (int k = 0; k < list_attrs.size(); k++) {
+//                            if (k == list_attrs.size() - 1) {
+                    attrs.append(list_attrs.get(k) + "+");
+//                            } else {
+//                                attrs.append(list_attrs.get(k));
+//                            }
+                }
+                for (Goods_val val : list_val) {
+                    if (attrs.toString().contains(val.getArrtValue())) {
+                        GoodsAttributeAty.this.val = val;
+                        tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
+                        maxNumber = Integer.parseInt(val.getGoods_num());
+                        Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                        et_num.setText(String.valueOf(1));
+                        pro_value = val.getArrtValue();
+                        image = val.getGoods_img();
+                        pro_id = val.getId();
+//                                num = 1;
+                        position++;
+                        break;
+                    } else {
+                        et_num.setText(String.valueOf(maxNumber));
+                        pro_id = "";
+                        position = -1;
+                    }
+                }
+
+
+            } else {
+                pro_id = "";
+            }
+            goodsAttrsAdapter.notifyDataSetChanged();
+            tagAdapter.notifyDataChanged();
+            return true;
+        }
+    }
+
+    private List<GoodsAttr> dealData(List<GoodsAttr> list,
+                                     List<Goods_val> list_val) {
+
+        List<String> lists = new ArrayList<>();
+        for (int bd = 0; bd < list_val.size(); bd++) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(list_val.get(bd).getArrt_name());//白色
+            stringBuffer.append("+");
+            stringBuffer.append(list_val.get(bd).getArrt_value());//145/80A+150cm以下
+            String compareStr=String.valueOf(stringBuffer);
+            lists.add(compareStr);
+            if (bd == 0 && recordMaps.size() == 0) {
+                String[] strings= compareStr.split("\\+");
+                for (int i=0;i<strings.length;i++){
+                    recordMaps.put(i,strings[i]);
+                }
+            }
+        }
+        for (int type = 0; type < list.size(); type++) {
+            if (type == 0) {
+                //颜色
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                for (int i = 0; i < valBeans.size(); i++) {
+                    GoodsAttr.valBean valBean = valBeans.get(i);
+                    boolean falgChoice = false;
+                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
+                        String compareStr = lists.get(bdPos);
+                        if (compareStr.contains(valBean.getVal())) {
+                            falgChoice = true;
+                        }
+                    }
+                    if (falgChoice) {
+                        if(recordMaps.containsKey(type)){
+                            if(recordMaps.get(type).equals(valBean.getVal())){
+                                valBean.setStatus(SELECTED);
+                            }else{
+                                valBean.setStatus(UNSELECT);
+                            }
+                        }
+                    }else{
+                        valBean.setStatus(CANNOT_SELECT);
+                    }
+                }
+            } else if (type == 1) {
+                //尺寸
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                for (int i = 0; i < valBeans.size(); i++) {
+                    GoodsAttr.valBean valBean = valBeans.get(i);
+                    boolean falgChoice = false;
+                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
+                        String compareStr = lists.get(bdPos);
+                        if (compareStr.contains(recordMaps.get(0) + "+" + valBean.getVal())) {
+                            falgChoice = true;
+                        }
+                    }
+                    if (falgChoice) {
+                        if(recordMaps.containsKey(type)){
+                            if(recordMaps.get(type).equals(valBean.getVal())){
+                                valBean.setStatus(SELECTED);
+                            }else{
+                                valBean.setStatus(UNSELECT);
+                            }
+                        }
+                    }else{
+                        valBean.setStatus(CANNOT_SELECT);
+                    }
+                }
+            } else if (type == 2) {
+                //身高
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                for (int i = 0; i < valBeans.size(); i++) {
+                    GoodsAttr.valBean valBean = valBeans.get(i);
+                    boolean falgChoice = false;
+                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
+                        String compareStr = lists.get(bdPos);
+                        if (compareStr.contains(recordMaps.get(0) + "+" + recordMaps.get(1) + "+" + valBean.getVal())) {
+                            falgChoice = true;
+                            break;
+                        }
+                    }
+                    if (falgChoice) {
+                        if(recordMaps.containsKey(type)){
+                            if(recordMaps.get(type).equals(valBean.getVal())){
+                                valBean.setStatus(SELECTED);
+                            }else{
+                                valBean.setStatus(UNSELECT);
+                            }
+                        }
+                    }else{
+                        valBean.setStatus(CANNOT_SELECT);
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+
 }
 
