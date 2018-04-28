@@ -983,6 +983,9 @@ public class GoodsAttributeAty extends BaseAty {
 
         @Override
         public boolean onTagClick(View view, int position, FlowLayout parent) {
+            if(tag==0){
+                changeTopImage(position);
+            }
             TextView textView = (TextView) view;
             String valStr = textView.getText().toString();
             recordMutilMap.put(tag, valStr);
@@ -1139,6 +1142,9 @@ public class GoodsAttributeAty extends BaseAty {
         return list;
     }
 
-
+    private void changeTopImage(int index){
+        String url=mapList.get(index).get("goods_img");
+        Glide.with(this).load(url).into(imageview);
+    }
 }
 
