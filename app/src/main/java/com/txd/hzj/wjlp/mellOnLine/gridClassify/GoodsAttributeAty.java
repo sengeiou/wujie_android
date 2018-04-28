@@ -268,7 +268,7 @@ public class GoodsAttributeAty extends BaseAty {
     protected void requestData() {
         imageurl = getIntent().getStringExtra("imageurl");
         price = getIntent().getStringExtra("price");
-        Glide.with(this).load(imageurl).into(imageview);
+        Glide.with(this).load(imageurl).into(imageview);//加载默认商品图
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
         list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
         for (int i = 0; i < list.size(); i++) {
@@ -1046,20 +1046,20 @@ public class GoodsAttributeAty extends BaseAty {
             for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
                 String compareStr = lists.get(bdPos);
                 switch (type) {
-                    case 0: {
+                    case 0: {//颜色比对判断
                         if (compareStr.contains(valBean.getVal())) {
                             falgChoice = true;
                         }
                     }
                     break;
-                    case 1: {
+                    case 1: {//尺寸比对判断
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
                             falgChoice = true;
                         }
 
                     }
                     break;
-                    case 2: {
+                    case 2: {//大小比对判断 颜色+尺寸+高低
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
                             falgChoice = true;
                         }
@@ -1084,8 +1084,8 @@ public class GoodsAttributeAty extends BaseAty {
 
     private List<GoodsAttr> dealData(List<GoodsAttr> list,
                                      List<Goods_val> list_val, int clickWhichPos) {
-        recordMutilMapList.clear();
-        List<String> lists = new ArrayList<>();
+        recordMutilMapList.clear();//清空记录数组
+        List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
         for (int bd = 0; bd < list_val.size(); bd++) {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下
@@ -1106,7 +1106,7 @@ public class GoodsAttributeAty extends BaseAty {
                 }
             }
         }
-        for (int type = 0; type < list.size(); type++) {
+        for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
             if (type == 0) {
                 //颜色
                 GoodsAttr goodsAttr = list.get(type);
