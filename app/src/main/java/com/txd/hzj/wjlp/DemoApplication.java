@@ -50,7 +50,7 @@ import cn.sharesdk.framework.ShareSDK;
  * 描述：环信Demo的Application
  * ===============Txunda===============
  */
-public class DemoApplication extends WeApplication implements EMMessageListener{
+public class DemoApplication extends WeApplication implements EMMessageListener {
 
     public static boolean LOGIN_ACTIVITY_IS_RUN = false;
 
@@ -77,7 +77,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
 
     @Override
     public void onCreate() {
-      //  FreelineCore.init(this);
+        //  FreelineCore.init(this);
         super.onCreate();
 //        L.isDebug = false; // 头部header正式
         L.isDebug = true; // 头部header测试
@@ -156,6 +156,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
     /**
      * 环信
      * //收到消息
+     *
      * @param list
      */
     @Override
@@ -167,6 +168,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
     /**
      * * 环信
      * /收到透传消息
+     *
      * @param list
      */
     @Override
@@ -178,6 +180,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
     /**
      * 环信
      * //收到已读回执
+     *
      * @param list
      */
     @Override
@@ -194,6 +197,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
 
     /**
      * //消息状态变动
+     *
      * @param emMessage 环信
      * @param o
      */
@@ -208,11 +212,13 @@ public class DemoApplication extends WeApplication implements EMMessageListener{
     }
 
     public void removeLisetener() {
-        EMClient.getInstance().chatManager().removeMessageListener(this);
+        this.chatListener = null;
+//        EMClient.getInstance().chatManager().removeMessageListener(this);
     }
 
     /**
      * 解决系统改变字体大小的时候导致的界面布局混乱的问题
+     *
      * @return
      */
     @Override

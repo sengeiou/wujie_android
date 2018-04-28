@@ -101,6 +101,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         Map<String, String> map = application.getUserInfo();
         map.clear();
         application.setUserInfo(map);
+        DemoApplication.getInstance().removeLisetener();
         startActivity(LoginAty.class, bundle);
     }
 
@@ -340,7 +341,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     protected void onStop() {
         super.onStop();
-        DemoApplication.getInstance().removeLisetener();
+//        DemoApplication.getInstance().removeLisetener(); 将该方法移动到退出账户
     }
 
     public void call(String tel) {
