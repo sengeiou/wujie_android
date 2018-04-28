@@ -983,7 +983,7 @@ public class GoodsAttributeAty extends BaseAty {
 
         @Override
         public boolean onTagClick(View view, int position, FlowLayout parent) {
-            if(tag==0){
+            if (tag == 0) {
                 changeTopImage(position);
             }
             TextView textView = (TextView) view;
@@ -1031,15 +1031,63 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 
+    /**
+     * 对下面相同逻辑的逻辑封装
+     *
+     * @param valBeans
+     * @param lists
+     * @param type
+     */
+    private void fz(List<GoodsAttr.valBean> valBeans, List<String> lists, int type) {
+        for (int i = 0; i < valBeans.size(); i++) {
+            GoodsAttr.valBean valBean = valBeans.get(i);
+            boolean falgChoice = false;
+            outer:
+            for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
+                String compareStr = lists.get(bdPos);
+                switch (type) {
+                    case 0: {
+                        if (compareStr.contains(valBean.getVal())) {
+                            falgChoice = true;
+                        }
+                    }
+                    break;
+                    case 1: {
+                        if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
+                            falgChoice = true;
+                        }
+
+                    }
+                    break;
+                    case 2: {
+                        if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
+                            falgChoice = true;
+                        }
+                    }
+                    break;
+//                    break outer;
+                }
+            }
+            if (falgChoice) {
+                if (recordMutilMap.containsKey(type)) {
+                    if (recordMutilMap.get(type).equals(valBean.getVal())) {
+                        valBean.setStatus(SELECTED);
+                    } else {
+                        valBean.setStatus(UNSELECT);
+                    }
+                }
+            } else {
+                valBean.setStatus(CANNOT_SELECT);
+            }
+        }
+    }
+
     private List<GoodsAttr> dealData(List<GoodsAttr> list,
                                      List<Goods_val> list_val, int clickWhichPos) {
-
         recordMutilMapList.clear();
         List<String> lists = new ArrayList<>();
         for (int bd = 0; bd < list_val.size(); bd++) {
             StringBuffer stringBuffer = new StringBuffer();
-//            stringBuffer.append(list_val.get(bd).getArrt_name());//白色
-//            stringBuffer.append("+");
             stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下
             String compareStr = String.valueOf(stringBuffer);
             lists.add(compareStr);
@@ -1049,101 +1097,38 @@ public class GoodsAttributeAty extends BaseAty {
                 recordMap.put(i, strings[i]);
             }
             recordMutilMapList.add(recordMap);
-
-            if (null == recordMutilMap) {
+            if (null == recordMutilMap ) {
                 recordMutilMap = recordMutilMapList.get(0);
-            } else if (recordMutilMap.get(0).equals(strings[0])) {
-                for (int i = clickWhichPos+1; i < recordMutilMap.size(); i++) {
+
+            } else if (recordMutilMap.get(0).equals(strings[0]) ) {
+                for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
                     recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
                 }
             }
         }
-
-
         for (int type = 0; type < list.size(); type++) {
             if (type == 0) {
                 //颜色
                 GoodsAttr goodsAttr = list.get(type);
                 List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                for (int i = 0; i < valBeans.size(); i++) {
-                    GoodsAttr.valBean valBean = valBeans.get(i);
-                    boolean falgChoice = false;
-                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
-                        String compareStr = lists.get(bdPos);
-                        if (compareStr.contains(valBean.getVal())) {
-                            falgChoice = true;
-                        }
-                    }
-                    if (falgChoice) {
-                        if (recordMutilMap.containsKey(type)) {
-                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
-                                valBean.setStatus(SELECTED);
-                            } else {
-                                valBean.setStatus(UNSELECT);
-                            }
-                        }
-                    } else {
-                        valBean.setStatus(CANNOT_SELECT);
-                    }
-                }
+                fz(valBeans, lists, type);
             } else if (type == 1) {
                 //尺寸
                 GoodsAttr goodsAttr = list.get(type);
                 List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                for (int i = 0; i < valBeans.size(); i++) {
-                    GoodsAttr.valBean valBean = valBeans.get(i);
-                    boolean falgChoice = false;
-                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
-                        String compareStr = lists.get(bdPos);
-                        if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
-                            falgChoice = true;
-                        }
-                    }
-                    if (falgChoice) {
-                        if (recordMutilMap.containsKey(type)) {
-                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
-                                valBean.setStatus(SELECTED);
-                            } else {
-                                valBean.setStatus(UNSELECT);
-                            }
-                        }
-                    } else {
-                        valBean.setStatus(CANNOT_SELECT);
-                    }
-                }
+                fz(valBeans, lists, type);
             } else if (type == 2) {
                 //身高
                 GoodsAttr goodsAttr = list.get(type);
                 List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                for (int i = 0; i < valBeans.size(); i++) {
-                    GoodsAttr.valBean valBean = valBeans.get(i);
-                    boolean falgChoice = false;
-                    for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
-                        String compareStr = lists.get(bdPos);
-                        if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
-                            falgChoice = true;
-                            break;
-                        }
-                    }
-                    if (falgChoice) {
-                        if (recordMutilMap.containsKey(type)) {
-                            if (recordMutilMap.get(type).equals(valBean.getVal())) {
-                                valBean.setStatus(SELECTED);
-                            } else {
-                                valBean.setStatus(UNSELECT);
-                            }
-                        }
-                    } else {
-                        valBean.setStatus(CANNOT_SELECT);
-                    }
-                }
+                fz(valBeans, lists, type);
             }
         }
         return list;
     }
 
-    private void changeTopImage(int index){
-        String url=mapList.get(index).get("goods_img");
+    private void changeTopImage(int index) {
+        String url = mapList.get(index).get("goods_img");
         Glide.with(this).load(url).into(imageview);
     }
 }
