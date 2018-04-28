@@ -192,8 +192,13 @@ public class AddNewAddressAty2 extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("type", 0);
-        addressPst = new AddressPst(this);
-        addressPst.androidAddress();
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            addressPst = new AddressPst(this);
+            addressPst.androidAddress();
+        }else{
+            initJsonData(data);
+        }
     }
 
     @Override
@@ -242,6 +247,7 @@ public class AddNewAddressAty2 extends BaseAty {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
+                application.setCityProvience(data);
                 L.e("wang", data);
                 initJsonData(data);
             } catch (JSONException e) {

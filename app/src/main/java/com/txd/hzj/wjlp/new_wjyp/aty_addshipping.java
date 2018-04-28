@@ -198,7 +198,12 @@ public class aty_addshipping extends BaseAty {
     protected void initialized() {
         addressPst = new AddressPst(this);
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        addressPst.androidAddress();
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            addressPst.androidAddress();
+        }else{
+            initJsonData(data);
+        }
     }
 
     @Override
@@ -241,6 +246,7 @@ public class aty_addshipping extends BaseAty {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
+                application.setCityProvience(data);
                 L.e("wang", data);
                 initJsonData(data);
             } catch (JSONException e) {

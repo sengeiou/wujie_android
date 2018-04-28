@@ -37,6 +37,7 @@ import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -82,6 +83,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -983,9 +985,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         imageViews.add(level_3_iv);
         imageViews.add(level_4_iv);
         imageViews.add(level_5_iv);
-
-        addressPst = new AddressPst(this);
-        addressPst.androidAddress();
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            addressPst = new AddressPst(this);
+            addressPst.androidAddress();
+        }else{
+            initJsonData(data);
+        }
     }
 
     private int page = 1;
@@ -1222,6 +1228,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
                 L.e("wang", data);
+                application.setCityProvience(data);
                 initJsonData(data);
             } catch (JSONException e) {
                 e.printStackTrace();

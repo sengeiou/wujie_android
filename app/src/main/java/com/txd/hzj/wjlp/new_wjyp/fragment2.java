@@ -122,7 +122,7 @@ public class fragment2 extends BaseFgt {
     private String end_time;
     private boolean check;
     private boolean isLoaded = false;
-    private boolean isFirst=true;
+    private boolean isFirst = true;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -220,7 +220,7 @@ public class fragment2 extends BaseFgt {
                     return;
                 }
 
-                if (flie1 == null&&isFirst) {
+                if (flie1 == null && isFirst) {
                     showToast("请上传营业执照！");
                     return;
                 }
@@ -235,7 +235,7 @@ public class fragment2 extends BaseFgt {
                 params.addBodyParameter("comp_city_id", city_id);
                 params.addBodyParameter("comp_area_id", area_id);
                 params.addBodyParameter("comp_street_id", street_id);
-                if(isFirst||flie1!=null){
+                if (isFirst || flie1 != null) {
                     params.addBodyParameter("comp_business_license", flie1);
                 }
                 apiTool2.postApi(Config.BASE_URL + "User/compAuth", params, this);
@@ -262,9 +262,13 @@ public class fragment2 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-
-        AddressPst addressPst = new AddressPst(this);
-        addressPst.androidAddress();
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            AddressPst addressPst = new AddressPst(this);
+            addressPst.androidAddress();
+        }else {
+            initJsonData(data);
+        }
 
     }
 
@@ -337,13 +341,13 @@ public class fragment2 extends BaseFgt {
 
                 Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             }
-            isFirst=TextUtils.isEmpty(data.get("comp_business_license"))?true:false;
-            start_time=data.get("comp_start_time");
-            end_time=data.get("comp_end_time");
-            province_id=data.get("comp_province_id");
-            city_id=data.get("comp_city_id");
-            area_id=data.get("comp_area_id");
-            street_id=data.get("comp_street_id");
+            isFirst = TextUtils.isEmpty(data.get("comp_business_license")) ? true : false;
+            start_time = data.get("comp_start_time");
+            end_time = data.get("comp_end_time");
+            province_id = data.get("comp_province_id");
+            city_id = data.get("comp_city_id");
+            area_id = data.get("comp_area_id");
+            street_id = data.get("comp_street_id");
             name.setText(data.get("com_name"));
             num.setText(data.get("comp_reg_num"));
             comp_start_time.setText(data.get("comp_start_date"));
@@ -363,6 +367,7 @@ public class fragment2 extends BaseFgt {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
+                application.setCityProvience(data);
                 L.e("wang", data);
                 initJsonData(data);
             } catch (JSONException e) {
@@ -371,8 +376,6 @@ public class fragment2 extends BaseFgt {
         }
 
     }
-
-
 
 
     private void download() {
@@ -593,7 +596,7 @@ public class fragment2 extends BaseFgt {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 100:
-                        /*街道*/
+                    /*街道*/
                     String street = data.getStringExtra("street");
                     street_id = data.getStringExtra("street_id");
                     ads1.setText(street);

@@ -353,6 +353,7 @@ public class fragment1 extends BaseFgt {
                 try {
                     JSONObject jsonObject = new JSONObject(jsonStr);
                     String data = jsonObject.getString("data");
+                    application.setCityProvience(data);
                     L.e("wang", data);
                     initJsonData(data);
                 } catch (JSONException e) {
@@ -421,9 +422,13 @@ public class fragment1 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-
-        AddressPst addressPst = new AddressPst(this);
-        addressPst.androidAddress();
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            AddressPst addressPst = new AddressPst(this);
+            addressPst.androidAddress();
+        }else{
+            initJsonData(data);
+        }
 
     }
 
@@ -713,7 +718,7 @@ public class fragment1 extends BaseFgt {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 100:
-                        /*街道*/
+                    /*街道*/
                     String street = data.getStringExtra("street");
                     street_id = data.getStringExtra("street_id");
                     ads1.setText(street);

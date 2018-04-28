@@ -215,8 +215,13 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         size = ToolKit.dip2px(this, 80);
         forImagePacker();
         userPst = new UserPst(this);
-        addressPst = new AddressPst(this);
-        addressPst.androidAddress(); // 获取地址数据
+        String data=application.getCityProvienceJson();
+        if (android.text.TextUtils.isEmpty(data)) {
+            addressPst = new AddressPst(this);
+            addressPst.androidAddress(); // 获取地址数据
+        }else{
+            initJsonData(data);
+        }
     }
 
     private void forImagePacker() {
@@ -263,7 +268,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     .override(size, size).into(img_head_edit);
             auth_status = data.get("auth_status");
 
-            if (!auth_status.equals("2")){ // 未实名认证或实名认证未通过或是认证中需要隐藏掉这三项，只有已认证状态才显示这三项
+            if (!auth_status.equals("2")) { // 未实名认证或实名认证未通过或是认证中需要隐藏掉这三项，只有已认证状态才显示这三项
                 user_authStatus_layout.setVisibility(View.GONE);
                 // 未实名认证，真实姓名，身份证号，性别显示灰色字体
                 user_real_name_tv.setTextColor(Color.parseColor("#BCBBC1"));
@@ -312,6 +317,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
+                application.setCityProvience(data);
                 L.e("wang", data);
                 initJsonData(data);
             } catch (JSONException e) {

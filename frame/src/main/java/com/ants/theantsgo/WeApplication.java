@@ -28,7 +28,7 @@ import java.util.Map;
 public class WeApplication extends Application {
 
     private final String PREF_USERINFO = "user_info";
-
+    private final String PREF_CITY_PROVINCE="city_province";
     // APP管理类
     private AppManager appManager;
     // 用户信息
@@ -129,6 +129,13 @@ public class WeApplication extends Application {
      */
     public static Application getApplication() {
         return application;
+    }
+
+    public void setCityProvience(String stringJson){
+        PreferencesUtils.putString(this,PREF_CITY_PROVINCE,stringJson);
+    }
+    public String getCityProvienceJson(){
+        return PreferencesUtils.getString(this,PREF_CITY_PROVINCE);
     }
 
 }
