@@ -30,6 +30,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.cart.Cart;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
@@ -120,8 +121,8 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
 
-                L.e("cccccc==" + num);
-                L.e("cccccc" + list.size() + "--" + pro_id + "--" + from);
+                L.e("=====num==" + num);
+                L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
                 if (2 == from) {
                     Intent intent = new Intent();
                     intent.putExtra("num", num);
@@ -336,18 +337,18 @@ public class GoodsAttributeAty extends BaseAty {
                 finish();
                 return;
             }
-            RequestParams params = new RequestParams();
-            ApiTool2 apiTool2 = new ApiTool2();
-            params.addBodyParameter("goods_id", goods_id);
-            params.addBodyParameter("num", String.valueOf(num));
-            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+            Cart.addCart(goods_id, "", num, this);
+//            RequestParams params = new RequestParams();
+//            ApiTool2 apiTool2 = new ApiTool2();
+//            params.addBodyParameter("goods_id", goods_id);
+//            params.addBodyParameter("num", String.valueOf(num));
+//            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
             return;
         }
 
         if (!TextUtils.isEmpty(pro_id)) {
 
             if (is_go) {
-
                 Intent intent = new Intent();
                 intent.putExtra("mid", mid);
                 intent.putExtra("type", type);
@@ -356,18 +357,19 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
                 L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
-//                intent.setClass(this, BuildOrderAty.class);
+                intent.setClass(this, BuildOrderAty.class);
                 setResult(0x0001, intent);
-//                startActivity(intent);
+                startActivity(intent);
                 finish();
                 return;
             }
-            RequestParams params = new RequestParams();
-            ApiTool2 apiTool2 = new ApiTool2();
-            params.addBodyParameter("goods_id", goods_id);
-            params.addBodyParameter("product_id", pro_id);
-            params.addBodyParameter("num", String.valueOf(num));
-            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+            Cart.addCart(goods_id, pro_id, num, this);
+//            RequestParams params = new RequestParams();
+//            ApiTool2 apiTool2 = new ApiTool2();
+//            params.addBodyParameter("goods_id", goods_id);
+//            params.addBodyParameter("product_id", pro_id);
+//            params.addBodyParameter("num", String.valueOf(num));
+//            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
         } else {
             showToast("库存不足！");
         }

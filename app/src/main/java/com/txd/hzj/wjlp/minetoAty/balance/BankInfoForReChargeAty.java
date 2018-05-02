@@ -166,7 +166,6 @@ public class BankInfoForReChargeAty extends BaseAty {
 
                     @Override
                     public void onNext(Object tag, String response) {
-//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
                         L.e("wang", "=========>>>>>>>>>>>>response:" + response);
                         try {
                             if (str.equals("UserBalance/bankList")) { // 个人银行卡
@@ -185,9 +184,7 @@ public class BankInfoForReChargeAty extends BaseAty {
                                     ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this, list1);
                                     bank_info_lv.setAdapter(ptBaseAdapter);
                                     ptBaseAdapter.notifyDataSetChanged();
-
                                 }
-
 
                             } else if (str.equals("UserBalance/platformAccount")) { // 平台银行卡
                                 list2.removeAll(list2);

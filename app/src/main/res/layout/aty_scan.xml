@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.ScanAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <cn.bingoogolapple.qrcode.zxing.ZXingView
         android:id="@+id/zx_view"
@@ -24,6 +23,6 @@
         app:qrcv_rectWidth="250dp"
         app:qrcv_scanLineColor="@color/colorAccent"
         app:qrcv_scanLineSize="1dp"
-        app:qrcv_topOffset="90dp"/>
+        app:qrcv_topOffset="90dp" />
 
 </LinearLayout>

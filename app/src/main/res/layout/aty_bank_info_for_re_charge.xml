@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,11 +8,11 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.balance.BankInfoForReChargeAty">
 
-    <include layout="@layout/aty_title"/>
+    <include layout="@layout/aty_title" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <ListView
         android:id="@+id/bank_info_lv"
@@ -23,8 +22,8 @@
         android:divider="@color/bg_color"
         android:dividerHeight="1dp"
         android:padding="12dp"
-        android:scrollbars="none"
-        />
-    <include layout="@layout/aty_no_data_layout"/>
+        android:scrollbars="none" />
+
+    <include layout="@layout/aty_no_data_layout" />
 
 </LinearLayout>

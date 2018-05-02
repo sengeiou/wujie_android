@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.MainAty;
@@ -102,14 +103,14 @@ public class GuidePageAty extends BaseAty implements ViewPager.OnPageChangeListe
 
     @Override
     public void onPageSelected(int position) {
-        if (position == 3) { // 四个引导页，最后伊特索引值为3的时候显示跳转按钮
+        if (position == 3) { // 四个引导页，最后一个页面索引值为3的时候显示跳转按钮
+            into_app_tv.setVisibility(View.VISIBLE);
             into_app_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     intoMainAty();
                 }
             });
-            into_app_tv.setVisibility(View.VISIBLE);
         } else {
             into_app_tv.setVisibility(View.GONE);
         }

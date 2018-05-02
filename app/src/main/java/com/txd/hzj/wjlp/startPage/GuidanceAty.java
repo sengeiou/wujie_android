@@ -40,7 +40,6 @@ public class GuidanceAty extends BaseAty {
     protected void initialized() {
         timer = new Timer();
         is_first_time = PreferencesUtils.getBoolean(this, "is_first_time", true);
-        L.e("=======is_first_time======", is_first_time + "");
         initEvent();
     }
 

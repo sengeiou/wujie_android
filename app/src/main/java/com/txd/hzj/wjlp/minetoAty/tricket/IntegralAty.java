@@ -1,15 +1,12 @@
 package com.txd.hzj.wjlp.minetoAty.tricket;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -20,10 +17,6 @@ import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
-import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
-import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 
 import org.json.JSONArray;
@@ -32,13 +25,12 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 积分首页
+ * 积分兑换首页
  * 网络框架：RxJAVA
  */
 public class IntegralAty extends BaseAty {
@@ -136,11 +128,13 @@ public class IntegralAty extends BaseAty {
                                 String point_num = jsonObject1.getString("point_num");
                                 String change = jsonObject1.getString("change");
                                 String date = jsonObject1.getString("date");
+                                String point_desc = jsonObject1.getString("point_desc");
 
                                 date.replace("~", "-");
 //                                layout_bottom_tv.setText(my_change_integral);
                                 tv_point_num.setText("无界指数：" + point_num);
-                                tv1.setText("积分大等于100时可申请积分转余额，每次积分转余额的额度=积分总额*无界指数（取整）。");
+                                tv1.setText(point_desc == null ? "" : point_desc);
+//                                tv1.setText("积分兑换额度=积分总额*无界指数，实际可兑换额度按10的倍数向下取整，最低兑换额度不小于10积分。");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                                 Date date1 = new Date(System.currentTimeMillis());
                                 String time = simpleDateFormat.format(date1);

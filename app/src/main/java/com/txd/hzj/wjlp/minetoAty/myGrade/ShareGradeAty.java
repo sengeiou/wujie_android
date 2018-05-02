@@ -288,7 +288,7 @@ public class ShareGradeAty extends BaseAty {
     public void onError(String requestUrl, Map<String, String> map) {
         super.onError(requestUrl, map);
         if (requestUrl.contains("gradeRank")) {
-            L.e("===========================", requestUrl);
+            L.e("==============gradeRank===============", requestUrl);
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 if (1 == p) {
@@ -340,54 +340,56 @@ public class ShareGradeAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("gradeRank")) {
-            if (ToolKit.isList(map, "data")) {
-                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-                L.e("=========page===========" + p);
-                if (1 == p) {
-                    rankList.removeAll(rankList);
-                    Glide.with(this).load(data.get("head_pic"))
+        if (requestUrl.contains("gradeRank")) { // 如果请求的是排名
+            if (ToolKit.isList(map, "data")) { // 如果data字段可以解析成集合形式
+                Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data")); // 将字段转换成Map集合
+                L.e("==========p===========" + p);
+                L.e("==========jsonStr===========" + jsonStr);
+                if (1 == p) { // 如果当前请求是第一页
+                    rankList.removeAll(rankList); // 移除掉List中所有值
+                    Glide.with(this).load(data.get("head_pic")) // 设置显示头像
                             .override(size, size)
                             .placeholder(R.drawable.ic_default)
                             .error(R.drawable.ic_default)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(user_head_iv);
-                    nick_name_tv.setText(data.get("nickname") + "\n推荐人：" + data.get("parent_name"));
-                    share_num_tv.setText(data.get("share_num"));
-                    recommend_num_tv.setText(data.get("recommend_num"));
-                    if (ToolKit.isList(data, "rank_list")) {
-                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
-                        if (rankList.size() > 0) {
-                            my_share_grade_lv.setAdapter(rankingListAdapter);
-                        } else {
+                    nick_name_tv.setText(data.get("nickname") + "\n推荐人：" + data.get("parent_name")); // 设置显示文字消息
+                    share_num_tv.setText(data.get("share_num")); // 设置显示推荐人数
+                    recommend_num_tv.setText(data.get("recommend_num")); // 设置显示消息
+                    if (ToolKit.isList(data, "rank_list")) { // 如果rank_list字段可以解析为集合
+                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list字段转换为集合
+                        if (rankList.size() > 0) { // 如果集合中元素个数大于0
+                            my_share_grade_lv.setAdapter(rankingListAdapter); // 设置Adapter
+                        } else { // 否则为空集合
                             footerImageView.setVisibility(View.VISIBLE);
                             footerProgressBar.setVisibility(View.GONE);
                         }
                     }
-                    if (!frist) {
+                    if (!frist) { // 如果不是第一次请求
                         progressBar.setVisibility(View.GONE);
                     }
-                } else {
-                    if (ToolKit.isList(data, "rank_list")) {
-                        ArrayList<Map<String, String>> rank_list = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
-                        if (rank_list.size() > 0) {
-                            rankList.addAll(rank_list);
-                            rankingListAdapter.notifyDataSetChanged();
+                } else { // 否则是多次请求数据，页数大于1
+                    if (ToolKit.isList(data, "rank_list")) { // 判断rank_list是否可以解析成集合
+                        ArrayList<Map<String, String>> rank_list = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list转换成集合
+                        if (rank_list.size() > 0) { // 集合中有数据
+                            rankList.addAll(rank_list); // 添加新集合到原始List数组中
+                            rankingListAdapter.notifyDataSetChanged(); // 更新Adapter
                         } else {
-                            showToast("已经是最后一页，没有更多数据了");
+                            showToast("已经是最后一页，没有更多数据了"); // 否则显示提示：没有更多数据
                         }
                     }
                 }
-            } else {
-                if (1 == p) {
-                    if (!frist) {
+            } else { // 否则，请求回传的data字段无法转换成集合形式
+                if (1 == p) { // 如果请求的事第一页数据
+                    if (!frist) { // 如果不是第一次进入
                         progressBar.setVisibility(View.GONE);
                     }
-                } else {
+                } else { // 否则请求的是之后页面的数据
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
                 }
             }
+            // 无论是否可以将data转换成集合类型，都更新一下Adapter
             rankingListAdapter.notifyDataSetChanged();
         }
     }

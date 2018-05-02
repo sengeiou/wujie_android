@@ -1045,7 +1045,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-//            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, map.get("pay").equals("包邮") ? "运费 " + map.get("pay") : map.get("pay"), 2, Color.parseColor("#FD8214"));
             freight_tv.setText(map.get("pay"));
             freight_tv.setTextColor(Color.parseColor("#FD8214"));
             tv_freight.setText(map.get("pay"));

@@ -1,57 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <TextView
-        android:id="@+id/bank_card_num_tv"
+    <android.support.v7.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:text="6227 0000 6147 1881 700"
-        android:textColor="@color/app_text_color"/>
+        android:layout_height="180dp"
+        app:cardBackgroundColor="#099A8C"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="5dp"
+        app:contentPadding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="户名    "/>
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/alert_bg"
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/bank_card_owner_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="刘某某"
-            android:textColor="@color/app_text_color"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/create_card_bank_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="中国农业银行"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
-        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/bank_card_owner_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户名"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="开户行"/>
+                <TextView
+                    android:id="@+id/bank_card_num_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="**** **** **** 1234"
+                    android:textColor="#ffffff"
+                    android:textSize="22sp" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/create_card_bank_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="建设银行南开分行"
-            android:textColor="@color/app_text_color"/>
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="15dp"
+                android:background="@mipmap/icon_dingjin"
+                android:visibility="gone" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <!--<TextView-->
+    <!--android:id="@+id/bank_card_num_tv"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:paddingTop="8dp"-->
+    <!--android:text="6227 0000 6147 1881 700"-->
+    <!--android:textColor="@color/app_text_color"/>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="户名    "/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/bank_card_owner_name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="刘某某"-->
+    <!--android:textColor="@color/app_text_color"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="开户行"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/create_card_bank_name_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="建设银行南开分行"-->
+    <!--android:textColor="@color/app_text_color"/>-->
+
+    <!--</LinearLayout>-->
 
 </LinearLayout>

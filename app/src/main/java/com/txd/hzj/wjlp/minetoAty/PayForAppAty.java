@@ -264,10 +264,10 @@ public class PayForAppAty extends BaseAty {
                 }
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付
                     if (is_pay_password.equals("1")) {
-                        //已设置密码跳入输入密码页
+                        // 已设置密码跳入输入密码页
                         showPwdPop(v);
                     } else {
-                        //未设置密码跳入设置密码页
+                        // 未设置密码跳入设置密码页
                         showToast("请设置支付密码");
                         Bundle bundle = new Bundle();
                         bundle.putString("is_pay_password", "0");
