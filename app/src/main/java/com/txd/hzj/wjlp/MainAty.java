@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,6 +15,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +70,6 @@ import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
-import com.txd.hzj.wjlp.tool.HongKongIdentityCard;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.NotifyUtil;
 import com.yanzhenjie.permission.AndPermission;
@@ -506,10 +505,10 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             auto_update_status = data.get("auto_update_status");
         }
-
-        UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
-        showAppUpdateDialog(updataApp);
-
+        if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
+            UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+            showAppUpdateDialog(updataApp);
+        }
     }
     // ============================== 环信 ==============================
     // Todo 环信=========================================================
@@ -816,6 +815,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             isExceptionDialogShow = false;
         }
         unregisterBroadcastReceiver();
+        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);//退出时候将是否检查过更新制成false
 
     }
 
@@ -829,8 +829,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         String name = updataApp.getData().getName();
 
-        if (!name.equals(BuildConfig.VERSION_NAME)) {
-
+        if (!TextUtils.isEmpty(name) && !name.equals(BuildConfig.VERSION_NAME)) {
             // 如果auto_update_status为空返回false，不强制更新，不为空则判断是否需要强制更新，如果为0则返回true开启强制更新，否则返回false不强制更新
 
             String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
@@ -842,14 +841,18 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         @Override
                         public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
                             switch (btnType) {
-                                case MikyouCommonDialog.OK: // 立即更新
+                                case MikyouCommonDialog.OK: { // 立即更新
                                     showDownloadDialog(updataApp);
-                                    break;
-                                case MikyouCommonDialog.NO: // 稍后更新或退出
-                                    if (updataApp.getData().getUpdate().equals("0")) {
+                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//
+                                }
+                                break;
+                                case MikyouCommonDialog.NO: { // 稍后更新或退出
+                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);
+                                    if (updataApp.getData().getUpdate().equals("0")) {//强制更新
                                         System.exit(0);
                                     }
-                                    break;
+                                }
+                                break;
                             }
                         }
                     }).showDialog();
@@ -875,6 +878,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                        }
 //                    })
 //                    .create().show();
+        }else{
+            PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//相同的情况下不做更新提示
         }
     }
 
