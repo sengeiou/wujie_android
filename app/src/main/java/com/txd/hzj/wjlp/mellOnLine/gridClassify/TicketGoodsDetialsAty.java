@@ -1187,14 +1187,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collected),null,null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collect),null,null);
             goods_title_collect_tv.setText("收藏");
         }
         if (requestUrl.contains("cateIndex")) {
@@ -1366,10 +1366,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         is_collect = data.get("is_collect");
 
         if ("0".equals(is_collect)) {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collect),null,null);
             goods_title_collect_tv.setText("收藏");
         } else {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collected),null,null);
             goods_title_collect_tv.setText("已收藏");
         }
     }

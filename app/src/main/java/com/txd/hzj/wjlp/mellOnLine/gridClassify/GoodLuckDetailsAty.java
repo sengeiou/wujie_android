@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -76,6 +77,7 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -133,8 +135,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     /**
      * 收藏iv
      */
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+  /*  @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
     /**
      * 收藏TV
      */
@@ -573,6 +575,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -747,7 +750,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings://, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-                toAttrs(v,4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
+                toAttrs(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfos.get("goods_img"),
                         goodsInfos.get("shop_price"), group_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.layout_djq:
@@ -1047,6 +1050,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.remarks)
     private TextView remarks;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -1442,10 +1446,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             // 是否收藏
             is_collect = groupBuyInfo.getData().getIs_collect();
             if ("0".equals(is_collect)) {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
                 goods_title_collect_tv.setText("收藏");
             } else {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
                 goods_title_collect_tv.setText("已收藏");
             }
 
@@ -1489,7 +1495,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (ToolKit.isList(data, "goods_common_attr")) {
                 List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
                         GoodsCommonAttr.class);
-                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter( this, gca);
+                GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
             // ==========团购详情End===========
@@ -1498,14 +1504,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         if (requestUrl.contains("addCollect")) {
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
             return;
         }

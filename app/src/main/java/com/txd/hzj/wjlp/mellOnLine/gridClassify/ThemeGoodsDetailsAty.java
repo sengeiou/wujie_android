@@ -42,6 +42,7 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -245,8 +246,8 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     private TextView user_cart_num_tv;
 
     // TODO==========收藏==========
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+    /*@ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
 
     @ViewInject(R.id.goods_title_collect_tv)
     private TextView goods_title_collect_tv;
@@ -476,14 +477,14 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         }
     }
@@ -552,10 +553,10 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         is_collect = data.get("is_collect");
 
         if ("0".equals(is_collect)) {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         } else {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
         }
     }
@@ -694,7 +695,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content,goods_id,"1");
+                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度

@@ -25,7 +25,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMChatRoom;
 import com.hyphenate.chat.EMClient;
@@ -163,6 +162,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
             @Override
             public void onSendMessage(String content) {
                 // 发送消息文本
+
                 sendTextMessage(content);
             }
 
@@ -174,6 +174,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
                     public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
                         // 发送语音消息
                         sendVoiceMessage(voiceFilePath, voiceTimeLength);
+
                     }
                 });
             }
@@ -704,6 +705,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
 
     //send message
+    ////创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
     protected void sendTextMessage(String content) {
         if (EaseAtMessageHelper.get().containsAtUsername(content)) {
             sendAtMessage(content);
@@ -738,32 +740,32 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
     }
 
-
+    //
     protected void sendBigExpressionMessage(String name, String identityCode) {
         EMMessage message = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
         sendMessage(message);
     }
-
+    //发送一条语音消息
     protected void sendVoiceMessage(String filePath, int length) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
         sendMessage(message);
     }
-
+    //发送图片消息
     protected void sendImageMessage(String imagePath) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
         sendMessage(message);
     }
-
+    //发送位置消息
     protected void sendLocationMessage(double latitude, double longitude, String locationAddress) {
         EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
         sendMessage(message);
     }
-
+    //发送视频消息
     protected void sendVideoMessage(String videoPath, String thumbPath, int videoLength) {
         EMMessage message = EMMessage.createVideoSendMessage(videoPath, thumbPath, videoLength, toChatUsername);
         sendMessage(message);
     }
-
+    //发送文件
     protected void sendFileMessage(String filePath) {
         EMMessage message = EMMessage.createFileSendMessage(filePath, toChatUsername);
         sendMessage(message);

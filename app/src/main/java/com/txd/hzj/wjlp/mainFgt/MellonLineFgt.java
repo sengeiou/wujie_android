@@ -814,8 +814,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     oneBuy_llayout.setVisibility(View.VISIBLE);
                     car_llayout.setVisibility(View.VISIBLE);
                     house_llayout.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     under_banner_menu_vp.setVisibility(View.GONE);
                     limitBuy_llayout.setVisibility(View.GONE);
                     groupBuy_llayout.setVisibility(View.GONE);
@@ -1390,7 +1389,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         three_image_center_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    L.e("wang", "china:" + china.toString());
+                L.e("wang", "china:" + china.toString());
                 if (!TextUtils.isEmpty(china.get("merchant_id")) && !china.get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", china.get("merchant_id"));
@@ -1422,7 +1421,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         three_image_right_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    L.e("wang", "science:" + science.toString());
+                L.e("wang", "science:" + science.toString());
                 if (!TextUtils.isEmpty(science.get("merchant_id")) && !science.get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", science.get("merchant_id"));
@@ -1499,6 +1498,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
     }
 
+    /**
+     *x&y 分别为x轴与y轴变化后的位置距离
+     * */
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= 0) {
@@ -1512,6 +1514,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             on_line_be_back_top_iv.setVisibility(View.GONE);
         } else {
             search_title_layout.setBackgroundColor(Color.argb(255, 242, 48, 48));
+            //显示回到顶部的图标
             on_line_be_back_top_iv.setVisibility(View.VISIBLE);
         }
         immersionInit();

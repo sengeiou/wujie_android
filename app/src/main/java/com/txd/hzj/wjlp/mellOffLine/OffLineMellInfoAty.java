@@ -21,6 +21,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
+import com.txd.hzj.wjlp.tool.TextUtils;
 
 import java.util.Map;
 
@@ -51,8 +52,8 @@ public class OffLineMellInfoAty extends BaseAty {
     private String merchant_id = "";
     private String is_collect = "";
 
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+    /*@ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
 
     @ViewInject(R.id.goods_title_collect_tv)
     private TextView goods_title_collect_tv;
@@ -167,10 +168,10 @@ public class OffLineMellInfoAty extends BaseAty {
             is_collect = data.get("is_collect");
 
             if ("0".equals(is_collect)) {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
                 goods_title_collect_tv.setText("收藏");
             } else {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
                 goods_title_collect_tv.setText("已收藏");
             }
 
@@ -206,7 +207,7 @@ public class OffLineMellInfoAty extends BaseAty {
                 other_info_tv.setText("商品数量：" + mer_info.get("goods_total")
                         + "件\n月销单量：" + mer_info.get("goods_month_num")
                         + "件\n关注人数：" + mer_info.get("view_num")
-                        + "人\n营业时间："+mer_info.get("open_time")+"\n门店地址：" + mer_info.get("address") +
+                        + "人\n营业时间：" + mer_info.get("open_time") + "\n门店地址：" + mer_info.get("address") +
                         "\n门店电话：" + mer_info.get("phone"));
 
             }
@@ -216,14 +217,14 @@ public class OffLineMellInfoAty extends BaseAty {
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         }
     }

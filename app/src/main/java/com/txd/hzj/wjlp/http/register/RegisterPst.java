@@ -204,7 +204,7 @@ public class RegisterPst extends BasePresenter {
 
             @Override
             public void onSuccess() {
-                L.e("=====环信登录=====", "login: onSuccess");
+                L.e("=====环信登录成功=====", "login: onSuccess");
                 // ** manually load all local groups and conversation
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
@@ -227,7 +227,7 @@ public class RegisterPst extends BasePresenter {
 
             @Override
             public void onError(final int code, final String message) {
-                L.e("=====环信登录=====", "login: onError: " + code);
+                L.e("=====环信登录失败=====", "login: onError: " + code);
             }
         });
     }

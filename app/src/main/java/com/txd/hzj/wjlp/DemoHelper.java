@@ -611,7 +611,6 @@ public class DemoHelper {
 
         @Override
         public void onInvitationAccepted(String groupId, String invitee, String reason) {
-
             new InviteMessgeDao(appContext).deleteMessage(groupId);
 
             //user accept your invitation
@@ -1248,6 +1247,9 @@ public class DemoHelper {
         messageListener = new EMMessageListener() {
             private BroadcastReceiver broadCastReceiver = null;
 
+            /**
+             * 接收到消息
+             * */
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
                 for (EMMessage message : messages) {
@@ -1258,7 +1260,11 @@ public class DemoHelper {
                     }
                 }
             }
-
+            /**
+             * 收到透传消息
+             * 透传消息能做什么：头像、昵称的更新等。可以把透传消息理解为一条指令，通过发送这条指令给对方，
+             * 告诉对方要做的 action，收到消息可以自定义处理的一种消息。（透传消息不会存入本地数据库中，所以在 UI 上是不会显示的）
+             * */
             @Override
             public void onCmdMessageReceived(List<EMMessage> messages) {
                 for (EMMessage message : messages) {
@@ -1278,15 +1284,21 @@ public class DemoHelper {
                     EMLog.d(TAG, String.format("Command：action:%s,message:%s", action, message.toString()));
                 }
             }
-
+            /**
+             * 收到已读回执
+             * */
             @Override
             public void onMessageRead(List<EMMessage> messages) {
             }
-
+            /**
+             * 收到已送达消息回执
+             * */
             @Override
             public void onMessageDelivered(List<EMMessage> message) {
             }
-
+            /**
+             * 消息状态变动
+             * */
             @Override
             public void onMessageChanged(EMMessage message, Object change) {
                 EMLog.d(TAG, "change:");

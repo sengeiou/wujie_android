@@ -257,25 +257,26 @@
 
                     <LinearLayout
                         android:id="@+id/off_line_mell_collect_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="55dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="8dp">
 
-                        <ImageView
+                        <!--<ImageView
                             android:id="@+id/goods_title_collect_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/icon_collect_w_hzj" />
+                            android:src="@drawable/icon_collect_w_hzj" />-->
 
                         <TextView
                             android:id="@+id/goods_title_collect_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="6dp"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/icon_collect_w_hzj"
                             android:gravity="center"
-                            android:text="收藏"
+                            android:text="已收藏"
                             android:textColor="@color/white"
                             android:textSize="12sp" />
                     </LinearLayout>
