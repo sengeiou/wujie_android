@@ -107,7 +107,6 @@ public class GoodsAttributeAty extends BaseAty {
     private List<Map<Integer, String>> recordMutilMapList;
     private Map<Integer, String> recordMutilMap;
     private int position = 0;
-    private StringBuffer recordStr;//记录选中的多规格组合字符串
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -297,6 +296,14 @@ public class GoodsAttributeAty extends BaseAty {
             for (Goods_val goods_val : list_val) {
 //                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
 //                if (v.equals(goods_val.getArrtValue()))
+
+                StringBuffer recordStr = new StringBuffer();
+                for (int k = 0; k < list_attrs.size(); k++) {
+                    recordStr.append(list_attrs.get(k));
+                    if(k<list_attrs.size()-1){
+                        recordStr.append("+");
+                    }
+                }
                 if (goods_val.getArrtValue().contains(recordStr)) {
                     GoodsAttributeAty.this.val = goods_val;
                     tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
@@ -1091,7 +1098,6 @@ public class GoodsAttributeAty extends BaseAty {
 
     private List<GoodsAttr> dealData(List<GoodsAttr> list,
                                      List<Goods_val> list_val, int clickWhichPos) {
-        recordStr = new StringBuffer();
         recordMutilMapList.clear();//清空记录数组
         List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
         for (int bd = 0; bd < list_val.size(); bd++) {//遍历属性的可选值
@@ -1105,26 +1111,26 @@ public class GoodsAttributeAty extends BaseAty {
                 recordMap.put(i, strings[i]);
             }
             recordMutilMapList.add(recordMap);//循环记录可选值列表
-            if (null == recordMutilMap) {
-                recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-
-            } else if (recordMutilMap.get(0).equals(strings[0])) {//记录选中的那项颜色相同
-
-                for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
-                    recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
-                }
-            }
+//            if (null == recordMutilMap) {
+//                recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
+//            } else if(clickWhichPos>0){
+//                if (recordMutilMap.get(0).equals(strings[0])) {//记录选中的那项颜色相同
+//                    for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
+//                        recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
+//                    }
+//                }
+//            }
         }
-//        if (null == recordMutilMap) {
-//            recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-//
-//        } else {
-//
+        if (null == recordMutilMap) {
+            recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
+
+        } else {
+
 //            boolean equal = false;
 //            for (int i = 0; i < recordMutilMapList.size(); i++) {//赋值的逻辑复杂,不会搞
 //                Map<Integer, String> tempMap = recordMutilMapList.get(i);
 //
-//                for (int j = 0; j < tempMap.size() - 1; j++) {
+//                for (int j = 0; j < tempMap.size() ; j++) {
 //                    if (recordMutilMap.get(j).equals(tempMap.get(j))) {
 //                        equal = true;
 //                    } else {
@@ -1138,16 +1144,12 @@ public class GoodsAttributeAty extends BaseAty {
 //                    recordMutilMap.put(i, recordMutilMapList.get(i).get(0));
 //                }
 //            }
-//        }
+        }
             Iterator iterator = recordMutilMap.keySet().iterator();
-            int postion = 0;
             while (iterator.hasNext()) {
-                String tempStr = recordMutilMap.get(iterator.next());
-                recordStr.append(tempStr);//记录选中的属性，好在后面做比较做库存记录
-                if (postion < recordMutilMap.size() - 1)
-                    recordStr.append("+");
-                list_attrs.put(postion, tempStr);//记录选中的属性，好在后面做比较做库存记录
-                postion += 1;
+                int key= (int) iterator.next();
+                String tempStr = recordMutilMap.get(key);
+                list_attrs.put(key, tempStr);//记录选中的属性，好在后面做比较做库存记录
             }
             for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
                 if (type == 0) {
