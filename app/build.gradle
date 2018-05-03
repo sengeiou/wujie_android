@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180420
-        versionName "1.0.6"
+        versionCode 20180503
+        versionName "1.0.6" // TODO 现阶段版本号1.0.7，正式版后台未上传最新代码，但是开启强制更新了
          multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
