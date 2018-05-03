@@ -235,7 +235,8 @@ public class GoodsAttributeAty extends BaseAty {
                 from = 1;
                 String a[] = goods_id.split("-");
                 goods_id = a[0];
-                mid = a[1];
+                if (a.length > 1)
+                    mid = a[1];
             } else {
                 to_buy_must_tv.setText("加入购物车");
             }
@@ -300,7 +301,7 @@ public class GoodsAttributeAty extends BaseAty {
                 StringBuffer recordStr = new StringBuffer();
                 for (int k = 0; k < list_attrs.size(); k++) {
                     recordStr.append(list_attrs.get(k));
-                    if(k<list_attrs.size()-1){
+                    if (k < list_attrs.size() - 1) {
                         recordStr.append("+");
                     }
                 }
@@ -1145,32 +1146,32 @@ public class GoodsAttributeAty extends BaseAty {
 //                }
 //            }
         }
-            Iterator iterator = recordMutilMap.keySet().iterator();
-            while (iterator.hasNext()) {
-                int key= (int) iterator.next();
-                String tempStr = recordMutilMap.get(key);
-                list_attrs.put(key, tempStr);//记录选中的属性，好在后面做比较做库存记录
-            }
-            for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
-                if (type == 0) {
-                    //颜色
-                    GoodsAttr goodsAttr = list.get(type);
-                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                    fz(valBeans, lists, type);
-                } else if (type == 1) {
-                    //尺寸
-                    GoodsAttr goodsAttr = list.get(type);
-                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                    fz(valBeans, lists, type);
-                } else if (type == 2) {
-                    //身高
-                    GoodsAttr goodsAttr = list.get(type);
-                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                    fz(valBeans, lists, type);
-                }
-            }
-            return list;
+        Iterator iterator = recordMutilMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            int key = (int) iterator.next();
+            String tempStr = recordMutilMap.get(key);
+            list_attrs.put(key, tempStr);//记录选中的属性，好在后面做比较做库存记录
         }
+        for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
+            if (type == 0) {
+                //颜色
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                fz(valBeans, lists, type);
+            } else if (type == 1) {
+                //尺寸
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                fz(valBeans, lists, type);
+            } else if (type == 2) {
+                //身高
+                GoodsAttr goodsAttr = list.get(type);
+                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                fz(valBeans, lists, type);
+            }
+        }
+        return list;
+    }
 
     private void changeTopImage(int index) {
         String url = mapList.get(index).get("goods_img");
