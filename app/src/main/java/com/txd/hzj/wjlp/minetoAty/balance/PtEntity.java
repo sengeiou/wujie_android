@@ -5,7 +5,7 @@ package com.txd.hzj.wjlp.minetoAty.balance;
  */
 
 public class PtEntity {
-    String bank_card_id,bank_card_code,bank_name,open_bank,name;
+    String bank_card_id, bank_card_code, bank_name, open_bank, name;
 
     public PtEntity(String bank_card_id, String bank_card_code, String bank_name, String open_bank, String name) {
         this.bank_card_id = bank_card_id;

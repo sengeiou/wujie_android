@@ -163,7 +163,6 @@ public class BankInfoForReChargeAty extends BaseAty {
                 .build()
                 .rxPost(str, parameters, new RxStringCallback() {
 
-
                     @Override
                     public void onNext(Object tag, String response) {
                         L.e("wang", "=========>>>>>>>>>>>>response:" + response);
@@ -194,7 +193,6 @@ public class BankInfoForReChargeAty extends BaseAty {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String id = jsonObject1.getString("id");
-
                                     String bank_num = jsonObject1.getString("bank_num");
                                     String open_bank = jsonObject1.getString("open_bank");
                                     String bank_name = jsonObject1.getString("bank_name");
@@ -205,9 +203,8 @@ public class BankInfoForReChargeAty extends BaseAty {
                                 }
                             }
 
-//
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            L.e("获取银行卡列表Json字符串解析异常：" + e.toString());
                         }
                     }
 

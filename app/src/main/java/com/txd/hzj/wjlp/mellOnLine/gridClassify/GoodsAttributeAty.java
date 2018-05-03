@@ -224,7 +224,7 @@ public class GoodsAttributeAty extends BaseAty {
             }
         });
         from = getIntent().getIntExtra("from", 0);
-        goods_id = getIntent().getStringExtra("goods_id");
+        goods_id = getIntent().getStringExtra("goods_id"); // TODO aljksflakjsflakjflakjflajdflajdflaksjdlasjdlaksjdalksjdlasjkdals
         type = getIntent().getStringExtra("type");
         group_buy_id = getIntent().getStringExtra("group_buy_id");
         is_attr = getIntent().getStringExtra("is_attr");

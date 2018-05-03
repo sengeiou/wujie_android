@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EEEEEE"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -45,7 +44,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/itemShareGrade_name_imgv"
+                            android:id="@+id/itemShareGrade_nickName_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -53,7 +52,7 @@
                             android:text="公主殿下" />
 
                         <TextView
-                            android:id="@+id/itemShareGrade_type_imgv"
+                            android:id="@+id/itemShareGrade_memberCoding_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -70,13 +69,13 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/itemShareGrade_time_imgv"
+                            android:id="@+id/itemShareGrade_time_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2018-05-02 16:52" />
 
                         <TextView
-                            android:id="@+id/itemShareGrade_id_imgv"
+                            android:id="@+id/itemShareGrade_userId_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
@@ -97,7 +96,7 @@
                         android:text="成功推荐" />
 
                     <TextView
-                        android:id="@+id/itemShareGrade_successNumber_imgv"
+                        android:id="@+id/itemShareGrade_num_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -111,7 +110,7 @@
                         android:text="人" />
 
                     <TextView
-                        android:id="@+id/itemShareGrade_phone_imgv"
+                        android:id="@+id/itemShareGrade_phone_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="159****1234"
@@ -157,13 +156,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/itemShareGrade_umbrellaIconWuJie_imgv"
                                 android:layout_width="15dp"
                                 android:layout_height="15dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
-                                android:id="@+id/itemShareGrade__imgv"
+                                android:id="@+id/itemShareGrade_umbrellaCodingOne_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -183,12 +183,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/itemShareGrade_straightIconWuJie_imgv"
                                 android:layout_width="14dp"
                                 android:layout_height="14dp"
                                 android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
+                                android:id="@+id/itemShareGrade_codingOne_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -227,12 +229,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/itemShareGrade_umbrellaIconWuYou_imgv"
                                 android:layout_width="14dp"
                                 android:layout_gravity="center"
                                 android:layout_height="14dp"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
+                                android:id="@+id/itemShareGrade_umbrellaCodingTwo_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -252,13 +256,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
-                                android:id="@+id/imageView4"
+                                android:id="@+id/itemShareGrade_straightIconWuYou_imgv"
                                 android:layout_width="14dp"
                                 android:layout_gravity="center"
                                 android:layout_height="14dp"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
+                                android:id="@+id/itemShareGrade_codingTwo_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -297,12 +302,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/itemShareGrade_umbrellaIconYouXiang_imgv"
                                 android:layout_width="14dp"
                                 android:layout_gravity="center"
                                 android:layout_height="14dp"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
+                                android:id="@+id/itemShareGrade_umbrellaCodingThree_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
@@ -322,12 +329,14 @@
                             android:orientation="horizontal">
 
                             <ImageView
+                                android:id="@+id/itemShareGrade_straightIconYouXiang_imgv"
                                 android:layout_width="14dp"
                                 android:layout_gravity="center"
                                 android:layout_height="14dp"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
+                                android:id="@+id/itemShareGrade_codingThree_tv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,10 +18,12 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.MyRecommendBean;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class RecommendSuccessAty extends BaseAty {
     @ViewInject(R.id.no_data_layout)
     private LinearLayout layout;
 
-    private List<Map<String, String>> list;
+    private List<MyRecommendBean.DataBean> list;
 
     private int size = 0;
     private int p = 1;
@@ -70,13 +73,13 @@ public class RecommendSuccessAty extends BaseAty {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
-                userPst.myRecommend(p, parent_id, false);
+                userPst.myRecommendNew(p, parent_id, false);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p++;
-                userPst.myRecommend(p, parent_id, false);
+                userPst.myRecommendNew(p, parent_id, false);
             }
         });
     }
@@ -94,7 +97,7 @@ public class RecommendSuccessAty extends BaseAty {
         reSuccessAdapter = new ReSuccessAdapter();
 
         parent_id = getIntent().getStringExtra("parent_id"); // 查询id
-        nickname = getIntent().getStringExtra("nickname"); // 查询id
+        nickname = getIntent().getStringExtra("nickname"); // 查询name
 
         titlt_conter_tv.setText((nickname.equals("") ? "我" : nickname) + "的推荐");
 
@@ -102,13 +105,13 @@ public class RecommendSuccessAty extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putString("parent_id", list.get(position - 1).get("id"));
-                bundle.putString("nickname", list.get(position - 1).get("nickname"));
+                bundle.putString("parent_id", list.get(position - 1).getId());
+                bundle.putString("nickname", list.get(position - 1).getNickname());
                 startActivity(RecommendSuccessAty.class, bundle);
             }
         });
 
-        userPst.myRecommend(p, parent_id, true);
+        userPst.myRecommendNew(p, parent_id, true);
 
     }
 
@@ -119,21 +122,22 @@ public class RecommendSuccessAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("=========myRecommendNew=============" + jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("myRecommend")) {
+        if (requestUrl.contains("myRecommendNew")) {
+            Gson gson = new Gson();
+            MyRecommendBean myRecommendBean = gson.fromJson(jsonStr, MyRecommendBean.class);
 
-            list.removeAll(list);
-
-            if (ToolKit.isList(map, "data")) {
+            if (myRecommendBean != null) {
                 if (1 == p) {
-                    list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    list.removeAll(list);
+                    list = myRecommendBean.getData();
                     share_times_lv.setAdapter(reSuccessAdapter);
                 } else {
-                    list.addAll(JSONUtils.parseKeyAndValueToMapList(map.get("data")));
+                    list.addAll(myRecommendBean.getData());
                     reSuccessAdapter.notifyDataSetChanged();
                 }
                 reSuccessAdapter.notifyDataSetChanged();
-
             }
             share_times_lv.onRefreshComplete();
         }
@@ -155,7 +159,7 @@ public class RecommendSuccessAty extends BaseAty {
         }
 
         @Override
-        public Map<String, String> getItem(int i) {
+        public MyRecommendBean.DataBean getItem(int i) {
             return list.get(i);
         }
 
@@ -166,10 +170,10 @@ public class RecommendSuccessAty extends BaseAty {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            Map<String, String> map = getItem(i);
+            MyRecommendBean.DataBean dataBean = getItem(i);
             if (view == null) {
-                view = LayoutInflater.from(RecommendSuccessAty.this).inflate(R.layout.item_recomment_success_lv,
-                        viewGroup, false);
+                view = LayoutInflater.from(RecommendSuccessAty.this).inflate(R.layout.item_share_grade_lv_new, viewGroup, false);
+//                view = LayoutInflater.from(RecommendSuccessAty.this).inflate(R.layout.item_recomment_success_lv, viewGroup, false);
                 rsvh = new RSVH();
                 ViewUtils.inject(rsvh, view);
                 view.setTag(rsvh);
@@ -177,44 +181,106 @@ public class RecommendSuccessAty extends BaseAty {
                 rsvh = (RSVH) view.getTag();
             }
 
-            Glide.with(RecommendSuccessAty.this).load(map.get("head_pic"))
-                    .error(R.drawable.ic_default)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .placeholder(R.drawable.ic_default)
-                    .override(size, size)
-                    .into(rsvh.my_recommend_pic_iv);
-
-            rsvh.my_recommend_nick_tv.setText(map.get("nickname"));
-            rsvh.recommend_num_tv.setText("成功推荐" + map.get("recommend_num") + "人");
-            rsvh.user_phone_tv.setText(map.get("phone"));
-
-            String create_time = map.get("create_time");
-            String[] split = create_time.split(" ");
-            rsvh.my_recommend_time_tv.setText("推荐时间\n" + split[0] + "\n" + split[1]);
-
+            // 设置头像
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getHead_pic()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_head_imgv);
+            rsvh.itemShareGrade_nickName_tv.setText(dataBean.getNickname());// 设置昵称
+            String member_coding = dataBean.getMember_coding(); // 获取会员级别
+            member_coding = member_coding == null ? "1" : member_coding;
+            rsvh.itemShareGrade_memberCoding_tv.setText(member_coding.equals("3") ? "优享会员" : member_coding.equals("2") ? "无忧会员" : "无界会员"); // 1无界 2无忧 3优享
+            rsvh.itemShareGrade_time_tv.setText(dataBean.getTime()); // 设置时间
+            rsvh.itemShareGrade_userId_tv.setText("ID:" + dataBean.getId()); // 设置会员ID
+            rsvh.itemShareGrade_num_tv.setText(dataBean.getNum() == null ? "0" : dataBean.getNum()); // 成功推荐人数
+            rsvh.itemShareGrade_phone_tv.setText(dataBean.getPhone()); // 设置电话号码
+            // 设置无界伞的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getUmbrella_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_umbrellaIconWuJie_imgv);
+            // 设置无忧伞的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getUmbrella_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_umbrellaIconWuYou_imgv);
+            // 设置优享伞的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getUmbrella_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_umbrellaIconYouXiang_imgv);
+            // 设置无界直推的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getStraight_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_straightIconWuJie_imgv);
+            // 设置无忧直推的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getStraight_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_straightIconWuYou_imgv);
+            // 设置优享直推的图标
+            Glide.with(RecommendSuccessAty.this).load(dataBean.getStraight_icon()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_straightIconYouXiang_imgv);
+            rsvh.itemShareGrade_umbrellaCodingOne_tv.setText(dataBean.getUmbrella_coding_one()); // 设置伞下无界人数
+            rsvh.itemShareGrade_umbrellaCodingTwo_tv.setText(dataBean.getUmbrella_coding_two()); // 设置伞下无忧人数
+            rsvh.itemShareGrade_umbrellaCodingThree_tv.setText(dataBean.getUmbrella_coding_three()); // 设置伞下优享人数
+            rsvh.itemShareGrade_codingOne_tv.setText(dataBean.getCoding_one()); // 设置直推无界人数
+            rsvh.itemShareGrade_codingTwo_tv.setText(dataBean.getCoding_two()); // 设置直推无忧人数
+            rsvh.itemShareGrade_codingThree_tv.setText(dataBean.getCoding_three()); // 设置直推优享人数
 
             return view;
         }
 
         private class RSVH {
 
-            @ViewInject(R.id.my_recommend_pic_iv)
-            private ShapedImageView my_recommend_pic_iv;
-
-            @ViewInject(R.id.my_recommend_nick_tv)
-            private TextView my_recommend_nick_tv;
-
-            @ViewInject(R.id.recommend_num_tv)
-            private TextView recommend_num_tv;
-
-            @ViewInject(R.id.my_recommend_time_tv)
-            private TextView my_recommend_time_tv;
-
-            @ViewInject(R.id.user_phone_tv)
-            private TextView user_phone_tv;
+            // 头像
+            @ViewInject(R.id.itemShareGrade_head_imgv)
+            private ImageView itemShareGrade_head_imgv;
+            // 昵称
+            @ViewInject(R.id.itemShareGrade_nickName_tv)
+            private TextView itemShareGrade_nickName_tv;
+            // 会员级别
+            @ViewInject(R.id.itemShareGrade_memberCoding_tv)
+            private TextView itemShareGrade_memberCoding_tv;
+            // 时间
+            @ViewInject(R.id.itemShareGrade_time_tv)
+            private TextView itemShareGrade_time_tv;
+            // 用户ID
+            @ViewInject(R.id.itemShareGrade_userId_tv)
+            private TextView itemShareGrade_userId_tv;
+            // 成功推荐人数
+            @ViewInject(R.id.itemShareGrade_num_tv)
+            private TextView itemShareGrade_num_tv;
+            // 电话
+            @ViewInject(R.id.itemShareGrade_phone_tv)
+            private TextView itemShareGrade_phone_tv;
+            // 无界上方伞图标
+            @ViewInject(R.id.itemShareGrade_umbrellaIconWuJie_imgv)
+            private ImageView itemShareGrade_umbrellaIconWuJie_imgv;
+            // 伞图标处对应的人数
+            @ViewInject(R.id.itemShareGrade_umbrellaCodingOne_tv)
+            private TextView itemShareGrade_umbrellaCodingOne_tv;
+            // 无界下方直推图标
+            @ViewInject(R.id.itemShareGrade_straightIconWuJie_imgv)
+            private ImageView itemShareGrade_straightIconWuJie_imgv;
+            // 直推图标对应的人数
+            @ViewInject(R.id.itemShareGrade_codingOne_tv)
+            private TextView itemShareGrade_codingOne_tv;
+            // 无忧上方的伞图标
+            @ViewInject(R.id.itemShareGrade_umbrellaIconWuYou_imgv)
+            private ImageView itemShareGrade_umbrellaIconWuYou_imgv;
+            // 伞图标对应的人数
+            @ViewInject(R.id.itemShareGrade_umbrellaCodingTwo_tv)
+            private TextView itemShareGrade_umbrellaCodingTwo_tv;
+            // 无忧下方的直推图标
+            @ViewInject(R.id.itemShareGrade_straightIconWuYou_imgv)
+            private ImageView itemShareGrade_straightIconWuYou_imgv;
+            // 直推图标对应的人数
+            @ViewInject(R.id.itemShareGrade_codingTwo_tv)
+            private TextView itemShareGrade_codingTwo_tv;
+            // 优享上方对应的伞图标
+            @ViewInject(R.id.itemShareGrade_umbrellaIconYouXiang_imgv)
+            private ImageView itemShareGrade_umbrellaIconYouXiang_imgv;
+            // 伞图标对应的人数
+            @ViewInject(R.id.itemShareGrade_umbrellaCodingThree_tv)
+            private TextView itemShareGrade_umbrellaCodingThree_tv;
+            // 优享下方的直推图标
+            @ViewInject(R.id.itemShareGrade_straightIconYouXiang_imgv)
+            private ImageView itemShareGrade_straightIconYouXiang_imgv;
+            // 直推图标对应的人数
+            @ViewInject(R.id.itemShareGrade_codingThree_tv)
+            private TextView itemShareGrade_codingThree_tv;
 
         }
-
     }
 
 }

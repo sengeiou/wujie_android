@@ -412,12 +412,27 @@ public class User {
      * @param p        分页
      * @param baseView 回调
      */
+    @Deprecated
     void myRecommend(int p, String parent_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("parent_id", parent_id);
         apiTool2.postApi(url + "myRecommend", params, baseView);
+    }
+
+    /**
+     * 我的推荐
+     *
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void myRecommendNew(int p, String parent_id, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("parent_id", parent_id);
+        apiTool2.postApi(url + "myRecommendNew", params, baseView);
     }
 
     /**
