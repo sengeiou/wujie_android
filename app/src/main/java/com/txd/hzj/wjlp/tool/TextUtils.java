@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.tool;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.AbsoluteSizeSpan;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.RadiusBackgroundSpan;
+import com.txd.hzj.wjlp.R;
 
 /**
  * ===============Txunda===============
@@ -49,6 +51,15 @@ public class TextUtils {
         sb.append(result);
 
         textView.setText(sb);
+    }
+
+    /**
+     * 设置drawable图片
+     */
+    public static Drawable toDrawable(Context context, int drawables) {
+        Drawable drawable = context.getResources().getDrawable(drawables);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        return drawable;
     }
 
 }

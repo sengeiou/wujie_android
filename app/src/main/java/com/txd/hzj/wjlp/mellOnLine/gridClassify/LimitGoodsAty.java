@@ -75,6 +75,7 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -477,8 +478,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private TextView user_cart_num_tv;
 
     // TODO==========收藏==========
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+   /* @ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
 
     @ViewInject(R.id.goods_title_collect_tv)
     private TextView goods_title_collect_tv;
@@ -806,10 +807,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             is_collect = data.get("is_collect");
 
             if ("0".equals(is_collect)) {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
                 goods_title_collect_tv.setText("收藏");
             } else {
-                goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+                goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
                 goods_title_collect_tv.setText("已收藏");
             }
             share_url = data.get("share_url");
@@ -1198,14 +1199,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
             return;
         }

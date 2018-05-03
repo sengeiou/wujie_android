@@ -34,6 +34,8 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.huanxin.domain.EmojiconExampleGroupData;
 import com.txd.hzj.wjlp.huanxin.domain.RobotUser;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -75,6 +77,7 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
                 isRobot = true;
             }
         }
+
         super.setUpView();
         // set click listener
         titleBar.setLeftLayoutClickListener(new OnClickListener() {

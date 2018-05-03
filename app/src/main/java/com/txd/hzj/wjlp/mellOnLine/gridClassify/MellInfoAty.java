@@ -162,8 +162,8 @@ public class MellInfoAty extends BaseAty {
     /**
      * 收藏
      */
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+    /*@ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
     /**
      * 收藏
      */
@@ -406,9 +406,9 @@ public class MellInfoAty extends BaseAty {
                 break;
             case R.id.search_title_right_tv://搜索
                 p = 1;
-                if(soft_type==0){
+                if (soft_type == 0) {
                     setStyle(1);
-                }else{
+                } else {
                     setStyle(soft_type);
                 }
 //                getData(soft_type);
@@ -480,7 +480,7 @@ public class MellInfoAty extends BaseAty {
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         String message = map.get("message");
         if (requestUrl.contains("merIndex") || requestUrl.contains("goodsList")) {
-            L.e("goodsList"+map);
+            L.e("goodsList" + map);
             if (ToolKit.isList(map, "data")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 share_img = data.get("share_img");
@@ -505,7 +505,7 @@ public class MellInfoAty extends BaseAty {
                             ticket_list = JSONUtils.parseKeyAndValueToMapList(data.get("ticket_list"));
                         }
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
-                    } else if (requestUrl.contains("goodsList")){
+                    } else if (requestUrl.contains("goodsList")) {
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                     }
                     if (!ListUtils.isEmpty(ads_list)) {
@@ -585,7 +585,7 @@ public class MellInfoAty extends BaseAty {
 //                        }
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
                         mell_goods_gv.setAdapter(mellGoodsAndAdsAdapter);
-                    }else{
+                    } else {
                         //空数据
                         ads_list = JSONUtils.parseKeyAndValueToMapList(data.get("goods_list"));
                         mellGoodsAndAdsAdapter = new MellGoodsAndAdsAdapter(this, data_type, ads_list);
@@ -627,14 +627,15 @@ public class MellInfoAty extends BaseAty {
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+
+            goods_title_collect_tv.setCompoundDrawables(null, com.txd.hzj.wjlp.tool.TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, com.txd.hzj.wjlp.tool.TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         }
     }
@@ -667,10 +668,10 @@ public class MellInfoAty extends BaseAty {
         // 收藏
         is_collect = data.get("is_collect");
         if ("0".equals(is_collect)) {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, com.txd.hzj.wjlp.tool.TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         } else {
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, com.txd.hzj.wjlp.tool.TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
         }
         // 店铺名称

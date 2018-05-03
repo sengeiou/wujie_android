@@ -26,6 +26,9 @@ import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 拼单购页面
+ */
 public class TicketZoonAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)

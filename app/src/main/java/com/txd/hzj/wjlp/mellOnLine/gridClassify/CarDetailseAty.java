@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.new_wjyp.BeanComment;
 import com.txd.hzj.wjlp.new_wjyp.aty_submit_order;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
@@ -155,8 +156,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
 
     private String is_collect = "";
 
-    @ViewInject(R.id.goods_title_collect_iv)
-    private ImageView goods_title_collect_iv;
+    /*@ViewInject(R.id.goods_title_collect_iv)
+    private ImageView goods_title_collect_iv;*/
     @ViewInject(R.id.goods_title_collect_tv)
     private TextView goods_title_collect_tv;
     private UserCollectPst collectPst;
@@ -521,14 +522,14 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collected);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_iv.setImageResource(R.drawable.icon_collect);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
             return;
         }

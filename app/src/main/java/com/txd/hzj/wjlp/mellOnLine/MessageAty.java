@@ -111,12 +111,11 @@ public class MessageAty extends BaseAty {
         super.onCreate(savedInstanceState);
         titlt_conter_tv.setText("消息");
         showStatusBar(R.id.title_re_layout);
-
         message_center_sc.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
                 p = 1;
-                getData(false);
+                getData(true);
             }
 
             @Override
@@ -137,8 +136,8 @@ public class MessageAty extends BaseAty {
 
         // 注册环信监听
         DemoApplication.getInstance().setChatListener(this);
-
     }
+
 
     @Override
     @OnClick({R.id.order_message_layout, R.id.noty_message_layout, R.id.annou_message_layout})
@@ -186,8 +185,8 @@ public class MessageAty extends BaseAty {
         p = 1;
         getData(true);
     }
-
-    private void getData(boolean show) {
+//刷新消息页面列表方法
+    public void getData(boolean show) {
         List<Map<String, String>> fridends = getFriends();
         String account_json = gson.toJson(fridends);
         userMessagePst.newMsg(account_json, p, show);
@@ -371,4 +370,6 @@ public class MessageAty extends BaseAty {
     public void onMessageChanged(EMMessage var1, Object var2) {
 
     }
+
+
 }
