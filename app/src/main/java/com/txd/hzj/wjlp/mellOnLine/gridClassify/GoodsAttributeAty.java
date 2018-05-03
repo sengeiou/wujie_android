@@ -1039,6 +1039,7 @@ public class GoodsAttributeAty extends BaseAty {
 
     /**
      * 对下面相同逻辑的逻辑封装
+     * 循环遍历 颜色 尺寸  高矮
      *
      * @param valBeans
      * @param lists
@@ -1093,80 +1094,81 @@ public class GoodsAttributeAty extends BaseAty {
         recordStr = new StringBuffer();
         recordMutilMapList.clear();//清空记录数组
         List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
-
-
-        for (int bd = 0; bd < list_val.size(); bd++) {
-
-//            goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
-
+        for (int bd = 0; bd < list_val.size(); bd++) {//遍历属性的可选值
             StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下
+            stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下,获取可选值的比较字符串
             String compareStr = String.valueOf(stringBuffer);
-            lists.add(compareStr);
-//            String goods_attr=list_val.get(bd).getArrt_value();
-
+            lists.add(compareStr);//将遍历出的可选值装入列表
             HashMap recordMap = new HashMap();
-            String[] strings = compareStr.split("\\+");
+            String[] strings = compareStr.split("\\+");//将比较字符串用+分割
             for (int i = 0; i < strings.length; i++) {
                 recordMap.put(i, strings[i]);
             }
-
-            recordMutilMapList.add(recordMap);
+            recordMutilMapList.add(recordMap);//循环记录可选值列表
             if (null == recordMutilMap) {
-                recordMutilMap = recordMutilMapList.get(0);
+                recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
 
-            } else if (recordMutilMap.get(0).equals(strings[0])) {
+            } else if (recordMutilMap.get(0).equals(strings[0])) {//记录选中的那项颜色相同
 
                 for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
                     recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
                 }
             }
         }
-//        for(int i=0;i<recordMutilMapList.size();i++){//赋值的逻辑复杂,不会搞
-//            Map<Integer,String> tempMap=recordMutilMapList.get(i);
-//            boolean equal=false;
-//            for(int j=0;j<tempMap.size()-1;j++){
-//                if(recordMutilMap.get(j).equals(tempMap.get(j))){
-//                    equal=true;
-//                }else{
-//                    equal=false;
+//        if (null == recordMutilMap) {
+//            recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
+//
+//        } else {
+//
+//            boolean equal = false;
+//            for (int i = 0; i < recordMutilMapList.size(); i++) {//赋值的逻辑复杂,不会搞
+//                Map<Integer, String> tempMap = recordMutilMapList.get(i);
+//
+//                for (int j = 0; j < tempMap.size() - 1; j++) {
+//                    if (recordMutilMap.get(j).equals(tempMap.get(j))) {
+//                        equal = true;
+//                    } else {
+//                        equal = false;
+//                    }
 //                }
-//            }
-//            if(equal){
 //
 //            }
+//            if (equal) {
+//                for (int i = clickWhichPos + 1; i < recordMutilMapList.size(); i++) {
+//                    recordMutilMap.put(i, recordMutilMapList.get(i).get(0));
+//                }
+//            }
 //        }
-
-        Iterator iterator = recordMutilMap.keySet().iterator();
-        int postion = 0;
-        while (iterator.hasNext()) {
-            String tempStr = recordMutilMap.get(iterator.next());
-            recordStr.append(tempStr);//记录选中的属性，好在后面做比较
-            if (postion < recordMutilMap.size() - 1)
-                recordStr.append("+");
-            list_attrs.put(postion, tempStr);//记录选中的属性，好在后面做比较
-            postion += 1;
-        }
-        for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
-            if (type == 0) {
-                //颜色
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                fz(valBeans, lists, type);
-            } else if (type == 1) {
-                //尺寸
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                fz(valBeans, lists, type);
-            } else if (type == 2) {
-                //身高
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
-                fz(valBeans, lists, type);
+            Iterator iterator = recordMutilMap.keySet().iterator();
+            int postion = 0;
+            while (iterator.hasNext()) {
+                String tempStr = recordMutilMap.get(iterator.next());
+                recordStr.append(tempStr);//记录选中的属性，好在后面做比较做库存记录
+                if (postion < recordMutilMap.size() - 1)
+                    recordStr.append("+");
+                list_attrs.put(postion, tempStr);//记录选中的属性，好在后面做比较做库存记录
+                postion += 1;
             }
+            for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
+                if (type == 0) {
+                    //颜色
+                    GoodsAttr goodsAttr = list.get(type);
+                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                    fz(valBeans, lists, type);
+                } else if (type == 1) {
+                    //尺寸
+                    GoodsAttr goodsAttr = list.get(type);
+                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                    fz(valBeans, lists, type);
+                } else if (type == 2) {
+                    //身高
+                    GoodsAttr goodsAttr = list.get(type);
+                    List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                    fz(valBeans, lists, type);
+                }
+            }
+            return list;
         }
-        return list;
-    }
 
     private void changeTopImage(int index) {
         String url = mapList.get(index).get("goods_img");
