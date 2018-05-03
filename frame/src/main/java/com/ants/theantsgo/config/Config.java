@@ -16,7 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Config {
-
+    /**
+     *  是否检查过更新
+     */
+    public static final String IS_CHECK_UPDATE="IS_CHECK_UPDATE";
     /**
      * 登录状态
      */
@@ -26,8 +29,8 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-//    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
-       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
+    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
+//       public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
 
     public static List<Activity> list = new ArrayList<>();
 
