@@ -39,6 +39,7 @@ import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +98,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String pro_value;
     int pos1;
     int pos2;
-    String goods_attr;
+    //    String goods_attr;
     Goods_val val;
     SparseArray<String> list_attrs = new SparseArray<String>();
     private String is_attr;
@@ -106,6 +107,7 @@ public class GoodsAttributeAty extends BaseAty {
     private List<Map<Integer, String>> recordMutilMapList;
     private Map<Integer, String> recordMutilMap;
     private int position = 0;
+    private StringBuffer recordStr;//记录选中的多规格组合字符串
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -290,10 +292,12 @@ public class GoodsAttributeAty extends BaseAty {
             et_num.setText(String.valueOf(num));
             list.clear();
         }
-        if (list.size() == 1) {
+//        if (list.size() == 1) {
+        if (null != list_val && list_val.size() > 0)
             for (Goods_val goods_val : list_val) {
-                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
-                if (v.equals(goods_val.getArrtValue())) {
+//                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
+//                if (v.equals(goods_val.getArrtValue()))
+                if (goods_val.getArrtValue().contains(recordStr)) {
                     GoodsAttributeAty.this.val = goods_val;
                     tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
                     maxNumber = Integer.parseInt(goods_val.getGoods_num());
@@ -310,7 +314,7 @@ public class GoodsAttributeAty extends BaseAty {
                     break;
                 }
             }
-        }
+//        }
 
     }
 
@@ -992,7 +996,7 @@ public class GoodsAttributeAty extends BaseAty {
             String valStr = textView.getText().toString();
             recordMutilMap.put(tag, valStr);
             list = dealData(list, list_val, tag);
-            list_attrs.put(i, goods_attr);
+
             if (list_attrs.size() == list.size()) {
                 StringBuffer attrs = new StringBuffer();
                 for (int k = 0; k < list_attrs.size(); k++) {
@@ -1017,7 +1021,7 @@ public class GoodsAttributeAty extends BaseAty {
                         position++;
                         break;
                     } else {
-                        et_num.setText(String.valueOf(maxNumber));
+//                        et_num.setText(String.valueOf(maxNumber));
                         pro_id = "";
                         position = -1;
                     }
@@ -1086,27 +1090,62 @@ public class GoodsAttributeAty extends BaseAty {
 
     private List<GoodsAttr> dealData(List<GoodsAttr> list,
                                      List<Goods_val> list_val, int clickWhichPos) {
+        recordStr = new StringBuffer();
         recordMutilMapList.clear();//清空记录数组
         List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
+
+
         for (int bd = 0; bd < list_val.size(); bd++) {
+
+//            goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
+
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(list_val.get(bd).getArrtValue());//145/80A+150cm以下
             String compareStr = String.valueOf(stringBuffer);
             lists.add(compareStr);
+//            String goods_attr=list_val.get(bd).getArrt_value();
+
             HashMap recordMap = new HashMap();
             String[] strings = compareStr.split("\\+");
             for (int i = 0; i < strings.length; i++) {
                 recordMap.put(i, strings[i]);
             }
+
             recordMutilMapList.add(recordMap);
-            if (null == recordMutilMap ) {
+            if (null == recordMutilMap) {
                 recordMutilMap = recordMutilMapList.get(0);
 
-            } else if (recordMutilMap.get(0).equals(strings[0]) ) {
+            } else if (recordMutilMap.get(0).equals(strings[0])) {
+
                 for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
                     recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
                 }
             }
+        }
+//        for(int i=0;i<recordMutilMapList.size();i++){//赋值的逻辑复杂,不会搞
+//            Map<Integer,String> tempMap=recordMutilMapList.get(i);
+//            boolean equal=false;
+//            for(int j=0;j<tempMap.size()-1;j++){
+//                if(recordMutilMap.get(j).equals(tempMap.get(j))){
+//                    equal=true;
+//                }else{
+//                    equal=false;
+//                }
+//            }
+//            if(equal){
+//
+//            }
+//        }
+
+        Iterator iterator = recordMutilMap.keySet().iterator();
+        int postion = 0;
+        while (iterator.hasNext()) {
+            String tempStr = recordMutilMap.get(iterator.next());
+            recordStr.append(tempStr);//记录选中的属性，好在后面做比较
+            if (postion < recordMutilMap.size() - 1)
+                recordStr.append("+");
+            list_attrs.put(postion, tempStr);//记录选中的属性，好在后面做比较
+            postion += 1;
         }
         for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
             if (type == 0) {
