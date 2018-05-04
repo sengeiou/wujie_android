@@ -17,7 +17,6 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;

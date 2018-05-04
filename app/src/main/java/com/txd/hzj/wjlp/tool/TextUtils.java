@@ -32,8 +32,7 @@ public class TextUtils {
      * @param color    背景颜色
      * @param radius   圆角半径
      */
-    public static void titleTipUtils(Context context, TextView textView, String tip, String result, int color, int
-            radius) {
+    public static void titleTipUtils(Context context, TextView textView, String tip, String result, int color, int radius) {
 
         SpannableStringBuilder builder = new SpannableStringBuilder(tip);
         //构造文字背景圆角

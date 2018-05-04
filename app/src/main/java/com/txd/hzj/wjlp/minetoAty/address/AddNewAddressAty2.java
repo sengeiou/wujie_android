@@ -155,7 +155,6 @@ public class AddNewAddressAty2 extends BaseAty {
                         Log.d("cehshi", "111111");
                         addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
 //                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
-
                     } else {
                         Log.d("cehshi", "222222");
                         addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
@@ -188,12 +187,12 @@ public class AddNewAddressAty2 extends BaseAty {
 
     @Override
     protected void initialized() {
+        addressPst = new AddressPst(this);
         type = getIntent().getIntExtra("type", 0);
-        String data=application.getCityProvienceJson();
+        String data = application.getCityProvienceJson();
         if (android.text.TextUtils.isEmpty(data)) {
-            addressPst = new AddressPst(this);
             addressPst.androidAddress();
-        }else{
+        } else {
             initJsonData(data);
         }
     }
@@ -225,6 +224,10 @@ public class AddNewAddressAty2 extends BaseAty {
 
             lng = data.get("lng");
             lat = data.get("lat");
+            if (lng.isEmpty())
+                lng = "0";
+            if (lat.isEmpty())
+                lat = "0";
             return;
         }
         if (requestUrl.contains("addAddress")) {// 添加地址
