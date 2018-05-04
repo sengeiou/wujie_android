@@ -1031,7 +1031,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
 
-        L.e("wang", "jsonstr:" + jsonStr);
+        L.e("wang", requestUrl + "  jsonstr:" + jsonStr);
 
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("addCart")) {
@@ -1059,10 +1059,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             remarks.setText(data.get("remarks"));
             forBase(data, cart_num);
             share_url = data.get("share_url");
-            L.e("wang", "share_url:" + share_url);
             share_img = data.get("share_img");
 
-            share_content = data.get("share_content");
+            share_content = data.get("share_content"); // TODO 此处为null
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -1077,7 +1076,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
 
             goodsName = goodsInfo.get("goods_name");
-            forGoodsInfo(goodsInfo);
+            forGoodsInfo(goodsInfo); // TODO 报错，进入catch分支
 
             tv_jgsm.setText(data.get("price_desc")); // 价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {
@@ -1443,7 +1442,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //                + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
 //        if (tx.equals(",,,")) { // 如果获取的信息为空，那么获取的字段就应该为三个相连的逗号
         // 直接获取首界面定位的信息
-        String tx = MainAty.GDLOC_MAP.get("province") + "," + MainAty.GDLOC_MAP.get("city") + "," + MainAty.GDLOC_MAP.get("district");
+        String tx = "";
+        if (MainAty.GDLOC_MAP != null) { // 如果定位信息为空，就设置原始的提示消息
+            tx = MainAty.GDLOC_MAP.get("province") + "," + MainAty.GDLOC_MAP.get("city") + "," + MainAty.GDLOC_MAP.get("district");
+        } else {
+            tx = DemoApplication.getInstance().getLocInfo().get("province") + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+        }
         tv_chose_ads.setText(MainAty.GDLOC_MAP.get("province") + "," + MainAty.GDLOC_MAP.get("city") + "," + MainAty.GDLOC_MAP.get("district"));
         L.e("==========商品详情获取的定位信息===========" + tx);
 //        } else {

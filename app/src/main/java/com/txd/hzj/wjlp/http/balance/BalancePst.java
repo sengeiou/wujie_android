@@ -40,19 +40,19 @@ public class BalancePst extends BasePresenter {
     public void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
                            String pay_password,String id) {
 
-        if (bank_card_id.equals("")) {
+        if (bank_card_id.isEmpty() || bank_card_id.equals("")) {
             baseView.onErrorTip("请选择银行");
             return;
         }
-        if (act_time.equals("")) {
+        if (act_time.isEmpty() || act_time.equals("")) {
             baseView.onErrorTip("请选择汇款时间");
             return;
         }
-        if (money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
+        if (money.isEmpty() || money.equals("") || money.equals("0") || money.equals("0.0") || money.equals("0.00")) {
             baseView.onErrorTip("请输入汇款金额");
             return;
         }
-        if (name.equals("")) {
+        if (name.isEmpty() || name.equals("")) {
             baseView.onErrorTip("请输入汇款人");
             return;
         }
@@ -60,7 +60,7 @@ public class BalancePst extends BasePresenter {
             baseView.onErrorTip("请上传凭证");
             return;
         }
-        if (pay_password.equals("")) {
+        if (pay_password.isEmpty() || pay_password.equals("")) {
             baseView.onErrorTip("请输入密码");
             return;
         }
@@ -80,20 +80,20 @@ public class BalancePst extends BasePresenter {
     public void addBank(String name, String bank_type_id, String open_bank, String card_number, String phone) {
 
 
-        if (bank_type_id.equals("")) {
+        if (bank_type_id.isEmpty() || bank_type_id.equals("")) {
             baseView.onErrorTip("请选择卡类型");
             return;
         }
 
-        if (open_bank.equals("")) {
+        if (open_bank.isEmpty() || open_bank.equals("")) {
             baseView.onErrorTip("请输入开户行");
             return;
         }
-        if (card_number.equals("") || card_number.length() < 16) {
+        if (card_number.isEmpty() || card_number.equals("") || card_number.length() < 16) {
             baseView.onErrorTip("请检查卡号");
             return;
         }
-        if (!RegexUtils.checkMobile(phone)) {
+        if (phone.isEmpty() || !RegexUtils.checkMobile(phone)) {
             baseView.onErrorTip("请核对手机号");
             return;
         }

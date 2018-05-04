@@ -94,6 +94,9 @@ public class IntegralAty extends BaseAty {
                             layout_bottom_tv.setText(my_integral);
                             String time_out_status = jsonObject2.getString("time_out_status");
                             String exchange_status = jsonObject2.getString("exchange_status");
+                            String point_desc = jsonObject2.getString("point_desc"); // 获取提示文字
+                            tv1.setText(point_desc == null ? "" : point_desc);
+//                          tv1.setText("积分兑换额度=积分总额*无界指数，实际可兑换额度按10的倍数向下取整，最低兑换额度不小于10积分。");
                             if (time_out_status.equals("1")) {
                                 exchange_money_tv.setText("暂时不可兑换");
                                 exchange_money_tv.setEnabled(false);
@@ -108,17 +111,10 @@ public class IntegralAty extends BaseAty {
                             }
 
                             String status = jsonObject2.getString("status");
-                            if (status.equals("1")){
+                            if (status.equals("1")) {
                                 // 如果是优享会员并且自动兑换状态为打开
                                 cb.setChecked(true);
                             }
-//                            if (status.equals("1")) {
-//                                cb.setChecked(true);
-////                                cb.setBackgroundResource(R.drawable.icon_auto_open_hzj);
-//                            } else {
-//                                cb.setChecked(false);
-////                                cb.setBackgroundResource(R.drawable.icon_auto_close_hzj);
-//                            }
                             JSONArray jsonArray = jsonObject2.getJSONArray("point_list");
                             ArrayList<String> list = new ArrayList<String>();
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -128,13 +124,10 @@ public class IntegralAty extends BaseAty {
                                 String point_num = jsonObject1.getString("point_num");
                                 String change = jsonObject1.getString("change");
                                 String date = jsonObject1.getString("date");
-                                String point_desc = jsonObject1.getString("point_desc");
 
                                 date.replace("~", "-");
 //                                layout_bottom_tv.setText(my_change_integral);
                                 tv_point_num.setText("无界指数：" + point_num);
-                                tv1.setText(point_desc == null ? "" : point_desc);
-//                                tv1.setText("积分兑换额度=积分总额*无界指数，实际可兑换额度按10的倍数向下取整，最低兑换额度不小于10积分。");
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");
                                 Date date1 = new Date(System.currentTimeMillis());
                                 String time = simpleDateFormat.format(date1);
@@ -262,7 +255,7 @@ public class IntegralAty extends BaseAty {
             String exchange_status = map.get("exchange_status");
 
             String status = map.get("status");
-            if (isYouXiang && status.equals("1")){
+            if (isYouXiang && status.equals("1")) {
                 // 如果是优享会员并且自动兑换状态为打开
                 cb.setChecked(true);
             }

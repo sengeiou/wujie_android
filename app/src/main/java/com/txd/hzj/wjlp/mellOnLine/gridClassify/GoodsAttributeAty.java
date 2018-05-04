@@ -224,7 +224,7 @@ public class GoodsAttributeAty extends BaseAty {
             }
         });
         from = getIntent().getIntExtra("from", 0);
-        goods_id = getIntent().getStringExtra("goods_id"); // TODO aljksflakjsflakjflakjflajdflajdflaksjdlasjdlaksjdalksjdlasjkdals
+        goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
         group_buy_id = getIntent().getStringExtra("group_buy_id");
         is_attr = getIntent().getStringExtra("is_attr");
@@ -1097,8 +1097,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 
-    private List<GoodsAttr> dealData(List<GoodsAttr> list,
-                                     List<Goods_val> list_val, int clickWhichPos) {
+    private List<GoodsAttr> dealData(List<GoodsAttr> list, List<Goods_val> list_val, int clickWhichPos) {
         recordMutilMapList.clear();//清空记录数组
         List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
         for (int bd = 0; bd < list_val.size(); bd++) {//遍历属性的可选值

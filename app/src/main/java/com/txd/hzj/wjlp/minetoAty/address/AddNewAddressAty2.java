@@ -153,15 +153,12 @@ public class AddNewAddressAty2 extends BaseAty {
                 } else {
                     if (0 == type) {
                         Log.d("cehshi", "111111");
-                        addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id,
-                                street_id, address, lng, lat);
-//                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id,
-//                            street_id, address, lng, lat);
+                        addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
+//                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
 
                     } else {
                         Log.d("cehshi", "222222");
-                        addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id,
-                                city_id, area_id, street_id, address, lng, lat);
+                        addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
                     }
                 }
                 break;

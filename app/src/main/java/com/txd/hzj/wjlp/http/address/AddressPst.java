@@ -74,9 +74,7 @@ public class AddressPst extends BasePresenter {
                            String street, String province_id, String city_id, String area_id, String street_id,
                            String address, String lng, String lat) {
         baseView.showDialog();
-        this.address.addAddress(receiver, phone, province, city, area, street, province_id, city_id,
-                area_id,
-                street_id, address, lng, lat, baseView);
+        this.address.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat, baseView);
     }
 
     /**
