@@ -103,6 +103,17 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.bottom_tip_layout)
     private LinearLayout bottom_tip_layout;
 
+    /**
+     * lg，余额提示增加 desc提示
+     */
+    @ViewInject(R.id.cashDescLayout)
+    private LinearLayout cashDescLayout;
+    /**
+     * lg，余额提示增加 desc提示
+     */
+    @ViewInject(R.id.cashDescTv)
+    private TextView cashDescTv;
+
     @ViewInject(R.id.my_bal_tv1)
     private TextView my_bal_tv1;
     @ViewInject(R.id.my_bal_tv2)
@@ -124,10 +135,6 @@ public class ExchangeMoneyAty extends BaseAty {
     @ViewInject(R.id.et_password)
     private EditText et_password;
 
-    @ViewInject(R.id.ll)
-    LinearLayout ll;
-    @ViewInject(R.id.operation_type_tv21)
-    TextView operation_type_tv21;
     @ViewInject(R.id.password_et)
     EditText password_et;
 
@@ -138,7 +145,6 @@ public class ExchangeMoneyAty extends BaseAty {
     private String balanceStr; // 余额数值
     private String myChangeIntegralStr; // 可兑换积分总数
     private String moneyStr;
-    private String changeStr; // 初始获取的提示信息
     private int rateInt; // 回传的手续费率，用于计算具体的手续费
 
     @Override
@@ -230,7 +236,7 @@ public class ExchangeMoneyAty extends BaseAty {
             operation_type_tv.setText("积分");
             my_bal_tv2.setText("全部使用");
             my_bal_tv1.setText("我的积分300 ");
-            ll.setVisibility(View.VISIBLE);
+            cashDescLayout.setVisibility(View.VISIBLE);
             User.myIntegral(this); // 获取积分
         } else {
             titlt_conter_tv.setText("提现");
@@ -242,8 +248,8 @@ public class ExchangeMoneyAty extends BaseAty {
             operation_type_tv2.setText("提现到银行卡，手续费率");
             my_bal_tv2.setText("全部提现");
             MoneyUtils.setPricePoint(money_ev);
-            ll.setVisibility(View.VISIBLE);
-            operation_type_tv21.setText(" 每次提现为100的倍数，最大额度为50000，每次提现收取5%综合服务费，每次收取综合服务费100元封顶。");
+            cashDescLayout.setVisibility(View.VISIBLE);
+
             UserBalance.cashIndex(this); // 提现首页
         }
 
@@ -345,8 +351,7 @@ public class ExchangeMoneyAty extends BaseAty {
             try {
                 JSONArray jsonArray = new JSONArray(pointListStr);
                 JSONObject json = (JSONObject) jsonArray.get(0);
-                changeStr = json.getString("change");
-                operation_type_tv21.setText(changeStr); // 提示：你可以使用xx积分....
+                cashDescTv.setText(json.getString("change")); // 提示：你可以使用xx积分....
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -362,12 +367,14 @@ public class ExchangeMoneyAty extends BaseAty {
             rate_tv.setText(rate + "%");
             this.rate = data.get("rate");
             delay_time_tv.setText(data.get("delay_time"));
+            if (data.containsKey("cash_desc"))
+                cashDescTv.setText(data.get("cash_desc"));
         }
         if (urlLastStr.equals("autoChange")) { // 获取详情提示
             if (map.get("code").equals("1")) {
                 Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 rate_tv.setText(data.get("integral_percentage")); // 手续费率
-                operation_type_tv21.setText(data.get("desc"));
+                cashDescTv.setText(data.get("desc"));
             }
         }
     }

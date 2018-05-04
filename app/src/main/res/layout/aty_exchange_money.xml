@@ -98,27 +98,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="4dp"
-        android:paddingStart="16dp"
-        android:paddingTop="4dp"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/operation_type_tv21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="积分大等于100时可申请积分转余额，每次积分转余额的额度为积分总额（100的倍数取整）乘以无界指数。"
-            android:textColor="@color/app_text_color" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/select_bank_card_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -229,5 +208,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=",节假日顺延" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/cashDescLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="0dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/cashDescTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text=""
+            android:textColor="@color/colorAccent" />
+
     </LinearLayout>
 </LinearLayout>
