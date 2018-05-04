@@ -343,8 +343,8 @@ public class AllClassifyAty extends BaseAty {
                 //已修改将热门品牌设置为隐藏，后期需要将下边控件设置为显示
                 //HotBrandAdapter 是热门品牌的图片列表
                 rvh.hot_brand_rv.setAdapter(new HotBrandAdapter(AllClassifyAty.this, host));
-                rvh.hot_brand_rv.setVisibility(View.GONE);//该控件是热门品牌下的iamger
-                rvh.tv_host_brand.setVisibility(View.GONE);//该控件是热门品牌
+                rvh.hot_brand_rv.setVisibility(View.VISIBLE);//该控件是热门品牌下的iamger
+                rvh.tv_host_brand.setVisibility(View.VISIBLE);//该控件是热门品牌
             } else {
                 rvh.tv_host_brand.setVisibility(View.GONE);//该控件是热门品牌下的iamger
                 rvh.hot_brand_rv.setVisibility(View.GONE);//该控件是热门品牌
