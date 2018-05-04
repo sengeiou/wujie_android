@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.myGrade;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,17 +101,24 @@ public class RecommendSuccessAty extends BaseAty {
         nickname = getIntent().getStringExtra("nickname"); // 查询name
 
         titlt_conter_tv.setText((nickname.equals("") ? "我" : nickname) + "的推荐");
-
-        share_times_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("parent_id", list.get(position - 1).getId());
-                bundle.putString("nickname", list.get(position - 1).getNickname());
-                startActivity(RecommendSuccessAty.class, bundle);
-            }
-        });
-
+        final String tempInfiniteStr = getIntent().getStringExtra("infinite");
+        if (!TextUtils.isEmpty(tempInfiniteStr)) {
+            if ("1".equals(tempInfiniteStr)) {
+                share_times_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("parent_id", list.get(position - 1).getId());
+                        bundle.putString("nickname", list.get(position - 1).getNickname());
+                        bundle.putString("infinite", tempInfiniteStr);
+                        startActivity(RecommendSuccessAty.class, bundle);
+                    }
+                });
+            } else
+                share_times_lv.setOnItemClickListener(null);
+        } else {
+            share_times_lv.setOnItemClickListener(null);
+        }
         userPst.myRecommendNew(p, parent_id, true);
 
     }

@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ import com.txd.hzj.wjlp.citySelect.CitySelectAty;
 import com.txd.hzj.wjlp.cityselect1.ac.EasySideBarBuilder;
 import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.new_wjyp.Bean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +72,10 @@ import static android.R.attr.entries;
  * ===============Txunda===============
  */
 public class ShareGradeAty extends BaseAty {
-
+    /**
+     * lg 无限点击事件
+     */
+    private String infinite;
     /**
      * AppBarLAyout
      */
@@ -132,9 +137,8 @@ public class ShareGradeAty extends BaseAty {
      */
     private boolean frist = true;
 
-    private List<Map<String, String>> rankList;
-
-
+//    private List<Map<String, String>> rankList;
+    private List<RankBean> rankList;
     @ViewInject(R.id.user_head_iv)
     private ShapedImageView user_head_iv;
 
@@ -150,7 +154,7 @@ public class ShareGradeAty extends BaseAty {
     @ViewInject(R.id.nestedScrollView)
     private NestedScrollView nestedScrollView;
 
-    ShareAdapter shareAdapter;
+//    ShareAdapter shareAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +179,7 @@ public class ShareGradeAty extends BaseAty {
 
         my_share_grade_lv.setEmptyView(no_data_layout);
         p = 1;
-        userPst.gradeRank(p, city_id, type, city_name, true);
+//        userPst.gradeRank(p, city_id, type, city_name, true);
         changeViewStatus(0);
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -190,7 +194,7 @@ public class ShareGradeAty extends BaseAty {
 
 
         });
-        userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
+//        userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
     }
 
     @Override
@@ -211,11 +215,11 @@ public class ShareGradeAty extends BaseAty {
             case R.id.sh_left_lin_layout:// 左(分享榜)
                 changeViewStatus(0);
 //                shareHttp();
-                userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
+//                userPst.gradeRank(p, "", "share", grade_location_tv.getText().toString(), true);
                 break;
             case R.id.sh_right_lin_layout:// 右(推荐榜)
                 changeViewStatus(1);
-                userPst.gradeRank(p, "", "recommend", grade_location_tv.getText().toString(), true);
+//                userPst.gradeRank(p, "", "recommend", grade_location_tv.getText().toString(), true);
                 break;
             case R.id.grade_location_tv:// 地址选择
                 download();
@@ -260,22 +264,14 @@ public class ShareGradeAty extends BaseAty {
         my_share_grade_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> map = rankList.get(position);
-                List<String> keyList = new ArrayList<String>();
-                for (String key : map.keySet()) {
-                    keyList.add(key);
+                RankBean rankBean= rankList.get(position);
+                if(!TextUtils.isEmpty(rankBean.getParent_id())){//有parent_id时候可以跳转
+                    Bundle bundle = new Bundle();
+                    bundle.putString("parent_id", rankBean.getParent_id());
+                    bundle.putString("nickname", rankBean.getNickname());
+                    bundle.putString("infinite",infinite);
+                    startActivity(RecommendSuccessAty.class, bundle);
                 }
-
-                for (int i = 0; i < keyList.size(); i++) {
-                    if (keyList.get(i).equals("parent_id")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("parent_id", rankList.get(position).get("parent_id"));
-                        bundle.putString("nickname", rankList.get(position).get("nickname"));
-                        startActivity(RecommendSuccessAty.class, bundle);
-                        return;
-                    }
-                }
-
             }
         });
     }
@@ -302,7 +298,7 @@ public class ShareGradeAty extends BaseAty {
                     share_num_tv.setText(data.get("share_num"));
                     recommend_num_tv.setText(data.get("recommend_num"));
                     if (ToolKit.isList(data, "rank_list")) {
-                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list"));
+                        rankList = JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list"));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
                     }
 
@@ -313,7 +309,7 @@ public class ShareGradeAty extends BaseAty {
 
                 } else {
                     if (ToolKit.isList(data, "rank_list")) {
-                        rankList.addAll(JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")));
+                        rankList.addAll(JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list")));
                         my_share_grade_lv.setAdapter(rankingListAdapter);
 
                     }
@@ -357,7 +353,8 @@ public class ShareGradeAty extends BaseAty {
                     share_num_tv.setText(data.get("share_num")); // 设置显示推荐人数
                     recommend_num_tv.setText(data.get("recommend_num")); // 设置显示消息
                     if (ToolKit.isList(data, "rank_list")) { // 如果rank_list字段可以解析为集合
-                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list字段转换为集合
+//                        rankList = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list字段转换为集合
+                        rankList = JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list")); // 将rank_list字段转换为集合
                         if (rankList.size() > 0) { // 如果集合中元素个数大于0
                             my_share_grade_lv.setAdapter(rankingListAdapter); // 设置Adapter
                         } else { // 否则为空集合
@@ -370,7 +367,8 @@ public class ShareGradeAty extends BaseAty {
                     }
                 } else { // 否则是多次请求数据，页数大于1
                     if (ToolKit.isList(data, "rank_list")) { // 判断rank_list是否可以解析成集合
-                        ArrayList<Map<String, String>> rank_list = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list转换成集合
+//                        ArrayList<Map<String, String>> rank_list = JSONUtils.parseKeyAndValueToMapList(data.get("rank_list")); // 将rank_list转换成集合
+                        ArrayList<RankBean> rank_list = JSONUtils.parseKeyAndValueToMapList(RankBean.class,data.get("rank_list")); // 将rank_list转换成集合
                         if (rank_list.size() > 0) { // 集合中有数据
                             rankList.addAll(rank_list); // 添加新集合到原始List数组中
                             rankingListAdapter.notifyDataSetChanged(); // 更新Adapter
@@ -379,6 +377,11 @@ public class ShareGradeAty extends BaseAty {
                         }
                     }
                 }
+                String infiniteStr=data.get("infinite");
+                if(data.containsKey("infinite")&& !android.text.TextUtils.isEmpty(infiniteStr)){//lg 无限点击事件数据获取
+                    infinite=infiniteStr;
+                }
+
             } else { // 否则，请求回传的data字段无法转换成集合形式
                 if (1 == p) { // 如果请求的事第一页数据
                     if (!frist) { // 如果不是第一次进入
@@ -405,9 +408,10 @@ public class ShareGradeAty extends BaseAty {
         }
 
         @Override
-        public Map<String, String> getItem(int i) {
-            return rankList.get(i);
+        public Object getItem(int position) {
+            return rankList.get(position);
         }
+
 
         @Override
         public long getItemId(int i) {
@@ -417,7 +421,8 @@ public class ShareGradeAty extends BaseAty {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            Map<String, String> rank = getItem(i);
+//            Map<String, String> rank = getItem(i);
+            RankBean rank = (RankBean) getItem(i);
 
             if (view == null) {
                 view = LayoutInflater.from(ShareGradeAty.this).inflate(R.layout.item_share_grade_lv, viewGroup, false);
@@ -428,16 +433,18 @@ public class ShareGradeAty extends BaseAty {
                 rlvh = (RLVH) view.getTag();
             }
 
-            List<String> keyList = new ArrayList<String>();
-            for (String key : rank.keySet()) {
-                keyList.add(key);
-            } // 获取所有的Key
-            for (int x = 0; x < keyList.size(); x++) {
-                if (!keyList.get(x).equals("parent_id") && x == keyList.size() - 1) {
-                    rlvh.rank_type_tv.setText("分享");
-                    rlvh.rank_unit_tv.setText("次");
-                }
-            }
+//            List<String> keyList = new ArrayList<String>();
+//            for (String key : rank.keySet()) {
+//                keyList.add(key);
+//            } // 获取所有的Key
+//            for (int x = 0; x < keyList.size(); x++) {
+//                if (!keyList.get(x).equals("parent_id") && x == keyList.size() - 1) {
+                    if(null==rank.getParent_id()){
+                        rlvh.rank_type_tv.setText("分享");
+                        rlvh.rank_unit_tv.setText("次");
+                    }
+//                }
+//            }
 
             if (i < 100 && i >= 3) {// 第四名和第五名
                 rlvh.top_from_four_to_five_iv.setVisibility(View.VISIBLE); // 4到5右下角勋章显示
@@ -455,15 +462,18 @@ public class ShareGradeAty extends BaseAty {
                 rlvh.top_three_iv.setVisibility(View.GONE);
             }
 
-            Glide.with(ShareGradeAty.this).load(rank.get("head_pic"))
+
+//            Glide.with(ShareGradeAty.this).load(rank.get("head_pic"))
+            Glide.with(ShareGradeAty.this).load(rank.getHead_pic0())
                     .override(size, size)
                     .placeholder(R.drawable.ic_default)
                     .error(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(rlvh.rank_item_haed_iv);
-
-            rlvh.rank_nickname_Tv.setText(rank.get("nickname"));
-            rlvh.rank_num_tv.setText(rank.get("num"));
+            rlvh.rank_nickname_Tv.setText(rank.getNickname());
+//            rlvh.rank_nickname_Tv.setText(rank.get("nickname"));
+//            rlvh.rank_num_tv.setText(rank.get("num"));
+            rlvh.rank_num_tv.setText(rank.getNum());
 
             return view;
         }

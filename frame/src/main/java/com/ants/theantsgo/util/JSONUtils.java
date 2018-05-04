@@ -1,9 +1,13 @@
 package com.ants.theantsgo.util;
 
+import com.ants.theantsgo.gson.GsonUtil;
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -690,7 +694,28 @@ public class JSONUtils {
 			return null;
 		}
 	}
-
+	public static ArrayList parseKeyAndValueToMapList(Class clazz, String source){
+		if (StringUtils.isEmpty(source)) {
+			return null;
+		}
+		if (!source.startsWith("[") && !source.endsWith("]")) {
+			return null;
+		}
+		try {
+			ArrayList list = new ArrayList<>();
+			JSONArray jsonArray = new JSONArray(source);
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				list.add(GsonUtil.GsonToBean(String.valueOf(jsonObject),clazz));
+			}
+			return list;
+		} catch (JSONException e) {
+			if (isPrintException) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+	}
 	public static ArrayList<Map<String, String>> parseKeyAndValueToMapList(
 			String source) {
 		if (StringUtils.isEmpty(source)) {
