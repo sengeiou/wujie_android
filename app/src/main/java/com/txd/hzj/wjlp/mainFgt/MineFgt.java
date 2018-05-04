@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -256,7 +257,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         off_line_to_change_sc.smoothScrollTo(0, 0);
         // 改变标题栏颜色
         off_line_to_change_sc.setScrollViewListener(MineFgt.this);
-
         if (0 == type) {
             mine_mell_point_tv.setVisibility(View.VISIBLE);
             mell_point_lin_layout.setVisibility(View.VISIBLE);

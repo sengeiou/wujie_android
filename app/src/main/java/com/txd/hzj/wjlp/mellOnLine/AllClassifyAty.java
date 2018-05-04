@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,10 +173,13 @@ public class AllClassifyAty extends BaseAty {
     protected void requestData() {
         categoryPst.cateIndex(cate_id);
     }
-
+/**
+ * 请求网络
+ * */
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Log.i("分类左侧请求数据",jsonStr.toString());
         if (requestUrl.contains("cateIndex")) {
             CateIndex cateIndex = GsonUtil.GsonToBean(jsonStr, CateIndex.class);
 
@@ -196,6 +200,7 @@ public class AllClassifyAty extends BaseAty {
                 }
             }
             right = cateIndex.getData().getTwo_cate();
+            Log.i("分类右侧数据",right.toString());
             if (!ListUtils.isEmpty(right)) { // 如果有数据
                 classify_nullData_layout.setVisibility(View.GONE);
                 classify_right_lv.setVisibility(View.VISIBLE);
@@ -335,10 +340,14 @@ public class AllClassifyAty extends BaseAty {
 
             List<CateIndex.Data.TwoCateBean.HostBrandBean> host = childCateBean.getHost_brand();
             if (!ListUtils.isEmpty(host)) {
+                //已修改将热门品牌设置为隐藏，后期需要将下边控件设置为显示
+                //HotBrandAdapter 是热门品牌的图片列表
                 rvh.hot_brand_rv.setAdapter(new HotBrandAdapter(AllClassifyAty.this, host));
-                rvh.tv_host_brand.setVisibility(View.VISIBLE);
+                rvh.hot_brand_rv.setVisibility(View.GONE);//该控件是热门品牌下的iamger
+                rvh.tv_host_brand.setVisibility(View.GONE);//该控件是热门品牌
             } else {
-                rvh.tv_host_brand.setVisibility(View.GONE);
+                rvh.tv_host_brand.setVisibility(View.GONE);//该控件是热门品牌下的iamger
+                rvh.hot_brand_rv.setVisibility(View.GONE);//该控件是热门品牌
 
             }
 

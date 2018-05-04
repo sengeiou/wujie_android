@@ -413,6 +413,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         for (int i = 0; i < pageCount; i++) {
             GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout, under_banner_menu_vp, false);
+           //设置adapter  给布局填充控件（限量购及票卷区图标）
             gridView.setAdapter(new OnLineMenuGvAdapter(getActivity(), gv_classify, i));
             mPagerList.add(gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

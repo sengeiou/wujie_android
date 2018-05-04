@@ -252,7 +252,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 case 2:// 购物车
                     cart_rb.setChecked(true);
                     break;
-                case 3:// 我的
+                case 3:// 我的`
                     mine_rb.setChecked(true);
                     break;
             }
