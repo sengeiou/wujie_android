@@ -126,7 +126,6 @@
                                 android:id="@+id/title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="规格"
                                 android:textColor="@color/gray_text_color"
                                 android:textSize="10sp" />
 

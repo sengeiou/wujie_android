@@ -1076,7 +1076,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
 
             goodsName = goodsInfo.get("goods_name");
-            forGoodsInfo(goodsInfo); // TODO 报错，进入catch分支
+            forGoodsInfo(goodsInfo);
 
             tv_jgsm.setText(data.get("price_desc")); // 价格说明
             if (ToolKit.isList(data, "guess_goods_list")) {
@@ -1478,7 +1478,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
          * "is_new_goods": "1",//是否是新品  0不是 1是
          "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
          "is_end": "0",//是否临期 0未临期 1临期
-         "is_end_desc": "此商品属于临期商品，商品保质期到期日为2017-20-30",//临期描述
+         "is_end_desc": "此商品属于临期商品，商品保质期到期日为2017-20-30",// 临期描述
          */
         if (goodsInfo.get("is_new_goods").equals("0") && goodsInfo.get("is_end").equals("1")) {
             tv_expirationdate.setText(goodsInfo.get("is_new_goods_desc") + "\n" + goodsInfo.get("is_end_desc"));

@@ -154,11 +154,9 @@ public class EvaluationReleaseAty extends BaseAty {
 
     private class GoodsEvalustionAdapter extends BaseAdapter {
 
-
         private GEVVH gevvh;
         private GridImageAdapter gridImageAdapter;
         private FullyGridLayoutManager manager;
-
 
         @Override
         public int getCount() {
@@ -179,8 +177,7 @@ public class EvaluationReleaseAty extends BaseAty {
         public View getView(final int i, View view, ViewGroup viewGroup) {
             final CommentindexBean.GoodsListBean ge = getItem(i);
             if (view == null) {
-                view = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_for_goods_evaluste_lv,
-                        null);
+                view = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_for_goods_evaluste_lv, null);
                 gevvh = new GEVVH();
                 ViewUtils.inject(gevvh, view);
                 view.setTag(gevvh);
@@ -262,8 +259,7 @@ public class EvaluationReleaseAty extends BaseAty {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null && requestCode == 100) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker
-                        .EXTRA_RESULT_ITEMS);
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 for (ImageItem img : images) {
                     String pic_path = CompressionUtil.compressionBitmap(img.path);
                     File file = new File(pic_path);
