@@ -1,5 +1,8 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -985,11 +988,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         imageViews.add(level_3_iv);
         imageViews.add(level_4_iv);
         imageViews.add(level_5_iv);
-        String data=application.getCityProvienceJson();
+        String data = application.getCityProvienceJson();
         if (android.text.TextUtils.isEmpty(data)) {
             addressPst = new AddressPst(this);
             addressPst.androidAddress();
-        }else{
+        } else {
             initJsonData(data);
         }
     }
@@ -1186,14 +1189,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collected),null,null);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collect),null,null);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         }
         if (requestUrl.contains("cateIndex")) {
@@ -1365,10 +1368,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         is_collect = data.get("is_collect");
 
         if ("0".equals(is_collect)) {
-            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collect),null,null);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             goods_title_collect_tv.setText("收藏");
         } else {
-            goods_title_collect_tv.setCompoundDrawables(null,TextUtils.toDrawable(this,R.drawable.icon_collected),null,null);
+            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             goods_title_collect_tv.setText("已收藏");
         }
     }
@@ -1473,6 +1476,24 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         // 图文详情
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));
+        // 长按标题进行复制标题文字
+        goods_details_name_tv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(TicketGoodsDetialsAty.this).setTitle("操作提示")
+                        .setMessage("长按将复制文字：" + goods_details_name_tv.getText().toString())
+                        .setNegativeButton("取消", null)
+                        .setPositiveButton("复制", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ClipboardManager cm = (ClipboardManager) TicketGoodsDetialsAty.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                cm.setText(goods_details_name_tv.getText().toString());
+                                showToast("商品名称已复制到剪切板，快去粘贴吧~");
+                            }
+                        }).create().show();
+                return false;
+            }
+        });
         ticket_goods_tv.setText("可使用" + goodsInfo.get("ticket_buy_discount") + "%代金券");
         /**判断这块儿显示和隐藏
          * "is_new_goods": "1",//是否是新品  0不是 1是
