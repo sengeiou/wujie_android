@@ -102,9 +102,11 @@ public class PullToRefreshLayout extends RelativeLayout {
     private View pullableView;
     // 过滤多点触碰
     private int mEvents;
-    // 这两个变量用来控制pull的方向，如果不加控制，当情况满足可上拉又可下拉时没法下拉
+    // 这两个变量用来控制pull的方向，如果不加控制，当情况满足可上拉又可下拉时,没法下拉
     private boolean canPullDown = true;
     private boolean canPullUp = true;
+    private float mDownX;
+    private float mDownY;
 
     public boolean isCanPullDown() {
         return canPullDown;
@@ -294,6 +296,7 @@ public class PullToRefreshLayout extends RelativeLayout {
         switch (state) {
             case INIT:
                 // 下拉布局初始状态
+                Log.i("调用下拉", "==============================");
                 refreshStateImageView.setVisibility(View.GONE);
                 refreshStateTextView.setText(R.string.pull_to_refresh);
                 pullView.clearAnimation();
@@ -306,11 +309,13 @@ public class PullToRefreshLayout extends RelativeLayout {
                 break;
             case RELEASE_TO_REFRESH:
                 // 释放刷新状态
+                Log.i("调用刷新", "==============================");
                 refreshStateTextView.setText(R.string.release_to_refresh);
                 pullView.startAnimation(rotateAnimation);
                 break;
             case REFRESHING:
                 // 正在刷新状态
+                Log.i("正在刷新", "==============================");
                 pullView.clearAnimation();
                 refreshingView.setVisibility(View.VISIBLE);
                 pullView.setVisibility(View.INVISIBLE);
@@ -357,8 +362,10 @@ public class PullToRefreshLayout extends RelativeLayout {
         switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 downY = ev.getY();
+                Log.i("============", "layout点击事件");
                 lastY = downY;
                 timer.cancel();
+                canPullDown = true;
                 mEvents = 0;
                 releasePull();
                 break;
@@ -368,6 +375,7 @@ public class PullToRefreshLayout extends RelativeLayout {
                 mEvents = -1;
                 break;
             case MotionEvent.ACTION_MOVE:
+
                 if (mEvents == 0) {
                     if (pullDownY > 0 || (((Pullable) pullableView).canPullDown() && canPullDown && state != LOADING)) {
                         // 可以下拉，正在加载时不能下拉
@@ -377,13 +385,16 @@ public class PullToRefreshLayout extends RelativeLayout {
                             pullDownY = 0;
                             canPullDown = false;
                             canPullUp = true;
+                            Log.i("============", "layout滑动事件");
                         }
                         if (pullDownY > getMeasuredHeight())
                             pullDownY = getMeasuredHeight();
                         if (state == REFRESHING) {
                             // 正在刷新的时候触摸移动
                             isTouch = true;
+                            Log.i("============", "layout滑动事件");
                         }
+                        Log.i("下拉成功", "=====================================");
                     } else if (pullUpY < 0 || (((Pullable) pullableView).canPullUp() && canPullUp && state !=
                             REFRESHING)) {
                         // 可以上拉，正在刷新时不能上拉
@@ -412,10 +423,12 @@ public class PullToRefreshLayout extends RelativeLayout {
                     if (pullDownY <= refreshDist && (state == RELEASE_TO_REFRESH || state == DONE)) {
                         // 如果下拉距离没达到刷新的距离且当前状态是释放刷新，改变状态为下拉刷新
                         changeState(INIT);
+                        Log.i("============", "layout滑动事件");
                     }
                     if (pullDownY >= refreshDist && state == INIT) {
                         // 如果下拉距离达到刷新的距离且当前状态是初始状态刷新，改变状态为释放刷新
                         changeState(RELEASE_TO_REFRESH);
+                        Log.i("============", "layout滑动事件");
                     }
                 } else if (pullUpY < 0) {
                     // 下面是判断上拉加载的，同上，注意pullUpY是负值
@@ -440,6 +453,7 @@ public class PullToRefreshLayout extends RelativeLayout {
                 // 正在刷新时往下拉（正在加载时往上拉），释放后下拉头（上拉头）不隐藏
                 {
                     isTouch = false;
+                    Log.i("============", "layout滑动事件");
                 }
                 if (state == RELEASE_TO_REFRESH) {
                     changeState(REFRESHING);
@@ -459,6 +473,7 @@ public class PullToRefreshLayout extends RelativeLayout {
         // 事件分发交给父类
         super.dispatchTouchEvent(ev);
         return true;
+
     }
 
     /**
