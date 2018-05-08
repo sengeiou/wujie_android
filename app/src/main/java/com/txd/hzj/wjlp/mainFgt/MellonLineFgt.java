@@ -413,7 +413,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         for (int i = 0; i < pageCount; i++) {
             GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout, under_banner_menu_vp, false);
-           //设置adapter  给布局填充控件（限量购及票卷区图标）
+            //设置adapter  给布局填充控件（限量购及票卷区图标）
             gridView.setAdapter(new OnLineMenuGvAdapter(getActivity(), gv_classify, i));
             mPagerList.add(gridView);
             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -604,7 +604,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         public void setImageForPosition(final int position, ImageView imageView) {
             Glide.with(getActivity()).load(image.get(position).get("picture"))
                     .override(Settings.displayWidth, allHeight)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -912,7 +912,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (group_buy_ads != null) {
             Glide.with(getActivity()).load(group_buy_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -948,7 +948,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (house_ads != null) {
             Glide.with(getActivity()).load(house_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -988,7 +988,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (car_ads != null) {
             Glide.with(getActivity()).load(car_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1034,7 +1034,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (one_buy_ads != null) {
             Glide.with(getActivity()).load(one_buy_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1075,7 +1075,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (auction_ads != null) {
             Glide.with(getActivity()).load(auction_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1116,7 +1116,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (country_ads != null) {
             Glide.with(getActivity()).load(country_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1157,7 +1157,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (pre_ads != null) {
             Glide.with(getActivity()).load(pre_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1201,7 +1201,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (ticket_ads != null) {
             Glide.with(getActivity()).load(ticket_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1246,7 +1246,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (limit_ads != null) {
             Glide.with(getActivity()).load(limit_ads.get("picture"))
                     .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1349,7 +1349,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         if (brand != null) {
             Glide.with(getActivity()).load(brand.get("picture"))
                     .override(img_w, img_h)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .error(R.mipmap.icon_200)
                     .placeholder(R.mipmap.icon_200)
                     .centerCrop()
@@ -1381,7 +1381,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         final Map<String, String> china = JSONUtils.parseKeyAndValueToMap(three_img.get("china"));
         Glide.with(getActivity()).load(china.get("picture"))
                 .override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
@@ -1413,7 +1413,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         final Map<String, String> science = JSONUtils.parseKeyAndValueToMap(three_img.get("science"));
         Glide.with(getActivity()).load(science.get("picture"))
                 .override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .error(R.mipmap.icon_200)
                 .placeholder(R.mipmap.icon_200)
                 .centerCrop()
@@ -1500,8 +1500,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     /**
-     *x&y 分别为x轴与y轴变化后的位置距离
-     * */
+     * x&y 分别为x轴与y轴变化后的位置距离
+     */
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= 0) {
