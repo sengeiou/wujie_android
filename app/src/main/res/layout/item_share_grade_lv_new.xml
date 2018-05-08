@@ -28,12 +28,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
                         android:id="@+id/itemShareGrade_head_imgv"
                         android:layout_width="49dp"
                         android:layout_height="49dp"
                         android:scaleType="fitCenter"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/ic_launcher_round"
+                        app:shape_mode="circle" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -231,8 +232,8 @@
                             <ImageView
                                 android:id="@+id/itemShareGrade_umbrellaIconWuYou_imgv"
                                 android:layout_width="14dp"
-                                android:layout_gravity="center"
                                 android:layout_height="14dp"
+                                android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
@@ -258,8 +259,8 @@
                             <ImageView
                                 android:id="@+id/itemShareGrade_straightIconWuYou_imgv"
                                 android:layout_width="14dp"
-                                android:layout_gravity="center"
                                 android:layout_height="14dp"
+                                android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
@@ -304,8 +305,8 @@
                             <ImageView
                                 android:id="@+id/itemShareGrade_umbrellaIconYouXiang_imgv"
                                 android:layout_width="14dp"
-                                android:layout_gravity="center"
                                 android:layout_height="14dp"
+                                android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView
@@ -331,8 +332,8 @@
                             <ImageView
                                 android:id="@+id/itemShareGrade_straightIconYouXiang_imgv"
                                 android:layout_width="14dp"
-                                android:layout_gravity="center"
                                 android:layout_height="14dp"
+                                android:layout_gravity="center"
                                 android:src="@drawable/ic_default" />
 
                             <TextView

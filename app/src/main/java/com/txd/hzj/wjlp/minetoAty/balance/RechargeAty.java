@@ -302,8 +302,6 @@ public class RechargeAty extends BaseAty {
                     Intent intent = new Intent();
                     intent.setClass(RechargeAty.this, ParticularsUsedByTricketAty.class);
                     intent.putExtra("from", 4); // 线下充值明细
-//                    setResult(RESULT_OK, intent);
-//                    finish();
                     startActivity(intent);
                     finish();
                 }

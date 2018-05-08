@@ -19,6 +19,7 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -181,7 +182,6 @@ public class RecommendSuccessAty extends BaseAty {
             MyRecommendBean.DataBean dataBean = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(RecommendSuccessAty.this).inflate(R.layout.item_share_grade_lv_new, viewGroup, false);
-//                view = LayoutInflater.from(RecommendSuccessAty.this).inflate(R.layout.item_recomment_success_lv, viewGroup, false);
                 rsvh = new RSVH();
                 ViewUtils.inject(rsvh, view);
                 view.setTag(rsvh);
@@ -190,8 +190,13 @@ public class RecommendSuccessAty extends BaseAty {
             }
 
             // 设置头像
-            Glide.with(RecommendSuccessAty.this).load(dataBean.getHead_pic()).error(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .placeholder(R.drawable.ic_default).into(rsvh.itemShareGrade_head_imgv);
+            Glide.with(RecommendSuccessAty.this)
+                    .load(dataBean.getHead_pic())
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .into(rsvh.itemShareGrade_head_imgv);
             rsvh.itemShareGrade_nickName_tv.setText(dataBean.getNickname());// 设置昵称
             String member_coding = dataBean.getMember_coding(); // 获取会员级别
             member_coding = member_coding == null ? "1" : member_coding;
@@ -232,7 +237,7 @@ public class RecommendSuccessAty extends BaseAty {
 
             // 头像
             @ViewInject(R.id.itemShareGrade_head_imgv)
-            private ImageView itemShareGrade_head_imgv;
+            private ShapedImageView itemShareGrade_head_imgv;
             // 昵称
             @ViewInject(R.id.itemShareGrade_nickName_tv)
             private TextView itemShareGrade_nickName_tv;

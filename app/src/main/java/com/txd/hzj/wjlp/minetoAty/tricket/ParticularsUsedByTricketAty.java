@@ -249,6 +249,8 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             case 2:// 积分明细
                 userPst.integralLog(p);
                 break;
+            case 6:// 线上充值明细
+                // TODO 线上充值暂时使用原来的查询余额明细接口，待后台添加接口后改为线上充值
             case 3:// 余额明细
                 balancePst.balanceLog(p);
                 break;
@@ -258,9 +260,10 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             case 5:// 成长明细
                 userPst.userDevelopLog(p);
                 break;
-            case 6:// 线上充值明细
+            // TODO 线上充值添加接口
+//            case 6:// 线上充值明细
 //                userPst.;
-                break;
+//                break;
         }
     }
 
