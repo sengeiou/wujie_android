@@ -36,6 +36,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
@@ -506,6 +507,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String discount_desc2; // 蓝券描述
     private View easemobView;
     private EasemobBean easemobBean; // 获取的客服环信账号对象
+    private String messageStr = "当前商品已下架";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1034,18 +1036,16 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
-        L.e("wang", requestUrl + "  jsonstr:" + jsonStr);
-
+        L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("addCart")) {
-            showToast("添加成功！");
-            if (0 == from) {
-                ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
-            } else {
-                goodsPst.goodsInfo(ticket_buy_id, page);
+            if (requestUrl.contains("addCart")) {
+                showToast("添加成功！");
+                if (0 == from) {
+                    ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
+                } else {
+                    goodsPst.goodsInfo(ticket_buy_id,page);
+                }
             }
-        }
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -1078,7 +1078,21 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
-
+            /**
+             *以下表示如果buy_status==0，表示当前商品已经下架
+             * */
+            if (goodsInfo.get("buy_status").equals("0")) {
+                CustomDialog.Builder dialog = new CustomDialog.Builder(this);
+                dialog.setMessage("当前商品已下架");
+                dialog.setTitle("下架提示");
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TicketGoodsDetialsAty.this.finish();
+                    }
+                });
+               dialog.create().show();
+            }
             goodsName = goodsInfo.get("goods_name");
             forGoodsInfo(goodsInfo);
 
