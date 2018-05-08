@@ -36,6 +36,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -1460,7 +1461,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格
-        //    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
+        // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
         now_price_tv.setText(goodsInfo.get("shop_price"));
         // 商品原价
         old_price_tv.setText("￥" + goodsInfo.get("market_price"));
@@ -1480,17 +1481,24 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         goods_details_name_tv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                new AlertDialog.Builder(TicketGoodsDetialsAty.this).setTitle("操作提示")
-                        .setMessage("长按将复制文字：" + goods_details_name_tv.getText().toString())
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("复制", new DialogInterface.OnClickListener() {
+
+                new MikyouCommonDialog(TicketGoodsDetialsAty.this, "长按将复制文字：" + goods_details_name_tv.getText().toString(), "操作提示", "复制", "取消", true)
+                        .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ClipboardManager cm = (ClipboardManager) TicketGoodsDetialsAty.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                                cm.setText(goods_details_name_tv.getText().toString());
-                                showToast("商品名称已复制到剪切板，快去粘贴吧~");
+                            public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                                switch (btnType) {
+                                    case MikyouCommonDialog.OK: { // 复制文字
+                                        copyFromTextView(goods_details_name_tv);
+                                        showToast("商品名称已复制到剪切板，快去粘贴吧~");
+                                    }
+                                    break;
+                                    case MikyouCommonDialog.NO: { // 取消操作
+                                    }
+                                    break;
+                                }
                             }
-                        }).create().show();
+                        }).showDialog();
                 return false;
             }
         });

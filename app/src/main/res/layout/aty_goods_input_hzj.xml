@@ -53,7 +53,7 @@
                             android:scaleType="centerCrop"
                             android:src="@drawable/icon_global_hzj"/>
 
-                        <android.support.v4.view.ViewPager
+                        <com.txd.hzj.wjlp.view.TouchViewpager
                             android:id="@+id/goods_menu_vp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

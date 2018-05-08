@@ -3,9 +3,12 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +32,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GlobalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.view.TouchViewpager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +97,7 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
      * 全球馆ViewPager
      */
     @ViewInject(R.id.goods_menu_vp)
-    private ViewPager goods_menu_vp;
+    private TouchViewpager goods_menu_vp;
     /**
      * 每页10个
      */
@@ -300,10 +304,24 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
 
                 }
             });
+            gridView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()){
+                        case MotionEvent.ACTION_DOWN:
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                            case MotionEvent.ACTION_UP:
+
+                    }
+                    return false;
+                }
+            });
             // 给ViewPager设置适配器
             goods_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
             // 添加页面改变监听事件
-            goods_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            goods_menu_vp.addOnPageChangeListener(new TouchViewpager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -321,5 +339,6 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
             });
         }
     }
+
 
 }

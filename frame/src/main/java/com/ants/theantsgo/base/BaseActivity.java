@@ -506,7 +506,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     /**
      * 复制文字
      */
-    public void copyFromEditText1(EditText Et) {
+    protected void copyFromEditText1(EditText Et) {
         // Gets a handle to the clipboard service.
         // 获取剪切板
         if (null == mClipboard) {
@@ -540,7 +540,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 黏贴
      */
     @SuppressLint("NewApi")
-    public void pasteToResult(Context context, EditText Et) {
+    protected void pasteToResult(Context context, EditText Et) {
         // Gets a handle to the clipboard service.
         // 获取剪切板
         if (null == mClipboard) {

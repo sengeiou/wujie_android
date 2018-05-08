@@ -61,7 +61,9 @@ public class ParticularsUsedByTricketAty extends BaseAty {
      * 1.购物券使用明细
      * 2.积分明细
      * 3.余额明细
-     * 4.成长值明细
+     * 4.线下充值明细
+     * 5.成长值明细
+     * 6.线上充值明细
      */
     private int from = 1;
 
@@ -104,6 +106,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
+        L.e("=============from============:" + from);
         if (1 == from) {
             titlt_conter_tv.setText("代金券使用明细");
         } else if (2 == from) {
@@ -111,9 +114,11 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         } else if (3 == from) {
             titlt_conter_tv.setText("余额明细");
         } else if (4 == from) {
-            titlt_conter_tv.setText("线下充值");
+            titlt_conter_tv.setText("线下充值明细");
         } else if (5 == from) {
             titlt_conter_tv.setText("成长值明细");
+        } else if (6 == from) {
+            titlt_conter_tv.setText("线上充值明细");
         }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -247,11 +252,15 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             case 3:// 余额明细
                 balancePst.balanceLog(p);
                 break;
-            case 4:// 线下充值明细列表
+            case 4:// 线下充值明细
                 balancePst.underMoneys(p);
+                break;
             case 5:// 成长明细
                 userPst.userDevelopLog(p);
-//                userPst.userDevelopLog(p);
+                break;
+            case 6:// 线上充值明细
+//                userPst.;
+                break;
         }
     }
 

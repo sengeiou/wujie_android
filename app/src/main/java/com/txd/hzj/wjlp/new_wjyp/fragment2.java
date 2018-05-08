@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.tips.CustomDialog;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -262,11 +265,11 @@ public class fragment2 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-        String data=application.getCityProvienceJson();
+        String data = application.getCityProvienceJson();
         if (android.text.TextUtils.isEmpty(data)) {
             AddressPst addressPst = new AddressPst(this);
             addressPst.androidAddress();
-        }else {
+        } else {
             initJsonData(data);
         }
 
@@ -357,9 +360,28 @@ public class fragment2 extends BaseFgt {
             name.setTextColor(Color.BLACK);
             num.setTextColor(Color.BLACK);
         }
-        if (requestUrl.contains("User/compAuth")) {
-            showToast("成功！");
-            getActivity().finish();
+        if (requestUrl.contains("User/compAuth")) { // 企业认证
+            // 弹窗提示要等待1~3个工作日，具体提示语句后台返回
+            String showMsg = "";
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                showMsg = jsonObject.getString("message");
+            } catch (JSONException e) {
+                L.e("User/personalAuth：回传Json字符串格式异常！");
+                showMsg = "请耐心等待1-3个工作日";
+            }
+            new MikyouCommonDialog(getActivity(), showMsg, "温馨提示", "知道了", "", true)
+                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                        @Override
+                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                            switch (btnType) {
+                                case MikyouCommonDialog.OK: { // 确定按钮
+                                    getActivity().finish();
+                                }
+                                break;
+                            }
+                        }
+                    }).showDialog();
         }
 
         if (requestUrl.contains("androidAddress")) {

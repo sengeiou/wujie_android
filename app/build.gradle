@@ -22,10 +22,6 @@ android {
 
     signingConfigs {
         releaseConfig {
-//            keyAlias 'wjlpkey'
-//            keyPassword 'android'
-//            storeFile file('D:/Txunda/KeyStore/wjlp.jks')
-//            storePassword 'android'
             keyAlias 'wotiankeji'
             keyPassword 'wotian999888'
             storeFile file('../wotian_sign.keystore')

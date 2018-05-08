@@ -117,7 +117,13 @@ public class RechargeAty extends BaseAty {
 
     @ViewInject(R.id.re_right_view)
     private View re_right_view;
+
+    /**
+     * 0：线上充值
+     * 1：线下充值
+     */
     private int type = 0;
+
     /**
      * 线上充值
      */
@@ -287,18 +293,15 @@ public class RechargeAty extends BaseAty {
 
             case R.id.titlt_right_tv:
                 if (type == 0) {
-
-//                    setResult(RESULT_OK, intent);
-//                    finish();
                     Intent intent = new Intent();
                     intent.setClass(RechargeAty.this, ParticularsUsedByTricketAty.class);
-                    intent.putExtra("from", 3);
+                    intent.putExtra("from", 6); // 线上充值明细
                     startActivity(intent);
                     finish();
                 } else if (type == 1) {
                     Intent intent = new Intent();
                     intent.setClass(RechargeAty.this, ParticularsUsedByTricketAty.class);
-                    intent.putExtra("from", 4);
+                    intent.putExtra("from", 4); // 线下充值明细
 //                    setResult(RESULT_OK, intent);
 //                    finish();
                     startActivity(intent);
@@ -323,28 +326,28 @@ public class RechargeAty extends BaseAty {
                     showToast("请输入充值金额！");
                 }
                 break;
-            case R.id.re_left_layout:// 线上充值
+            case R.id.re_left_layout: // 线上充值
                 type = 0;
                 changeTVAndViewStyle(type);
                 break;
-            case R.id.re_right_layout:// 线下充值
+            case R.id.re_right_layout: // 线下充值
                 type = 1;
                 changeTVAndViewStyle(type);
                 break;
-            case R.id.pay_by_wechat_cb:// 微信
+            case R.id.pay_by_wechat_cb: // 微信
                 bottom_type = 0;
                 selectCheckBoxBottom(bottom_type);
                 break;
-            case R.id.pay_by_ali_cb:// 支付宝
+            case R.id.pay_by_ali_cb: // 支付宝
                 bottom_type = 1;
                 selectCheckBoxBottom(bottom_type);
                 break;
-            case R.id.select_card_num_layout:// 线下支付，选择银行卡号
+            case R.id.select_card_num_layout: // 线下支付，选择银行卡号
 
                 User.userInfo(this); // 获取用户信息
 
                 break;
-            case R.id.select_card_num_layout1:// 线下支付，选择平台银行卡号
+            case R.id.select_card_num_layout1: // 线下支付，选择平台银行卡号
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isPlatform", true); // 选择平台银行卡
                 PreferencesUtils.putString(RechargeAty.this, "key1", "1");

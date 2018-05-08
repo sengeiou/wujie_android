@@ -1,14 +1,17 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -20,6 +23,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -43,12 +47,8 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
-import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.tool.TimeStampUtil;
 
 import org.json.JSONArray;
@@ -58,7 +58,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -310,7 +309,7 @@ public class fragment1 extends BaseFgt {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
-        if (requestUrl.contains("User/personalAuthInfo")) {
+        if (requestUrl.contains("User/personalAuthInfo")) { // 查询个人认证详情
             L.e("cccc" + jsonStr);
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
@@ -342,19 +341,36 @@ public class fragment1 extends BaseFgt {
             ads1.setText(data.get("auth_street_name"));
 
         }
-        if (requestUrl.equals(Config.BASE_URL + "User/personalAuth")) {
-            showToast("成功！");
-            getActivity().finish();
+        if (requestUrl.equals(Config.BASE_URL + "User/personalAuth")) { // 个人认证
+            // 设置提示框弹窗提示
+            String showMsg = "";
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                showMsg = jsonObject.getString("message");
+            } catch (JSONException e) {
+                L.e("User/personalAuth：回传Json字符串格式异常！");
+                showMsg = "请耐心等待1-3个工作日";
+            }
+            new MikyouCommonDialog(getActivity(), showMsg, "温馨提示", "知道了", "", true)
+                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                        @Override
+                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                            switch (btnType) {
+                                case MikyouCommonDialog.OK: { // 确定按钮
+                                    getActivity().finish();
+                                }
+                                break;
+                            }
+                        }
+                    }).showDialog();
         }
 
         if (requestUrl.contains("androidAddress")) {
             if (requestUrl.contains("androidAddress")) {
-                L.e("wang", jsonStr);
                 try {
                     JSONObject jsonObject = new JSONObject(jsonStr);
                     String data = jsonObject.getString("data");
                     application.setCityProvience(data);
-                    L.e("wang", data);
                     initJsonData(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -422,11 +438,11 @@ public class fragment1 extends BaseFgt {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-        String data=application.getCityProvienceJson();
+        String data = application.getCityProvienceJson();
         if (android.text.TextUtils.isEmpty(data)) {
             AddressPst addressPst = new AddressPst(this);
             addressPst.androidAddress();
-        }else{
+        } else {
             initJsonData(data);
         }
 

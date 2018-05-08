@@ -47,7 +47,6 @@ public class ExpressAtv extends BaseAty {
         String express_nu = getIntent().getStringExtra("express_no"); // 快递单号 测试数据：1300110640157
         L.e("wang", "======>>>>>>> 快递公司代码：" + express_company + "  快递单号：" + express_nu);
         inquireExpress(express_company, express_nu);
-
     }
 
     /**
