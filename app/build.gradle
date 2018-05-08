@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180503
-        versionName "1.0.7"
+        versionCode 20180507
+        versionName "1.0.6"
          multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -54,6 +54,12 @@ android {
 
         }
     }
+
+    packagingOptions {
+//        重复引入Duplicate files copied in APK META-INF
+        exclude 'META-INF/rxjava.properties'
+    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']

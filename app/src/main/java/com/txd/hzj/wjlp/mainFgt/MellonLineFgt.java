@@ -26,6 +26,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -1105,43 +1106,48 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     // 进口馆
     private void forCountry(Map<String, String> data) {
         L.e("=========forCountry=========", data.toString());
-        Map<String, String> country = JSONUtils.parseKeyAndValueToMap(data.get("country"));
-        final Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
+        ObserTool.gainInstance().dealData(data.get("country"), new ObserTool.Listener() {
+            @Override
+            public void returneData(Map<String, String> map) {
+                Map<String, String> country = map;
+                final Map<String, String> country_ads = JSONUtils.parseKeyAndValueToMap(country.get("ads"));
 
-        if (ToolKit.isList(country, "goodsList")) {
-            countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
-            AllGvLvAdapter allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
-            import_gv.setAdapter(allGvLvAdapter3);
-        }
-        if (country_ads != null) {
-            Glide.with(getActivity()).load(country_ads.get("picture"))
-                    .override(ads_w, ads_h)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .error(R.mipmap.icon_200)
-                    .placeholder(R.mipmap.icon_200)
-                    .centerCrop()
-                    .into(country_ads_iv);
-            country_ads_iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!TextUtils.isEmpty(country_ads.get("merchant_id")) && !country_ads.get("merchant_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("mell_id", country_ads.get("merchant_id"));
-                        startActivity(MellInfoAty.class, bundle);
-                    } else if (!TextUtils.isEmpty(country_ads.get("goods_id")) && !country_ads.get("goods_id").equals("0")) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("ticket_buy_id", country_ads.get("goods_id"));
-                        bundle.putInt("from", 1);
-                        startActivity(TicketGoodsDetialsAty.class, bundle);
-                    } else {
-                        forShowAds(country_desc, country_href);
-                    }
+                if (ToolKit.isList(country, "goodsList")) {
+                    countryList = GsonUtil.getObjectList(country.get("goodsList"), AllGoodsBean.class);
+                    AllGvLvAdapter allGvLvAdapter3 = new AllGvLvAdapter(getActivity(), countryList, 3);
+                    import_gv.setAdapter(allGvLvAdapter3);
                 }
-            });
+                if (country_ads != null) {
+                    Glide.with(getActivity()).load(country_ads.get("picture"))
+                            .override(ads_w, ads_h)
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .error(R.mipmap.icon_200)
+                            .placeholder(R.mipmap.icon_200)
+                            .centerCrop()
+                            .into(country_ads_iv);
+                    country_ads_iv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (!TextUtils.isEmpty(country_ads.get("merchant_id")) && !country_ads.get("merchant_id").equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("mell_id", country_ads.get("merchant_id"));
+                                startActivity(MellInfoAty.class, bundle);
+                            } else if (!TextUtils.isEmpty(country_ads.get("goods_id")) && !country_ads.get("goods_id").equals("0")) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("ticket_buy_id", country_ads.get("goods_id"));
+                                bundle.putInt("from", 1);
+                                startActivity(TicketGoodsDetialsAty.class, bundle);
+                            } else {
+                                forShowAds(country_desc, country_href);
+                            }
+                        }
+                    });
 
-            country_href = country_ads.get("href");
-            country_desc = country_ads.get("desc");
-        }
+                    country_href = country_ads.get("href");
+                    country_desc = country_ads.get("desc");
+                }
+            }
+        });
     }
 
     // 无界预购

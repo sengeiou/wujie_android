@@ -303,6 +303,7 @@ public class GoodsAttributeAty extends BaseAty {
                     recordStr.append(list_attrs.get(k));
                     if (k < list_attrs.size() - 1) {
                         recordStr.append("+");
+//                        recordStr.append("@");
                     }
                 }
                 if (goods_val.getArrtValue().contains(recordStr)) {
@@ -1021,7 +1022,10 @@ public class GoodsAttributeAty extends BaseAty {
                         maxNumber = Integer.parseInt(val.getGoods_num());
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                         ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
-                        et_num.setText(String.valueOf(1));
+                        if (val.getGoods_num().equals("0")) {//切换时候库存数目是0的时候，购买数量那块写成0
+                            et_num.setText("0");
+                        } else
+                            et_num.setText("1");
                         pro_value = val.getArrtValue();
                         image = val.getGoods_img();
                         pro_id = val.getId();
@@ -1107,6 +1111,7 @@ public class GoodsAttributeAty extends BaseAty {
             lists.add(compareStr);//将遍历出的可选值装入列表
             HashMap recordMap = new HashMap();
             String[] strings = compareStr.split("\\+");//将比较字符串用+分割
+//            String[] strings = compareStr.split("@");//将比较字符串用+分割
             for (int i = 0; i < strings.length; i++) {
                 recordMap.put(i, strings[i]);
             }
