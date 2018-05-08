@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -114,7 +115,10 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-
+                if(tv_kucun.getText().equals("(库存：0)")){
+                    showErrorTip("库存不足请您下次再买");
+                        return ;
+                }
                 // 获取输入框的输入件数
                 num = Integer.parseInt(et_num.getText().toString().trim());
                 if (num <= 0) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
@@ -1041,7 +1045,7 @@ public class GoodsAttributeAty extends BaseAty {
 
 
             } else {
-                pro_id = "";
+//                pro_id = "";
             }
             goodsAttrsAdapter.notifyDataSetChanged();
             tagAdapter.notifyDataChanged();
