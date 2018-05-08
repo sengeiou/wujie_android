@@ -521,6 +521,22 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     }
 
     /**
+     * 复制文字
+     */
+    protected void copyFromTextView(TextView tv) {
+        // Gets a handle to the clipboard service.
+        // 获取剪切板
+        if (null == mClipboard) {
+            mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        }
+        // Creates a new text clip to put on the clipboard
+        // 创建一个新的文本剪辑放在剪贴板上
+        ClipData clip = ClipData.newPlainText("simple text", tv.getText());
+        // Set the clipboard's primary clip.
+        // 设置剪贴板的主剪辑
+        mClipboard.setPrimaryClip(clip);
+    }
+    /**
      * 黏贴
      */
     @SuppressLint("NewApi")
