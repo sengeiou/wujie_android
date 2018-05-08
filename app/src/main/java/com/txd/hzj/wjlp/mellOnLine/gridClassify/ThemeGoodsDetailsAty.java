@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
@@ -501,9 +503,33 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         old_price_tv.setText(goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));
+        // 长按标题进行复制标题文字
+        goods_details_name_tv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                new MikyouCommonDialog(ThemeGoodsDetailsAty.this, "长按将复制文字：" + goods_details_name_tv.getText().toString(), "操作提示", "复制", "取消", true)
+                        .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
+                            @Override
+                            public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                                switch (btnType) {
+                                    case MikyouCommonDialog.OK: { // 复制文字
+                                        copyFromTextView(goods_details_name_tv);
+                                        showToast("商品名称已复制到剪切板，快去粘贴吧~");
+                                    }
+                                    break;
+                                    case MikyouCommonDialog.NO: { // 取消操作
+                                    }
+                                    break;
+                                }
+                            }
+                        }).showDialog();
+                return false;
+            }
+        });
 
         goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);

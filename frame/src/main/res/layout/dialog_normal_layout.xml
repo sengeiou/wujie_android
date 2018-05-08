@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    android:padding="20dp"
-    >
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,12 +20,12 @@
             android:text="提示"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#ffd0d0d0"/>
+            android:background="#ffd0d0d0" />
 
         <LinearLayout
             android:id="@+id/content"
@@ -47,13 +45,13 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="24dp"
-                android:text="中间显示文字"/>
+                android:text="中间显示文字" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="#ffd0d0d0"/>
+            android:background="#ffd0d0d0" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,12 +70,13 @@
                 android:gravity="center"
                 android:text="确定"
                 android:textColor="@color/colorAccent"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
 
             <View
+                android:id="@+id/positiveAndNegativeButtonLine"
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
-                android:background="#ffd0d0d0"/>
+                android:background="#ffd0d0d0" />
 
             <Button
                 android:id="@+id/negativeButton"
@@ -88,7 +87,7 @@
                 android:gravity="center"
                 android:text="取消"
                 android:textColor="@color/colorAccent"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 

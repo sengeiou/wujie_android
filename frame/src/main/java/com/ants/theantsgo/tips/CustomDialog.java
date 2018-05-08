@@ -3,6 +3,8 @@ package com.ants.theantsgo.tips;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Observable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -129,10 +131,11 @@ public class CustomDialog extends Dialog {
 
         /**
          * 设置点击外侧是否关闭
+         *
          * @param cancelable false为不关闭，默认为True
          * @return
          */
-        public Builder setCancelable(boolean cancelable){
+        public Builder setCancelable(boolean cancelable) {
             this.cancelable = cancelable;
             return this;
         }
@@ -182,7 +185,9 @@ public class CustomDialog extends Dialog {
                     });
                 }
             } else {
-                layout.findViewById(R.id.positiveButton).setVisibility(View.GONE);
+                layout.findViewById(R.id.positiveButton).setVisibility(View.GONE); // 正按钮隐藏
+                layout.findViewById(R.id.positiveAndNegativeButtonLine).setVisibility(View.GONE); // 隐藏按钮中间的线
+                ((Button) layout.findViewById(R.id.negativeButton)).setBackgroundResource(R.drawable.btn_ok_onebtn); // 将负按钮设置为两个下圆角
             }
             if (negativeButtonText != null) {
                 ((Button) layout.findViewById(R.id.negativeButton)).setText(negativeButtonText);
@@ -194,14 +199,15 @@ public class CustomDialog extends Dialog {
                     });
                 }
             } else {
-                layout.findViewById(R.id.negativeButton).setVisibility(View.GONE);
+                layout.findViewById(R.id.negativeButton).setVisibility(View.GONE); // 负按钮隐藏
+                layout.findViewById(R.id.positiveAndNegativeButtonLine).setVisibility(View.GONE); // 隐藏按钮中间的线
+                ((Button) layout.findViewById(R.id.positiveButton)).setBackgroundResource(R.drawable.btn_ok_onebtn); // 将正按钮设置为两个下圆角
             }
             if (message != null) {
                 ((TextView) layout.findViewById(R.id.message)).setText(message);
             } else if (contentView != null) {
                 ((LinearLayout) layout.findViewById(R.id.content)).removeAllViews();
-                ((LinearLayout) layout.findViewById(R.id.content)).addView(contentView,
-                        new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                ((LinearLayout) layout.findViewById(R.id.content)).addView(contentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             }
             dialog.setContentView(layout);
             dialog.setCancelable(cancelable); // 设置点击弹窗外侧是否关闭弹窗，默认为true关闭
