@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -1053,6 +1054,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                Log.i("地图定位数据",location.getLongitude()+"kkkkkk"+location.getLatitude());
                 Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
@@ -1157,7 +1159,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
-
+                L.i("地图定位数据"+location.getCity()+"chengshi"+location.getDistrict()+"quyu"+location.getStreet());
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
             }

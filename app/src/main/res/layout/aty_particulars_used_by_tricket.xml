@@ -9,6 +9,16 @@
     tools:context="com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty">
 
     <include layout="@layout/aty_title"/>
+    <TextView
+        android:id="@+id/tv_sticky_header_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E2E2E2"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:textColor="@color/app_text_color"
+        android:textSize="14sp"
+        tools:text="2016年6月"/>
 
     <FrameLayout
         android:id="@+id/lv_layout"
@@ -28,15 +38,7 @@
             </android.support.v7.widget.RecyclerView>
         </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
-        <TextView
-            android:id="@+id/tv_sticky_header_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#E2E2E2"
-            android:padding="10dp"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp"
-            tools:text="2016年6月"/>
+
     </FrameLayout>
 
     <include layout="@layout/aty_no_data_layout"/>

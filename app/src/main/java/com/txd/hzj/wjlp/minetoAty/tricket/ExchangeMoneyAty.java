@@ -122,6 +122,8 @@ public class ExchangeMoneyAty extends BaseAty {
     private TextView rate_tv;
     @ViewInject(R.id.delay_time_tv)
     private TextView delay_time_tv;
+    @ViewInject(R.id.titlt_right_tv)
+    private TextView titlt_right_tv;
 
     private BalancePst balancePst;
 
@@ -150,6 +152,16 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        titlt_right_tv.setVisibility(View.VISIBLE);
+        titlt_right_tv.setText("提现明细");
+        titlt_right_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExchangeMoneyAty.this, ParticularsUsedByTricketAty.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         showStatusBar(R.id.title_re_layout);
     }
 
@@ -170,8 +182,6 @@ public class ExchangeMoneyAty extends BaseAty {
                 } else {
                     money_ev.setText(balanceStr);
                 }
-
-
                 break;
 
             case R.id.submit_op_tv:// 确认，提交

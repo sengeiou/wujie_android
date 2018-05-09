@@ -266,8 +266,6 @@ public class IntegralAty extends BaseAty {
 //            layout_bottom_tv.setText(map.get("my_integral"));
             map = JSONUtils.parseKeyAndValueToMap(map.get("point_list"));
 
-            tv_date.setText(map.get("date"));
-
         }
 
         if (requestUrl.contains("changeIntegralStatus")) {

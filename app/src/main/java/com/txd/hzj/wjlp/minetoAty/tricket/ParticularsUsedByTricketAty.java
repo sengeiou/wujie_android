@@ -162,7 +162,12 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 
             }
         });
-
+        findViewById(R.id.title_be_back_iv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParticularsUsedByTricketAty.this.finish();
+            }
+        });
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
