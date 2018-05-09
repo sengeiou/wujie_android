@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +52,6 @@ import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.maning.updatelibrary.InstallUtils;
-import com.tencent.mm.opensdk.utils.Log;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
@@ -505,10 +505,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             auto_update_status = data.get("auto_update_status");
-        }
-        if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
-            UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
-            showAppUpdateDialog(updataApp);
+        } else if (requestUrl.contains("Upgrade")) {
+            if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
+                UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+                showAppUpdateDialog(updataApp);
+            }
         }
     }
     // ============================== 环信 ==============================
@@ -879,7 +880,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                        }
 //                    })
 //                    .create().show();
-        }else{
+        } else {
             PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//相同的情况下不做更新提示
         }
     }
@@ -1043,6 +1044,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     };
 
     // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
 
         @Override
@@ -1050,7 +1057,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             L.e(location.getLongitude() + "=============jj============" + location.getLongitude() + "");
             L.e("=============jj============" + location.toString());
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                Log.i("地图定位数据",location.getLongitude()+"kkkkkk"+location.getLatitude());
+                Log.i("地图定位数据", location.getLongitude() + "kkkkkk" + location.getLatitude());
                 Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
@@ -1155,11 +1162,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
-                L.i("地图定位数据"+location.getCity()+"chengshi"+location.getDistrict()+"quyu"+location.getStreet());
-
-                L.e("============jj===========" + locMap.get("city") + "==" + locMap.get("district") + "==" + locMap.get("street"));
-                L.e("============jj===========" + location.getCity() + "==" + location.getDistrict() + "==" + location.getStreet());
-
+                L.i("地图定位数据" + location.getCity() + "chengshi" + location.getDistrict() + "quyu" + location.getStreet());
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
             }

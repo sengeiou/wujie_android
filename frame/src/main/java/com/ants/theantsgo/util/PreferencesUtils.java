@@ -3,6 +3,9 @@ package com.ants.theantsgo.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.ants.theantsgo.config.Config;
+import com.google.gson.Gson;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -14,7 +17,7 @@ import android.content.SharedPreferences;
 public class PreferencesUtils {
 
     private static String PREFERENCE_NAME = "Duke";
-
+    private  static Gson gson = new Gson();
     /**
      * put string preferences
      *
@@ -114,6 +117,13 @@ public class PreferencesUtils {
         return editor.commit();
     }
 
+    public static boolean putObject(Context context,String key,Object o){
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        String jsonStr = gson.toJson(o);
+        editor.putString(key, jsonStr);
+        return editor.commit();
+    };
     /**
      * get long preferences
      *

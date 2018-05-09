@@ -24,6 +24,11 @@ public class GroupBuy {
      * @param p        分页
      * @param cate_id  分类id
      * @param baseView 回调
+     *
+     *                 http://wjapi.wujiemall.com/index.php/Function/index/
+     *                 p_id/71
+     *                 /mo_id/913
+     *                 /f_id/5093
      */
     void groupBuyIndex(int p, String cate_id, BaseView baseView) {
         RequestParams params = new RequestParams();
