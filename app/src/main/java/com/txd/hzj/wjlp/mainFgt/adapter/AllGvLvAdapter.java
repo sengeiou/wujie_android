@@ -20,6 +20,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -102,29 +103,29 @@ public class AllGvLvAdapter extends BaseAdapter {
         AllGoodsBean allGoodsBean = getItem(i);
         if (view == null) {
             switch (type) {
-                case 0:// 限量购
-                case 2:// 无界预购
+                case WJConfig.XLG:// 限量购
+                case WJConfig.WJYG:// 无界预购
                     view = inflater.inflate(R.layout.item_purchase_gv, viewGroup, false);
                     break;
-                case 1:// 票券区
+                case WJConfig.PQQ:// 票券区
                     view = inflater.inflate(R.layout.item_ticket_gv, viewGroup, false);
                     break;
-                case 3:// 进口馆
+                case WJConfig.JKG:// 进口馆
                     view = inflater.inflate(R.layout.item_import_gv, viewGroup, false);
                     break;
-                case 4:// 竞拍汇
+                case WJConfig.JPH:// 竞拍汇
                     view = inflater.inflate(R.layout.item_auction_gv, viewGroup, false);
                     break;
-                case 5:// 一元夺宝
+                case WJConfig.YYDB:// 一元夺宝
                     view = inflater.inflate(R.layout.item_good_luck_gv, viewGroup, false);
                     break;
-                case 6:// 汽车购
+                case WJConfig.QCG:// 汽车购
                     view = inflater.inflate(R.layout.item_car_gv, viewGroup, false);
                     break;
-                case 7:// 房产购
+                case WJConfig.FCG:// 房产购
                     view = inflater.inflate(R.layout.item_house_gv, viewGroup, false);
                     break;
-                case 8:// 拼好货
+                case WJConfig.PTG:// 拼好货
                     view = inflater.inflate(R.layout.item_group_shopping_lv, viewGroup, false);
                     break;
             }
@@ -141,8 +142,8 @@ public class AllGvLvAdapter extends BaseAdapter {
         }
 
         switch (type) {
-            case 0:// 限量购
-            case 2:// 无界预购
+            case WJConfig.XLG:// 限量购
+            case WJConfig.WJYG:// 无界预购
                 long now = System.currentTimeMillis() / 1000;
                 long end;
                 try {
@@ -152,7 +153,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 }
                 vh.home_count_down_view.setTag("countDown" + i);
                 vh.home_count_down_view.start((end - now) * 1000);
-                if (type == 2) {
+                if (type == WJConfig.WJYG) {
                     vh.goods_num_already_tv.setText("已抢购" + allGoodsBean.getSell_num() + "件");
                     vh.peice_tv.setText("￥" + allGoodsBean.getDeposit());
                 } else {
@@ -213,7 +214,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 }
 
                 break;
-            case 1:// 票券区
+            case WJConfig.PQQ:// 票券区
                 // 价格
                 vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
                 // 商品图片
@@ -238,7 +239,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
-            case 3:// 进口馆
+            case WJConfig.JKG:// 进口馆
                 // 价格
                 vh.peice_tv.setText("￥" + allGoodsBean.getShop_price());
                 vh.sold_num_tv.setText("已售" + allGoodsBean.getSell_num() + "件");
@@ -272,7 +273,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .into(vh.country_logo_iv);
                 break;
 
-            case 4://竞拍汇
+            case WJConfig.JPH://竞拍汇
 
                 // 国旗
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
@@ -312,7 +313,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
                 }
                 break;
-            case 5:   // 一元夺宝
+            case WJConfig.YYDB:   // 一元夺宝
                 long now_time = System.currentTimeMillis() / 1000;
                 long end_time;
                 try {
@@ -369,7 +370,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 break;
 
 
-            case 6:// 汽车购
+            case WJConfig.QCG:// 汽车购
                 // 距离
                 vh.distance_tv.setText(allGoodsBean.getDistance());
 
@@ -407,7 +408,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 
 
                 break;
-            case 7:// 房产购
+            case WJConfig.FCG:// 房产购
 
                 // 距离
                 vh.distance_tv.setText(allGoodsBean.getDistance());
@@ -428,7 +429,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 
 
                 break;
-            case 8:// 拼团购
+            case WJConfig.PTG:// 拼团购
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.goods_price_tv.setText(allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());

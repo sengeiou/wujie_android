@@ -44,8 +44,10 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +81,9 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private List<TwoCateListBean> gv_classify;
 
     private String title = "";
+    /**
+     * 哪种类型，无界预购 等
+     */
     private int type = 0;
     private AllGvLvAdapter allGvLvAdapter1;
 
@@ -162,26 +167,26 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
                 switch (type) {
-                    case 1:// 票券区
+                    case WJConfig.PQQ:// 票券区
                         bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
-                    case 2:// 无界预购
+                    case WJConfig.WJYG:// 无界预购
                         bundle.putString("limit_buy_id", data.get(i).getPre_buy_id());
-                        bundle.putInt("type", 2);
+                        bundle.putInt("type", WJConfig.WJYG);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case 10:// 无界商家
+                    case WJConfig.WJSD:// 无界商家
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
-                        bundle.putInt("type", 10);
+                        bundle.putInt("type", WJConfig.WJSD);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case 3:// 进口馆
+                    case WJConfig.JKG:// 进口馆
                         bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
                         bundle.putInt("from", 1);
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
-                    case 8:
+                    case WJConfig.PTG:
                         bundle.putString("group_buy_id", data.get(i).getGroup_buy_id());
                         startActivity(GoodLuckDetailsAty.class, bundle);
                         break;
@@ -271,19 +276,19 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
     private void forData() {
         switch (type) {
-            case 1:// 票券区
+            case WJConfig.PQQ:// 票券区
                 ticketBuyPst.ticketBuyIndex(p, title);
                 break;
-            case 2:// 无界预购
+            case WJConfig.WJYG:// 无界预购
                 perBuyPst.preBuyIndex(p, title);
                 break;
-            case 3:// 进口馆
+            case WJConfig.JKG:// 进口馆
                 countryPst.countryGoods(p, country_id, title);
                 break;
-            case 8:// 拼团购
+            case WJConfig.PTG:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
                 break;
-            case 10:// 无界商店
+            case WJConfig.WJSD:// 无界商店
                 integralBuyPst.integralBuyIndex(p, title);
                 break;
         }
@@ -295,7 +300,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         if (requestUrl.contains("groupBuyIndex")) {
             GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
             numall = groupBuyBean.getNums();
-            if (1 == p) {
+            if (1 == p) {//第一页数据
                 if (isLoding) {
                     gv_classify = groupBuyBean.getData().getTwo_cate_list();
                     if (!ListUtils.isEmpty(gv_classify)) {
@@ -415,10 +420,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         case 2:// 无界预购
                             data = groupBuyBean.getData().getPre_buy_list();
                             break;
-                        case 3:// 进口馆
+                        case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case 10:// 无界商店
+                        case WJConfig.WJSD:// 无界商店
                             data = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
@@ -478,10 +483,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         case 2:// 无界预购
                             data2 = groupBuyBean.getData().getPre_buy_list();
                             break;
-                        case 3:// 进口馆
+                        case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case 10:// 无界商店
+                        case WJConfig.WJSD:// 无界商店
                             data = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
@@ -534,16 +539,16 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     bundle.putString("appBarTitle", gv_classify.get(itemPos).getName());
                     bundle.putString("two_cate_id", gv_classify.get(itemPos).getTwo_cate_id());
                     bundle.putInt("type", type);
-                    if (3 == type)
+                    if (WJConfig.JKG == type)
                         bundle.putString("country_id", country_id);
                     switch (type) {
-                        case 1:// 票券区
-                        case 2:// 无界预购
-                        case 3:// 进口馆
-                        case 10:// 无界商店
+                        case WJConfig.PQQ:// 票券区
+                        case WJConfig.WJYG:// 无界预购
+                        case WJConfig.JKG:// 进口馆
+                        case WJConfig.WJSD:// 无界商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;
-                        case 8:// 拼团购
+                        case WJConfig.PTG:// 拼团购
                             startActivity(GroupBuyThirdAty.class, bundle);
                             break;
 

@@ -22,6 +22,7 @@ import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,7 @@ import java.util.List;
  * 拼单购页面
  */
 public class TicketZoonAty extends BaseAty {
-    // 1票券区 ，2 无界预购， 3进口馆，8: 拼团购  10 无界商店
-    private final int PQQ = 1, WJYG = 2, JKG = 3, PTG = 8, WJSD = 10;
+
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
@@ -80,27 +80,27 @@ public class TicketZoonAty extends BaseAty {
         title = getIntent().getStringExtra("title");
         mFragments = new ArrayList<>();
         switch (type) {
-            case PQQ: {
+            case WJConfig.PQQ: {
                 // 票券区
                 ticketBuyPst = new TicketBuyPst(this);
             }
             break;
-            case WJSD: {
+            case WJConfig.WJSD: {
                 // 无界商店
                 integralBuyPst = new IntegralBuyPst(this);
             }
             break;
-            case JKG: {
+            case WJConfig.JKG: {
                 // 进口馆
                 countryPst = new CountryPst(this);
             }
             break;
-            case PTG: {
+            case WJConfig.PTG: {
                 // 拼团购
                 groupBuyPst = new GroupBuyPst(this);
             }
             break;
-            case WJYG: {
+            case WJConfig.WJYG: {
                 // 无界预购
                 perBuyPst = new PerBuyPst(this);
             }
@@ -113,20 +113,20 @@ public class TicketZoonAty extends BaseAty {
     @Override
     protected void requestData() {
         switch (type) {
-            case PQQ:// 票券区
+            case WJConfig.PQQ:// 票券区
                 ticketBuyPst.ticketBuyIndex(1, "");
                 break;
-            case WJYG:// 无界预购
+            case WJConfig.WJYG:// 无界预购
                 perBuyPst.preBuyIndex(1, "");
                 break;
-            case JKG:// 进口馆
+            case WJConfig.JKG:// 进口馆
                 country_id = getIntent().getStringExtra("country_id");
                 countryPst.countryGoods(1, country_id, "");
                 break;
-            case PTG:// 拼团购
+            case WJConfig.PTG:// 拼团购
                 groupBuyPst.groupBuyIndex(1, "");
                 break;
-            case WJSD:// 无界商店
+            case WJConfig.WJSD:// 无界商店
                 integralBuyPst.integralBuyIndex(1, "");
                 break;
         }
