@@ -1,13 +1,11 @@
 package com.ants.theantsgo.util;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -638,6 +636,21 @@ public class JSONUtils {
 	}
 
 	/**
+	 *
+	 * @param sourceObj
+	 */
+	public static String parseData(JSONObject sourceObj){
+		String dataStr=null;
+		if(!sourceObj.isNull("code")&&!sourceObj.isNull("data")){
+			try {
+				dataStr=sourceObj.getString("data");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		return dataStr;
+	}
+	/**
 	 * parse key-value pairs to map. ignore empty key, if getValue exception,
 	 * put empty value
 	 * 
@@ -655,7 +668,6 @@ public class JSONUtils {
 		if (sourceObj == null) {
 			return null;
 		}
-
 		Map<String, String> keyAndValueMap = new HashMap<String, String>();
 		for (Iterator iter = sourceObj.keys(); iter.hasNext();) {
 			String key = (String) iter.next();

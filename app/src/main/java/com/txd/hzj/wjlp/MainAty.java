@@ -505,10 +505,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             auto_update_status = data.get("auto_update_status");
-        }
-        if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
-            UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
-            showAppUpdateDialog(updataApp);
+        } else if (requestUrl.contains("Upgrade")) {
+            if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
+                UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+                showAppUpdateDialog(updataApp);
+            }
         }
     }
     // ============================== 环信 ==============================
@@ -879,7 +880,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                        }
 //                    })
 //                    .create().show();
-        }else{
+        } else {
             PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//相同的情况下不做更新提示
         }
     }
@@ -1054,7 +1055,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         @Override
         public void onReceiveLocation(BDLocation location) {
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                Log.i("地图定位数据",location.getLongitude()+"kkkkkk"+location.getLatitude());
+                Log.i("地图定位数据", location.getLongitude() + "kkkkkk" + location.getLatitude());
                 Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
@@ -1159,7 +1160,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
-                L.i("地图定位数据"+location.getCity()+"chengshi"+location.getDistrict()+"quyu"+location.getStreet());
+                L.i("地图定位数据" + location.getCity() + "chengshi" + location.getDistrict() + "quyu" + location.getStreet());
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
             }

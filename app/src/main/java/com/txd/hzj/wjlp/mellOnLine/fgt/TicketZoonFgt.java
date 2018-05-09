@@ -414,10 +414,10 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         }
                     }
                     switch (type) {
-                        case 1:// 票券区
+                        case WJConfig.PQQ:// 票券区
                             data = groupBuyBean.getData().getTicket_buy_list();
                             break;
-                        case 2:// 无界预购
+                        case WJConfig.WJYG:// 无界预购
                             data = groupBuyBean.getData().getPre_buy_list();
                             break;
                         case WJConfig.JKG:// 进口馆
@@ -476,11 +476,11 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 } else {
                     switch (type) {
 
-                        case 1:// 票券区
+                        case WJConfig.PQQ:// 票券区
 
                             data2 = groupBuyBean.getData().getTicket_buy_list();
                             break;
-                        case 2:// 无界预购
+                        case WJConfig.WJYG:// 无界预购
                             data2 = groupBuyBean.getData().getPre_buy_list();
                             break;
                         case WJConfig.JKG:// 进口馆
@@ -492,7 +492,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                     }
                     if (!ListUtils.isEmpty(data2)) {
                         data.addAll(data2);
-                        if (10 == type) {
+                        if (WJConfig.WJSD == type) {
                             wjMellAdapter.notifyDataSetChanged();
                         } else {
                             allGvLvAdapter1.notifyDataSetChanged();
