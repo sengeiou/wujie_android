@@ -141,6 +141,19 @@ public class CommentindexBean implements Parcelable {
         public GoodsListBean() {
         }
 
+        @Override
+        public String toString() {
+            return "GoodsListBean{" +
+                    "order_goods_id='" + order_goods_id + '\'' +
+                    ", goods_id='" + goods_id + '\'' +
+                    ", goods_name='" + goods_name + '\'' +
+                    ", goods_img='" + goods_img + '\'' +
+                    ", merchant_id='" + merchant_id + '\'' +
+                    ", status='" + status + '\'' +
+                    ", all_star='" + all_star + '\'' +
+                    ", content='" + content + '\'' +
+                    '}';
+        }
 
         @Override
         public int describeContents() {

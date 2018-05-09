@@ -166,8 +166,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     }
 
     /**
-     * * 环信
-     * /收到透传消息
+     * 环信
+     * 收到透传消息
      *
      * @param list
      */

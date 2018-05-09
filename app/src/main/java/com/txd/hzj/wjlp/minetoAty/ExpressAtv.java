@@ -11,29 +11,37 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.new_wjyp.http.Order;
 
 /**
- * 开发者： Txd_WangJJ
+ * 开发者： WangJJ
  * 创建时间： 2018/3/28 028 0:48:56.
  * 功能描述： 物流查询
  * 联系方式： jingjie.office@qq.com
  */
 public class ExpressAtv extends BaseAty {
 
+    /**
+     * 网页WebView控件
+     */
     @ViewInject(R.id.express_webView)
     private WebView express_webView;
+    /**
+     * 加载进度条，环形方式
+     */
     @ViewInject(R.id.express_loading_pb)
     private ProgressBar express_loading_pb;
+    /**
+     * 页面标题
+     */
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
-
-    // https://m.kuaidi100.com/index_all.html?type=[快递公司编码]&postid=[快递单号]&callbackurl=[点击"返回"跳转的地址，非必须]
-    private String expressUrl = "https://m.kuaidi100.com/index_all.html?";
 
     @Override
     protected int getLayoutResId() {
@@ -43,24 +51,24 @@ public class ExpressAtv extends BaseAty {
     @Override
     protected void initialized() {
         titlt_conter_tv.setText("物流详情");
-        String express_company = getIntent().getStringExtra("express_company"); // 快递公司 测试数据：yunda
-        String express_nu = getIntent().getStringExtra("express_no"); // 快递单号 测试数据：1300110640157
-        L.e("wang", "======>>>>>>> 快递公司代码：" + express_company + "  快递单号：" + express_nu);
-        inquireExpress(express_company, express_nu);
+        // 订单商品的id
+        String order_goods_id = getIntent().getStringExtra("order_goods_id");
+        inquireExpress(order_goods_id);
     }
 
     /**
-     * 加载WebView，查询快递详情
-     * @param express_company 快递公司代码
-     * @param express_nu 快递单号
+     * 加载WebView查询订单物流
+     *
+     * @param order_goods_id 订单中商品的id
      */
-    private void inquireExpress(String express_company, String express_nu) {
-        // 拼接Url字符串
-        expressUrl = expressUrl + "type=" + express_company + "&postid=" + express_nu;
+    private void inquireExpress(String order_goods_id) {
+
+        // 字符串拼接
+        String expressUrl = Config.BASE_URL + "Order/logistics/order_goods_id/" + order_goods_id;
 
         express_webView.getSettings().setJavaScriptEnabled(true); // 允许使用JS
         express_webView.setWebChromeClient(new WebChromeClient());
-        express_webView.setWebViewClient(new WebViewClient(){
+        express_webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);

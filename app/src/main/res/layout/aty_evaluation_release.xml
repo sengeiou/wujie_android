@@ -84,10 +84,7 @@
                     android:numStars="5"
                     android:rating="5.0"
                     android:stepSize="1" />
-
             </LinearLayout>
-
-
         </LinearLayout>
 
         <TextView
@@ -100,7 +97,7 @@
             android:padding="10dp"
             android:text="评价服务"
             android:textSize="14sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 

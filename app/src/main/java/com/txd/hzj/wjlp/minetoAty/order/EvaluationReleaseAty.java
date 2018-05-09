@@ -22,6 +22,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -88,7 +89,8 @@ public class EvaluationReleaseAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.tv_submit:
+            case R.id.tv_submit: //
+                // 参数说明：订单ID， 商家评分1~5星， 配送评分， 订评论订单单类型（1普通单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖）， BaseView
                 Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), "1", this);
                 showProgressDialog();
                 break;
@@ -108,7 +110,6 @@ public class EvaluationReleaseAty extends BaseAty {
         imagePicker.setCrop(false);// 是否裁剪
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
-
     }
 
     @Override
@@ -130,27 +131,32 @@ public class EvaluationReleaseAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
+
+        L.e("requestUrl:" + requestUrl + "\tjsonStr:" + jsonStr);
+
         super.onComplete(requestUrl, jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        if (requestUrl.contains("CommentOrder")) {
+        if (requestUrl.contains("CommentOrder")) { // 评价订单
             Order.Commentindex(order_id, this);
             showProgressDialog();
         }
         if (requestUrl.contains("Commentindex")) {
             goodsEvaluations = GsonUtil.getObjectList(map.get("goods_list"), CommentindexBean.GoodsListBean.class);
+            for (CommentindexBean.GoodsListBean goodsBean : goodsEvaluations) {
+                L.e("===========goodsBean=============" + goodsBean.toString());
+            }
             Adapter = new MyAdapter();
             for_goods_evaluste_lv.setAdapter(Adapter);
-            if (map.get("order_status").equals("0")) {
+            if (map.get("order_status").equals("0")) { // 未评价
                 titlt_right_tv.setVisibility(View.VISIBLE);
                 titlt_right_tv.setText("评价服务");
                 titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-            }else{
+            } else { // 已评价
                 titlt_right_tv.setVisibility(View.GONE);
             }
         }
     }
-
 
     private class GoodsEvalustionAdapter extends BaseAdapter {
 
@@ -266,7 +272,6 @@ public class EvaluationReleaseAty extends BaseAty {
 //                    goodsEvaluations.get(goods_pos).getFileList().add(file);
 //                    goodsEvalustionAdapter.notifyDataSetChanged();
                 }
-
             } else {
                 showErrorTip("哎呀出错了。。");
             }
@@ -294,6 +299,7 @@ public class EvaluationReleaseAty extends BaseAty {
         @Override
         public View getView(int i, View convertView, ViewGroup parent) {
             final CommentindexBean.GoodsListBean bean = getItem(i);
+            L.e("============getView.GoodsListBean=============:" + bean.toString());
             if (convertView == null) {
                 convertView = LayoutInflater.from(EvaluationReleaseAty.this).inflate(R.layout.item_commentindex, null);
                 viewHolder = new ViewHolder();

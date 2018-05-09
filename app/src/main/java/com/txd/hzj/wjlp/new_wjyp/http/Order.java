@@ -13,7 +13,6 @@ import java.io.File;
 import java.util.List;
 
 
-
 public class Order {
     private static String url = Config.BASE_URL + "Order/";
 
@@ -25,7 +24,7 @@ public class Order {
      * @param merchant_id
      * @param baseView
      */
-    public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id,String goods, BaseView baseView) {
+    public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id, String goods, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("cart_id", cart_id);
@@ -35,7 +34,7 @@ public class Order {
         requestParams.addBodyParameter("num", num);
         requestParams.addBodyParameter("order_type", order_type);
         requestParams.addBodyParameter("goods", goods);
-        requestParams.addBodyParameter("product_id", TextUtils.isEmpty(product_id)?"0":product_id);
+        requestParams.addBodyParameter("product_id", TextUtils.isEmpty(product_id) ? "0" : product_id);
         apiTool2.postApi(url + "shoppingCart", requestParams, baseView);
     }
 
@@ -55,7 +54,7 @@ public class Order {
     public static void setOrder(String address_id, String order_type, String order_id,
                                 String limit_buy_id, String collocation, String invoice, String leave_message, String goods,
                                 BaseView baseView) {
-        L.e("address_id="+address_id+"\norder_type="+order_type+"\norder_id="+order_id+"\nlimit_buy_id="+limit_buy_id+"\ncollocation="+collocation+"\ninvoice="+invoice+"\nleave_message="+leave_message+"\ngoods="+goods);
+        L.e("address_id=" + address_id + "\norder_type=" + order_type + "\norder_id=" + order_id + "\nlimit_buy_id=" + limit_buy_id + "\ncollocation=" + collocation + "\ninvoice=" + invoice + "\nleave_message=" + leave_message + "\ngoods=" + goods);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("address_id", address_id);
@@ -162,7 +161,7 @@ public class Order {
      * @param order_id
      * @param baseView
      */
-    public static void receiving(String order_id,String order_goods_id,String status, BaseView baseView) {
+    public static void receiving(String order_id, String order_goods_id, String status, BaseView baseView) {
         L.e("wang", "========>>>>>>>>>order_id:" + order_id + "\torder_goods_id:" + order_goods_id + "\tstatus:" + status);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -232,7 +231,7 @@ public class Order {
         apiTool2.postApi(url + "CommentOrder", requestParams, baseView);
     }
 
-    public static  void delayReceiving(String order_goods_id,BaseView baseView){
+    public static void delayReceiving(String order_goods_id, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
@@ -242,10 +241,11 @@ public class Order {
 
     /**
      * 订单物流
+     *
      * @param order_id
      * @param baseView
      */
-    public static void orderLogistics(String order_id,BaseView baseView){
+    public static void orderLogistics(String order_id, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
@@ -254,14 +254,16 @@ public class Order {
 
     /**
      * 提醒发货
+     *
      * @param baseView
      * @param order_goods_id 订单商品id
      */
-    public static void remind(BaseView baseView, String order_goods_id){
+    public static void remind(BaseView baseView, String order_goods_id) {
         L.e("wang", "remind ========== order_goods_id:" + order_goods_id);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
         apiTool2.postApi(url + "remind", requestParams, baseView);
     }
+
 }

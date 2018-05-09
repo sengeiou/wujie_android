@@ -123,11 +123,8 @@ public class OrderLogisticsAty extends BaseAty {
             viewHolder.goosOrderItem_showLogistics_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO 点击查看物流按钮
-                    Intent intent = new Intent(OrderLogisticsAty.this, ExpressAtv.class); // TODO 跳转至快递详情查询界面
                     Bundle bundle = new Bundle();
-                    bundle.putString("express_no", list.get(i).getExpress_no()); // 快递单号
-                    bundle.putString("express_company", list.get(i).getExpress_company()); // 快递公司代号
+                    bundle.putString("order_goods_id", list.get(i).getId()); // 订单中的商品ID
                     startActivity(ExpressAtv.class, bundle);
                 }
             });
