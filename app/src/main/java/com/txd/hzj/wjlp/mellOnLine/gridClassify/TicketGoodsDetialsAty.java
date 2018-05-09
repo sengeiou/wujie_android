@@ -1082,19 +1082,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */
-//            if (goodsInfo.containsKey("buy_status") && !goodsInfo.get("buy_status").equals("1")) {
-//                CustomDialog.Builder dialog = new CustomDialog.Builder(this);
-//                dialog.setMessage("当前商品已下架");
-//                dialog.setTitle("下架提示");
-//                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        TicketGoodsDetialsAty.this.finish();
-//                    }
-//                });
-//                dialog.setCancelable(false);
-//                dialog.create().show();
-//            }
+            if (goodsInfo.containsKey("buy_status") && goodsInfo.get("buy_status").equals("0")) {
+                CustomDialog.Builder dialog = new CustomDialog.Builder(this);
+                dialog.setMessage("当前商品已下架");
+                dialog.setTitle("下架提示");
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TicketGoodsDetialsAty.this.finish();
+                    }
+                });
+                dialog.setCancelable(false);
+                dialog.create().show();
+            }
             goodsName = goodsInfo.get("goods_name");
             forGoodsInfo(goodsInfo);
 
@@ -1459,9 +1459,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         L.e("=============goodsInfo===============", goodsInfo.toString());
 
-//        String tx = DemoApplication.getInstance().getLocInfo().get("province")
-//                + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
-//        if (tx.equals(",,,")) { // 如果获取的信息为空，那么获取的字段就应该为三个相连的逗号
         // 直接获取首界面定位的信息
         String tx = "";
         if (MainAty.GDLOC_MAP != null) { // 如果定位信息为空，就设置原始的提示消息
@@ -1469,11 +1466,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         } else {
             tx = DemoApplication.getInstance().getLocInfo().get("province") + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
         }
-        tv_chose_ads.setText(MainAty.GDLOC_MAP.get("province") + "," + MainAty.GDLOC_MAP.get("city") + "," + MainAty.GDLOC_MAP.get("district"));
+        tv_chose_ads.setText(tx);
         L.e("==========商品详情获取的定位信息===========" + tx);
-//        } else {
-//            tv_chose_ads.setText(tx);
-//        }
         // 定位好之后获取运费信息
         Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
         showProgressDialog();

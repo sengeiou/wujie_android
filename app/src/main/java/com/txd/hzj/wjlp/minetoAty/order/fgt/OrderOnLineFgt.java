@@ -917,7 +917,6 @@ public class OrderOnLineFgt extends BaseFgt {
             }
         }
 
-
         private void setAuctionClickright(final int position) {
             switch (getItem(position).get("order_status")) {
                 case "1":

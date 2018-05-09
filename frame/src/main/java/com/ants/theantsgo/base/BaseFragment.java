@@ -360,16 +360,17 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
     public void onException(Exception exception) {
         if (isShowContent) {
             content.addView(error);
-        } else {
-            if (exception instanceof SocketException || exception instanceof InterruptedIOException || exception
-                    instanceof UnknownHostException || exception instanceof UnknownServiceException) {
-                showToast(getString(R.string.network_anomaly));
-            } else if (exception instanceof NullPointerException) {
-                showToast(getString(R.string.string_null_error));
-            } else {
-                showToast(getString(R.string.server_unknow_error));
-            }
         }
+//        else {
+//            if (exception instanceof SocketException || exception instanceof InterruptedIOException || exception
+//                    instanceof UnknownHostException || exception instanceof UnknownServiceException) {
+//                showToast(getString(R.string.network_anomaly));
+//            } else if (exception instanceof NullPointerException) {
+//                showToast(getString(R.string.string_null_error));
+//            } else {
+//                showToast(getString(R.string.server_unknow_error));
+//            }
+//        }
         exception.printStackTrace();
         removeProgressContent();
         removeProgressDialog();
