@@ -10,9 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.PullToRefreshLayout;
@@ -47,6 +49,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.txd.hzj.wjlp.R.id.ads;
 
@@ -55,7 +58,7 @@ import static com.txd.hzj.wjlp.R.id.ads;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 9:42
- * 描述：票券区碎片
+ * 描述：票券区 无界预购 进口馆 拼团购 无界商店
  * ===============Txunda===============
  */
 public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewListener {
@@ -109,7 +112,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     // 进口馆
     private CountryPst countryPst;
 
-    private int p = 1;
+    private int p = 1;//页数
 
     @ViewInject(R.id.refresh_view)
     private PullToRefreshLayout refresh_view;
@@ -332,7 +335,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                                 startActivity(MellInfoAty.class, bundle);
                             } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
                                 Bundle bundle = new Bundle();
-                                bundle.putString("ticket_buy_id",adsBean.getGoods_id());
+                                bundle.putString("ticket_buy_id", adsBean.getGoods_id());
                                 bundle.putInt("from", 1);
                                 startActivity(TicketGoodsDetialsAty.class, bundle);
                             } else {
@@ -384,110 +387,117 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
      * @param jsonStr 原始数据
      */
     private void forOtherData(String jsonStr) {
-        GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
-        numall = groupBuyBean.getNums();
-        if (1 == p) {
-            if (isLoding) {
-                gv_classify = groupBuyBean.getData().getTwo_cate_list();
-                if (!ListUtils.isEmpty(gv_classify)) {
-                    if (gv_classify.size() > 5) {
-                        params = new LinearLayout.LayoutParams(Settings.displayWidth,
-                                ToolKit.dip2px(getActivity(), 160));
-                    } else {
-                        params = new LinearLayout.LayoutParams(Settings.displayWidth,
-                                ToolKit.dip2px(getActivity(), 160));
+
+        ObserTool.gainInstance().jsonToBean(jsonStr, GroupBuyBean.class, new ObserTool.BeanListener() {
+            @Override
+            public void returnObj(Object t) {
+                GroupBuyBean groupBuyBean = (GroupBuyBean) t;
+                numall = groupBuyBean.getNums();
+                if (1 == p) {
+                    if (isLoding) {
+                        gv_classify = groupBuyBean.getData().getTwo_cate_list();
+                        if (!ListUtils.isEmpty(gv_classify)) {
+                            if (gv_classify.size() > 5) {
+                                params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                        ToolKit.dip2px(getActivity(), 160));
+                            } else {
+                                params = new LinearLayout.LayoutParams(Settings.displayWidth,
+                                        ToolKit.dip2px(getActivity(), 160));
+                            }
+                            goods_menu_vp.setLayoutParams(params);
+                            forMenu();
+                        }
                     }
-                    goods_menu_vp.setLayoutParams(params);
-                    forMenu();
-                }
-            }
-            switch (type) {
-                case 1:// 票券区
-                    data = groupBuyBean.getData().getTicket_buy_list();
-                    break;
-                case 2:// 无界预购
-                    data = groupBuyBean.getData().getPre_buy_list();
-                    break;
-                case 3:// 进口馆
-                    data = groupBuyBean.getData().getList();
-                    break;
-                case 10:// 无界商店
-                    data = groupBuyBean.getData().getIntegral_buy_list();
-                    break;
-            }
+                    switch (type) {
+                        case 1:// 票券区
+                            data = groupBuyBean.getData().getTicket_buy_list();
+                            break;
+                        case 2:// 无界预购
+                            data = groupBuyBean.getData().getPre_buy_list();
+                            break;
+                        case 3:// 进口馆
+                            data = groupBuyBean.getData().getList();
+                            break;
+                        case 10:// 无界商店
+                            data = groupBuyBean.getData().getIntegral_buy_list();
+                            break;
+                    }
 
-            if (!ListUtils.isEmpty(data)) {
-                if (10 == type) {
-                    wjMellAdapter = new WjMellAdapter(getActivity(), data);
-                    ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
-                } else {
-                    allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
-                    ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
-                }
-            }
+                    if (!ListUtils.isEmpty(data)) {
+                        if (10 == type) {
+                            wjMellAdapter = new WjMellAdapter(getActivity(), data);
+                            ticket_zoon_goods_gv.setAdapter(wjMellAdapter);
+                        } else {
+                            allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
+                            ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+                        }
+                    }
 
-            final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
-            if (adsBean != null) {
-                Glide.with(getActivity()).load(adsBean.getPicture())
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();
+                    if (adsBean != null) {
+                        Glide.with(getActivity()).load(adsBean.getPicture())
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
 //                        .centerCrop()
 //                        .override(Settings.displayWidth, Settings.displayWidth / 2)
-                        .error(R.drawable.ic_default)
-                        .placeholder(R.drawable.ic_default)
-                        .into(group_ad_pic_iv);
-                group_ad_pic_iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!TextUtils.isEmpty(adsBean.getMerchant_id()) && !adsBean.getMerchant_id().equals("0")) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("mell_id", adsBean.getMerchant_id());
-                            startActivity(MellInfoAty.class, bundle);
-                        } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("ticket_buy_id",adsBean.getGoods_id());
-                            bundle.putInt("from", 1);
-                            startActivity(TicketGoodsDetialsAty.class, bundle);
-                        } else {
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("from", 2);
-                            bundle.putString("desc", desc);
-                            bundle.putString("href", href);
-                            startActivity(NoticeDetailsAty.class, bundle);
-                        }
+                                .error(R.drawable.ic_default)
+                                .placeholder(R.drawable.ic_default)
+                                .into(group_ad_pic_iv);
+                        group_ad_pic_iv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (!TextUtils.isEmpty(adsBean.getMerchant_id()) && !adsBean.getMerchant_id().equals("0")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("mell_id", adsBean.getMerchant_id());
+                                    startActivity(MellInfoAty.class, bundle);
+                                } else if (!TextUtils.isEmpty(adsBean.getGoods_id()) && !adsBean.getGoods_id().equals("0")) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("ticket_buy_id", adsBean.getGoods_id());
+                                    bundle.putInt("from", 1);
+                                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                                } else {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("from", 2);
+                                    bundle.putString("desc", desc);
+                                    bundle.putString("href", href);
+                                    startActivity(NoticeDetailsAty.class, bundle);
+                                }
 
+                            }
+                        });
+                        desc = adsBean.getDesc();
+                        href = adsBean.getHref();
                     }
-                });
-                desc = adsBean.getDesc();
-                href = adsBean.getHref();
-            }
-            refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
-        } else {
-            switch (type) {
-
-                case 1:// 票券区
-
-                    data2 = groupBuyBean.getData().getTicket_buy_list();
-                    break;
-                case 2:// 无界预购
-                    data2 = groupBuyBean.getData().getPre_buy_list();
-                    break;
-                case 3:// 进口馆
-                    data = groupBuyBean.getData().getList();
-                    break;
-                case 10:// 无界商店
-                    data = groupBuyBean.getData().getIntegral_buy_list();
-                    break;
-            }
-            if (!ListUtils.isEmpty(data2)) {
-                data.addAll(data2);
-                if (10 == type) {
-                    wjMellAdapter.notifyDataSetChanged();
+                    refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
                 } else {
-                    allGvLvAdapter1.notifyDataSetChanged();
+                    switch (type) {
+
+                        case 1:// 票券区
+
+                            data2 = groupBuyBean.getData().getTicket_buy_list();
+                            break;
+                        case 2:// 无界预购
+                            data2 = groupBuyBean.getData().getPre_buy_list();
+                            break;
+                        case 3:// 进口馆
+                            data = groupBuyBean.getData().getList();
+                            break;
+                        case 10:// 无界商店
+                            data = groupBuyBean.getData().getIntegral_buy_list();
+                            break;
+                    }
+                    if (!ListUtils.isEmpty(data2)) {
+                        data.addAll(data2);
+                        if (10 == type) {
+                            wjMellAdapter.notifyDataSetChanged();
+                        } else {
+                            allGvLvAdapter1.notifyDataSetChanged();
+                        }
+                    }
+                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
                 }
+
             }
-            refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
-        }
+        });
     }
 
     @Override

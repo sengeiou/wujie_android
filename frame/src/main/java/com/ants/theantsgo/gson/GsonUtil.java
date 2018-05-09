@@ -1,5 +1,6 @@
 package com.ants.theantsgo.gson;
 
+import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -53,10 +54,11 @@ public class GsonUtil {
      * @return T
      */
     public static <T> T GsonToBean(String gsonString, Class<T> cls) {
-        T t = null;
-        if (gson != null) {
-            t = gson.fromJson(gsonString, cls);
-        }
+//        T t = null;
+//        if (gson != null) {
+//            t = gson.fromJson(gsonString, cls);
+//        }
+        T t=JSON.parseObject(gsonString,cls);
         return t;
     }
 
