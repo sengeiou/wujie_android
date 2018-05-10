@@ -134,7 +134,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                         } else if (stickyExampleModel.act_type.equals("2")){ // 订单详情界面
                             Intent intent = new Intent(context, OrderDetailsAty.class);
                             Bundle bundle = new Bundle();
-                            bundle.putString("id", stickyExampleModel.log_id);
+                            bundle.putString("id", stickyExampleModel.getOrderId());
                             bundle.putString("type", "0");
                             intent.putExtras(bundle);
                             context.startActivity(intent);

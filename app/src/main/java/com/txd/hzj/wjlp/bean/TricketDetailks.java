@@ -63,8 +63,16 @@ public class TricketDetailks {
      */
     public String memberCoding;
 
+    /**
+     * 订单ID，购物券使用明细使用
+     */
+    public String orderId;
+
+    public TricketDetailks() {
+    }
+
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-            log_id, String act_type,String act_id, String add_sub, String imgStr, String memberCoding) {
+            log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
@@ -166,6 +174,14 @@ public class TricketDetailks {
         this.memberCoding = memberCoding;
     }
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public String toString() {
         return "TricketDetailks{" +
@@ -180,6 +196,7 @@ public class TricketDetailks {
                 ", add_sub='" + add_sub + '\'' +
                 ", imgStr='" + imgStr + '\'' +
                 ", memberCoding='" + memberCoding + '\'' +
+                ", orderId='" + orderId + '\'' +
                 '}';
     }
 }

@@ -279,7 +279,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("underMoneys")) {
+        if (requestUrl.contains("underMoneys")) { // 会员余额，线下充值明细
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
@@ -347,7 +347,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             return;
         }
 
-        if (requestUrl.contains("vouchersLog")) {
+        if (requestUrl.contains("vouchersLog")) { // 会员模块，购物券明细
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
@@ -357,19 +357,35 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");
                         ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
+                        TricketDetailks tricketDetailks;
                         for (Map<String, String> temp2 : list_temp) {
                             if (temp2.get("act_type").equals("1")) {
-                                list.add(new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("member_coding")));
+                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("member_coding"));
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             } else if (temp2.get("act_type").equals("2")) {
-                                list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
+//                                list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
+//                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), "");
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             } else {
-                                list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
+//                                list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
+//                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
-                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), "");
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             }
                         }
                     }
@@ -393,19 +409,38 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                     for (Map<String, String> temp : data) {
                         String time = temp.get("time");
                         ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
+                        TricketDetailks tricketDetailks;
                         for (Map<String, String> temp2 : list_temp) {
                             if (temp2.get("act_type").equals("1")) {
-                                list.add(new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
-                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
-                                        temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("member_coding")));
+//                                list.add(new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
+//                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+//                                        temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("member_coding")));
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "积分转余额 获得", temp2.get("create_time"),
+                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"), temp2.get
+                                        ("act_type"), "", temp2.get("add_sub"), temp2.get("img"), temp2.get("member_coding"));
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             } else if (temp2.get("act_type").equals("2")) {
                                 list.add(new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
                                         temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "购买商品 消费", temp2.get("create_time"),
+                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+                                        temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), "");
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             } else {
                                 list.add(new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
                                         temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
                                         temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), ""));
+                                // 原始设置对象字段数据方式
+                                tricketDetailks = new TricketDetailks(time, "退还商品 退回", temp2.get("create_time"),
+                                        temp2.get("money"), temp2.get("reason"), temp2.get("log_id"),
+                                        temp2.get("act_type"), "", temp2.get("add_sub"), temp2.get("img"), "");
+                                tricketDetailks.setOrderId(temp2.get("order_id")); // 代金券明细新增的OrderId设置的方式
+                                list.add(tricketDetailks); // 添加至List中
                             }
                         }
                     }
@@ -418,7 +453,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-        if (requestUrl.contains("userDevelopLog")) {
+        if (requestUrl.contains("userDevelopLog")) { // 会员模块，成长值明细
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     lv_layout.setVisibility(View.VISIBLE);
@@ -467,7 +502,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-        if (requestUrl.contains("integralLog")) {
+        if (requestUrl.contains("integralLog")) { // 会员模块，积分明细
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
@@ -517,7 +552,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-        if (requestUrl.contains("balanceLog")) {
+        if (requestUrl.contains("balanceLog")) { // 会员模块，余额明细
             if (1 == p) {
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
