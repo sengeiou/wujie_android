@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -356,7 +357,7 @@ public class BuildOrderAty extends BaseAty {
         } else if (type.equals("2")) {
             GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, group_buy_id, this);
         } else if (type.equals("3") || type.equals("4")) {
-            GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, group_buy_id, this);
+            GroupBuyOrder.shoppingCart(goods_id,num,"2",product_id,mid,group_buy_id, this);
         } else if (type.equals("5")) {
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("6")) {
@@ -498,6 +499,7 @@ public class BuildOrderAty extends BaseAty {
                         splitNewList.add(new SplitNew("", "", "", "", "", "", "0", ""));
                         invoiceList.add(new Invoice("", "", "", "", "", "", 0));
                     }
+                    Log.i("一直蹦",data.toString());
                     goodsAdapter = new GoodsByOrderAdapter(this, data, goodsList);
                     goods_fot_order_lv.setAdapter(goodsAdapter);
                 } else {
@@ -820,7 +822,7 @@ public class BuildOrderAty extends BaseAty {
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
             govh.tv_number.setText("x" + getItem(i).get("num"));
-            govh.jifen_tv.setText("（赠送:" + getItem(i).get("return_integral") + "积分）");
+            //govh.jifen_tv.setText("（赠送:" + getItem(i).get("return_integral") + "积分）");
             L.e("wang", "====>>>>>>>>>>>getItem(i):" + getItem(i));
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
@@ -829,19 +831,19 @@ public class BuildOrderAty extends BaseAty {
             } else {
                 govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
             }
-            if (getItem(i).get("invoice_status").equals("1")) {
-                govh.layout.setVisibility(View.VISIBLE);
-                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "不开发票" : i_bean.get(i).getInvoice_type());
-            } else {
-                govh.layout.setVisibility(View.GONE);
-            }
+//            if (getItem(i).get("invoice_status").equals("1")) {
+//                govh.layout.setVisibility(View.VISIBLE);
+//                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "不开发票" : i_bean.get(i).getInvoice_type());
+//            } else {
+//                govh.layout.setVisibility(View.GONE);
+//            }
             govh.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     index = i;
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
-                    bundle.putString("wj_price", getItem(i).get("wj_price"));
+                   // bundle.putString("wj_price", getItem(i).get("wj_price"));
                     if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
                         bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
@@ -863,28 +865,28 @@ public class BuildOrderAty extends BaseAty {
 
             //是否存在公益宝贝
             L.e("aaaa" + getItem(i).get("is_welfare"));
-            if (getItem(i).get("is_welfare").equals("1")) {
-                govh.layout_gongyi.setVisibility(View.VISIBLE);
-                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
-            } else {
-                govh.layout_gongyi.setVisibility(View.GONE);
-            }
+//            if (getItem(i).get("is_welfare").equals("1")) {
+//                govh.layout_gongyi.setVisibility(View.VISIBLE);
+//                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+//            } else {
+//                govh.layout_gongyi.setVisibility(View.GONE);
+//            }
             //是否存在售后
-            if (getItem(i).get("after_sale_status").equals("1")) {
-                govh.layout_shouhou.setVisibility(View.VISIBLE);
-                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
-            } else {
-                govh.layout_shouhou.setVisibility(View.GONE);
-            }
+//            if (getItem(i).get("after_sale_status").equals("1")) {
+//                govh.layout_shouhou.setVisibility(View.VISIBLE);
+//                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+//            } else {
+//                govh.layout_shouhou.setVisibility(View.GONE);
+//            }
             //是否有特殊描述
-            if (getItem(i).get("server_status").equals("0")) {
-                govh.lin_server_status.setVisibility(View.GONE);
-            } else {
-                govh.lin_server_status.setVisibility(View.VISIBLE);
-                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
-                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
-                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
-            }
+//            if (getItem(i).get("server_status").equals("0")) {
+//                govh.lin_server_status.setVisibility(View.GONE);
+//            } else {
+//                govh.lin_server_status.setVisibility(View.VISIBLE);
+//                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
+//                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
+//                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
+//            }
 
             /**
              * 选择配送方式
