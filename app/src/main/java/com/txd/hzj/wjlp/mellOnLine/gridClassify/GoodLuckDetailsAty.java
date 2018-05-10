@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -49,9 +49,9 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodLuckBean;
-import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
@@ -71,13 +71,14 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
+import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
+import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
-import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
-import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import org.json.JSONArray;
@@ -598,7 +599,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         // 优惠券
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
-        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+//        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -622,9 +623,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             }
             case R.id.tv_chose_ads:
-                if (isLoaded) {
-                    ShowPickerView();
-                }
+//                if (isLoaded) {
+//                    ShowPickerView();
+//                }
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v,goods_id,GoodLuckDetailsAty.this);
 
                 break;
             case R.id.tv_showClassify:
@@ -873,6 +875,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
+        ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
     }
 
     CommonPopupWindow commonPopupWindow;
@@ -1768,106 +1771,106 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         pvOptions.show();
     }
 
-    private boolean isLoaded = false;
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 写子线程中的操作,解析省市区数据
-                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
+//    private boolean isLoaded = false;
+//    private Handler mHandler = new Handler() {
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case MSG_LOAD_DATA:
+//                    if (thread == null) {//如果已创建就不再重新创建子线程了
+//                        thread = new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                // 写子线程中的操作,解析省市区数据
+//                                initJsonData();
+//                            }
+//                        });
+//                        thread.start();
+//                    }
+//                    break;
+//
+//                case MSG_LOAD_SUCCESS:
+//                    removeDialog();
+//                    isLoaded = true;
+//                    break;
+//
+//                case MSG_LOAD_FAILED:
+//                    removeDialog();
+//                    showErrorTip("解析失败");
+//                    break;
+//
+//            }
+//        }
+//    };
 
-                case MSG_LOAD_SUCCESS:
-                    removeDialog();
-                    isLoaded = true;
-                    break;
-
-                case MSG_LOAD_FAILED:
-                    removeDialog();
-                    showErrorTip("解析失败");
-                    break;
-
-            }
-        }
-    };
-
-    private void initJsonData() {//解析数据
-
-        /*
-         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
-         * 关键逻辑在于循环体
-         */
-        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
-        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
-
-        /*
-         * 添加省份数据
-         *
-         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
-        options1Items = jsonBean;
-
-        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-
-            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
-
-                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
-
-                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
-                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
-                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
-                    City_AreaList.add(new DistrictsForTxd("", ""));
-                } else {
-                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
-                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
-                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                    }
-                }
-                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
-            }
-            /*
-             * 添加城市数据
-             */
-            options2Items.add(CityList);
-            /*
-             * 添加地区数据
-             */
-            options3Items.add(Province_AreaList);
-        }
-
-        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
-
-    }
+//    private void initJsonData() {//解析数据
+//
+//        /*
+//         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+//         * 关键逻辑在于循环体
+//         */
+//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
+//        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
+//
+//        /*
+//         * 添加省份数据
+//         *
+//         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+//         * PickerView会通过getPickerViewText方法获取字符串显示出来。
+//         */
+//        options1Items = jsonBean;
+//
+//        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+//            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+//            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+//
+//            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+//
+//                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
+//
+//                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+//                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+//                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+//                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+//                    City_AreaList.add(new DistrictsForTxd("", ""));
+//                } else {
+//                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+//                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+//                        City_AreaList.add(AreaName);//添加该城市所有地区数据
+//                    }
+//                }
+//                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
+//            }
+//            /*
+//             * 添加城市数据
+//             */
+//            options2Items.add(CityList);
+//            /*
+//             * 添加地区数据
+//             */
+//            options3Items.add(Province_AreaList);
+//        }
+//
+//        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+//
+//    }
 
 
-    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
-        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
-        try {
-            JSONArray data = new JSONArray(result);
-            Gson gson = new Gson();
-            for (int i = 0; i < data.length(); i++) {
-                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
-                detail.add(entity);
-            }
-        } catch (Exception e) {
-            L.e("=====异常=====", e.getMessage());
-            e.printStackTrace();
-            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
-        }
-        return detail;
-    }
+//    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
+//        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
+//        try {
+//            JSONArray data = new JSONArray(result);
+//            Gson gson = new Gson();
+//            for (int i = 0; i < data.length(); i++) {
+//                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
+//                detail.add(entity);
+//            }
+//        } catch (Exception e) {
+//            L.e("=====异常=====", e.getMessage());
+//            e.printStackTrace();
+//            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
+//        }
+//        return detail;
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

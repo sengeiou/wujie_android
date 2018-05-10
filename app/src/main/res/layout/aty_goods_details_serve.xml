@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1"  />
+            android:layout_weight="1" />
     </LinearLayout>
 
     <View
@@ -38,7 +38,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -46,30 +46,37 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/sz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:text="送至"
+                android:textColor="@color/gray_text_color" />
+
+            <TextView
+                android:id="@+id/freight_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="end"
+                android:text="运费"
                 android:textColor="@color/gray_text_color" />
 
             <TextView
                 android:id="@+id/tv_chose_ads"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/sz"
+                android:layout_toStartOf="@+id/freight_tv"
                 android:drawableEnd="@drawable/icon_search_goods_mell"
                 android:drawablePadding="8dp"
-                android:text=""
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:textColor="@color/app_text_color" />
-
-            <TextView
-                android:id="@+id/freight_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="运费"
-                android:textColor="@color/gray_text_color" />
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"

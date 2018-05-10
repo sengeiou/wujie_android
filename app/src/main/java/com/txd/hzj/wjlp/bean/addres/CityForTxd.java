@@ -31,6 +31,10 @@ public class CityForTxd implements IPickerViewData, Parcelable {
     private String cityname;
     private List<DistrictsForTxd> districts;
 
+    public CityForTxd() {
+
+    }
+
     public CityForTxd(String city_id, String cityname, List<DistrictsForTxd> districts) {
         this.city_id = city_id;
         this.cityname = cityname;

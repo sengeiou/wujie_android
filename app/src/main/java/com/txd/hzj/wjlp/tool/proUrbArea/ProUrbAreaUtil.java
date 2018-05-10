@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.tool.proUrbArea;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -68,19 +70,6 @@ public class ProUrbAreaUtil implements BaseView {
         }
     }
 
-    private class ProHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case MSG_LOAD_SUCCESS: {
-//                    专门为滚轮准备
-                }
-            }
-
-        }
-    }
-
     private void dealJsonData(final String jsonData, final Handler handler) {
         Runnable runnable = new Runnable() {
             @Override
@@ -97,41 +86,45 @@ public class ProUrbAreaUtil implements BaseView {
          * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
          * PickerView会通过getPickerViewText方法获取字符串显示出来。
          */
-                options1Items = jsonBean;
+                if (null != options1Items && options1Items.size() > 0 && null != options2Items && options2Items.size() > 0 && null != options3Items && options3Items.size() > 0) {
+                    if (null != handler)
+                        handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
+                } else {
+                    options1Items = jsonBean;
+                    for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
+                        ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
+                        ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
 
-                for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-                    ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
-                    ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
+                        for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
 
-                    for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
+                            CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
 
-                        CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
-
-                        ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
-                        //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                        if (jsonBean.get(i).getCities().get(c).getDistricts() == null
-                                || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
-                            City_AreaList.add(new DistrictsForTxd("", ""));
-                        } else {
-                            for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
-                                DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
-                                City_AreaList.add(AreaName);//添加该城市所有地区数据
+                            ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
+                            //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
+                            if (jsonBean.get(i).getCities().get(c).getDistricts() == null
+                                    || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
+                                City_AreaList.add(new DistrictsForTxd("", ""));
+                            } else {
+                                for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
+                                    DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
+                                    City_AreaList.add(AreaName);//添加该城市所有地区数据
+                                }
                             }
+                            Province_AreaList.add(City_AreaList);//添加该省所有地区数据
                         }
-                        Province_AreaList.add(City_AreaList);//添加该省所有地区数据
-                    }
             /*
              * 添加城市数据
              */
-                    options2Items.add(CityList);
+                        options2Items.add(CityList);
             /*
              * 添加地区数据
              */
-                    options3Items.add(Province_AreaList);
+                        options3Items.add(Province_AreaList);
 
+                    }
+                    if (null != handler)
+                        handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
                 }
-                if (null != handler)
-                    handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
             }
         };
         Thread thread = new Thread(runnable);
@@ -154,46 +147,71 @@ public class ProUrbAreaUtil implements BaseView {
         return detail;
     }
 
-    public  void ShowPickerView(final TextView tv_chose_ads, final String goods_id) {// 弹出选择器
+    public void showPickerView(final TextView tv_chose_ads, final String goods_id, final BaseActivity activity) {// 弹出选择器
         String data = application.getCityProvienceJson();
-        dealJsonData(data, new ProHandler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what) {
-                    case MSG_LOAD_SUCCESS: {
+        dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id));
+    }
+
+    //记录选中的位置
+    private int record_option1, record_option2, record_option3;
+
+    private class AreaHandler extends Handler {
+        private BaseActivity activity;
+        private TextView tv_chose_ads;
+        private String goods_id;
+
+        AreaHandler(BaseActivity activity, TextView tv_chose_ads, String goods_id) {
+            this.activity = activity;
+            this.tv_chose_ads = tv_chose_ads;
+            this.goods_id = goods_id;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_LOAD_SUCCESS: {
 //                    专门为滚轮准备
-                        OptionsPickerView pvOptions = new OptionsPickerView.Builder(application.getApplicationContext(), new OptionsPickerView
-                                .OnOptionsSelectListener() {
-                            @Override
-                            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                                // 省
-                                String province = options1Items.get(options1).getPickerViewText();
-                                String province_id = options1Items.get(options1).getProvince_id();
-                                // 市
-                                String city = options2Items.get(options1).get(options2).getPickerViewText();
-                                String city_id = options2Items.get(options1).get(options2).getCity_id();
-                                // 区
-                                String area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
-                                String area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
-                                // 设置省市区
-                                String tx = province + "," + city + "," + area;
-                                tv_chose_ads.setText(tx);
-                                //选好城市区域之后,从服务器获取运费
-                                Freight.freight(goods_id, tx, ProUrbAreaUtil.this);
-                            }
-                        }).setTitleText("城市选择")
-                                .setDividerColor(Color.BLACK)
-                                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                                .setContentTextSize(20)
-                                .setOutSideCancelable(false)// default is true
-                                .build();
-                        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
-                        pvOptions.show();
-                    }
+                    OptionsPickerView pvOptions = new OptionsPickerView.Builder(activity, new OptionsPickerView
+                            .OnOptionsSelectListener() {
+                        @Override
+                        public void onOptionsSelect(int options1, int options2, int options3, View v) {
+                            // 省
+                            String province = options1Items.get(options1).getPickerViewText();
+//                            String province_id = options1Items.get(options1).getProvince_id();
+                            // 市
+                            String city = options2Items.get(options1).get(options2).getPickerViewText();
+//                            String city_id = options2Items.get(options1).get(options2).getCity_id();
+                            // 区
+                            String area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+//                            String area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                            // 设置省市区
+                            StringBuffer tx = new StringBuffer();
+                            tx.append(province);
+                            tx.append(",");
+                            tx.append(city);
+                            tx.append(",");
+                            tx.append(area);
+                            //文字过长的处理
+                            tv_chose_ads.setText(tx);
+                            record_option1 = options1;
+                            record_option2 = options2;
+                            record_option3 = options3;
+                            //选好城市区域之后,从服务器获取运费
+                            Freight.freight(goods_id, String.valueOf(tx), ProUrbAreaUtil.this);
+                        }
+                    }).setTitleText("城市选择")
+                            .setDividerColor(Color.BLACK)
+                            .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
+                            .setContentTextSize(20)
+                            .setOutSideCancelable(false)// default is true
+                            .build();
+                    pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
+                    pvOptions.setSelectOptions(record_option1, record_option2, record_option3);
+                    pvOptions.show();
                 }
             }
-        });
+        }
     }
 
     @Override
