@@ -1,9 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -11,13 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -25,20 +21,17 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
-
-import org.json.JSONArray;
+import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-
+/**
+ * 联盟商家界面
+ */
 public class UnionMerchartFgt extends BaseFgt {
     private int size = 0;
     @ViewInject(R.id.im1)
@@ -115,11 +108,10 @@ public class UnionMerchartFgt extends BaseFgt {
                     startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), 105);
                     break;
                 case R.id.layout_city:
-                    if (isLoaded) {
-                        ShowPickerView();
-                    }
+                    ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "", (BaseActivity) getActivity());
                     break;
                 case R.id.layout_street:
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
                     if (TextUtils.isEmpty(area_id)) {
                         showToast("请选择省市区");
                         return;
@@ -175,8 +167,11 @@ public class UnionMerchartFgt extends BaseFgt {
                         showToast("请上传身份证反面");
                         return;
                     }
+                    province = ProUrbAreaUtil.gainInstance().getProvince();
+                    city = ProUrbAreaUtil.gainInstance().getCity();
+                    area = ProUrbAreaUtil.gainInstance().getArea();
                     Recommending.addBusiness(mechant_name.getText().toString(), user_name.getText().toString(), user_position.getText().toString(),
-                            user_phone.getText().toString(), tx, street, desc.getText().toString(), f1, f2, f3, "1", null, logo, rec_type_id, this);
+                            user_phone.getText().toString(), province + city + area, street, desc.getText().toString(), f1, f2, f3, "1", null, logo, rec_type_id, this);
                     showProgressDialog();
                     break;
             }
@@ -282,10 +277,9 @@ public class UnionMerchartFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
+        ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
         isC = (getArguments() == null ? true : false);
-        if (isC) {
-            mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        } else {
+        if (!isC) {
             tv_submit.setVisibility(View.GONE);
             Recommending.businessInfo(getArguments().getString("id"), this);
             showProgressDialog();
@@ -338,147 +332,6 @@ public class UnionMerchartFgt extends BaseFgt {
      * 街道id
      */
     private String street_id = "";
-
-
-    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
-    private Thread thread;
-    private static final int MSG_LOAD_DATA = 0x0001;
-    private static final int MSG_LOAD_SUCCESS = 0x0002;
-    private static final int MSG_LOAD_FAILED = 0x0003;
-
-
-    private void ShowPickerView() {// 弹出选择器
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(getActivity(), new OptionsPickerView
-                .OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                // 省
-                province = options1Items.get(options1).getPickerViewText();
-                province_id = options1Items.get(options1).getProvince_id();
-                // 市
-                city = options2Items.get(options1).get(options2).getPickerViewText();
-                city_id = options2Items.get(options1).get(options2).getCity_id();
-                // 区
-                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
-                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
-                // 设置省市区
-                tx = province + "，" + city + "，" + area;
-                tv_city.setText(tx);
-
-            }
-        }).setTitleText("城市选择")
-                .setDividerColor(Color.BLACK)
-                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
-                .build();
-
-        pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
-        pvOptions.show();
-    }
-
-    private boolean isLoaded = false;
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 写子线程中的操作,解析省市区数据
-                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
-
-                case MSG_LOAD_SUCCESS:
-                    removeDialog();
-                    isLoaded = true;
-                    break;
-
-                case MSG_LOAD_FAILED:
-                    removeDialog();
-                    showErrorTip("解析失败");
-                    break;
-
-            }
-        }
-    };
-
-    private void initJsonData() {//解析数据
-
-        /*
-         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
-         * 关键逻辑在于循环体
-         */
-        String JsonData = new GetJsonDataUtil().getJson(getActivity(), "provinceFotTxd.json");//获取assets目录下的json文件数据
-        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
-
-        /*
-         * 添加省份数据
-         *
-         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
-        options1Items = jsonBean;
-
-        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-
-            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
-
-                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
-
-                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
-                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
-                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
-                    City_AreaList.add(new DistrictsForTxd("", ""));
-                } else {
-                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
-                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
-                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                    }
-                }
-                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
-            }
-            /*
-             * 添加城市数据
-             */
-            options2Items.add(CityList);
-            /*
-             * 添加地区数据
-             */
-            options3Items.add(Province_AreaList);
-        }
-
-        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
-
-    }
-
-
-    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
-        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
-        try {
-            JSONArray data = new JSONArray(result);
-            Gson gson = new Gson();
-            for (int i = 0; i < data.length(); i++) {
-                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
-                detail.add(entity);
-            }
-        } catch (Exception e) {
-            L.e("=====异常=====", e.getMessage());
-            e.printStackTrace();
-            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
-        }
-        return detail;
-    }
 
     private void forImagePicker(int num) {
         ImagePicker imagePacker = ImagePicker.getInstance();

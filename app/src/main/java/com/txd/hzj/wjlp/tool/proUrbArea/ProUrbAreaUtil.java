@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.tool.proUrbArea;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -14,14 +13,11 @@ import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.bigkoo.pickerview.OptionsPickerView;
-import com.google.gson.Gson;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 
 import org.json.JSONArray;
@@ -31,12 +27,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Map;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
 /**
+ * 解析地址库并弹出选择器
  * Created by OTKJ on 2018/5/9.
  */
 
@@ -154,6 +146,8 @@ public class ProUrbAreaUtil implements BaseView {
 
     //记录选中的位置
     private int record_option1, record_option2, record_option3;
+    private String province_id, city_id, area_id; // 省、市、区ID
+    private String province, city, area; // 省、市、区名称
 
     private class AreaHandler extends Handler {
         private BaseActivity activity;
@@ -177,14 +171,14 @@ public class ProUrbAreaUtil implements BaseView {
                         @Override
                         public void onOptionsSelect(int options1, int options2, int options3, View v) {
                             // 省
-                            String province = options1Items.get(options1).getPickerViewText();
-//                            String province_id = options1Items.get(options1).getProvince_id();
+                            province = options1Items.get(options1).getPickerViewText();
+                            province_id = options1Items.get(options1).getProvince_id();
                             // 市
-                            String city = options2Items.get(options1).get(options2).getPickerViewText();
-//                            String city_id = options2Items.get(options1).get(options2).getCity_id();
+                            city = options2Items.get(options1).get(options2).getPickerViewText();
+                            city_id = options2Items.get(options1).get(options2).getCity_id();
                             // 区
-                            String area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
-//                            String area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
+                            area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
+                            area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
                             // 设置省市区
                             StringBuffer tx = new StringBuffer();
                             tx.append(province);
@@ -198,7 +192,8 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option2 = options2;
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
-                            Freight.freight(goods_id, String.valueOf(tx), ProUrbAreaUtil.this);
+                            if (!TextUtils.isEmpty(goods_id))
+                                Freight.freight(goods_id, String.valueOf(tx), ProUrbAreaUtil.this);
                         }
                     }).setTitleText("城市选择")
                             .setDividerColor(Color.BLACK)
@@ -212,6 +207,114 @@ public class ProUrbAreaUtil implements BaseView {
                 }
             }
         }
+    }
+
+    /**
+     * 获取省ID
+     *
+     * @return
+     */
+    public String getProvince_id() {
+        return province_id;
+    }
+
+    /**
+     * 设置省ID
+     *
+     * @param province_id
+     */
+    public void setProvince_id(String province_id) {
+        this.province_id = province_id;
+    }
+
+    /**
+     * 获取市ID
+     *
+     * @return
+     */
+    public String getCity_id() {
+        return city_id;
+    }
+
+    /**
+     * 设置市ID
+     *
+     * @param city_id
+     */
+    public void setCity_id(String city_id) {
+        this.city_id = city_id;
+    }
+
+    /**
+     * 获取区县ID
+     *
+     * @return
+     */
+    public String getArea_id() {
+        return area_id;
+    }
+
+    /**
+     * 设置区县ID
+     *
+     * @param area_id
+     */
+    public void setArea_id(String area_id) {
+        this.area_id = area_id;
+    }
+
+    /**
+     * 获取省名称
+     *
+     * @return
+     */
+    public String getProvince() {
+        return province;
+    }
+
+    /**
+     * 设置省名称
+     *
+     * @param province
+     */
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    /**
+     * 获取市名称
+     *
+     * @return
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * 设置市名称
+     *
+     * @param city
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * 获取区县名称
+     *
+     * @return
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * 设置区县名称
+     *
+     * @param area
+     */
+    public void setArea(String area) {
+        this.area = area;
     }
 
     @Override
@@ -271,7 +374,6 @@ public class ProUrbAreaUtil implements BaseView {
 //                dealJsonData(data, null);
             } catch (JSONException e) {
                 e.printStackTrace();
-
             }
         } else if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);

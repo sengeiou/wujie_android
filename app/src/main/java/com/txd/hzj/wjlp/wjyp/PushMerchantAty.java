@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 线下店铺商家推荐
  * by Txunda_LH on 2018/2/2.
  */
 

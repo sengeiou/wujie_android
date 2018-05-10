@@ -152,16 +152,7 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        titlt_right_tv.setVisibility(View.VISIBLE);
-        titlt_right_tv.setText("提现明细");
-        titlt_right_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ExchangeMoneyAty.this, ParticularsUsedByTricketAty.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        L.e("===============title_right_tv=================" + titlt_right_tv.getVisibility());
         showStatusBar(R.id.title_re_layout);
     }
 
@@ -235,6 +226,15 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void initialized() {
         type = getIntent().getIntExtra("to", 1);
+        titlt_right_tv.setText("提现明细");
+        titlt_right_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExchangeMoneyAty.this, ParticularsUsedByTricketAty.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         if (1 == type) {
             password_et.setVisibility(View.GONE); // 隐藏密码输入框
@@ -247,6 +247,7 @@ public class ExchangeMoneyAty extends BaseAty {
             my_bal_tv2.setText("全部使用");
             my_bal_tv1.setText("我的积分300 ");
             cashDescLayout.setVisibility(View.VISIBLE);
+
             User.myIntegral(this); // 获取积分
         } else {
             titlt_conter_tv.setText("提现");
@@ -259,6 +260,7 @@ public class ExchangeMoneyAty extends BaseAty {
             my_bal_tv2.setText("全部提现");
             MoneyUtils.setPricePoint(money_ev);
             cashDescLayout.setVisibility(View.VISIBLE);
+            titlt_right_tv.setVisibility(View.GONE); // 暂时隐藏提现明细操作入口
 
             UserBalance.cashIndex(this); // 提现首页
         }

@@ -18,6 +18,9 @@ import java.util.Map;
 
 import lib.kingja.switchbutton.SwitchMultiButton;
 
+/**
+ * 联盟商家
+ */
 public class UnionmerchartAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;

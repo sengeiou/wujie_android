@@ -187,7 +187,8 @@
 
         <!-- 商品属性选择 -->
         <activity
-            android:name=".mellOnLine.gridClassify.GoodsAttributeAty" android:launchMode="singleTask"
+            android:name=".mellOnLine.gridClassify.GoodsAttributeAty"
+            android:launchMode="singleTask"
             android:theme="@style/share_style" />
         <!-- 商品评价 -->
         <activity android:name=".mellOnLine.gridClassify.GoodsEvaluateAty" />
@@ -374,7 +375,7 @@
         <activity android:name=".huanxin.ui.ForwardMessageActivity" />
         <activity android:name=".huanxin.ui.PickContactNoCheckboxActivity" />
 
-           <activity android:name=".new_wjyp.InvoiceAty2"/>
+        <activity android:name=".new_wjyp.InvoiceAty2" />
 
         <!--重置支付密码-->
         <activity android:name=".minetoAty.setting.ResetPayPwdAty" />
@@ -574,13 +575,12 @@
         </activity>
 
         <!-- 无界预购三级分类商品列表 -->
-        <activity
-            android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
+        <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
 
         <!-- 城市列表 -->
-        <activity android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"
-            android:windowSoftInputMode = "adjustPan">
-        </activity>
+        <activity
+            android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
 
         <!-- 环信相关服务等 ↓ BEGIN -->
         <!-- 开机自启动服务 -->
@@ -764,7 +764,7 @@
             </intent-filter>
         </activity>
 
->>>>>>> master
+        >>>>>>> master
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -994,14 +994,14 @@
         <activity android:name=".wjyp.PushMerchantAty" />
         <activity android:name=".new_wjyp.InvoiceAty" />
         <!--订单物流-->
-        <activity android:name=".minetoAty.OrderLogisticsAty"/>
+        <activity android:name=".minetoAty.OrderLogisticsAty" />
         <!--会员卡-->
-        <activity android:name=".minetoAty.order.VipCardAty"/>
+        <activity android:name=".minetoAty.order.VipCardAty" />
         <!--会员卡详情页-->
-        <activity android:name=".minetoAty.order.VipCardDetailsAty"/>
+        <activity android:name=".minetoAty.order.VipCardDetailsAty" />
         <!-- 快递物流详情 -->
         <activity android:name=".minetoAty.ExpressAtv" />
     </application>
-<!--测试提交 LH-->
+    <!--测试提交 LH-->
 
 </manifest>

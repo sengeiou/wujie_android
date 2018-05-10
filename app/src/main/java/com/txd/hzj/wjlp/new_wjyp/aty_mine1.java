@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 商家推荐
+ */
 public class aty_mine1 extends BaseAty {
 
     @ViewInject(R.id.im_main)

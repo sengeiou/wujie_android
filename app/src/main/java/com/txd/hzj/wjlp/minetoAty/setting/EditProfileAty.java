@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
@@ -38,9 +39,11 @@ import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.minetoAty.address.AddNewAddressAty2;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
+import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
 import org.json.JSONArray;
@@ -215,13 +218,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         size = ToolKit.dip2px(this, 80);
         forImagePacker();
         userPst = new UserPst(this);
-        String data=application.getCityProvienceJson();
-        if (android.text.TextUtils.isEmpty(data)) {
-            addressPst = new AddressPst(this);
-            addressPst.androidAddress(); // 获取地址数据
-        }else{
-            initJsonData(data);
-        }
+        ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
     }
 
     private void forImagePacker() {
@@ -235,7 +232,6 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         imagePicker.setOutPutY(Settings.displayWidth);// 保存图片宽度
         imagePicker.setMultiMode(false);// 但须
         imagePicker.setShowCamera(true);// 显示拍照按钮
-        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
     }
 
     @Override
@@ -312,18 +308,18 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             finish();
         }
 
-        if (requestUrl.contains("androidAddress")) {
-            L.e("wang", jsonStr);
-            try {
-                JSONObject jsonObject = new JSONObject(jsonStr);
-                String data = jsonObject.getString("data");
-                application.setCityProvience(data);
-                L.e("wang", data);
-                initJsonData(data);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (requestUrl.contains("androidAddress")) {
+//            L.e("wang", jsonStr);
+//            try {
+//                JSONObject jsonObject = new JSONObject(jsonStr);
+//                String data = jsonObject.getString("data");
+//                application.setCityProvience(data);
+//                L.e("wang", data);
+//                initJsonData(data);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
     }
 
@@ -380,13 +376,12 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_select_zoon_layout:// 区域选择
-                if (isLoaded) {
-                    ShowPickerView();
-                }
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "", EditProfileAty.this);
                 user_select_street_tv.setText("");
 //                startActivityForResult(AreaSelectAty.class, null, 102);
                 break;
             case R.id.user_select_street_layout:// 选择街道
+                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
                 if (area_id.equals("")) {
                     showErrorTip("请选择省市区");
                     return;
@@ -399,7 +394,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             case R.id.titlt_right_tv:// 保存
                 nickname = user_nickname_tv.getText().toString().trim();
                 email = user_email_ev.getText().toString().trim();
-                //2018.2.23 个人信息不能为空
+                // 2018.2.23 个人信息不能为空
                 if (user_nickname_tv.getText().toString().trim().equals("")) {
                     showToast("昵称不能为空");
                 } else if (user_email_ev.getText().toString().trim().equals("")) {
@@ -409,6 +404,9 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 } else if (user_select_street_tv.getText().toString().trim().equals("")) {
                     Toast.makeText(this, "所在街道不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
+                    province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                    city_id = ProUrbAreaUtil.gainInstance().getCity_id();
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
                     userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
                 }
 
@@ -499,142 +497,4 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         }
     }
 
-    private ArrayList<ProvinceForTxd> options1Items = new ArrayList<>();
-    private ArrayList<ArrayList<CityForTxd>> options2Items = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<DistrictsForTxd>>> options3Items = new ArrayList<>();
-    private Thread thread;
-    private static final int MSG_LOAD_DATA = 0x0001;
-    private static final int MSG_LOAD_SUCCESS = 0x0002;
-    private static final int MSG_LOAD_FAILED = 0x0003;
-
-
-    private void ShowPickerView() {// 弹出选择器
-        OptionsPickerView pvOptions = new OptionsPickerView.Builder(this, new OptionsPickerView
-                .OnOptionsSelectListener() {
-            @Override
-            public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                // 省
-                province = options1Items.get(options1).getPickerViewText();
-                province_id = options1Items.get(options1).getProvince_id();
-                // 市
-                city = options2Items.get(options1).get(options2).getPickerViewText();
-                city_id = options2Items.get(options1).get(options2).getCity_id();
-                // 区
-                area = options3Items.get(options1).get(options2).get(options3).getPickerViewText();
-                area_id = options3Items.get(options1).get(options2).get(options3).getDistrict_id();
-                // 设置省市区
-                String tx = province + city + area;
-                user_select_zoon_tv.setText(tx);
-            }
-        }).setTitleText("城市选择")
-                .setDividerColor(Color.BLACK)
-                .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
-                .setContentTextSize(20)
-                .setOutSideCancelable(false)// default is true
-                .build();
-
-        pvOptions.setPicker(options1Items, options2Items, options3Items); // 三级选择器
-        pvOptions.show();
-    }
-
-    private boolean isLoaded = false;
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LOAD_DATA:
-                    if (thread == null) {//如果已创建就不再重新创建子线程了
-                        thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                // 写子线程中的操作,解析省市区数据
-//                                initJsonData();
-                            }
-                        });
-                        thread.start();
-                    }
-                    break;
-
-                case MSG_LOAD_SUCCESS:
-                    removeDialog();
-                    isLoaded = true;
-                    break;
-
-                case MSG_LOAD_FAILED:
-                    removeDialog();
-                    showErrorTip("解析失败");
-                    break;
-
-            }
-        }
-    };
-
-    private void initJsonData(String JsonData) {//解析数据
-
-        /*
-         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
-         * 关键逻辑在于循环体
-         */
-//        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
-        ArrayList<ProvinceForTxd> jsonBean = parseData(JsonData);//用Gson 转成实体
-
-        /*
-         * 添加省份数据
-         *
-         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
-        options1Items = jsonBean;
-
-        for (int i = 0; i < jsonBean.size(); i++) {//遍历省份
-            ArrayList<CityForTxd> CityList = new ArrayList<>();//该省的城市列表（第二级）
-            ArrayList<ArrayList<DistrictsForTxd>> Province_AreaList = new ArrayList<>();//该省的所有地区列表（第三极）
-
-            for (int c = 0; c < jsonBean.get(i).getCities().size(); c++) {//遍历该省份的所有城市
-
-                CityList.add(jsonBean.get(i).getCities().get(c));//添加城市
-
-                ArrayList<DistrictsForTxd> City_AreaList = new ArrayList<>();//该城市的所有地区列表
-                //如果无地区数据，建议添加空字符串，防止数据为null 导致三个选项长度不匹配造成崩溃
-                if (jsonBean.get(i).getCities().get(c).getDistricts() == null
-                        || jsonBean.get(i).getCities().get(c).getDistricts().size() == 0) {
-                    City_AreaList.add(new DistrictsForTxd("", ""));
-                } else {
-                    for (int d = 0; d < jsonBean.get(i).getCities().get(c).getDistricts().size(); d++) {//该城市对应地区所有数据
-                        DistrictsForTxd AreaName = jsonBean.get(i).getCities().get(c).getDistricts().get(d);
-                        City_AreaList.add(AreaName);//添加该城市所有地区数据
-                    }
-                }
-                Province_AreaList.add(City_AreaList);//添加该省所有地区数据
-            }
-            /*
-             * 添加城市数据
-             */
-            options2Items.add(CityList);
-            /*
-             * 添加地区数据
-             */
-            options3Items.add(Province_AreaList);
-        }
-
-        mHandler.sendEmptyMessage(MSG_LOAD_SUCCESS);
-
-    }
-
-
-    public ArrayList<ProvinceForTxd> parseData(String result) {//Gson 解析
-        ArrayList<ProvinceForTxd> detail = new ArrayList<>();
-        try {
-            JSONArray data = new JSONArray(result);
-            Gson gson = new Gson();
-            for (int i = 0; i < data.length(); i++) {
-                ProvinceForTxd entity = gson.fromJson(data.optJSONObject(i).toString(), ProvinceForTxd.class);
-                detail.add(entity);
-            }
-        } catch (Exception e) {
-            L.e("=====异常=====", e.getMessage());
-            e.printStackTrace();
-            mHandler.sendEmptyMessage(MSG_LOAD_FAILED);
-        }
-        return detail;
-    }
 }
