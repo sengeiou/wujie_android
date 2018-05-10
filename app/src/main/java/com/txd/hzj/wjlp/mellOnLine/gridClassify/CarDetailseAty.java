@@ -26,7 +26,8 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
+import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.http.carbuy.CarBuyPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -474,7 +475,7 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
                 Glide.with(this).load(comment.get(0).getHead_pic()).into(comm_user_head_iv);
                 comm_user_name_tv.setText(comment.get(0).getNickname());
                 comm_content_tv.setText(comment.get(0).getContent());
-                List<CommentBean.BodyBean.PicturesBean> pic = comment.get(0).getPictures_arr();
+                List<PicturesBean> pic = comment.get(0).getPictures_arr();
                 CommentPicAdapter picadapter = new CommentPicAdapter(this, pic);
                 estimate_pic.setAdapter(picadapter);
             } else {
@@ -511,8 +512,8 @@ public class CarDetailseAty extends BaseAty implements ObservableScrollView.Scro
 //            }
             // TODO==========产品属性==========
             if (ToolKit.isList(data, "attr")) {
-                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("attr"),
-                        GoodsCommonAttr.class);
+                List<GoodsCommonAttrBean> gca = GsonUtil.getObjectList(data.get("attr"),
+                        GoodsCommonAttrBean.class);
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }

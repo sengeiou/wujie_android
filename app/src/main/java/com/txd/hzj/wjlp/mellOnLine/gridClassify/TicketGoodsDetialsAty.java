@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,8 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.ViewUtils;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -39,11 +35,9 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -60,16 +54,12 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.EasemobBean;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
-import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
-import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
-import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.bean.commodity.*;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.category.GoodsCategory;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -901,9 +891,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
 
-    ArrayList<Map<String, String>> ser_list;//服务的列表
-    ArrayList<Map<String, String>> goods_price_desc;//价格的列表
-    ArrayList<Map<String, String>> dj_ticket;//代金券的说明
+    private  ArrayList<Map<String, String>> ser_list;//服务的列表
+    private ArrayList<Map<String, String>> goods_price_desc;//价格的列表
+    //    ArrayList<Map<String, String>> dj_ticket;//代金券的说明
+    private List<DjTicketBean> dj_ticket;
 
     private void setTextViewAndViewColor(int next) {
         title_goods_tv.setTextColor(Color.BLACK);
@@ -1147,7 +1138,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
                     all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
                     Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                    CommentBean.BodyBean bodyBean = comment.getBody();
+                    BodyBean bodyBean = comment.getBody();
                     if (bodyBean != null) {
                         Glide.with(this).load(bodyBean.getUser_head_pic())
                                 .override(head_size, head_size)
@@ -1159,7 +1150,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         comm_user_name_tv.setText(bodyBean.getNickname());
                         comm_content_tv.setText(bodyBean.getContent());
                         tv_date.setText(bodyBean.getCreate_time());
-                        List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                        List<PicturesBean> pictures = bodyBean.getPictures();
                         if (!ListUtils.isEmpty(pictures)) {
                             CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
                             estimate_pic.setAdapter(picadapter);
@@ -1176,7 +1167,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             }
             // TODO==========产品属性==========
             if (ToolKit.isList(data, "goods_common_attr")) {
-                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"), GoodsCommonAttr.class);
+                List<GoodsCommonAttrBean> gca = GsonUtil.getObjectList(data.get("goods_common_attr"), GoodsCommonAttrBean.class);
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(TicketGoodsDetialsAty.this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }
@@ -1544,7 +1535,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_brief.setText(goodsInfo.get("goods_brief"));
 
         if (ToolKit.isList(goodsInfo, "dj_ticket")) {
-            dj_ticket = JSONUtils.parseKeyAndValueToMapList(goodsInfo.get("dj_ticket"));
+            dj_ticket = JSONUtils.parseKeyAndValueToMapList(DjTicketBean.class,goodsInfo.get("dj_ticket"));
 
             for (int i = 0; i < dj_ticket.size(); i++) {
                 if (i == 2) {
@@ -1553,24 +1544,24 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 switch (i) {
                     case 0: {
                         layout_djq0.setVisibility(View.VISIBLE);
-                        discount_desc0 = dj_ticket.get(i).get("discount_desc");
+                        discount_desc0 = dj_ticket.get(i).getDiscount_desc();
                         tv_djq_desc0.setText(discount_desc0);
                         break;
                     }
                     case 1: {
                         layout_djq1.setVisibility(View.VISIBLE);
-                        discount_desc1 = dj_ticket.get(i).get("discount_desc");
+                        discount_desc1 = dj_ticket.get(i).getDiscount_desc();
                         tv_djq_desc1.setText(discount_desc1);
                         break;
                     }
                     case 2: {
                         layout_djq2.setVisibility(View.VISIBLE);
-                        discount_desc2 = dj_ticket.get(i).get("discount_desc");
+                        discount_desc2 = dj_ticket.get(i).getDiscount_desc();
                         tv_djq_desc2.setText(discount_desc2);
                         break;
                     }
                 }
-                switch (dj_ticket.get(i).get("type")) {
+                switch (dj_ticket.get(i).getType()) {
                     case "0": {
                         //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
                         tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
@@ -1770,7 +1761,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      *
      * @param view
      */
-    public void showDjqPop(final View view, final List<Map<String, String>> list) {
+    public void showDjqPop(final View view, final List<DjTicketBean> list) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.layout_popp_djq)
@@ -1802,22 +1793,22 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                             switch (i) {
                                 case 0: {
                                     layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(list.get(i).get("discount_desc"));
+                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
                                 case 1: {
                                     layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(list.get(i).get("discount_desc"));
+                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
                                 case 2: {
                                     layout_djq2.setVisibility(View.VISIBLE);
-                                    tv_djq_desc2.setText(list.get(i).get("discount_desc"));
+                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
                             }
 
-                            switch (list.get(i).get("type")) {
+                            switch (list.get(i).getType()) {
                                 case "0": {
                                     tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
                                 }
@@ -2107,9 +2098,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
-                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
-                if (dj_list != null) {
-                    dj_ticket = dj_list;
+//                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
+                dj_ticket= (List<DjTicketBean>) data.getSerializableExtra("data");
+                if (null!=dj_ticket ) {
                     for (int i = 0; i < dj_ticket.size(); i++) {
                         if (i == 2) {
                             break;
@@ -2131,7 +2122,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                                 break;
                             }
                         }
-                        switch (dj_ticket.get(i).get("type")) {
+                        switch (dj_ticket.get(i).getType()) {
                             case "0": {
                                 //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
                                 tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);

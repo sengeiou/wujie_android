@@ -1,15 +1,14 @@
-package com.txd.hzj.wjlp.bean.groupbuy;
+package com.txd.hzj.wjlp.bean.commodity;
+
+import java.io.Serializable;
 
 /**
- * ===============Txunda===============
- * 作者：DUKE_HwangZj
- * 日期：2017/9/6 0006
- * 时间：11:28
- * 描述：优惠券
- * ===============Txunda===============
+ * 创建者：TJDragon(LiuGang)
+ * 创建时间：2018/5/10 15:58
+ * 功能描述：
+ * 联系方式：常用邮箱或电话
  */
-
-public class TicketListBean {
+public class TicketListBean implements Serializable {
     /**
      * ticket_id : 优惠券ID
      * ticket_name : 优惠券名称
@@ -20,7 +19,6 @@ public class TicketListBean {
      * start_time : 开始时间
      * end_time : 结束时间
      */
-
     private String ticket_id;
     private String ticket_name;
     private String ticket_desc;
@@ -101,19 +99,5 @@ public class TicketListBean {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
-    }
-
-    @Override
-    public String toString() {
-        return "TicketListBean{" +
-                "ticket_id='" + ticket_id + '\'' +
-                ", ticket_name='" + ticket_name + '\'' +
-                ", ticket_desc='" + ticket_desc + '\'' +
-                ", ticket_type='" + ticket_type + '\'' +
-                ", value='" + value + '\'' +
-                ", condition='" + condition + '\'' +
-                ", start_time='" + start_time + '\'' +
-                ", end_time='" + end_time + '\'' +
-                '}';
     }
 }

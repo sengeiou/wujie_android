@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.FileUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -151,7 +153,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.longin_title_layout);
 
-        if (DemoApplication.LOGIN_ACTIVITY_IS_RUN){
+        if (DemoApplication.LOGIN_ACTIVITY_IS_RUN) {
             finish();
         }
 
@@ -289,9 +291,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String code = jsonObject.getString("code");
                 String message = jsonObject.getString("message");
-                if(code.equals("0")){
+                if (code.equals("0")) {
                     showToast(message);
-                }else {
+                } else {
                     bundle = new Bundle();
                     bundle.putString("phone", phone);
                     startActivity(RegisterGetCodeAty.class, bundle);
@@ -326,7 +328,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 //                AppManager.getInstance().killAllActivity();
 //                startActivity(MainAty.class, null);
 //            }
-            if (MainAty.isExit){
+            if (MainAty.isExit) {
                 startActivity(MainAty.class, null);
             }
             finish();
@@ -347,7 +349,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 showRightTip("登录成功");
                 boolean existMainActivity = isExistMainActivity(MainAty.class);
                 L.e("wang", "existMainActivity:" + existMainActivity);
-                if (existMainActivity){
+                if (existMainActivity) {
                     startActivity(MainAty.class, null);
                 }
                 application.setUserInfo(data);
@@ -369,7 +371,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
-    private boolean isExistMainActivity(Class<?> activity){
+    private boolean isExistMainActivity(Class<?> activity) {
         Intent intent = new Intent(this, activity);
         ComponentName cmpName = intent.resolveActivity(getPackageManager());
         boolean flag = false;
@@ -455,17 +457,21 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
      */
     private void getHeadPicAndLogin(String url) {
         HttpUtils utils = new HttpUtils();
-        utils.download(url,
-                Environment.getExternalStorageDirectory() + "/Txunda/img_head/head.png", new RequestCallBack<File>() {
+        String path1 = Environment.getExternalStorageDirectory() + "/Txunda/img_head/";
+        final String path2 = path1 + "head.png";
+        FileUtils.makeFolders(path1);
+        FileUtils.makeFolders(path2);
+        utils.download(url, path2
+                , new RequestCallBack<File>() {
                     @Override
                     public void onSuccess(ResponseInfo<File> responseInfo) {
-                        File head = new File(Environment.getExternalStorageDirectory() +
-                                "/Txunda/img_head/head.png");
+                        File head = new File(path2);
                         registerPst.otherLogin(openid, loginType, head, nick);
                     }
 
                     @Override
                     public void onFailure(HttpException error, String msg) {
+                        Log.e("login", String.valueOf(error));
                     }
                 });
     }

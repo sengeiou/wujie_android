@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
+import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
@@ -119,6 +122,9 @@ public class CreateGroupAty extends BaseAty {
         group_operation_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = getIntent();
+                List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
+                List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
 
                 toAttrs(v,
                         0,
@@ -127,8 +133,7 @@ public class CreateGroupAty extends BaseAty {
                         data.get("goods_img"),
                         data.get("shop_price"),
                         getIntent().getStringExtra("group_buy_id") + "-" + log_id,
-                        getIntent().getStringExtra("goods_attr_first"),
-                        getIntent().getStringExtra("first_val"),
+                        goods_attr, goods_val,
                         getIntent().getStringExtra("is_attr")
                 );
 

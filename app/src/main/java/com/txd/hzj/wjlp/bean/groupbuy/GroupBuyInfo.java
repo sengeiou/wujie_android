@@ -1,6 +1,14 @@
 package com.txd.hzj.wjlp.bean.groupbuy;
 
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.commodity.CommentBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsBannerBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsInfoBean;
+import com.txd.hzj.wjlp.bean.commodity.GroupBean;
+import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
+import com.txd.hzj.wjlp.bean.commodity.ProductBean;
+import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
+import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 
 import java.util.List;
 

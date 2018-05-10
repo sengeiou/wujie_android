@@ -32,6 +32,8 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
+import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
@@ -46,6 +48,7 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.umeng.analytics.MobclickAgent;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -135,6 +138,24 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         ((InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
+
+
+    public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
+                        String price,
+                        String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr) {
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", from);
+        bundle.putString("type", type);
+        bundle.putString("goods_id", goods_id);
+        bundle.putString("group_buy_id", group_buy_id);
+        bundle.putString("imageurl", imageurl);
+        bundle.putString("price", price);
+        bundle.putSerializable("goods_attr_Serializable", (Serializable) goods_attr);
+        bundle.putSerializable("goods_val_Serializable",(Serializable) goods_val);
+        bundle.putString("is_attr", is_attr);
+        startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
+    }
+
 
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
                         String price,

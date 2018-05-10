@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 
 import java.util.List;
 
@@ -32,10 +30,10 @@ public class CommentPicAdapter extends BaseAdapter {
     private Context context;
     private int size;
     private LayoutInflater inflater;
-    private List<CommentBean.BodyBean.PicturesBean> pic;
+    private List<PicturesBean> pic;
     private PicVh pvh;
 
-    public CommentPicAdapter(Context context, List<CommentBean.BodyBean.PicturesBean> pic) {
+    public CommentPicAdapter(Context context, List<PicturesBean> pic) {
         this.context = context;
         this.pic = pic;
         size = ToolKit.dip2px(context, 88);
@@ -47,7 +45,7 @@ public class CommentPicAdapter extends BaseAdapter {
     }
 
     @Override
-    public CommentBean.BodyBean.PicturesBean getItem(int i) {
+    public PicturesBean getItem(int i) {
         return pic.get(i);
     }
 
@@ -58,7 +56,7 @@ public class CommentPicAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        CommentBean.BodyBean.PicturesBean pictures = getItem(i);
+        PicturesBean pictures = getItem(i);
         if (view == null) {
             view = LayoutInflater.from(context).inflate(R.layout.item_evaluste_pic_gv, viewGroup,
                     false);

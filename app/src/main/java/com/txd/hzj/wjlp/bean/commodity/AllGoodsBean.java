@@ -1,5 +1,6 @@
-package com.txd.hzj.wjlp.bean;
+package com.txd.hzj.wjlp.bean.commodity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class AllGoodsBean {
+public class AllGoodsBean implements Serializable {
     // TODO==========拼团购==========
     /**
      * 团购id
@@ -289,52 +290,6 @@ public class AllGoodsBean {
     public void setSuccess_max_num(String success_max_num) {
         this.success_max_num = success_max_num;
     }
-
-    public static class AppendPersonBean {
-        /**
-         * log_id : 2
-         * user_id : 5
-         * head_pic : http://wjyp.txunda.com/Uploads/User/2017-07-29/597c1ad6a538e.jpg
-         */
-
-        private String log_id;
-        private String user_id;
-        private String head_pic;
-
-        public String getLog_id() {
-            return log_id;
-        }
-
-        public void setLog_id(String log_id) {
-            this.log_id = log_id;
-        }
-
-        public String getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(String user_id) {
-            this.user_id = user_id;
-        }
-
-        public String getHead_pic() {
-            return head_pic;
-        }
-
-        public void setHead_pic(String head_pic) {
-            this.head_pic = head_pic;
-        }
-
-        @Override
-        public String toString() {
-            return "AppendPersonBean{" +
-                    "log_id='" + log_id + '\'' +
-                    ", user_id='" + user_id + '\'' +
-                    ", head_pic='" + head_pic + '\'' +
-                    '}';
-        }
-    }
-
     public String getPre_buy_id() {
         return pre_buy_id;
     }

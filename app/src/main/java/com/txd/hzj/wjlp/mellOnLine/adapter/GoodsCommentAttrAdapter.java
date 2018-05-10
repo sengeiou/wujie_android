@@ -8,12 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
+import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrItemBean;
 
 import java.util.List;
 
@@ -30,13 +30,13 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
 
     private Context context;
 
-    private List<GoodsCommonAttr> commonAttrs;
+    private List<GoodsCommonAttrBean> commonAttrs;
 
     private LayoutInflater inflater;
 
     private Holder cavh;
 
-    public GoodsCommentAttrAdapter(Context context, List<GoodsCommonAttr> commonAttrs) {
+    public GoodsCommentAttrAdapter(Context context, List<GoodsCommonAttrBean> commonAttrs) {
         this.context = context;
         this.commonAttrs = commonAttrs;
         inflater = LayoutInflater.from(context);
@@ -48,7 +48,7 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
     }
 
     @Override
-    public GoodsCommonAttr getItem(int i) {
+    public GoodsCommonAttrBean getItem(int i) {
         return commonAttrs.get(i);
     }
 
@@ -59,7 +59,7 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        GoodsCommonAttr goodsCommonAttr = getItem(i);
+        GoodsCommonAttrBean goodsCommonAttr = getItem(i);
         if (view == null) {
             view = inflater.inflate(R.layout.item_attrs, viewGroup, false);
             cavh = new Holder();
@@ -97,12 +97,12 @@ public class GoodsCommentAttrAdapter extends BaseAdapter {
     }
 
     class adapter extends BaseAdapter {
-        List<GoodsCommonAttr.list> list;
 
+        List<GoodsCommonAttrItemBean> list;
         private LayoutInflater inflater;
         CommentAttrVH cavh;
 
-        public adapter(Context context, List<GoodsCommonAttr.list> list) {
+        public adapter(Context context, List<GoodsCommonAttrItemBean> list) {
             this.list = list;
             inflater = LayoutInflater.from(context);
         }

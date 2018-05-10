@@ -14,7 +14,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.GoodLuckBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
+import com.txd.hzj.wjlp.bean.commodity.GroupBean;
 
 import java.util.Calendar;
 import java.util.List;
@@ -34,7 +35,7 @@ import cn.iwgang.countdownview.CountdownView;
 public class GoodLuckAdapter extends BaseAdapter {
 
     private Context context;
-    private List<GoodLuckBean.DataBean.GroupBean> list;
+    private List<GroupBean> list;
     private LayoutInflater inflater;
     private GoodLuckVH goodLuckVH;
 
@@ -49,7 +50,7 @@ public class GoodLuckAdapter extends BaseAdapter {
         this.adapterTextViewClickListener = adapterTextViewClickListener;
     }
 
-    public GoodLuckAdapter(Context context, List<GoodLuckBean.DataBean.GroupBean> list) {
+    public GoodLuckAdapter(Context context, List<GroupBean> list) {
         this.context = context;
         this.list = list;
         size = ToolKit.dip2px(context, 40);
@@ -62,7 +63,7 @@ public class GoodLuckAdapter extends BaseAdapter {
     }
 
     @Override
-    public GoodLuckBean.DataBean.GroupBean getItem(int i) {
+    public GroupBean getItem(int i) {
         return list.get(i);
     }
 
@@ -73,7 +74,7 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        GoodLuckBean.DataBean.GroupBean groupBean = getItem(i);
+        GroupBean groupBean = getItem(i);
         if (null == view) {
             view = inflater.inflate(R.layout.item_good_luck_lv, viewGroup, false);
             goodLuckVH = new GoodLuckVH();

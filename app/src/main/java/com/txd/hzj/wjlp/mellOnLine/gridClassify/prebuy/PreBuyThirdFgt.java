@@ -15,14 +15,13 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 

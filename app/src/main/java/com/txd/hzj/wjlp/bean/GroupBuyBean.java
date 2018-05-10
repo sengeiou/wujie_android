@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.bean;
 
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+
 import java.util.List;
 
 /**

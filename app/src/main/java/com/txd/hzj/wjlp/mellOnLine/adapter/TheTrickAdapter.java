@@ -17,7 +17,7 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.login.LoginAty;
 
 import java.util.List;

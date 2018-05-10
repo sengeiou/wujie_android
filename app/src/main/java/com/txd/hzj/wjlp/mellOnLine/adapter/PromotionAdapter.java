@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
+import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 
 import java.util.List;
 

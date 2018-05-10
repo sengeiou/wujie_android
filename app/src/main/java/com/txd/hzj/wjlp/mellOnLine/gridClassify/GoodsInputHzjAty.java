@@ -1,14 +1,11 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,7 +23,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.GlobalAdapter;

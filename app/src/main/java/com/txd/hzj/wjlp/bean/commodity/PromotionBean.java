@@ -1,15 +1,14 @@
-package com.txd.hzj.wjlp.bean.groupbuy;
+package com.txd.hzj.wjlp.bean.commodity;
+
+import java.io.Serializable;
 
 /**
- * ===============Txunda===============
- * 作者：DUKE_HwangZj
- * 日期：2017/9/6 0006
- * 时间：11:27
- * 描述：团购店铺活动
- * ===============Txunda===============
+ * 创建者：TJDragon(LiuGang)
+ * 创建时间：2018/5/10 15:50
+ * 功能描述：
+ * 联系方式：常用邮箱或电话
  */
-
-public class PromotionBean {
+public class PromotionBean implements Serializable {
     /**
      * title : 优惠活动名称
      * promotion_id : 优惠id
@@ -42,14 +41,5 @@ public class PromotionBean {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "PromotionBean{" +
-                "title='" + title + '\'' +
-                ", promotion_id='" + promotion_id + '\'' +
-                ", type='" + type + '\'' +
-                '}';
     }
 }

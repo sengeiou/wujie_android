@@ -1,6 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
+import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class BeanComment {
     private String comment_star;
     private String nickname;
     private String head_pic;
-    private List<CommentBean.BodyBean.PicturesBean> pictures_arr;
+    private List<PicturesBean> pictures_arr;
     private List<LabelArrBean> label_arr;
 
     public String getUser_id() {
@@ -138,11 +138,11 @@ public class BeanComment {
         this.head_pic = head_pic;
     }
 
-    public List<CommentBean.BodyBean.PicturesBean> getPictures_arr() {
+    public List<PicturesBean> getPictures_arr() {
         return pictures_arr;
     }
 
-    public void setPictures_arr(List<CommentBean.BodyBean.PicturesBean> pictures_arr) {
+    public void setPictures_arr(List<PicturesBean> pictures_arr) {
         this.pictures_arr = pictures_arr;
     }
 

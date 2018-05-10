@@ -19,7 +19,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AppendPersonBean;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.math.BigDecimal;
@@ -439,7 +440,7 @@ public class AllGvLvAdapter extends BaseAdapter {
 //                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pic_size, pic_size2);
 //                vh.goods_pic_iv.setLayoutParams(params);
                 // 团购两人头像(最多两人)
-                List<AllGoodsBean.AppendPersonBean> append_person = allGoodsBean.getAppend_person();
+                List<AppendPersonBean> append_person = allGoodsBean.getAppend_person();
                 if (!ListUtils.isEmpty(append_person)) {
                     if (allGoodsBean.getAppend_person().size() >= 2) {
                         vh.sec_head_iv.setVisibility(View.VISIBLE);

@@ -1,6 +1,6 @@
 package com.txd.hzj.wjlp.bean.groupbuy;
 
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 
 import java.util.List;
 

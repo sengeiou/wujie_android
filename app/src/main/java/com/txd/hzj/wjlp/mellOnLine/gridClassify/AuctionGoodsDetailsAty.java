@@ -2,8 +2,6 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,10 +27,8 @@ import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -41,11 +37,9 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.http.auction.AuctionPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -54,13 +48,10 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.Freight;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -738,8 +729,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
                 layout_chujia.setVisibility(View.GONE);
             }
             if (ToolKit.isList(data, "goods_common_attr")) {
-                List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
-                        GoodsCommonAttr.class);
+                List<GoodsCommonAttrBean> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                        GoodsCommonAttrBean.class);
                 GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
                 goods_common_attr_lv.setAdapter(gcaAdapter);
             }

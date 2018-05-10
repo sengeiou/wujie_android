@@ -32,10 +32,7 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.GoodsCommonAttr;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
-import com.txd.hzj.wjlp.bean.groupbuy.PromotionBean;
-import com.txd.hzj.wjlp.bean.groupbuy.TicketListBean;
+import com.txd.hzj.wjlp.bean.commodity.*;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.street.ThemePst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
@@ -630,7 +627,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
                 all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
                 Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                CommentBean.BodyBean bodyBean = comment.getBody();
+                BodyBean bodyBean = comment.getBody();
                 if (bodyBean != null) {
                     Glide.with(this).load(bodyBean.getUser_head_pic())
                             .override(head_size, head_size)
@@ -641,7 +638,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                             .into(comm_user_head_iv);
                     comm_user_name_tv.setText(bodyBean.getNickname());
                     comm_content_tv.setText(bodyBean.getContent());
-                    List<CommentBean.BodyBean.PicturesBean> pictures = bodyBean.getPictures();
+                    List<PicturesBean> pictures = bodyBean.getPictures();
                     if (!ListUtils.isEmpty(pictures)) {
                         CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
                         estimate_pic.setAdapter(picadapter);
@@ -657,8 +654,8 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
     // 商品属性
     private void forGoodsCommentAttr(Map<String, String> data) {
         if (ToolKit.isList(data, "goods_common_attr")) {
-            List<GoodsCommonAttr> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
-                    GoodsCommonAttr.class);
+            List<GoodsCommonAttrBean> gca = GsonUtil.getObjectList(data.get("goods_common_attr"),
+                    GoodsCommonAttrBean.class);
             GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(this, gca);
             goods_common_attr_lv.setAdapter(gcaAdapter);
         }

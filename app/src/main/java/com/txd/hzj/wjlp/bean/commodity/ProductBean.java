@@ -1,4 +1,6 @@
-package com.txd.hzj.wjlp.bean.groupbuy;
+package com.txd.hzj.wjlp.bean.commodity;
+
+import java.io.Serializable;
 
 /**
  * ===============Txunda===============
@@ -9,7 +11,7 @@ package com.txd.hzj.wjlp.bean.groupbuy;
  * ===============Txunda===============
  */
 
-public class ProductBean {
+public class ProductBean implements Serializable {
     /**
      * id : 75
      * goods_id : 12

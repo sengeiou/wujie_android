@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
@@ -26,9 +25,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
@@ -40,20 +39,15 @@ import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.InputGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static com.txd.hzj.wjlp.R.id.ads;
 
 /**
  * ===============Txunda===============

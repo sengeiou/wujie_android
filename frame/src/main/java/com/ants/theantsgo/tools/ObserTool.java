@@ -37,7 +37,7 @@ public class ObserTool {
      * @param <T>
      * @return   无用，暂时因为泛型写的这个东西
      */
-    public static <T> T jsonToBean(final String jsonStr, final Class<T> cls, final BeanListener listener) {
+    public <T> T jsonToBean(final String jsonStr, final Class<T> cls, final BeanListener listener) {
         final Observable<T> observable = Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {

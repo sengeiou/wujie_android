@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 
 import java.util.List;
 

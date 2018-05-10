@@ -27,7 +27,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.groupbuy.CommentBean;
+import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.http.house.HouseBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.HouseArrtAdapter;
@@ -241,7 +241,7 @@ public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrol
                 Glide.with(this).load(comment.get(0).getHead_pic()).into(comm_user_head_iv);
                 comm_user_name_tv.setText(comment.get(0).getNickname());
                 comm_content_tv.setText(comment.get(0).getContent());
-                List<CommentBean.BodyBean.PicturesBean> pic = comment.get(0).getPictures_arr();
+                List<PicturesBean> pic = comment.get(0).getPictures_arr();
                 CommentPicAdapter picadapter = new CommentPicAdapter(getActivity(), pic);
                 estimate_pic.setAdapter(picadapter);
             } else {

@@ -15,22 +15,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
+import com.txd.hzj.wjlp.bean.commodity.FirstListValBean;
+import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.http.cart.Cart;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
@@ -38,6 +35,7 @@ import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -90,8 +88,8 @@ public class GoodsAttributeAty extends BaseAty {
     private String mid = "";
     private String group_buy_id = "";
     private String type;
-    List<GoodsAttr> list;
-    List<Goods_val> list_val;
+    private List<FirstListBean> list;
+    private List<FirstValBean> list_val;
     private int maxNumber; // 库存件数
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
@@ -100,11 +98,11 @@ public class GoodsAttributeAty extends BaseAty {
     int pos1;
     int pos2;
     //    String goods_attr;
-    Goods_val val;
+    FirstValBean val;
     SparseArray<String> list_attrs = new SparseArray<String>();
     private String is_attr;
     private String image;
-    private List<Map<String, String>> mapList;
+    //    private List<Map<String, String>> mapList;
     private List<Map<Integer, String>> recordMutilMapList;
     private Map<Integer, String> recordMutilMap;
     private int position = 0;
@@ -115,9 +113,9 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-                if(tv_kucun.getText().equals("(库存：0)")){
+                if (tv_kucun.getText().equals("(库存：0)")) {
                     showErrorTip("库存不足请您下次再买");
-                        return ;
+                    return;
                 }
                 // 获取输入框的输入件数
                 num = Integer.parseInt(et_num.getText().toString().trim());
@@ -154,7 +152,6 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
                 if (4 == from) {
-
                     Intent intent = new Intent();
                     if (!TextUtils.isEmpty(pro_id)) {
                         intent.putExtra("product_id", pro_id);
@@ -170,7 +167,7 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("wy_price", val.getWy_price());
                         intent.putExtra("yx_price", val.getYx_price());
                         intent.putExtra("goods_num", val.getGoods_num());
-                        intent.putExtra("data", mapList.get(position).get("dj_ticket"));
+                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
                         setResult(0x0002, intent);
                         finish();
                     } else {
@@ -270,19 +267,36 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 
+    private boolean isMapCome = false;
 
     @Override
     protected void requestData() {
-        imageurl = getIntent().getStringExtra("imageurl");
+        Intent intent = getIntent();
+        imageurl = intent.getStringExtra("imageurl");
         price = getIntent().getStringExtra("price");
         Glide.with(this).load(imageurl).into(imageview);//加载默认商品图
         ChangeTextViewStyle.getInstance().forGoodsPrice24(this, goods_price_tv, "￥" + price);
-        list = GsonUtil.getObjectList(getIntent().getStringExtra("goods_attr"), GoodsAttr.class);
+
+        if (intent.hasExtra("goods_attr_Serializable")) {
+            list = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_Serializable");
+            isMapCome = false;
+        } else {
+            isMapCome = true;
+            list = GsonUtil.getObjectList(intent.getStringExtra("goods_attr"), FirstListBean.class);
+        }
+
         for (int i = 0; i < list.size(); i++) {
             list.get(i).getFirst_list_val().get(0).setStatus(SELECTED);
         }
-        list_val = GsonUtil.getObjectList(getIntent().getStringExtra("goods_val"), Goods_val.class);
-        mapList = JSONUtils.parseKeyAndValueToMapList(getIntent().getStringExtra("goods_val"));
+        if (intent.hasExtra("goods_val_Serializable")) {
+            isMapCome = false;
+            list_val = (List<FirstValBean>) intent.getSerializableExtra("goods_val_Serializable");
+        } else {
+            list_val = GsonUtil.getObjectList(intent.getStringExtra("goods_val"), FirstValBean.class);
+            isMapCome = true;
+        }
+
+
         recordMutilMapList = new ArrayList<>();
         list = dealData(list, list_val, 0);
         String string[] = is_attr.split("-");
@@ -298,7 +312,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
 //        if (list.size() == 1) {
         if (null != list_val && list_val.size() > 0)
-            for (Goods_val goods_val : list_val) {
+            for (FirstValBean goods_val : list_val) {
 //                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
 //                if (v.equals(goods_val.getArrtValue()))
 
@@ -403,7 +417,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
 
         @Override
-        public GoodsAttr getItem(int i) {
+        public FirstListBean getItem(int i) {
             return list.get(i);
         }
 
@@ -423,9 +437,9 @@ public class GoodsAttributeAty extends BaseAty {
                 avh = (AttrsVh) view.getTag();
             }
             avh.goods_attrs_title.setText(getItem(i).getFirst_list_name());
-            TagAdapter tagAdapter = new TagAdapter<GoodsAttr.valBean>(getItem(i).getFirst_list_val()) {
+            TagAdapter tagAdapter = new TagAdapter<FirstListValBean>(getItem(i).getFirst_list_val()) {
                 @Override
-                public View getView(FlowLayout parent, int position, GoodsAttr.valBean goodsAttrses) {
+                public View getView(FlowLayout parent, int position, FirstListValBean goodsAttrses) {
                     TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
                                     .item_goods_attrs_tfl,
                             parent, false);
@@ -577,308 +591,6 @@ public class GoodsAttributeAty extends BaseAty {
 
     }
 
-    class GoodsAttr {
-
-        /**
-         * first_list_name : 颜色
-         * first_list_val : ["红色","黄色"]
-         */
-
-        private String first_list_name;
-        private List<valBean> first_list_val;
-
-
-        public String getFirst_list_name() {
-            return first_list_name;
-        }
-
-        public void setFirst_list_name(String first_list_name) {
-            this.first_list_name = first_list_name;
-        }
-
-        public List<valBean> getFirst_list_val() {
-            return first_list_val;
-        }
-
-        public void setFirst_list_val(List<valBean> first_list_val) {
-            this.first_list_val = first_list_val;
-
-        }
-
-
-        class valBean {
-            String val;
-            //            boolean check;
-            String status = "";
-
-            public String getStatus() {
-                return status;
-            }
-
-            public void setStatus(String status) {
-                this.status = status;
-            }
-
-            public String getVal() {
-                return val;
-            }
-
-            public void setVal(String val) {
-                this.val = val;
-            }
-        }
-
-    }
-
-
-    class Goods_val {
-
-        /**
-         * id : 118
-         * goods_id : 59
-         * attr_combine_id : 79+80+81
-         * arrt_name : 红
-         * arrt_value : L+工装
-         * settlement_price : 777.00
-         * shop_price : 777.00
-         * market_price : 777.00
-         * goods_num : 777
-         * goods_code : rtr564
-         * goods_img : 11274
-         * is_default : 1
-         * create_time : 0
-         * all_goods_num : 777
-         * arrtValue : 红+L+工装
-         */
-
-        private String id;
-        private String goods_id;
-        private String attr_combine_id;
-        private String arrt_name;
-        private String arrt_value;
-        private String settlement_price;
-        private String shop_price;
-        private String market_price;
-        private String goods_num;
-        private String goods_code;
-        private String goods_img;
-        private String is_default;
-        private String create_time;
-        private String all_goods_num;
-        private String arrtValue;
-        private String discount;
-        private String red_return_integral;
-        private String yellow_discount;
-        private String blue_discount;
-        private String wy_price;
-        private String yx_price;
-        private List<dj_ticket> dt;
-
-        public String getDiscount() {
-            return discount;
-        }
-
-        public void setDiscount(String discount) {
-            this.discount = discount;
-        }
-
-        public String getRed_return_integral() {
-            return red_return_integral;
-        }
-
-        public void setRed_return_integral(String red_return_integral) {
-            this.red_return_integral = red_return_integral;
-        }
-
-        public String getYellow_discount() {
-            return yellow_discount;
-        }
-
-        public void setYellow_discount(String yellow_discount) {
-            this.yellow_discount = yellow_discount;
-        }
-
-        public String getBlue_discount() {
-            return blue_discount;
-        }
-
-        public void setBlue_discount(String blue_discount) {
-            this.blue_discount = blue_discount;
-        }
-
-        public String getWy_price() {
-            return wy_price;
-        }
-
-        public void setWy_price(String wy_price) {
-            this.wy_price = wy_price;
-        }
-
-        public String getYx_price() {
-            return yx_price;
-        }
-
-        public void setYx_price(String yx_price) {
-            this.yx_price = yx_price;
-        }
-
-        public List<dj_ticket> getDj_ticket() {
-            return dt;
-        }
-
-        public void setDj_ticket(List<dj_ticket> dj_ticket) {
-            this.dt = dj_ticket;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getGoods_id() {
-            return goods_id;
-        }
-
-        public void setGoods_id(String goods_id) {
-            this.goods_id = goods_id;
-        }
-
-        public String getAttr_combine_id() {
-            return attr_combine_id;
-        }
-
-        public void setAttr_combine_id(String attr_combine_id) {
-            this.attr_combine_id = attr_combine_id;
-        }
-
-        public String getArrt_name() {
-            return arrt_name;
-        }
-
-        public void setArrt_name(String arrt_name) {
-            this.arrt_name = arrt_name;
-        }
-
-        public String getArrt_value() {
-            return arrt_value;
-        }
-
-        public void setArrt_value(String arrt_value) {
-            this.arrt_value = arrt_value;
-        }
-
-        public String getSettlement_price() {
-            return settlement_price;
-        }
-
-        public void setSettlement_price(String settlement_price) {
-            this.settlement_price = settlement_price;
-        }
-
-        public String getShop_price() {
-            return shop_price;
-        }
-
-        public void setShop_price(String shop_price) {
-            this.shop_price = shop_price;
-        }
-
-        public String getMarket_price() {
-            return market_price;
-        }
-
-        public void setMarket_price(String market_price) {
-            this.market_price = market_price;
-        }
-
-        public String getGoods_num() {
-            return goods_num;
-        }
-
-        public void setGoods_num(String goods_num) {
-            this.goods_num = goods_num;
-        }
-
-        public String getGoods_code() {
-            return goods_code;
-        }
-
-        public void setGoods_code(String goods_code) {
-            this.goods_code = goods_code;
-        }
-
-        public String getGoods_img() {
-            return goods_img;
-        }
-
-        public void setGoods_img(String goods_img) {
-            this.goods_img = goods_img;
-        }
-
-        public String getIs_default() {
-            return is_default;
-        }
-
-        public void setIs_default(String is_default) {
-            this.is_default = is_default;
-        }
-
-        public String getCreate_time() {
-            return create_time;
-        }
-
-        public void setCreate_time(String create_time) {
-            this.create_time = create_time;
-        }
-
-        public String getAll_goods_num() {
-            return all_goods_num;
-        }
-
-        public void setAll_goods_num(String all_goods_num) {
-            this.all_goods_num = all_goods_num;
-        }
-
-        public String getArrtValue() {
-            return arrtValue;
-        }
-
-        public void setArrtValue(String arrtValue) {
-            this.arrtValue = arrtValue;
-        }
-
-        @Override
-        public String toString() {
-            return "Goods_val{" +
-                    "id='" + id + '\'' +
-                    ", goods_id='" + goods_id + '\'' +
-                    ", attr_combine_id='" + attr_combine_id + '\'' +
-                    ", arrt_name='" + arrt_name + '\'' +
-                    ", arrt_value='" + arrt_value + '\'' +
-                    ", settlement_price='" + settlement_price + '\'' +
-                    ", shop_price='" + shop_price + '\'' +
-                    ", market_price='" + market_price + '\'' +
-                    ", goods_num='" + goods_num + '\'' +
-                    ", goods_code='" + goods_code + '\'' +
-                    ", goods_img='" + goods_img + '\'' +
-                    ", is_default='" + is_default + '\'' +
-                    ", create_time='" + create_time + '\'' +
-                    ", all_goods_num='" + all_goods_num + '\'' +
-                    ", arrtValue='" + arrtValue + '\'' +
-                    ", discount='" + discount + '\'' +
-                    ", red_return_integral='" + red_return_integral + '\'' +
-                    ", yellow_discount='" + yellow_discount + '\'' +
-                    ", blue_discount='" + blue_discount + '\'' +
-                    ", wy_price='" + wy_price + '\'' +
-                    ", yx_price='" + yx_price + '\'' +
-                    ", dt=" + dt +
-                    '}';
-        }
-    }
-
 
     public class Goods_Attr {
 
@@ -1019,7 +731,7 @@ public class GoodsAttributeAty extends BaseAty {
 //                                attrs.append(list_attrs.get(k));
 //                            }
                 }
-                for (Goods_val val : list_val) {
+                for (FirstValBean val : list_val) {
                     if (attrs.toString().contains(val.getArrtValue())) {
                         GoodsAttributeAty.this.val = val;
                         tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
@@ -1061,9 +773,9 @@ public class GoodsAttributeAty extends BaseAty {
      * @param lists
      * @param type
      */
-    private void fz(List<GoodsAttr.valBean> valBeans, List<String> lists, int type) {
+    private void fz(List<FirstListValBean> valBeans, List<String> lists, int type) {
         for (int i = 0; i < valBeans.size(); i++) {
-            GoodsAttr.valBean valBean = valBeans.get(i);
+            FirstListValBean valBean = valBeans.get(i);
             boolean falgChoice = false;
             outer:
             for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
@@ -1105,7 +817,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
     }
 
-    private List<GoodsAttr> dealData(List<GoodsAttr> list, List<Goods_val> list_val, int clickWhichPos) {
+    private List<FirstListBean> dealData(List<FirstListBean> list, List<FirstValBean> list_val, int clickWhichPos) {
         recordMutilMapList.clear();//清空记录数组
         List<String> lists = new ArrayList<>();//根据可选属性列表给记录选中状态属性map赋值 同时对可选属性进行map的转换
         for (int bd = 0; bd < list_val.size(); bd++) {//遍历属性的可选值
@@ -1163,18 +875,18 @@ public class GoodsAttributeAty extends BaseAty {
         for (int type = 0; type < list.size(); type++) {//根据记录属性的map对列表中的数据进行赋值
             if (type == 0) {
                 //颜色
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                FirstListBean goodsAttr = list.get(type);
+                List<FirstListValBean> valBeans = goodsAttr.getFirst_list_val();
                 fz(valBeans, lists, type);
             } else if (type == 1) {
                 //尺寸
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                FirstListBean goodsAttr = list.get(type);
+                List<FirstListValBean> valBeans = goodsAttr.getFirst_list_val();
                 fz(valBeans, lists, type);
             } else if (type == 2) {
                 //身高
-                GoodsAttr goodsAttr = list.get(type);
-                List<GoodsAttr.valBean> valBeans = goodsAttr.getFirst_list_val();
+                FirstListBean goodsAttr = list.get(type);
+                List<FirstListValBean> valBeans = goodsAttr.getFirst_list_val();
                 fz(valBeans, lists, type);
             }
         }
@@ -1182,7 +894,7 @@ public class GoodsAttributeAty extends BaseAty {
     }
 
     private void changeTopImage(int index) {
-        String url = mapList.get(index).get("goods_img");
+        String url = list_val.get(index).getGoods_img();
         Glide.with(this).load(url).into(imageview);
     }
 }
