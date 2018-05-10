@@ -24,6 +24,9 @@ public class UpdataApp {
     private DataBean data;
     private int nums;
 
+    public UpdataApp() {
+    }
+
     public UpdataApp(String code, String message, DataBean data, int nums) {
         this.code = code;
         this.message = message;

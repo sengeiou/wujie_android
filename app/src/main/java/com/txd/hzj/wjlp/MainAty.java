@@ -31,11 +31,13 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -79,6 +81,8 @@ import com.yanzhenjie.permission.PermissionListener;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -500,16 +504,25 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             }
             return;
         }
-
-        if (requestUrl.contains("index")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            auto_update_status = data.get("auto_update_status");
-        } else if (requestUrl.contains("Upgrade")) {
+        if (requestUrl.contains("Upgrade")) {
             if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
                 UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
                 showAppUpdateDialog(updataApp);
             }
+        } else if (requestUrl.contains("Index/index")) {
+            try {
+                jsonStr = JSONUtils.parseData(new JSONObject(jsonStr));
+                ObserTool.gainInstance().dealData(jsonStr, new ObserTool.Listener() {
+                    @Override
+                    public void returneData(Map<String, String> map) {
+                        Map<String, String> data = map;
+                        auto_update_status = data.get("auto_update_status");
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
     }
     // ============================== 环信 ==============================
