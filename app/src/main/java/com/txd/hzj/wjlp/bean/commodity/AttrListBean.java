@@ -23,7 +23,6 @@ public class AttrListBean implements Serializable {
     private String attr_value;
     private String attr_price;
 
-
     public String getId() {
         return id;
     }
@@ -62,5 +61,23 @@ public class AttrListBean implements Serializable {
 
     public void setAttr_price(String attr_price) {
         this.attr_price = attr_price;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("AttrListBean{");
+        sb.append("\nid=");
+        sb.append(id);
+        sb.append("\ngoods_attr_id=");
+        sb.append(goods_attr_id);
+        sb.append("\nattr_name=");
+        sb.append(attr_name);
+        sb.append("\nattr_value=");
+        sb.append(attr_value);
+        sb.append("\nattr_price=");
+        sb.append(attr_price);
+        sb.append("}");
+        return sb.toString();
     }
 }

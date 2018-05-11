@@ -32,4 +32,17 @@ public class AttrImagesBean implements Serializable {
     public void setPic(String pic) {
         this.pic = pic;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("AttrImagesBean{");
+        sb.append("\ngoods_attr_id=");
+        sb.append(goods_attr_id);
+        sb.append("\npic=");
+        sb.append(pic);
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

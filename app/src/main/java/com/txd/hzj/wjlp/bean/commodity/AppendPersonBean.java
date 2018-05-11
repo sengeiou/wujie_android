@@ -8,7 +8,7 @@ import java.io.Serializable;
  * 功能描述：
  * 联系方式：常用邮箱或电话
  */
-public class AppendPersonBean implements Serializable{
+public class AppendPersonBean implements Serializable {
     private String log_id;
     private String user_id;
     private String head_pic;
@@ -35,5 +35,19 @@ public class AppendPersonBean implements Serializable{
 
     public void setHead_pic(String head_pic) {
         this.head_pic = head_pic;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("AppendPersonBean{");
+        sb.append("\nlog_id=");
+        sb.append(log_id);
+        sb.append("\nuser_id=");
+        sb.append(user_id);
+        sb.append("\nhead_pic=");
+        sb.append(head_pic);
+        sb.append("}");
+        return sb.toString();
     }
 }
