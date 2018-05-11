@@ -1,24 +1,17 @@
 package com.ants.theantsgo;
 
 import android.content.Context;
-import android.os.Environment;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;
 import com.bumptech.glide.load.engine.cache.DiskCache;
-import com.bumptech.glide.load.engine.cache.DiskLruCacheFactory;
-import com.bumptech.glide.load.engine.cache.DiskLruCacheWrapper;
-import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.LruResourceCache;
 import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.module.GlideModule;
-
-import java.io.File;
 
 /**
  * ===============Txunda===============
@@ -34,8 +27,6 @@ public class GlideCache implements GlideModule {
 
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
-
-
 
         MemorySizeCalculator calculator = new MemorySizeCalculator(context);
         builder.setMemoryCache(new LruResourceCache(calculator.getMemoryCacheSize()));
@@ -76,5 +67,4 @@ public class GlideCache implements GlideModule {
     public void registerComponents(Context context, Glide glide) {
 
     }
-
 }
