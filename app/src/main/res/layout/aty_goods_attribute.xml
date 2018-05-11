@@ -146,7 +146,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/goods_details_bottom_layout"
+                android:id="@+id/goods_details_bottom_layouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

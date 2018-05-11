@@ -365,7 +365,8 @@ public class InvoiceAty extends BaseAty {
                 invoice1 = (Invoice1) data.getParcelableExtra("data1");
 //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
-                L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()) + "  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
+                L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
+                L.e("wang","  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
                 DecimalFormat df = new DecimalFormat(".##");
                 tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");

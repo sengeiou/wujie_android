@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.view.flowlayout;
 
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public abstract class TagAdapter<T> {
 
 
     public int getCount() {
+        Log.i("商品属性个数aliang",mTagDatas.size()+"");
         return mTagDatas == null ? 0 : mTagDatas.size();
     }
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -437,7 +439,9 @@ public class GoodsAttributeAty extends BaseAty {
                 avh = (AttrsVh) view.getTag();
             }
             avh.goods_attrs_title.setText(getItem(i).getFirst_list_name());
+
             TagAdapter tagAdapter = new TagAdapter<FirstListValBean>(getItem(i).getFirst_list_val()) {
+
                 @Override
                 public View getView(FlowLayout parent, int position, FirstListValBean goodsAttrses) {
                     TextView tv = (TextView) LayoutInflater.from(GoodsAttributeAty.this).inflate(R.layout
@@ -447,6 +451,7 @@ public class GoodsAttributeAty extends BaseAty {
                     if (TextUtils.isEmpty(getItem(i).getFirst_list_val().get(position).getStatus())) {
                         getItem(i).getFirst_list_val().get(position).setStatus(UNSELECT);
                     }
+                    List<FirstListValBean> firstListVal = getItem(i).getFirst_list_val();
 //                    if (getCount() == 1) {
 //                        getItem(0).getFirst_list_val().get(0).setStatus(SELECTED);
 //                    }
@@ -723,6 +728,8 @@ public class GoodsAttributeAty extends BaseAty {
             list = dealData(list, list_val, tag);
 
             if (list_attrs.size() == list.size()) {
+                Log.i("商品属性长度", list.size() + "");
+                Log.i("商品属性长度", list_attrs.size() + "");
                 StringBuffer attrs = new StringBuffer();
                 for (int k = 0; k < list_attrs.size(); k++) {
 //                            if (k == list_attrs.size() - 1) {

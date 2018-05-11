@@ -705,7 +705,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/go_to_main_layout"
+                android:id="@+id/go_to_main_layouts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
@@ -725,7 +725,7 @@
                     android:text="首页" />
 
                 <FrameLayout
-                    android:id="@+id/to_cart_layout"
+                    android:id="@+id/to_cart_layouts"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -742,7 +742,7 @@
                         android:text="购物车" />
 
                     <TextView
-                        android:id="@+id/user_cart_num_tv"
+                        android:id="@+id/user_cart_num_tvs"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="end"
@@ -755,7 +755,7 @@
                 </FrameLayout>
 
                 <TextView
-                    android:id="@+id/to_chat_tv"
+                    android:id="@+id/to_chat_tvs"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -767,7 +767,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/one_price_tv"
+                android:id="@+id/one_price_tvs"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -779,7 +779,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/creat_group_tv"
+                android:id="@+id/creat_group_tvs"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
