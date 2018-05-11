@@ -5,12 +5,12 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 17:37
- * 功能描述：
+ * 功能描述：商品
  * 联系方式：常用邮箱或电话
  */
 public class GoodsBean implements Serializable {
-    private String goods_img;
-    private String shop_price;
+    private String goods_img;//"商品图片",
+    private String shop_price;//"商品价格"
 
     public String getGoods_img() {
         return goods_img;

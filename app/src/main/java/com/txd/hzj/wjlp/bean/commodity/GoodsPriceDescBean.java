@@ -5,13 +5,13 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 16:03
- * 功能描述：
+ * 功能描述：//价格说明
  * 联系方式：常用邮箱或电话
  */
 public class GoodsPriceDescBean implements Serializable {
-    private String icon;
-    private String price_name;
-    private String desc;
+    private String icon;  //图标"http://wjyp.txunda.com/Uploads/GoodsPriceDesc/2017-11-13/5a092c91a8bce.png",
+    private String price_name;//价格名称 "无忧价"
+    private String desc;//价格说明文字
 
     public String getIcon() {
         return icon;

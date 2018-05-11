@@ -6,15 +6,18 @@ import java.util.List;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 16:24
- * 功能描述：
+ * 功能描述：//优惠组合
  * 联系方式：常用邮箱或电话
  */
 public class CheapGroupBean implements Serializable {
-    private String ticket_buy_discount;
-    private String group_price;
-    private String integral;
-    private String goods_price;
-    private List<GoodsBean> goods;
+    /**
+     * 最多可使用多少代金券
+     */
+    private String ticket_buy_discount;//最多可使用多少代金券
+    private String group_price;//优惠组合价格
+    private String integral;//赠送积分
+    private String goods_price;//商品总价、
+    private List<GoodsBean> goods; //商品列表
 
     public String getTicket_buy_discount() {
         return ticket_buy_discount;

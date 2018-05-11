@@ -21,21 +21,21 @@ public class MInfoBean implements Serializable {
      * merchant_score : 4.8
      * shipping_score : 4.7
      */
-    private String merchant_id;
-    private String merchant_name;
-    private String level;
-    private String logo;
-    private String view_num;
-    private String easemob_account;
-    private String all_goods;
-    private String goods_score;
-    private String merchant_score;
-    private String shipping_score;
-    private String merchant_easemob_account;
-    private String score;
-    private String send_score;
-    private String merchant_head_pic;
-    private String merchant_nickname;
+    private String merchant_id;//"店铺id",
+    private String merchant_name;//"店铺名称",
+    private String level;//"店铺等级",
+    private String logo;// "店铺logo",
+    private String view_num;//"关注人数"
+    private String easemob_account;//"商家环信账号",
+    private String all_goods;//
+    private String goods_score;//"宝贝评分",
+    private String merchant_score;//"卖家评分",
+    private String shipping_score;//"物流评分"
+    private String merchant_easemob_account;//
+    private String score;//
+    private String send_score;//
+    private String merchant_head_pic;//商家头像
+    private String merchant_nickname;//商家昵称
 
     public String getMerchant_id() {
         return merchant_id;

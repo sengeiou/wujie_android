@@ -5,14 +5,14 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 15:46
- * 功能描述：
+ * 功能描述：//商品团购订单表（相同商品的不同制品
  * 联系方式：常用邮箱或电话
  */
 public class GroupBuyIdsBean implements Serializable {
-    private String id;
-    private String goods_name;
-    private String arrt_name;
-    private String goods_img;
+    private String id;//"团购订单id",
+    private String goods_name;//"商品名称",
+    private String arrt_name;//"商品属性名称",
+    private String goods_img;// "商品图片",
 
     public String getId() {
         return id;

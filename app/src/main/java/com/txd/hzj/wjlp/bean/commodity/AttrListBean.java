@@ -5,22 +5,30 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 16:01
- * 功能描述：
+ * 功能描述：//商品属性
  * 联系方式：常用邮箱或电话
  */
 public class AttrListBean implements Serializable {
-    /**
-     * id : 43
-     * goods_attr_id : 649
-     * attr_name : 规格
-     * attr_value : 1000g
-     * attr_price : 0.00
-     */
 
+    /**
+     * id
+      */
     private String id;
+    /**
+     * 商品属性值id
+     */
     private String goods_attr_id;
+    /**
+     * 属性名称
+     */
     private String attr_name;
+    /**
+     * 属性值
+     */
     private String attr_value;
+    /**
+     * 属性附加价格
+     */
     private String attr_price;
 
     public String getId() {

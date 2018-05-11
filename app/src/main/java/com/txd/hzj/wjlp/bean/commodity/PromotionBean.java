@@ -10,14 +10,14 @@ import java.io.Serializable;
  */
 public class PromotionBean implements Serializable {
     /**
-     * title : 优惠活动名称
-     * promotion_id : 优惠id
-     * type : 类型
+     * title :
+     * promotion_id :
+     * type :
      */
 
-    private String title;
-    private String promotion_id;
-    private String type;
+    private String title;//优惠活动名称
+    private String promotion_id;//优惠id
+    private String type;////1.满减 2满折 类型
 
     public String getTitle() {
         return title;

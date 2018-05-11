@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 15:51
- * 功能描述：
+ * 功能描述：商品信息
  * 联系方式：常用邮箱或电话
  */
 public class GoodsInfoBean implements Serializable {
 
 
-    private String goods_id;
+    private String goods_id;//"商品id ",
     private String goods_name;
     private String market_price;
     private String shop_price;
@@ -67,9 +67,9 @@ public class GoodsInfoBean implements Serializable {
     private String pcate_id;
     private String two_cate_name;
     private String top_cate_id;
-    private String pic;
+    private String pic;//"属性图片"
     private String balance_num;
-    private String product_id;
+    private String product_id;// //属性id
 
 
 

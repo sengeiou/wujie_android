@@ -5,20 +5,20 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 15:41
- * 功能描述：
+ * 功能描述：团购
  * 联系方式：常用邮箱或电话
  */
 public class GroupBean implements Serializable {
 
-    private String id;
-    private String group_buy_id;
-    private String start_time;
+    private String id;//"团购ID",
+    private String group_buy_id;// "组团ID",
+    private String start_time;//"开始时间",
     private String user_id;
-    private String group_num;
-    private String end_time;
-    private String status;
+    private String group_num;//"需参团人数",
+    private String end_time;//"截止时间",
+    private String status;// "状态", //0待成团  1已成团 2未成团
     private HeadUserBean head_user;
-    private String diff;
+    private String diff;//"参团信息" //"还差1人" ,"团已满"
 
     public String getEnd_time() {
         return end_time;

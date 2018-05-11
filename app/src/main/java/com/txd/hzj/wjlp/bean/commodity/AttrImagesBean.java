@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 16:04
- * 功能描述：
+ * 功能描述：商品图片
  * 联系方式：常用邮箱或电话
  */
 public class AttrImagesBean implements Serializable {
@@ -14,8 +14,8 @@ public class AttrImagesBean implements Serializable {
      * pic :
      */
 
-    private String goods_attr_id;
-    private String pic;
+    private String goods_attr_id; //商品属性值id
+    private String pic; //商品图片地址
 
     public String getGoods_attr_id() {
         return goods_attr_id;

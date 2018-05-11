@@ -10,40 +10,40 @@ import java.util.List;
  * 联系方式：常用邮箱或电话
  */
 public class DataBean implements Serializable {
-    private CheapGroupBean cheap_group;
-    private List<AllGoodsBean> guessGoodsList;
-    private String cart_num;
-    private String msg_tip;
-    private String is_collect;
-    private GoodsInfoBean goodsInfo;
-    private String price_desc;
-    private MInfoBean mInfo;
-    private CommentBean comment;
-    private String share_url;
-    private String share_img;
-    private String share_content;
+    private CheapGroupBean cheap_group; //优惠组合
+    private List<AllGoodsBean> guessGoodsList; //商品团购订单表（相同商品的不同制品）
+    private String cart_num;//"购物车数量", //在会员登录情况下查看
+    private String msg_tip;//消息提醒数, //在会员登录情况下才有
+    private String is_collect;//"是否收藏", //在会员登录情况下查看
+    private GoodsInfoBean goodsInfo;//商品信息
+    private String price_desc;// "1.无忧价：无忧价格说明。\r\n2.优享价：优享价说明\r\n3.折扣：折扣说明。\r\n4.异常问题：异常问题说明",//价格说明
+    private MInfoBean mInfo;//店铺信息
+    private CommentBean comment;//评论
+    private String share_url;//"http://wjyp.txunda.com",//分享链接
+    private String share_img;//"分享图片",
+    private String share_content;// "分享内容"
     private String send_city;
     private String send_fee;
-    private String group_price;
-    private String one_price;
-    private List<PromotionBean> promotion;
-    private List<GoodsCommonAttrBean> goods_common_attr;
-    private List<GoodsAttrBean> goods_attr;
-    private List<GoodsBannerBean> goods_banner;
-    private List<AttrImagesBean> attr_images;
-    private List<ProductBean> product;
-    private List<GoodsServerBean> goods_server;
-    private List<GroupBean> group;
-    private String is_attr;
-    private List<GoodsPriceDescBean> goods_price_desc;
-    private String vouchers_desc;
-    private List<FirstListBean> first_list;
-    private String is_cart;
-    private String remarks;
-    private List<GroupBuyIdsBean> group_buy_ids;
-    private String total;
-    private List<FirstValBean> first_val;
-    private List<TicketListBean> ticketList;
+    private String group_price;////优惠组合价格
+    private String one_price;// "单买价"
+    private List<PromotionBean> promotion;////店铺优惠活动列表
+    private List<GoodsCommonAttrBean> goods_common_attr;//商品公共属性列表
+    private List<GoodsAttrBean> goods_attr;// //商品属性列表
+    private List<GoodsBannerBean> goods_banner;//[//商品图片轮播图列表
+    private List<AttrImagesBean> attr_images;////属性图片列表
+    private List<ProductBean> product;////货品
+    private List<GoodsServerBean> goods_server;////商品服务信息
+    private List<GroupBean> group;//团购列表
+    private String is_attr;// //是否有商品属性 0->没有   1->有
+    private List<GoodsPriceDescBean> goods_price_desc;// //价格说明
+    private String vouchers_desc;//
+    private List<FirstListBean> first_list;//   // 属性列表
+    private String is_cart;//
+    private String remarks;// 运输备注
+    private List<GroupBuyIdsBean> group_buy_ids;// //商品团购订单表（相同商品的不同制品
+    private String total;//"已团件数"
+    private List<FirstValBean> first_val;//可选属性数值
+    private List<TicketListBean> ticketList;// //优惠券列表
 
     public List<AllGoodsBean> getGuessGoodsList() {
         return guessGoodsList;

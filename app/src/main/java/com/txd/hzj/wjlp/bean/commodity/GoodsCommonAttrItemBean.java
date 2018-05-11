@@ -16,8 +16,8 @@ public class GoodsCommonAttrItemBean implements Serializable {
      */
 
     private String id;
-    private String attr_name;
-    private String attr_value;
+    private String attr_name;// "生产许可证编号", "包装方式",
+    private String attr_value;// "11111",  "包装",
     private String specification;
 
     public String getId() {

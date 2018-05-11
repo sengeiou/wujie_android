@@ -8,13 +8,13 @@ import java.util.List;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 16:17
- * 功能描述：
+ * 功能描述：可选属性数值
  * 联系方式：常用邮箱或电话
  */
 public class FirstValBean implements Serializable {
 
     private String attr_combine_id;
-    private String arrt_name;
+    private String arrt_name;//"商品属性名称",
     private String arrt_value;
     private String goods_code;
     private String is_default;
@@ -27,9 +27,9 @@ public class FirstValBean implements Serializable {
     private String codes;
     private String goods_num;
     private String settlement_price;
-    private String shop_price;
-    private String market_price;
-    private String goods_img;
+    private String shop_price;//"售价",
+    private String market_price;// "市场价",
+    private String goods_img;//"商品图片",
     private String discoun;
     private String integral;
     private String red_return_integral;

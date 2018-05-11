@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 15:56
- * 功能描述：
+ * 功能描述：//评论主体
  * 联系方式：常用邮箱或电话
  */
 public class BodyBean implements Serializable {
@@ -29,23 +29,23 @@ public class BodyBean implements Serializable {
      * goods_img : http://wjyp.txunda.com/Uploads/Goods/2017-12-01/5a20b882f1e70.jpg
      * order_type :
      */
-    private String comment_id;
-    private String goods_id;
-    private String goods_name;
-    private String user_id;
-    private String nickname;
-    private String content;
-    private String all_star;
-    private String product_id;
+    private String comment_id;//"评论ID",
+    private String goods_id;//"商品ID",
+    private String goods_name;// "商品名称",
+    private String user_id;// "用户ID",
+    private String nickname;// "用户昵称",
+    private String content;//"评论内容",
+    private String all_star;//"评论星级",
+    private String product_id;//"货品ID",
     private String order_goods_id;
-    private String create_time;
-    private String user_head_pic;
-    private String good_attr;
-    private String goods_num;
-    private String shop_price;
-    private String goods_img;
-    private String order_type;
-    private List<PicturesBean> pictures;
+    private String create_time;//"创建时间",
+    private String user_head_pic;//"用户头像",
+    private String good_attr;//"所评价商品属性",
+    private String goods_num;//"所买数量",
+    private String shop_price;// "售价",
+    private String goods_img;// "商品图片",
+    private String order_type;//"订单类型" ////0普通订单 1团购订单 2无界预购 3竞拍汇 4一元夺宝 5无界商店 6汽车购 7房产购 8线下商城
+    private List<PicturesBean> pictures;//评论图片列表
 
     public String getComment_id() {
         return comment_id;

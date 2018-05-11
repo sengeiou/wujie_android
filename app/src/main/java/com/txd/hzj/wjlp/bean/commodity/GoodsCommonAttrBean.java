@@ -6,11 +6,11 @@ import java.util.List;
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/5/10 15:59
- * 功能描述：
+ * 功能描述：商品公共属性
  * 联系方式：常用邮箱或电话
  */
 public class GoodsCommonAttrBean implements Serializable {
-    private String title;
+    private String title;// "宝贝属性",  "食品安全",
     private List<GoodsCommonAttrItemBean> list;
 
     public String getTitle() {

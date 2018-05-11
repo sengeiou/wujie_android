@@ -9,8 +9,8 @@ import java.io.Serializable;
  * 联系方式：常用邮箱或电话
  */
 public class HeadUserBean implements Serializable {
-    private String head_pic;
-    private String nickname;
+    private String head_pic;//"头像",
+    private String nickname;//"昵称"
 
     public String getHead_pic() {
         return head_pic;

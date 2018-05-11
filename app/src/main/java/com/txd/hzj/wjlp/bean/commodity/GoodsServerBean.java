@@ -16,9 +16,9 @@ public class GoodsServerBean implements Serializable {
      * icon : http://wjyp.txunda.com/Uploads/GoodsServer/2017-10-28/59f3f9c83eba7.png
      */
     private String id;
-    private String server_name;
-    private String desc;
-    private String icon;
+    private String server_name;//"七天无理由退换货",//服务标题
+    private String desc;//"自实际收货日期的次日起七天内，商品完好无损，可进行无理由退换货，产生多余运费由买家承担。",//服务描述
+    private String icon;//"服务图标"
 
     public String getId() {
         return id;

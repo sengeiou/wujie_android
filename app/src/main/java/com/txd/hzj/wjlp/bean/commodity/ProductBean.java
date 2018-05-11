@@ -22,9 +22,9 @@ public class ProductBean implements Serializable {
 
     private String id;
     private String goods_id;
-    private String goods_attr;
-    private String product_sn;
-    private String product_number;
+    private String goods_attr;//"属性组合 商品属性值id用 | 隔开",对应的id是商品属性的商品属性值id
+    private String product_sn;//"货品号",
+    private String product_number;// "货品库存"
 
     public String getId() {
         return id;

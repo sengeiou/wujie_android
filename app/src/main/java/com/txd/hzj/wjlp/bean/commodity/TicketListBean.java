@@ -19,15 +19,15 @@ public class TicketListBean implements Serializable {
      * start_time : 开始时间
      * end_time : 结束时间
      */
-    private String ticket_id;
-    private String ticket_name;
-    private String ticket_desc;
-    private String ticket_type;
-    private String value;
-    private String condition;
-    private String start_time;
-    private String end_time;
-    private String get_receive;
+    private String ticket_id;// "优惠券ID",
+    private String ticket_name;// "优惠券名称",
+    private String ticket_desc;// "优惠券详情",
+    private String ticket_type;// "优惠券类型",//1 满减 2满折 3满赠
+    private String value;//"面额", //满减=>金额 满折=>折扣 满赠=>商品id
+    private String condition;//  "满足条件",
+    private String start_time;//"开始时间",
+    private String end_time;//"结束时间"
+    private String get_receive;//
 
     public String getGet_receive() {
         return get_receive;
