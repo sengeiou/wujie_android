@@ -61,7 +61,6 @@ public class DataBean implements Serializable {
         this.group_buy_ids = group_buy_ids;
     }
 
-
     public String getCart_num() {
         return cart_num;
     }

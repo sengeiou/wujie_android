@@ -93,6 +93,7 @@ public class TicketZoonAdapter extends BaseAdapter {
         return view;
     }
 
+
     /**
      * 设置图标
      *

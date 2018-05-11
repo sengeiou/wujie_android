@@ -87,4 +87,8 @@ dependencies {
 //    https://github.com/alibaba/fastjson
     compile 'com.alibaba:fastjson:1.2.46'
     compile 'com.alibaba:fastjson:1.1.68.android'
+//    https://github.com/wasabeef/glide-transformations
+//    compile 'jp.wasabeef:glide-transformations:3.3.0'
+    // If you want to use the GPU Filters
+//    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }

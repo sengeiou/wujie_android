@@ -1,7 +1,10 @@
 package com.txd.hzj.wjlp.mainFgt.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,8 +158,10 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         Glide.with(context).load(cfGoodsList.getGoods_img())
                 .override((ToolKit.getScreenWidth(context) - 10) / 2, (ToolKit.getScreenWidth(context) - 10) / 2)
-                .centerCrop().placeholder(R.drawable.ic_default)
+                .centerCrop().placeholder(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .error(R.drawable.ic_default).into(holder.goods_pic_iv);
+
+
 //        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();
 //        layoutParams.width=(ToolKit.getScreenWidth(context)-10)/2;
 //        layoutParams.height=(ToolKit.getScreenWidth(context)-10)/2;
@@ -295,5 +300,18 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     public void setSelectNum(SelectNum selectNum) {
         this.selectNum = selectNum;
+    }
+
+    @Override
+    public void onViewRecycled(ItemView holder) {
+        super.onViewRecycled(holder);
+        holder.goods_pic_iv.setImageBitmap(null);
+//        ImageView showImageView = holder.goods_pic_iv;
+//        showImageView.setDrawingCacheEnabled(true);
+//        Bitmap bitmap = showImageView.getDrawingCache();
+//        if (null != bitmap) {
+//            bitmap.recycle();
+//        }
+//        showImageView.setDrawingCacheEnabled(false);
     }
 }

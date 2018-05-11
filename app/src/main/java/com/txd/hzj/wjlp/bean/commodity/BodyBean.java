@@ -182,4 +182,46 @@ public class BodyBean implements Serializable {
     public void setPictures(List<PicturesBean> pictures) {
         this.pictures = pictures;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("BodyBean{");
+        sb.append("\ncomment_id=");
+        sb.append(comment_id);
+        sb.append("\ngoods_id=");
+        sb.append(goods_id);
+        sb.append("\ngoods_name=");
+        sb.append(goods_name);
+        sb.append("\nuser_id=");
+        sb.append(user_id);
+        sb.append("\nnickname=");
+        sb.append(nickname);
+        sb.append("\ncontent=");
+        sb.append(content);
+        sb.append("\nall_star=");
+        sb.append(all_star);
+        sb.append("\nproduct_id=");
+        sb.append(product_id);
+        sb.append("\norder_goods_id=");
+        sb.append(order_goods_id);
+        sb.append("\ncreate_time=");
+        sb.append(create_time);
+        sb.append("\nuser_head_pic=");
+        sb.append(user_head_pic);
+        sb.append("\ngood_attr=");
+        sb.append(good_attr);
+        sb.append("\ngoods_num=");
+        sb.append(goods_num);
+        sb.append("\nshop_price=");
+        sb.append(shop_price);
+        sb.append("\ngoods_img=");
+        sb.append(goods_img);
+        sb.append("\norder_type=");
+        sb.append(order_type);
+        sb.append("\npictures=");
+        sb.append(pictures.toString());
+        sb.append("\n}");
+        return sb.toString();
+    }
 }
