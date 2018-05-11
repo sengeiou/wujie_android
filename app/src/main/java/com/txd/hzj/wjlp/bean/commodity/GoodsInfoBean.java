@@ -12,67 +12,72 @@ import java.util.List;
 public class GoodsInfoBean implements Serializable {
 
 
-    private String goods_id;//"商品id ",
-    private String goods_name;
-    private String market_price;
-    private String shop_price;
-    private String sell_num;
-    private String cat_id;
-    private String goods_img;
-    private String share_content;
-    private String integral;
-    private String goodsdesc = "";
-    private String goods_brief;
-    private String merchant_id;
-    private String ticket_buy_id;
-    private String is_buy;
-    private String all_goods_num;
-    private String red_return_integral;
-    private String buy_status;
-    private String arrt_name;
-    private String arrt_value;
-    private String settlement_price;
-    private String mall_status;
-    private String goods_code;
-    private String country_id;
-    private String country_desc;
-    private String country_tax;
-    private String discount;
-    private String yellow_discount;
-    private String blue_discount;
-    private String is_new_goods;
-    private String a_fee_new;
-    private String is_end;
-    private String end_date;
-    private String goods_num;
-    private String integral_buy_id;
-    private String package_list;
-    private String after_sale_service;
-    private String one_buy_id;
-    private String pre_buy_id;
-    private String auction_id;
-    private String limit_buy_id;
-    private String group_buy_id;
-    private String sales;
-    private String delivery_price;
-    private String is_new_goods_desc;
-    private String is_end_desc;
-    private String use_integral;
-    private String wy_price;
-    private String yx_price;
-    private String ticket_buy_discount;
-    private String country_logo;
-    private List<DjTicketBean> dj_ticket;
-    private List<GoodsActiveBean> goods_active;
-    private String pcate_id;
-    private String two_cate_name;
-    private String top_cate_id;
+    private String goods_id;//" "商品id ",
+    private String goods_name;//"商品名称",
+    private String market_price;//"市场价",
+    private String shop_price;// "售价",
+    private String sell_num;//"销量",
+    private String goods_img;//"商品缩略图",
+    private String share_content;//分享内容"
+    private String integral;//"赠送积分",
+    private String goods_desc = "";//"商品图文详情",//HTML格式
+    private String goods_brief;// "商品简介",
+    private String merchant_id;//"店铺id",
+    private String ticket_buy_id;// "是否是折扣商品",//0 不是 大于0就是
+    private String is_buy;//
+    private String all_goods_num;//
+    private String red_return_integral;//
+    private String buy_status;//"1正常上架 0已下架"
+    private String arrt_name;//
+    private String arrt_value;//
+    private String settlement_price;//
+    private String mall_status;//"1有库存 0无库存"；
+    private String goods_code;//
+    private String country_id;//"国家ID",// 0表示中国
+    private String country_desc;// "商品进口国家描述",//如：越南进口，本地发货
+    private String country_tax;//进口税",
+    private String discount;//
+    private String yellow_discount;//
+    private String blue_discount;//
+    private String is_new_goods;//是否是新品  0不是 1是
+    private String a_fee_new;//
+    private String is_end;////是否临期 0未临期 1临期
+    private String end_date;//
+    private String goods_num;// "库存"，
+    private String integral_buy_id;// "积分兑换id，如果不为0 显示此商品可使用xxx积分兑换，如想使用积分兑换，亲到无界商店中进行兑换"。xxx使用user_integral字段
+    private String package_list;//"包装清单",
+    private String after_sale_service;// "售后服务",
+    private String one_buy_id;//
+    private String pre_buy_id;//
+    private String auction_id;//
+    private String limit_buy_id;//
+    private String group_buy_id;//
+    private String sales;//
+    private String delivery_price;//
+    private String is_new_goods_desc;//旧货 描述
+    private String is_end_desc;//临期描述
+    private String use_integral;//"12",//积分兑换需要多少积分
+    private String wy_price;// "19.50",//无忧价
+    private String yx_price;//"19.00",//优享价
+    private String ticket_buy_discount;//"10%",//最多可使用多少代金券
+    private String country_logo;//  "国家logo"
+    private List<DjTicketBean> dj_ticket;//   //可使用券
+    private List<GoodsActiveBean> goods_active;////商品正在进行的活动
+    private String pcate_id;//"商品三级分类id"
+    private String two_cate_name;//"休闲食品",//二级分类名称
+    private String top_cate_id;//商品顶级分类id"
     private String pic;//"属性图片"
-    private String balance_num;
+    private String balance_num;//
     private String product_id;// //属性id
+    private String cate_id;//"商品二级分类id",
 
+    public String getCate_id() {
+        return cate_id;
+    }
 
-
+    public void setCate_id(String cate_id) {
+        this.cate_id = cate_id;
+    }
 
     public String getGoods_id() {
         return goods_id;
@@ -114,13 +119,6 @@ public class GoodsInfoBean implements Serializable {
         this.sell_num = sell_num;
     }
 
-    public String getCat_id() {
-        return cat_id;
-    }
-
-    public void setCat_id(String cat_id) {
-        this.cat_id = cat_id;
-    }
 
     public String getGoods_img() {
         return goods_img;
@@ -146,12 +144,12 @@ public class GoodsInfoBean implements Serializable {
         this.integral = integral;
     }
 
-    public String getGoodsdesc() {
-        return goodsdesc;
+    public String getGoods_desc() {
+        return goods_desc;
     }
 
-    public void setGoodsdesc(String goodsdesc) {
-        this.goodsdesc = goodsdesc;
+    public void setGoods_desc(String goods_desc) {
+        this.goods_desc = goods_desc;
     }
 
     public String getGoods_brief() {
