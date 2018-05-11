@@ -642,7 +642,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.tv_showClassify:
                 Intent intent = new Intent();
                 intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
-                intent.putExtra("two_cate_id", goodsInfo.getCat_id());
+                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
                 intent.setClass(this, SubclassificationAty.class);
                 startActivity(intent);
                 break;
@@ -1145,7 +1145,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             "运费10元", 2, Color.parseColor("#FD8214"));
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
-                    goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoodsdesc(), "text/html", "utf-8", null);
+                    goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
                     Glide.with(GoodLuckDetailsAty.this).load(goodsInfo.getCountry_logo()).into(im_country_logo);
                     tv_country_desc.setText(goodsInfo.getCountry_desc());
                     tv_country_tax.setText(goodsInfo.getCountry_tax()+ "元");
