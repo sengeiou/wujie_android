@@ -12,7 +12,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class AllGoodsBean implements Serializable {
+public class    AllGoodsBean implements Serializable {
     // TODO==========拼团购==========
     /**
      * 团购id

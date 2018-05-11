@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
@@ -16,6 +17,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.ThreeListBean;
+import com.txd.hzj.wjlp.bean.commodity.ThreeListDataBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
@@ -115,21 +118,27 @@ public class ThirdClassifyFgt extends BaseFgt {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("threeList")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> datajson = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            if (1 == p) {
-                data = GsonUtil.getObjectList(datajson.get("group_buy_list"), AllGoodsBean.class);
-                if (!ListUtils.isEmpty(data)) {
-                    allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 8);
-                    pr_third_lv.setAdapter(allGvLvAdapter1);
+            ObserTool.gainInstance().jsonToBean(jsonStr, ThreeListBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    ThreeListBean threeListBean = (ThreeListBean) t;
+                    ThreeListDataBean dataBean=threeListBean.getData();
+                    if (1 == p) {
+                        data = dataBean.getGroup_buy_list();
+                        if (!ListUtils.isEmpty(data)) {
+                            allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 8);
+                            pr_third_lv.setAdapter(allGvLvAdapter1);
+                        }
+                    } else {
+                        data2 = dataBean.getGroup_buy_list();
+                        if (!ListUtils.isEmpty(data2)) {
+                            data.addAll(data2);
+                            allGvLvAdapter1.notifyDataSetChanged();
+                        }
+                    }
                 }
-            } else {
-                data2 = GsonUtil.getObjectList(datajson.get("group_buy_list"), AllGoodsBean.class);
-                if (!ListUtils.isEmpty(data2)) {
-                    data.addAll(data2);
-                    allGvLvAdapter1.notifyDataSetChanged();
-                }
-            }
+            });
+
             pr_third_lv.onRefreshComplete();
         }
     }

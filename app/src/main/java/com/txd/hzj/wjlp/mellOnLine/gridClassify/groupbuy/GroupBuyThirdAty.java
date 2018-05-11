@@ -8,11 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.commodity.ThreeCateBean;
+import com.txd.hzj.wjlp.bean.commodity.ThreeListBean;
+import com.txd.hzj.wjlp.bean.commodity.ThreeListDataBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.fgt.SubClassifyListFgt;
@@ -46,7 +50,7 @@ public class GroupBuyThirdAty extends BaseAty {
     @ViewInject(R.id.sub_classify_vp)
     private ViewPager sub_classify_vp;
 
-    private List<Map<String, String>> mTitles;
+    private List<ThreeCateBean> mTitles;
 
     private ArrayList<Fragment> mFragments;
 
@@ -95,17 +99,24 @@ public class GroupBuyThirdAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("threeList")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            if (ToolKit.isList(data, "three_cate_list")) {
-                mTitles = JSONUtils.parseKeyAndValueToMapList(data.get("three_cate_list"));
-                for (Map<String, String> title : mTitles) {
-                    mFragments.add(ThirdClassifyFgt.getFgt(two_cate_id, title.get("three_cate_id")));
+            ObserTool.gainInstance().jsonToBean(jsonStr, ThreeListBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    ThreeListBean threeListBean = (ThreeListBean) t;
+                    ThreeListDataBean dataBean = threeListBean.getData();
+                    mTitles = dataBean.getThree_cate_list();
+                    if (null != mTitles && mTitles.size() > 0) {
+                        for (ThreeCateBean title : mTitles) {
+                            mFragments.add(ThirdClassifyFgt.getFgt(two_cate_id, title.getThree_cate_id()));
+                        }
+                        sub_classify_vp.setAdapter(myPagerAdapter);
+                        sub_classify_stl.setViewPager(sub_classify_vp);
+                        sub_classify_vp.setCurrentItem(0);
+                    }
                 }
-                sub_classify_vp.setAdapter(myPagerAdapter);
-                sub_classify_stl.setViewPager(sub_classify_vp);
-                sub_classify_vp.setCurrentItem(0);
-            }
+            });
+
+
         }
     }
 
@@ -121,7 +132,7 @@ public class GroupBuyThirdAty extends BaseAty {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mTitles.get(position).get("name");
+            return mTitles.get(position).getName();
         }
 
         @Override
