@@ -94,6 +94,10 @@
             android:value="GlideModule"
             tools:node="remove" />
 
+        <!--<meta-data-->
+            <!--android:name="com.txd.hzj.wjlp.tool.GlideConfiguration"-->
+            <!--android:value="GlideModule" />-->
+
         <!-- App升级 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -329,7 +333,9 @@
         <!-- 孵化详情 -->
         <activity android:name=".popAty.HatchDetailsAty" />
         <!-- 提交订单 -->
-        <activity android:name=".shoppingCart.BuildOrderAty" />
+        <activity android:name=".shoppingCart.BuildOrderAty"
+            android:launchMode="singleTop"
+            />
         <!-- 一元夺宝详情 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty" />
 
@@ -913,9 +919,7 @@
             android:value="24cdc347d4a637382d381238" /> <!--  </>值来自开发者平台取得的AppKey-->
 
         <!-- Jpush(极光推送)END -->
-        <meta-data
-            android:name="com.txd.hzj.wjlp.tool.GlideConfiguration"
-            android:value="GlideModule" />
+
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
