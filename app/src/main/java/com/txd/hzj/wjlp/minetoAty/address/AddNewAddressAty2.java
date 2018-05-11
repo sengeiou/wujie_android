@@ -158,11 +158,8 @@ public class AddNewAddressAty2 extends BaseAty {
                     city_id = ProUrbAreaUtil.gainInstance().getCity_id();
                     area_id = ProUrbAreaUtil.gainInstance().getArea_id();
                     if (0 == type) {
-                        Log.d("cehshi", "111111");
                         addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
-//                    download(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
                     } else {
-                        Log.d("cehshi", "222222");
                         addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
                     }
                 }
