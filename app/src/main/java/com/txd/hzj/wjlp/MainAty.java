@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
@@ -395,9 +396,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
      * @return PopupWindow
      */
 
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private PopupWindow showPopupWindow(View anchorView) {
-        final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(
-                R.layout.main_popup_windeow_layout, null);
+        final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(R.layout.main_popup_windeow_layout, null);
         LinearLayout lay = contentView.findViewById(R.id.lay);
         lay.setOnClickListener(new View.OnClickListener() {
             @Override

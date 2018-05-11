@@ -223,7 +223,7 @@ public class RechargeAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("余额");
-        titlt_right_tv.setVisibility(View.VISIBLE);
+        titlt_right_tv.setVisibility(View.GONE);
         titlt_right_tv.setText("明细");
         changeTVAndViewStyle(type);
 
@@ -255,6 +255,7 @@ public class RechargeAty extends BaseAty {
             re_left_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
             on_line_recharge_layout.setVisibility(View.VISIBLE);
             off_line_recharge_layout.setVisibility(View.GONE);
+            titlt_right_tv.setVisibility(View.GONE);
         } else { // 线下充值
             off_line_recharge_money_tv.setHint("最低转账金额100元");
             re_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
@@ -262,6 +263,7 @@ public class RechargeAty extends BaseAty {
             on_line_recharge_layout.setVisibility(View.GONE);
             off_line_recharge_layout.setVisibility(View.VISIBLE);
             initCustomTimePicker();
+            titlt_right_tv.setVisibility(View.VISIBLE);
         }
 
     }

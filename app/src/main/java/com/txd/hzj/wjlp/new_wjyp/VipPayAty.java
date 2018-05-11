@@ -41,6 +41,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * 购买会员卡支付界面
+ */
 public class VipPayAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
@@ -55,7 +58,7 @@ public class VipPayAty extends BaseAty {
     @ViewInject(R.id.tv_num)
     private TextView tv_num;
 
-//    private Map<String, String> map;
+    //    private Map<String, String> map;
     @ViewInject(R.id.im_1)
     private ImageView im_1;
     @ViewInject(R.id.im_2)
@@ -114,17 +117,17 @@ public class VipPayAty extends BaseAty {
                 if (num == 1) {
                     return;
                 }
-                num--;
-                tv_num.setText(String.valueOf(num));
-                tv_money.setText("¥" + money * num);
-                is_c = true;
-                can();
+                num--; // 设置数量减1
+                tv_num.setText(String.valueOf(num)); // 设置显示数量
+                tv_money.setText("¥" + money * num); // 设置总金额
+                is_c = false; //
+                can(); //
                 break;
             case R.id.im_2:
                 num++;
                 tv_num.setText(String.valueOf(num));
                 tv_money.setText("¥" + money * num);
-                is_c = true;
+                is_c = false;
                 can();
                 break;
 
@@ -143,7 +146,6 @@ public class VipPayAty extends BaseAty {
                 break;
             case R.id.pay_by_ali_cb:
                 setCheck(2);
-
                 if (is_c) {
                     this_num = 2;
                     this_view = view;
@@ -211,9 +213,9 @@ public class VipPayAty extends BaseAty {
     private CheckBox b;
 
     public void showPop(View view, final int type) {
-//        if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
-//            return;
-//        }
+        if (ticker_map.get("discount").equals("0") && ticker_map.get("yellow_discount").equals("0") && ticker_map.get("blue_discount").equals("0")) {
+            return;
+        }
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
 
         commonPopupWindow = new CommonPopupWindow.Builder(this)
@@ -266,6 +268,10 @@ public class VipPayAty extends BaseAty {
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                pay_by_balance_cb.setChecked(false);
+                                cb_jfzf.setChecked(false);
+                                pay_by_ali_cb.setChecked(false);
+                                pay_by_wechat_cb.setChecked(false);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 commonPopupWindow.dismiss();
                             }
@@ -275,7 +281,6 @@ public class VipPayAty extends BaseAty {
                 .setAnimationStyle(R.style.animbottom)
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-
     }
 
     private void can() {

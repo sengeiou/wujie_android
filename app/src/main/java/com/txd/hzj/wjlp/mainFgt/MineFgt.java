@@ -369,22 +369,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(BooksAty.class, null);
                 break;
             case R.id.call_service_tv:// 客服
-//                new MikyouCommonDialog(getActivity(), server_line, "客服电话", "取消", "拨打").setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-//
-//                    @Override
-//                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int
-//                            which) {
-//                        switch (btnType) {
-//                            case MikyouCommonDialog.OK:// 取消
-//                                break;
-//                            case MikyouCommonDialog.NO:// 拨打电话
-//                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + server_line));
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                                break;
-//                        }
-//                    }
-//                }).showDialog();
 
                 if (TextUtils.isEmpty(service_easemob_account)) {
                     showToast("暂无客服账号！");

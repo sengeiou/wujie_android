@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.bean.commodity;
 
+import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
+
 import java.io.Serializable;
 import java.util.List;
 
