@@ -315,19 +315,21 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 }
                 if (!frist) {
                     super_layout.setRefreshing(false);
+                    super_layout.setLoadMore(false);
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
                 data2 = goods.getData();
 //                super_layout.
                 super_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
-                no_data_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
+                no_data_layout.setVisibility(this.data.size() == 0 ? View.VISIBLE : View.GONE);
                 if (!ListUtils.isEmpty(data2)) {
                     this.data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();
                 }
             }
             super_layout.setRefreshing(false);
+            super_layout.setLoadMore(false);
             footerProgressBar.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
             setStatus(status);
@@ -363,6 +365,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 }
                 if (!frist) {
                     super_layout.setRefreshing(false);
+                    super_layout.setLoadMore(false);
                     progressBar.setVisibility(View.GONE);
                 }
             } else {

@@ -120,10 +120,11 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
                 // 获取输入框的输入件数
-                num = Integer.parseInt(et_num.getText().toString().trim());
-                if (num <= 0) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
+                if (et_num.getText().toString().trim().equals("")||et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
                     showErrorTip("购买件数不能小于等于零");
                     return;
+                }else{
+                    num = Integer.parseInt(et_num.getText().toString().trim());
                 }
 
                 L.e("=====num==" + num);
