@@ -27,7 +27,6 @@ import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.baidu.mapapi.SDKInitializer;
 import com.hyphenate.EMMessageListener;
-import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;

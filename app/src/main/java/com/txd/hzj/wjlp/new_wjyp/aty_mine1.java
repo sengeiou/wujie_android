@@ -97,9 +97,9 @@ public class aty_mine1 extends BaseAty {
         L.e(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-        Glide.with(getApplicationContext()).load(list.get(0).get("picture")).into(im_main);
-        Glide.with(getApplicationContext()).load(list.get(1).get("picture")).into(im1);
-        Glide.with(getApplicationContext()).load(list.get(2).get("picture")).into(im2);
+        Glide.with(this).load(list.get(0).get("picture")).into(im_main);
+        Glide.with(this).load(list.get(1).get("picture")).into(im1);
+        Glide.with(this).load(list.get(2).get("picture")).into(im2);
 
     }
 }

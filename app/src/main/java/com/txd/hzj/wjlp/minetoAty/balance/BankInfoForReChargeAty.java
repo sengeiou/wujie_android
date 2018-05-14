@@ -3,41 +3,27 @@ package com.txd.hzj.wjlp.minetoAty.balance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
-import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.tamic.novate.Novate;
-import com.tamic.novate.Throwable;
-import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortAdapter;
-import com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity;
-import com.txd.hzj.wjlp.cityselect1.ac.utils.PinyinComparator;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +52,7 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     ArrayList<PtEntity> list1 = new ArrayList<>();
     ArrayList<HkEntity> list2 = new ArrayList<>();
+    private String auth_status; // 个人认证状态 0 未认证 1认证中 2 已认证 3被拒绝
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +94,9 @@ public class BankInfoForReChargeAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        // 查询用户信息，获取认证是否是通过状态
+        new UserPst(this).userInfo();
+
         list = new ArrayList<>();
         balancePst = new BalancePst(this);
         titlt_conter_tv.setText("银行卡");
@@ -128,18 +118,80 @@ public class BankInfoForReChargeAty extends BaseAty {
 
         switch (v.getId()) {
             case R.id.titlt_right_tv:
-                startActivity(AddBankCardAty.class, null);
+                if (auth_status != null && auth_status.equals("2")) { // 已认证通过状态
+                    startActivity(AddBankCardAty.class, null);
+                } else {
+                    showToast("未实名认证或认证还未通过");
+                }
                 break;
         }
 
     }
 
     @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("userInfo")) { // 获取个人信息
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONObject data = jsonObject.getJSONObject("data");
+                auth_status = data.getString("auth_status");
+            } catch (JSONException e) {
+                L.e("===============BankInfoForReChargeAty，userInfo===========" + e.toString());
+            }
+        }
+
+        if (requestUrl.contains("UserBalance/bankList")) { // 个人银行卡
+            try {
+                list1.removeAll(list1);
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    String bank_card_id = jsonObject1.getString("bank_card_id");
+                    String bank_card_code = jsonObject1.getString("bank_card_code");
+                    String open_bank = jsonObject1.getString("open_bank");
+                    String bank_name = jsonObject1.getString("bank_name");
+                    String name = jsonObject1.getString("name");
+                    list1.add(new PtEntity(bank_card_id, bank_card_code, bank_name, open_bank, name));
+                    ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this, list1);
+                    bank_info_lv.setAdapter(ptBaseAdapter);
+                    ptBaseAdapter.notifyDataSetChanged();
+                }
+            } catch (JSONException e) {
+                L.e("===============BankInfoForReChargeAty，UserBalance/bankList===========" + e.toString());
+            }
+
+            if (requestUrl.contains("UserBalance/platformAccount")) { // 获取平台银行卡列表
+                list2.removeAll(list2);
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonStr);
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                        String id = jsonObject1.getString("id");
+                        String bank_num = jsonObject1.getString("bank_num");
+                        String open_bank = jsonObject1.getString("open_bank");
+                        String bank_name = jsonObject1.getString("bank_name");
+                        list2.add(new HkEntity(id, bank_num, open_bank, bank_name));
+                        hkBaseAdapter = new HkBaseAdapter(BankInfoForReChargeAty.this, list2);
+                        bank_info_lv.setAdapter(hkBaseAdapter);
+                        hkBaseAdapter.notifyDataSetChanged();
+                    }
+                } catch (JSONException e) {
+                    L.e("===============BankInfoForReChargeAty，UserBalance/platformAccount===========" + e.toString());
+                }
+            }
+
+        }
+    }
+
+    @Override
     protected void requestData() {
         if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("1")) {
-            download("UserBalance/platformAccount");
+            UserBalance.platformAccount(this);
         } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
-            download("UserBalance/bankList");
+            UserBalance.bankList(this);
         }
     }
 
@@ -147,156 +199,12 @@ public class BankInfoForReChargeAty extends BaseAty {
     protected void onRestart() {
         super.onRestart();
         if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("1")) {
-            download("UserBalance/platformAccount");
+            UserBalance.platformAccount(this);
         } else if (PreferencesUtils.getString(BankInfoForReChargeAty.this, "key1").equals("0")) {
-            download("UserBalance/bankList");
+            UserBalance.bankList(this);
         }
     }
-
-    private void download(final String str) {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-        parameters.put("token", Config.getToken());
-        new Novate.Builder(this)
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters)
-                .build()
-                .rxPost(str, parameters, new RxStringCallback() {
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-                        L.e("wang", "=========>>>>>>>>>>>>response:" + response);
-                        try {
-                            if (str.equals("UserBalance/bankList")) { // 个人银行卡
-                                list1.removeAll(list1);
-
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String bank_card_id = jsonObject1.getString("bank_card_id");
-                                    String bank_card_code = jsonObject1.getString("bank_card_code");
-                                    String open_bank = jsonObject1.getString("open_bank");
-                                    String bank_name = jsonObject1.getString("bank_name");
-                                    String name = jsonObject1.getString("name");
-                                    list1.add(new PtEntity(bank_card_id, bank_card_code, bank_name, open_bank, name));
-                                    ptBaseAdapter = new PtBaseAdapter(BankInfoForReChargeAty.this, list1);
-                                    bank_info_lv.setAdapter(ptBaseAdapter);
-                                    ptBaseAdapter.notifyDataSetChanged();
-                                }
-
-                            } else if (str.equals("UserBalance/platformAccount")) { // 平台银行卡
-                                list2.removeAll(list2);
-
-                                JSONObject jsonObject = new JSONObject(response);
-                                JSONArray jsonArray = jsonObject.getJSONArray("data");
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String id = jsonObject1.getString("id");
-                                    String bank_num = jsonObject1.getString("bank_num");
-                                    String open_bank = jsonObject1.getString("open_bank");
-                                    String bank_name = jsonObject1.getString("bank_name");
-                                    list2.add(new HkEntity(id, bank_num, open_bank, bank_name));
-                                    hkBaseAdapter = new HkBaseAdapter(BankInfoForReChargeAty.this, list2);
-                                    bank_info_lv.setAdapter(hkBaseAdapter);
-                                    hkBaseAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                        } catch (JSONException e) {
-                            L.e("获取银行卡列表Json字符串解析异常：" + e.toString());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
-
 }
-
-/**
- * 提现银行卡列表适配器
- */
-//    private class BankInfoAdapter extends BaseAdapter {
-//
-//        private BIVH bivh;
-//
-//        @Override
-//        public int getCount() {
-//            return list.size();
-//        }
-//
-//        @Override
-//        public Map<String, String> getItem(int i) {
-//            return list.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return i;
-//        }
-//
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            Map<String, String> bank = getItem(i);
-//            if (null == view) {
-//                view = LayoutInflater.from(BankInfoForReChargeAty.this).inflate(R.layout.item_bank_info_lv, null);
-//                bivh = new BIVH();
-//                ViewUtils.inject(bivh, view);
-//                view.setTag(bivh);
-//            } else {
-//                bivh = (BIVH) view.getTag();
-//            }
-//            if(PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("0")){
-//                Log.d(Novate.TAG,"1111111111111");
-//                bivh.bank_card_num_tv.setText(bank.get("bank_num"));
-//                bivh.bank_card_owner_name.setText(bank.get("bank_name"));
-//                bivh.create_card_bank_name_tv.setText(bank.get("open_bank"));
-//                PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_id",bank.get("bank_num"));
-//            }else if (PreferencesUtils.getString(BankInfoForReChargeAty.this,"key1").equals("1")){
-//                Log.d(Novate.TAG,"22222222222222");
-//                bivh.bank_card_num_tv.setText(bank.get("bank_card_code"));
-//                bivh.bank_card_owner_name.setText(bank.get("name"));
-//                bivh.create_card_bank_name_tv.setText(bank.get("open_bank"));
-//                PreferencesUtils.putString(BankInfoForReChargeAty.this,"band_code",bank.get("bank_card_code"));
-//            }
-//
-//
-//
-//            return view;
-//        }
-//
-//        private class BIVH {
-//            /**
-//             * 银行卡号
-//             */
-//            @ViewInject(R.id.bank_card_num_tv)
-//            private TextView bank_card_num_tv;
-//            /**
-//             * 持卡人
-//             */
-//            @ViewInject(R.id.bank_card_owner_name)
-//            private TextView bank_card_owner_name;
-//            /**
-//             * 开户行
-//             */
-//            @ViewInject(R.id.create_card_bank_name_tv)
-//            private TextView create_card_bank_name_tv;
-//
-//        }
-//
-//    }
-
 
 
 

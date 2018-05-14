@@ -51,6 +51,7 @@ import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.tool.TimeStampUtil;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
@@ -131,8 +132,8 @@ public class fragment1 extends BaseFgt {
     @ViewInject(R.id.ads1)
     private TextView ads1;
 
-    private File flie1;
-    private File flie2;
+    private File file1;
+    private File file2;
     private String start_time = "";
     private String end_time = "";
 
@@ -187,11 +188,11 @@ public class fragment1 extends BaseFgt {
                     showToast("请选择所在街道！");
                     return;
                 }
-                if (flie1 == null && isFirst) {
+                if (file1 == null && isFirst) {
                     showToast("请上传身份证正面照");
                     return;
                 }
-                if (flie2 == null && isFirst) {
+                if (file2 == null && isFirst) {
                     showToast("请上传身份证反面照！");
                     return;
                 }
@@ -200,30 +201,12 @@ public class fragment1 extends BaseFgt {
                 city_id = ProUrbAreaUtil.gainInstance().getCity_id();
                 area_id = ProUrbAreaUtil.gainInstance().getArea_id();
 
-                L.e("cccc" + TimeStampUtil.getTimeFour(start_time) + "--" + end_time);
-                RequestParams params = new RequestParams();
-                ApiTool2 apiTool2 = new ApiTool2();
-
-                params.addBodyParameter("real_name", name.getText().toString());
-                params.addBodyParameter("sex", sex);
-                params.addBodyParameter("id_card_num", idcard.getText().toString());
-                params.addBodyParameter("id_card_start_time", TimeStampUtil.getTimeFour(start_time));
-                params.addBodyParameter("id_card_end_time", end_time);
-                params.addBodyParameter("auth_province_id", province_id);
-                params.addBodyParameter("auth_city_id", city_id);
-                params.addBodyParameter("auth_area_id", area_id);
-                params.addBodyParameter("auth_street_id", street_id);
-                if (isFirst || (flie1 != null || flie2 != null)) {
-                    if (flie1 != null) {
-                        params.addBodyParameter("positive_id_card", flie1);
-                    }
-                    if (flie2 != null) {
-                        params.addBodyParameter("back_id_card", flie2);
-                    }
+                if (file1 != null && file2 != null) { // 请求接口
+                    User.personalAuth(this, name.getText().toString(), sex, idcard.getText().toString(),
+                            TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
+                            street_id, file1, file2);
+                    showProgressDialog();
                 }
-
-                apiTool2.postApi(Config.BASE_URL + "User/personalAuth", params, this);
-                showProgressDialog();
                 break;
             case R.id.ads0:
                 if (check) {
@@ -283,10 +266,10 @@ public class fragment1 extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        removeProgressDialog();
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) { // 查询个人认证详情
-            L.e("cccc" + jsonStr);
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
@@ -297,10 +280,8 @@ public class fragment1 extends BaseFgt {
             }
             isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
             sex = data.get("sex");
-//            start_time=Integer.parseInt(data.get("id_card_start_date"))/1000+"";
             start_time = data.get("id_card_start_date");
             end_time = data.get("id_card_end_time");
-//            end_time=Integer.parseInt(data.get("id_card_end_time"))/1000+"";
             province = data.get("auth_province_name");
             street_id = data.get("auth_street_id");
             city_id = data.get("auth_city_id");
@@ -315,7 +296,6 @@ public class fragment1 extends BaseFgt {
             id_card_end_time.setText(data.get("id_card_end_date").equals("0") ? "永久" : data.get("id_card_end_date"));
             ads0.setText(data.get("auth_province_name") + data.get("auth_city_name") + data.get("auth_area_name"));
             ads1.setText(data.get("auth_street_name"));
-
         }
         if (requestUrl.equals(Config.BASE_URL + "User/personalAuth")) { // 个人认证
             // 设置提示框弹窗提示
@@ -349,46 +329,6 @@ public class fragment1 extends BaseFgt {
         L.e("cccc" + error.get("message"));
     }
 
-    private void download() {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        parameters.put("token", Config.getToken());
-        new Novate.Builder(getActivity())
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters)
-                .build()
-                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
-
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
-                        name.setText(data.get("real_name"));
-                        tv_Sex.setText(data.get("sex").equals("1") ? "男" : "女");
-                        idcard.setText(data.get("id_card_num"));
-                        id_card_start_time.setText(data.get("id_card_start_date"));
-                        id_card_end_time.setText(data.get("id_card_end_date").equals("0") ? "永久" : data.get("id_card_end_date"));
-                        ads0.setText(data.get("auth_province_name") + data.get("auth_city_name") + data.get("auth_area_name"));
-                        ads1.setText(data.get("auth_street_name"));
-                        Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
-                        Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
-
     @Override
     protected void initialized() {
         ImagePicker imagePicker = ImagePicker.getInstance();
@@ -411,10 +351,9 @@ public class fragment1 extends BaseFgt {
 
     @Override
     protected void requestData() {
-        download();
         if (!getArguments().getString("auth_status").equals("0")) {
-            ApiTool2 apiTool2 = new ApiTool2();
-            apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);
+            User.personalAuthInfo(this);
+            showProgressDialog();
         }
         switch (getArguments().getString("auth_status")) {
             case "1": {
@@ -442,7 +381,6 @@ public class fragment1 extends BaseFgt {
         }
 
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
-        showProgressDialog();
         size = ToolKit.getScreenWidth(getActivity());
         size = size / 2 - 15;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
@@ -459,7 +397,6 @@ public class fragment1 extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-
     }
 
     /**
@@ -506,7 +443,7 @@ public class fragment1 extends BaseFgt {
     private void initTimePicker(View v) {
         pvTime = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
             @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
+            public void onTimeSelect(Date date, View v) { // 选中事件回调
                 if (is_card) {
                     start_time = String.valueOf(date.getTime() / 1000);
                     id_card_start_time.setText(getTime(date));
@@ -576,12 +513,12 @@ public class fragment1 extends BaseFgt {
                 String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                 switch (requestCode) {
                     case 101:
-                        flie1 = new File(pic_path);
-                        Glide.with(this).load(flie1).override(size, size).centerCrop().into(image1);
+                        file1 = new File(pic_path);
+                        Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
                         break;
                     case 102:
-                        flie2 = new File(pic_path);
-                        Glide.with(this).load(flie2).override(size, size).centerCrop().into(image2);
+                        file2 = new File(pic_path);
+                        Glide.with(this).load(file2).override(size, size).centerCrop().into(image2);
                         break;
                 }
             }

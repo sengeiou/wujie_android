@@ -638,7 +638,7 @@ public class CartFgt extends BaseFgt {
             } else {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
             }
-            Glide.with(getActivity().getApplicationContext()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
+            Glide.with(getActivity()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
             cgvh.goods_name_tv.setText(cg.getGoods_name());
             // 属性
 

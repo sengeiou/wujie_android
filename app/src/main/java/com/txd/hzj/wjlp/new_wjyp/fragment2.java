@@ -3,8 +3,6 @@ package com.txd.hzj.wjlp.new_wjyp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -14,42 +12,27 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.base.BaseActivity;
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.httpTools.ApiTool2;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
-import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
-import com.tamic.novate.Novate;
-import com.tamic.novate.Throwable;
-import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.http.address.AddressPst;
-import com.txd.hzj.wjlp.minetoAty.address.AddNewAddressAty2;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
+import com.txd.hzj.wjlp.new_wjyp.http.User;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,7 +40,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -115,7 +97,7 @@ public class fragment2 extends BaseFgt {
     private ImageView im1;
     @ViewInject(R.id.image1)
     private ImageView image1;
-    private File flie1;
+    private File file1;
 
     private TimePickerView pvTime;
     private boolean is_card;
@@ -202,26 +184,15 @@ public class fragment2 extends BaseFgt {
                     return;
                 }
 
-                if (flie1 == null && isFirst) {
+                if (file1 == null && isFirst) {
                     showToast("请上传营业执照！");
                     return;
                 }
-                RequestParams params = new RequestParams();
-                ApiTool2 apiTool2 = new ApiTool2();
-                params.addBodyParameter("com_name", name.getText().toString());
-                params.addBodyParameter("comp_reg_num", num.getText().toString());
-                params.addBodyParameter("comp_start_time", start_time);
-                params.addBodyParameter("comp_start_time", start_time);
-                params.addBodyParameter("comp_end_time", end_time);
-                params.addBodyParameter("comp_province_id", province_id);
-                params.addBodyParameter("comp_city_id", city_id);
-                params.addBodyParameter("comp_area_id", area_id);
-                params.addBodyParameter("comp_street_id", street_id);
-                if (isFirst || flie1 != null) {
-                    params.addBodyParameter("comp_business_license", flie1);
+
+                if (file1 != null) {
+                    User.compAuth(this, name.getText().toString(), num.getText().toString(), start_time, end_time, province_id, city_id, area_id, street_id, file1);
+                    showProgressDialog(); // TODO ===================================================================== 按钮点击显示加载框
                 }
-                apiTool2.postApi(Config.BASE_URL + "User/compAuth", params, this);
-                showProgressDialog();
                 break;
             case R.id.image1:
                 if (check) {
@@ -251,16 +222,15 @@ public class fragment2 extends BaseFgt {
     }
 
     @ViewInject(R.id.textview)
-    private TextView textview;//一个提示
+    private TextView textview; // 一个提示
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
 
     @Override
     protected void requestData() {
-        download();
         if (!getArguments().getString("comp_auth_status").equals("0")) {
-            ApiTool2 apiTool2 = new ApiTool2();
-            apiTool2.postApi(Config.BASE_URL + "User/personalAuthInfo", new RequestParams(), this);
+            User.personalAuthInfo(this);
+            showProgressDialog();
         }
         switch (getArguments().getString("comp_auth_status")) {
             case "1": {
@@ -288,7 +258,6 @@ public class fragment2 extends BaseFgt {
                 break;
         }
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
-        showProgressDialog();
         size = ToolKit.getScreenWidth(getActivity());
         size = size / 2 - 15;
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
@@ -309,6 +278,7 @@ public class fragment2 extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        removeProgressDialog();
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("User/personalAuthInfo")) {
@@ -316,7 +286,6 @@ public class fragment2 extends BaseFgt {
                 textview.setText("认证：已拒绝\n拒绝原因：" + data.get("comp_desc"));
                 Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             } else {
-
                 Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
             }
             isFirst = TextUtils.isEmpty(data.get("comp_business_license")) ? true : false;
@@ -362,43 +331,42 @@ public class fragment2 extends BaseFgt {
     }
 
 
-    private void download() {
-
-        Map<String, Object> parameters = new HashMap<String, Object>();
-
-        parameters.put("token", Config.getToken());
-        new Novate.Builder(getActivity())
-                .baseUrl(Config.BASE_URL)
-                .addHeader(parameters)
-                .build()
-                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
-
-
-                    @Override
-                    public void onNext(Object tag, String response) {
-//                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
-                        name.setText(data.get("com_name"));
-                        num.setText(data.get("comp_reg_num"));
-                        comp_start_time.setText(data.get("comp_start_date"));
-                        comp_end_time.setText(data.get("comp_end_date").equals("0") ? "永久" : data.get("comp_end_date"));
-                        ads0.setText(data.get("comp_province_name") + data.get("comp_city_name") + data.get("comp_area_name"));
-                        ads1.setText(data.get("comp_street_name"));
-                        Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
-                    }
-
-                    @Override
-                    public void onError(Object tag, Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onCancel(Object tag, Throwable e) {
-
-                    }
-
-                });
-
-    }
+//    private void download() {
+//
+//        Map<String, Object> parameters = new HashMap<String, Object>();
+//
+//        parameters.put("token", Config.getToken());
+//        new Novate.Builder(getActivity())
+//                .baseUrl(Config.BASE_URL)
+//                .addHeader(parameters)
+//                .build()
+//                .rxPost("User/personalAuthInfo", null, new RxStringCallback() {
+//
+//                    @Override
+//                    public void onNext(Object tag, String response) {
+////                        Toast.makeText(SortCityActivity.this, response, Toast.LENGTH_SHORT).show();
+//                        name.setText(data.get("com_name"));
+//                        num.setText(data.get("comp_reg_num"));
+//                        comp_start_time.setText(data.get("comp_start_date"));
+//                        comp_end_time.setText(data.get("comp_end_date").equals("0") ? "永久" : data.get("comp_end_date"));
+//                        ads0.setText(data.get("comp_province_name") + data.get("comp_city_name") + data.get("comp_area_name"));
+//                        ads1.setText(data.get("comp_street_name"));
+//                        Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
+//                    }
+//
+//                    @Override
+//                    public void onError(Object tag, Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel(Object tag, Throwable e) {
+//
+//                    }
+//
+//                });
+//
+//    }
 
     private void initTimePicker(View v) {
         pvTime = new TimePickerView.Builder(getActivity(), new TimePickerView.OnTimeSelectListener() {
@@ -473,8 +441,8 @@ public class fragment2 extends BaseFgt {
                 String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                 switch (requestCode) {
                     case 101:
-                        flie1 = new File(pic_path);
-                        Glide.with(this).load(flie1).override(size, size).centerCrop().into(image1);
+                        file1 = new File(pic_path);
+                        Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
                         break;
                 }
             }

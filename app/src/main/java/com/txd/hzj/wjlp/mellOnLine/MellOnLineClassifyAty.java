@@ -166,7 +166,6 @@ public class MellOnLineClassifyAty extends BaseAty {
         search_left.setBounds(0, 0, top.getMinimumWidth(), top.getMinimumHeight());
         horizontal_classify = new ArrayList<>();
 
-
     }
 
     @Override

@@ -151,16 +151,17 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .centerCrop()
                 .override(logo_size1, logo_size2)
                 .placeholder(R.drawable.ic_default)
-//                .error(R.id.ic_right_arrow)
                 .dontAnimate()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(holder.country_logo_iv);
 
+        // TODO 该处代码在加载到第10页左右的时候会报OOM的错
         Glide.with(context).load(cfGoodsList.getGoods_img())
                 .override((ToolKit.getScreenWidth(context) - 10) / 2, (ToolKit.getScreenWidth(context) - 10) / 2)
-                .centerCrop().placeholder(R.drawable.ic_default).diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .error(R.drawable.ic_default).into(holder.goods_pic_iv);
-
+                .centerCrop().placeholder(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .error(R.drawable.ic_default)
+                .into(holder.goods_pic_iv);
 
 //        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();
 //        layoutParams.width=(ToolKit.getScreenWidth(context)-10)/2;

@@ -49,8 +49,8 @@ public class OrderCenterAty extends BaseAty {
 
         titlt_conter_tv.setText("订单中心");
 
-        IndexPst indexPst = new IndexPst(this);
-        indexPst.index("", "");
+//        IndexPst indexPst = new IndexPst(this);
+//        indexPst.index("", "");
 
         list = new ArrayList<>();
 

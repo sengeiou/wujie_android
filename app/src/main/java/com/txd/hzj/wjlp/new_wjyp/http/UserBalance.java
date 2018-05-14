@@ -51,10 +51,11 @@ public class UserBalance {
 
     /**
      * 获取充值订单列表
-     * @param type 订单类型
+     *
+     * @param type     订单类型
      * @param baseView
      */
-    public static void userBalanceHjs(String type, BaseView baseView){
+    public static void userBalanceHjs(String type, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("pay_status", type);
@@ -63,11 +64,12 @@ public class UserBalance {
 
     /**
      * 删除订单
-     * @param order_id 订单id
+     *
+     * @param order_id     订单id
      * @param order_status 删除类型 5取消 9删除
      * @param baseView
      */
-    public static void delHjsInfo(String order_id, String order_status, BaseView baseView){
+    public static void delHjsInfo(String order_id, String order_status, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_id", order_id);
@@ -77,14 +79,33 @@ public class UserBalance {
 
     /**
      * 搜索银行卡
+     *
      * @param
      * @param baseView
      */
-    public static void searchBank(String bank_name, BaseView baseView){
+    public static void searchBank(String bank_name, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("bank_name", bank_name);
         apiTool2.postApi(url + "searchBank", params, baseView);
+    }
+
+    /**
+     * 获取平台银行卡列表
+     */
+    public static void platformAccount(BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "platformAccount", new RequestParams(), baseView);
+    }
+
+    /**
+     * 获取个人银行卡列表
+     *
+     * @param baseView
+     */
+    public static void bankList(BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "bankList", new RequestParams(), baseView);
     }
 
 }

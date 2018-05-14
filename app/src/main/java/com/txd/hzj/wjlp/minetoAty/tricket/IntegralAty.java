@@ -90,7 +90,7 @@ public class IntegralAty extends BaseAty {
 
                             JSONObject jsonObject2 = new JSONObject(data);
                             String my_integral = jsonObject2.getString("my_integral");
-                            String integral_percentage = jsonObject2.getString("integral_percentage");
+                            String integral_percentage = jsonObject2.getString("integral_percentage"); // 积分兑换手续费比例
                             layout_bottom_tv.setText(my_integral);
                             String time_out_status = jsonObject2.getString("time_out_status");
                             String exchange_status = jsonObject2.getString("exchange_status");
