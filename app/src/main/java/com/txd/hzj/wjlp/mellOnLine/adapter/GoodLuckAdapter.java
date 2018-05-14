@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
 import com.txd.hzj.wjlp.bean.commodity.GroupBean;
 
 import java.util.Calendar;
@@ -72,6 +72,9 @@ public class GoodLuckAdapter extends BaseAdapter {
         return i;
     }
 
+    private boolean getNow = false;
+    private Calendar calendar;
+
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
         GroupBean groupBean = getItem(i);
@@ -91,15 +94,22 @@ public class GoodLuckAdapter extends BaseAdapter {
                 }
             }
         });
-
+        if (!getNow) {//当前服务器系统时间只获取一遍
+            calendar = Calendar.getInstance();
+            getNow = true;
+            if (!TextUtils.isEmpty(groupBean.getSys_time()))
+                calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
+        }
         // 当前时间
-        long now_time = Calendar.getInstance().getTimeInMillis() / 1000;
+        long now_time = calendar.getTimeInMillis();
         // 剩余时间
-        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
+//        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
+        long last_time = Long.parseLong(groupBean.getEnd_time())-now_time;
+//        long last_time=Long.parseLong(groupBean.getEnd_time())-Long.parseLong(groupBean.getSys_time()) ;
         // 倒计时Tag
         goodLuckVH.good_count_down_view.setTag("GoodLuck" + i);
         // 开始倒计时
-        goodLuckVH.good_count_down_view.start(last_time);
+        goodLuckVH.good_count_down_view.start(last_time*1000);
 
         Glide.with(context).load(groupBean.getHead_user().getHead_pic())
                 .override(size, size)

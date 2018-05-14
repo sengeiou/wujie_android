@@ -16,9 +16,27 @@ public class GroupBean implements Serializable {
     private String user_id;
     private String group_num;//"需参团人数",
     private String end_time;//"截止时间",
+    private String end_true_time;// "延迟后截止时间（若无延迟，此时间等于截止时间）", 2018-5-14  参团添加二次截止时间
+    private String sys_time;//"系统参照时间",  2018-5-14  参团添加二次截止时间
     private String status;// "状态", //0待成团  1已成团 2未成团
     private HeadUserBean head_user;
     private String diff;//"参团信息" //"还差1人" ,"团已满"
+
+    public String getEnd_true_time() {
+        return end_true_time;
+    }
+
+    public void setEnd_true_time(String end_true_time) {
+        this.end_true_time = end_true_time;
+    }
+
+    public String getSys_time() {
+        return sys_time;
+    }
+
+    public void setSys_time(String sys_time) {
+        this.sys_time = sys_time;
+    }
 
     public String getEnd_time() {
         return end_time;
