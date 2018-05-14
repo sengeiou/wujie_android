@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * ===============Txunda===============
  */
 
-public class CollectOrFootpointGoods {
+public class CollectOrFootpointGoods implements Serializable{
     /**
      * code : 1
      * message : 获取成功
@@ -51,11 +52,11 @@ public class CollectOrFootpointGoods {
     }
 
 
-    public List<CFGoodsList> getList() {
+    public List<CFGoodsList> getData() {
         return data;
     }
 
-    public void setList(List<CFGoodsList> data) {
+    public void setData(List<CFGoodsList> data) {
         this.data = data;
     }
 

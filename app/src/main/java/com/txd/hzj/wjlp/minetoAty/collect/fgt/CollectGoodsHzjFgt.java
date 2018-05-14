@@ -284,7 +284,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
 //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
 
             CollectOrFootpointGoods goods = GsonUtil.GsonToBean(jsonStr, CollectOrFootpointGoods.class);
-            allNum = goods.getList().size();
+            allNum = goods.getData().size();
 
             L.e("wang", allNum + "\t" + p);
 
@@ -296,7 +296,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 no_data_layout.setVisibility(View.VISIBLE);
             }
             if (1 == p) {
-                this.data = goods.getList();
+                this.data = goods.getData();
 
                 if (!ListUtils.isEmpty(this.data)) {
                     // 适配器初始化
@@ -318,7 +318,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
-                data2 = goods.getList();
+                data2 = goods.getData();
 //                super_layout.
                 super_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
                 no_data_layout.setVisibility(this.data.size() > 0 ? View.VISIBLE : View.GONE);
@@ -345,7 +345,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 no_data_layout.setVisibility(View.VISIBLE);
             }
             if (1 == p) {
-                data = goods.getList();
+                data = goods.getData();
                 if (!ListUtils.isEmpty(data)) {
                     // 适配器初始化
                     racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
@@ -366,7 +366,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
-                data2 = goods.getList();
+                data2 =goods.getData();
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();

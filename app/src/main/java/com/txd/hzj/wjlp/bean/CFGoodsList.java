@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.bean;
 
+import java.io.Serializable;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -9,7 +11,7 @@ package com.txd.hzj.wjlp.bean;
  * ===============Txunda===============
  */
 
-public class CFGoodsList {
+public class CFGoodsList implements Serializable {
 
     /**
      * goods_id : 商品ID
@@ -71,6 +73,59 @@ public class CFGoodsList {
     private String collect_id;
 
     private String footer_id;
+    private String all_goods_num;
+    private String goods_num;
+    private String discount;
+    private String yellow_discount;
+    private String blue_discount;
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
+    }
+
+    public String getAll_goods_num() {
+        return all_goods_num;
+    }
+
+    public void setAll_goods_num(String all_goods_num) {
+        this.all_goods_num = all_goods_num;
+    }
+
+    public String getGoods_num() {
+        return goods_num;
+    }
+
+    public void setGoods_num(String goods_num) {
+        this.goods_num = goods_num;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getYellow_discount() {
+        return yellow_discount;
+    }
+
+    public void setYellow_discount(String yellow_discount) {
+        this.yellow_discount = yellow_discount;
+    }
+
+    public String getBlue_discount() {
+        return blue_discount;
+    }
+
+    public void setBlue_discount(String blue_discount) {
+        this.blue_discount = blue_discount;
+    }
 
     public String getGoods_id() {
         return goods_id;

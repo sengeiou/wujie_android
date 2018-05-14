@@ -80,6 +80,7 @@
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限END -->
 
     <application
+        android:debuggable="true"
         android:name="com.txd.hzj.wjlp.DemoApplication"
         android:allowBackup="false"
         android:icon="@mipmap/wjyp2"
@@ -87,7 +88,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme,android:allowBackup">
+        tools:replace="android:icon,android:theme,android:allowBackup"
+        tools:ignore="HardcodedDebugMode">
         <!--Glide缓存-->
         <meta-data
             android:name="com.ants.theantsgo.GlideCache"
