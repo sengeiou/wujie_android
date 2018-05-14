@@ -10,9 +10,9 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180508 // 原始Code：20180507
-        versionName "1.0.7" // 原始Name：1.0.6
-         multiDexEnabled true
+        versionCode 20180514
+        versionName "1.0.7"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
