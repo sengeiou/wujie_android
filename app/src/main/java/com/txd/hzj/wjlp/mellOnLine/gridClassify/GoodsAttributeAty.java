@@ -122,7 +122,7 @@ public class GoodsAttributeAty extends BaseAty {
                 // 获取输入框的输入件数
                 num = Integer.parseInt(et_num.getText().toString().trim());
                 if (num <= 0) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
-                    showErrorTip("请输入购买件数");
+                    showErrorTip("购买件数不能小于等于零");
                     return;
                 }
 
@@ -219,6 +219,9 @@ public class GoodsAttributeAty extends BaseAty {
             public void afterTextChanged(Editable s) {
                 // 文字改变之后
                 String numStr = et_num.getText().toString().trim();
+                if (numStr.equals("")||numStr.equals("0")){
+                    return;
+                }
                 num = Integer.parseInt(numStr.equals("") ? "0" : numStr);
                 if (num > maxNumber) {
                     et_num.setText(maxNumber + "");
