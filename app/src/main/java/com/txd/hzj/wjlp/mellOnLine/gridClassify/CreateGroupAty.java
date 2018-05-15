@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.ObserTool;
-import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,14 +29,13 @@ import com.txd.hzj.wjlp.bean.commodity.OfferedOfferBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * ===============Txunda===============
@@ -96,7 +97,21 @@ public class CreateGroupAty extends BaseAty {
      */
     @ViewInject(R.id.group_goods_price_tv)
     private TextView group_goods_price_tv;
-
+    /**
+     * 倒计时模块
+     */
+    @ViewInject(R.id.create_group_ll)
+    private LinearLayout create_group_ll;
+    /**
+     * 倒计时控件
+     * */
+    @ViewInject(R.id.times_id)
+    private CountdownView times;
+    /**
+     * 剩余成团人数
+     */
+    @ViewInject(R.id.text_nums)
+    private TextView textNums;
     /**
      * 用户id
      */
@@ -107,7 +122,9 @@ public class CreateGroupAty extends BaseAty {
     private String goods_id;
     ArrayList<GoodsAttrs> list_;
     ArrayList<GoodsAttrs.product> list_p;
-    private   OfferedBean data;
+    private OfferedBean data;
+    private Long i1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +141,7 @@ public class CreateGroupAty extends BaseAty {
             group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
         }
 
+        //times.setStopTime(Long.valueOf("14903387320000"));
         group_member_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         group_member_rv.setHasFixedSize(true);
         group_member_rv.setItemAnimator(new DefaultItemAnimator());
@@ -166,8 +184,27 @@ public class CreateGroupAty extends BaseAty {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            L.e("返回商品详情");
+            if (resultCode == 0x0001) {
+                Bundle bundle = new Bundle();
+                bundle.putString("mid", data.getStringExtra("mid"));
+                bundle.putString("type", "1");
+                bundle.putString("goods_id", data.getStringExtra("goods_id"));
+                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
+                bundle.putString("order_id", data.getStringExtra("order_id"));
+                bundle.putString("group_buy_id", "");
+                bundle.putString("num", data.getStringExtra("num"));
+                bundle.putString("product_id", data.getStringExtra("product_id"));
+                startActivity(BuildOrderAty.class, bundle);
+            }
+        }
+    }
+
+    @Override
     protected void requestData() {
-//        groupBuyPst.goGroup(log_id);
         GroupBuyOrder.offered(log_id, this);
         showProgressDialog();
     }
@@ -179,15 +216,25 @@ public class CreateGroupAty extends BaseAty {
     @Override
     public void onComplete(final String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        Log.i("所有接口", jsonStr.toString());
         if (requestUrl.contains("offered")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, OfferedDataBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
                     OfferedDataBean offeredDataBean = (OfferedDataBean) t;
-                    data= offeredDataBean.getData();
+                    data = offeredDataBean.getData();
                     list_pic = data.getHead_pic();
                     offered = data.getOffered();
                     buffer = new StringBuffer();
+
+                    /**
+                     * 倒计时
+                     * */
+
+                    textNums.setText(data.getM_short());
+                    i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
+                    Log.i("倒计时时间", i1 + "");
+                    times.start((10000+i1)*1000);
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
@@ -195,13 +242,13 @@ public class CreateGroupAty extends BaseAty {
                     }
                     textview.setText(buffer.toString());
                     if (!ListUtils.isEmpty(list_pic)) {
-                        HeadPicBean head=new HeadPicBean();
-                        head.setPic( list_pic.get(0).getPic());
+                        HeadPicBean head = new HeadPicBean();
+                        head.setPic(list_pic.get(0).getPic());
                         head.setType(data.getIs_colonel());
                         list_pic.clear();
                         list_pic.add(head);
                     }
-                    HeadPicBean head1=new HeadPicBean();
+                    HeadPicBean head1 = new HeadPicBean();
                     head1.setType(data.getIs_colonel());
                     head1.setPic(data.getColonel_head_pic());
                     list_pic.add(head1);
@@ -252,7 +299,5 @@ public class CreateGroupAty extends BaseAty {
 
             });
         }
-
-
     }
 }
