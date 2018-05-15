@@ -140,7 +140,7 @@
                             app:timeTextSize="15sp"
                             app:isTimeTextBold="true"
                             app:suffixLRMargin="3dp"
-                            app:suffixGravity="top"
+                            app:suffixGravity="center"
                             app:suffixTextColor="#000000"
                             app:isSuffixTextBold="true"
                             app:suffixTextSize="15sp"
