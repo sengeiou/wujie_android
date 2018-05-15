@@ -89,7 +89,7 @@ public class EvaluationReleaseAty extends BaseAty {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.tv_submit: //
+            case R.id.tv_submit: // 提交订单的服务评价
                 // 参数说明：订单ID， 商家评分1~5星， 配送评分， 订评论订单单类型（1普通单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖）， BaseView
                 Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), "1", this);
                 showProgressDialog();
@@ -138,7 +138,7 @@ public class EvaluationReleaseAty extends BaseAty {
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
         if (requestUrl.contains("CommentOrder")) { // 评价订单
-            Order.Commentindex(order_id, this);
+            Order.Commentindex(order_id, this); // 再次申请获取一下评论列表主页
             showProgressDialog();
         }
         if (requestUrl.contains("Commentindex")) {
@@ -154,6 +154,10 @@ public class EvaluationReleaseAty extends BaseAty {
                 titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             } else { // 已评价
                 titlt_right_tv.setVisibility(View.GONE);
+                ratingBar1.setRating(map.get("merchant_star").equals("") ? 0.0f : Float.parseFloat(map.get("merchant_star"))); // 店铺评分
+                ratingBar1.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                ratingBar1.setIsIndicator(true); // 卖家服务
+                ratingBar2.setIsIndicator(true); // 物流服务
             }
         }
     }

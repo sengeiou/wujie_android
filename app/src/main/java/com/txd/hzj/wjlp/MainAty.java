@@ -55,6 +55,7 @@ import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.maning.updatelibrary.InstallUtils;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
@@ -213,6 +214,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     protected void initialized() {
+
         EventBus.getDefault().register(this);
         page_index = getIntent().getIntExtra("index", 0);
         MellonLineFgt mellonLineFgt = new MellonLineFgt();

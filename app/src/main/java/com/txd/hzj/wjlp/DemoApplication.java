@@ -22,6 +22,7 @@ import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -30,6 +31,7 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.txd.hzj.wjlp.baidu.LocationService;
 
 import java.util.ArrayList;
@@ -80,6 +82,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         super.onCreate();
 //        L.isDebug = false; // 正式版头部及Log日志
         L.isDebug = true; // 测试版头部及Log日志
+        // 腾讯Bugly初始化，第三个参数为SDK调试模式开关，建议在测试阶段建议设置成true，发布时设置为false。
+        CrashReport.initCrashReport(getApplicationContext(), "c07fb2c1b8", false);
         MultiDex.install(this);
         applicationContext = this;
         instance = this;

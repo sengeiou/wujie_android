@@ -33,6 +33,9 @@
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+#----------腾讯Bugly
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
 #----------ShareSDK
 -keep class cn.sharesdk.**{*;}
 -keep class com.sina.**{*;}
