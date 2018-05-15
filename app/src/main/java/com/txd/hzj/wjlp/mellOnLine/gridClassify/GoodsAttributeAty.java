@@ -22,7 +22,6 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -407,9 +406,9 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
                 L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
-                intent.setClass(this, BuildOrderAty.class);
+//                intent.setClass(this, BuildOrderAty.class);
                 setResult(0x0001, intent);
-                startActivity(intent);
+//                startActivity(intent);
                 finish();
                 return;
             }
