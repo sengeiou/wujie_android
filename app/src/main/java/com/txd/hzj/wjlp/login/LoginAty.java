@@ -331,6 +331,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             if (MainAty.isExit) {
                 startActivity(MainAty.class, null);
             }
+
+            //TODO  从分享跳转过来时候跳转到主页处理     AppManager.getInstance().killAllActivity();//            startActivity(MainAty.class, null);
+
             finish();
             return;
         }

@@ -31,7 +31,6 @@ public class MInfoBean implements Serializable {
     private String goods_score;//"宝贝评分",
     private String merchant_score;//"卖家评分",
     private String shipping_score;//"物流评分"
-    private String merchant_easemob_account;//
     private String score;//
     private String send_score;//
     private String merchant_head_pic;//商家头像
@@ -115,14 +114,6 @@ public class MInfoBean implements Serializable {
 
     public void setShipping_score(String shipping_score) {
         this.shipping_score = shipping_score;
-    }
-
-    public String getMerchant_easemob_account() {
-        return merchant_easemob_account;
-    }
-
-    public void setMerchant_easemob_account(String merchant_easemob_account) {
-        this.merchant_easemob_account = merchant_easemob_account;
     }
 
     public String getScore() {

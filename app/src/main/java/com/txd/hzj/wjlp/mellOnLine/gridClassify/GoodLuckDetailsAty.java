@@ -1271,7 +1271,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     // 店铺信息
                     mellInfoBean = dataBean.getmInfo();
-                    easemob_account = mellInfoBean.getMerchant_easemob_account();
+                    easemob_account = mellInfoBean.getEasemob_account();
                     merchant_logo = mellInfoBean.getLogo();
                     merchant_name = mellInfoBean.getMerchant_name();
                     mell_id = mellInfoBean.getMerchant_id();

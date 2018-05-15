@@ -8,8 +8,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -20,6 +22,9 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -158,26 +163,36 @@ public class RegisterSetPwdAty extends BaseAty {
 //            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
 //            finish();
         }
-        if(requestUrl.contains("login")){
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            application.setUserInfo(data);
-            Config.setLoginState(true);
-            PreferencesUtils.putString(this, "phone", phone);
-            PreferencesUtils.putString(this, "pwd", password);
-            PreferencesUtils.putString(this, "token", data.get("token"));
-            // 友盟统计
-            MobclickAgent.onProfileSignIn(data.get("user_id"));
+        if (requestUrl.contains("login")) {
+//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+//            Map<String, String> data= JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            try {
+                ObserTool.gainInstance().dealData(JSONUtils.parseData(new JSONObject(jsonStr)), new ObserTool.Listener() {
+                    @Override
+                    public void returneData(Map<String, String> map) {
+                        Map<String, String> data=map;
+                        application.setUserInfo(data);
+                        Config.setLoginState(true);
+                        PreferencesUtils.putString(RegisterSetPwdAty.this, "phone", phone);
+                        PreferencesUtils.putString(RegisterSetPwdAty.this, "pwd", password);
+                        PreferencesUtils.putString(RegisterSetPwdAty.this, "token", data.get("token"));
+                        // 友盟统计
+                        MobclickAgent.onProfileSignIn(data.get("user_id"));
 
-            // 极光设置Tag或者别名
-            JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
-            JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+                        // 极光设置Tag或者别名
+                        JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
+                        JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
 
-            // 环信登录
-            registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
+                        // 环信登录
+                        registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
 //            if (0 == skip_type) {
-            AppManager.getInstance().killAllActivity();
-            startActivity(MainAty.class, null);
+                        AppManager.getInstance().killAllActivity();
+                        startActivity(MainAty.class, null);
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
