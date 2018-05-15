@@ -389,29 +389,32 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     }
 
     private void authorize(Platform plat) {
-        // 判断指定平台是否已经完成授权
-        if (plat.isAuthValid()) {
-            if (loginType.equals("1")) {
-                openid = plat.getDb().get("unionid");
-            } else {
-                openid = plat.getDb().getUserId();
-            }
-            nick = plat.getDb().getUserName();
-            if (openid != null && nick != null) {
-                head_pic = plat.getDb().getUserIcon();
-                getHeadPicAndLogin(head_pic);
+        if (null != plat) {
+            // 判断指定平台是否已经完成授权
+            if (plat.isAuthValid()) {
+                if (loginType.equals("1")) {
+                    openid = plat.getDb().get("unionid");
+                } else {
+                    openid = plat.getDb().getUserId();
+                }
+                nick = plat.getDb().getUserName();
+                if (openid != null && nick != null) {
+                    head_pic = plat.getDb().getUserIcon();
+                    getHeadPicAndLogin(head_pic);
+                    return;
+                }
+                // 三方登陆
                 return;
             }
-            // 三方登陆
-            return;
-        }
-        // 授权监听
+            // 授权监听
 
-        plat.setPlatformActionListener(this);
-        // true不使用SSO授权，false使用SSO授权，(即true不使用客户端登录，false有客户端则使用客户端登录，没有则使用web网页登录)
-        plat.SSOSetting(false);
-        // 获取用户资料
-        plat.showUser(null);
+            plat.setPlatformActionListener(this);
+            // true不使用SSO授权，false使用SSO授权，(即true不使用客户端登录，false有客户端则使用客户端登录，没有则使用web网页登录)
+            plat.SSOSetting(false);
+            // 获取用户资料
+            plat.showUser(null);
+        }
+
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
@@ -19,9 +20,16 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
+import com.txd.hzj.wjlp.bean.commodity.HeadPicBean;
+import com.txd.hzj.wjlp.bean.commodity.OfferedBean;
+import com.txd.hzj.wjlp.bean.commodity.OfferedDataBean;
+import com.txd.hzj.wjlp.bean.commodity.OfferedOfferBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +107,7 @@ public class CreateGroupAty extends BaseAty {
     private String goods_id;
     ArrayList<GoodsAttrs> list_;
     ArrayList<GoodsAttrs.product> list_p;
-
+    private   OfferedBean data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,13 +133,12 @@ public class CreateGroupAty extends BaseAty {
                 Intent intent = getIntent();
                 List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
                 List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
-
                 toAttrs(v,
                         0,
                         "4",
                         goods_id,
-                        data.get("goods_img"),
-                        data.get("shop_price"),
+                        data.getGoods_img(),
+                        data.getShop_price(),
                         getIntent().getStringExtra("group_buy_id") + "-" + log_id,
                         goods_attr, goods_val,
                         getIntent().getStringExtra("is_attr")
@@ -165,61 +172,63 @@ public class CreateGroupAty extends BaseAty {
         showProgressDialog();
     }
 
-    Map<String, String> data;
-    Map<String, String> head;
-    List<Map<String, String>> list_pic;
-    List<Map<String, String>> offered;
+    List<HeadPicBean> list_pic;
+    List<OfferedOfferBean> offered;
     StringBuffer buffer;
 
     @Override
-    public void onComplete(String requestUrl, String jsonStr) {
+    public void onComplete(final String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
         if (requestUrl.contains("offered")) {
-            list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("head_pic"));
-            offered = JSONUtils.parseKeyAndValueToMapList(data.get("offered"));
-            buffer = new StringBuffer();
-            for (int i = 0; i < offered.size(); i++) {
-                buffer.append(" · ");
-                buffer.append(offered.get(i).get("oneself"));
-                buffer.append("\n");
-            }
-            textview.setText(buffer.toString());
-            if (!ListUtils.isEmpty(list_pic)) {
-                head = new HashMap<>();
-                head.put("type", data.get("is_colonel"));
-                head.put("pic", list_pic.get(0).get("pic"));
-                list_pic.clear();
-                list_pic.add(head);
-            }
-            head = new HashMap<>();
-            head.put("type", data.get("is_colonel"));
-            head.put("pic", data.get("colonel_head_pic"));
-            list_pic.add(head);
-            groupMemberAdapter = new GroupMemberAdapter(this, list_pic);
-            group_member_rv.setAdapter(groupMemberAdapter);
-            Glide.with(this).load(data.get("goods_img"))
-                    .placeholder(R.drawable.ic_default)
-                    .centerCrop()
-                    .error(R.drawable.ic_default)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(group_goods_pic_iv);
-            group_goods_name_tv.setText(data.get("goods_name"));
-            group_other_info_tv.setText("已团" + data.get("already") + "件●" + data.get("number"));
-            group_goods_price_tv.setText("￥" + data.get("shop_price"));
-            if (data.get("is_colonel").equals("1")) {// 我是团长
-                group_operation_tv.setText("我是团长");
-                group_operation_tv.setEnabled(false);
-                group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
+            ObserTool.gainInstance().jsonToBean(jsonStr, OfferedDataBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    OfferedDataBean offeredDataBean = (OfferedDataBean) t;
+                    data= offeredDataBean.getData();
+                    list_pic = data.getHead_pic();
+                    offered = data.getOffered();
+                    buffer = new StringBuffer();
+                    for (int i = 0; i < offered.size(); i++) {
+                        buffer.append(" · ");
+                        buffer.append(offered.get(i).getOneself());
+                        buffer.append("\n");
+                    }
+                    textview.setText(buffer.toString());
+                    if (!ListUtils.isEmpty(list_pic)) {
+                        HeadPicBean head=new HeadPicBean();
+                        head.setPic( list_pic.get(0).getPic());
+                        head.setType(data.getIs_colonel());
+                        list_pic.clear();
+                        list_pic.add(head);
+                    }
+                    HeadPicBean head1=new HeadPicBean();
+                    head1.setType(data.getIs_colonel());
+                    head1.setPic(data.getColonel_head_pic());
+                    list_pic.add(head1);
+
+                    groupMemberAdapter = new GroupMemberAdapter(CreateGroupAty.this, list_pic);
+                    group_member_rv.setAdapter(groupMemberAdapter);
+                    Glide.with(CreateGroupAty.this).load(data.getGoods_img())
+                            .placeholder(R.drawable.ic_default)
+                            .centerCrop()
+                            .error(R.drawable.ic_default)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(group_goods_pic_iv);
+                    group_goods_name_tv.setText(data.getGoods_name());
+                    group_other_info_tv.setText("已团" + data.getAlready() + "件●" + data.getNumber());
+                    group_goods_price_tv.setText("￥" + data.getShop_price());
+                    if (data.getIs_colonel().equals("1")) {// 我是团长
+                        group_operation_tv.setText("我是团长");
+                        group_operation_tv.setEnabled(false);
+                        group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
 //                group_status_tv.setText(groupPager.getData().getDiff());
-            } else {// 我不是团长，参团
-                group_operation_tv.setText("一键参团");
-                group_operation_tv.setEnabled(true);
+                    } else {// 我不是团长，参团
+                        group_operation_tv.setText("一键参团");
+                        group_operation_tv.setEnabled(true);
 //                group_status_tv.setText(groupPager.getData().getDiff());
-                group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
-            }
-        }
+                        group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
+                    }
+                }
 
 //        if (requestUrl.contains("goGroup")) {
 //            GroupPager groupPager = GsonUtil.GsonToBean(jsonStr, GroupPager.class);
@@ -232,13 +241,7 @@ public class CreateGroupAty extends BaseAty {
 //                    .error(R.drawable.ic_default)
 //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
 //                    .into(group_goods_pic_iv);
-//
-//
-//
-//
-//
-//
-//
+
 //            data = groupPager.getData().getPerson();
 //            if (!ListUtils.isEmpty(data)) {
 //                groupMemberAdapter = new GroupMemberAdapter(this, data);
@@ -246,5 +249,10 @@ public class CreateGroupAty extends BaseAty {
 //            }
 //            // =====参团页======
 //        }
+
+            });
+        }
+
+
     }
 }

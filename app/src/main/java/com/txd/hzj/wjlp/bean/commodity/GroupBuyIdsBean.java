@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class GroupBuyIdsBean implements Serializable {
     private String id;//"团购订单id",
+    private String proid;
     private String goods_name;//"商品名称",
     private String arrt_name;//"商品属性名称",
     private String goods_img;// "商品图片",
@@ -44,5 +45,13 @@ public class GroupBuyIdsBean implements Serializable {
 
     public void setGoods_img(String goods_img) {
         this.goods_img = goods_img;
+    }
+
+    public String getProid() {
+        return proid;
+    }
+
+    public void setProid(String proid) {
+        this.proid = proid;
     }
 }

@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.commodity.HeadPicBean;
 import com.txd.hzj.wjlp.bean.groupbuy.GroupPager;
 
 import java.util.List;
@@ -32,12 +33,12 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.GMViewHolder> {
 
     private Context context;
-    private List<Map<String, String>> list;
+    private  List<HeadPicBean> list;
     private LayoutInflater inflater;
 
     private int size = 0;
 
-    public GroupMemberAdapter(Context context, List<Map<String, String>> list) {
+    public GroupMemberAdapter(Context context,  List<HeadPicBean> list) {
         this.context = context;
         this.list = list;
         size = ToolKit.dip2px(context, 60);
@@ -55,13 +56,13 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
     @Override
     public void onBindViewHolder(GMViewHolder holder, int position) {
         try {
-            Map<String, String> map = list.get(position);
-            if (map.get("type").equals("1")) {
+            HeadPicBean map = list.get(position);
+            if (map.getType().equals("1")) {
                 holder.regimental_commander_tv.setVisibility(View.VISIBLE);
             } else {
                 holder.regimental_commander_tv.setVisibility(View.GONE);
             }
-            Glide.with(context).load(map.get("pic"))
+            Glide.with(context).load(map.getPic())
                     .override(size, size)
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
