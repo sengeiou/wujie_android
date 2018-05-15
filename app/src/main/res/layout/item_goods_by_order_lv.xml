@@ -188,6 +188,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <LinearLayout
+            android:id="@+id/layout_pinzhibaozhang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -216,6 +217,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_fuwuchengnuo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -244,6 +246,7 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/layout_fahuoshijian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"

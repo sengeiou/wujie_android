@@ -626,23 +626,28 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
             try {
                 CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
                 all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                BodyBean bodyBean = comment.getBody();
-                if (bodyBean != null) {
-                    Glide.with(this).load(bodyBean.getUser_head_pic())
-                            .override(head_size, head_size)
-                            .placeholder(R.drawable.ic_default)
-                            .error(R.drawable.ic_default)
-                            .centerCrop()
-                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                            .into(comm_user_head_iv);
-                    comm_user_name_tv.setText(bodyBean.getNickname());
-                    comm_content_tv.setText(bodyBean.getContent());
-                    List<PicturesBean> pictures = bodyBean.getPictures();
-                    if (!ListUtils.isEmpty(pictures)) {
-                        CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                        estimate_pic.setAdapter(picadapter);
+                if(Integer.parseInt(comment.getTotal())>0) { // 如果产品评价数量大于0
+                    comment_layout.setVisibility(View.VISIBLE); // 显示用户评价布局
+                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                    BodyBean bodyBean = comment.getBody();
+                    if (bodyBean != null) {
+                        Glide.with(this).load(bodyBean.getUser_head_pic())
+                                .override(head_size, head_size)
+                                .placeholder(R.drawable.ic_default)
+                                .error(R.drawable.ic_default)
+                                .centerCrop()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(comm_user_head_iv);
+                        comm_user_name_tv.setText(bodyBean.getNickname());
+                        comm_content_tv.setText(bodyBean.getContent());
+                        List<PicturesBean> pictures = bodyBean.getPictures();
+                        if (!ListUtils.isEmpty(pictures)) {
+                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                            estimate_pic.setAdapter(picadapter);
+                        }
                     }
+                } else {
+                    comment_layout.setVisibility(View.GONE); // 否则隐藏用户评价布局
                 }
             } catch (JsonSyntaxException e) {
                 all_comment_num_tv.setText("商品评价(0)");

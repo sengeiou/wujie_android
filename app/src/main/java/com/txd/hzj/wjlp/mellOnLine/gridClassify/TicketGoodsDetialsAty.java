@@ -960,8 +960,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
             // 代金券列表
             if (ToolKit.isList(data, "ticketList")) {
-                List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"),
-                        TicketListBean.class);
+                List<TicketListBean> ticketListBeens = GsonUtil.getObjectList(data.get("ticketList"), TicketListBean.class);
                 theTrickAdapter = new TheTrickAdapter(this, ticketListBeens);
                 goods_trick_rv.setAdapter(theTrickAdapter);
             } else {
@@ -972,24 +971,29 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 try {
                     CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
                     all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                    BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getUser_head_pic())
-                                .override(head_size, head_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        tv_date.setText(bodyBean.getCreate_time());
-                        List<PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                            estimate_pic.setAdapter(picadapter);
+                    if (Integer.parseInt(comment.getTotal()) > 0) { // 如果评论数量大于0（有评论）则显示该模块内容
+                        layout_comment.setVisibility(View.VISIBLE);
+                        Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                        BodyBean bodyBean = comment.getBody();
+                        if (bodyBean != null) {
+                            Glide.with(this).load(bodyBean.getUser_head_pic())
+                                    .override(head_size, head_size)
+                                    .placeholder(R.drawable.ic_default)
+                                    .error(R.drawable.ic_default)
+                                    .centerCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(comm_user_head_iv);
+                            comm_user_name_tv.setText(bodyBean.getNickname());
+                            comm_content_tv.setText(bodyBean.getContent());
+                            tv_date.setText(bodyBean.getCreate_time());
+                            List<PicturesBean> pictures = bodyBean.getPictures();
+                            if (!ListUtils.isEmpty(pictures)) {
+                                CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                                estimate_pic.setAdapter(picadapter);
+                            }
                         }
+                    } else { // 否则没有评论，则隐藏该模块的整体内容
+                        layout_comment.setVisibility(View.GONE);
                     }
                 } catch (JsonSyntaxException e) {
                     all_comment_num_tv.setText("商品评价(0)");

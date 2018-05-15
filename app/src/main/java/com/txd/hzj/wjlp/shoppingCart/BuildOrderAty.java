@@ -871,28 +871,22 @@ public class BuildOrderAty extends BaseAty {
 
             //是否存在公益宝贝
             L.e("aaaa" + getItem(i).get("is_welfare"));
-//            if (getItem(i).get("is_welfare").equals("1")) {
-//                govh.layout_gongyi.setVisibility(View.VISIBLE);
-//                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
-//            } else {
-//                govh.layout_gongyi.setVisibility(View.GONE);
-//            }
-            //是否存在售后
-//            if (getItem(i).get("after_sale_status").equals("1")) {
-//                govh.layout_shouhou.setVisibility(View.VISIBLE);
-//                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
-//            } else {
-//                govh.layout_shouhou.setVisibility(View.GONE);
-//            }
-            //是否有特殊描述
-//            if (getItem(i).get("server_status").equals("0")) {
-//                govh.lin_server_status.setVisibility(View.GONE);
-//            } else {
-//                govh.lin_server_status.setVisibility(View.VISIBLE);
-//                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a"));
-//                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b"));
-//                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c"));
-//            }
+
+            // 正品保证
+            govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
+            // 服务承诺
+            govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
+            // 发货时间
+            govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
+            // 公益宝贝
+            govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            // 售后
+            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1")?View.VISIBLE:View.GONE);
+            govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
 
             /**
              * 选择配送方式
@@ -940,21 +934,32 @@ public class BuildOrderAty extends BaseAty {
             private TextView tv_sle_left;
             @ViewInject(R.id.tv_sle_right)
             private TextView tv_sle_right;//配送金额
-            @ViewInject(R.id.layout_shouhou)
-            private LinearLayout layout_shouhou;//售后
-            @ViewInject(R.id.tv_shouhou)
-            private TextView tv_shouhou;
-            @ViewInject(R.id.layout_gongyi)
-            private LinearLayout layout_gongyi;//公益宝贝
-            @ViewInject(R.id.tv_gongyi)
-            private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
             private LinearLayout lin_server_status;
-            @ViewInject(R.id.tv_pinzhibaozhang)
+
+            @ViewInject(R.id.layout_shouhou)
+            private LinearLayout layout_shouhou; // 售后服务类型
+            @ViewInject(R.id.tv_shouhou)
+            private TextView tv_shouhou; // 售后服务类型
+
+            @ViewInject(R.id.layout_gongyi) // 公益
+            private LinearLayout layout_gongyi;
+            @ViewInject(R.id.tv_gongyi) // 公益
+            private TextView tv_gongyi;
+
+            @ViewInject(R.id.layout_pinzhibaozhang) // 品质保障
+            private LinearLayout layout_pinzhibaozhang;
+            @ViewInject(R.id.tv_pinzhibaozhang) // 品质保障
             private TextView tv_pinzhibaozhang;
-            @ViewInject(R.id.tv_fuwuchengnuo)
+
+            @ViewInject(R.id.layout_fuwuchengnuo) // 服务承诺
+            private LinearLayout layout_fuwuchengnuo;
+            @ViewInject(R.id.tv_fuwuchengnuo) // 服务承诺
             private TextView tv_fuwuchengnuo;
-            @ViewInject(R.id.tv_fahuoshijian)
+
+            @ViewInject(R.id.layout_fahuoshijian) // 发货时间
+            private LinearLayout layout_fahuoshijian;
+            @ViewInject(R.id.tv_fahuoshijian) // 发货时间
             private TextView tv_fahuoshijian;
         }
     }

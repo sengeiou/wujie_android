@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.txd.hzj.wjlp.bean.commodity.*;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
@@ -505,23 +506,28 @@ public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollVie
                 try {
                     CommentBean comment = GsonUtil.GsonToBean(data.get("comment"), CommentBean.class);
                     all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                    Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
-                    BodyBean bodyBean = comment.getBody();
-                    if (bodyBean != null) {
-                        Glide.with(this).load(bodyBean.getUser_head_pic())
-                                .override(head_size, head_size)
-                                .placeholder(R.drawable.ic_default)
-                                .error(R.drawable.ic_default)
-                                .centerCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(comm_user_head_iv);
-                        comm_user_name_tv.setText(bodyBean.getNickname());
-                        comm_content_tv.setText(bodyBean.getContent());
-                        List<PicturesBean> pictures = bodyBean.getPictures();
-                        if (!ListUtils.isEmpty(pictures)) {
-                            CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
-                            estimate_pic.setAdapter(picadapter);
+                    if (Integer.parseInt(comment.getTotal()) > 0) { // 如果商品有评价则显示评价模块
+                        comment_layout.setVisibility(View.VISIBLE);
+                        Map<String, String> commentMap = JSONUtils.parseKeyAndValueToMap(data.get("comment"));
+                        BodyBean bodyBean = comment.getBody();
+                        if (bodyBean != null) {
+                            Glide.with(this).load(bodyBean.getUser_head_pic())
+                                    .override(head_size, head_size)
+                                    .placeholder(R.drawable.ic_default)
+                                    .error(R.drawable.ic_default)
+                                    .centerCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                    .into(comm_user_head_iv);
+                            comm_user_name_tv.setText(bodyBean.getNickname());
+                            comm_content_tv.setText(bodyBean.getContent());
+                            List<PicturesBean> pictures = bodyBean.getPictures();
+                            if (!ListUtils.isEmpty(pictures)) {
+                                CommentPicAdapter picadapter = new CommentPicAdapter(this, pictures);
+                                estimate_pic.setAdapter(picadapter);
+                            }
                         }
+                    } else {
+                        comment_layout.setVisibility(View.GONE); // 否则隐藏商品评价模块
                     }
                 } catch (JsonSyntaxException e) {
                     all_comment_num_tv.setText("商品评价(0)");
