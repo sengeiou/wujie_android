@@ -18,10 +18,14 @@ public class Order {
 
     /**
      * 购物车结算页
-     *
-     * @param cart_id
-     * @param p
-     * @param merchant_id
+     * @param cart_id 购物车id 多个用','开(购物车结算时传)
+     * @param p  分页
+     * @param merchant_id 商家id
+     * @param goods_id
+     * @param num  数量(直接购买时传)
+     * @param order_type  订单类型（ 0:普通 1限量购 2无界商店 3进口馆 4搭配购）
+     * @param product_id
+     * @param goods  json(商品id，属性id),(除购物车结算之外，其他全部需要传) 若无属性id，则不传 格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
      * @param baseView
      */
     public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id, String goods, BaseView baseView) {
@@ -33,7 +37,7 @@ public class Order {
         requestParams.addBodyParameter("goods_id", goods_id);
         requestParams.addBodyParameter("num", num);
         requestParams.addBodyParameter("order_type", order_type);
-        requestParams.addBodyParameter("goods", goods);
+        requestParams.addBodyParameter("goods", goods); // json(商品id，属性id),(除购物车结算之外，其他全部需要传) 若无属性id，则不传 格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
         requestParams.addBodyParameter("product_id", TextUtils.isEmpty(product_id) ? "0" : product_id);
         apiTool2.postApi(url + "shoppingCart", requestParams, baseView);
     }

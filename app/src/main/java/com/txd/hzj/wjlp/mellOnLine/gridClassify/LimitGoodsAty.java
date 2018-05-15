@@ -494,7 +494,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      */
     private IntegralBuyPst integralBuyPst;
     private String goods_id = "";
-    private int type = 0;
+    private int type = 0; //0 限量 2无界预购 10无界商店
     @ViewInject(R.id.tv_rmb)
     private TextView tv_rmb;
     @ViewInject(R.id.tv_kucun)
@@ -719,7 +719,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             @Override
             public void onClick(View v) {
                 if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
-                    if (is_C) {
+                    if (is_C) {//限量购物
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
                         intent.putExtra("type", "5");

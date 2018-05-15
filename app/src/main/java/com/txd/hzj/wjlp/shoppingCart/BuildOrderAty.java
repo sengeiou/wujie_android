@@ -356,25 +356,25 @@ public class BuildOrderAty extends BaseAty {
         ordertype = getString("order_type",intent);
         product_id = getString("product_id",intent);
         L.e("ccccc" + group_buy_id + "--" + type + "--" + mid + "--" + cart_id + "--" + goods_id + "--" + num + "--" + product_id);
-        if (type.equals("0")) {
+        if (type.equals("0")) {  //主界面购物车
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
-        } else if (type.equals("1")) {
+        } else if (type.equals("1")) {//票券
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
-        } else if (type.equals("2")) {
+        } else if (type.equals("2")) {//直接购买  拼单单独购买
             GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, group_buy_id, this);
-        } else if (type.equals("3") || type.equals("4")) {
+        } else if (type.equals("3") || type.equals("4")) {//拼单购 开团 （商品详情一键开团）
             GroupBuyOrder.shoppingCart(goods_id,num,"2",product_id,mid,group_buy_id, this);
-        } else if (type.equals("5")) {
+        } else if (type.equals("5")) {//限量购详情
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
-        } else if (type.equals("6")) {
+        } else if (type.equals("6")) {//限量购 无界预购
             PreOrder.preShoppingCart(group_buy_id, num, this);
-        } else if (type.equals("7")) {
+        } else if (type.equals("7")) {// 一元夺宝
             IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
-        } else if (type.equals("9")) {
+        } else if (type.equals("9")) {//拍品详情   竞拍汇
             AuctionOrder.ShoppingCart(mid, group_buy_id, "", "0", this);
-        } else if (type.equals("10")) {
+        } else if (type.equals("10")) {//限量购 无界商店
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
-        } else if (type.equals("11")) {
+        } else if (type.equals("11")) {//搭配购
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json",intent), this);
         }
         showProgressDialog();
@@ -882,8 +882,12 @@ public class BuildOrderAty extends BaseAty {
             govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
             govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
             // 公益宝贝
-            govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            if(null==getItem(i).get("welfare")){
+                govh.layout_gongyi.setVisibility(View.GONE);
+            }else{
+                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            }
             // 售后
             govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1")?View.VISIBLE:View.GONE);
             govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));

@@ -1214,13 +1214,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     case "2": {
                                         Bundle bundle = new Bundle();
                                         bundle.putString("limit_buy_id",  qkk_list.get(i).getAct_id());
-                                        bundle.putInt("type", 2);
+                                        bundle.putInt("type", 2);//无界预购
                                         startActivity(LimitGoodsAty.class, bundle);
-
                                     }
                                     break;
                                     case "3": {
-
                                         Bundle bundle = new Bundle();
                                         bundle.putString("auction_id",  qkk_list.get(i).getAct_id());
                                         startActivity(AuctionGoodsDetailsAty.class, bundle);
@@ -1229,7 +1227,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     case "4": {
                                         Bundle bundle = new Bundle();
                                         bundle.putString("limit_buy_id",  qkk_list.get(i).getAct_id());
-                                        bundle.putInt("type", 0);
+                                        bundle.putInt("type", 0);//限量购
                                         startActivity(LimitGoodsAty.class, bundle);
                                     }
 
@@ -1796,15 +1794,17 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type", "1");
+                bundle.putString("type",data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id",data.getStringExtra("group_buy_id"));
-                bundle.putString("order_id",data.getStringExtra("order_id"));
-                bundle.putString("group_buy_id", "");
+                String order_id=data.getStringExtra("order_id");
+                if(!android.text.TextUtils.isEmpty(order_id));
+                bundle.putString("order_id",order_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
             }
         }
+
     }
 }

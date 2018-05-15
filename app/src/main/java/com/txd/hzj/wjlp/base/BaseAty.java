@@ -128,7 +128,19 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
                 .hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-
+    /**
+     *
+     * @param v
+     * @param from
+     * @param type  "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param goods_id
+     * @param imageurl
+     * @param price
+     * @param group_buy_id
+     * @param goods_attr
+     * @param goods_val
+     * @param is_attr
+     */
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
                         String price,
                         String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr) {
@@ -145,7 +157,19 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
 
-
+    /**
+     *
+     * @param v
+     * @param from
+     * @param type  "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param goods_id
+     * @param imageurl
+     * @param price
+     * @param group_buy_id
+     * @param goods_attr
+     * @param goods_val
+     * @param is_attr
+     */
     public void toAttrs(View v, int from, String type, String goods_id, String imageurl,
                         String price,
                         String group_buy_id, String goods_attr, String goods_val, String is_attr) {

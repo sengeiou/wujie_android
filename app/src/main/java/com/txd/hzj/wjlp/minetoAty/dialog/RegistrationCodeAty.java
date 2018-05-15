@@ -3,19 +3,14 @@ package com.txd.hzj.wjlp.minetoAty.dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.login.RegisterGetCodeAty;
-import com.txd.hzj.wjlp.mainFgt.CartFgt;
 
-import cn.bingoogolapple.qrcode.core.DisplayUtils;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 /**

@@ -191,11 +191,12 @@ public class CreateGroupAty extends BaseAty {
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type", "1");
+                bundle.putString("type",data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
-                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
-                bundle.putString("order_id", data.getStringExtra("order_id"));
-                bundle.putString("group_buy_id", "");
+                bundle.putString("group_buy_id",data.getStringExtra("group_buy_id"));
+                String order_id=data.getStringExtra("order_id");
+                if(!android.text.TextUtils.isEmpty(order_id));
+                bundle.putString("order_id",order_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);

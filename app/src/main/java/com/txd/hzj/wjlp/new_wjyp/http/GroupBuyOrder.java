@@ -53,7 +53,7 @@ public class GroupBuyOrder {
      *
      * @param goods_id
      * @param num
-     * @param order_type
+     * @param order_type     order_type	1直接购买 2拼单
      * @param product_id
      * @param merchant_id
      * @param baseView
