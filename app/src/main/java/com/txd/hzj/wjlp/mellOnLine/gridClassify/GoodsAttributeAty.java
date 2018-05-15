@@ -120,10 +120,10 @@ public class GoodsAttributeAty extends BaseAty {
                     return;
                 }
                 // 获取输入框的输入件数
-                if (et_num.getText().toString().trim().equals("")||et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
+                if (et_num.getText().toString().trim().equals("") || et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
                     showErrorTip("购买件数不能小于等于零");
                     return;
-                }else{
+                } else {
                     num = Integer.parseInt(et_num.getText().toString().trim());
                 }
 
@@ -220,7 +220,7 @@ public class GoodsAttributeAty extends BaseAty {
             public void afterTextChanged(Editable s) {
                 // 文字改变之后
                 String numStr = et_num.getText().toString().trim();
-                if (numStr.equals("")||numStr.equals("0")){
+                if (numStr.equals("") || numStr.equals("0")) {
                     return;
                 }
                 num = Integer.parseInt(numStr.equals("") ? "0" : numStr);
@@ -367,6 +367,12 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("type", type);
                 intent.putExtra("mid", mid);
                 intent.putExtra("goods_id", goods_id);
+                if (group_buy_id.contains("-")) {
+                    String string[] = group_buy_id.split("-");
+                    group_buy_id = string[0];
+                    String order_id = string[1];
+                    intent.putExtra("order_id", order_id);
+                }
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.setClass(this, BuildOrderAty.class);
@@ -390,6 +396,13 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("mid", mid);
                 intent.putExtra("type", type);
                 intent.putExtra("goods_id", goods_id);
+                String order_id = "";
+                if (group_buy_id.contains("-")) {
+                    String string[] = group_buy_id.split("-");
+                    group_buy_id = string[0];
+                    order_id = string[1];
+                    intent.putExtra("order_id", order_id);
+                }
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);

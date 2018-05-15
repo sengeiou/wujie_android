@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.minetoAty;
 
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,12 +11,10 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,23 +23,16 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
-import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CartGoods;
-import com.txd.hzj.wjlp.bean.ShopingCart;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
-import com.txd.hzj.wjlp.new_wjyp.Card_bean;
-import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
-import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.BalancePay;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
@@ -52,14 +42,10 @@ import com.txd.hzj.wjlp.new_wjyp.http.IntegralPay;
 import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.new_wjyp.http.Pay;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -410,8 +396,8 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("5")) {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("4")) {
-            String[] strings = group_buy_id.split("-");
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", strings[1], strings[0], freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+//            String[] strings = group_buy_id.split("-");
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("6")) {
             PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("7")) {
@@ -969,5 +955,13 @@ public class PayForAppAty extends BaseAty {
     protected void onResume() {
         super.onResume();
         User.settings(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null!=wxPayReceiver){
+            unregisterReceiver(wxPayReceiver);
+        }
     }
 }

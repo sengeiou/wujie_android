@@ -177,7 +177,7 @@ public class BuildOrderAty extends BaseAty {
 
     private Bean bean;
     private double countryTax = 0.00; // 进口税
-
+    private String  order_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -290,6 +290,8 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
 //                bundle.putString("bean", gson.toJson());
                 bundle.putString("is_pay_password", is_pay_password);
+                bundle.putString("order_id",order_id);
+                bundle.putString("freight",String.valueOf(tp));
                 startActivity(PayForAppAty.class, bundle);
 
                 finish();
@@ -340,15 +342,19 @@ public class BuildOrderAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        group_buy_id = getIntent().getStringExtra("group_buy_id");
-        type = getIntent().getStringExtra("type");
-        mid = getIntent().getStringExtra("mid");
-        cart_id = getIntent().getStringExtra("json");
+        Intent intent=getIntent();
+        group_buy_id = intent.getStringExtra("group_buy_id");
+        if(intent.hasExtra("order_id")){
+            order_id= intent.getStringExtra("order_id");
+        }
+        type = intent.getStringExtra("type");
+        mid = intent.getStringExtra("mid");
+        cart_id = intent.getStringExtra("json");
         L.e("cart" + cart_id);
-        goods_id = getString("goods_id");
-        num = getString("num");
-        ordertype = getString("order_type");
-        product_id = getString("product_id");
+        goods_id = getString("goods_id",intent);
+        num = getString("num",intent);
+        ordertype = getString("order_type",intent);
+        product_id = getString("product_id",intent);
         L.e("ccccc" + group_buy_id + "--" + type + "--" + mid + "--" + cart_id + "--" + goods_id + "--" + num + "--" + product_id);
         if (type.equals("0")) {
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
@@ -369,7 +375,7 @@ public class BuildOrderAty extends BaseAty {
         } else if (type.equals("10")) {
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
         } else if (type.equals("11")) {
-            Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json"), this);
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json",intent), this);
         }
         showProgressDialog();
 
@@ -379,8 +385,8 @@ public class BuildOrderAty extends BaseAty {
         return "[{\"product_id\":\"" + product_id + "\",\"goods_id\":\"" + goods_id + "\"}]";
     }
 
-    private String getString(String key) {
-        return TextUtils.isEmpty(getIntent().getStringExtra(key)) ? "" : getIntent().getStringExtra(key);
+    private String getString(String key,Intent intent) {
+        return TextUtils.isEmpty(intent.getStringExtra(key)) ? "" : intent.getStringExtra(key);
     }
 
     Map<String, String> map;
