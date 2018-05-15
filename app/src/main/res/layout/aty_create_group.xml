@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="8dp">
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -71,7 +71,92 @@
                         </LinearLayout>
                     </FrameLayout>
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/bg_color"/>
+                <LinearLayout
+                    android:id="@+id/create_group_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="等待成团，仅剩"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:id="@+id/text_nums"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1"
+                            android:textColor="@color/colorRed"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:textStyle="bold"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="个名额"
+                            android:textColor="@color/black"
+                            android:textSize="20sp"
+                            android:gravity="center"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="剩余"
+                            android:textSize="15sp"
+                            android:textColor="@color/black"/>
+                       <!--daojishi kongjian
+                      -->
+                        <cn.iwgang.countdownview.CountdownView
+                            android:id="@+id/times_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:isHideTimeBackground="false"
+                            app:timeBgRadius="5dp"
+                            app:isShowHour="true"
+                            app:isShowMinute="true"
+                            app:isShowSecond="true"
+                            app:timeTextColor="#FFFFFF"
+                            app:timeBgColor ="#000000"
+                            app:timeTextSize="15sp"
+                            app:isTimeTextBold="true"
+                            app:suffixLRMargin="3dp"
+                            app:suffixGravity="top"
+                            app:suffixTextColor="#000000"
+                            app:isSuffixTextBold="true"
+                            app:suffixTextSize="15sp"
+                            app:suffixHour="："
+                            app:suffixMinute="："
 
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="结束"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/group_status_tv"
                     android:layout_width="match_parent"
@@ -97,6 +182,8 @@
                     android:layout_marginTop="24dp"
                     android:background="@drawable/shape_good_luck_tv"
                     android:gravity="center"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:padding="12dp"
                     android:textColor="@color/white"
                     android:textSize="16sp" />

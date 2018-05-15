@@ -33,7 +33,7 @@ public class GroupBuyPst extends BasePresenter {
     }
 
     // 参团页
-    public void goGroup(String log_id) {
+    public  void goGroup(String log_id) {
         baseView.showDialog();
         groupBuy.goGroup(log_id, baseView);
     }
