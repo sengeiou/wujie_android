@@ -244,12 +244,12 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     private int img_w = 0;
     private int img_h = 0;
-    private String left_desc = "";
-    private String left_href = "";
-    private String cent_desc = "";
-    private String cent_href = "";
-    private String right_desc = "";
-    private String right_href = "";
+    private String left_desc = ""; // 左侧图片地址
+    private String left_href = ""; // 左侧链接地址
+    private String cent_desc = ""; // 中间图片地址
+    private String cent_href = ""; // 中间连接地址
+    private String right_desc = ""; // 右侧图片地址
+    private String right_href = ""; // 右侧连接地址
 
 
     /**

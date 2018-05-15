@@ -10,7 +10,7 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180514
+        versionCode 20180515
         versionName "1.0.7"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
