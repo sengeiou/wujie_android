@@ -425,7 +425,7 @@ public class PayForAppAty extends BaseAty {
             layout_yue.setVisibility(View.GONE);
         } else if (type.equals("11")) {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
-        } else if (type.equals("12")){
+        } else if (type.equals("12")) {
             showToast("jakgflkasfhksajdfhakdj");
         }
         showProgressDialog();
@@ -502,48 +502,72 @@ public class PayForAppAty extends BaseAty {
                 if (TextUtils.isEmpty(group_buy_id)) {
                     group_buy_id = data.get("group_buy_id");
                 }
+                //获取订单id
+                order_id=data.get("group_buy_order_id");
             } else {
                 if (TextUtils.isEmpty(order_id)) {
                     order_id = data.get("order_id");
                 }
             }
         }
-
         // 验证支付密码
         if (requestUrl.contains("verificationPayPwd")) {
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             L.e("verificationPayPwd" + jsonStr + "---" + type + "---" + pay_by_balance_cb.isChecked());
             if (map.get("status").equals("1")) {
-
                 if (pay_by_balance_cb.isChecked()) { // 余额支付选中
-                    if (type.equals("0") || type.equals("1") || type.equals("5") || TextUtils.isEmpty(type)) {
+                    if (type.equals("0") || type.equals("1") || type.equals("5") || TextUtils.isEmpty(type)) {//主界面购物车  票券   限量购详情
                         try {
-                            BalancePay.BalancePay(order.get("order_id"), "1", getType(), getString("num"), this);
+                            if (!TextUtils.isEmpty(order_id))
+                                BalancePay.BalancePay(order_id, "1", getType(), num, this);
+                            else
+                                BalancePay.BalancePay(order.get("order_id"), "1", getType(), getString("num"), this);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) {
-                        BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
-                    } else if (type.equals("6")) {
-                        BalancePay.BalancePay(data.get("order_id"), "3", getType(), "", this);
-                    } else if (type.equals("7")) {
-                        if (!order_type.equals("7")) {
-                            BalancePay.BalancePay(data.get("order_id"), "6", getType(), num, this);
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) { // 拼单单独购买    拼单购 开团    一键开团，参团，团长不能操作
+                        if (!TextUtils.isEmpty(order_id)) {
+                            BalancePay.BalancePay(order_id, "2", getType(), num, this);
                         } else {
-                            BalancePay.BalancePay(data.get("order_id"), "8", getType(), num, this);
+                            BalancePay.BalancePay(data.get("group_buy_order_id"), "2", getType(), "", this);
+                        }
+                    } else if (type.equals("6")) {//限量购 无界预购
+                        if (!TextUtils.isEmpty(order_id)) {
+                            BalancePay.BalancePay(order_id, "3", getType(), num, this);
+                        } else {
+                            BalancePay.BalancePay(data.get("order_id"), "3", getType(), "", this);
+                        }
+                    } else if (type.equals("7")) {//  一元夺宝(积分抽奖)  IntegralO
+                        if (!order_type.equals("7")) {
+                            if (!TextUtils.isEmpty(order_id)) {
+                                BalancePay.BalancePay(order_id, "6", getType(), num, this);
+                            } else {
+                                BalancePay.BalancePay(data.get("order_id"), "6", getType(), num, this);
+                            }
+                        } else {
+                            if (!TextUtils.isEmpty(order_id)) {
+                                BalancePay.BalancePay(order_id, "8", getType(), num, this);
+                            } else {
+                                BalancePay.BalancePay(data.get("order_id"), "8", getType(), num, this);
+                            }
+
                         }
                     } else if (type.equals("8")) {
                         BalancePay.BalancePay(order_id, "7", getType(), num, this);
-                    } else if (type.equals("9")) {
+                    } else if (type.equals("9")) {// 拍品详情   竞拍汇(比价购)
                         BalancePay.BalancePay(order_id, "4", getType(), num, this);
-                    } else if (type.equals("11")) {
-                        BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
+                    } else if (type.equals("11")) {// 搭配购
+                        if (!TextUtils.isEmpty(order_id)) {
+                            BalancePay.BalancePay(order_id, "1", getType(), "", this);
+                        } else {
+                            BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
+                        }
                     }
                     showProgressDialog();
                 }
 
-                if (pay_by_wechat_cb.isChecked()){ // 微信支付
+                if (pay_by_wechat_cb.isChecked()) { // 微信支付
                     if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5") || type.equals("0")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "4", this);
                     } else if (type.equals("2") || type.equals("3")) {
@@ -556,7 +580,7 @@ public class PayForAppAty extends BaseAty {
                     showProgressDialog();
                 }
 
-                if (pay_by_ali_cb.isChecked()){ // 支付宝支付
+                if (pay_by_ali_cb.isChecked()) { // 支付宝支付
                     if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1") || type.equals("5")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
                     } else if (type.equals("2") || type.equals("3")) {
@@ -927,17 +951,17 @@ public class PayForAppAty extends BaseAty {
         new MikyouCommonDialog(this, "放弃后，可前往订单中心支付此订单", "放弃付款?", "确定", "取消", false)
                 .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
-            @Override
-            public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                switch (btnType) {
-                    case MikyouCommonDialog.OK:// 确定
-                        finish();
-                        break;
-                    case MikyouCommonDialog.NO:// 取消
-                        break;
-                }
-            }
-        }).showDialog();
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                        switch (btnType) {
+                            case MikyouCommonDialog.OK:// 确定
+                                finish();
+                                break;
+                            case MikyouCommonDialog.NO:// 取消
+                                break;
+                        }
+                    }
+                }).showDialog();
 
     }
 
@@ -960,7 +984,7 @@ public class PayForAppAty extends BaseAty {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null!=wxPayReceiver){
+        if (null != wxPayReceiver) {
             unregisterReceiver(wxPayReceiver);
         }
     }

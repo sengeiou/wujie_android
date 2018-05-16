@@ -82,4 +82,19 @@ public class GroupBuy {
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 
+
+//    /**
+//     *
+//     *  拼单购属性api
+//     * @param goods_id
+//     * @param product_id
+//     * @param baseView
+//     */
+//    public static void attrApi(String goods_id, String product_id, BaseView baseView) {
+//        RequestParams requestParams = new RequestParams();
+//        ApiTool2 apiTool2 = new ApiTool2();
+//        requestParams.addBodyParameter("goods_id", goods_id);
+//        requestParams.addBodyParameter("product_id", product_id);
+//        apiTool2.postApi(url + "attrApi", requestParams, baseView);
+//    }
 }
