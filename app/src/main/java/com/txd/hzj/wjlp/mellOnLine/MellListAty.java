@@ -101,7 +101,7 @@ public class MellListAty extends BaseAty {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
 
-                goodsPst.search(type.equals("商品")?"1":"2", keyword, p, false);
+                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, false);
 
             }
 
@@ -112,7 +112,7 @@ public class MellListAty extends BaseAty {
                     return;
                 }
                 p++;
-                goodsPst.search(type.equals("商品")?"1":"2", keyword, p, false);
+                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, false);
             }
         });
 
@@ -139,7 +139,7 @@ public class MellListAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.search_title_right_tv,R.id.search_type_tv})
+    @OnClick({R.id.search_title_right_tv, R.id.search_type_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -187,7 +187,9 @@ public class MellListAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        goodsPst.search(type.equals("商品")?"1":"2", keyword, p, true);
+        // 如果type对象为空则直接将其设置一个空字符串，防止空指针异常
+        type = type == null ? "" : type;
+        goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, true);
     }
 
     private void forTitle() {

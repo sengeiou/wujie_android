@@ -872,15 +872,6 @@ public class OrderDetailsAty extends BaseAty {
                 }
             }
 
-//            //是否存在公益宝贝
-//            if (getItem(i).get("integrity_d").equals("")) { // 如果不存在公益宝贝
-//                tgvh.layout_gongyi.setVisibility(View.GONE); // 那么隐藏公益宝贝控件
-//            } else {
-//                // 否则存在公益宝贝
-//                tgvh.layout_gongyi.setVisibility(View.VISIBLE); // 显示公益宝贝控件
-//                tgvh.tv_gongyi.setText(getItem(i).get("integrity_d")); // 直接显示公益宝贝
-//            }
-
             // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
             tgvh.layout_fapiao.setVisibility(Integer.parseInt(getItem(i).get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
             // 正品保证
@@ -923,7 +914,6 @@ public class OrderDetailsAty extends BaseAty {
             }
 
             if (getItem(i).get("status").equals("0")) { // 收货状态 0已收货 1未收货 2待发货
-                L.e("wang", "===============================================================>>>" + getItem(i).get("status").equals("5"));
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
@@ -938,16 +928,17 @@ public class OrderDetailsAty extends BaseAty {
             }
 
             if (order_status.equals("2")) { // 订单待收货状态
-                if (getItem(i).get("sale_status").equals("0")) { // 如果订单商品还没有延长收货
-                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 延长收货按钮显示
-                } else {
-                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮隐藏
-                }
+                tgvh.delayReceiving.setVisibility(getItem(i).get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
             } else if (order_status.equals("0")) { // 订单为待付款状态
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 申请售后按钮显示
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 付款按钮显示
+                tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
+                tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
+                tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
+            } else if (order_status.equals("5")) { // 订单为已取消状态
+                tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
+                tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
             }
