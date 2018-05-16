@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.ants.theantsgo.config.Config;
@@ -43,6 +44,9 @@ public class ToShareAty extends BaseAty {
      */
     private String type;
 
+    private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
+    private boolean isResume;  //Activity是否处于前台。
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
+                isSharing=true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -93,6 +98,7 @@ public class ToShareAty extends BaseAty {
         userPst = new UserPst(this);
     }
 
+
     @Override
     protected void requestData() {
 
@@ -124,5 +130,38 @@ public class ToShareAty extends BaseAty {
             }
         });
         shareForApp.toShareWithPicUrl();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isSharing=false;
+        isResume=true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isResume=false;
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (isSharing) {
+            isSharing = false;
+            //这里要延时0.2秒在判断是否回调了onResume，因为onRestart在onResume之前执行。
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
+                    if (!isResume) {
+                        userPst.shareBack(shareType, context, id, type, link);
+                        showRightTip("分享成功");
+                        finish();
+                    }
+                }
+            }, 200);
+        }
     }
 }
