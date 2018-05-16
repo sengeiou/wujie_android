@@ -43,6 +43,7 @@ public class OrderLogisticsAty extends BaseAty {
     private ListView lv_goods;
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
+    private   String type;//0 普通商品  1 拼单购商品
     private List<OrderLogistics.DataBean>logisticsList=new ArrayList<>();
     @Override
     protected int getLayoutResId() {
@@ -58,8 +59,9 @@ public class OrderLogisticsAty extends BaseAty {
     protected void requestData() {
         Bundle bundle=this.getIntent().getExtras();
         String order_id=bundle.getString("order_id");
+        type=bundle.getString("type");//0 普通商品  1 拼单购商品
         L.e("ddddd"+order_id);
-        Order.orderLogistics(order_id,this);
+        Order.orderLogistics(order_id,type,this);
         showProgressDialog();
     }
 
@@ -125,6 +127,7 @@ public class OrderLogisticsAty extends BaseAty {
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
                     bundle.putString("order_goods_id", list.get(i).getId()); // 订单中的商品ID
+                    bundle.putString("type",type); //0普通商品 1拼单购
                     startActivity(ExpressAtv.class, bundle);
                 }
             });

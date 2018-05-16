@@ -245,14 +245,17 @@ public class Order {
 
     /**
      * 订单物流
-     *
+     *  接口地址
+     *  http://wjapi.wujiemall.com/index.php/Function/index/p_id/71/mo_id/1015/f_id/5995
      * @param order_id
+     * @param type 0 普通商品 1拼单购订单
      * @param baseView
      */
-    public static void orderLogistics(String order_id, BaseView baseView) {
+    public static void orderLogistics(String order_id,String type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("type",type );
         apiTool2.postApi(url + "orderLogistics", requestParams, baseView);
     }
 

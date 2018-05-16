@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoAty;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.baidu.mapapi.map.Text;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -53,7 +55,8 @@ public class ExpressAtv extends BaseAty {
         titlt_conter_tv.setText("物流详情");
         // 订单商品的id
         String order_goods_id = getIntent().getStringExtra("order_goods_id");
-        inquireExpress(order_goods_id);
+        String type=getIntent().getStringExtra("type");//0 普通商品 1拼单购
+        inquireExpress(order_goods_id,type);
     }
 
     /**
@@ -61,11 +64,15 @@ public class ExpressAtv extends BaseAty {
      *
      * @param order_goods_id 订单中商品的id
      */
-    private void inquireExpress(String order_goods_id) {
+    private void inquireExpress(String order_goods_id,String type) {
 
         // 字符串拼接
-        String expressUrl = Config.BASE_URL + "Order/logistics/order_goods_id/" + order_goods_id;
-
+        StringBuffer expressUrl =new StringBuffer();
+        expressUrl.append(Config.BASE_URL + "Order/logistics/order_goods_id/" + order_goods_id);
+        if(!TextUtils.isEmpty(type)){
+            expressUrl.append("/type/"+type);
+        }
+        LogUtils.i("在 ExpressAtv 中，物流的请求地址是 :"+String.valueOf(expressUrl));
         express_webView.getSettings().setJavaScriptEnabled(true); // 允许使用JS
         express_webView.setWebChromeClient(new WebChromeClient());
         express_webView.setWebViewClient(new WebViewClient() {
@@ -87,7 +94,7 @@ public class ExpressAtv extends BaseAty {
         express_webView.getSettings().setSupportZoom(true); // 支持屏幕缩放
         express_webView.getSettings().setSupportMultipleWindows(true);
 
-        express_webView.loadUrl(expressUrl);
+        express_webView.loadUrl(String.valueOf(expressUrl));
     }
 
     @Override

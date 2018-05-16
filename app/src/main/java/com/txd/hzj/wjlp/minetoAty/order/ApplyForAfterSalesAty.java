@@ -211,8 +211,11 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
-        maxPrice = Double.parseDouble(getIntent().getStringExtra("maxPrice"));
-        tv_price.setText("最多可退：" + df.format(maxPrice) + "(若涉及运费、税费退还问题，请与商家协商解决。)");
+        String maxPriceStr=getIntent().getStringExtra("maxPrice");
+        if(!TextUtils.isEmpty(maxPriceStr)){
+            maxPrice = Double.parseDouble(getIntent().getStringExtra("maxPrice"));
+            tv_price.setText("最多可退：" + df.format(maxPrice) + "(若涉及运费、税费退还问题，请与商家协商解决。)");
+        }
         switch (type) {
             case "0":
                 type = "1";
