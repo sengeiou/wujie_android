@@ -92,9 +92,9 @@ public class MellListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(final int i, View view, ViewGroup viewGroup) {
 
-        MellViewHolder mvh;
+        final MellViewHolder mvh;
         if (null == view) {
             view = LayoutInflater.from(context).inflate(R.layout.item_mell_lv, viewGroup, false);
             mvh = new MellViewHolder();
@@ -141,6 +141,7 @@ public class MellListAdapter extends BaseAdapter {
         mvh.textView7.setText(dexc);
         mvh.mell_score_tv.setText(score);
 
+        //点击了进店逛逛
         mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,7 +153,7 @@ public class MellListAdapter extends BaseAdapter {
 
         if (showSelect) {
             mvh.operation_mell_iv.setVisibility(View.VISIBLE);
-            if (itemSelect) {
+            if (mellsFoot.get(i).isSelect()) {
                 mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
             } else {
                 mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
@@ -166,10 +167,23 @@ public class MellListAdapter extends BaseAdapter {
         mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (0 == type) {
+               /* if (0 == type) {
                     mellInfoList.setSelect(!itemSelect);
                 } else {
                     footMellsBan.setSelect(!itemSelect);
+                }*/
+                if (0 == type) {
+                    if (mells.get(i).isSelect() == false) {
+                        mells.get(i).setSelect(true);
+                    } else {
+                        mells.get(i).setSelect(false);
+                    }
+                } else {
+                    if (mellsFoot.get(i).isSelect() == false) {
+                        mellsFoot.get(i).setSelect(true);
+                    } else {
+                        mellsFoot.get(i).setSelect(false);
+                    }
                 }
                 selectNum = 0;
                 if (0 == type) {
