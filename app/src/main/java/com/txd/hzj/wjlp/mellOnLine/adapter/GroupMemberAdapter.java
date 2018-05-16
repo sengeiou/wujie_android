@@ -83,7 +83,7 @@ public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.
 
     @Override
     public int getItemCount() {
-        return 2;
+        return list.size()==1?1:2;
     }
 
     class GMViewHolder extends RecyclerView.ViewHolder {
