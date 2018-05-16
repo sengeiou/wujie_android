@@ -973,7 +973,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     break;
                                 }
                                 case 2: {
-                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    layout_djq2.setVisibility(View.GONE);
                                     tv_djq_desc2.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
@@ -1170,7 +1170,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     break;
                                 }
                                 case 2: {
-                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    layout_djq2.setVisibility(View.GONE);
                                     tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
                                     break;
                                 }
@@ -1747,7 +1747,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 break;
                             }
                             case 2: {
-                                layout_djq2.setVisibility(View.VISIBLE);
+                                layout_djq2.setVisibility(View.GONE);
                                 tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
                                 break;
                             }
