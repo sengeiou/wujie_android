@@ -74,6 +74,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         }*/
         mViewPager.setAdapter(mAdapter);//给ViewPager设置适配器
         mTabLayout.setupWithViewPager(mViewPager);//将TabLayout和ViewPager关联起来。
+
     }
 
     @Override

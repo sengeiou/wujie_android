@@ -22,6 +22,7 @@
             android:id="@+id/goods_title_for_evaluate_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="asdasd"
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="@color/app_text_color"
@@ -39,6 +40,7 @@
                 android:id="@+id/price_for_goods_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="asdasd"
                 android:layout_weight="1"
                 android:textSize="10sp" />
 
@@ -53,6 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="6dp"
+                    android:text="asdasdasd"
                     android:textColor="@color/colorOrange"
                     android:textSize="10sp" />
 
@@ -61,6 +64,7 @@
                     android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="asdasdasd"
                     android:layout_gravity="bottom|right"
                     android:textColor="@color/app_text_color" />
             </LinearLayout>

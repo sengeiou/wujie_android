@@ -116,8 +116,15 @@ public class OrderOnLineFgt extends BaseFgt {
     }
 
     @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        swipe_refresh.setRefreshing(true);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
 //        if (title.equals("抢宝记录")) {
 //            // 0.全部，1.代付款，2.代发货，3.待收货
 //            IndianaRecordAdapter adapter = new IndianaRecordAdapter(getActivity(), list, Integer.parseInt(type));
@@ -128,7 +135,6 @@ public class OrderOnLineFgt extends BaseFgt {
 //            adapter = new MyOrderAdapter(getActivity(), list, Integer.parseInt(type));
 //            order_on_line_lv.setAdapter(adapter);//显示全部list
 //        }
-
         order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
