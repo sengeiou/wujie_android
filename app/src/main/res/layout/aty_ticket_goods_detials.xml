@@ -250,7 +250,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
-                                    android:visibility="gone">
+                                    android:visibility="visible">
 
                                     <TextView
                                         android:id="@+id/tv_djq_color0"
@@ -288,7 +288,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
                                     android:orientation="horizontal"
-                                    android:visibility="gone">
+                                    android:visibility="visible">
 
                                     <TextView
                                         android:id="@+id/tv_djq_color1"

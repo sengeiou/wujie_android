@@ -1336,31 +1336,35 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     if (null!=dataBean.getComment()) {
                         try {
                             CommentBean comment = dataBean.getComment();
-                            all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
-                            CommentBean commentMap = dataBean.getComment();
-                            BodyBean bodyBean = comment.getBody();
-                            if (bodyBean != null) {
-                                Glide.with(GoodLuckDetailsAty.this).load(bodyBean.getUser_head_pic())
-                                        .override(mSize, mSize)
-                                        .placeholder(R.drawable.ic_default)
-                                        .error(R.drawable.ic_default)
-                                        .centerCrop()
-                                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                        .into(comm_user_head_iv);
-                                comm_user_name_tv.setText(bodyBean.getNickname());
-                                comm_content_tv.setText(bodyBean.getContent());
-                                List<PicturesBean> pictures = bodyBean.getPictures();
-                                if (!ListUtils.isEmpty(pictures)) {
-                                    CommentPicAdapter picadapter = new CommentPicAdapter(GoodLuckDetailsAty.this, pictures);
-                                    estimate_pic.setAdapter(picadapter);
+                            if (Integer.parseInt(comment.getTotal()) > 0) { // 如果有商品评价
+                                layout_comment.setVisibility(View.VISIBLE); // 显示评价模块
+                                all_comment_num_tv.setText("商品评价(" + comment.getTotal() + ")");
+                                CommentBean commentMap = dataBean.getComment();
+                                BodyBean bodyBean = comment.getBody();
+                                if (bodyBean != null) {
+                                    Glide.with(GoodLuckDetailsAty.this).load(bodyBean.getUser_head_pic())
+                                            .override(mSize, mSize)
+                                            .placeholder(R.drawable.ic_default)
+                                            .error(R.drawable.ic_default)
+                                            .centerCrop()
+                                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                            .into(comm_user_head_iv);
+                                    comm_user_name_tv.setText(bodyBean.getNickname());
+                                    comm_content_tv.setText(bodyBean.getContent());
+                                    List<PicturesBean> pictures = bodyBean.getPictures();
+                                    if (!ListUtils.isEmpty(pictures)) {
+                                        CommentPicAdapter picadapter = new CommentPicAdapter(GoodLuckDetailsAty.this, pictures);
+                                        estimate_pic.setAdapter(picadapter);
+                                    }
                                 }
+                            } else { // 否则没有商品评价
+                                layout_comment.setVisibility(View.GONE); // 隐藏评价模块
                             }
                         } catch (JsonSyntaxException e) {
                             all_comment_num_tv.setText("商品评价(0)");
                             comment_layout.setVisibility(View.GONE);
                             layout_comment.setVisibility(View.GONE);
                         }
-
                     } else {
                         comment_layout.setVisibility(View.GONE);
                         layout_comment.setVisibility(View.GONE);

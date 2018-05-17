@@ -767,8 +767,7 @@ public class PayForAppAty extends BaseAty {
     }
 
     public void showPop(View view, final int type) {
-        L.e("order" + order.toString());
-        if (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0"))
+        if (order == null || (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0")))
             return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
 
@@ -824,7 +823,6 @@ public class PayForAppAty extends BaseAty {
 
                             }
                         });
-
 
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override

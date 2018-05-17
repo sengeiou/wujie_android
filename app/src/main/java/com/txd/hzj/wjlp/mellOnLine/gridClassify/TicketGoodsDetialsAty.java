@@ -1377,7 +1377,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         break;
                     }
                     case 2: {
-                        layout_djq2.setVisibility(View.VISIBLE);
+                        layout_djq2.setVisibility(View.GONE);
                         discount_desc2 = dj_ticket.get(i).getDiscount_desc();
                         tv_djq_desc2.setText(discount_desc2);
                         break;
@@ -1624,7 +1624,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                                     break;
                                 }
                                 case 2: {
-                                    layout_djq2.setVisibility(View.VISIBLE);
+                                    layout_djq2.setVisibility(View.GONE);
                                     tv_djq_desc2.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
@@ -1981,7 +1981,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             tv_djq_desc0.setText(discount_desc0);
             layout_djq1.setVisibility((discount_desc1 != null && discount_desc1.isEmpty()) ? View.GONE : View.VISIBLE);
             tv_djq_desc1.setText(discount_desc1);
-            layout_djq2.setVisibility((discount_desc2 != null && discount_desc2.isEmpty()) ? View.GONE : View.VISIBLE);
+            layout_djq2.setVisibility((discount_desc2 != null && discount_desc2.isEmpty()) ? View.GONE : View.GONE);
             tv_djq_desc2.setText(discount_desc2);
 
         }
