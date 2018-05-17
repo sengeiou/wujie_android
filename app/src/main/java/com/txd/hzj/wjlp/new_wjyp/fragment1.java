@@ -158,6 +158,12 @@ public class fragment1 extends BaseFgt {
                 }
                 break;
             case R.id.tv_submit:
+
+                province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                province = ProUrbAreaUtil.gainInstance().getProvince();
+                city_id = ProUrbAreaUtil.gainInstance().getCity_id();
+                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+
                 start_time = id_card_start_time.getText().toString().trim();
                 if (TextUtils.isEmpty(name.getText().toString())) {
                     showToast("请输入真实姓名!");
@@ -196,10 +202,6 @@ public class fragment1 extends BaseFgt {
                     showToast("请上传身份证反面照！");
                     return;
                 }
-
-                province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
-                city_id = ProUrbAreaUtil.gainInstance().getCity_id();
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
 
                 if (file1 != null && file2 != null) { // 请求接口
                     User.personalAuth(this, name.getText().toString(), sex, idcard.getText().toString(),

@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,6 +60,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //竖屏锁定
+        if(!(this instanceof  GoodsAttributeAty)){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         if (L.isDebug) {
             rootText.setText(ToolKit.getClassName(this));
         } else {

@@ -58,7 +58,7 @@ public class OrderCenterAty extends BaseAty {
         list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
         list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
         list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
-
+        list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
         itemAdapter = new ItemAdapter();
 
         orderCenter_show_gv.setAdapter(itemAdapter);
