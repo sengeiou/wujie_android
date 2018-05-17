@@ -101,8 +101,12 @@ public class ToShareAty extends BaseAty {
         context = getIntent().getStringExtra("context");
         type = getIntent().getStringExtra("Shapetype");
         id = getIntent().getStringExtra("id");
-        userPst = new UserPst(this);
-        GroupBuyOrder.shareurl(link, id, this);
+        if(!link.contains("://")){
+            userPst = new UserPst(this);
+            GroupBuyOrder.shareurl(link, id, this);
+        }else{
+            shareUrl=link;
+        }
     }
 
 
@@ -136,6 +140,7 @@ public class ToShareAty extends BaseAty {
      */
     private void shareForApp(String name) {
 //        if (isComplete) {
+
             ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
                 @Override
                 public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {

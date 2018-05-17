@@ -265,7 +265,7 @@ public class CreateGroupAty extends BaseAty {
                     goods_title_share_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            toShare(data.getGoods_name(), data.getGoods_img(), "2", "", goods_id, "1");
+                            toShare(data.getGoods_name(), data.getGoods_img(), "2", "", log_id, "1");
                         }
                     });
 

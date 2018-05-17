@@ -189,8 +189,12 @@ public class GroupBuyOrder {
         params.addBodyParameter("group_buy_order_id", group_buy_order_id);
         apiTool2.postApi(url + "offered", params, baseView);
     }
-
-    // 分享所需要的链接地址
+    /***
+     *分享所需要的链接地址
+     * @param type   商品详情页  1  参团页面      type 2
+     * @param groupId 商品详情页 group_buy_id    参团页面    group_buy_order_id
+     * @param baseView
+     */
     public static void shareurl(String type,String groupId, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
