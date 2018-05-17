@@ -568,8 +568,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private boolean is_f = true;//判断刷新
     private int page = 1;
 
-    private List<GoodsAttrBean> goodsAttrs;
-    private List<ProductBean> goods_produc;
+
     private ArrayList<DjTicketBean> dj_ticket;
     private MInfoBean mellInfoBean;
 
@@ -587,6 +586,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView goods_select_attr_tv;
     private String groupPrice;
     private String goods_name;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -632,29 +632,29 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             }
-            case R.id.tv_chose_ads:
+            case R.id.tv_chose_ads://运送至选择
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v,goods_id,GoodLuckDetailsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this);
 
                 break;
-            case R.id.tv_showClassify:
+            case R.id.tv_showClassify://查看分类
                 Intent intent = new Intent();
                 intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
                 intent.putExtra("two_cate_id", goodsInfo.getCate_id());
                 intent.setClass(this, SubclassificationAty.class);
                 startActivity(intent);
                 break;
-            case R.id.title_goods_layout://商品
+            case R.id.title_goods_layout://商品选项卡
                 clickType = 1;
                 limit_goods_details_sc.smoothScrollTo(0, 0);
                 break;
-            case R.id.title_details_layout://详情
+            case R.id.title_details_layout://详情选项卡
                 clickType = 2;
                 limit_goods_details_sc.smoothScrollTo(0, secondHeight);
                 break;
-            case R.id.title_evaluate_layout://评价
+            case R.id.title_evaluate_layout://评价选项卡
                 clickType = 3;
                 limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
@@ -762,12 +762,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.tv_lingquan:
                 showLQPop(v, "领券");
                 break;
-            case R.id.layout_layout_settings://, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-
-//                View v, int from, String type, String goods_id, String imageurl,
-//                    String price,
-//                    String group_buy_id, String goods_attr, String goods_val, String is_attr
-
+            case R.id.layout_layout_settings:// 已选商品配置,
                 toAttrs(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
                         goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
                 break;
@@ -897,7 +892,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     CommonPopupWindow commonPopupWindow;
 
     /**
-     * 领券
+     * 领券(抽)
      */
     public void showLQPop(View view, final String title) {//
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
@@ -929,7 +924,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     /**
-     * 代金券的弹窗
+     * 代金券的弹窗  (抽)
      *
      * @param view
      */
@@ -1036,7 +1031,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     /**
-     * 促销
+     * 促销（抽）
      *
      * @param view
      */
@@ -1080,14 +1075,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
         }
         if (requestUrl.contains("groupBuyInfo")) {
-
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-                    GoodLuckBean goodLuckBean= (GoodLuckBean) t;
-                    DataBean dataBean= goodLuckBean.getData();
+                    GoodLuckBean goodLuckBean = (GoodLuckBean) t;
+                    DataBean dataBean = goodLuckBean.getData();
                     remarks.setText(dataBean.getRemarks());
-                    goodsInfo=dataBean.getGoodsInfo();
+                    goodsInfo = dataBean.getGoodsInfo();
                     image = dataBean.getGoods_banner();
                     share_url = dataBean.getShare_url();
                     share_img = dataBean.getShare_img();
@@ -1098,14 +1092,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         forBanner();
                     }
                     goods_attr_first = dataBean.getFirst_list();
-                    first_val =dataBean.getFirst_val();
+                    first_val = dataBean.getFirst_val();
                     is_attr = dataBean.getIs_attr();
                     is_attr = is_attr + "-999";
-                    vouchers_desc =dataBean.getVouchers_desc();
-                    goodsAttrs = dataBean.getGoods_attr();
+                    vouchers_desc = dataBean.getVouchers_desc();
+//                    List<GoodsAttrBean> goodsAttrs = dataBean.getGoods_attr();
                     groupPrice = dataBean.getGroup_price();//todo  返回参数有误
-                    goods_produc = dataBean.getProduct();
-                    goods_produc = dataBean.getProduct();
+//                    List<ProductBean> goods_produc =dataBean.getProduct();
                     goods_id = goodsInfo.getGoods_id();
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
@@ -1130,7 +1123,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 售价
                     //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
                     now_price_tv.setText(goodsInfo.getShop_price());
-                    old_price_tv.setText("已团" + dataBean.getTotal()+ "件");
+                    old_price_tv.setText("已团" + dataBean.getTotal() + "件");
 //            // 市场价
 //            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
 //            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -1150,11 +1143,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
                     Glide.with(GoodLuckDetailsAty.this).load(goodsInfo.getCountry_logo()).into(im_country_logo);
                     tv_country_desc.setText(goodsInfo.getCountry_desc());
-                    tv_country_tax.setText(goodsInfo.getCountry_tax()+ "元");
+                    tv_country_tax.setText(goodsInfo.getCountry_tax() + "元");
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                         layou_jinkoushui.setVisibility(View.GONE);
                     }
-                    if (null!=goodsInfo.getDj_ticket()&&goodsInfo.getDj_ticket().size()>0) {
+                    if (null != goodsInfo.getDj_ticket() && goodsInfo.getDj_ticket().size() > 0) {
                         dj_ticket = (ArrayList<DjTicketBean>) goodsInfo.getDj_ticket();
                         for (int i = 0; i < dj_ticket.size(); i++) {
                             if (i == 2) {
@@ -1200,7 +1193,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         layout_djq.setVisibility(View.GONE);
                     }
 
-                    if (null!=goodsInfo.getGoods_active()&&goodsInfo.getGoods_active().size()>0) {
+                    if (null != goodsInfo.getGoods_active() && goodsInfo.getGoods_active().size() > 0) {
                         final ArrayList<GoodsActiveBean> qkk_list = (ArrayList<GoodsActiveBean>) goodsInfo.getGoods_active();
                         lv_qkk.setAdapter(new qkk_adapter(qkk_list));
                         lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -1215,20 +1208,20 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     break;
                                     case "2": {
                                         Bundle bundle = new Bundle();
-                                        bundle.putString("limit_buy_id",  qkk_list.get(i).getAct_id());
+                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
                                         bundle.putInt("type", 2);//无界预购
                                         startActivity(LimitGoodsAty.class, bundle);
                                     }
                                     break;
                                     case "3": {
                                         Bundle bundle = new Bundle();
-                                        bundle.putString("auction_id",  qkk_list.get(i).getAct_id());
+                                        bundle.putString("auction_id", qkk_list.get(i).getAct_id());
                                         startActivity(AuctionGoodsDetailsAty.class, bundle);
                                     }
                                     break;
                                     case "4": {
                                         Bundle bundle = new Bundle();
-                                        bundle.putString("limit_buy_id",  qkk_list.get(i).getAct_id());
+                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
                                         bundle.putInt("type", 0);//限量购
                                         startActivity(LimitGoodsAty.class, bundle);
                                     }
@@ -1236,7 +1229,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     break;
                                     case "5": {
                                         Bundle bundle = new Bundle();
-                                        bundle.putString("group_buy_id",  qkk_list.get(i).getAct_id());
+                                        bundle.putString("group_buy_id", qkk_list.get(i).getAct_id());
                                         startActivity(GoodLuckDetailsAty.class, bundle);
                                     }
 
@@ -1249,18 +1242,18 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
 
                     // 代金券列表
-                    if (null!=dataBean.getTicketList()&&dataBean.getTicketList().size()>0) {
-                        List<TicketListBean> ticketListBeens =dataBean.getTicketList();
+                    if (null != dataBean.getTicketList() && dataBean.getTicketList().size() > 0) {
+                        List<TicketListBean> ticketListBeens = dataBean.getTicketList();
                         theTrickAdapter = new TheTrickAdapter(GoodLuckDetailsAty.this, ticketListBeens);
                         goods_trick_rv.setAdapter(theTrickAdapter);
                     } else {
                         get_a_coupon_lin_layout.setVisibility(View.GONE);
                     }
 
-                    if (null!=dataBean.getGoods_price_desc()&&dataBean.getGoods_price_desc().size()>0) {
+                    if (null != dataBean.getGoods_price_desc() && dataBean.getGoods_price_desc().size() > 0) {
                         goods_price_desc = (ArrayList<GoodsPriceDescBean>) dataBean.getGoods_price_desc();
                     }
-                    if (null!=dataBean.getGoods_server()&&dataBean.getGoods_server().size()>0) {
+                    if (null != dataBean.getGoods_server() && dataBean.getGoods_server().size() > 0) {
                         ser_list = (ArrayList<GoodsServerBean>) dataBean.getGoods_server();
                         rv_service.setAdapter(new
                                 service_adp(ser_list, 3));
@@ -1329,13 +1322,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     }
 
                     // 优惠券列表
-                    ticketList =dataBean.getTicketList();
+                    ticketList = dataBean.getTicketList();
 //            if (!ListUtils.isEmpty(ticketList)) {
 //                TheTrickAdapter theTrickAdapter = new TheTrickAdapter(this, ticketList);
 //                goods_trick_rv.setAdapter(theTrickAdapter);
 //            }
                     // 评论
-                    if (null!=dataBean.getComment()) {
+                    if (null != dataBean.getComment()) {
                         try {
                             CommentBean comment = dataBean.getComment();
                             if (Integer.parseInt(comment.getTotal()) > 0) { // 如果有商品评价
@@ -1377,7 +1370,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     tv_jgsm.setText(Html.fromHtml(dataBean.getPrice_desc())); //价格说明
 
                     //搭配购
-                    CheapGroupBean cheap_group =dataBean.getCheap_group();
+                    CheapGroupBean cheap_group = dataBean.getCheap_group();
                     if (cheap_group != null) {
                         tv_ticket_buy_discount.setText("最多可用" + cheap_group.getTicket_buy_discount() + "%代金券");
                         tv_group_price.setText("搭配价：¥" + cheap_group.getGroup_price());
@@ -1385,14 +1378,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         double price = Double.parseDouble(cheap_group.getGoods_price()) - Double.parseDouble(cheap_group.getGroup_price());
                         DecimalFormat df = new DecimalFormat("#.00");
                         tv_goods_price.setText("立省¥" + df.format(price));
-                        ArrayList<GoodsBean> maps= (ArrayList<GoodsBean>) cheap_group.getGoods();
+                        ArrayList<GoodsBean> maps = (ArrayList<GoodsBean>) cheap_group.getGoods();
                         rv_cheap_group.setLayoutManager(new LinearLayoutManager(GoodLuckDetailsAty.this, LinearLayoutManager.HORIZONTAL, false));
                         rv_cheap_group.setAdapter(new cg_adp(maps));
                     } else {
                         layout_cheap_group.setVisibility(View.GONE);
 
                     }
-                    if (null!=dataBean.getGuessGoodsList()&&dataBean.getGuessGoodsList().size()>0) {
+                    if (null != dataBean.getGuessGoodsList() && dataBean.getGuessGoodsList().size() > 0) {
                         if (page == 1) {
                             ticket = dataBean.getGuessGoodsList();
                             allGvLvAdapter1 = new AllGvLvAdapter(GoodLuckDetailsAty.this, ticket, 1);
@@ -1800,12 +1793,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type",data.getStringExtra("type"));
+                bundle.putString("type", data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
-                bundle.putString("group_buy_id",data.getStringExtra("group_buy_id"));
-                String order_id=data.getStringExtra("order_id");
-                if(!android.text.TextUtils.isEmpty(order_id));
-                bundle.putString("order_id",order_id);
+                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
+                String order_id = data.getStringExtra("order_id");
+                if (!android.text.TextUtils.isEmpty(order_id)) ;
+                bundle.putString("order_id", order_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
