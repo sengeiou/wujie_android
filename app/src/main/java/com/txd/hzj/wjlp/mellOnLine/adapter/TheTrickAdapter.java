@@ -56,7 +56,8 @@ public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickV
 
     @Override
     public void onBindViewHolder(TrickViewHolder holder, final int position) {
-        holder.tv_title.setText("¥" + getItem(position).getValue() + "优惠券");
+//        holder.tv_title.setText("¥" + getItem(position).getValue() + "优惠券");
+        holder.tv_title.setText(getItem(position).getValue_replace());
         holder.tv_desc.setText(getItem(position).getTicket_name());
         if (getItem(position).getGet_receive().equals("0")) {
             holder.layout.setBackgroundResource(R.mipmap.icon_yhq_bg);

@@ -24,6 +24,7 @@ public class TicketListBean implements Serializable {
     private String ticket_desc;// "优惠券详情",
     private String ticket_type;// "优惠券类型",//1 满减 2满折 3满赠
     private String value;//"面额", //满减=>金额 满折=>折扣 满赠=>商品id
+    private String value_replace;//优惠券描述
     private String condition;//  "满足条件",
     private String start_time;//"开始时间",
     private String end_time;//"结束时间"
@@ -99,5 +100,13 @@ public class TicketListBean implements Serializable {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
+    }
+
+    public String getValue_replace() {
+        return value_replace;
+    }
+
+    public void setValue_replace(String value_replace) {
+        this.value_replace = value_replace;
     }
 }
