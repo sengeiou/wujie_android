@@ -4,15 +4,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.share.ShareBeBackListener;
 import com.ants.theantsgo.share.ShareForApp;
 import com.ants.theantsgo.tools.CheckAppExist;
 import com.ants.theantsgo.util.L;
+
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
+import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+
+import java.util.Map;
 
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
@@ -35,8 +40,9 @@ public class ToShareAty extends BaseAty {
     private String id = "";
 
     private String shareType = "";
-
+    private String shareUrl = "";
     private UserPst userPst;
+    private boolean isComplete;
 
     private String shapetype = "";
     /**
@@ -60,7 +66,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
-                isSharing=true;
+                isSharing = true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -96,11 +102,30 @@ public class ToShareAty extends BaseAty {
         type = getIntent().getStringExtra("Shapetype");
         id = getIntent().getStringExtra("id");
         userPst = new UserPst(this);
+        GroupBuyOrder.shareurl(link, id, this);
     }
 
 
     @Override
     protected void requestData() {
+    }
+
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("mkShareUrl")) {
+            JSONObject jsonObject = JSONObject.parseObject(jsonStr);
+            JSONObject object  = jsonObject.getJSONObject("data");
+            shareUrl=object.getString("url");
+            isComplete=true;
+        }
+
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
 
     }
 
@@ -110,39 +135,40 @@ public class ToShareAty extends BaseAty {
      * @param name 分享平台
      */
     private void shareForApp(String name) {
-
-        ShareForApp shareForApp = new ShareForApp(name, pic, title, context, link, new ShareBeBackListener() {
-            @Override
-            public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
-                switch (statusForShare) {
-                    case Success:
-                        userPst.shareBack(shareType, context, id, type, link);
-                        showRightTip("分享成功");
-                        finish();
-                        break;
-                    case Error:
-                        showErrorTip("分享失败");
-                        break;
-                    case Cancel:
-                        showErrorTip("分享取消");
-                        break;
+//        if (isComplete) {
+            ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
+                @Override
+                public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
+                    switch (statusForShare) {
+                        case Success:
+                            userPst.shareBack(shareType, context, id, type, shareUrl);
+                            showRightTip("分享成功");
+                            finish();
+                            break;
+                        case Error:
+                            showErrorTip("分享失败");
+                            break;
+                        case Cancel:
+                            showErrorTip("分享取消");
+                            break;
+                    }
                 }
-            }
-        });
-        shareForApp.toShareWithPicUrl();
+            });
+            shareForApp.toShareWithPicUrl();
+//        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        isSharing=false;
-        isResume=true;
+        isSharing = false;
+        isResume = true;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        isResume=false;
+        isResume = false;
     }
 
     @Override

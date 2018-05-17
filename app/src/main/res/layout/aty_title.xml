@@ -39,4 +39,17 @@
         android:textColor="@color/app_text_color"
         android:textSize="16sp"
         android:visibility="gone" />
+    <TextView
+        android:id="@+id/goods_title_share_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:drawablePadding="4dp"
+        android:gravity="center"
+        android:drawableTop="@drawable/icon_goods_title_share"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="分享"
+        android:visibility="gone"
+        android:textSize="12sp" />
 </RelativeLayout>

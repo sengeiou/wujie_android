@@ -49,6 +49,11 @@ public class CreateGroupAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
+
+    @ViewInject(R.id.goods_title_share_tv)
+    public TextView goods_title_share_tv;
+
+
     /**
      * 团圆列表
      */
@@ -58,8 +63,8 @@ public class CreateGroupAty extends BaseAty {
     /**
      * 团状态
      */
-//    @ViewInject(R.id.group_status_tv)
-//    private TextView group_status_tv;
+    //    @ViewInject(R.id.group_status_tv)
+    //    private TextView group_status_tv;
 
     /**
      * 一键开团，参团，团长不能操作
@@ -104,7 +109,7 @@ public class CreateGroupAty extends BaseAty {
     private LinearLayout create_group_ll;
     /**
      * 倒计时控件
-     * */
+     */
     @ViewInject(R.id.times_id)
     private CountdownView times;
     /**
@@ -137,7 +142,7 @@ public class CreateGroupAty extends BaseAty {
         if (0 != status) {
             group_operation_tv.setText("一键拼单");
             group_operation_tv.setEnabled(true);
-//            group_status_tv.setText("团已满");
+            //            group_status_tv.setText("团已满");
             group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
         }
 
@@ -180,7 +185,9 @@ public class CreateGroupAty extends BaseAty {
         log_id = getIntent().getStringExtra("id");
         groupBuyPst = new GroupBuyPst(this);
 
-//        user_id = application.getUserInfo().get("user_id");
+        //        user_id = application.getUserInfo().get("user_id");
+        goods_title_share_tv.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -191,12 +198,12 @@ public class CreateGroupAty extends BaseAty {
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type",data.getStringExtra("type"));
+                bundle.putString("type", data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
-                bundle.putString("group_buy_id",data.getStringExtra("group_buy_id"));
-                String order_id=data.getStringExtra("order_id");
-                if(!android.text.TextUtils.isEmpty(order_id));
-                bundle.putString("order_id",order_id);
+                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
+                String order_id = data.getStringExtra("order_id");
+                if (!android.text.TextUtils.isEmpty(order_id))
+                bundle.putString("order_id", order_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
@@ -235,7 +242,7 @@ public class CreateGroupAty extends BaseAty {
                     textNums.setText(data.getM_short());
                     i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
                     Log.i("倒计时时间", i1 + "");
-                    times.start(i1*1000);
+                    times.start(i1 * 1000);
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
@@ -254,6 +261,14 @@ public class CreateGroupAty extends BaseAty {
                     head1.setPic(data.getColonel_head_pic());
                     list_pic.add(head1);
 
+                    //分享按钮
+                    goods_title_share_tv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            toShare(data.getGoods_name(), data.getGoods_img(), "2", "", goods_id, "1");
+                        }
+                    });
+
                     groupMemberAdapter = new GroupMemberAdapter(CreateGroupAty.this, list_pic);
                     group_member_rv.setAdapter(groupMemberAdapter);
                     Glide.with(CreateGroupAty.this).load(data.getGoods_img())
@@ -269,34 +284,34 @@ public class CreateGroupAty extends BaseAty {
                         group_operation_tv.setText("我是团长");
                         group_operation_tv.setEnabled(false);
                         group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
-//                group_status_tv.setText(groupPager.getData().getDiff());
+                        //                group_status_tv.setText(groupPager.getData().getDiff());
                     } else {// 我不是团长，参团
                         group_operation_tv.setText("一键参团");
                         group_operation_tv.setEnabled(true);
-//                group_status_tv.setText(groupPager.getData().getDiff());
+                        //                group_status_tv.setText(groupPager.getData().getDiff());
                         group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
                     }
                 }
 
-//        if (requestUrl.contains("goGroup")) {
-//            GroupPager groupPager = GsonUtil.GsonToBean(jsonStr, GroupPager.class);
-//
-//            GroupPager.Data.GroupInfo groupInfo = groupPager.getData().getInfo();
-//            Glide.with(this).load(groupInfo.getGoods_img())
-//                    .override(size, size)
-//                    .placeholder(R.drawable.ic_default)
-//                    .centerCrop()
-//                    .error(R.drawable.ic_default)
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-//                    .into(group_goods_pic_iv);
+                //        if (requestUrl.contains("goGroup")) {
+                //            GroupPager groupPager = GsonUtil.GsonToBean(jsonStr, GroupPager.class);
+                //
+                //            GroupPager.Data.GroupInfo groupInfo = groupPager.getData().getInfo();
+                //            Glide.with(this).load(groupInfo.getGoods_img())
+                //                    .override(size, size)
+                //                    .placeholder(R.drawable.ic_default)
+                //                    .centerCrop()
+                //                    .error(R.drawable.ic_default)
+                //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                //                    .into(group_goods_pic_iv);
 
-//            data = groupPager.getData().getPerson();
-//            if (!ListUtils.isEmpty(data)) {
-//                groupMemberAdapter = new GroupMemberAdapter(this, data);
-//                group_member_rv.setAdapter(groupMemberAdapter);
-//            }
-//            // =====参团页======
-//        }
+                //            data = groupPager.getData().getPerson();
+                //            if (!ListUtils.isEmpty(data)) {
+                //                groupMemberAdapter = new GroupMemberAdapter(this, data);
+                //                group_member_rv.setAdapter(groupMemberAdapter);
+                //            }
+                //            // =====参团页======
+                //        }
 
             });
         }

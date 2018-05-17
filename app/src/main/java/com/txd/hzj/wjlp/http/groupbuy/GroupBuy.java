@@ -97,4 +97,5 @@ public class GroupBuy {
 //        requestParams.addBodyParameter("product_id", product_id);
 //        apiTool2.postApi(url + "attrApi", requestParams, baseView);
 //    }
+
 }

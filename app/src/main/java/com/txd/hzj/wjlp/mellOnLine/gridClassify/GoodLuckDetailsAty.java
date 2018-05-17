@@ -586,7 +586,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
     private String groupPrice;
-
+    private String goods_name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -671,7 +671,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+//                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                toShare(goods_name, share_img, "1", share_content, group_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -1048,7 +1049,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
                     @Override
                     public void getChildView(View view, int layoutResId, int position) {
-                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
+                        ListView promotion_lv = (ListView) view.findViewById(R.id.promotion_lv);
                         PromotionAdapter promotionAdapter = new PromotionAdapter(GoodLuckDetailsAty.this, promotion);
                         promotion_lv.setAdapter(promotionAdapter);
                         TextView cancel = (TextView) view.findViewById(R.id.cancel);
@@ -1091,6 +1092,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     share_url = dataBean.getShare_url();
                     share_img = dataBean.getShare_img();
                     share_content = dataBean.getShare_content();
+                    goods_name = dataBean.getGoodsInfo().getGoods_name();
                     // 团购商品轮播图
                     if (!ListUtils.isEmpty(image)) {
                         forBanner();
