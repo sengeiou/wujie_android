@@ -160,12 +160,16 @@ public class fragment1 extends BaseFgt {
                 }
                 break;
             case R.id.tv_submit:
-
-                province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
-                province = ProUrbAreaUtil.gainInstance().getProvince();
-                city_id = ProUrbAreaUtil.gainInstance().getCity_id();
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
-
+                if(TextUtils.isEmpty(province_id)){
+                    province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                    province = ProUrbAreaUtil.gainInstance().getProvince();
+                }
+                if(TextUtils.isEmpty(city_id)){
+                    city_id = ProUrbAreaUtil.gainInstance().getCity_id();
+                }
+                if(TextUtils.isEmpty(area_id)){
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                }
                 start_time = id_card_start_time.getText().toString().trim();
                 if (TextUtils.isEmpty(name.getText().toString())) {
                     showToast("请输入真实姓名!");
@@ -205,6 +209,8 @@ public class fragment1 extends BaseFgt {
                 }
 
                 if (file1 != null && file2 != null) { // 请求接口
+                    L.e("file1 path:" + file1.getPath());
+                    L.e("file2 path:" + file2.getPath());
                     User.personalAuth(this, name.getText().toString(), sex, idcard.getText().toString(),
                             TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
                             street_id, file1, file2);
@@ -278,20 +284,24 @@ public class fragment1 extends BaseFgt {
                 Glide.with(getActivity()).load(data.get("positive_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             } else {
-                Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
-                Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
+                Glide.with(getActivity()).load(data.get("positive_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
+                Glide.with(getActivity()).load(data.get("back_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             }
 
             // 将获取到的图片缓存成文件
             String positive_id_card = data.get("positive_id_card").toString();
             String back_id_card = data.get("back_id_card").toString();
+//            L.e("=========FileName========" + positive_id_card);
+//            L.e("=========FileName========" + back_id_card);
             if (!positive_id_card.isEmpty()) {
                 String positive_id_card_name = FileUtils.getFileNameFromUrl(positive_id_card);
                 file1 = Glide.getPhotoCacheDir(getActivity(), positive_id_card_name);
+//                L.e("=========FileName========" + file1.getPath());
             }
             if (!back_id_card.isEmpty()) {
                 String back_id_card_name = FileUtils.getFileNameFromUrl(back_id_card);
                 file2 = Glide.getPhotoCacheDir(getActivity(), back_id_card_name);
+//                L.e("=========FileName========" + file2);
             }
 
             isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
