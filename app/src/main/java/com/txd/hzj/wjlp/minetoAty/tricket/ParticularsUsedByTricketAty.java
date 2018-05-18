@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -119,6 +120,8 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             titlt_conter_tv.setText("成长值明细");
         } else if (6 == from) {
             titlt_conter_tv.setText("线上充值明细");
+        }else if (7==from){
+            titlt_conter_tv.setText("代金券赠送明细");
         }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -269,6 +272,10 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 //            case 6:// 线上充值明细
 //                userPst.;
 //                break;
+            case 7:
+                userPst.couponDetails(p);
+                break;
+
         }
     }
 
@@ -452,6 +459,56 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 swipe_refresh.setLoadMore(false);
             }
             return;
+        }
+        //代金券赠送明细
+        if (requestUrl.contains("gifVoucherList")){
+            Log.i("赠送明细",jsonStr);
+            if (1 == p) {
+                if (ToolKit.isList(map, "data")) {
+                    list.clear();
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            String name = ActTypeForName(temp2);
+                            list.add(new TricketDetailks(time,"",temp2.get("create_time"),temp2.get("money"),temp2.get("reason"),
+                                    temp2.get("log_id"),"","","",temp2.get("img"),""));
+                        }
+                    }
+                    stickyExampleAdapter = new StickyExampleAdapter(this, list, from);
+                    tricket_rv.setAdapter(stickyExampleAdapter);
+
+                    lv_layout.setVisibility(View.VISIBLE);
+                    no_data_layout.setVisibility(View.GONE);
+                } else {
+                    lv_layout.setVisibility(View.GONE);
+                    no_data_layout.setVisibility(View.VISIBLE);
+                }
+                if (!frist) {
+                    swipe_refresh.setRefreshing(false);
+                    progressBar.setVisibility(View.GONE);
+                }
+            }else {
+                if (ToolKit.isList(map, "data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    for (Map<String, String> temp : data) {
+                        String time = temp.get("time");// 悬浮部分
+                        ArrayList<Map<String, String>> list_temp = JSONUtils.parseKeyAndValueToMapList(temp.get("list"));
+                        for (Map<String, String> temp2 : list_temp) {
+                            String name = ActTypeForName(temp2);
+                            list.add(new TricketDetailks(time, temp2.get("reason"), temp2.get("create_time"),
+                                    temp2.get("money"), temp2.get("reason"), "",
+                                    "", "", "", temp2.get("img"),  ""));
+                        }
+                    }
+                    stickyExampleAdapter.notifyDataSetChanged();
+                }
+
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                swipe_refresh.setLoadMore(false);
+            }
         }
         if (requestUrl.contains("userDevelopLog")) { // 会员模块，成长值明细
             if (1 == p) {

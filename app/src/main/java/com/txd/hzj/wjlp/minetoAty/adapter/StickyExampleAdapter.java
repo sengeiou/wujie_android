@@ -181,6 +181,8 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             } else if (5 == type) { // 成长值明细
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
+            }else if(7 == type){
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }
         }
     }

@@ -35,6 +35,7 @@ import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
 import com.txd.hzj.wjlp.minetoAty.AboutOursAty;
 import com.txd.hzj.wjlp.minetoAty.FootprintAty;
+import com.txd.hzj.wjlp.minetoAty.GiveCouponAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
 import com.txd.hzj.wjlp.minetoAty._GradeOfMemberAty;
@@ -216,7 +217,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.merchant_will_move_into_tv)
     private TextView merchant_will_move_into_tv;
 
-
+/**
+ * 赠送蓝色代金券ll
+ * */
+@ViewInject(R.id.give_coupon_tv_ll)
+private LinearLayout give_coupon_tv_ll;
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
     private String invite_code = "";
@@ -242,6 +247,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private String service_easemob_account;
     private String service_head_pic;
     private String service_nickname;
+    private String blue_voucher;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -280,7 +286,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj,R.id.give_coupon_tv_ll})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -368,6 +374,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.books_tv:// 无界书院
                 startActivity(BooksAty.class, null);
                 break;
+            case R.id.give_coupon_tv_ll://蓝色代金券赠送
+                Intent intent1 = new Intent(getActivity(), GiveCouponAty.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("blue_voucher",blue_voucher);
+                intent1.putExtras(bundle);
+                startActivity(intent1);
+                break;
             case R.id.call_service_tv:// 客服
 
                 if (TextUtils.isEmpty(service_easemob_account)) {
@@ -378,14 +391,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
                 break;
             case R.id.stock_record_tv:// 进货记录
-                bundle = new Bundle();
-                bundle.putInt("from", 1);
-                startActivity(StockRecordAty.class, bundle);
+                this.bundle = new Bundle();
+                this.bundle.putInt("from", 1);
+                startActivity(StockRecordAty.class, this.bundle);
                 break;
             case R.id.sales_record_tv:// 销货记录
-                bundle = new Bundle();
-                bundle.putInt("from", 2);
-                startActivity(StockRecordAty.class, bundle);
+                this.bundle = new Bundle();
+                this.bundle.putInt("from", 2);
+                startActivity(StockRecordAty.class, this.bundle);
                 break;
             case R.id.mell_goods_list_tv:// 商品列表
                 startActivity(MellGoodsListAty.class, null);
@@ -475,12 +488,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("jsonStr" + jsonStr);
+        L.e("jsonStrALIANG" + jsonStr);
         if (requestUrl.contains("userCenter")) {
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
-
+            if (data.get("member_coding").equals("3")){
+                give_coupon_tv_ll.setVisibility(View.VISIBLE);
+                blue_voucher = data.get("blue_voucher");
+            }else{
+                give_coupon_tv_ll.setVisibility(View.GONE);
+            }
             // 昵称
             String nickname = data.get("nickname");
             // 头像
