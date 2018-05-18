@@ -36,6 +36,7 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.FutureTarget;
 import com.google.gson.Gson;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -67,6 +68,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -160,16 +162,21 @@ public class fragment1 extends BaseFgt {
                 }
                 break;
             case R.id.tv_submit:
-                if(TextUtils.isEmpty(province_id)){
+
+                if (ProUrbAreaUtil.gainInstance().getProvince_id() != null && !ProUrbAreaUtil.gainInstance().getProvince_id().isEmpty()) {
+                    // 如果回传的id不为空并且字符串不为空，则将其赋值给上传的字段中，下同
                     province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                }
+                if (ProUrbAreaUtil.gainInstance().getProvince() != null && !ProUrbAreaUtil.gainInstance().getProvince().isEmpty()) {
                     province = ProUrbAreaUtil.gainInstance().getProvince();
                 }
-                if(TextUtils.isEmpty(city_id)){
+                if (ProUrbAreaUtil.gainInstance().getCity_id() != null && !ProUrbAreaUtil.gainInstance().getCity_id().isEmpty()) {
                     city_id = ProUrbAreaUtil.gainInstance().getCity_id();
                 }
-                if(TextUtils.isEmpty(area_id)){
+                if (ProUrbAreaUtil.gainInstance().getArea_id() != null && !ProUrbAreaUtil.gainInstance().getArea_id().isEmpty()) {
                     area_id = ProUrbAreaUtil.gainInstance().getArea_id();
                 }
+
                 start_time = id_card_start_time.getText().toString().trim();
                 if (TextUtils.isEmpty(name.getText().toString())) {
                     showToast("请输入真实姓名!");
@@ -209,8 +216,6 @@ public class fragment1 extends BaseFgt {
                 }
 
                 if (file1 != null && file2 != null) { // 请求接口
-                    L.e("file1 path:" + file1.getPath());
-                    L.e("file2 path:" + file2.getPath());
                     User.personalAuth(this, name.getText().toString(), sex, idcard.getText().toString(),
                             TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
                             street_id, file1, file2);
@@ -289,19 +294,23 @@ public class fragment1 extends BaseFgt {
             }
 
             // 将获取到的图片缓存成文件
-            String positive_id_card = data.get("positive_id_card").toString();
-            String back_id_card = data.get("back_id_card").toString();
-//            L.e("=========FileName========" + positive_id_card);
-//            L.e("=========FileName========" + back_id_card);
+            final String positive_id_card = data.get("positive_id_card").toString();
+            final String back_id_card = data.get("back_id_card").toString();
             if (!positive_id_card.isEmpty()) {
-                String positive_id_card_name = FileUtils.getFileNameFromUrl(positive_id_card);
-                file1 = Glide.getPhotoCacheDir(getActivity(), positive_id_card_name);
-//                L.e("=========FileName========" + file1.getPath());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        file1 = new File(getGlideFilePath(positive_id_card));
+                    }
+                }).start();
             }
             if (!back_id_card.isEmpty()) {
-                String back_id_card_name = FileUtils.getFileNameFromUrl(back_id_card);
-                file2 = Glide.getPhotoCacheDir(getActivity(), back_id_card_name);
-//                L.e("=========FileName========" + file2);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        file2 = new File(getGlideFilePath(back_id_card));
+                    }
+                }).start();
             }
 
             isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
@@ -347,6 +356,22 @@ public class fragment1 extends BaseFgt {
                     }).showDialog();
         }
 
+    }
+
+    private String getGlideFilePath(final String url) {
+        FutureTarget<File> future = Glide.with(getActivity())
+                .load(url)
+                .downloadOnly(100, 100);
+        try {
+            File file = future.get();
+            String absolutePath = file.getAbsolutePath();
+            return absolutePath;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
