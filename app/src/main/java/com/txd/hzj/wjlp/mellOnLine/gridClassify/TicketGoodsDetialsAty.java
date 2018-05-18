@@ -1071,6 +1071,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
          * 获取商家环信账号
          */
         if (requestUrl.contains("Easemob/bind")) {
+            L.e("Easemob/bind：" + jsonStr);
             if (jsonStr == null || jsonStr.equals("")) {
                 showErrorTip("获取数据为空，请联系我们");
                 return;
@@ -1624,7 +1625,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                                     break;
                                 }
                                 case 2: {
-                                    layout_djq2.setVisibility(View.GONE);
+                                    layout_djq2.setVisibility(View.VISIBLE);
                                     tv_djq_desc2.setText(list.get(i).getDiscount_desc());
                                     break;
                                 }
