@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.http.user;
 
+import android.widget.EditText;
+
 import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.tools.RegexUtils;
@@ -167,7 +169,10 @@ public class UserPst extends BasePresenter {
         baseView.showDialog();
         user.getRange(baseView);
     }
-
+//蓝色代金券赠送
+    public void giveCoupon(String price, String code, String pay_password){
+        user.giveCoupon(price,code,pay_password,baseView);
+    }
     // 会员推荐商户
     public void merchantRefer(String name, String range_id, String link_man, String link_phone, String job,
                               String tmail_url, String jd_url, String other_url, String product_desc,
@@ -231,6 +236,11 @@ public class UserPst extends BasePresenter {
     public void userDevelopLog(int p) {
         baseView.showDialog();
         user.userDevelopLog(p, baseView);
+    }
+    //代金券明细
+    public void couponDetails(int p) {
+        baseView.showDialog();
+        user.couponDetails(p, baseView);
     }
 
     // 增加明细
@@ -320,4 +330,6 @@ public class UserPst extends BasePresenter {
         baseView.showDialog();
         user.removeBind(type, baseView);
     }
+
+
 }

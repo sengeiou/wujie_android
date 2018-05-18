@@ -175,7 +175,8 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("type", type);
-        L.e("==========",String.valueOf(p));  L.e("==========",type);
+        L.e("==========", String.valueOf(p));
+        L.e("==========", type);
         L.e("============================================111111111111111");
         apiTool2.postApi(url + "myfooter", params, baseView);
     }
@@ -204,6 +205,18 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "vouchersLog", params, baseView);
+    }
+    /**
+     * 赠送代金券明细
+     *
+     * @param p        分页
+     * @param baseView 回调
+     */
+    void couponDetails(int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "gifVoucherList", params, baseView);
     }
 
     /**
@@ -326,6 +339,18 @@ public class User {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "referList", params, baseView);
+    }
+
+    /**
+     * 赠送蓝色代金券
+     */
+    void giveCoupon(String price,String code,String pay_password,BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("price",price);
+        params.addBodyParameter("code",code);
+        params.addBodyParameter("pay_password",pay_password);
+        apiTool2.postApi(url + "gifVoucher", params, baseView);
     }
 
     /**
@@ -569,6 +594,7 @@ public class User {
         params.addBodyParameter("PayPwd", PayPwd);
         apiTool2.postApi(Config.BASE_URL + "User/verificationPayPwd", params, baseView);
     }
+
     /**
      * 个人设置
      *

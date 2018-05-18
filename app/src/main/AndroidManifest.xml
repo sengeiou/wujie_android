@@ -837,7 +837,10 @@
         <!--房产和车辆的订单-->
         <activity android:name=".new_wjyp.aty_submit_order" />
         <activity android:name=".new_wjyp.aty_pay" />
-
+        //蓝色代金券转账页面
+        <activity android:name=".minetoAty.GiveCouponAccounts"/>
+        //蓝色代金券详情
+        <activity android:name=".minetoAty.GiveCouponAty"/>
         <!-- Required SDK 核心功能-->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
