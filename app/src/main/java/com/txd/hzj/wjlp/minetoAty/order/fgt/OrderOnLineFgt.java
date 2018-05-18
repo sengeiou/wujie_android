@@ -165,6 +165,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
+                    bundle.putBoolean("isTy",isTy);
                     startActivity(OrderDetailsAty.class, bundle);
                 } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
@@ -512,7 +513,7 @@ public class OrderOnLineFgt extends BaseFgt {
         progressBar.setVisibility(View.GONE);
         return headerView;
     }
-
+    private boolean isTy=false;//是否体验商品
 
     class GoodsAdapter extends BaseAdapter {
         ViewHolder holder;
@@ -546,9 +547,10 @@ public class OrderOnLineFgt extends BaseFgt {
             if("3".equals(from)){//拼单 体验   1试用品拼单 2常规拼单",
                 String group_typeStr=getItem(position).get("group_type");
                 if(!TextUtils.isEmpty(group_typeStr)&&"1".equals(group_typeStr)){
-                    //TODO 试用品拼单  显示标识
+                    isTy=true;
                 }else{
                     //常规拼单隐藏标识
+                    isTy=false;
                 }
             }
             List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
@@ -1119,6 +1121,11 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
+            if(isTy){
+                goVh.tyIv.setVisibility(View.VISIBLE);
+            }else{
+                goVh.tyIv.setVisibility(View.GONE);
+            }
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
@@ -1160,6 +1167,8 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView textview;
             @ViewInject(R.id.goodsForOrder_layout)
             private LinearLayout goodsForOrder_layout;
+            @ViewInject(R.id.tyIv)
+            private ImageView tyIv;
         }
 
     }

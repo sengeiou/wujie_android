@@ -61,12 +61,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <RelativeLayout
             android:layout_marginRight="3dp"
-            android:src="@drawable/icon_mine_about" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/icon_mine_about" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/tyIv"
+                android:src="@mipmap/ttdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

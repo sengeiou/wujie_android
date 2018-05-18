@@ -125,11 +125,12 @@ public class OrderDetailsAty extends BaseAty {
     @ViewInject(R.id.lin_logistics) // 订单物流入口
     private LinearLayout lin_logistics;
     private String type2WL = null;//给物流的type  0 普通商品 1 拼单购
-
+    private boolean isTy=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
+        isTy=getIntent().getBooleanExtra("isTy",false);
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
@@ -853,7 +854,7 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickIndex= (int) v.getTag();
+                    clickIndex = (int) v.getTag();
 //                    clickIndex = i;
 //                    clickMap = list.get(i); // 点击时选的列表项
                     clickMap = list.get(clickIndex); // 点击时选的列表项
@@ -976,11 +977,16 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
             }
-
+            if (isTy) {
+                tgvh.tyIv.setVisibility(View.VISIBLE);
+            } else
+                tgvh.tyIv.setVisibility(View.GONE);
             return view;
         }
 
         class TGVH {
+            @ViewInject(R.id.tyIv)
+            private ImageView tyIv;
             @ViewInject(R.id.image)
             private ImageView image;
             @ViewInject(R.id.name)
