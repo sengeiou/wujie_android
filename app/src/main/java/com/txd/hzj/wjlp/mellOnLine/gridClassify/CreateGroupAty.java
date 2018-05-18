@@ -1,10 +1,12 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +132,11 @@ public class CreateGroupAty extends BaseAty {
     ArrayList<GoodsAttrs.product> list_p;
     private OfferedBean data;
     private Long i1;
+    /**
+     * 积分
+     */
+    @ViewInject(R.id.goods_profit_num_tv)
+    private TextView goods_profit_num_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,7 +211,7 @@ public class CreateGroupAty extends BaseAty {
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
                 String order_id = data.getStringExtra("order_id");
                 if (!android.text.TextUtils.isEmpty(order_id))
-                bundle.putString("order_id", order_id);
+                    bundle.putString("order_id", order_id);
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
@@ -213,6 +221,13 @@ public class CreateGroupAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        // 积分
+        Intent intent = getIntent();
+        String integralStr = intent.getStringExtra("integral");
+        if (!TextUtils.isEmpty(integralStr))
+            ChangeTextViewStyle.getInstance().forTextColor(CreateGroupAty.this, goods_profit_num_tv,
+                    "积分" + integralStr, 2, Color.parseColor("#FD8214"));
+
         GroupBuyOrder.offered(log_id, this);
         showProgressDialog();
     }

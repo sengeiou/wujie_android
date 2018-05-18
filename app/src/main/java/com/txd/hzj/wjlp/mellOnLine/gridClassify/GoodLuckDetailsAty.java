@@ -1110,8 +1110,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      "is_new_goods_desc": "此件商品是旧货八五成新",//新品描述
                      "is_end": "0",//是否临期 0未临期 1临期
                      "is_end_desc": "此商品属于临期商品，商品保质期到期日为2017-20-30",//临期描述
+                     1试用品拼单 2常规拼单",
                      */
-                    if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
+                    if ("1".equals(dataBean.getGroup_type())) {
+                        tv_expirationdate.setText(getResources().getString(R.string.jitsStr));
+                    } else if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
                     } else if (goodsInfo.getIs_new_goods_desc().equals("0")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc());

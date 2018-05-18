@@ -14,6 +14,7 @@ import java.util.List;
 
 public class    AllGoodsBean implements Serializable {
     // TODO==========拼团购==========
+    private String  group_type; //类型 1试用品拼单 2常规拼单",
     /**
      * 团购id
      */
@@ -586,10 +587,19 @@ public class    AllGoodsBean implements Serializable {
         this.start_price = start_price;
     }
 
+    public String getGroup_type() {
+        return group_type;
+    }
+
+    public void setGroup_type(String group_type) {
+        this.group_type = group_type;
+    }
+
     @Override
     public String toString() {
         return "AllGoodsBean{" +
-                "group_buy_id='" + group_buy_id + '\'' +
+                "group_type='" + group_type + '\'' +
+                ", group_buy_id='" + group_buy_id + '\'' +
                 ", group_price='" + group_price + '\'' +
                 ", group_num='" + group_num + '\'' +
                 ", total='" + total + '\'' +
@@ -614,6 +624,7 @@ public class    AllGoodsBean implements Serializable {
                 ", start_price='" + start_price + '\'' +
                 ", use_integral='" + use_integral + '\'' +
                 ", integral_buy_id='" + integral_buy_id + '\'' +
+                ", success_max_num='" + success_max_num + '\'' +
                 ", car_id='" + car_id + '\'' +
                 ", car_name='" + car_name + '\'' +
                 ", car_img='" + car_img + '\'' +

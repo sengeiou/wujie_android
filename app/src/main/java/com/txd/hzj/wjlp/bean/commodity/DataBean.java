@@ -46,6 +46,15 @@ public class DataBean implements Serializable {
     private String total;//"已团件数"
     private List<FirstValBean> first_val;//可选属性数值
     private List<TicketListBean> ticketList;// //优惠券列表
+    private String group_type;//类型 1试用品拼单 2常规拼单",
+
+    public String getGroup_type() {
+        return group_type;
+    }
+
+    public void setGroup_type(String group_type) {
+        this.group_type = group_type;
+    }
 
     public List<AllGoodsBean> getGuessGoodsList() {
         return guessGoodsList;

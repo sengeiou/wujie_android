@@ -43,7 +43,9 @@
                     android:background="#FFF9E7"
                     android:drawableLeft="@mipmap/icon_dengpao"
                     android:drawablePadding="10dp"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:maxLines="2"
                     android:padding="10dp"
                     android:textColor="#666666"
                     android:textSize="12sp" />
