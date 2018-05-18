@@ -89,7 +89,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="等待成团，仅剩"
+                            android:text="等待拼单，仅剩"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:gravity="center"
@@ -138,15 +138,16 @@
                             app:timeTextColor="#FFFFFF"
                             app:timeBgColor ="#000000"
                             app:timeTextSize="15sp"
-                            app:isTimeTextBold="true"
+                            app:isShowMillisecond="true"
+                            app:isTimeTextBold="false"
                             app:suffixLRMargin="3dp"
                             app:suffixGravity="center"
                             app:suffixTextColor="#000000"
                             app:isSuffixTextBold="true"
                             app:suffixTextSize="15sp"
-                            app:suffixHour="："
-                            app:suffixMinute="："
-
+                            app:suffixHour=":"
+                            app:suffixMinute=":"
+                            app:suffixMillisecond=":"
                             />
                         <TextView
                             android:layout_width="wrap_content"
