@@ -477,6 +477,9 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.group_totla_tv.setText("已    拼：" + allGoodsBean.getTotal() + "件");
 
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(size1, size2);
+//                1试用品拼单 2常规拼单",
+                vh.showTyImg.setVisibility("1".equals(allGoodsBean.getGroup_type()) ? View.VISIBLE : View.GONE);
+//TODO   后续商品需要查看是否添加试用品
                 vh.logo_for_country_iv.setLayoutParams(params1);
                 Glide.with(context).load(allGoodsBean.getCountry_logo())
                         .override(size1, size2)
@@ -702,6 +705,7 @@ public class AllGvLvAdapter extends BaseAdapter {
         private TextView group_num;
         @ViewInject(R.id.tv_shop_price)
         private TextView tv_shop_price;
-
+        @ViewInject(R.id.showTyImg)//体验
+        private ImageView showTyImg;
     }
 }

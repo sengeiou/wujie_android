@@ -55,6 +55,7 @@ import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.tool.GlideUtil;
 import com.txd.hzj.wjlp.tool.TimeStampUtil;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
@@ -300,7 +301,7 @@ public class fragment1 extends BaseFgt {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        file1 = new File(getGlideFilePath(positive_id_card));
+                        file1 = new File(GlideUtil.getGlideFilePath(getActivity(), positive_id_card));
                     }
                 }).start();
             }
@@ -308,7 +309,7 @@ public class fragment1 extends BaseFgt {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        file2 = new File(getGlideFilePath(back_id_card));
+                        file2 = new File(GlideUtil.getGlideFilePath(getActivity(), back_id_card));
                     }
                 }).start();
             }
@@ -356,22 +357,6 @@ public class fragment1 extends BaseFgt {
                     }).showDialog();
         }
 
-    }
-
-    private String getGlideFilePath(final String url) {
-        FutureTarget<File> future = Glide.with(getActivity())
-                .load(url)
-                .downloadOnly(100, 100);
-        try {
-            File file = future.get();
-            String absolutePath = file.getAbsolutePath();
-            return absolutePath;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 
     @Override

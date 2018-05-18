@@ -27,7 +27,7 @@ public class OfferedBean implements Serializable {
     private String is_member;// 1是团员 0不是团员
     private List<OfferedOfferBean> offered;//"参团说明"
     private List<GroupBuyIdsBean> group_buy_ids;//商品团购订单表（相同商品的不同制品）
-
+    private String group_type;//类型 1试用品拼单 2常规拼单",
     public String getGoods_name() {
         return goods_name;
     }
@@ -162,5 +162,13 @@ public class OfferedBean implements Serializable {
 
     public void setGroup_buy_ids(List<GroupBuyIdsBean> group_buy_ids) {
         this.group_buy_ids = group_buy_ids;
+    }
+
+    public String getGroup_type() {
+        return group_type;
+    }
+
+    public void setGroup_type(String group_type) {
+        this.group_type = group_type;
     }
 }

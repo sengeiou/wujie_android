@@ -43,6 +43,7 @@ import com.txd.hzj.wjlp.minetoAty.address.AddNewAddressAty2;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
+import com.txd.hzj.wjlp.tool.GlideUtil;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
 
@@ -255,13 +256,21 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         if (requestUrl.contains("userInfo")) {
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
-            Map<String, String> data = (Map<String, String>) map.get("data");
+            final Map<String, String> data = (Map<String, String>) map.get("data");
 
             img_head_edit.setVisibility(View.VISIBLE);
             Glide.with(this).load(data.get("head_pic")).error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .override(size, size).into(img_head_edit);
+            if (!data.get("head_pic").isEmpty()) { // 如果头像Url不为空则直接将缓存的文件路径转换为File，防止上传时出现空指针而报错
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        file = new File(GlideUtil.getGlideFilePath(EditProfileAty.this, data.get("head_pic")));
+                    }
+                }).start();
+            }
             auth_status = data.get("auth_status");
 
             if (!auth_status.equals("2")) { // 未实名认证或实名认证未通过或是认证中需要隐藏掉这三项，只有已认证状态才显示这三项
@@ -392,23 +401,38 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 startActivityForResult(TextListAty.class, bundle, 101);
                 break;
             case R.id.titlt_right_tv:// 保存
+
+                // 获取选择的地址，如果没有选择，则将回传的值上传至服务器
+                if (ProUrbAreaUtil.gainInstance().getProvince_id() != null && !ProUrbAreaUtil.gainInstance().getProvince_id().isEmpty()) {
+                    province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                }
+                if (ProUrbAreaUtil.gainInstance().getCity_id() != null && !ProUrbAreaUtil.gainInstance().getCity_id().isEmpty()) {
+                    city_id = ProUrbAreaUtil.gainInstance().getCity_id();
+                }
+                if (ProUrbAreaUtil.gainInstance().getArea_id() != null && !ProUrbAreaUtil.gainInstance().getArea_id().isEmpty()) {
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                }
+
                 nickname = user_nickname_tv.getText().toString().trim();
                 email = user_email_ev.getText().toString().trim();
                 // 2018.2.23 个人信息不能为空
                 if (user_nickname_tv.getText().toString().trim().equals("")) {
                     showToast("昵称不能为空");
-                } else if (user_email_ev.getText().toString().trim().equals("")) {
-                    showToast("邮箱不能为空");
-                } else if (user_select_zoon_tv.getText().toString().trim().equals("")) {
-                    Toast.makeText(this, "所在地区不能为空！", Toast.LENGTH_SHORT).show();
-                } else if (user_select_street_tv.getText().toString().trim().equals("")) {
-                    Toast.makeText(this, "所在街道不能为空！", Toast.LENGTH_SHORT).show();
-                } else {
-                    province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
-                    city_id = ProUrbAreaUtil.gainInstance().getCity_id();
-                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
-                    userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
+                    return;
                 }
+                if (user_email_ev.getText().toString().trim().equals("")) {
+                    showToast("邮箱不能为空");
+                    return;
+                }
+                if (user_select_zoon_tv.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "所在地区不能为空！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (user_select_street_tv.getText().toString().trim().equals("")) {
+                    Toast.makeText(this, "所在街道不能为空！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
 
 
 //                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
