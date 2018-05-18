@@ -1370,7 +1370,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     tv_jgsm.setText(Html.fromHtml(dataBean.getPrice_desc())); //价格说明
 
                     //搭配购
-                    CheapGroupBean cheap_group = dataBean.getCheap_group();
+                   final CheapGroupBean cheap_group = dataBean.getCheap_group();
                     if (cheap_group != null) {
                         tv_ticket_buy_discount.setText("最多可用" + cheap_group.getTicket_buy_discount() + "%代金券");
                         tv_group_price.setText("搭配价：¥" + cheap_group.getGroup_price());
@@ -1429,25 +1429,28 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         @Override
                         public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
 
-                            if (is_C) {
-                                Intent intent = new Intent();
-                                intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                intent.putExtra("type", "2");
-                                intent.putExtra("goods_id", goods_id);
-                                intent.putExtra("group_buy_id", group_buy_id);
-                                intent.putExtra("num", String.valueOf(goods_number));
-                                intent.putExtra("product_id", product_id);
-                                intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                startActivity(intent);
-                            } else {
-                                //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                                toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
-                            }
-
+//                            if (is_C) {
+//                                Intent intent = new Intent();
+//                                intent.putExtra("mid", mellInfoBean.getMerchant_id());
+//                                intent.putExtra("type", "2");
+//                                intent.putExtra("goods_id", goods_id);
+//                                intent.putExtra("group_buy_id", group_buy_id);
+//                                intent.putExtra("num", String.valueOf(goods_number));
+//                                intent.putExtra("product_id", product_id);
+//                                intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+//                                startActivity(intent);
+//                            } else {
+//                                //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
+//                                toAttrs(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+//                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
+//                            }
+                        //直接跳转普通商品界面 暂定
+                            Bundle bundle = new Bundle();
+                            bundle.putString("ticket_buy_id", goods_id);
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
                         }
                     });
-
                     int num;
                     try {
                         num = Integer.parseInt(dataBean.getCart_num());
@@ -1499,6 +1502,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 bundle.putSerializable("goods_attr_first", (Serializable) goods_attr_first);
                                 bundle.putSerializable("first_val", (Serializable) first_val);
                                 bundle.putString("is_attr", is_attr);
+                                bundle.putString("integral",cheap_group.getIntegral());
                                 bundle.putString("group_buy_id", group_buy_id);
                                 bundle.putString("id", groupList.get(position).getId());
                                 startActivity(CreateGroupAty.class, bundle);

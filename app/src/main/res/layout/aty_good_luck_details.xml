@@ -774,7 +774,6 @@
                 android:layout_weight="1"
                 android:background="#F3ABA7"
                 android:gravity="center"
-                android:visibility="gone"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
                 android:text="￥34.50\n单独购买"
