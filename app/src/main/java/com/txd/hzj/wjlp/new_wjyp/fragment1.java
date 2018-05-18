@@ -28,12 +28,14 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.FileUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -147,7 +149,7 @@ public class fragment1 extends BaseFgt {
     private boolean is_Long = false;
     private TimePickerView pvTime;
     private boolean check;
-    private boolean isFirst = true;
+    private boolean isFirst = true; // 是否是第一次申请，如果回传的值不为空则不是第一次提交
 
     @OnClick({R.id.layout_sex, R.id.ads0, R.id.ads1, R.id.image1, R.id.image2, R.id.id_card_start_time, R.id.id_card_end_time, R.id.tv_submit})
     public void OnClick(View v) {
@@ -185,7 +187,6 @@ public class fragment1 extends BaseFgt {
                     showToast("请选择身份结束时间");
                     return;
                 }
-
                 if (TextUtils.isEmpty(province) && isFirst) {
                     showToast("请选择所在地区!");
                     return;
@@ -274,12 +275,25 @@ public class fragment1 extends BaseFgt {
         if (requestUrl.contains("User/personalAuthInfo")) { // 查询个人认证详情
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
-                Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
-                Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
+                Glide.with(getActivity()).load(data.get("positive_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
+                Glide.with(getActivity()).load(data.get("back_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             } else {
                 Glide.with(getActivity()).load(data.get("positive_id_card")).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).into(image2);
             }
+
+            // 将获取到的图片缓存成文件
+            String positive_id_card = data.get("positive_id_card").toString();
+            String back_id_card = data.get("back_id_card").toString();
+            if (!positive_id_card.isEmpty()) {
+                String positive_id_card_name = FileUtils.getFileNameFromUrl(positive_id_card);
+                file1 = Glide.getPhotoCacheDir(getActivity(), positive_id_card_name);
+            }
+            if (!back_id_card.isEmpty()) {
+                String back_id_card_name = FileUtils.getFileNameFromUrl(back_id_card);
+                file2 = Glide.getPhotoCacheDir(getActivity(), back_id_card_name);
+            }
+
             isFirst = (TextUtils.isEmpty(data.get("positive_id_card")) && TextUtils.isEmpty(data.get("back_id_card"))) ? true : false;
             sex = data.get("sex");
             start_time = data.get("id_card_start_date");
