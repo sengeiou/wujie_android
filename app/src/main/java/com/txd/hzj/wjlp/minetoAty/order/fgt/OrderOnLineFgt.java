@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
@@ -29,6 +30,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.bean.UserBalanceHjs;
+import com.txd.hzj.wjlp.http.groupbuy.GroupBuy;
+import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
@@ -75,6 +78,7 @@ public class OrderOnLineFgt extends BaseFgt {
     @ViewInject(R.id.super_sr_layout)
     private SuperSwipeRefreshLayout swipe_refresh;
     // Header View
+    private RelativeLayout head_container;
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;
@@ -125,25 +129,25 @@ public class OrderOnLineFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        if (title.equals("抢宝记录")) {
-//            // 0.全部，1.代付款，2.代发货，3.待收货
-//            IndianaRecordAdapter adapter = new IndianaRecordAdapter(getActivity(), list, Integer.parseInt(type));
-//            order_on_line_lv.setAdapter(adapter);//显示全部list
-//        } else if (title.equals("爱心商店")) {
-//        } else {
-//            // 0.全部，1.代付款，2.代发货，3.待收货，4.待评价
-//            adapter = new MyOrderAdapter(getActivity(), list, Integer.parseInt(type));
-//            order_on_line_lv.setAdapter(adapter);//显示全部list
-//        }
+        //        if (title.equals("抢宝记录")) {
+        //            // 0.全部，1.代付款，2.代发货，3.待收货
+        //            IndianaRecordAdapter adapter = new IndianaRecordAdapter(getActivity(), list, Integer.parseInt(type));
+        //            order_on_line_lv.setAdapter(adapter);//显示全部list
+        //        } else if (title.equals("爱心商店")) {
+        //        } else {
+        //            // 0.全部，1.代付款，2.代发货，3.待收货，4.待评价
+        //            adapter = new MyOrderAdapter(getActivity(), list, Integer.parseInt(type));
+        //            order_on_line_lv.setAdapter(adapter);//显示全部list
+        //        }
         order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                L.e("=====title=====", title);
-//                if (title.equals("抢宝记录")) {
-//                    startActivity(GoodLuckOrderDetailsAty.class, null);
-//                } else {
-//                    startActivity(OrderDetailsAty.class, null);
-//                }
+                //                L.e("=====title=====", title);
+                //                if (title.equals("抢宝记录")) {
+                //                    startActivity(GoodLuckOrderDetailsAty.class, null);
+                //                } else {
+                //                    startActivity(OrderDetailsAty.class, null);
+                //                }
                 if (from.equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("order_id"));
@@ -189,9 +193,11 @@ public class OrderOnLineFgt extends BaseFgt {
     protected void initialized() {
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        swipe_refresh.setRefreshing(true);
         if (from.equals("0")) {
             com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
@@ -334,7 +340,6 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {
@@ -407,7 +412,7 @@ public class OrderOnLineFgt extends BaseFgt {
             }
         }
 
-        if (requestUrl.contains("delHjsInfo")){
+        if (requestUrl.contains("delHjsInfo")) {
             if (data.get("code").equals("1")) {
                 UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
             }
@@ -465,7 +470,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-//        super.onError(requestUrl, error);
+        //        super.onError(requestUrl, error);
         removeProgressDialog();
         swipe_refresh.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -494,6 +499,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     private View createHeaderView() {
         View headerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");
@@ -531,6 +537,15 @@ public class OrderOnLineFgt extends BaseFgt {
                 convertView.setTag(holder);//绑定ViewHolder对象
             } else {
                 holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
+            }
+
+            if("3".equals(from)){//拼单 体验   1试用品拼单 2常规拼单",
+                String group_typeStr=getItem(position).get("group_type");
+                if(!TextUtils.isEmpty(group_typeStr)&&"1".equals(group_typeStr)){
+                    //TODO 试用品拼单  显示标识
+                }else{
+                    //常规拼单隐藏标识
+                }
             }
             List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
             holder.title.setText(getItem(position).get("merchant_name"));
@@ -652,6 +667,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     public void onClick(View v) {
                         PreOrder.preCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         showProgressDialog();
+                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -668,7 +684,10 @@ public class OrderOnLineFgt extends BaseFgt {
             if (getItem(position).get("order_status").equals("0")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
-                bundle.putString("group_buy_id", getItem(position).get("group_buy_id"));
+                String group_buy_id = getItem(position).get("group_buy_id");
+                bundle.putString("group_buy_id", group_buy_id);
+//                GroupBuyPst groupBuyPst = new GroupBuyPst(OrderOnLineFgt.this);
+//                groupBuyPst.groupBuyInfo(group_buy_id, 1);
                 bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
@@ -685,6 +704,8 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         GroupBuyOrder.deleteOrder(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
                         showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
@@ -699,12 +720,12 @@ public class OrderOnLineFgt extends BaseFgt {
 
         private void setGroupBuyOrderClickleft(final int position) {
             if (getItem(position).get("order_status").equals("0")) {
-
-
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         GroupBuyOrder.cancelOrder(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
                         showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
@@ -729,6 +750,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         }
+                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -754,7 +776,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
-//                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    //                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
                     IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -773,6 +795,7 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         }
+                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -939,6 +962,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
+                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
@@ -963,6 +987,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
+                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
@@ -1097,7 +1122,7 @@ public class OrderOnLineFgt extends BaseFgt {
             goVh.num.setText("x" + getItem(i).get("goods_num"));
             goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
-//            goVh.textview.setText("最晚发货时间");
+            //            goVh.textview.setText("最晚发货时间");
             // TODO ============================================时间、积分设置=========================================================
 
             if (TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
