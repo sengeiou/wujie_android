@@ -348,7 +348,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         }
 
         if (requestUrl.contains("vouchersLog")) { // 会员模块，购物券明细
-            if (1 == p) {
+            if (1 == p) { // 分页第一页
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
@@ -402,7 +402,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                     swipe_refresh.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
-            } else {
+            } else { // 否则是后续页面
 
                 if (ToolKit.isList(map, "data")) {
                     ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));

@@ -416,7 +416,6 @@
 
                             <include layout="@layout/aty_goods_details_sales_promotion" />
 
-
                             <include
                                 layout="@layout/aty_goods_details_wujie_post"
                                 android:visibility="gone" />
