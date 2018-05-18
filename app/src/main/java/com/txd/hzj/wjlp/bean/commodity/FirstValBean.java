@@ -54,6 +54,16 @@ public class FirstValBean implements Serializable {
     private String examine_time;
     private String examine;
     private String arrtValue;
+    private String  group_buy_id; //拼单购id
+
+    public String getGroup_buy_id() {
+        return group_buy_id;
+    }
+
+    public void setGroup_buy_id(String group_buy_id) {
+        this.group_buy_id = group_buy_id;
+    }
+
     private List<DjTicketBean> dj_ticket;
 
     public List<DjTicketBean> getDj_ticket() {

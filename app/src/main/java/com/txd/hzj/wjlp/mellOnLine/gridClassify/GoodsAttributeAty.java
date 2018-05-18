@@ -757,6 +757,8 @@ public class GoodsAttributeAty extends BaseAty {
                 for (FirstValBean val : list_val) {
                     if (attrs.toString().contains(val.getArrtValue())) {
                         GoodsAttributeAty.this.val = val;
+                        if (!TextUtils.isEmpty(val.getGroup_buy_id()))
+                            group_buy_id = val.getGroup_buy_id();
                         tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
                         maxNumber = Integer.parseInt(val.getGoods_num());
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
