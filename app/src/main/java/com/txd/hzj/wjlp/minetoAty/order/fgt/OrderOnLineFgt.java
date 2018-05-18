@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -56,6 +57,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * ===============Txunda===============
@@ -510,6 +513,7 @@ public class OrderOnLineFgt extends BaseFgt {
         return headerView;
     }
 
+
     class GoodsAdapter extends BaseAdapter {
         ViewHolder holder;
 
@@ -682,12 +686,10 @@ public class OrderOnLineFgt extends BaseFgt {
 
         private void setGroupBuyOrderClickright(final int position) {
             if (getItem(position).get("order_status").equals("0")) {
+                String group_buy_id = getItem(position).get("group_buy_id");
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
-                String group_buy_id = getItem(position).get("group_buy_id");
                 bundle.putString("group_buy_id", group_buy_id);
-//                GroupBuyPst groupBuyPst = new GroupBuyPst(OrderOnLineFgt.this);
-//                groupBuyPst.groupBuyInfo(group_buy_id, 1);
                 bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
