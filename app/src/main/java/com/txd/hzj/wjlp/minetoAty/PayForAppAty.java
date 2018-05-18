@@ -392,8 +392,8 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("2")) {
             GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("3")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "4", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
-        } else if (type.equals("5")) {
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id)?"4":"2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+        }else if (type.equals("5")) {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("4")) {
 //            String[] strings = group_buy_id.split("-");
