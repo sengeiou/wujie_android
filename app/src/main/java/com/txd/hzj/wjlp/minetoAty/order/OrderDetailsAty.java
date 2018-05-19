@@ -762,6 +762,11 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 右侧按钮隐藏
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 中间按钮隐藏
             } else {
+                if("付款".equals(String.valueOf(tgvh.tv_btn_right.getText()))){
+                    tgvh.tv_btn_right.setVisibility(View.GONE); // 20180519  1待发货、2待收货、3待评价、4已完成 而且按钮上显示付款时候 隐藏付款按钮
+                }else{
+                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 20180519  1待发货、2待收货、3待评价、4已完成 而且按钮上显示付款时候 隐藏付款按钮
+                }
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为1待发货、2待收货、3待评价、4已完成
             }
 
@@ -783,7 +788,12 @@ public class OrderDetailsAty extends BaseAty {
 
             if (order_status.equals("1")) { // 订单状态待发货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
-                tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
+                if("付款".equals(String.valueOf(tgvh.tv_btn_right.getText()))){
+                    tgvh.tv_btn_right.setVisibility(View.GONE); // 20180519  1待发货、2待收货、3待评价、4已完成 而且按钮上显示付款时候 隐藏付款按钮
+                }else{
+                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
+                }
+
             }
             if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
