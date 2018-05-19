@@ -47,7 +47,7 @@
 
                             <include layout="@layout/aty_banner" />
 
-                            <TextView
+                            <com.txd.hzj.wjlp.view.FoldTextView
                                 android:id="@+id/tv_expirationdate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

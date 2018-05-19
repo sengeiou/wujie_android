@@ -90,6 +90,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
+import com.txd.hzj.wjlp.view.FoldTextView;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.io.Serializable;
@@ -108,7 +109,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,FoldTextView.OnFoldListener {
     /**
      * 商品TextView
      */
@@ -476,7 +477,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     private String vouchers_desc = "";//代金券弹窗下面的提示文字
     @ViewInject(R.id.tv_expirationdate)
-    private TextView tv_expirationdate;//保质期提示
+    private FoldTextView tv_expirationdate;//保质期提示
 
     @ViewInject(R.id.layout_djq)
     private LinearLayout layout_djq;//代金券布局
@@ -872,6 +873,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         // 买家头像(评论)
         mSize = ToolKit.dip2px(this, 60);
 
+        tv_expirationdate.setOnFoldListener(this);
     }
 
     @Override
@@ -1812,6 +1814,21 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(BuildOrderAty.class, bundle);
             }
         }
+
+    }
+
+    @Override
+    public void fold() {
+
+    }
+
+    @Override
+    public void unfold() {
+
+    }
+
+    @Override
+    public void onAnimationEnd() {
 
     }
 }

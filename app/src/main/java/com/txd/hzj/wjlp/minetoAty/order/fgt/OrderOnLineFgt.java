@@ -55,6 +55,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -165,7 +166,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
-                    bundle.putBoolean("isTy",isTy);
+                    bundle.putBoolean("isTy", map_Type.get(i));
                     startActivity(OrderDetailsAty.class, bundle);
                 } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
@@ -513,7 +514,8 @@ public class OrderOnLineFgt extends BaseFgt {
         progressBar.setVisibility(View.GONE);
         return headerView;
     }
-    private boolean isTy=false;//是否体验商品
+
+    Map<Integer, Boolean> map_Type = new HashMap<>();
 
     class GoodsAdapter extends BaseAdapter {
         ViewHolder holder;
@@ -544,13 +546,13 @@ public class OrderOnLineFgt extends BaseFgt {
                 holder = (ViewHolder) convertView.getTag();//取出ViewHolder对象
             }
 
-            if("3".equals(from)){//拼单 体验   1试用品拼单 2常规拼单",
-                String group_typeStr=getItem(position).get("group_type");
-                if(!TextUtils.isEmpty(group_typeStr)&&"1".equals(group_typeStr)){
-                    isTy=true;
-                }else{
+            if ("3".equals(from)) {//拼单 体验   1试用品拼单 2常规拼单",
+                String group_typeStr = getItem(position).get("group_type");
+                if (!TextUtils.isEmpty(group_typeStr) && "1".equals(group_typeStr)) {
+                    map_Type.put(position, true);
+                } else {
                     //常规拼单隐藏标识
-                    isTy=false;
+                    map_Type.put(position, false);
                 }
             }
             List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
@@ -587,7 +589,7 @@ public class OrderOnLineFgt extends BaseFgt {
             is_pay_password = getItem(position).get("is_pay_password");
             L.e("wang", "getItem(position):" + getItem(position));
             // TODO ======================================设置商品显示适配器=======================================================
-            holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data));
+            holder.goods_for_order_lv.setAdapter(new GoodsForOrderAdapter(list_data, position));
             holder.goods_for_order_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
@@ -600,6 +602,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                         bundle.putString("type", from);
+                        bundle.putBoolean("isTy", map_Type.get(position));
                         startActivity(OrderDetailsAty.class, bundle);
                     } else if (from.equals("4")) {
                         Bundle bundle = new Bundle();
@@ -1091,9 +1094,11 @@ public class OrderOnLineFgt extends BaseFgt {
         List<Map<String, String>> list_data;
 
         GOVH goVh;
+        int pPosition;//所在父层位置
 
-        public GoodsForOrderAdapter(List<Map<String, String>> list_data) {
+        public GoodsForOrderAdapter(List<Map<String, String>> list_data, int pPosition) {
             this.list_data = list_data;
+            this.pPosition = pPosition;
         }
 
         @Override
@@ -1121,9 +1126,9 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
-            if(isTy){
+            if (map_Type.get(pPosition)) {
                 goVh.tyIv.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 goVh.tyIv.setVisibility(View.GONE);
             }
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
