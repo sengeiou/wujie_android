@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty">
+
+    <include layout="@layout/aty_title"/>
+    <TextView
+        android:id="@+id/tv_sticky_header_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E2E2E2"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:textColor="@color/app_text_color"
+        android:textSize="14sp"
+        tools:text="2016年6月"/>
+
+    <FrameLayout
+        android:id="@+id/lv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:id="@+id/part_swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/tricket_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white">
+            </android.support.v7.widget.RecyclerView>
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
+
+    </FrameLayout>
+
+    <include layout="@layout/aty_no_data_layout"/>
+
+</LinearLayout>
