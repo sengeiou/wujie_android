@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?><!--拼单购体验品提示pop-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="免费试用规则"
+        android:textColor="@android:color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
+    <TextView
+        android:id="@+id/pop_exper_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="14dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:ellipsize="end"
+        android:text="@string/jitsPopStr"
+        android:textColor="#999999"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:background="#F23030"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="完成"
+        android:textColor="@android:color/white" />
+</LinearLayout>

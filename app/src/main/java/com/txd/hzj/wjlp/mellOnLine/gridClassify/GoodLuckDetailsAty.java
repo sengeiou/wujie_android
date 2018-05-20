@@ -109,7 +109,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,FoldTextView.OnFoldListener {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,CommodityDetailsInter.GoodLuckView{
     /**
      * 商品TextView
      */
@@ -477,7 +477,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     private String vouchers_desc = "";//代金券弹窗下面的提示文字
     @ViewInject(R.id.tv_expirationdate)
-    private FoldTextView tv_expirationdate;//保质期提示
+    private TextView tv_expirationdate;//保质期提示
 
     @ViewInject(R.id.layout_djq)
     private LinearLayout layout_djq;//代金券布局
@@ -587,7 +587,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView goods_select_attr_tv;
     private String groupPrice;
     private String goods_name;
-
+    private GoodLuckDetailsPranster goodLuckPranster;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -611,6 +611,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        goodLuckPranster=new GoodLuckDetailsPranster();
+        goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
     }
 
     @Override
@@ -620,7 +622,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq,R.id.tv_expirationdate
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -775,6 +777,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle1.putString("goods_id", goods_id);
                 startActivity(aty_collocations.class, bundle1);
                 break;
+            case R.id.tv_expirationdate:{
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this,v);
+            }
         }
     }
 
@@ -872,8 +877,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         size = ToolKit.dip2px(this, 80);
         // 买家头像(评论)
         mSize = ToolKit.dip2px(this, 60);
-
-        tv_expirationdate.setOnFoldListener(this);
     }
 
     @Override
@@ -1814,21 +1817,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(BuildOrderAty.class, bundle);
             }
         }
-
-    }
-
-    @Override
-    public void fold() {
-
-    }
-
-    @Override
-    public void unfold() {
-
-    }
-
-    @Override
-    public void onAnimationEnd() {
 
     }
 }

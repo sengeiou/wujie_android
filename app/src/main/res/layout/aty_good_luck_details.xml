@@ -47,10 +47,12 @@
 
                             <include layout="@layout/aty_banner" />
 
-                            <com.txd.hzj.wjlp.view.FoldTextView
+                            <TextView
                                 android:id="@+id/tv_expirationdate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:maxLines="2"
+                                android:ellipsize="end"
                                 android:background="#FFF9E7"
                                 android:drawableLeft="@mipmap/icon_dengpao"
                                 android:drawablePadding="10dp"
