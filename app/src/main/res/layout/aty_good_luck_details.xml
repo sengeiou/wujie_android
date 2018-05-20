@@ -48,6 +48,7 @@
                             <include layout="@layout/aty_banner" />
 
                             <LinearLayout
+                                android:id="@+id/tv_expirationdateLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">

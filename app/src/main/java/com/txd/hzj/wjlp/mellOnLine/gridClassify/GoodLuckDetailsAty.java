@@ -622,7 +622,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq,R.id.tv_expirationdate
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq,R.id.tv_expirationdateLayout
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -777,7 +777,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle1.putString("goods_id", goods_id);
                 startActivity(aty_collocations.class, bundle1);
                 break;
-            case R.id.tv_expirationdate:{
+            case R.id.tv_expirationdateLayout:{
                 goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this,v);
             }
         }
