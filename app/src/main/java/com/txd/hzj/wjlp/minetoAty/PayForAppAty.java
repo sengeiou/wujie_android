@@ -397,7 +397,7 @@ public class PayForAppAty extends BaseAty {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("4")) {
 //            String[] strings = group_buy_id.split("-");
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id)?"4":"3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("6")) {
             PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("7")) {
@@ -498,7 +498,7 @@ public class PayForAppAty extends BaseAty {
             } else {
                 cb_jfzf.setVisibility(View.GONE);
             }
-            if (type.equals("2") || type.equals("3")) {
+            if (type.equals("2") || type.equals("3")||type.equals("4")) {
                 if (TextUtils.isEmpty(group_buy_id)) {
                     group_buy_id = data.get("group_buy_id");
                 }

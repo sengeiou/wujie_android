@@ -46,9 +46,6 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.BodyBean;
 import com.txd.hzj.wjlp.bean.commodity.CheapGroupBean;
@@ -59,7 +56,6 @@ import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsActiveBean;
-import com.txd.hzj.wjlp.bean.commodity.GoodsAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBannerBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
@@ -69,7 +65,6 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.GroupBean;
 import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
-import com.txd.hzj.wjlp.bean.commodity.ProductBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -90,7 +85,6 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
-import com.txd.hzj.wjlp.view.FoldTextView;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.io.Serializable;
@@ -1810,8 +1804,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
                 String order_id = data.getStringExtra("order_id");
-                if (!android.text.TextUtils.isEmpty(order_id)) ;
-                bundle.putString("order_id", order_id);
+                if (!android.text.TextUtils.isEmpty(order_id)) {
+                    bundle.putString("order_id", order_id);
+                }
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
