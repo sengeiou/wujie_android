@@ -12,14 +12,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
+import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.GifVoucherListDetailBean;
+import com.txd.hzj.wjlp.bean.TricketDetailks;
 import com.txd.hzj.wjlp.minetoAty.adapter.StickyExampleAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：Qyl
  * 创建时间：2018/5/20 0020 9:52
- * 功能描述：
+ * 功能描述：蓝色代金券使用明细
  * 联系方式：无
  */
 public class ParticularsUserCouponAty extends BaseAty {
@@ -39,6 +46,8 @@ public class ParticularsUserCouponAty extends BaseAty {
     private ImageView footerImageView;
     private int p = 1;
     private String id;
+    private List<TricketDetailks> tricketDetailksList;
+    private StickyExampleAdapter stickyExampleAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,11 +160,14 @@ public class ParticularsUserCouponAty extends BaseAty {
         Bundle extras = getIntent().getExtras();
         id = extras.getString("id");
 
-
         titleName = (TextView) findViewById(R.id.titlt_conter_tv);
         recyList = (RecyclerView) findViewById(R.id.tricket_rv);
         headerView = (TextView) findViewById(R.id.tv_sticky_header_view);
         swipe_refresh = (SuperSwipeRefreshLayout) findViewById(R.id.part_swipe_refresh);
+
+        tricketDetailksList = new ArrayList<>();
+        stickyExampleAdapter = new StickyExampleAdapter(this, tricketDetailksList, 8);
+        recyList.setAdapter(stickyExampleAdapter);
     }
 
     public void getData() {
@@ -169,10 +181,48 @@ public class ParticularsUserCouponAty extends BaseAty {
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        swipe_refresh.setRefreshing(false);
+        swipe_refresh.setLoadMore(false);
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Log.i("赠送代金券详情", jsonStr);
+        swipe_refresh.setRefreshing(false);
+        swipe_refresh.setLoadMore(false);
+        if (requestUrl.contains("User/gifVoucherListDetail")){ // 赠送券的流水明细
+            Gson gson = new Gson();
+            GifVoucherListDetailBean gifVoucherListDetailBean = gson.fromJson(jsonStr, GifVoucherListDetailBean.class);
 
+            if (p == 1){
+                tricketDetailksList.removeAll(tricketDetailksList); // 清空List
+            }
+
+            for (GifVoucherListDetailBean.DataBean dataBean: gifVoucherListDetailBean.getData()) {
+//                sticky, name, gender, profession, String reason, String
+//                log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding
+                TricketDetailks tricketDetailks = new TricketDetailks();
+                tricketDetailks.setSticky(dataBean.getTime()); // 设置吸顶标题
+                for (GifVoucherListDetailBean.DataBean.ListBean listBean: dataBean.getList()) {
+                    tricketDetailks.setName(""); // 条目标题
+                    tricketDetailks.setGender(listBean.getCreate_time()); // 交易记录时间
+                    tricketDetailks.setProfession(listBean.getVoucher_price()); // 交易数量
+                    tricketDetailks.setReason(listBean.getReason()); // 原因
+                    tricketDetailks.setLog_id(listBean.getB_v_id()); // 记录id
+                    tricketDetailks.setAct_type(listBean.getOrder_type()); // 操作类型
+//                    tricketDetailks.setAct_id(); // 对应的操作对象id  只有线下充值的有用
+                    tricketDetailks.setAdd_sub(""); // 正负号，消费只有减
+                    tricketDetailks.setImgStr(listBean.getImg()); // 图标
+//                    tricketDetailks.setMemberCoding(); // 会员编号 查看会员卡消费明细会用到
+                    tricketDetailks.setOrderId(listBean.getOrder_id()); // 订单编号，查看详情才使用
+                    tricketDetailksList.add(tricketDetailks);
+                }
+
+            }
+            stickyExampleAdapter.notifyDataSetChanged();
+        }
     }
 
     private View createFooterView() {

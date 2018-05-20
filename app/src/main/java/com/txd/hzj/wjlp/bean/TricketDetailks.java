@@ -68,6 +68,8 @@ public class TricketDetailks {
      */
     public String orderId;
 
+    public TricketDetailks(){
+    }
 
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
             log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding) {
