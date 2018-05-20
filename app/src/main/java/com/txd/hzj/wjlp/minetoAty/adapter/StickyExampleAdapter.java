@@ -22,6 +22,7 @@ import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUserCouponAty;
 
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
             // 查看详情
-            if (type == 4 || type == 3 || type == 1){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
+            if (type == 4 || type == 3 || type == 1||type == 7){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             } else {
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
@@ -139,6 +140,12 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }
+                    }else if (type==7){
+                        Intent intent = new Intent(context, ParticularsUserCouponAty.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", stickyExampleModel.log_id);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
                 }
             });
