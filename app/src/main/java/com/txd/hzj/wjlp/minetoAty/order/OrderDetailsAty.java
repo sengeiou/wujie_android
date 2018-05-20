@@ -945,7 +945,12 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_remind.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    if("3".equals(type)){
+                        GroupBuyOrder.remind(OrderDetailsAty.this,order_id);
+                    }else{
+                        Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    }
+
                     showProgressDialog(); // 显示加载框
                     efreshPage();
                 }

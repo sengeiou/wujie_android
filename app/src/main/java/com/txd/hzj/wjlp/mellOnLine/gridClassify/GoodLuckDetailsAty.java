@@ -103,7 +103,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,CommodityDetailsInter.GoodLuckView{
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
     /**
      * 商品TextView
      */
@@ -556,6 +556,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.rv_cheap_group)
     private RecyclerView rv_cheap_group;
 
+    @ViewInject(R.id.tv_expirationdateLayout)
+    private LinearLayout tv_expirationdateLayout;
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
@@ -582,6 +584,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String groupPrice;
     private String goods_name;
     private GoodLuckDetailsPranster goodLuckPranster;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -605,7 +608,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        goodLuckPranster=new GoodLuckDetailsPranster();
+        goodLuckPranster = new GoodLuckDetailsPranster();
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
     }
 
@@ -616,7 +619,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq,R.id.tv_expirationdateLayout
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq, R.id.tv_expirationdateLayout
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -771,8 +774,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle1.putString("goods_id", goods_id);
                 startActivity(aty_collocations.class, bundle1);
                 break;
-            case R.id.tv_expirationdateLayout:{
-                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this,v);
+            case R.id.tv_expirationdateLayout: {
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v);
             }
         }
     }
@@ -1120,7 +1123,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     } else if (goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_end_desc());
                     } else {
-                        tv_expirationdate.setVisibility(View.GONE);
+                        tv_expirationdateLayout.setVisibility(View.GONE);
                     }
                     // 售价
                     //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
