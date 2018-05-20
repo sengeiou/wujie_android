@@ -76,7 +76,7 @@
                                     android:gravity="center"
                                     android:paddingEnd="15dp"
                                     android:text="查看详情"
-                                    android:textColor="@android:color/black"
+                                    android:textColor="#666666"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
