@@ -435,6 +435,24 @@ public class CollageDetailsAty extends BaseAty {
                 }
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
+            // 设置右侧按钮显示的文字
+            /**
+             *  "after_type":"0" //0 申请售后  1售后中 2售后完成 3售后拒绝
+             */
+            switch (Integer.parseInt(map.get("after_type"))) {
+                case 0:
+                    tgvh.tv_btn_left.setText("申请售后");
+                    break;
+                case 1:
+                    tgvh.tv_btn_left.setText("售后中");
+                    break;
+                case 2:
+                    tgvh.tv_btn_left.setText("售后完成");
+                    break;
+                case 3:
+                    tgvh.tv_btn_left.setText("售后拒绝");
+                    break;
+            }
             if (order_status.equals("2")) { // 订单状态待发货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
                 if ("付款".equals(String.valueOf(tgvh.tv_btn_right.getText()))) {
@@ -443,24 +461,6 @@ public class CollageDetailsAty extends BaseAty {
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                 }
                 tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
-                // 设置右侧按钮显示的文字
-                /**
-                 *  "after_type":"0" //0 申请售后  1售后中 2售后完成 3售后拒绝
-                 */
-                switch (Integer.parseInt(map.get("after_type"))) {
-                    case 0:
-                        tgvh.tv_btn_left.setText("申请售后");
-                        break;
-                    case 1:
-                        tgvh.tv_btn_left.setText("售后中");
-                        break;
-                    case 2:
-                        tgvh.tv_btn_left.setText("售后完成");
-                        break;
-                    case 3:
-                        tgvh.tv_btn_left.setText("售后拒绝");
-                        break;
-                }
             }else if (order_status.equals("3")) { // 订单待收货状态
                 if (map.containsKey("sale_status")) {
                     tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
@@ -468,7 +468,7 @@ public class CollageDetailsAty extends BaseAty {
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                 }
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
-                tgvh.tv_btn_left.setVisibility(View.GONE);
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
             }else if (order_status.equals("6")) { // 订单为已取消状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮

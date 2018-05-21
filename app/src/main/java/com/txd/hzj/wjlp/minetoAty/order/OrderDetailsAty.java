@@ -991,7 +991,7 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                 }
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
-                tgvh.tv_btn_left.setVisibility(View.GONE);
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
             } else if (order_status.equals("0")) { // 订单为待付款状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮显示
