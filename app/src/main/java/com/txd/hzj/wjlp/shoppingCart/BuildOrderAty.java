@@ -177,7 +177,8 @@ public class BuildOrderAty extends BaseAty {
 
     private Bean bean;
     private double countryTax = 0.00; // 进口税
-    private String  order_id;
+    private String order_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -281,7 +282,7 @@ public class BuildOrderAty extends BaseAty {
                     for (Bean bean : i_bean) { // 遍历所有发票信息，将信息全部添加到invoiceList列表中
                         if (bean != null && !bean.getExpress_fee().isEmpty() && !bean.getTax_pay().isEmpty()) {
                             invoiceList.add(new Invoice(bean.getT_id(), bean.getRise(), bean.getRise_name(), bean.getInvoice_detail(), bean.getInvoice_id(), bean.getRecognition(), Integer.parseInt(bean.getIs_invoice()))); // 添加最新的发票信息
-                        }else {
+                        } else {
                             invoiceList.add(new Invoice("", "", "", "", "", "", 0)); // 添加最新的发票信息
                         }
                     }
@@ -290,8 +291,8 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
 //                bundle.putString("bean", gson.toJson());
                 bundle.putString("is_pay_password", is_pay_password);
-                bundle.putString("order_id",order_id);
-                bundle.putString("freight",String.valueOf(tp));
+                bundle.putString("order_id", order_id);
+                bundle.putString("freight", String.valueOf(tp));
                 startActivity(PayForAppAty.class, bundle);
 
                 finish();
@@ -337,24 +338,24 @@ public class BuildOrderAty extends BaseAty {
     @Override
     protected void initialized() {
 //        postAdapter = new PostAdapter(this, points);
-        buildOrder_scrollView.smoothScrollTo(0,0);
+        buildOrder_scrollView.smoothScrollTo(0, 0);
     }
 
     @Override
     protected void requestData() {
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         group_buy_id = intent.getStringExtra("group_buy_id");
-        if(intent.hasExtra("order_id")){
-            order_id= intent.getStringExtra("order_id");
+        if (intent.hasExtra("order_id")) {
+            order_id = intent.getStringExtra("order_id");
         }
         type = intent.getStringExtra("type");
         mid = intent.getStringExtra("mid");
         cart_id = intent.getStringExtra("json");
         L.e("cart" + cart_id);
-        goods_id = getString("goods_id",intent);
-        num = getString("num",intent);
-        ordertype = getString("order_type",intent);
-        product_id = getString("product_id",intent);
+        goods_id = getString("goods_id", intent);
+        num = getString("num", intent);
+        ordertype = getString("order_type", intent);
+        product_id = getString("product_id", intent);
         L.e("ccccc" + group_buy_id + "--" + type + "--" + mid + "--" + cart_id + "--" + goods_id + "--" + num + "--" + product_id);
         if (type.equals("0")) {  //主界面购物车
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, "", this);
@@ -363,7 +364,7 @@ public class BuildOrderAty extends BaseAty {
         } else if (type.equals("2")) {//直接购买  拼单单独购买
             GroupBuyOrder.shoppingCart(goods_id, num, "1", product_id, mid, group_buy_id, this);
         } else if (type.equals("3") || type.equals("4")) {//拼单购 开团 （商品详情一键开团）
-            GroupBuyOrder.shoppingCart(goods_id,num,"2",product_id,mid,group_buy_id, this);
+            GroupBuyOrder.shoppingCart(goods_id, num, "2", product_id, mid, group_buy_id, this);
         } else if (type.equals("5")) {//限量购详情
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         } else if (type.equals("6")) {//限量购 无界预购
@@ -375,7 +376,7 @@ public class BuildOrderAty extends BaseAty {
         } else if (type.equals("10")) {//限量购 无界商店
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
         } else if (type.equals("11")) {//搭配购
-            Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json",intent), this);
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json", intent), this);
         }
         showProgressDialog();
 
@@ -385,7 +386,7 @@ public class BuildOrderAty extends BaseAty {
         return "[{\"product_id\":\"" + product_id + "\",\"goods_id\":\"" + goods_id + "\"}]";
     }
 
-    private String getString(String key,Intent intent) {
+    private String getString(String key, Intent intent) {
         return TextUtils.isEmpty(intent.getStringExtra(key)) ? "" : intent.getStringExtra(key);
     }
 
@@ -505,7 +506,7 @@ public class BuildOrderAty extends BaseAty {
                         splitNewList.add(new SplitNew("", "", "", "", "", "", "0", ""));
                         invoiceList.add(new Invoice("", "", "", "", "", "", 0));
                     }
-                    Log.i("一直蹦",data.toString());
+                    Log.i("一直蹦", data.toString());
                     goodsAdapter = new GoodsByOrderAdapter(this, data, goodsList);
                     goods_fot_order_lv.setAdapter(goodsAdapter);
                 } else {
@@ -828,7 +829,14 @@ public class BuildOrderAty extends BaseAty {
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
             govh.tv_number.setText("x" + getItem(i).get("num"));
-            //govh.jifen_tv.setText("（赠送:" + getItem(i).get("return_integral") + "积分）");
+            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+                String return_integral = getItem(i).get("return_integral");
+                // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
+                govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
+            } catch (Exception e) {
+                // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
+                govh.jifen_tv.setText("");
+            }
             L.e("wang", "====>>>>>>>>>>>getItem(i):" + getItem(i));
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
@@ -837,19 +845,23 @@ public class BuildOrderAty extends BaseAty {
             } else {
                 govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
             }
-//            if (getItem(i).get("invoice_status").equals("1")) {
-//                govh.layout.setVisibility(View.VISIBLE);
-//                govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "不开发票" : i_bean.get(i).getInvoice_type());
-//            } else {
-//                govh.layout.setVisibility(View.GONE);
-//            }
+            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+                if (getItem(i).get("invoice_status").equals("1")) {
+                    govh.layout.setVisibility(View.VISIBLE);
+                    govh.textview.setText(TextUtils.isEmpty(i_bean.get(i).getInvoice_type()) ? "不开发票" : i_bean.get(i).getInvoice_type());
+                } else {
+                    govh.layout.setVisibility(View.GONE);
+                }
+            } catch (Exception e) {
+                govh.layout.setVisibility(View.GONE);
+            }
             govh.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     index = i;
                     Bundle bundle = new Bundle();
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
-                   // bundle.putString("wj_price", getItem(i).get("wj_price"));
+                    // bundle.putString("wj_price", getItem(i).get("wj_price"));
                     if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
                         bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
@@ -882,14 +894,14 @@ public class BuildOrderAty extends BaseAty {
             govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
             govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
             // 公益宝贝
-            if(null==getItem(i).get("welfare")){
+            if (null == getItem(i).get("welfare")) {
                 govh.layout_gongyi.setVisibility(View.GONE);
-            }else{
+            } else {
                 govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
                 govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
             }
             // 售后
-            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1")?View.VISIBLE:View.GONE);
+            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
             govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
 
             /**
