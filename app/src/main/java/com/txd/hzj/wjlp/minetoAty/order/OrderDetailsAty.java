@@ -793,8 +793,13 @@ public class OrderDetailsAty extends BaseAty {
                 }else{
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                 }
-
             }
+
+            if("3".equals(type)){
+                //20180520  拼单购没有售后
+                tgvh.tv_btn_left.setVisibility(View.GONE);
+            }
+
             if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
                 tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
@@ -940,7 +945,12 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_remind.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    if("3".equals(type)){
+                        GroupBuyOrder.remind(OrderDetailsAty.this,order_id);
+                    }else{
+                        Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    }
+
                     showProgressDialog(); // 显示加载框
                     efreshPage();
                 }

@@ -22,6 +22,7 @@ import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
+import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUserCouponAty;
 
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
      * 3.余额明细
      * 4.线下充值
      * 5.成长值明细
+     * 7.蓝色代金券赠送明细
+     * 8.蓝色代金券使用明细
      */
     private int type = 1;
 
@@ -89,7 +92,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
             // 查看详情
-            if (type == 4 || type == 3 || type == 1){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
+            if (type == 4 || type == 3 || type == 1||type == 7){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             } else {
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
@@ -139,6 +142,12 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }
+                    }else if (type==7){
+                        Intent intent = new Intent(context, ParticularsUserCouponAty.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", stickyExampleModel.log_id);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
                     }
                 }
             });
@@ -181,7 +190,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             } else if (5 == type) { // 成长值明细
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
-            }else if(7 == type){
+            }else if(7 == type){ // 蓝色代金券赠送明细
+                Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
+            }else if(8 == type){ // 蓝色代金券使用明细
+                recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }
         }

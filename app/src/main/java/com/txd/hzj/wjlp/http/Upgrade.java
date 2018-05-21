@@ -2,10 +2,8 @@ package com.txd.hzj.wjlp.http;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.httpTools.ApiTool;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
-import com.txd.hzj.wjlp.bean.UpdataApp;
 
 /**
  * ===============Txunda===============

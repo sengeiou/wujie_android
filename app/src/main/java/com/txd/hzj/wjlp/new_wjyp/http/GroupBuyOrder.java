@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.new_wjyp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 
@@ -202,4 +203,18 @@ public class GroupBuyOrder {
         params.addBodyParameter("id", groupId);
         apiTool2.postApi(url +"mkShareUrl", params,baseView);
     }
+
+    /**
+     * 提醒发货
+     *
+     * @param baseView
+     * @param group_buy_order_id 订单ID
+     */
+    public static void remind(BaseView baseView, String group_buy_order_id) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", group_buy_order_id);
+        apiTool2.postApi(url + "remind", requestParams, baseView);
+    }
+
 }

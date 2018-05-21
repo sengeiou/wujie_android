@@ -7,9 +7,6 @@ import com.ants.theantsgo.config.Config;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
-
 import static com.txd.hzj.wjlp.jpush.TagAliasOperatorHelper.sequence;
 
 /**

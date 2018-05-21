@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -31,17 +30,12 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.bean.UserBalanceHjs;
-import com.txd.hzj.wjlp.http.groupbuy.GroupBuy;
-import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
-import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
-import com.txd.hzj.wjlp.popAty.LovingAdapter;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.CarOrder;
@@ -50,16 +44,12 @@ import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.popAty.LovingAdapter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * ===============Txunda===============
@@ -1126,7 +1116,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
-            if (map_Type.get(pPosition)) {
+            if ("3".equals(from)&&map_Type.get(pPosition)) {
                 goVh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 goVh.tyIv.setVisibility(View.GONE);

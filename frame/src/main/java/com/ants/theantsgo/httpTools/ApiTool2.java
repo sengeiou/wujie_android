@@ -32,7 +32,7 @@ public class ApiTool2 {
     /**
      * 默认的缓存超时时间(缓存时间)
      */
-    private final int DEFULT_CURRENT_HTTP_CACHE_EXPIRY = 1000;
+    private final int DEFULT_CURRENT_HTTP_CACHE_EXPIRY = 3000;
 
     /**
      * 通过GET方式联网请求接口
@@ -59,7 +59,9 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
-        params.addHeader("token", PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", ""));
+        String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
+        params.addHeader("token", token);
+        L.i("token", "========token=========" + token);
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }
 

@@ -46,9 +46,6 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.BodyBean;
 import com.txd.hzj.wjlp.bean.commodity.CheapGroupBean;
@@ -59,7 +56,6 @@ import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsActiveBean;
-import com.txd.hzj.wjlp.bean.commodity.GoodsAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBannerBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
@@ -69,7 +65,6 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.GroupBean;
 import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
-import com.txd.hzj.wjlp.bean.commodity.ProductBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -90,7 +85,6 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
-import com.txd.hzj.wjlp.view.FoldTextView;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.io.Serializable;
@@ -109,7 +103,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,FoldTextView.OnFoldListener {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
     /**
      * 商品TextView
      */
@@ -477,7 +471,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     private String vouchers_desc = "";//代金券弹窗下面的提示文字
     @ViewInject(R.id.tv_expirationdate)
-    private FoldTextView tv_expirationdate;//保质期提示
+    private TextView tv_expirationdate;//保质期提示
 
     @ViewInject(R.id.layout_djq)
     private LinearLayout layout_djq;//代金券布局
@@ -562,6 +556,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.rv_cheap_group)
     private RecyclerView rv_cheap_group;
 
+    @ViewInject(R.id.tv_expirationdateLayout)
+    private LinearLayout tv_expirationdateLayout;
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
@@ -587,6 +583,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView goods_select_attr_tv;
     private String groupPrice;
     private String goods_name;
+    private GoodLuckDetailsPranster goodLuckPranster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -611,6 +608,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        goodLuckPranster = new GoodLuckDetailsPranster();
+        goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
     }
 
     @Override
@@ -620,7 +619,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq, R.id.tv_expirationdateLayout
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -775,6 +774,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle1.putString("goods_id", goods_id);
                 startActivity(aty_collocations.class, bundle1);
                 break;
+            case R.id.tv_expirationdateLayout: {
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v);
+            }
         }
     }
 
@@ -872,8 +874,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         size = ToolKit.dip2px(this, 80);
         // 买家头像(评论)
         mSize = ToolKit.dip2px(this, 60);
-
-        tv_expirationdate.setOnFoldListener(this);
     }
 
     @Override
@@ -1123,7 +1123,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     } else if (goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_end_desc());
                     } else {
-                        tv_expirationdate.setVisibility(View.GONE);
+                        tv_expirationdateLayout.setVisibility(View.GONE);
                     }
                     // 售价
                     //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
@@ -1807,28 +1807,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
                 String order_id = data.getStringExtra("order_id");
-                if (!android.text.TextUtils.isEmpty(order_id)) ;
-                bundle.putString("order_id", order_id);
+                if (!android.text.TextUtils.isEmpty(order_id)) {
+                    bundle.putString("order_id", order_id);
+                }
                 bundle.putString("num", data.getStringExtra("num"));
                 bundle.putString("product_id", data.getStringExtra("product_id"));
                 startActivity(BuildOrderAty.class, bundle);
             }
         }
-
-    }
-
-    @Override
-    public void fold() {
-
-    }
-
-    @Override
-    public void unfold() {
-
-    }
-
-    @Override
-    public void onAnimationEnd() {
 
     }
 }

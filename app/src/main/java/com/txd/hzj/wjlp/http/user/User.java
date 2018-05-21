@@ -20,7 +20,7 @@ import java.util.List;
 
 public class User {
 
-    private String url = Config.BASE_URL + "User/";
+    private static String url = Config.BASE_URL + "User/";
 
     /**
      * 获取个人资料
@@ -206,6 +206,7 @@ public class User {
         params.addBodyParameter("p", String.valueOf(p));
         apiTool2.postApi(url + "vouchersLog", params, baseView);
     }
+
     /**
      * 赠送代金券明细
      *
@@ -344,12 +345,12 @@ public class User {
     /**
      * 赠送蓝色代金券
      */
-    void giveCoupon(String price,String code,String pay_password,BaseView baseView) {
+    void giveCoupon(String price, String code, String pay_password, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("price",price);
-        params.addBodyParameter("code",code);
-        params.addBodyParameter("pay_password",pay_password);
+        params.addBodyParameter("price", price);
+        params.addBodyParameter("code", code);
+        params.addBodyParameter("pay_password", pay_password);
         apiTool2.postApi(url + "gifVoucher", params, baseView);
     }
 
@@ -585,14 +586,14 @@ public class User {
     public static void userCard(BaseView view) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApi(Config.BASE_URL + "User/userCard", params, view);
+        apiTool2.postApi(url + "userCard", params, view);
     }
 
     public static void verificationPayPwd(String PayPwd, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("PayPwd", PayPwd);
-        apiTool2.postApi(Config.BASE_URL + "User/verificationPayPwd", params, baseView);
+        apiTool2.postApi(url + "verificationPayPwd", params, baseView);
     }
 
     /**
@@ -603,8 +604,22 @@ public class User {
     public static void settings(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApi(Config.BASE_URL + "User/setting", params, baseView);
+        apiTool2.postApi(url + "setting", params, baseView);
     }
 
+    /**
+     * 赠送券的流水明细
+     *
+     * @param baseView
+     * @param voucher_id 赠送券ID
+     * @param page       请求的分页
+     */
+    public static void gifVoucherListDetail(BaseView baseView, String voucher_id, String page) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("voucher_id", voucher_id);
+        params.addBodyParameter("p", page);
+        apiTool2.postApi(url + "gifVoucherListDetail", params, baseView);
+    }
 
 }

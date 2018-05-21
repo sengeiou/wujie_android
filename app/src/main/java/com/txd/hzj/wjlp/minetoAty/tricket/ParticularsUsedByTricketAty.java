@@ -65,6 +65,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
      * 4.线下充值明细
      * 5.成长值明细
      * 6.线上充值明细
+     * 7.代金券赠送明细
      */
     private int from = 1;
 
