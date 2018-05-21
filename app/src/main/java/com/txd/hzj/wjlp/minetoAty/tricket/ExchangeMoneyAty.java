@@ -152,7 +152,6 @@ public class ExchangeMoneyAty extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        L.e("===============title_right_tv=================" + titlt_right_tv.getVisibility());
         showStatusBar(R.id.title_re_layout);
     }
 
@@ -295,7 +294,8 @@ public class ExchangeMoneyAty extends BaseAty {
                     if (integral.isEmpty()) { // 如果没有输入或输入值为空，则不显示括号中的内容
                         rate_tv.setText(rate + "%");
                     } else { // 否则显示括号中具体扣除的手续费
-                        rate_tv.setText(rate + "%（需扣除" + (Double.parseDouble(integral.isEmpty() ? "0" : integral) * rateInt / 100.0) + "元手续费）");
+                        double integralDouble = Double.parseDouble(integral.isEmpty() ? "0" : integral) * rateInt / 100.0;
+                        rate_tv.setText(rate + "%（需扣除" + (integralDouble >= 100.0 ? "100" : integralDouble) + "元手续费）");
                     }
                 }
             }
