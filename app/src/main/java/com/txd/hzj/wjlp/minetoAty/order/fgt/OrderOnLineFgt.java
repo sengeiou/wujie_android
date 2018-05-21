@@ -176,7 +176,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             }
         });
-
     }
 
     @Override
@@ -192,7 +191,6 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     public void onResume() {
         super.onResume();
-        swipe_refresh.setRefreshing(true);
         if (from.equals("0")) {
             com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {

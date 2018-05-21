@@ -11,8 +11,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 
-import java.io.Serializable;
-
 /**
  * 创建者：Qyl
  * 创建时间：2018/5/18 0018 14:11

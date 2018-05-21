@@ -16,6 +16,8 @@ import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.bean.GiveCouponBean;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
+import java.util.Map;
+
 /**
  * 创建者：Qyl
  * 创建时间：2018/5/18 0018 14:46
@@ -39,6 +41,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         userPst = new UserPst(this);
     }
+
     @Override
     protected int getLayoutResId() {
         return R.layout.give_coupon_accounts;
@@ -80,16 +83,16 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
                 String money = moneyNumber.getText().toString().trim();
                 String user = userName.getText().toString().trim();
                 String pwd = payPwds.getText().toString().trim();
-                if (money!=null&&user!=null&&pwd!=null){
-                    userPst.giveCoupon(money,user,pwd);
+                if (money != null && user != null && pwd != null) {
+                    userPst.giveCoupon(money, user, pwd);
                 }
                 break;
             case R.id.title_be_back_iv:
                 Intent intent = new Intent();
-                if (nums!=null&&nums!=""){
-                    intent.putExtra("info",nums);
+                if (nums != null && nums != "") {
+                    intent.putExtra("info", nums);
                     //把结果返回
-                    setResult(RESULT_OK,intent);
+                    setResult(RESULT_OK, intent);
                     finish();
                 }
                 finish();
@@ -100,13 +103,13 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Log.i("蓝色代金券",jsonStr);
+        Log.i("蓝色代金券", jsonStr);
         GiveCouponBean gson = GsonUtil.GsonToBean(jsonStr, GiveCouponBean.class);
-        if (gson.getCode().equals("1")){
+        if (gson.getCode().equals("1")) {
             showToast("赠送成功");
         }
         nums = gson.getNums();
-        if (nums!=null){
+        if (nums != null) {
             balance.setText(nums);
         }
     }
