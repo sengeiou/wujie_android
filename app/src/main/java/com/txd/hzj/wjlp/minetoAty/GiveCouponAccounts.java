@@ -87,7 +87,9 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
                     userPst.giveCoupon(money, user, pwd);
                 }
                 break;
-
+            case R.id.title_be_back_iv:
+                finish();
+                break;
         }
     }
 

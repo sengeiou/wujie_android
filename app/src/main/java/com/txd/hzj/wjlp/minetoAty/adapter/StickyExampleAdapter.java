@@ -191,6 +191,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             } else if (5 == type) { // 成长值明细
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }else if(7 == type){ // 蓝色代金券赠送明细
+                recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }else if(8 == type){ // 蓝色代金券使用明细
                 recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);

@@ -456,7 +456,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-        //代金券赠送明细
+        // 代金券赠送明细
         if (requestUrl.contains("gifVoucherList")){
             Log.i("赠送明细",jsonStr);
             if (1 == p) {
