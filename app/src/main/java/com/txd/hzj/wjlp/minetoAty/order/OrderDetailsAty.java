@@ -907,7 +907,7 @@ public class OrderDetailsAty extends BaseAty {
 //                    if (map.get("remind_status").equals("0")) {
                         // 如果未提醒过发货，则将提醒发货按钮设置为显示
                         tgvh.textview.setText(map.get("auto_time")); // 设置文字为最晚收货的时间
-                        if (order_status.equals("2")) { // 如果订单状态是待发货
+                        if (order_status.equals("1")) { // 如果订单状态是待发货
                             tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
                         }
 //                    }
