@@ -828,7 +828,7 @@ public class BuildOrderAty extends BaseAty {
                 govh = (GOVH) view.getTag();
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
-            govh.tv_number.setText("x" + getItem(i).get("num"));
+            govh.tv_number.setText("×" + getItem(i).get("num"));
             try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
                 String return_integral = getItem(i).get("return_integral");
                 // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示

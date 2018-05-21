@@ -10,8 +10,6 @@ import java.util.List;
  * 联系方式：常用邮箱或电话
  */
 public class GoodsInfoBean implements Serializable {
-
-
     private String goods_id;//" "商品id ",
     private String goods_name;//"商品名称",
     private String market_price;//"市场价",
@@ -70,6 +68,15 @@ public class GoodsInfoBean implements Serializable {
     private String balance_num;//
     private String product_id;// //属性id
     private String cate_id;//"商品二级分类id",
+    private String exchange_num;
+
+    public String getExchange_num() {
+        return exchange_num;
+    }
+
+    public void setExchange_num(String exchange_num) {
+        this.exchange_num = exchange_num;
+    }
 
     public String getCate_id() {
         return cate_id;

@@ -87,16 +87,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
                     userPst.giveCoupon(money, user, pwd);
                 }
                 break;
-            case R.id.title_be_back_iv:
-                Intent intent = new Intent();
-                if (nums != null && nums != "") {
-                    intent.putExtra("info", nums);
-                    //把结果返回
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-                finish();
-                break;
+
         }
     }
 
@@ -111,6 +102,13 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
         nums = gson.getNums();
         if (nums != null) {
             balance.setText(nums);
+        }
+        Intent intent = new Intent();
+        if (nums != null && nums != "") {
+            intent.putExtra("info", nums);
+            //把结果返回
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 }
