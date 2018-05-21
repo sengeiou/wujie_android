@@ -219,6 +219,7 @@ public class VipPayAty extends BaseAty {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
 
         commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setOutsideTouchable(false)
                 .setView(R.layout.popup_layout_djq)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setBackGroundLevel(0.7f)
@@ -268,10 +269,10 @@ public class VipPayAty extends BaseAty {
                         cancel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                pay_by_balance_cb.setChecked(false);
+                                /*pay_by_balance_cb.setChecked(false);
                                 cb_jfzf.setChecked(false);
                                 pay_by_ali_cb.setChecked(false);
-                                pay_by_wechat_cb.setChecked(false);
+                                pay_by_wechat_cb.setChecked(false);*/
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 commonPopupWindow.dismiss();
                             }
