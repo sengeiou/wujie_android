@@ -30,7 +30,7 @@ public class BalancePay {
         params.addBodyParameter("order_type", order_type);
         params.addBodyParameter("discount_type", discount_type);
         params.addBodyParameter("goods_num", inte_id);
-        apiTool2.postApi(url + " ", params, baseView);
+        apiTool2.postApi(url + "BalancePay", params, baseView);
 
     }
 }
