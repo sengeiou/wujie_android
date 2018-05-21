@@ -749,7 +749,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     }
 
 
-                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,
+                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
                     if (is_C) {
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
