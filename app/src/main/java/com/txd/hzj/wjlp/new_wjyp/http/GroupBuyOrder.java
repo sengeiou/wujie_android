@@ -213,7 +213,7 @@ public class GroupBuyOrder {
     public static void remind(BaseView baseView, String group_buy_order_id) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("order_goods_id", group_buy_order_id);
+        requestParams.addBodyParameter("group_buy_order_id", group_buy_order_id);
         apiTool2.postApi(url + "remind", requestParams, baseView);
     }
 
