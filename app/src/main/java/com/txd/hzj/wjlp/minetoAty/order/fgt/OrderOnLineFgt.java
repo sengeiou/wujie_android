@@ -34,6 +34,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
@@ -591,7 +592,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                         bundle.putString("type", from);
                         bundle.putBoolean("isTy", map_Type.get(position));
-                        startActivity(OrderDetailsAty.class, bundle);
+                        startActivity(CollageDetailsAty.class, bundle);
                     } else if (from.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
@@ -664,7 +665,6 @@ public class OrderOnLineFgt extends BaseFgt {
                     public void onClick(View v) {
                         PreOrder.preCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         showProgressDialog();
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -745,7 +745,6 @@ public class OrderOnLineFgt extends BaseFgt {
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         }
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -790,7 +789,6 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         }
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -957,7 +955,6 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
-                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
@@ -982,7 +979,6 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
-                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
