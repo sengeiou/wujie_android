@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.L;
@@ -49,7 +50,7 @@ import cn.iwgang.countdownview.CountdownView;
  * ===============Txunda===============
  */
 public class CreateGroupAty extends BaseAty {
-
+    private   OfferedDataBean offeredDataBean;
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
@@ -161,19 +162,28 @@ public class CreateGroupAty extends BaseAty {
         group_operation_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent();
-                List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
-                List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
-                toAttrs(v,
-                        0,
-                        "4",
-                        goods_id,
-                        data.getGoods_img(),
-                        data.getShop_price(),
-                        getIntent().getStringExtra("group_buy_id") + "-" + log_id,
-                        goods_attr, goods_val,
-                        getIntent().getStringExtra("is_attr")
-                );
+                if(Integer.parseInt(offeredDataBean.getData().getIs_colonel())>0){
+//                    "is_colonel": "1",
+                    Toast.makeText(CreateGroupAty.this,"团长不能重复参团",Toast.LENGTH_LONG).show();
+                }else if(Integer.parseInt(offeredDataBean.getData().getIs_member())>0){
+//                    "0"//1是团员 0不是团员
+                    Toast.makeText(CreateGroupAty.this,"您已经在团里了",Toast.LENGTH_LONG).show();
+                }else{
+                    Intent intent = getIntent();
+                    List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
+                    List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
+                    toAttrs(v,
+                            0,
+                            "4",
+                            goods_id,
+                            data.getGoods_img(),
+                            data.getShop_price(),
+                            getIntent().getStringExtra("group_buy_id") + "-" + log_id,
+                            goods_attr, goods_val,
+                            getIntent().getStringExtra("is_attr")
+                    );
+                }
+
 
             }
         });
@@ -244,7 +254,7 @@ public class CreateGroupAty extends BaseAty {
             ObserTool.gainInstance().jsonToBean(jsonStr, OfferedDataBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-                    OfferedDataBean offeredDataBean = (OfferedDataBean) t;
+                    offeredDataBean= (OfferedDataBean) t;
                     data = offeredDataBean.getData();
                     list_pic = data.getHead_pic();
                     offered = data.getOffered();
@@ -264,17 +274,19 @@ public class CreateGroupAty extends BaseAty {
                         buffer.append("\n");
                     }
                     textview.setText(buffer.toString());
-                    if (!ListUtils.isEmpty(list_pic)) {
-                        HeadPicBean head = new HeadPicBean();
-                        head.setPic(list_pic.get(0).getPic());
-                        head.setType(data.getIs_colonel());
-                        list_pic.clear();
-                        list_pic.add(head);
-                    }
+
+
                     HeadPicBean head1 = new HeadPicBean();
-                    head1.setType(data.getIs_colonel());
+                    head1.setType("1");
                     head1.setPic(data.getColonel_head_pic());
-                    list_pic.add(head1);
+                    list_pic.add(0,head1);//团长
+
+//                    for(int i=0;i<list_pic.size();i++){
+//                        HeadPicBean head = new HeadPicBean();
+//                        head.setPic(list_pic.get(0).getPic());
+//                        head.setType(data.getIs_colonel());
+//                    }
+
 
                     //分享按钮
                     goods_title_share_tv.setOnClickListener(new View.OnClickListener() {
