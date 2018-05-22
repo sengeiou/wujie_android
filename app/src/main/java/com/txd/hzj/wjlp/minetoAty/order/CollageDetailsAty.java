@@ -376,7 +376,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
-                tv_btn_right.setVisibility(View.VISIBLE);
+                tv_btn_right.setVisibility(View.GONE);
                 break;
             case "4":
                 titlt_conter_tv.setText("待评价订单");
