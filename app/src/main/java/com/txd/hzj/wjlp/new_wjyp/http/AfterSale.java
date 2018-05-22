@@ -48,7 +48,6 @@ public class AfterSale {
         requestParams.addBodyParameter("reason", reason);
         requestParams.addBodyParameter("back_money", back_money);
         requestParams.addBodyParameter("back_desc", back_desc);
-        requestParams.addBodyParameter("reason", reason);
         requestParams.addBodyParameter("cause", cause);
         requestParams.addBodyParameter("goods_status", goods_status);
         requestParams.addBodyParameter("order_id", order_id);
@@ -123,13 +122,20 @@ public class AfterSale {
     }
 
 
-    //售后类型及货物状态
-    public static void backApplyType(String order_goods_id, BaseView baseView) {
+    //售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
+    public static void backApplyType(String order_type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        requestParams.addBodyParameter("order_type", order_type);
 
         apiTool2.postApi(url + "backApplyType", requestParams, baseView);
     }
-
+    //拼单售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
+    public static void backApplyType(String order_goods_id,String order_type, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        requestParams.addBodyParameter("order_type", order_type);
+        apiTool2.postApi(url + "backApplyType", requestParams, baseView);
+    }
 }

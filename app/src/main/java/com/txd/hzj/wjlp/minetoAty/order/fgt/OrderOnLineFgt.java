@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -186,6 +187,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+
     }
 
 
@@ -234,6 +236,21 @@ public class OrderOnLineFgt extends BaseFgt {
         } else if (from.equals("8")) {
             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
         }
+        order_on_line_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if ((firstVisibleItem+visibleItemCount)==totalItemCount){
+                    swipe_refresh.setLoadMore(true);
+                }else {
+                    swipe_refresh.setLoadMore(false);
+                }
+            }
+        });
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());

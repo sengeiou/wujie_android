@@ -27,7 +27,6 @@ import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +145,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             case R.id.apply_type_tv:
                 bundle = new Bundle();
                 bundle.putString("title", "售后类型");
-                bundle.putString("order_goods_id",getIntent().getStringExtra("order_goods_id"));
+                bundle.putString("order_goods_id", getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 101);
                 break;
             case R.id.goods_status_tv:
@@ -176,16 +175,20 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 if (moneyStatus == 1 && !priceStr.equals("")) { // 如果显示退款金额
 
                     double parseDouble = Double.parseDouble(priceStr.equals("") ? "0.0" : priceStr);
-                    if (parseDouble > maxPrice){
+                    if (parseDouble > maxPrice) {
                         showErrorTip("当前商品最多只能退" + df.format(maxPrice));
                         return;
                     }
 
                 }
 
-//                L.e("wang", df.format(money_be_back_ev.getText().toString()) + "=====================");
+                //                L.e("wang", df.format(money_be_back_ev.getText().toString()) + "=====================");
+                if ("3".equals(type)) {
+                    AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, "2", order_goods_id, this);
+                }else {
+                    AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
+                }
 
-                AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
                 showProgressDialog();
                 break;
         }
@@ -206,13 +209,16 @@ public class ApplyForAfterSalesAty extends BaseAty {
         imagePicker.setShowCamera(true);// 是否显示拍照按钮
         imagePicker.setSelectLimit(selectPicNum);
         order_goods_id = getIntent().getStringExtra("order_goods_id");
-        // 获取到order_goods_id，先请求一下商品状态=============================================
-        AfterSale.backApplyType(order_goods_id, this);
-
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
-        String maxPriceStr=getIntent().getStringExtra("maxPrice");
-        if(!TextUtils.isEmpty(maxPriceStr)){
+        if ("3".equals(type)) {
+            // 获取到order_goods_id，先请求一下商品状态=============================================
+            AfterSale.backApplyType(order_goods_id, "2", this);
+        } else {
+            AfterSale.backApplyType(order_goods_id, this);
+        }
+        String maxPriceStr = getIntent().getStringExtra("maxPrice");
+        if (!TextUtils.isEmpty(maxPriceStr)) {
             maxPrice = Double.parseDouble(getIntent().getStringExtra("maxPrice"));
             tv_price.setText("最多可退：" + df.format(maxPrice) + "(若涉及运费、税费退还问题，请与商家协商解决。)");
         }
@@ -243,7 +249,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
         if (split[split.length - 1].equals("backApplyType")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String after_desc = data.get("after_desc"); // 获取售后描述信息
-            if(after_desc.equals("")){
+            if (TextUtils.isEmpty(after_desc)) {
                 // 如果描述信息为空，则隐藏控件
                 apply_after_desc_tv.setVisibility(View.GONE);
             } else {
@@ -252,7 +258,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 apply_after_desc_tv.setText(after_desc);
             }
             moneyStatus = Integer.parseInt(data.get("money_status"));
-            if (moneyStatus == 0){
+            if (moneyStatus == 0) {
                 layouttuikuan.setVisibility(View.GONE);
             }
         }

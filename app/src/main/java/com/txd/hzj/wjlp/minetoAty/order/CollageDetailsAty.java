@@ -337,7 +337,7 @@ public class CollageDetailsAty extends BaseAty {
                 if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
                 } else {
-                    Order.receiving(order_id, clickMap.get("order_goods_id"), "", CollageDetailsAty.this);
+                    GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
                     showProgressDialog();
                 }
             } else {
@@ -478,16 +478,17 @@ public class CollageDetailsAty extends BaseAty {
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                 }
                 tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
-            } else if (order_status.equals("3")) { // 订单待收货状态
-                if (map.containsKey("sale_status")) {
+            }else if (order_status.equals("3")) { // 订单待收货状态
+                if (Integer.valueOf(map.get("status"))>1&&map.containsKey("sale_status")) {
                     tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
                 } else {
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                 }
+                tgvh.tv_btn_remind.setVisibility(View.GONE);
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
-            } else if (order_status.equals("6")) { // 订单为已取消状态
+            }else if (order_status.equals("6")) { // 订单为已取消状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
@@ -592,7 +593,7 @@ public class CollageDetailsAty extends BaseAty {
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.delayReceiving(list.get(i).get("order_goods_id"), CollageDetailsAty.this); // 请求后台延长收货接口
+                    GroupBuyOrder.delayReceiving(list.get(i).get("order_goods_id"), CollageDetailsAty.this); // 请求后台延长收货接口
                     showProgressDialog(); // 显示加载框
                     efreshPage();
                 }
@@ -617,10 +618,6 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                 tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
-            } else if (order_status.equals("3")) { // 订单待收货状态
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_right.setVisibility(View.GONE);
             } else if (order_status.equals("6")) { // 订单为已取消状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
@@ -745,7 +742,7 @@ public class CollageDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", CollageDetailsAty.this);
+                                GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
                                 showProgressDialog();
@@ -756,7 +753,7 @@ public class CollageDetailsAty extends BaseAty {
                             @Override
                             public void onClick(View v) {
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv2 click status = 2");
-                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", CollageDetailsAty.this);
+                                GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
                                 efreshPage();

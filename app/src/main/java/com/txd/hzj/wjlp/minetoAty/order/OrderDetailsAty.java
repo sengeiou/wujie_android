@@ -944,7 +944,11 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
+                    if ("3".equals(type)) {
+                        GroupBuyOrder.delayReceiving(order_id,OrderDetailsAty.this);
+                    } else {
+                        Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
+                    }
                     showProgressDialog(); // 显示加载框
                     efreshPage();
                 }
@@ -993,6 +997,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
+                tgvh.tv_btn_remind.setVisibility(View.GONE);
             } else if (order_status.equals("0")) { // 订单为待付款状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮显示
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
