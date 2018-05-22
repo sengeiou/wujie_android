@@ -159,7 +159,9 @@ public class EvaluationReleaseAty extends BaseAty {
             } else { // 已评价
                 titlt_right_tv.setVisibility(View.GONE);
                 ratingBar1.setRating(map.get("merchant_star").equals("") ? 0.0f : Float.parseFloat(map.get("merchant_star"))); // 店铺评分
-                ratingBar1.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                ratingBar2.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                L.e("===============merchant_star:===============" + Float.parseFloat(map.get("merchant_star")));
+                L.e("===============delivery_star:===============" + Float.parseFloat(map.get("delivery_star")));
                 ratingBar1.setIsIndicator(true); // 卖家服务
                 ratingBar2.setIsIndicator(true); // 物流服务
             }

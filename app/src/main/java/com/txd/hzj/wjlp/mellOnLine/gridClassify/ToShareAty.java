@@ -101,11 +101,11 @@ public class ToShareAty extends BaseAty {
         context = getIntent().getStringExtra("context");
         type = getIntent().getStringExtra("Shapetype");
         id = getIntent().getStringExtra("id");
-        if(!link.contains("://")){
+        if (!link.contains("://")) {
             userPst = new UserPst(this);
             GroupBuyOrder.shareurl(link, id, this);
-        }else{
-            shareUrl=link;
+        } else {
+            shareUrl = link;
         }
     }
 
@@ -120,9 +120,9 @@ public class ToShareAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("mkShareUrl")) {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
-            JSONObject object  = jsonObject.getJSONObject("data");
-            shareUrl=object.getString("url");
-            isComplete=true;
+            JSONObject object = jsonObject.getJSONObject("data");
+            shareUrl = object.getString("url");
+            isComplete = true;
         }
 
     }
@@ -141,25 +141,25 @@ public class ToShareAty extends BaseAty {
     private void shareForApp(String name) {
 //        if (isComplete) {
 
-            ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
-                @Override
-                public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
-                    switch (statusForShare) {
-                        case Success:
-                            userPst.shareBack(shareType, context, id, type, shareUrl);
-                            showRightTip("分享成功");
-                            finish();
-                            break;
-                        case Error:
-                            showErrorTip("分享失败");
-                            break;
-                        case Cancel:
-                            showErrorTip("分享取消");
-                            break;
-                    }
+        ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
+            @Override
+            public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
+                switch (statusForShare) {
+                    case Success:
+                        userPst.shareBack(shareType, context, id, type, shareUrl);
+                        showRightTip("分享成功");
+                        finish();
+                        break;
+                    case Error:
+                        showErrorTip("分享失败");
+                        break;
+                    case Cancel:
+                        showErrorTip("分享取消");
+                        break;
                 }
-            });
-            shareForApp.toShareWithPicUrl();
+            }
+        });
+        shareForApp.toShareWithPicUrl();
 //        }
     }
 
@@ -187,6 +187,9 @@ public class ToShareAty extends BaseAty {
                 public void run() {
                     // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
                     if (!isResume) {
+                        if (userPst == null) { // 判断对象是否为空，放置空指针报错
+                            userPst = new UserPst(ToShareAty.this);
+                        }
                         userPst.shareBack(shareType, context, id, type, link);
                         showRightTip("分享成功");
                         finish();
