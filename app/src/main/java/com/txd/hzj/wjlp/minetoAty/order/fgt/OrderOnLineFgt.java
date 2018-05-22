@@ -102,15 +102,14 @@ public class OrderOnLineFgt extends BaseFgt {
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
     private UserBalanceHjs userBalanceHjs;
-    private boolean isVisible;
     public OrderOnLineFgt() {
 
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        isVisible=isVisibleToUser;
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        swipe_refresh.setRefreshing(true);
     }
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
@@ -190,11 +189,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        swipe_refresh.setRefreshing(true);
-    }
+
 
     @Override
     public void onResume() {
@@ -254,6 +249,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 }else {
                     swipe_refresh.setLoadMore(false);
                 }
+
             }
         });
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
@@ -658,6 +654,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 PreOrder.preReceiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -711,6 +708,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
@@ -789,6 +787,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
@@ -988,6 +987,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "8":
                     Bundle bundle = new Bundle();
                     bundle.putString("order_id", getItem(position).get("order_id"));
+                    bundle.putString("type", from);
                     startActivity(EvaluationReleaseAty.class, bundle);
                     break;
             }
