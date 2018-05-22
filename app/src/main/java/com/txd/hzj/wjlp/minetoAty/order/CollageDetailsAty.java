@@ -198,6 +198,7 @@ public class CollageDetailsAty extends BaseAty {
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("5") || order_status.equals("6")) {
 
