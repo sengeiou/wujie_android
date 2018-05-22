@@ -767,7 +767,6 @@ public class OrderDetailsAty extends BaseAty {
             L.e("wang", "status = " + map.get("status") + "\tgetItem:" + map);
             /**
              * order_status": "0",  //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消   普通商品
-             * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
              */
             if (order_status.equals("0") || order_status.equals("5")) { // 订单为0待支付或5已取消
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 右侧按钮隐藏
@@ -807,6 +806,7 @@ public class OrderDetailsAty extends BaseAty {
                 } else {
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                 }
+
             }
 
             if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
@@ -902,27 +902,18 @@ public class OrderDetailsAty extends BaseAty {
              * "status":"//1->已收货，2->未收货  0->待发货
              */
             if (map.containsKey("status")) {
-
-                if (map.get("status").equals("1")) { // 判断商品收货状态如果1已收货
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 将中间确认收货按钮隐藏
-                    tgvh.delayReceiving.setVisibility(View.GONE); // 将左侧延长收货按钮隐藏
-                    tgvh.textview.setText("签收时间：" + map.get("sure_delivery_time")); // 设置文字为用户的收货时间
-                } else { // 否则商品状态为2未收货或者是0未发货
-                    L.e("map.get(\"status\"):" + map.get("status"));
-                    if (map.get("status").equals("2")) { // 如果是未收货
-                        tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
-                        tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
-                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
-                    } else if (map.get("status").equals("0")) { // 否则商品未发货
-
-                        //                    if (map.get("remind_status").equals("0")) {
-                        // 如果未提醒过发货，则将提醒发货按钮设置为显示
-                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为最晚收货的时间
-                        if (order_status.equals("1")) { // 如果订单状态是待发货
-                            tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
-                        }
-                        //                    }
+                if (map.get("status").equals("2")) { // 如果是未收货
+                    tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
+                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
+                    tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
+                } else if (map.get("status").equals("0")) { // 否则商品未发货
+                    // 如果未提醒过发货，则将提醒发货按钮设置为显示
+                    tgvh.textview.setText(map.get("auto_time")); // 设置文字为最晚收货的时间
+                    if (order_status.equals("1")) { // 如果订单状态是待发货
+                        tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
                     }
+                    tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏
+                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                 }
             }
 
@@ -949,7 +940,7 @@ public class OrderDetailsAty extends BaseAty {
                 @Override
                 public void onClick(View v) {
                     if ("3".equals(type)) {
-                        GroupBuyOrder.delayReceiving(order_id,OrderDetailsAty.this);
+                        GroupBuyOrder.delayReceiving(order_id, OrderDetailsAty.this);
                     } else {
                         Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     }
@@ -977,20 +968,6 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tv_btn_remind.setVisibility(View.GONE);
                 tgvh.tv_btn_right.setVisibility(View.GONE);
             }
-            /**
-             * "status":"//1->已收货，2->未收货  0->待发货
-             */
-            if (map.containsKey("status")) {
-                if (map.get("status").equals("0")) { // 收货状态 0已收货 1未收货 2待发货
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏
-                    tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
-                    tgvh.tv_btn_remind.setVisibility(View.VISIBLE); // 提醒发货按钮显示
-                } else if (map.get("status").equals("1")) {
-                    tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
-                } else if (map.get("status").equals("5")) { // 免费换货商家已发货状态
-                    tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货隐藏
-                }
-            }
 
             if (order_status.equals("2")) { // 订单待收货状态
                 if (map.containsKey("sale_status")) {
@@ -998,9 +975,13 @@ public class OrderDetailsAty extends BaseAty {
                 } else {
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                 }
+                if (map.containsKey("status")) {
+                    tgvh.tv_btn_right.setVisibility(map.get("status").equals("1") ? View.GONE : View.VISIBLE); // 延长收货按钮显示
+                } else {
+                    tgvh.tv_btn_right.setVisibility(View.GONE); // 延长收货按钮显示
+                }
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
-                tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
                 tgvh.tv_btn_remind.setVisibility(View.GONE);
             } else if (order_status.equals("0")) { // 订单为待付款状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮显示
