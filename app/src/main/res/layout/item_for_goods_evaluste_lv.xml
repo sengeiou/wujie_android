@@ -53,6 +53,12 @@
         android:minLines="5"
         android:padding="8dp"
         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/ed_text_length"
+        android:layout_gravity="right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="500"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/updata_pic_rv"
