@@ -5,34 +5,23 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.tamic.novate.Novate;
-import com.tamic.novate.Throwable;
-import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
-import com.txd.hzj.wjlp.new_wjyp.VipPayAty;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
-import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.http.User;
+import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import org.json.JSONArray;
@@ -40,10 +29,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

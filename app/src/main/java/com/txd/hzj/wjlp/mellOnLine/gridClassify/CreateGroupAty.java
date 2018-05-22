@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -31,7 +30,7 @@ import com.txd.hzj.wjlp.bean.commodity.OfferedDataBean;
 import com.txd.hzj.wjlp.bean.commodity.OfferedOfferBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GroupMemberAdapter;
-import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 

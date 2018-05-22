@@ -1,9 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -16,10 +13,7 @@ import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -27,16 +21,9 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.minetoAty.address.AddNewAddressAty2;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
-import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
+import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
-
-import org.json.JSONArray;
 
 import java.io.File;
 import java.util.ArrayList;

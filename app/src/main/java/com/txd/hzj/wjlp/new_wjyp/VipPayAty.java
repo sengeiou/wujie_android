@@ -29,10 +29,8 @@ import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
-import com.txd.hzj.wjlp.new_wjyp.http.BalancePay;
-import com.txd.hzj.wjlp.new_wjyp.http.IntegralPay;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.new_wjyp.http.MemberOrder;
+import com.txd.hzj.wjlp.http.MemberOrder;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 

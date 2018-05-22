@@ -19,7 +19,7 @@ import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.new_wjyp.RoundTransformation;
 import com.txd.hzj.wjlp.new_wjyp.UnionmerchartAty;
-import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
+import com.txd.hzj.wjlp.http.Recommending;
 
 import java.util.ArrayList;
 import java.util.HashMap;

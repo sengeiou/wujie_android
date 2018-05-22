@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.new_wjyp.http;
+package com.txd.hzj.wjlp.http;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class CarOrder {
-    private static String url = "/CarOrder/";
+    private static String url = Config.BASE_URL + "CarOrder/";
 
     /**
      * 余额支付
@@ -25,7 +25,7 @@ public class CarOrder {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("discount_type", discount_type);
-        apiTool2.postApi(Config.BASE_URL + url + "balancePay", params, baseView);
+        apiTool2.postApi(url + "balancePay", params, baseView);
     }
 
     /**
@@ -38,7 +38,7 @@ public class CarOrder {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApi(Config.BASE_URL + url + "integralPay", params, baseView);
+        apiTool2.postApi(url + "integralPay", params, baseView);
     }
 
     /**
@@ -53,7 +53,7 @@ public class CarOrder {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("type", type);
         params.addBodyParameter("p", String.valueOf(p));
-        apiTool2.postApi(Config.BASE_URL + url + "orderList", params, baseView);
+        apiTool2.postApi(url + "orderList", params, baseView);
 
     }
 
@@ -67,7 +67,7 @@ public class CarOrder {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApi(Config.BASE_URL + url + "orderInfo", params, baseView);
+        apiTool2.postApi(url + "orderInfo", params, baseView);
     }
 
     /**
@@ -80,7 +80,7 @@ public class CarOrder {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApi(Config.BASE_URL + url + "commentPage", params, baseView);
+        apiTool2.postApi(url + "commentPage", params, baseView);
     }
 
 
@@ -112,6 +112,6 @@ public class CarOrder {
             params.addBodyParameter(body, list.get(i));
         }
         params.addBodyParameter("content", content);
-        apiTool2.postApi(Config.BASE_URL + url + "addComment", params, baseView);
+        apiTool2.postApi(url + "addComment", params, baseView);
     }
 }

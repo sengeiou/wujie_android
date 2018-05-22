@@ -15,7 +15,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
 
 import java.util.Map;
 

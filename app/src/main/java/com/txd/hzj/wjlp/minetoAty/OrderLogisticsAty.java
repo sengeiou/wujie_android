@@ -1,18 +1,15 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
@@ -22,7 +19,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.OrderLogistics;
-import com.txd.hzj.wjlp.new_wjyp.http.Order;
+import com.txd.hzj.wjlp.http.Order;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -13,13 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.util.L;
-import com.baidu.mapapi.map.Text;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.new_wjyp.http.Order;
 
 /**
  * 开发者： WangJJ

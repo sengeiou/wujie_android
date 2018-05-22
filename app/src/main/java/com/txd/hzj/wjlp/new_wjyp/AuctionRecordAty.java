@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.AuctionOrder;
 
 import java.util.List;
 import java.util.Map;

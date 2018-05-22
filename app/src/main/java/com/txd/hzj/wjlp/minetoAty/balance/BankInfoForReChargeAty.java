@@ -17,7 +17,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.http.UserBalance;
 
 import org.json.JSONArray;
 import org.json.JSONException;

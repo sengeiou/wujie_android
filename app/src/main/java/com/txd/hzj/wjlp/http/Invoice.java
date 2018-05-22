@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.new_wjyp.http;
+package com.txd.hzj.wjlp.http;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;

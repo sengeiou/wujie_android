@@ -16,8 +16,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.AfterSale;
 import com.txd.hzj.wjlp.minetoAty.order.ApplyForAfterSalesAty;
-import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 
 import java.util.List;
 import java.util.Map;
