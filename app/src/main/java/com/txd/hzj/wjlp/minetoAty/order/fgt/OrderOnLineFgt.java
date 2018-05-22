@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
@@ -22,7 +21,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -47,6 +45,7 @@ import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -235,22 +234,6 @@ public class OrderOnLineFgt extends BaseFgt {
         } else if (from.equals("8")) {
             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
         }
-        order_on_line_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if ((firstVisibleItem+visibleItemCount)==totalItemCount){
-                    swipe_refresh.setLoadMore(true);
-                }else {
-                    swipe_refresh.setLoadMore(false);
-                }
-
-            }
-        });
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
