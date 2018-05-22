@@ -84,6 +84,7 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -679,7 +680,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     protected void initialized() {
         limit_buy_id = getIntent().getStringExtra("limit_buy_id");
-        type = getIntent().getIntExtra("type", 0);
+        type = getIntent().getIntExtra("type", WJConfig.XLG);
         limitBuyPst = new LimitBuyPst(this);
         collectPst = new UserCollectPst(this);
         perBuyPst = new PerBuyPst(this);
@@ -702,15 +703,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     protected void requestData() {
         switch (type) {
-            case 0:// 限量购
+            case WJConfig.XLG:// 限量购
                 limitBuyPst.limitBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
-            case 2:// 无界预购
+            case WJConfig.WJYG:// 无界预购
                 perBuyPst.preBuyInfo(limit_buy_id, page);
                 tv_ljgm.setText("交付定金");
                 break;
-            case 10:// 无界商店
+            case WJConfig.WJSD:// 无界商店
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
@@ -728,11 +729,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         tv_ljgm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (0 == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
+                if (WJConfig.XLG== type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
                     if (is_C) {//限量购物
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
-                        intent.putExtra("type", "5");
+                        intent.putExtra("type", WJConfig.TYPE_XLG);
                         intent.putExtra("goods_id", goods_id);
                         intent.putExtra("group_buy_id", limit_buy_id);
                         intent.putExtra("num", String.valueOf(goods_number));
@@ -740,14 +741,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
                         startActivity(intent);
                     } else {
-                        toAttrs(v, 0, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                        toAttrs(v, 0, WJConfig.TYPE_XLG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
 
-                } else if (2 == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
-                    if (is_C) {
+                } else if (WJConfig.WJYG == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
+                    if (is_C) {    //无界预购
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
-                        intent.putExtra("type", "6");
+                        intent.putExtra("type", WJConfig.TYPE_WJYG);
                         intent.putExtra("goods_id", goods_id);
                         intent.putExtra("group_buy_id", limit_buy_id);
                         intent.putExtra("num", String.valueOf(goods_number));
@@ -755,7 +756,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
                         startActivity(intent);
                     } else {
-                        toAttrs(v, 0, "6", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                        toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
 
 
@@ -763,7 +764,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     if (is_C) {
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
-                        intent.putExtra("type", "10");
+                        intent.putExtra("type", WJConfig.TYPE_WJSD);
                         intent.putExtra("goods_id", goods_id);
                         intent.putExtra("group_buy_id", limit_buy_id);
                         intent.putExtra("num", String.valueOf(goods_number));
@@ -894,11 +895,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         difference = difference * 1000;
                         goods_count_down_view.start(difference);
                         // 限量购价格
-                        if (0 == type) {
+                        if (WJConfig.XLG == type) {
 //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get
 //                            ("limit_price"));
                             now_price_tv.setText(goodsInfo.getLimit_price());
-                        } else if (2 == type) {
+                        } else if (WJConfig.WJYG == type) {
                             now_price_tv.setText(goodsInfo.getPre_price());
 //                    ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("deposit"));
                             tv_dingjin.setText("定金 " + goodsInfo.getDeposit());
@@ -929,9 +930,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                 "积分" + goodsInfo.getIntegral(), 2, Color.parseColor("#FD8214"));
 
                         try {
-                            if (0 == type) {
+                            if (WJConfig.XLG == type) {
                                 limit_store = Integer.parseInt(goodsInfo.getLimit_store());
-                            } else if (2 == type) {
+                            } else if (WJConfig.WJYG == type) {
                                 limit_store = Integer.parseInt(goodsInfo.getSuccess_max_num());
                             } else {
                                 //limit_store = Integer.parseInt(goodsInfo.getSuccess_max_num());
@@ -959,12 +960,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         String str = new BigDecimal(d).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
                         limit_pro_tv.setText(str + "%");
                         String only;
-                        if (0 == type) {
+                        if (WJConfig.XLG == type) {
                             only = "已抢" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
                             ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_residue_tv, only,
                                     6 + String.valueOf(sell_num).length(), only.length() - 1,
                                     ContextCompat.getColor(LimitGoodsAty.this, R.color.theme_color));
-                        } else if (2 == type) {
+                        } else if (WJConfig.WJYG == type) {
                             only = "已预购" + sell_num + "件/剩余" + (limit_store - sell_num) + "件";
                             ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_residue_tv, only,
                                     7 + String.valueOf(sell_num).length(), only.length() - 1,
@@ -1690,13 +1691,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         if (is_f) {
             page++;
             switch (type) {
-                case 0:// 限量购
+                case WJConfig.XLG:// 限量购
                     limitBuyPst.limitBuyInfo(limit_buy_id, page);
                     break;
-                case 2:// 无界预购
+                case WJConfig.WJYG:// 无界预购
                     perBuyPst.preBuyInfo(limit_buy_id, page);
                     break;
-                case 10:// 无界商店
+                case WJConfig.WJSD:// 无界商店
                     L.e("==========", String.valueOf(type));
                     integralBuyPst.integralBuyInfo(limit_buy_id, page);
                     break;
