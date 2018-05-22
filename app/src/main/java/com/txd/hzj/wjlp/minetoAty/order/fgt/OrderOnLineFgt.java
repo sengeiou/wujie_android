@@ -159,7 +159,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
                     bundle.putBoolean("isTy", map_Type.get(i));
-                    startActivity(OrderDetailsAty.class, bundle);
+                    startActivity(CollageDetailsAty.class, bundle);
                 } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("order_id"));
