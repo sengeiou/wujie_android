@@ -39,6 +39,7 @@ import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonSyntaxException;
+import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -103,7 +104,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
     /**
      * 商品TextView
      */
@@ -585,6 +586,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String goods_name;
     private GoodLuckDetailsPranster goodLuckPranster;
 
+    @ViewInject(R.id.title_goods_layout)
+    private View title_goods_layout;
+
+    @ViewInject(R.id.title_details_layout)
+    private View title_details_layout;
+
+    @ViewInject(R.id.title_evaluate_layout)
+    private View title_evaluate_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -599,10 +609,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         //评价的商品布局(隐藏)
         goods_for_my_evaluste_layout.setVisibility(View.GONE);
 
-
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
-        getHeight();
+//        getHeight();
         rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         // 优惠券
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -612,10 +621,22 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
     }
 
+    private boolean init = false;
+
     @Override
-    @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !init) {
+            goodLuckPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
+            goodLuckPranster.setTabViews(title_goods_layout, title_details_layout, title_evaluate_layout);
+            init = true;
+        }
+    }
+
+    @Override
+    @OnClick({
             R.id.goods_title_collect_layout, R.id.goods_title_share_tv, R.id.show_or_hide_iv, R.id.tv_dpg,
-            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.be_back_top_iv, R.id.to_cart_layouts,
+            R.id.show_or_hide_lv_iv, R.id.show_or_hide_explain_iv, R.id.to_cart_layouts,
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
@@ -645,18 +666,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 intent.putExtra("two_cate_id", goodsInfo.getCate_id());
                 intent.setClass(this, SubclassificationAty.class);
                 startActivity(intent);
-                break;
-            case R.id.title_goods_layout://商品选项卡
-                clickType = 1;
-                limit_goods_details_sc.smoothScrollTo(0, 0);
-                break;
-            case R.id.title_details_layout://详情选项卡
-                clickType = 2;
-                limit_goods_details_sc.smoothScrollTo(0, secondHeight);
-                break;
-            case R.id.title_evaluate_layout://评价选项卡
-                clickType = 3;
-                limit_goods_details_sc.smoothScrollTo(0, topHeighe);
                 break;
             case R.id.goods_title_collect_layout://收藏
 
@@ -704,10 +713,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     show_or_hide_explain_iv.setImageResource(R.drawable.icon_hide_other_layout);
                 }
                 break;
-            case R.id.be_back_top_iv:// 回到顶部
-                limit_goods_details_sc.smoothScrollTo(0, 0);
-                setTextViewAndViewColor(0);
-                break;
+
             case R.id.go_to_main_layouts:// 回到首页
                 backMain(0);
                 break;
@@ -780,42 +786,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     }
 
-    private void setTextViewAndViewColor(int next) {
-        title_goods_tv.setTextColor(Color.BLACK);
-        title_details_tv.setTextColor(Color.BLACK);
-        title_evaluate_tv.setTextColor(Color.BLACK);
-
-        title_goods_view.setBackgroundColor(Color.WHITE);
-        title_details_view.setBackgroundColor(Color.WHITE);
-        title_evaluate_view.setBackgroundColor(Color.WHITE);
-
-        if (1 == clickType) {
-            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-        if (2 == clickType) {
-            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-        if (3 == clickType) {
-            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-            return;
-        }
-
-        if (0 == next) {
-            title_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        } else if (1 == next) {
-            title_details_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_details_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        } else {
-            title_evaluate_tv.setTextColor(ContextCompat.getColor(this, R.color.theme_color));
-            title_evaluate_view.setBackgroundColor(ContextCompat.getColor(this, R.color.theme_color));
-        }
-    }
 
     /**
      * 轮播图
@@ -1549,39 +1519,21 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     private void getHeight() {
-        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                bannerHeight = online_carvouse_view.getHeight();
-                topHeighe = top_lin_layout.getHeight();
-                secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
-            }
-        });
+//        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
+//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @SuppressWarnings("deprecation")
+//            @Override
+//            public void onGlobalLayout() {
+//                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+//                bannerHeight = online_carvouse_view.getHeight();
+//                topHeighe = top_lin_layout.getHeight();
+//                secondHeight = second_lin_layout.getHeight();
+//                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
+//            }
+//        });
+        goodLuckPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
     }
 
-    @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y <= 0) {
-            be_back_top_iv.setVisibility(View.GONE);
-            setTextViewAndViewColor(0);
-        } else if (y > bannerHeight) {
-            be_back_top_iv.setVisibility(View.VISIBLE);
-            if (y < topHeighe) {
-                setTextViewAndViewColor(0);
-            } else if (y >= topHeighe && y < secondHeight) {
-                setTextViewAndViewColor(2);
-            } else {
-                setTextViewAndViewColor(1);
-            }
-        }
-        if (oldy > y) {
-            clickType = 0;
-        }
-    }
 
     @Override
     public void onBottom() {
