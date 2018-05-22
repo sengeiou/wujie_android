@@ -102,9 +102,15 @@ public class OrderOnLineFgt extends BaseFgt {
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
     private UserBalanceHjs userBalanceHjs;
-
+    private boolean isVisible;
     public OrderOnLineFgt() {
 
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible=isVisibleToUser;
     }
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
@@ -113,12 +119,6 @@ public class OrderOnLineFgt extends BaseFgt {
         fgt.from = from;
         fgt.title = title;
         return fgt;
-    }
-
-    @Override
-    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
-        super.onMultiWindowModeChanged(isInMultiWindowMode);
-        swipe_refresh.setRefreshing(true);
     }
 
     @Override
@@ -190,6 +190,11 @@ public class OrderOnLineFgt extends BaseFgt {
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        swipe_refresh.setRefreshing(true);
+    }
 
     @Override
     public void onResume() {

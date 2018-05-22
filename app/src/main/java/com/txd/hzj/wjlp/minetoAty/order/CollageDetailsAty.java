@@ -32,7 +32,6 @@ import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_after;
 import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
 import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.Order;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import java.util.List;
@@ -460,9 +459,14 @@ public class CollageDetailsAty extends BaseAty {
                 } else {
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                 }
-                tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
-            }else if (order_status.equals("3")) { // 订单待收货状态
-                if (Integer.valueOf(map.get("status"))>1&&map.containsKey("sale_status")) {
+                if (Integer.valueOf(map.get("remind_status")) == 0) {
+                    tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
+                } else {
+                    tgvh.tv_btn_remind.setVisibility(View.GONE);
+                }
+
+            } else if (order_status.equals("3")) { // 订单待收货状态
+                if (Integer.valueOf(map.get("status")) > 1 && map.containsKey("sale_status")) {
                     tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
                 } else {
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
@@ -471,7 +475,7 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
-            }else if (order_status.equals("6")) { // 订单为已取消状态
+            } else if (order_status.equals("6")) { // 订单为已取消状态
                 tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
                 tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
                 tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
@@ -587,8 +591,6 @@ public class CollageDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     if ("3".equals(type)) {
                         GroupBuyOrder.remind(CollageDetailsAty.this, order_id);
-                    } else {
-                        Order.remind(CollageDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
                     }
                     showProgressDialog(); // 显示加载框
                     efreshPage();
