@@ -236,10 +236,5 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
             resources.updateConfiguration(configuration, resources.getDisplayMetrics());
         }
         return resources;
-//        Resources res = super.getResources();
-//        Configuration config = new Configuration();
-//        config.setToDefaults();
-//        res.updateConfiguration(config, res.getDisplayMetrics());
-//        return res;
     }
 }
