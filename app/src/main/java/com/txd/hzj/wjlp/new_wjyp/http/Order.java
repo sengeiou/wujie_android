@@ -235,14 +235,6 @@ public class Order {
         apiTool2.postApi(url + "CommentOrder", requestParams, baseView);
     }
 
-    public static void delayReceiving(String order_goods_id, BaseView baseView) {
-        RequestParams requestParams = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("order_goods_id", order_goods_id);
-        apiTool2.postApi(url + "delayReceiving", requestParams, baseView);
-
-    }
-
     /**
      * 订单物流
      *  接口地址
@@ -271,6 +263,19 @@ public class Order {
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
         apiTool2.postApi(url + "remind", requestParams, baseView);
+    }
+
+    /**
+     * 延长收货
+     * @param order_goods_id
+     * @param baseView
+     */
+    public static void delayReceiving(String order_goods_id, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        apiTool2.postApi(url + "delayReceiving", requestParams, baseView);
+
     }
 
 }
