@@ -231,7 +231,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
-                            android:text="汇款时间        "
+                            android:text="汇款时间"
                             android:textColor="@color/app_text_color" />
 
                         <TextView
@@ -240,6 +240,7 @@
                             android:layout_height="wrap_content"
                             android:drawableEnd="@drawable/icon_turn_right_g"
                             android:hint="请选择"
+                            android:paddingStart="40dp"
                             android:padding="12dp"
                             android:textColor="@color/app_text_color" />
                     </LinearLayout>
@@ -253,7 +254,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
-                            android:text="汇款金额(元)  "
+                            android:text="汇款金额(元)"
                             android:textColor="@color/app_text_color" />
 
                         <EditText
@@ -264,6 +265,7 @@
                             android:hint="请填写"
                             android:inputType="numberDecimal"
                             android:padding="12dp"
+                            android:paddingStart="16dp"
                             android:textColor="@color/app_text_color"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -277,7 +279,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingStart="12dp"
-                            android:text="汇款人姓名    "
+                            android:text="汇款人姓名"
                             android:textColor="@color/app_text_color" />
 
                         <EditText
@@ -287,6 +289,7 @@
                             android:background="@color/white"
                             android:hint="请输入"
                             android:padding="12dp"
+                            android:paddingStart="25dp"
                             android:textColor="@color/app_text_color"
                             android:textSize="14sp" />
                     </LinearLayout>
