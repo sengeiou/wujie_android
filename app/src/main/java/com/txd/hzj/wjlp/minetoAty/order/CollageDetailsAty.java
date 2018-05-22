@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Space;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -117,6 +118,7 @@ public class CollageDetailsAty extends BaseAty {
     private LinearLayout lin_logistics;
     private String type2WL = null;//给物流的type  0 普通商品 1 拼单购
     private boolean isTy = false;
+    private Space buttom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +159,7 @@ public class CollageDetailsAty extends BaseAty {
     @Override
     protected void initialized() {
         thisAdapter = new ThisGoodsAdapter();
+        buttom = (Space) findViewById(R.id.pay_buttom);
     }
 
     @Override
@@ -346,42 +349,56 @@ public class CollageDetailsAty extends BaseAty {
     private void setGroupBuyOrderStatus() {
         switch (order_status) {
             case "0":
+                titlt_conter_tv.setText("待支付订单");
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
                 layout_choose_address.setVisibility(View.GONE);
                 break;
             case "1":
+                titlt_conter_tv.setText("待成团订单");
                 tv_state.setText("待成团");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
+                bot_for_order.setVisibility(View.GONE);
+                buttom.setVisibility(View.GONE);
                 break;
             case "2":
+                titlt_conter_tv.setText("待发货订单");
                 tv_state.setText("待发货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
+                bot_for_order.setVisibility(View.GONE);
+                buttom.setVisibility(View.GONE);
                 break;
             case "3":
+                titlt_conter_tv.setText("待收货订单");
                 tv_state.setText("待收货");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
-                tv_btn_right.setVisibility(View.GONE);
+                tv_btn_right.setVisibility(View.VISIBLE);
                 break;
             case "4":
+                titlt_conter_tv.setText("待评价订单");
                 tv_state.setText("待评价");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("评价");
+                bot_for_order.setVisibility(View.VISIBLE);
                 break;
             case "5":
+                titlt_conter_tv.setText("已完成订单");
                 tv_state.setText("已完成");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
+                bot_for_order.setVisibility(View.VISIBLE);
                 break;
             case "6":
+                titlt_conter_tv.setText("已取消订单");
                 tv_state.setText("已取消");
                 tv_btn_left.setVisibility(View.GONE);
                 layout_choose_address.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
+                bot_for_order.setVisibility(View.VISIBLE);
                 break;
 
         }
