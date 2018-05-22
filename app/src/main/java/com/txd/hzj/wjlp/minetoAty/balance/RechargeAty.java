@@ -311,17 +311,17 @@ public class RechargeAty extends BaseAty {
                 break;
             case R.id.tv_submit:
                 if (!TextUtils.isEmpty(et_price.getText().toString())) {
-//                    try {
-//                        // 获取输入的金额并转换成float
-//                        float price = Float.parseFloat(et_price.getText().toString());
-//                        if (price >= 100) { // 如果金额大于（等于）100
+                    try {
+                        // 获取输入的金额并转换成float
+                        float price = Float.parseFloat(et_price.getText().toString());
+                        if (price >= 100) { // 如果金额大于（等于）100
                             showPwdPop(v); // 弹出密码输入框
-//                        } else {
-//                            showToast("最低充值金额100元");
-//                        }
-//                    } catch (Exception e) { // 捕捉类型转换异常
-//                        showToast("充值金额输入有误！");
-//                    }
+                        } else {
+                            showToast("最低充值金额100元");
+                        }
+                    } catch (Exception e) { // 捕捉类型转换异常
+                        showToast("充值金额输入有误！");
+                    }
                 } else { // 没有输入金额
                     showToast("请输入充值金额！");
                 }

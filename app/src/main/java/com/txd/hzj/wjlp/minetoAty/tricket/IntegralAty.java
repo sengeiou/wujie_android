@@ -271,7 +271,7 @@ public class IntegralAty extends BaseAty {
         if (requestUrl.contains("changeIntegralStatus")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (map.get("code").equals("1")) {
-                Toast.makeText(IntegralAty.this, map.get("message"), Toast.LENGTH_SHORT).show();
+                showToast(map.get("message"));
             } else {
                 cb.setChecked(!cb.isChecked());
             }
