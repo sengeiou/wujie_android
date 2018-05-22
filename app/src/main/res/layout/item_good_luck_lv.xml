@@ -52,7 +52,7 @@
                 app:isHideTimeBackground="false"
                 app:isShowDay="false"
                 app:isShowHour="true"
-                app:isShowMillisecond="false"
+                app:isShowMillisecond="true"
                 app:isShowMinute="true"
                 app:isShowSecond="true"
                 app:isShowTimeBgDivisionLine="false"
