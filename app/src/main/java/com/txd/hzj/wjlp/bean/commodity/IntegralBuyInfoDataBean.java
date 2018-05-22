@@ -10,13 +10,23 @@ import java.util.List;
  * 联系方式：常用邮箱或电话
  */
 public class IntegralBuyInfoDataBean extends DataBean implements Serializable {
-    private List<GuessGoodsListBean>  guess_goods_list;
+    private List<AllGoodsBean>  guess_goods_list;
 
-    public List<GuessGoodsListBean> getGuess_goods_list() {
+    public List<AllGoodsBean> getGuess_goods_list() {
         return guess_goods_list;
     }
 
-    public void setGuess_goods_list(List<GuessGoodsListBean> guess_goods_list) {
+    public void setGuess_goods_list(List<AllGoodsBean> guess_goods_list) {
         this.guess_goods_list = guess_goods_list;
+    }
+    private  LimitGoodsInfo goodsInfo;
+
+    @Override
+    public LimitGoodsInfo getGoodsInfo() {
+        return goodsInfo;
+    }
+
+    public void setGoodsInfo(LimitGoodsInfo goodsInfo) {
+        this.goodsInfo = goodsInfo;
     }
 }

@@ -26,7 +26,7 @@
             android:id="@+id/goods_grade_rb"
             style="@style/foodRatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
             android:isIndicator="false"
@@ -49,6 +49,8 @@
         android:gravity="top"
         android:hint="宝贝满足你的期待吗？说说你的使用心得，分享给想买的他们吧"
         android:lines="5"
+        android:maxLength="500"
+        android:minLines="5"
         android:padding="8dp"
         android:textSize="14sp" />
 
