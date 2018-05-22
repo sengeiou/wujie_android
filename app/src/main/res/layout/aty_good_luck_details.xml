@@ -360,6 +360,7 @@
                                     android:layout_height="8dp" />
 
                                 <TextView
+                                    android:id="@+id/brzktTv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"

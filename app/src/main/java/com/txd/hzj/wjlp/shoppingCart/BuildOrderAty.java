@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.shoppingCart;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
@@ -248,37 +249,15 @@ public class BuildOrderAty extends BaseAty {
                         }
                     }
                 }
+
 //                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
 //                    showToast("请选择配送方式");
 //                    return;
 //                }
-                EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
-                Gson gson = new Gson();
 
+                Gson gson = new Gson();
                 String json = gson.toJson(i_bean);
-                bundle = new Bundle();
-                bundle.putString("type", type);
-                bundle.putString("order_type", type.equals("1") ? "0" : "1");
-                bundle.putString("num", num);
-                bundle.putString("group_buy_id", group_buy_id);
-                bundle.putString("goods_id", goods_id);
-                bundle.putString("product_id", product_id);
-                bundle.putString("address_id", address_id);
-                bundle.putString("shop_name", tv_merchant_name.getText().toString());
-                bundle.putString("money", String.valueOf(total_price + tp));
-                bundle.putString("cart_id", cart_id);
-                bundle.putString("freight", freight);
-                bundle.putString("freight_type", freight_type);
-                bundle.putString("json", json);
-                bundle.putString("leave_message", et_leave_message.getText().toString());
-                //判断是普通商品下单还是购物车下单
-                if (TextUtils.isEmpty(cart_id)) {
-                    //普通下单
-                    bundle.putString("goodsList", gson.toJson(goodsList));
-                } else {
-                    //购物车下单
-                    bundle.putString("goodsCartList", gson.toJson(goodsCartList));
-                }
+
 
                 invoiceList.removeAll(invoiceList); // 移除之前添加的发票信息
                 if (i_bean.size() > 0) {
@@ -291,14 +270,51 @@ public class BuildOrderAty extends BaseAty {
                     }
                 }
 
-                bundle.putString("invoiceList", gson.toJson(invoiceList));
-//                bundle.putString("bean", gson.toJson());
-                bundle.putString("is_pay_password", is_pay_password);
-                bundle.putString("order_id", order_id);
-                bundle.putString("freight", String.valueOf(tp));
-                startActivity(PayForAppAty.class, bundle);
 
-                finish();
+                if (groupType != null && groupType.equals("1")) { // 1试用品拼单 2常规拼单",
+
+//                    GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, gson.toJson(invoiceList), getString("leave_message"), TextUtils.isEmpty(cart_id) ? gson.toJson(goodsList) : gson.toJson(goodsCartList), this);
+
+
+                } else {
+                    EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
+
+                    bundle = new Bundle();
+                    bundle.putString("type", type);
+                    bundle.putString("order_type", type.equals("1") ? "0" : "1");
+                    bundle.putString("num", num);
+                    bundle.putString("group_buy_id", group_buy_id);
+                    bundle.putString("goods_id", goods_id);
+                    bundle.putString("product_id", product_id);
+                    bundle.putString("address_id", address_id);
+                    bundle.putString("shop_name", tv_merchant_name.getText().toString());
+                    bundle.putString("money", String.valueOf(total_price + tp));
+                    bundle.putString("cart_id", cart_id);
+                    bundle.putString("freight", freight);
+                    bundle.putString("freight_type", freight_type);
+                    bundle.putString("json", json);
+                    bundle.putString("leave_message", et_leave_message.getText().toString());
+                    //判断是普通商品下单还是购物车下单
+                    if (TextUtils.isEmpty(cart_id)) {
+                        //普通下单
+                        bundle.putString("goodsList", gson.toJson(goodsList));
+                    } else {
+                        //购物车下单
+                        bundle.putString("goodsCartList", gson.toJson(goodsCartList));
+                    }
+
+
+
+                    bundle.putString("invoiceList", gson.toJson(invoiceList));
+//                bundle.putString("bean", gson.toJson());
+                    bundle.putString("is_pay_password", is_pay_password);
+                    bundle.putString("order_id", order_id);
+                    bundle.putString("freight", String.valueOf(tp));
+                    startActivity(PayForAppAty.class, bundle);
+
+                    finish();
+                }
+
 
                 break;
             case R.id.layout_choose_address:
@@ -413,16 +429,7 @@ public class BuildOrderAty extends BaseAty {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
-            //如果是体验拼单groupType为1，请求玩接口关闭当前页面
-            if (groupType != null && groupType.equals("1")) {
-                if (jsonObject.get("code").equals("1")) {
-                    ToastTip.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
-                    this.finish();
-                } else {
-                    showErrorTip("操作失败");
-                    this.finish();
-                }
-            }
+
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject itemJson = (JSONObject) jsonArray.get(i);
                 countryTax += itemJson.getDouble("country_tax");
@@ -458,17 +465,15 @@ public class BuildOrderAty extends BaseAty {
 
         } else if (requestUrl.contains("setOrder")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-
             if (map.get("code").equals("1")) {
                 showToast(map.get("message"));
+                delyFinsh();
             } else {
-                showToast(map.get("message"));
+                showErrorTip(map.get("message"));
+                delyFinsh();
             }
-
         } else {
-
             L.e("wang", "=====>>>>>>>>>jsonStr:" + jsonStr);
-
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
@@ -548,6 +553,16 @@ public class BuildOrderAty extends BaseAty {
             }
         }
 
+    }
+
+    private void delyFinsh() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 2000);
     }
 
     @ViewInject(R.id.tv_sle_left)

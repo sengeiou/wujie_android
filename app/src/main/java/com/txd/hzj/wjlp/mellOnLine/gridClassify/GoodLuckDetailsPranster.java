@@ -1,7 +1,9 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,11 +21,17 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements GoodLuckPranster {
     CommodityDetailsInter.GoodLuckView goodLuckView;
     CommonPopupWindow commonPopupWindow;
+
     @Override
-    public void showExperiencePopWindow(Context context,View view) {
+    public void showExperiencePopWindow(Context context, View view,StringBuffer stringBuffer) {
+        View contentView = LayoutInflater.from(context).inflate(R.layout.layout_comdetail_exper, null);
+        if(!TextUtils.isEmpty(stringBuffer)){
+            TextView textView=contentView.findViewById(R.id.pop_exper_content);
+            textView.setText(stringBuffer);
+        }
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(context)
-                .setView(R.layout.layout_comdetail_exper)
+                .setView(contentView)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 .setBackGroundLevel(0.7f)
                 .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {

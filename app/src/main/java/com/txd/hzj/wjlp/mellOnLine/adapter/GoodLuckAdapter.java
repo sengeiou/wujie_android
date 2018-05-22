@@ -38,7 +38,7 @@ public class GoodLuckAdapter extends BaseAdapter {
     private List<GroupBean> list;
     private LayoutInflater inflater;
     private GoodLuckVH goodLuckVH;
-
+    private String groupType;
     /**
      * 团长头像大小
      */
@@ -50,7 +50,8 @@ public class GoodLuckAdapter extends BaseAdapter {
         this.adapterTextViewClickListener = adapterTextViewClickListener;
     }
 
-    public GoodLuckAdapter(Context context, List<GroupBean> list) {
+    public GoodLuckAdapter(Context context, List<GroupBean> list,String groupType) {
+        this.groupType=groupType;
         this.context = context;
         this.list = list;
         size = ToolKit.dip2px(context, 40);
@@ -64,7 +65,7 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     @Override
     public GroupBean getItem(int i) {
-        return list.get(i);
+        return (GroupBean) list.get(i);
     }
 
     @Override
@@ -86,14 +87,7 @@ public class GoodLuckAdapter extends BaseAdapter {
         } else {
             goodLuckVH = (GoodLuckVH) view.getTag();
         }
-        goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (adapterTextViewClickListener != null) {
-                    adapterTextViewClickListener.onTextViewClick(view, i);
-                }
-            }
-        });
+
         if (!getNow) {//当前服务器系统时间只获取一遍
             calendar = Calendar.getInstance();
             getNow = true;
@@ -104,24 +98,40 @@ public class GoodLuckAdapter extends BaseAdapter {
         long now_time = calendar.getTimeInMillis();
         // 剩余时间
 //        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
-        long last_time = Long.parseLong(groupBean.getEnd_time())-now_time;
+        long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
 //        long last_time=Long.parseLong(groupBean.getEnd_time())-Long.parseLong(groupBean.getSys_time()) ;
         // 倒计时Tag
         goodLuckVH.good_count_down_view.setTag("GoodLuck" + i);
         // 开始倒计时
-        goodLuckVH.good_count_down_view.start(last_time*1000);
+        goodLuckVH.good_count_down_view.start(last_time * 1000);
 
-        Glide.with(context).load(groupBean.getHead_user().getHead_pic())
-                .override(size, size)
-                .placeholder(R.drawable.ic_default)
-                .centerCrop()
-                .error(R.drawable.ic_default)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .into(goodLuckVH.group_head_pic_iv);
-        // 昵称
-        goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
-        //还差。。。人
-        goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
+        if("2".equals(groupType)){  // 2常规拼单
+            goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (adapterTextViewClickListener != null) {
+                        adapterTextViewClickListener.onTextViewClick(view, i);
+                    }
+                }
+            });
+
+            Glide.with(context).load(groupBean.getHead_user().getHead_pic())
+                    .override(size, size)
+                    .placeholder(R.drawable.ic_default)
+                    .centerCrop()
+                    .error(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(goodLuckVH.group_head_pic_iv);
+            // 昵称
+            goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
+            //还差。。。人
+            goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
+        }else{// 2体验拼单
+            goodLuckVH.join_in_group_tv.setVisibility(View.GONE);
+            goodLuckVH.group_head_pic_iv.setVisibility(View.GONE);
+            goodLuckVH.group_diff_tv.setVisibility(View.GONE);
+            goodLuckVH.group_name_tv.setVisibility(View.GONE);
+        }
 
         return view;
     }
