@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="好收成超市"
+            android:text=""
             android:textColor="@color/app_text_color"
             android:textSize="20sp" />
 
@@ -60,6 +60,7 @@
                     android:layout_height="match_parent"
                     android:drawableTop="@drawable/icon_collect_g_hzj"
                     android:gravity="center"
+                    android:drawablePadding="6dp"
                     android:text="收藏"
                     android:textColor="@color/app_text_color"
                     android:textSize="12sp" />

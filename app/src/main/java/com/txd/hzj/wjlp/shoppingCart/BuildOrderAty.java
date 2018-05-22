@@ -20,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tips.ToastTip;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -33,9 +35,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Goods;
+import com.txd.hzj.wjlp.http.Invoice;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.Bean;
 import com.txd.hzj.wjlp.new_wjyp.Invoice1;
 import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
@@ -44,6 +49,7 @@ import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.PreOrder;
+import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.MessageEvent;
@@ -174,6 +180,7 @@ public class BuildOrderAty extends BaseAty {
     private Bean bean;
     private double countryTax = 0.00; // 进口税
     private String order_id;
+    private String groupType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -346,6 +353,7 @@ public class BuildOrderAty extends BaseAty {
         }
         type = intent.getStringExtra("type");
         mid = intent.getStringExtra("mid");
+        groupType = intent.getStringExtra("group_type");
         cart_id = intent.getStringExtra("json");
         L.e("cart" + cart_id);
         goods_id = getString("goods_id", intent);
@@ -399,11 +407,22 @@ public class BuildOrderAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         L.e(requestUrl + "cccc=====>>>>>" + jsonStr);
 
+
         // 设置显示的进口税字段
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
+            //如果是体验拼单groupType为1，请求玩接口关闭当前页面
+            if (groupType != null && groupType.equals("1")) {
+                if (jsonObject.get("code").equals("1")) {
+                    ToastTip.makeText(this, "操作成功", Toast.LENGTH_SHORT).show();
+                    this.finish();
+                } else {
+                    showErrorTip("操作失败");
+                    this.finish();
+                }
+            }
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject itemJson = (JSONObject) jsonArray.get(i);
                 countryTax += itemJson.getDouble("country_tax");
