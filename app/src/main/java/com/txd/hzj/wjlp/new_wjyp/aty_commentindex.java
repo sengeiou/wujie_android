@@ -60,6 +60,7 @@ public class aty_commentindex extends BaseAty {
 
     String goods_id, goods_img, order_id;
     private TextView textLength;
+    private String type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class aty_commentindex extends BaseAty {
         goods_id = getIntent().getStringExtra("order_goods_id");
         goods_img = getIntent().getStringExtra("goods_img");
         order_id = getIntent().getStringExtra("order_id");
+        type = getIntent().getStringExtra("type");
         Glide.with(this).load(goods_img).into(imageview);
         textLength = (TextView) findViewById(R.id.ed_text_length);
         titlt_conter_tv.setText("发布评价");
@@ -117,12 +119,12 @@ public class aty_commentindex extends BaseAty {
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (tv_submit.getText().length()<5){
+                if (evalusete_context_tv.getText().length()<5){
                     showToast("评价字数不能少于5字");
                     return;
                 }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
-                        list, String.valueOf(goods_grade_rb.getRating()), order_id, "1", aty_commentindex.this);
+                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, aty_commentindex.this);
                 showProgressDialog();
             }
         });

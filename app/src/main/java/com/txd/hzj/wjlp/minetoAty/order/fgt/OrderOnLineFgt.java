@@ -102,9 +102,14 @@ public class OrderOnLineFgt extends BaseFgt {
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
     private UserBalanceHjs userBalanceHjs;
-
     public OrderOnLineFgt() {
 
+    }
+
+    @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        swipe_refresh.setRefreshing(true);
     }
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
@@ -113,12 +118,6 @@ public class OrderOnLineFgt extends BaseFgt {
         fgt.from = from;
         fgt.title = title;
         return fgt;
-    }
-
-    @Override
-    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
-        super.onMultiWindowModeChanged(isInMultiWindowMode);
-        swipe_refresh.setRefreshing(true);
     }
 
     @Override
@@ -159,7 +158,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
                     bundle.putBoolean("isTy", map_Type.get(i));
-                    startActivity(OrderDetailsAty.class, bundle);
+                    startActivity(CollageDetailsAty.class, bundle);
                 } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("order_id"));
@@ -189,6 +188,7 @@ public class OrderOnLineFgt extends BaseFgt {
     protected void initialized() {
 
     }
+
 
 
     @Override
@@ -249,6 +249,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 }else {
                     swipe_refresh.setLoadMore(false);
                 }
+
             }
         });
         swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
@@ -653,6 +654,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 PreOrder.preReceiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -706,6 +708,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
@@ -784,6 +787,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
@@ -983,6 +987,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "8":
                     Bundle bundle = new Bundle();
                     bundle.putString("order_id", getItem(position).get("order_id"));
+                    bundle.putString("type", from);
                     startActivity(EvaluationReleaseAty.class, bundle);
                     break;
             }

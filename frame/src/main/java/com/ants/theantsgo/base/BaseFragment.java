@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,10 +23,6 @@ import com.ants.theantsgo.systemBarUtil.ImmersionFragment;
 import com.ants.theantsgo.tips.ToastTip;
 import com.lidroid.xutils.ViewUtils;
 
-import java.io.InterruptedIOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.net.UnknownServiceException;
 import java.util.Map;
 
 

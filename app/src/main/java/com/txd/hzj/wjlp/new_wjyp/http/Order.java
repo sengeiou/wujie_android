@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.new_wjyp.http;
 
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.base.BaseView;
@@ -46,10 +45,6 @@ public class Order {
      * 添加订单
      *
      * @param address_id   地址id
-     * @param goods_num    商品数量(直接购买时传)
-     * @param goods_id     商品id(直接购买时传)
-     * @param product_id   商品属性id(直接购买时传)
-     * @param cart_ids     购物车商品id(逗号分隔 购物车结算时传)
      * @param order_type   订单类型（ 0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：无界商店 8：线下商城 购物车购买传0）
      * @param order_id     订单id(订单支付时传)
      * @param limit_buy_id
@@ -181,11 +176,23 @@ public class Order {
      * @param order_id
      * @param baseView
      */
-    public static void Commentindex(String order_id, BaseView baseView) {
+    public static void Commentindex(String order_id,String type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
-        requestParams.addBodyParameter("order_type", "1");
+        //order_type	订单类型 1普通订单 2拼单购 3无界预购 4比价购 5无界商店
+        if ("0".equals(type)){
+            requestParams.addBodyParameter("order_type", "1");
+        }else if ("3".equals(type)){
+            requestParams.addBodyParameter("order_type", "2");
+        }else if ("4".equals(type)){
+            requestParams.addBodyParameter("order_type", "3");
+        }else if ("6".equals(type)){
+            requestParams.addBodyParameter("order_type", "4");
+        }else if ("7".equals(type)){
+            requestParams.addBodyParameter("order_type", "5");
+        }
+
         apiTool2.postApi(url + "Commentindex", requestParams, baseView);
     }
 
@@ -209,7 +216,22 @@ public class Order {
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("content", content);
         requestParams.addBodyParameter("all_star", all_star);
-        requestParams.addBodyParameter("order_type", order_type);
+        //order_type	订单类型 1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖
+        if ("0".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "1");
+        }else if ("3".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "2");
+        }else if ("4".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "3");
+        }else if ("6".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "4");
+        }else if ("5".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "6");
+        }
+        //todo 限量购的类型需要确定
+        //        else if("5".equals(order_type)){
+        //            requestParams.addBodyParameter("order_type", "5");
+        //        }
         for (int i = 0; i < list.size(); i++) {
             requestParams.addBodyParameter("pictures" + i, list.get(i));
         }
@@ -231,7 +253,23 @@ public class Order {
         requestParams.addBodyParameter("order_id", order_id);
         requestParams.addBodyParameter("merchant_star", merchant_star);
         requestParams.addBodyParameter("delivery_star", delivery_star);
-        requestParams.addBodyParameter("order_type", order_type);
+        //order_type	订单类型 1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖
+        if ("0".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "1");
+        }else if ("3".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "2");
+        }else if ("4".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "3");
+        }else if ("6".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "4");
+        }else if ("5".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "6");
+        }
+        //todo 限量购的类型需要确定
+//        else if("5".equals(order_type)){
+//            requestParams.addBodyParameter("order_type", "5");
+//        }
+
         apiTool2.postApi(url + "CommentOrder", requestParams, baseView);
     }
 

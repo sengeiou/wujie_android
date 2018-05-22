@@ -226,6 +226,7 @@ public class OrderDetailsAty extends BaseAty {
                     } else if (order_status.equals("3")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("4") || order_status.equals("5")) {
                         new AlertDialog(OrderDetailsAty.this).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
@@ -260,6 +261,7 @@ public class OrderDetailsAty extends BaseAty {
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("5") || order_status.equals("6")) {
 
@@ -292,6 +294,7 @@ public class OrderDetailsAty extends BaseAty {
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
                         startActivity(EvaluationReleaseAty.class, bundle);
                     } else if (order_status.equals("5") || order_status.equals("6")) {
                         new AlertDialog(OrderDetailsAty.this).builder()
@@ -336,6 +339,7 @@ public class OrderDetailsAty extends BaseAty {
                         case "8":
                             Bundle bundle = new Bundle();
                             bundle.putString("order_id", order_id);
+                            bundle.putString("type", type);
                             startActivity(EvaluationReleaseAty.class, bundle);
                             break;
                     }

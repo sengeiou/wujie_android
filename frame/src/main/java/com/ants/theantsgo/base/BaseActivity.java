@@ -52,6 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     private View progress;
     private View error;
     private ProgressDialog progressDialog;
+    private Toast toast;
 
     /**
      * 项目的application
@@ -444,9 +445,13 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
 
     // =======提示框，并非Dialog================ToastTip===========
     protected void showToast(String text) {
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+
+        if (toast == null) {
+            toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(text);
+        }
         toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.setText(text);
         toast.show();
     }
 
