@@ -124,7 +124,7 @@ public class OrderDetailsAty extends BaseAty {
 
     @ViewInject(R.id.lin_logistics) // 订单物流入口
     private LinearLayout lin_logistics;
-    private String type2WL = null;//给物流的type  0 普通商品 1 拼单购
+    private String type2WL = "";//给物流的type  0 普通商品 1 拼单购
     private boolean isTy = false;
 
     @Override

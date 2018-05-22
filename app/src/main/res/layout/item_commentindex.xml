@@ -25,7 +25,7 @@
             android:id="@+id/goods_grade_rb"
             style="@style/foodRatingBar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="22dp"
             android:layout_below="@+id/tv_goods_name"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
