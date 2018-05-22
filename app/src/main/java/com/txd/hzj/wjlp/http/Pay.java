@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.new_wjyp.http;
+package com.txd.hzj.wjlp.http;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
@@ -6,7 +6,7 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 public class Pay {
-    private static String url = "Pay/";
+    private static String url = Config.BASE_URL + "Pay/";
 
     /**
      * 获取支付宝支付参数
@@ -23,7 +23,7 @@ public class Pay {
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("discount_type", discount_type);
         params.addBodyParameter("type", type);
-        apiTool2.postApi(Config.BASE_URL + url + "getAlipayParam", params, baseView);
+        apiTool2.postApi(url + "getAlipayParam", params, baseView);
     }
 
 
@@ -39,7 +39,7 @@ public class Pay {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("type", type);
-        apiTool2.postApi(Config.BASE_URL + url + "findPayResult", params, baseView);
+        apiTool2.postApi(url + "findPayResult", params, baseView);
     }
 
     /**
@@ -54,7 +54,7 @@ public class Pay {
         params.addBodyParameter("order_id", order_id);
         params.addBodyParameter("discount_type", discount_type);
         params.addBodyParameter("type", type);
-        apiTool2.postApi(Config.BASE_URL + url + "getJsTine", params, baseView);
+        apiTool2.postApi(url + "getJsTine", params, baseView);
     }
 
     public static void getHjsp(String order_id, String totalPrice, BaseView baseView) {
@@ -62,7 +62,7 @@ public class Pay {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("totalPrice", totalPrice);
         params.addBodyParameter("order_id", order_id);
-        apiTool2.postApi(Config.BASE_URL + url + "getHjsp", params, baseView);
+        apiTool2.postApi(url + "getHjsp", params, baseView);
 
     }
 

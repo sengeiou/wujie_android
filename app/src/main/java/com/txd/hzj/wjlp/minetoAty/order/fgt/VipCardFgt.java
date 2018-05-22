@@ -13,9 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -23,10 +21,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.MemberOrderList;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
-import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.VipPayAty;
-import com.txd.hzj.wjlp.new_wjyp.http.MemberOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.MemberOrder;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;

@@ -17,7 +17,7 @@ import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;

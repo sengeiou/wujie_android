@@ -32,9 +32,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.minetoAty.balance.BankInfoForReChargeAty;
-import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.User;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.new_wjyp.http;
+package com.txd.hzj.wjlp.http;
 
 import android.text.TextUtils;
 
@@ -21,10 +21,10 @@ public class Order {
      * @param p  分页
      * @param merchant_id 商家id
      * @param goods_id
-     * @param num  数量(直接购买时传)
+     * @param num         数量(直接购买时传)
      * @param order_type  订单类型（ 0:普通 1限量购 2无界商店 3进口馆 4搭配购）
      * @param product_id
-     * @param goods  json(商品id，属性id),(除购物车结算之外，其他全部需要传) 若无属性id，则不传 格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
+     * @param goods       json(商品id，属性id),(除购物车结算之外，其他全部需要传) 若无属性id，则不传 格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
      * @param baseView
      */
     public static void shoppingCart(String cart_id, int p, String merchant_id, String goods_id, String num, String order_type, String product_id, String goods, BaseView baseView) {
@@ -42,12 +42,16 @@ public class Order {
     }
 
     /**
-     * 添加订单
+     * 设置订单
      *
-     * @param address_id   地址id
-     * @param order_type   订单类型（ 0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：无界商店 8：线下商城 购物车购买传0）
-     * @param order_id     订单id(订单支付时传)
+     * @param address_id    地址id
+     * @param order_type    订单类型
+     * @param order_id      订单编号
      * @param limit_buy_id
+     * @param collocation
+     * @param invoice
+     * @param leave_message
+     * @param goods
      * @param baseView
      */
     public static void setOrder(String address_id, String order_type, String order_id,
@@ -275,17 +279,18 @@ public class Order {
 
     /**
      * 订单物流
-     *  接口地址
-     *  http://wjapi.wujiemall.com/index.php/Function/index/p_id/71/mo_id/1015/f_id/5995
+     * 接口地址
+     * http://wjapi.wujiemall.com/index.php/Function/index/p_id/71/mo_id/1015/f_id/5995
+     *
      * @param order_id
-     * @param type 0 普通商品 1拼单购订单
+     * @param type     0 普通商品 1拼单购订单
      * @param baseView
      */
-    public static void orderLogistics(String order_id,String type, BaseView baseView) {
+    public static void orderLogistics(String order_id, String type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
-        requestParams.addBodyParameter("type",type );
+        requestParams.addBodyParameter("type", type);
         apiTool2.postApi(url + "orderLogistics", requestParams, baseView);
     }
 

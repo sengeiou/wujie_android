@@ -28,8 +28,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
-import com.txd.hzj.wjlp.new_wjyp.http.CarOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
+import com.txd.hzj.wjlp.http.CarOrder;
+import com.txd.hzj.wjlp.http.HouseOrder;
 
 import java.io.File;
 import java.util.ArrayList;

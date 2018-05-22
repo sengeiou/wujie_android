@@ -16,7 +16,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.mainFgt.adapter.AuctionRecordAdapter;
 import com.txd.hzj.wjlp.new_wjyp.AuctionRecordAty;
-import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.AuctionOrder;
 
 import java.util.List;
 import java.util.Map;

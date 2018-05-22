@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.new_wjyp.http;
+package com.txd.hzj.wjlp.http;
 
 import android.text.TextUtils;
 
@@ -10,7 +10,7 @@ import com.lidroid.xutils.http.RequestParams;
 
 
 public class BalancePay {
-    private static String url = Config.BASE_URL + "/BalancePay/";
+    private static String url = Config.BASE_URL + "BalancePay/";
 
     /**
      * @param order_id 订单id

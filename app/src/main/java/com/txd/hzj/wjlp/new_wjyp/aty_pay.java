@@ -27,9 +27,9 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.new_wjyp.http.CarOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.Pay;
+import com.txd.hzj.wjlp.http.CarOrder;
+import com.txd.hzj.wjlp.http.HouseOrder;
+import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.util.Map;
