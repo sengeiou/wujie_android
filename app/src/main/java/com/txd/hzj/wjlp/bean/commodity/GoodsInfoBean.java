@@ -68,15 +68,7 @@ public class GoodsInfoBean implements Serializable {
     private String balance_num;//
     private String product_id;// //属性id
     private String cate_id;//"商品二级分类id",
-    private String exchange_num;
 
-    public String getExchange_num() {
-        return exchange_num;
-    }
-
-    public void setExchange_num(String exchange_num) {
-        this.exchange_num = exchange_num;
-    }
 
     public String getCate_id() {
         return cate_id;
@@ -542,4 +534,5 @@ public class GoodsInfoBean implements Serializable {
     public void setProduct_id(String product_id) {
         this.product_id = product_id;
     }
+
 }

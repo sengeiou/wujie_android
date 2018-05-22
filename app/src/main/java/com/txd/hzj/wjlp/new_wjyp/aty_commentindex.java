@@ -97,6 +97,10 @@ public class aty_commentindex extends BaseAty {
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (tv_submit.getText().length()<5){
+                    showToast("评价字数不能少于5字");
+                    return;
+                }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
                         list, String.valueOf(goods_grade_rb.getRating()), order_id, "1", aty_commentindex.this);
                 showProgressDialog();
