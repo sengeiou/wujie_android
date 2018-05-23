@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -21,6 +23,7 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -45,6 +48,8 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 import com.txd.hzj.wjlp.tool.WJConfig;
+import com.txd.hzj.wjlp.view.TouchViewpager;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +101,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private DukeScrollView zooom_sc;
 
     @ViewInject(R.id.goods_menu_vp)
-    private ViewPager goods_menu_vp;
+    private TouchViewpager goods_menu_vp;
     private int pageSize = 10;
     private int curIndex = 0;
 
@@ -114,11 +119,18 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private int p = 1;//页数
 
     @ViewInject(R.id.refresh_view)
-    private PullToRefreshLayout refresh_view;
+    private VpSwipeRefreshLayout refresh_view;
 
     private boolean isLoding = true;
     private int numall = 0;
-
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
 
@@ -205,7 +217,53 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
      * 更新数据
      */
     private void forUpdata() {
-        refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+        refresh_view.setHeaderViewBackgroundColor(0xff888888);
+        refresh_view.setHeaderView(createHeaderView());// add headerView
+        refresh_view.setTargetScrollWithLayout(true);
+        refresh_view.setFooterView(createFooterView());
+        refresh_view.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                forData();
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refresh_view.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
+       /* refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
 
             @Override
             public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
@@ -223,7 +281,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 p++;
                 forData();
             }
-        });
+        });*/
     }
 
     @Override
@@ -352,14 +410,14 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
 
                 }
 
-                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                refresh_view.setRefreshing(false); // 刷新成功
             } else {
                 data2 = groupBuyBean.getData().getGroup_buy_list();
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     allGvLvAdapter1.notifyDataSetChanged();
                 }
-                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                refresh_view.setLoadMore(false); // 刷新成功
             }
             return;
         }
@@ -466,7 +524,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                         desc = adsBean.getDesc();
                         href = adsBean.getHref();
                     }
-                    refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    refresh_view.setRefreshing(false); // 刷新成功
                 } else {
                     switch (type) {
 
@@ -492,7 +550,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                             allGvLvAdapter1.notifyDataSetChanged();
                         }
                     }
-                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    refresh_view.setLoadMore(false); // 刷新成功
                 }
 
             }
@@ -571,5 +629,27 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         }
 
     }
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
 
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
 }
