@@ -90,11 +90,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/lite"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#dddddd" />
 
             <LinearLayout
+                android:id="@+id/lite1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"

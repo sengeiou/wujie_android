@@ -50,6 +50,11 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
                 .setAnimationStyle(R.style.animbottom)
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        contentView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commonPopupWindow.dismiss();            }
+        });
     }
 
     @Override

@@ -181,7 +181,7 @@ public class BuildOrderAty extends BaseAty {
     private Bean bean;
     private double countryTax = 0.00; // 进口税
     private String order_id;
-    private String groupType;
+//    private String groupType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,49 +271,48 @@ public class BuildOrderAty extends BaseAty {
                 }
 
 
-                if (groupType != null && groupType.equals("1")) { // 1试用品拼单 2常规拼单",
+//                if (groupType != null && groupType.equals("1")) { // 1试用品拼单 2常规拼单",
+//
+////                    GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, gson.toJson(invoiceList), getString("leave_message"), TextUtils.isEmpty(cart_id) ? gson.toJson(goodsList) : gson.toJson(goodsCartList), this);
+//
+//                        type="2";
+//                }
 
-//                    GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, gson.toJson(invoiceList), getString("leave_message"), TextUtils.isEmpty(cart_id) ? gson.toJson(goodsList) : gson.toJson(goodsCartList), this);
+                EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
 
-
+                bundle = new Bundle();
+                bundle.putString("type", type);
+                bundle.putString("order_type", type.equals("1") ? "0" : "1");
+                bundle.putString("num", num);
+                bundle.putString("group_buy_id", group_buy_id);
+                bundle.putString("goods_id", goods_id);
+                bundle.putString("product_id", product_id);
+                bundle.putString("address_id", address_id);
+                bundle.putString("shop_name", tv_merchant_name.getText().toString());
+                bundle.putString("money", String.valueOf(total_price + tp));
+                bundle.putString("cart_id", cart_id);
+                bundle.putString("freight", freight);
+                bundle.putString("freight_type", freight_type);
+                bundle.putString("json", json);
+                bundle.putString("leave_message", et_leave_message.getText().toString());
+                //判断是普通商品下单还是购物车下单
+                if (TextUtils.isEmpty(cart_id)) {
+                    //普通下单
+                    bundle.putString("goodsList", gson.toJson(goodsList));
                 } else {
-                    EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
-
-                    bundle = new Bundle();
-                    bundle.putString("type", type);
-                    bundle.putString("order_type", type.equals("1") ? "0" : "1");
-                    bundle.putString("num", num);
-                    bundle.putString("group_buy_id", group_buy_id);
-                    bundle.putString("goods_id", goods_id);
-                    bundle.putString("product_id", product_id);
-                    bundle.putString("address_id", address_id);
-                    bundle.putString("shop_name", tv_merchant_name.getText().toString());
-                    bundle.putString("money", String.valueOf(total_price + tp));
-                    bundle.putString("cart_id", cart_id);
-                    bundle.putString("freight", freight);
-                    bundle.putString("freight_type", freight_type);
-                    bundle.putString("json", json);
-                    bundle.putString("leave_message", et_leave_message.getText().toString());
-                    //判断是普通商品下单还是购物车下单
-                    if (TextUtils.isEmpty(cart_id)) {
-                        //普通下单
-                        bundle.putString("goodsList", gson.toJson(goodsList));
-                    } else {
-                        //购物车下单
-                        bundle.putString("goodsCartList", gson.toJson(goodsCartList));
-                    }
-
-
-
-                    bundle.putString("invoiceList", gson.toJson(invoiceList));
-//                bundle.putString("bean", gson.toJson());
-                    bundle.putString("is_pay_password", is_pay_password);
-                    bundle.putString("order_id", order_id);
-                    bundle.putString("freight", String.valueOf(tp));
-                    startActivity(PayForAppAty.class, bundle);
-
-                    finish();
+                    //购物车下单
+                    bundle.putString("goodsCartList", gson.toJson(goodsCartList));
                 }
+
+
+                bundle.putString("invoiceList", gson.toJson(invoiceList));
+//                bundle.putString("bean", gson.toJson());
+                bundle.putString("is_pay_password", is_pay_password);
+                bundle.putString("order_id", order_id);
+                bundle.putString("freight", String.valueOf(tp));
+                startActivity(PayForAppAty.class, bundle);
+
+                finish();
 
 
                 break;
@@ -369,7 +368,7 @@ public class BuildOrderAty extends BaseAty {
         }
         type = intent.getStringExtra("type");
         mid = intent.getStringExtra("mid");
-        groupType = intent.getStringExtra("group_type");
+//        groupType = intent.getStringExtra("group_type");
         cart_id = intent.getStringExtra("json");
         L.e("cart" + cart_id);
         goods_id = getString("goods_id", intent);

@@ -94,6 +94,10 @@ public class GoodsAttributeAty extends BaseAty {
     private int maxNumber; // 库存件数
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
+    @ViewInject(R.id.lite)
+    private View lite;
+    @ViewInject(R.id.lite1)
+    private View lite1;
     private String pro_id;
     private String pro_value;
     int pos1;
@@ -114,69 +118,73 @@ public class GoodsAttributeAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_buy_must_tv:// 立即购买，确定
-                if (tv_kucun.getText().equals("(库存：0)")) {
-                    showErrorTip("库存不足请您下次再买");
-                    return;
-                }
-                // 获取输入框的输入件数
-                if (et_num.getText().toString().trim().equals("") || et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
-                    showErrorTip("购买件数不能小于等于零");
-                    return;
-                } else {
-                    num = Integer.parseInt(et_num.getText().toString().trim());
-                }
-
-                L.e("=====num==" + num);
-                L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
-                if (2 == from) {
-                    Intent intent = new Intent();
-                    intent.putExtra("num", num);
-
-                    if (ListUtils.isEmpty(list)) {
-                        intent.putExtra("product_id", "");
-                        intent.putExtra("pro_value", "");
-                        intent.putExtra("image", "");
-                        intent.putExtra("num", num);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                if (!"1".equals(groupType)) {
+                    if (tv_kucun.getText().equals("(库存：0)")) {
+                        showErrorTip("库存不足请您下次再买");
                         return;
                     }
-                    if (!TextUtils.isEmpty(pro_id)) {
-                        intent.putExtra("product_id", pro_id);
-                        intent.putExtra("pro_value", pro_value);
-                        intent.putExtra("num", num);
-                        intent.putExtra("image", image);
-                        setResult(RESULT_OK, intent);
-                        finish();
+                    // 获取输入框的输入件数
+                    if (et_num.getText().toString().trim().equals("") || et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
+                        showErrorTip("购买件数不能小于等于零");
+                        return;
                     } else {
-                        showToast("库存不足！");
+                        num = Integer.parseInt(et_num.getText().toString().trim());
                     }
-                    return;
-                }
-                if (4 == from) {
-                    Intent intent = new Intent();
-                    if (!TextUtils.isEmpty(pro_id)) {
-                        intent.putExtra("product_id", pro_id);
-                        intent.putExtra("pro_value", pro_value);
-                        intent.putExtra("num", num);
-                        intent.putExtra("shop_price", val.getShop_price());
-                        intent.putExtra("market_price", val.getMarket_price());
-                        intent.putExtra("settlement_price", val.getSettlement_price());
-                        intent.putExtra("red_return_integral", val.getRed_return_integral());
-                        intent.putExtra("discount", val.getDiscount());
-                        intent.putExtra("yellow_discount", val.getYellow_discount());
-                        intent.putExtra("blue_discount", val.getBlue_discount());
-                        intent.putExtra("wy_price", val.getWy_price());
-                        intent.putExtra("yx_price", val.getYx_price());
-                        intent.putExtra("goods_num", val.getGoods_num());
-                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
-                        setResult(0x0002, intent);
-                        finish();
-                    } else {
-                        showToast("库存不足！");
-                    }
-                    return;
 
+                    L.e("=====num==" + num);
+                    L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
+                    if (2 == from) {
+                        Intent intent = new Intent();
+                        intent.putExtra("num", num);
+
+                        if (ListUtils.isEmpty(list)) {
+                            intent.putExtra("product_id", "");
+                            intent.putExtra("pro_value", "");
+                            intent.putExtra("image", "");
+                            intent.putExtra("num", num);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                            return;
+                        }
+                        if (!TextUtils.isEmpty(pro_id)) {
+                            intent.putExtra("product_id", pro_id);
+                            intent.putExtra("pro_value", pro_value);
+                            intent.putExtra("num", num);
+                            intent.putExtra("image", image);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        } else {
+                            showToast("库存不足！");
+                        }
+                        return;
+                    }
+                    if (4 == from) {
+                        Intent intent = new Intent();
+                        if (!TextUtils.isEmpty(pro_id)) {
+                            intent.putExtra("product_id", pro_id);
+                            intent.putExtra("pro_value", pro_value);
+                            intent.putExtra("num", num);
+                            intent.putExtra("shop_price", val.getShop_price());
+                            intent.putExtra("market_price", val.getMarket_price());
+                            intent.putExtra("settlement_price", val.getSettlement_price());
+                            intent.putExtra("red_return_integral", val.getRed_return_integral());
+                            intent.putExtra("discount", val.getDiscount());
+                            intent.putExtra("yellow_discount", val.getYellow_discount());
+                            intent.putExtra("blue_discount", val.getBlue_discount());
+                            intent.putExtra("wy_price", val.getWy_price());
+                            intent.putExtra("yx_price", val.getYx_price());
+                            intent.putExtra("goods_num", val.getGoods_num());
+                            intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
+                            setResult(0x0002, intent);
+                            finish();
+                        } else {
+                            showToast("库存不足！");
+                        }
+                        return;
+
+                    }
+                }else{
+                    num=1;
                 }
                 goodAttChange();
                 break;
@@ -273,10 +281,18 @@ public class GoodsAttributeAty extends BaseAty {
     }
 
     private boolean isMapCome = false;
+    private String groupType = "";
 
     @Override
     protected void requestData() {
         Intent intent = getIntent();
+        if (intent.hasExtra("group_type")) {
+            groupType = intent.getStringExtra("group_type");
+            if ("1".equals(groupType)) {// "group_type": "类型 1试用品拼单 2常规拼单",
+                lite.setVisibility(View.GONE);
+                lite1.setVisibility(View.GONE);
+            }
+        }
         imageurl = intent.getStringExtra("imageurl");
         price = getIntent().getStringExtra("price");
         Glide.with(this).load(imageurl).into(imageview);//加载默认商品图
