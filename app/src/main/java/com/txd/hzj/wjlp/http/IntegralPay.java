@@ -12,8 +12,8 @@ public class IntegralPay {
 
     /**
      * @param order_id
-     * @param order_type 订单类型1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖
-     * @param auct_id
+     * @param order_type
+     * @param auct_id	订单类型1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖 8积分抽奖追加 10 无界商店
      * @param goods_num
      * @param baseView
      */

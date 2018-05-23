@@ -419,7 +419,7 @@ public class PayForAppAty extends BaseAty {
             AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
 
         } else if (type.equals("10")) {
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id ,   this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
@@ -494,6 +494,7 @@ public class PayForAppAty extends BaseAty {
             pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
             tv_shopname.setText(data.get("merchant_name"));
             if (data.get("is_integral").equals("1")) {
+                cb_jfzf.setText("积分支付("+data.get("integral")+")");
                 cb_jfzf.setVisibility(View.VISIBLE);
             } else {
                 cb_jfzf.setVisibility(View.GONE);
@@ -762,6 +763,10 @@ public class PayForAppAty extends BaseAty {
         if (type.equals("9")) {
             mBundle.putString("title", "比价购");
             mBundle.putString("type", "6");
+        }
+        if (type.equals("10")) {
+            mBundle.putString("title", "无界商店");
+            mBundle.putString("type", "10");
         }
         startActivity(OnlineShopAty.class, mBundle);
     }
