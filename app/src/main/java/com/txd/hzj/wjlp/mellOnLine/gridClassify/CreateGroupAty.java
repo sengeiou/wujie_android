@@ -267,6 +267,7 @@ public class CreateGroupAty extends BaseAty {
                     i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
                     Log.i("倒计时时间", i1 + "");
                     times.setConvertDaysToHours(true);
+//                    times.start(8*24*60*60* 1000);
                     times.start(i1 * 1000);
 
                     for (int i = 0; i < offered.size(); i++) {
