@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,9 +21,9 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
-import com.txd.hzj.wjlp.new_wjyp.http.Order;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,6 +59,8 @@ public class aty_commentindex extends BaseAty {
     List<File> list = new ArrayList<>();
 
     String goods_id, goods_img, order_id;
+    private TextView textLength;
+    private String type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +78,9 @@ public class aty_commentindex extends BaseAty {
         goods_id = getIntent().getStringExtra("order_goods_id");
         goods_img = getIntent().getStringExtra("goods_img");
         order_id = getIntent().getStringExtra("order_id");
+        type = getIntent().getStringExtra("type");
         Glide.with(this).load(goods_img).into(imageview);
+        textLength = (TextView) findViewById(R.id.ed_text_length);
         titlt_conter_tv.setText("发布评价");
         manager = new FullyGridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         updata_pic_rv.setLayoutManager(manager);
@@ -94,11 +100,31 @@ public class aty_commentindex extends BaseAty {
         gridImageAdapter.setList(list);
         gridImageAdapter.setSelectMax(selectPicNum);
         updata_pic_rv.setAdapter(gridImageAdapter);
+        evalusete_context_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textLength.setText(s.length()+"/500");
+            }
+        });
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (evalusete_context_tv.getText().length()<5){
+                    showToast("评价字数不能少于5字");
+                    return;
+                }
                 Order.CommentGoods(goods_id, evalusete_context_tv.getText().toString(),
-                        list, String.valueOf(goods_grade_rb.getRating()), order_id, "1", aty_commentindex.this);
+                        list, String.valueOf(goods_grade_rb.getRating()), order_id, type, aty_commentindex.this);
                 showProgressDialog();
             }
         });

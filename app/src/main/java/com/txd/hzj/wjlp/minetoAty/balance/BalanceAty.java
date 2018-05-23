@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.minetoAty.balance;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,11 +7,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.tamic.novate.Novate;
@@ -21,19 +18,14 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.User;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -13,9 +13,9 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.AfterSale;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
 import java.util.Map;

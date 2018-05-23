@@ -1,41 +1,28 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.new_wjyp.http.Invoice;
+import com.txd.hzj.wjlp.http.Invoice;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

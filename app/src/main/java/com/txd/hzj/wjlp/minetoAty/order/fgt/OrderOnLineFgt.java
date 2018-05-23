@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -34,18 +32,20 @@ import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
-import com.txd.hzj.wjlp.new_wjyp.http.AuctionOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.CarOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.HouseOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.PreOrder;
-import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.CarOrder;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.http.HouseOrder;
+import com.txd.hzj.wjlp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.http.IntegralOrder;
+import com.txd.hzj.wjlp.http.PreOrder;
+import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -100,9 +100,14 @@ public class OrderOnLineFgt extends BaseFgt {
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
     private UserBalanceHjs userBalanceHjs;
-
     public OrderOnLineFgt() {
 
+    }
+
+    @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        swipe_refresh.setRefreshing(true);
     }
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
@@ -111,12 +116,6 @@ public class OrderOnLineFgt extends BaseFgt {
         fgt.from = from;
         fgt.title = title;
         return fgt;
-    }
-
-    @Override
-    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
-        super.onMultiWindowModeChanged(isInMultiWindowMode);
-        swipe_refresh.setRefreshing(true);
     }
 
     @Override
@@ -157,7 +156,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                     bundle.putString("type", from);
                     bundle.putBoolean("isTy", map_Type.get(i));
-                    startActivity(OrderDetailsAty.class, bundle);
+                    startActivity(CollageDetailsAty.class, bundle);
                 } else if (from.equals("4")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("order_id"));
@@ -176,7 +175,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
             }
         });
-
     }
 
     @Override
@@ -186,15 +184,16 @@ public class OrderOnLineFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+
     }
+
 
 
     @Override
     public void onResume() {
         super.onResume();
-        swipe_refresh.setRefreshing(true);
         if (from.equals("0")) {
-            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
+            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
             CarOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("2")) {
@@ -217,7 +216,7 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     protected void requestData() {
         if (from.equals("0")) {
-            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
+            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
             CarOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("2")) {
@@ -250,7 +249,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
                         } else if (from.equals("1")) {
                             CarOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("2")) {
@@ -292,7 +291,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         footerProgressBar.setVisibility(View.VISIBLE);
                         p++;
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, OrderOnLineFgt.this);
                         } else if (from.equals("1")) {
                             CarOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("2")) {
@@ -417,7 +416,7 @@ public class OrderOnLineFgt extends BaseFgt {
         if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -433,7 +432,7 @@ public class OrderOnLineFgt extends BaseFgt {
         if (requestUrl.contains("deleteOrder") || requestUrl.contains("preDeleteOrder")) {
             showToast("删除成功");
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -448,7 +447,7 @@ public class OrderOnLineFgt extends BaseFgt {
         }
         if (requestUrl.contains("receiving") || requestUrl.contains("preReceiving")) {
             if (from.equals("0")) {
-                com.txd.hzj.wjlp.new_wjyp.http.Order.orderList(type, from, p, this);
+                com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
             } else if (from.equals("3")) {
                 GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("4")) {
@@ -593,7 +592,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                         bundle.putString("type", from);
                         bundle.putBoolean("isTy", map_Type.get(position));
-                        startActivity(OrderDetailsAty.class, bundle);
+                        startActivity(CollageDetailsAty.class, bundle);
                     } else if (from.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
@@ -637,6 +636,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 PreOrder.preReceiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -666,7 +666,6 @@ public class OrderOnLineFgt extends BaseFgt {
                     public void onClick(View v) {
                         PreOrder.preCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         showProgressDialog();
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -691,6 +690,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
@@ -742,12 +742,11 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.new_wjyp.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         }
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -770,10 +769,11 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
+                bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("2")) {
                 if (from.equals("0")) {
-                    //                    com.txd.hzj.wjlp.new_wjyp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    //                    com.txd.hzj.wjlp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
                     IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
@@ -786,13 +786,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         if (from.equals("0")) {
-                            com.txd.hzj.wjlp.new_wjyp.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            com.txd.hzj.wjlp.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         } else {
                             IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
                         }
-                        swipe_refresh.setRefreshing(true);
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -959,7 +958,6 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
-                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
@@ -971,6 +969,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "8":
                     Bundle bundle = new Bundle();
                     bundle.putString("order_id", getItem(position).get("order_id"));
+                    bundle.putString("type", from);
                     startActivity(EvaluationReleaseAty.class, bundle);
                     break;
             }
@@ -984,7 +983,6 @@ public class OrderOnLineFgt extends BaseFgt {
                         public void onClick(View v) {
                             AuctionOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                             showProgressDialog();
-                            swipe_refresh.setRefreshing(true);
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override

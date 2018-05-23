@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
@@ -474,7 +475,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.sec_head_iv.setVisibility(View.GONE);
                 }
 
-                vh.group_totla_tv.setText("已    拼：" + allGoodsBean.getTotal() + "件");
+                vh.group_totla_tv.setText("已拼：" + allGoodsBean.getTotal() + "件");
 
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(size1, size2);
 //                1试用品拼单 2常规拼单",
@@ -494,18 +495,21 @@ public class AllGvLvAdapter extends BaseAdapter {
                  * 是否可以使用代金券
                  * 使用多少优惠
                  */
+                String logStr = "";
                 try {
                     if (allGoodsBean.getTicket_buy_discount().equals("0")) {
                         vh.use_coupon_tv.setText("不可使用代金券");
                         vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                        logStr = "不可使用代金券";
                     } else {
                         vh.use_coupon_tv.setText("最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券");
                         vh.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                        logStr = "最多可使用" + allGoodsBean.getTicket_buy_discount() + "%代金券";
                     }
-
-
                 } catch (Exception e) {
-
+                    logStr = "首页代金券Catch.Exception:" + e.toString();
+                } finally {
+                    L.e(logStr);
                 }
 
                 break;

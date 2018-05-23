@@ -96,7 +96,7 @@ public class OffLineMellInfoAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.check_all_comment_tv, R.id.mell_reported_tv, R.id.mell_aptitude_tv,
+    @OnClick({R.id.check_all_comment_tv, R.id.mell_reported_tv, R.id.mell_aptitude_tv,R.id.off_line_mell_share_tv,
             R.id.goods_title_collect_layout})
     public void onClick(View v) {
         super.onClick(v);
@@ -130,6 +130,9 @@ public class OffLineMellInfoAty extends BaseAty {
                     break;
                 }
                 collectPst.delOneCollect("2", merchant_id);
+                break;
+            case R.id.off_line_mell_share_tv:
+                showToast("功能研发中");
                 break;
         }
     }

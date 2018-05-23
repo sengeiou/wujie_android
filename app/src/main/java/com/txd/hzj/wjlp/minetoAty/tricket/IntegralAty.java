@@ -17,7 +17,7 @@ import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -271,7 +271,7 @@ public class IntegralAty extends BaseAty {
         if (requestUrl.contains("changeIntegralStatus")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (map.get("code").equals("1")) {
-                Toast.makeText(IntegralAty.this, map.get("message"), Toast.LENGTH_SHORT).show();
+                showToast(map.get("message"));
             } else {
                 cb.setChecked(!cb.isChecked());
             }

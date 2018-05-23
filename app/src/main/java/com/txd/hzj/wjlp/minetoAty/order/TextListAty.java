@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
@@ -26,20 +25,18 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.AfterSale;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.new_wjyp.http.AfterSale;
-import com.txd.hzj.wjlp.new_wjyp.http.Invoice;
-import com.txd.hzj.wjlp.new_wjyp.http.Recommending;
-import com.txd.hzj.wjlp.new_wjyp.http.UserBalance;
+import com.txd.hzj.wjlp.http.Invoice;
+import com.txd.hzj.wjlp.http.Recommending;
+import com.txd.hzj.wjlp.http.UserBalance;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * ===============Txunda===============

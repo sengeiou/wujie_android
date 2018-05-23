@@ -32,11 +32,11 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
 import com.txd.hzj.wjlp.new_wjyp.CommentindexBean;
 import com.txd.hzj.wjlp.new_wjyp.aty_commentindex;
-import com.txd.hzj.wjlp.new_wjyp.http.Order;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -72,6 +72,7 @@ public class EvaluationReleaseAty extends BaseAty {
      */
     private int goods_pos = 0;
     private String order_id;
+    private String type;
     @ViewInject(R.id.rb_1)
     RatingBar ratingBar1;
     @ViewInject(R.id.rb_2)
@@ -91,7 +92,7 @@ public class EvaluationReleaseAty extends BaseAty {
         switch (v.getId()) {
             case R.id.tv_submit: // 提交订单的服务评价
                 // 参数说明：订单ID， 商家评分1~5星， 配送评分， 订评论订单单类型（1普通单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖）， BaseView
-                Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), "1", this);
+                Order.CommentOrder(order_id, String.valueOf(ratingBar1.getRating()), String.valueOf(ratingBar2.getRating()), type, this);
                 showProgressDialog();
                 break;
         }
@@ -123,7 +124,10 @@ public class EvaluationReleaseAty extends BaseAty {
         if (TextUtils.isEmpty(order_id)) {
             order_id = getIntent().getStringExtra("order_id");
         }
-        Order.Commentindex(order_id, this);
+        if (TextUtils.isEmpty(type)) {
+            type = getIntent().getStringExtra("type");
+        }
+        Order.Commentindex(order_id,type, this);
         showProgressDialog();
     }
 
@@ -138,7 +142,7 @@ public class EvaluationReleaseAty extends BaseAty {
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
         if (requestUrl.contains("CommentOrder")) { // 评价订单
-            Order.Commentindex(order_id, this); // 再次申请获取一下评论列表主页
+            Order.Commentindex(order_id, type,this); // 再次申请获取一下评论列表主页
             showProgressDialog();
         }
         if (requestUrl.contains("Commentindex")) {
@@ -155,7 +159,9 @@ public class EvaluationReleaseAty extends BaseAty {
             } else { // 已评价
                 titlt_right_tv.setVisibility(View.GONE);
                 ratingBar1.setRating(map.get("merchant_star").equals("") ? 0.0f : Float.parseFloat(map.get("merchant_star"))); // 店铺评分
-                ratingBar1.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                ratingBar2.setRating(map.get("delivery_star").equals("") ? 0.0f : Float.parseFloat(map.get("delivery_star"))); // 物流评分
+                L.e("===============merchant_star:===============" + Float.parseFloat(map.get("merchant_star")));
+                L.e("===============delivery_star:===============" + Float.parseFloat(map.get("delivery_star")));
                 ratingBar1.setIsIndicator(true); // 卖家服务
                 ratingBar2.setIsIndicator(true); // 物流服务
             }
@@ -330,6 +336,7 @@ public class EvaluationReleaseAty extends BaseAty {
                         bundle.putString("order_goods_id", bean.getOrder_goods_id());
                         bundle.putString("goods_img", bean.getGoods_img());
                         bundle.putString("order_id", order_id);
+                        bundle.putString("type", type);
                         startActivity(aty_commentindex.class, bundle);
                     }
                 }

@@ -405,6 +405,8 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
+                if (getIntent().hasExtra("group_type"))//体验拼单
+                    intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
                 L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
 //                intent.setClass(this, BuildOrderAty.class);
                 setResult(0x0001, intent);

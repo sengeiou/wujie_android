@@ -33,7 +33,6 @@ import com.ants.theantsgo.util.PreferencesUtils;
 import com.bigkoo.pickerview.TimePickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.lidroid.xutils.db.annotation.Check;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -45,18 +44,13 @@ import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
-import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
-import com.txd.hzj.wjlp.minetoAty.tricket.ExchangeMoneyAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
-import com.txd.hzj.wjlp.new_wjyp.http.Pay;
-import com.txd.hzj.wjlp.new_wjyp.http.User;
+import com.txd.hzj.wjlp.http.Pay;
+import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -68,8 +62,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
-import static android.R.attr.data;
 
 /**
  * ===============Txunda===============
@@ -311,17 +303,17 @@ public class RechargeAty extends BaseAty {
                 break;
             case R.id.tv_submit:
                 if (!TextUtils.isEmpty(et_price.getText().toString())) {
-//                    try {
-//                        // 获取输入的金额并转换成float
-//                        float price = Float.parseFloat(et_price.getText().toString());
-//                        if (price >= 100) { // 如果金额大于（等于）100
+                    try {
+                        // 获取输入的金额并转换成float
+                        float price = Float.parseFloat(et_price.getText().toString());
+                        if (price >= 100) { // 如果金额大于（等于）100
                             showPwdPop(v); // 弹出密码输入框
-//                        } else {
-//                            showToast("最低充值金额100元");
-//                        }
-//                    } catch (Exception e) { // 捕捉类型转换异常
-//                        showToast("充值金额输入有误！");
-//                    }
+                        } else {
+                            showToast("最低充值金额100元");
+                        }
+                    } catch (Exception e) { // 捕捉类型转换异常
+                        showToast("充值金额输入有误！");
+                    }
                 } else { // 没有输入金额
                     showToast("请输入充值金额！");
                 }

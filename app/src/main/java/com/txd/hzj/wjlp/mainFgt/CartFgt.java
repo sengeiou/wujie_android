@@ -40,7 +40,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.new_wjyp.Card_bean;
-import com.txd.hzj.wjlp.new_wjyp.http.Goods;
+import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.MessageEvent;

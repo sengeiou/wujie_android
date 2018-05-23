@@ -1,26 +1,19 @@
 package com.txd.hzj.wjlp.minetoAty.order;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.minetoAty.dialog.CheckNumDialog;
-import com.txd.hzj.wjlp.new_wjyp.http.IntegralOrder;
-import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.http.IntegralOrder;
 
 import java.util.List;
 import java.util.Map;

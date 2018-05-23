@@ -2,17 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.txd.hzj.wjlp">
+
     <!-- ShareSDK添加必要的权限 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- 腾讯Bugly必要的权限 注释是因为现有权限中已有 -->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
-    <!--<uses-permission android:name="android.permission.READ_LOGS" />-->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_LOGS" /> -->
+
 
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -66,28 +68,33 @@
     <uses-permission android:name="com.txd.hzj.wjlp.permission.MIPUSH_RECEIVE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!--百度地图 权限 Begin-->
+    <!-- 百度地图 权限 Begin -->
     <uses-permission android:name="android.permission.READ_LOGS" />
-    <!--百度地图 权限 End-->
+    <!-- 百度地图 权限 End -->
+
 
     <!-- 环信权限 ↑ -->
 
+
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限BEGIN -->
+
 
     <!-- Required -->
     <permission
         android:name="com.txd.hzj.wjlp.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
-    <!-- Required  一些系统要求的权限，如访问网络等-->
+    <!-- Required  一些系统要求的权限，如访问网络等 -->
     <uses-permission android:name="com.txd.hzj.wjlp.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限END -->
+    <!-- 测试提交 LH -->
 
+
+    <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限END -->
     <application
-        android:name="com.txd.hzj.wjlp.DemoApplication"
+        android:name=".DemoApplication"
         android:allowBackup="false"
         android:debuggable="true"
         android:icon="@mipmap/wjyp2"
@@ -97,15 +104,17 @@
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
         tools:replace="android:icon,android:theme,android:allowBackup">
-        <!--Glide缓存-->
+
+        <!-- Glide缓存 -->
         <meta-data
             android:name="com.ants.theantsgo.GlideCache"
             android:value="GlideModule"
             tools:node="remove" />
 
-        <!--<meta-data-->
-        <!--android:name="com.txd.hzj.wjlp.tool.GlideConfiguration"-->
-        <!--android:value="GlideModule" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.txd.hzj.wjlp.tool.GlideConfiguration" -->
+        <!-- android:value="GlideModule" /> -->
+
 
         <!-- App升级 -->
         <provider
@@ -123,21 +132,21 @@
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2"></action>
+                <action android:name="com.baidu.location.service_v2.2" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="b1UKT3NV7vCEPFWojdSA3DESUIuixKgK" />
-        <!-- 百度地图 End-->
-        <!-- 首页启动界面 android:name=".MainAty"-->
+        <!-- 百度地图 End -->
+        <!-- 首页启动界面 android:name=".MainAty" -->
         <activity android:name=".startPage.GuidanceAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -145,7 +154,6 @@
 
                 <data android:scheme="wx95d5b24e8f08761a" />
             </intent-filter>
-
         </activity>
         <!-- APP主页 -->
         <activity android:name=".MainAty" />
@@ -193,7 +201,7 @@
         <activity android:name=".mellOnLine.gridClassify.car.CarCommodityChenAty" />
         <!-- 房产购 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HousChenAty" />
-        <!--房产购详情-->
+        <!-- 房产购详情 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HousDetailsChenAty" />
         <!-- 一元夺宝 -->
         <activity android:name=".mellOnLine.gridClassify.snatch.SnatchChenAty" />
@@ -381,25 +389,23 @@
 
         <!-- 环信聊天界面 -->
         <activity android:name=".huanxin.ui.ChatActivity" />
-        <!--环信查看图片-->
+        <!-- 环信查看图片 -->
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" />
-
         <activity android:name=".huanxin.ui.ContextMenuActivity" />
         <activity android:name=".huanxin.ui.UserProfileActivity" />
         <activity android:name=".huanxin.ui.PickAtUserActivity" />
         <activity android:name=".huanxin.ui.ForwardMessageActivity" />
         <activity android:name=".huanxin.ui.PickContactNoCheckboxActivity" />
-
         <activity android:name=".new_wjyp.InvoiceAty2" />
 
-        <!--重置支付密码-->
+        <!-- 重置支付密码 -->
         <activity android:name=".minetoAty.setting.ResetPayPwdAty" />
-        <!--第二步-->
+        <!-- 第二步 -->
         <activity android:name=".minetoAty.setting.ResetPayPwdSecAty" />
-        <!--书院详情-->
+        <!-- 书院详情 -->
         <activity android:name=".minetoAty.books.BooksDetailsAty" />
-        <!--省市区选择-->
-        <!--拼团购开团-->
+        <!-- 省市区选择 -->
+        <!-- 拼团购开团 -->
         <activity android:name=".mellOnLine.gridClassify.CreateGroupAty" />
         <!-- 拼团购三级分类商品列表 -->
         <activity android:name=".mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty" />
@@ -563,7 +569,8 @@
 
         <!-- 环信相关服务等 ↑ END -->
 
-        <!--ShareSDK相关-->
+
+        <!-- ShareSDK相关 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -594,8 +601,8 @@
 
         <!-- 城市列表 -->
         <activity
-            android:name="com.txd.hzj.wjlp.cityselect1.ac.activity.SortCityActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:name=".cityselect1.ac.activity.SortCityActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <!-- 环信相关服务等 ↓ BEGIN -->
         <!-- 开机自启动服务 -->
@@ -753,7 +760,8 @@
 
         <!-- 环信相关服务等 ↑ END -->
 
-        <!--ShareSDK相关-->
+
+        <!-- ShareSDK相关 -->
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -778,7 +786,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         >>>>>>> master
         <!-- 微信分享回调 -->
         <activity
@@ -791,14 +798,15 @@
         <!-- 调用新浪原生SDK，需要注册的回调activity -->
         <activity
             android:name="cn.sharesdk.sina.weibo.SinaActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ客户端回调 2.6.3开始独立添加activity来处理QQ客户端的回调 -->
         <activity
             android:name="cn.sharesdk.tencent.qq.ResultReceiver"
             android:launchMode="singleTask"
-            android:noHistory="true"></activity>
+            android:noHistory="true" />
 
-        <!--ShareSDK相关-->
+        <!-- ShareSDK相关 -->
+
 
         <!-- 友盟统计 -->
         <meta-data
@@ -809,15 +817,17 @@
             android:value="Umeng" />
         <!-- 友盟统计 -->
 
+
         <!-- Jpush(极光推送)BEGIN -->
 
-        <!-- Rich push 核心功能 since 2.0.6-->
+
+        <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
             android:exported="false"
-            android:theme="@style/MyDialogStyle"></activity>
+            android:theme="@style/MyDialogStyle" />
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -830,18 +840,18 @@
                 <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
         </activity>
-        <!--搭配购-->
+        <!-- 搭配购 -->
         <activity android:name=".new_wjyp.aty_collocations" />
-        <!--实名认证-->
+        <!-- 实名认证 -->
         <activity android:name=".new_wjyp.aty_authentication" />
-        <!--房产和车辆的订单-->
+        <!-- 房产和车辆的订单 -->
         <activity android:name=".new_wjyp.aty_submit_order" />
         <activity android:name=".new_wjyp.aty_pay" />
-        //蓝色代金券转账页面
+        <!--蓝色代金券转账页面-->
         <activity android:name=".minetoAty.GiveCouponAccounts" />
-        //蓝色代金券详情
+        <!--蓝色代金券详情-->
         <activity android:name=".minetoAty.GiveCouponAty" />
-        <!-- Required SDK 核心功能-->
+        <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -854,7 +864,7 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
-        <!-- since 3.0.9 Required SDK 核心功能-->
+        <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
             android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.txd.hzj.wjlp.DataProvider"
@@ -868,18 +878,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
+
                 <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
-
         </service>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
                 <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
             <intent-filter>
@@ -895,31 +905,32 @@
             </intent-filter>
         </receiver>
 
-        <!-- Required SDK核心功能-->
+        <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
             android:exported="false" />
 
-        <!-- User defined.  For test only  用户自定义的广播接收器-->
+        <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
-                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!-- Required  用户注册SDK的intent -->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!-- Required  用户接收SDK消息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!-- Required  用户接收SDK通知栏信息的intent -->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
         </receiver>
 
-        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
+        <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调 -->
         <receiver android:name=".jpush.MyJPushMessageReceiver">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
-                <category android:name="com.txd.hzj.wjlp"></category>
+
+                <category android:name="com.txd.hzj.wjlp" />
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
@@ -928,10 +939,10 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="24cdc347d4a637382d381238" /> <!--  </>值来自开发者平台取得的AppKey-->
+            android:value="24cdc347d4a637382d381238" /> <!-- </>值来自开发者平台取得的AppKey -->
+
 
         <!-- Jpush(极光推送)END -->
-
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -945,22 +956,21 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <!--汽车购详情-->
+        <!-- 汽车购详情 -->
         <activity android:name=".new_wjyp.CarOrderInfo" />
-        <!--提交评价-->
+        <!-- 提交评价 -->
         <activity android:name=".new_wjyp.aty_comment" />
-        <!--评价主页-->
+        <!-- 评价主页 -->
         <activity android:name=".new_wjyp.aty_commentindex" />
-        <!--售后列表-->
+        <!-- 售后列表 -->
         <activity android:name=".new_wjyp.aty_after" />
-        <!--售后快递-->
+        <!-- 售后快递 -->
         <activity android:name=".new_wjyp.aty_addshipping" />
-        <!--比较记录的详情-->
+        <!-- 比较记录的详情 -->
         <activity android:name=".new_wjyp.AuctionRecordAty" />
         <activity android:name=".minetoAty._GradeOfMemberAty" />
-        <!--联盟商家申请-->
+        <!-- 联盟商家申请 -->
         <activity android:name=".new_wjyp.UnionmerchartAty" />
-
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -969,56 +979,59 @@
             <!-- 这个intent-filter不要忘了 -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="wxc971edce6f70ca57" />
             </intent-filter>
         </activity>
         <activity android:name=".new_wjyp.aty_mine1" />
         <activity android:name=".new_wjyp.aty_mine2" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.WebViewAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ExpandBusinessAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.PayVipAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.TZSAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.GetTicketAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.TerraceTicketCheckAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.DetailsAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.MyTicketAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.MyTicketCheckAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.RecordAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.MerchantCheckAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.MerchantCheckDetailsAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.MaterialApplyAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.TypeNumberAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.PersonnelManagementAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp._PersonnelManagementAty" />
+        <activity android:name=".wjyp.WebViewAty" />
+        <activity android:name=".wjyp.ExpandBusinessAty" />
+        <activity android:name=".wjyp.ApplyAty" />
+        <activity android:name=".wjyp.PayVipAty" />
+        <activity android:name=".wjyp.TZSAty" />
+        <activity android:name=".wjyp.GetTicketAty" />
+        <activity android:name=".wjyp.TerraceTicketCheckAty" />
+        <activity android:name=".wjyp.DetailsAty" />
+        <activity android:name=".wjyp.MyTicketAty" />
+        <activity android:name=".wjyp.MyTicketCheckAty" />
+        <activity android:name=".wjyp.RecordAty" />
+        <activity android:name=".wjyp.MerchantCheckAty" />
+        <activity android:name=".wjyp.MerchantCheckDetailsAty" />
+        <activity android:name=".wjyp.MaterialApplyAty" />
+        <activity android:name=".wjyp.TypeNumberAty" />
+        <activity android:name=".wjyp.PersonnelManagementAty" />
+        <activity android:name=".wjyp._PersonnelManagementAty" />
         <activity android:name=".minetoAty.tricket.ParticularsUserCouponAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.AddRecordAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.EditPresMangAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ChoosePresMangAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.OtherTicketAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ReleaseRecordAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ReleaseRecordDetailsAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.PlatformMaterialAuditAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.PlatformMaterialAuditDetailsAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.LowerMaterialAuditAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ExpandTheMemberAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.LMSJAty" />
-        <activity android:name="com.txd.hzj.wjlp.wjyp.ApplyPostAty" />
-        <!--会员详情-->
+        <activity android:name=".wjyp.AddRecordAty" />
+        <activity android:name=".wjyp.EditPresMangAty" />
+        <activity android:name=".wjyp.ChoosePresMangAty" />
+        <activity android:name=".wjyp.OtherTicketAty" />
+        <activity android:name=".wjyp.ReleaseRecordAty" />
+        <activity android:name=".wjyp.ReleaseRecordDetailsAty" />
+        <activity android:name=".wjyp.PlatformMaterialAuditAty" />
+        <activity android:name=".wjyp.PlatformMaterialAuditDetailsAty" />
+        <activity android:name=".wjyp.LowerMaterialAuditAty" />
+        <activity android:name=".wjyp.ExpandTheMemberAty" />
+        <activity android:name=".wjyp.LMSJAty" />
+        <activity android:name=".wjyp.ApplyPostAty" />
+        <!-- 会员详情 -->
         <activity android:name=".new_wjyp.VipDetailsAty" />
         <activity android:name=".new_wjyp.VipPayAty" />
         <activity android:name=".wjyp.PushMerchantAty" />
         <activity android:name=".new_wjyp.InvoiceAty" />
-        <!--订单物流-->
+        <!-- 订单物流 -->
         <activity android:name=".minetoAty.OrderLogisticsAty" />
-        <!--会员卡-->
+        <!-- 会员卡 -->
         <activity android:name=".minetoAty.order.VipCardAty" />
-        <!--会员卡详情页-->
+        <!-- 会员卡详情页 -->
         <activity android:name=".minetoAty.order.VipCardDetailsAty" />
         <!-- 快递物流详情 -->
         <activity android:name=".minetoAty.ExpressAtv" />
+        <!-- 拼单购订单详情 -->
+        <activity android:name=".minetoAty.order.CollageDetailsAty"></activity>
     </application>
-    <!--测试提交 LH-->
 
 </manifest>

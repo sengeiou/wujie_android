@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +62,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //竖屏锁定
-        if(!(this instanceof  GoodsAttributeAty)){
+        if (!(this instanceof GoodsAttributeAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         if (L.isDebug) {
@@ -134,10 +135,9 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     }
 
     /**
-     *
      * @param v
      * @param from
-     * @param type  "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price
@@ -157,16 +157,45 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putString("imageurl", imageurl);
         bundle.putString("price", price);
         bundle.putSerializable("goods_attr_Serializable", (Serializable) goods_attr);
-        bundle.putSerializable("goods_val_Serializable",(Serializable) goods_val);
+        bundle.putSerializable("goods_val_Serializable", (Serializable) goods_val);
         bundle.putString("is_attr", is_attr);
         startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
 
     /**
-     *
+     * 体验拼单
      * @param v
      * @param from
-     * @param type  "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type
+     * @param goods_id
+     * @param imageurl
+     * @param price
+     * @param group_buy_id
+     * @param goods_attr
+     * @param goods_val
+     * @param is_attr
+     * @param groupType
+     */
+    public void toExAttars(View v, int from, String type, String goods_id, String imageurl,
+                           String price,
+                           String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr,String groupType){
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", from);
+        bundle.putString("type", type);
+        bundle.putString("goods_id", goods_id);
+        bundle.putString("group_buy_id", group_buy_id);
+        bundle.putString("imageurl", imageurl);
+        bundle.putString("price", price);
+        bundle.putSerializable("goods_attr_Serializable", (Serializable) goods_attr);
+        bundle.putSerializable("goods_val_Serializable", (Serializable) goods_val);
+        bundle.putString("is_attr", is_attr);
+        bundle.putString("group_type",groupType);
+        startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
+    }
+    /**
+     * @param v
+     * @param from
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price
@@ -390,26 +419,20 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         startActivity(intent);
     }
 
-//    @Override
-//    public Resources getResources() {
-//        Resources res = super.getResources();
-//        Configuration config = new Configuration();
-//        config.setToDefaults();
-//        res.updateConfiguration(config, res.getDisplayMetrics());
-//        return res;
-//    }
-
-
     /**
-     *@Override
-    public Resources getResources() {//禁止app字体大小跟随系统字体大小调节
-    Resources resources = super.getResources();
-    if (resources != null && resources.getConfiguration().fontScale != 1.0f) {
-    android.content.res.Configuration configuration = resources.getConfiguration();
-    configuration.fontScale = 1.0f;
-    resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+     * 重置字体大小，防止APP内字体随系统字体改变
+     * 该段代码主要是适配API 8.0 8.0以下直接在Application中设置即可
+     *
+     * @return
+     */
+    @Override
+    public Resources getResources() {
+        Resources resources = super.getResources();
+        if (resources != null && resources.getConfiguration().fontScale != 1.0f) {
+            android.content.res.Configuration configuration = resources.getConfiguration();
+            configuration.fontScale = 1.0f;
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        }
+        return resources;
     }
-    return resources;
-    }
-     * */
 }

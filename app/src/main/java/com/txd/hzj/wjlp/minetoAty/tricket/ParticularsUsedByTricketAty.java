@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.PreferencesUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -24,10 +23,6 @@ import com.txd.hzj.wjlp.bean.TricketDetailks;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.adapter.StickyExampleAdapter;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -461,7 +456,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             }
             return;
         }
-        //代金券赠送明细
+        // 代金券赠送明细
         if (requestUrl.contains("gifVoucherList")){
             Log.i("赠送明细",jsonStr);
             if (1 == p) {
