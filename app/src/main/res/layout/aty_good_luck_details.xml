@@ -78,6 +78,7 @@
                                         app:suffixHour=":"
                                         app:suffixLRMargin="3dp"
                                         app:suffixMinute=":"
+                                        app:suffixSecond=":"
                                         app:suffixTextColor="#FFFFFF"
                                         app:suffixTextSize="15sp"
                                         app:timeBgColor="#DF3031"
