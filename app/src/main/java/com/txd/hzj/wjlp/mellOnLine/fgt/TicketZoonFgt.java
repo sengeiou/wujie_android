@@ -249,6 +249,13 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
+                if (numall <= data.size()) {
+                    refresh_view.setLoadMore(false); // 刷新成功
+                    return;
+                }
+                // 加载操作
+                p++;
+                forData();
             }
 
             @Override
