@@ -217,11 +217,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.merchant_will_move_into_tv)
     private TextView merchant_will_move_into_tv;
 
-/**
- * 赠送蓝色代金券ll
- * */
-@ViewInject(R.id.give_coupon_tv_ll)
-private LinearLayout give_coupon_tv_ll;
+    /**
+     * 赠送蓝色代金券ll
+     */
+    @ViewInject(R.id.give_coupon_tv_ll)
+    private LinearLayout give_coupon_tv_ll;
+
     @ViewInject(R.id.message_num_tv)
     private TextView message_num_tv;
     private String invite_code = "";
@@ -377,7 +378,7 @@ private LinearLayout give_coupon_tv_ll;
             case R.id.give_coupon_tv_ll://蓝色代金券赠送
                 Intent intent1 = new Intent(getActivity(), GiveCouponAty.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("blue_voucher",blue_voucher);
+                bundle.putString("blue_voucher", blue_voucher);
                 intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;

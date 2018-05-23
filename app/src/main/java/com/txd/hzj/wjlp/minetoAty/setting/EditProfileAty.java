@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -386,11 +388,25 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             }
             case R.id.user_select_zoon_layout:// 区域选择
                 ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "", EditProfileAty.this);
-                user_select_street_tv.setText("");
+                ((TextView) findViewById(R.id.user_select_zoon_tv)).addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        user_select_street_tv.setText("");
+                    }
+                });
 //                startActivityForResult(AreaSelectAty.class, null, 102);
                 break;
             case R.id.user_select_street_layout:// 选择街道
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                // 如果弹窗选择了区域则将区域赋值给变量，如果没有弹窗选择，则保持原有的区域值
+                area_id = ProUrbAreaUtil.gainInstance().getArea_id().isEmpty() ? area_id : ProUrbAreaUtil.gainInstance().getArea_id();
                 if (area_id.equals("")) {
                     showErrorTip("请选择省市区");
                     return;

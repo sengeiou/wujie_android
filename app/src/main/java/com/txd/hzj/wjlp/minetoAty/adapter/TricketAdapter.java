@@ -10,12 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 
 import java.util.List;
 import java.util.Map;
@@ -68,13 +66,17 @@ public class TricketAdapter extends BaseAdapter {
         } else {
             mcvh = (MCVH) view.getTag();
         }
-        if (0 == type) {
-            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
+        if (0 == type) { // 正常的
+            mcvh.itemTricket_statusBackground_imgv.setImageResource(R.drawable.img_tricket_right_red); // 红色的
+            mcvh.itemTricket_status_imgv.setImageResource(R.drawable.img_tricket_right_weishiyong); // 未使用
+//            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_valid_ticket_bg_hzj);
             mcvh.tricket_nowMoney_tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
-        } else {
+        } else { // 过期的
             // icon_un_valid_ticket_bg_hzj
             // icon_no_uses_tick_bg_hzj
-            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_past_due_ticket_bg_hzj);
+            mcvh.itemTricket_statusBackground_imgv.setImageResource(R.drawable.img_tricket_right_gray); // 灰色的
+            mcvh.itemTricket_status_imgv.setImageResource(R.drawable.img_tricket_right_yishixiao); // 已过期
+//            mcvh.ticket_lin_layout.setBackgroundResource(R.drawable.icon_past_due_ticket_bg_hzj);
             mcvh.tricket_nowMoney_tv.setTextColor(ContextCompat.getColor(context, R.color.gray_text_color));
         }
 
@@ -103,5 +105,11 @@ public class TricketAdapter extends BaseAdapter {
         private TextView end_time_tv;
         @ViewInject(R.id.img_cover)
         private ImageView img_cover;
+
+        @ViewInject(R.id.itemTricket_status_imgv)
+        private ImageView itemTricket_status_imgv; // 右侧状态
+        @ViewInject(R.id.itemTricket_statusBackground_imgv)
+        private ImageView itemTricket_statusBackground_imgv; // 右侧图背景
+
     }
 }

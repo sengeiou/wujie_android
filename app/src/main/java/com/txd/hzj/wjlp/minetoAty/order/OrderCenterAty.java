@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -49,16 +50,16 @@ public class OrderCenterAty extends BaseAty {
 
         titlt_conter_tv.setText("订单中心");
 
-//        IndexPst indexPst = new IndexPst(this);
-//        indexPst.index("", "");
+        IndexPst indexPst = new IndexPst(this);
+        indexPst.index("", "");
 
         list = new ArrayList<>();
 
         // 初始化添加三条记录
-        list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
-        list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
-        list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
-        list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
+//        list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
+//        list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
+//        list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
+//        list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
         itemAdapter = new ItemAdapter();
 
         orderCenter_show_gv.setAdapter(itemAdapter);
@@ -124,7 +125,7 @@ public class OrderCenterAty extends BaseAty {
         if (requestUrl.contains("index") && map.get("code").equals("1")) { // 首页并且回传成功
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             String activity_status = data.get("activity_status");
-            if (activity_status.equals("1")) {
+            if (activity_status.equals("1")) { // 显示活动
                 // 获取信息成功之后先移除所有项
                 list.removeAll(list);
                 // 添加然后添加所有项
@@ -139,8 +140,16 @@ public class OrderCenterAty extends BaseAty {
                 list.add(new ShowItem(R.drawable.icon_order_center_09, "房产购"));
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
                 list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
-                itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
+            } else { // 不开启活动，只添加相应的功能
+                list.removeAll(list);
+                list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
+                list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
+                list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
+                if (L.isDebug) { // L.isDebug = true; 测试版则添加拼单购
+                    list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
+                }
             }
+            itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
         }
     }
 
