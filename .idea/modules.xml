@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/frame/frame.iml" filepath="$PROJECT_DIR$/frame/frame.iml" />
       <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
       <module fileurl="file://$PROJECT_DIR$/sideBar/sideBar.iml" filepath="$PROJECT_DIR$/sideBar/sideBar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/wjyp.iml" filepath="$PROJECT_DIR$/wjyp.iml" />
       <module fileurl="file://$PROJECT_DIR$/wujie_android.iml" filepath="$PROJECT_DIR$/wujie_android.iml" />
     </modules>
   </component>

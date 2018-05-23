@@ -245,7 +245,11 @@ public class GoodsAttributeAty extends BaseAty {
         if (1 == from || 0 == from) {
             if (0 == from) {
                 is_go = true;
-                to_buy_must_tv.setText("立即购买");
+                if ("10".equals(type)) {
+                    to_buy_must_tv.setText("立即兑换");
+                } else {
+                    to_buy_must_tv.setText("立即购买");
+                }
                 from = 1;
                 String a[] = goods_id.split("-");
                 goods_id = a[0];
@@ -331,18 +335,18 @@ public class GoodsAttributeAty extends BaseAty {
             et_num.setText(String.valueOf(num));
             list.clear();
         }
-//        if (list.size() == 1) {
-        if (null != list_val && list_val.size() > 0)
+        //        if (list.size() == 1) {
+        if (null != list_val && list_val.size() > 0){
             for (FirstValBean goods_val : list_val) {
-//                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
-//                if (v.equals(goods_val.getArrtValue()))
+                //                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
+                //                if (v.equals(goods_val.getArrtValue()))
 
                 StringBuffer recordStr = new StringBuffer();
                 for (int k = 0; k < list_attrs.size(); k++) {
                     recordStr.append(list_attrs.get(k));
                     if (k < list_attrs.size() - 1) {
                         recordStr.append("+");
-//                        recordStr.append("@");
+                        //                        recordStr.append("@");
                     }
                 }
                 if (goods_val.getArrtValue().contains(recordStr)) {
@@ -350,8 +354,11 @@ public class GoodsAttributeAty extends BaseAty {
                     tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
                     maxNumber = Integer.parseInt(goods_val.getGoods_num());
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
-                    ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
-
+                    if ("10".equals(type)){
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price+"积分");
+                    }else {
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
+                    }
                     // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
                     et_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
                     num = Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0;
@@ -362,7 +369,7 @@ public class GoodsAttributeAty extends BaseAty {
                     break;
                 }
             }
-//        }
+                }
 
     }
 
@@ -396,11 +403,11 @@ public class GoodsAttributeAty extends BaseAty {
                 return;
             }
             Cart.addCart(goods_id, "", num, this);
-//            RequestParams params = new RequestParams();
-//            ApiTool2 apiTool2 = new ApiTool2();
-//            params.addBodyParameter("goods_id", goods_id);
-//            params.addBodyParameter("num", String.valueOf(num));
-//            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
+            //            RequestParams params = new RequestParams();
+            //            ApiTool2 apiTool2 = new ApiTool2();
+            //            params.addBodyParameter("goods_id", goods_id);
+            //            params.addBodyParameter("num", String.valueOf(num));
+            //            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
             return;
         }
 
@@ -424,19 +431,11 @@ public class GoodsAttributeAty extends BaseAty {
                 if (getIntent().hasExtra("group_type"))//体验拼单
                     intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
                 L.e("cccc" + mid + "--" + type + "--" + goods_id + "--" + group_buy_id + "--" + num + "--" + pro_id);
-//                intent.setClass(this, BuildOrderAty.class);
                 setResult(0x0001, intent);
-//                startActivity(intent);
                 finish();
                 return;
             }
             Cart.addCart(goods_id, pro_id, num, this);
-//            RequestParams params = new RequestParams();
-//            ApiTool2 apiTool2 = new ApiTool2();
-//            params.addBodyParameter("goods_id", goods_id);
-//            params.addBodyParameter("product_id", pro_id);
-//            params.addBodyParameter("num", String.valueOf(num));
-//            apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
         } else {
             showToast("库存不足！");
         }
@@ -486,9 +485,9 @@ public class GoodsAttributeAty extends BaseAty {
                         getItem(i).getFirst_list_val().get(position).setStatus(UNSELECT);
                     }
                     List<FirstListValBean> firstListVal = getItem(i).getFirst_list_val();
-//                    if (getCount() == 1) {
-//                        getItem(0).getFirst_list_val().get(0).setStatus(SELECTED);
-//                    }
+                    //                    if (getCount() == 1) {
+                    //                        getItem(0).getFirst_list_val().get(0).setStatus(SELECTED);
+                    //                    }
                     switch (getItem(i).getFirst_list_val().get(position).getStatus()) {
                         case SELECTED:
                             tv.setEnabled(true);
@@ -520,97 +519,97 @@ public class GoodsAttributeAty extends BaseAty {
             };
             if (i == 0) {
                 tagAdapter.setSelectedList(0);
-//                getItem(i).getFirst_list_val().get(0).setStatus(SELECTED);
+                //                getItem(i).getFirst_list_val().get(0).setStatus(SELECTED);
             }
             avh.goods_attr_tfl.setTag(i);
             avh.goods_attr_tfl.setAdapter(tagAdapter);
             avh.goods_attr_tfl.setOnTagClickListener(new FlowLitener(Integer.parseInt(String.valueOf(avh.goods_attr_tfl.getTag())), GoodsAttrsAdapter.this, i, tagAdapter));
 
 
-//  处理的有问题，不要解开
-//     avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
-//                @Override
-//                public boolean onTagClick(View view, int position, FlowLayout parent) {
-//                    if (getItem(i).getFirst_list_val().get(0).getStatus().equals(CANNOT_SELECT)) {
-//                        return true;
-//                    }
-//
-//                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
-//                    for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
-//                        if (position == j) {
-//                            continue;
-//                        }
-//                        getItem(i).getFirst_list_val().get(j).setStatus(UNSELECT);
-//                    }
-//                    goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
-//                    try {
-//                        if (list.get(i + 1).getFirst_list_val().size() == 1) {
-//                            for (Goods_val val : list_val) {
-//                                String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
-//                                if (!val.arrtValue.contains(s)) {
-//                                    getItem(i).getFirst_list_val().get(position).setStatus(CANNOT_SELECT);
-//                                } else {
-//                                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
-//                                    break;
-//                                }
-//                            }
-//                            list_attrs.put(i + 1, list.get(i + 1).getFirst_list_val().get(0).getVal());
-//                        } else {
-//                            for (int j = 0; j < list.get(i + 1).getFirst_list_val().size(); j++) {
-//                                for (Goods_val val : list_val) {
-//                                    String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
-//                                    if (!val.arrtValue.contains(s)) {
-//                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(CANNOT_SELECT);
-//                                    } else {
-//                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(UNSELECT);
-//                                        break;
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    } catch (IndexOutOfBoundsException e) {
-//                        getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
-//                    }
-//
-//                    list_attrs.put(i, goods_attr);
-//                    if (list_attrs.size() == list.size()) {
-//                        StringBuffer attrs = new StringBuffer();
-//                        for (int k = 0; k < list_attrs.size(); k++) {
-////                            if (k == list_attrs.size() - 1) {
-//                            attrs.append(list_attrs.get(k) + "+");
-////                            } else {
-////                                attrs.append(list_attrs.get(k));
-////                            }
-//                        }
-//                        for (Goods_val val : list_val) {
-//                            if (attrs.toString().contains(val.getArrtValue())) {
-//                                GoodsAttributeAty.this.val = val;
-//                                tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
-//                                maxNumber = Integer.parseInt(val.getGoods_num());
-//                                Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
-//                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
-//                                et_num.setText(String.valueOf(1));
-//                                pro_value = val.getArrtValue();
-//                                image = val.getGoods_img();
-//                                pro_id = val.getId();
-////                                num = 1;
-//                                position++;
-//                                break;
-//                            } else {
-//                                et_num.setText(String.valueOf(maxNumber));
-//                                pro_id = "";
-//                                position = -1;
-//                            }
-//                        }
-//
-//
-//                    } else {
-//                        pro_id = "";
-//                    }
-//                    notifyDataSetChanged();
-//                    return true;
-//                }
-//            });  //  处理的有问题，不要解开
+            //  处理的有问题，不要解开
+            //     avh.goods_attr_tfl.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            //                @Override
+            //                public boolean onTagClick(View view, int position, FlowLayout parent) {
+            //                    if (getItem(i).getFirst_list_val().get(0).getStatus().equals(CANNOT_SELECT)) {
+            //                        return true;
+            //                    }
+            //
+            //                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+            //                    for (int j = 0; j < getItem(i).getFirst_list_val().size(); j++) {
+            //                        if (position == j) {
+            //                            continue;
+            //                        }
+            //                        getItem(i).getFirst_list_val().get(j).setStatus(UNSELECT);
+            //                    }
+            //                    goods_attr = list.get(i).getFirst_list_val().get(position).getVal();
+            //                    try {
+            //                        if (list.get(i + 1).getFirst_list_val().size() == 1) {
+            //                            for (Goods_val val : list_val) {
+            //                                String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(0).getVal();
+            //                                if (!val.arrtValue.contains(s)) {
+            //                                    getItem(i).getFirst_list_val().get(position).setStatus(CANNOT_SELECT);
+            //                                } else {
+            //                                    getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+            //                                    break;
+            //                                }
+            //                            }
+            //                            list_attrs.put(i + 1, list.get(i + 1).getFirst_list_val().get(0).getVal());
+            //                        } else {
+            //                            for (int j = 0; j < list.get(i + 1).getFirst_list_val().size(); j++) {
+            //                                for (Goods_val val : list_val) {
+            //                                    String s = goods_attr + "+" + list.get(i + 1).getFirst_list_val().get(j).getVal();
+            //                                    if (!val.arrtValue.contains(s)) {
+            //                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(CANNOT_SELECT);
+            //                                    } else {
+            //                                        getItem(i + 1).getFirst_list_val().get(j).setStatus(UNSELECT);
+            //                                        break;
+            //                                    }
+            //                                }
+            //                            }
+            //                        }
+            //                    } catch (IndexOutOfBoundsException e) {
+            //                        getItem(i).getFirst_list_val().get(position).setStatus(SELECTED);
+            //                    }
+            //
+            //                    list_attrs.put(i, goods_attr);
+            //                    if (list_attrs.size() == list.size()) {
+            //                        StringBuffer attrs = new StringBuffer();
+            //                        for (int k = 0; k < list_attrs.size(); k++) {
+            ////                            if (k == list_attrs.size() - 1) {
+            //                            attrs.append(list_attrs.get(k) + "+");
+            ////                            } else {
+            ////                                attrs.append(list_attrs.get(k));
+            ////                            }
+            //                        }
+            //                        for (Goods_val val : list_val) {
+            //                            if (attrs.toString().contains(val.getArrtValue())) {
+            //                                GoodsAttributeAty.this.val = val;
+            //                                tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
+            //                                maxNumber = Integer.parseInt(val.getGoods_num());
+            //                                Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
+            //                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+            //                                et_num.setText(String.valueOf(1));
+            //                                pro_value = val.getArrtValue();
+            //                                image = val.getGoods_img();
+            //                                pro_id = val.getId();
+            ////                                num = 1;
+            //                                position++;
+            //                                break;
+            //                            } else {
+            //                                et_num.setText(String.valueOf(maxNumber));
+            //                                pro_id = "";
+            //                                position = -1;
+            //                            }
+            //                        }
+            //
+            //
+            //                    } else {
+            //                        pro_id = "";
+            //                    }
+            //                    notifyDataSetChanged();
+            //                    return true;
+            //                }
+            //            });  //  处理的有问题，不要解开
 
             return view;
         }
@@ -766,11 +765,11 @@ public class GoodsAttributeAty extends BaseAty {
                 Log.i("商品属性长度", list_attrs.size() + "");
                 StringBuffer attrs = new StringBuffer();
                 for (int k = 0; k < list_attrs.size(); k++) {
-//                            if (k == list_attrs.size() - 1) {
+                    //                            if (k == list_attrs.size() - 1) {
                     attrs.append(list_attrs.get(k) + "+");
-//                            } else {
-//                                attrs.append(list_attrs.get(k));
-//                            }
+                    //                            } else {
+                    //                                attrs.append(list_attrs.get(k));
+                    //                            }
                 }
                 for (FirstValBean val : list_val) {
                     if (attrs.toString().contains(val.getArrtValue())) {
@@ -788,11 +787,11 @@ public class GoodsAttributeAty extends BaseAty {
                         pro_value = val.getArrtValue();
                         image = val.getGoods_img();
                         pro_id = val.getId();
-//                                num = 1;
+                        //                                num = 1;
                         position++;
                         break;
                     } else {
-//                        et_num.setText(String.valueOf(maxNumber));
+                        //                        et_num.setText(String.valueOf(maxNumber));
                         pro_id = "";
                         position = -1;
                     }
@@ -800,7 +799,7 @@ public class GoodsAttributeAty extends BaseAty {
 
 
             } else {
-//                pro_id = "";
+                //                pro_id = "";
             }
             goodsAttrsAdapter.notifyDataSetChanged();
             tagAdapter.notifyDataChanged();
@@ -843,7 +842,7 @@ public class GoodsAttributeAty extends BaseAty {
                         }
                     }
                     break;
-//                    break outer;
+                    //                    break outer;
                 }
             }
             if (falgChoice) {
@@ -870,44 +869,44 @@ public class GoodsAttributeAty extends BaseAty {
             lists.add(compareStr);//将遍历出的可选值装入列表
             HashMap recordMap = new HashMap();
             String[] strings = compareStr.split("\\+");//将比较字符串用+分割
-//            String[] strings = compareStr.split("@");//将比较字符串用+分割
+            //            String[] strings = compareStr.split("@");//将比较字符串用+分割
             for (int i = 0; i < strings.length; i++) {
                 recordMap.put(i, strings[i]);
             }
             recordMutilMapList.add(recordMap);//循环记录可选值列表
-//            if (null == recordMutilMap) {
-//                recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-//            } else if(clickWhichPos>0){
-//                if (recordMutilMap.get(0).equals(strings[0])) {//记录选中的那项颜色相同
-//                    for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
-//                        recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
-//                    }
-//                }
-//            }
+            //            if (null == recordMutilMap) {
+            //                recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
+            //            } else if(clickWhichPos>0){
+            //                if (recordMutilMap.get(0).equals(strings[0])) {//记录选中的那项颜色相同
+            //                    for (int i = clickWhichPos + 1; i < recordMutilMap.size(); i++) {
+            //                        recordMutilMap.put(i, recordMutilMapList.get(bd).get(i));
+            //                    }
+            //                }
+            //            }
         }
         if (null == recordMutilMap) {
             recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
 
         } else {
 
-//            boolean equal = false;
-//            for (int i = 0; i < recordMutilMapList.size(); i++) {//赋值的逻辑复杂,不会搞
-//                Map<Integer, String> tempMap = recordMutilMapList.get(i);
-//
-//                for (int j = 0; j < tempMap.size() ; j++) {
-//                    if (recordMutilMap.get(j).equals(tempMap.get(j))) {
-//                        equal = true;
-//                    } else {
-//                        equal = false;
-//                    }
-//                }
-//
-//            }
-//            if (equal) {
-//                for (int i = clickWhichPos + 1; i < recordMutilMapList.size(); i++) {
-//                    recordMutilMap.put(i, recordMutilMapList.get(i).get(0));
-//                }
-//            }
+            //            boolean equal = false;
+            //            for (int i = 0; i < recordMutilMapList.size(); i++) {//赋值的逻辑复杂,不会搞
+            //                Map<Integer, String> tempMap = recordMutilMapList.get(i);
+            //
+            //                for (int j = 0; j < tempMap.size() ; j++) {
+            //                    if (recordMutilMap.get(j).equals(tempMap.get(j))) {
+            //                        equal = true;
+            //                    } else {
+            //                        equal = false;
+            //                    }
+            //                }
+            //
+            //            }
+            //            if (equal) {
+            //                for (int i = clickWhichPos + 1; i < recordMutilMapList.size(); i++) {
+            //                    recordMutilMap.put(i, recordMutilMapList.get(i).get(0));
+            //                }
+            //            }
         }
         Iterator iterator = recordMutilMap.keySet().iterator();
         while (iterator.hasNext()) {
