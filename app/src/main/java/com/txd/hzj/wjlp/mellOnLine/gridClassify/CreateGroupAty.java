@@ -266,7 +266,9 @@ public class CreateGroupAty extends BaseAty {
                     textNums.setText(data.getM_short());
                     i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
                     Log.i("倒计时时间", i1 + "");
+                    times.setConvertDaysToHours(true);
                     times.start(i1 * 1000);
+
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
