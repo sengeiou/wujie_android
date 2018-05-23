@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
@@ -88,10 +90,12 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
+import cn.iwgang.countdownview.CountdownView;
 
 /**
  * ===============Txunda===============
@@ -289,8 +293,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
      */
     @ViewInject(R.id.good_luck_lv)
     private ListViewForScrollView good_luck_lv;
-    @ViewInject(R.id.layout_pt)
-    private LinearLayout layout_pt;
     private Bundle bundle;
     private int clickType = 0;
 
@@ -491,8 +493,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView tv_djq_desc1;
     @ViewInject(R.id.tv_djq_desc2)
     private TextView tv_djq_desc2;
-
-
+    @ViewInject(R.id.tyLayout)
+    private RelativeLayout tyLayout;
     @ViewInject(R.id.lv_qkk)
     private ListViewForScrollView lv_qkk;//去看看列表
 
@@ -556,8 +558,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.tv_expirationdateLayout)
     private LinearLayout tv_expirationdateLayout;
-    @ViewInject(R.id.brzktTv)
-    private TextView brzktTv;//活动倒计时|别人在开团
+    @ViewInject(R.id.layout_pt)
+    private LinearLayout layout_pt;//活动倒计时|别人在开团
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
@@ -1086,16 +1088,42 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      1试用品拼单 2常规拼单",
                      */
                     groupType = dataBean.getGroup_type();
-                    if ("1".equals(groupType)) {
-                        brzktTv.setText("活动倒计时");
-                        List<String> memoList = dataBean.getGroup().get(0).getMemo();
-                        ex_stringBuffer = new StringBuffer();
-                        for (String str : memoList
-                                ) {
-                            ex_stringBuffer.append(str);
-                            ex_stringBuffer.append("\n");
+                    if ("1".equals(groupType)) {  //体验拼单
+                        layout_pt.setVisibility(View.GONE); // 隐藏开团列表
+
+                        online_carvouse_view.setPageColor(0);//设置banner圆点非可见
+                        online_carvouse_view.setFillColor(0);
+                        online_carvouse_view.setStrokeColor(0);
+
+                        groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
+                        if (null != groupList && groupList.size() == 1) {
+                            GroupBean groupBean = groupList.get(0);
+
+                            tyLayout.setVisibility(View.VISIBLE);
+                            tyLayout.getBackground().setAlpha(100);
+                            CountdownView countdownView = (CountdownView) tyLayout.getChildAt(0);
+                            countdownView.setConvertDaysToHours(true);
+                            Calendar calendar = Calendar.getInstance();
+                            if (!android.text.TextUtils.isEmpty(groupBean.getSys_time()))
+                                calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
+
+                            // 当前时间
+                            long now_time = calendar.getTimeInMillis();
+                            // 剩余时间
+                            long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
+                            // 开始倒计时
+                            countdownView.start(last_time * 1000);
+
+                            //设置提示信息
+                            List<String> memoList = groupBean.getMemo();//设置提示信息
+                            ex_stringBuffer = new StringBuffer();
+                            for (String str : memoList
+                                    ) {
+                                ex_stringBuffer.append(str);
+                                ex_stringBuffer.append("\n");
+                            }
+                            tv_expirationdate.setText(ex_stringBuffer);
                         }
-                        tv_expirationdate.setText(ex_stringBuffer);
                     } else if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
                     } else if (goodsInfo.getIs_new_goods_desc().equals("0")) {
@@ -1415,25 +1443,29 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-                                if (dataBean.getGroup().get(0).getIs_member().equals("0")) {
-                                    if (is_C) {
-                                        Intent intent = new Intent();
-                                        intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                        intent.putExtra("type", "3");
-                                        intent.putExtra("goods_id", goods_id);
-                                        intent.putExtra("group_buy_id", group_buy_id);
-                                        intent.putExtra("num", String.valueOf(goods_number));
-                                        intent.putExtra("product_id", product_id);
-                                        intent.putExtra("group_type", groupType);
-                                        intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                        startActivity(intent);
-                                    } else {
-                                        //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                                        toExAttars(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                                goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
-                                    }
+                                GroupBean groupBean = dataBean.getGroup().get(0);
+                                if (groupBean.getDiff_num().equals("0")) {
+                                    showErrorTip("团已满");
                                 } else {
-                                    showErrorTip("您已参加活动");
+                                    if (groupBean.getIs_member().equals("0")) {
+                                        if (is_C) {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("mid", mellInfoBean.getMerchant_id());
+                                            intent.putExtra("type", "2");
+                                            intent.putExtra("goods_id", goods_id);
+                                            intent.putExtra("group_buy_id", group_buy_id);
+                                            intent.putExtra("num", String.valueOf(goods_number));
+                                            intent.putExtra("product_id", product_id);
+                                            intent.putExtra("group_type", groupType);
+                                            intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+                                            startActivity(intent);
+                                        } else {
+                                            toExAttars(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                                                    goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
+                                        }
+                                    } else {
+                                        showErrorTip("您已参加活动");
+                                    }
                                 }
                             }
                         });

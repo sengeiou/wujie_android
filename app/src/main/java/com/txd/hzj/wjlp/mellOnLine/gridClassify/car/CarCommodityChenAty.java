@@ -118,7 +118,7 @@ public class CarCommodityChenAty extends BaseAty {
                 return 1;
             }
         });
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);

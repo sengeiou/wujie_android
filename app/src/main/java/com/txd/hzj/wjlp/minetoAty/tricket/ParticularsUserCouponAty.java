@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.tricket;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,7 +90,7 @@ public class ParticularsUserCouponAty extends BaseAty {
                 }
             }
         });
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);

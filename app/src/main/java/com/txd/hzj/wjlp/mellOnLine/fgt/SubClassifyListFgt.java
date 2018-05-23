@@ -93,7 +93,7 @@ public class SubClassifyListFgt extends BaseFgt {
         su_classify_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
 
 
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);

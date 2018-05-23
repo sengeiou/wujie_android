@@ -755,7 +755,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         lat = DemoApplication.getInstance().getLocInfo().get("lat");
         lng = DemoApplication.getInstance().getLocInfo().get("lon");
         indexPst.index(lng, lat);
-        superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
 

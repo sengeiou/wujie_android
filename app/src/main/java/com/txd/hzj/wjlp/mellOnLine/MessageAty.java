@@ -1,9 +1,14 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -14,6 +19,7 @@ import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshScrollView;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -49,7 +55,16 @@ public class MessageAty extends BaseAty {
 
     @ViewInject(R.id.dialogue_lv)
     private ListViewForScrollView dialogue_lv;
+    // Header View
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     /**
      * 订单消息数量
      */
@@ -97,7 +112,7 @@ public class MessageAty extends BaseAty {
     private TextView anno_message_content_tv;
 
     @ViewInject(R.id.message_center_sc)
-    private PullToRefreshScrollView message_center_sc;
+    private SuperSwipeRefreshLayout message_center_sc;
 
     private UserMessagePst userMessagePst;
     private int p = 1;
@@ -111,17 +126,52 @@ public class MessageAty extends BaseAty {
         super.onCreate(savedInstanceState);
         titlt_conter_tv.setText("消息");
         showStatusBar(R.id.title_re_layout);
-        message_center_sc.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+        message_center_sc.setHeaderView(createHeaderView());// add headerView
+        message_center_sc.setFooterView(createFooterView());
+        message_center_sc.setHeaderViewBackgroundColor(Color.WHITE);
+        message_center_sc.setTargetScrollWithLayout(true);
+        message_center_sc.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 getData(true);
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        message_center_sc.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
-                getData(false);
+                getData(true);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
             }
         });
 
@@ -185,7 +235,8 @@ public class MessageAty extends BaseAty {
         p = 1;
         getData(true);
     }
-//刷新消息页面列表方法
+
+    //刷新消息页面列表方法
     public void getData(boolean show) {
         List<Map<String, String>> fridends = getFriends();
         String account_json = gson.toJson(fridends);
@@ -241,14 +292,16 @@ public class MessageAty extends BaseAty {
                     }
                 }
             }
-            message_center_sc.onRefreshComplete();
+            message_center_sc.setRefreshing(false);
+            message_center_sc.setLoadMore(false);
         }
     }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        message_center_sc.onRefreshComplete();
+        message_center_sc.setRefreshing(false);
+        message_center_sc.setLoadMore(false);
     }
 
     private List<Map<String, String>> getFriends() {
@@ -345,7 +398,7 @@ public class MessageAty extends BaseAty {
                 @Override
                 public void run() {
                     MessageAty.this.adapter.notifyDataSetChanged();
-                    L.e("======最总数据======",getFridends.toString());
+                    L.e("======最总数据======", getFridends.toString());
                 }
             });
         }
@@ -371,5 +424,29 @@ public class MessageAty extends BaseAty {
 
     }
 
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(message_center_sc.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(message_center_sc.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
 
 }

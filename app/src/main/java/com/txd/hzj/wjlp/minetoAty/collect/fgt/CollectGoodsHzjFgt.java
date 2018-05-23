@@ -122,7 +122,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
         collect_goods_rv.setHasFixedSize(true);
         collect_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6"))); // 分割线
 
-        super_layout.setHeaderViewBackgroundColor(0xff888888);
+        super_layout.setHeaderViewBackgroundColor(Color.WHITE);
         super_layout.setHeaderView(createHeaderView());// add headerView
         super_layout.setFooterView(createFooterView());
 

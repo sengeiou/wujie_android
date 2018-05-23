@@ -29,6 +29,15 @@ public class GroupBean implements Serializable {
     private String return_num;
     private List<String> memo;//活动说明
     private String is_member;//判断是否是团员(是团员(!"0")不能买东西)
+    private String diff_num; //还差1人
+
+    public String getDiff_num() {
+        return diff_num;
+    }
+
+    public void setDiff_num(String diff_num) {
+        this.diff_num = diff_num;
+    }
 
     public String getIs_member() {
         return is_member;

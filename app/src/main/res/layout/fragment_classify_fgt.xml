@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <com.ants.theantsgo.view.DukeScrollView
             android:id="@+id/ntsv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,6 +49,6 @@
                     layout="@layout/aty_no_data_layout"
                     android:visibility="gone" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </com.ants.theantsgo.view.DukeScrollView>
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </FrameLayout>

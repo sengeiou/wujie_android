@@ -105,7 +105,7 @@ public class GoodLuckAdapter extends BaseAdapter {
         // 开始倒计时
         goodLuckVH.good_count_down_view.start(last_time * 1000);
 
-        if("2".equals(groupType)){  // 2常规拼单
+//        if("2".equals(groupType)){  // 2常规拼单
             goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -126,12 +126,14 @@ public class GoodLuckAdapter extends BaseAdapter {
             goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
             //还差。。。人
             goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
-        }else{// 2体验拼单
-            goodLuckVH.join_in_group_tv.setVisibility(View.GONE);
-            goodLuckVH.group_head_pic_iv.setVisibility(View.GONE);
-            goodLuckVH.group_diff_tv.setVisibility(View.GONE);
-            goodLuckVH.group_name_tv.setVisibility(View.GONE);
-        }
+//        }
+
+//        else{// 2体验拼单
+//            goodLuckVH.join_in_group_tv.setVisibility(View.GONE);
+//            goodLuckVH.group_head_pic_iv.setVisibility(View.GONE);
+//            goodLuckVH.group_diff_tv.setVisibility(View.GONE);
+//            goodLuckVH.group_name_tv.setVisibility(View.GONE);
+//        }
 
         return view;
     }
