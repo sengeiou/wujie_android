@@ -97,7 +97,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                 Intent intent = new Intent();
                 intent.setClass(GiveCouponAty.this,GiveCouponAccounts.class);
                Bundle bundle = new Bundle();
-                bundle.putString("blue_voucher",blue_voucher);
+                bundle.putString("blue_voucher",number.getText().toString());
                 intent.putExtras(bundle);
                 startActivityForResult(intent,1000);
                 break;

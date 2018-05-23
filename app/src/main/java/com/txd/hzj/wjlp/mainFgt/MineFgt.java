@@ -440,7 +440,7 @@ private LinearLayout give_coupon_tv_ll;
         lat = DemoApplication.getInstance().getLocInfo().get("lat");
         lng = DemoApplication.getInstance().getLocInfo().get("lon");
         indexPst.index(lng, lat);
-        superSwipeRefreshLayout.setHeaderViewBackgroundColor(0xff888888);
+        superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
 

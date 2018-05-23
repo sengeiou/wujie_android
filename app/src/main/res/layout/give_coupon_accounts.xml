@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:hint="0"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />

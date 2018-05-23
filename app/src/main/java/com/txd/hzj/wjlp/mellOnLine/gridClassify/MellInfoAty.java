@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -264,7 +265,7 @@ public class MellInfoAty extends BaseAty {
         soft_type = 0;
         setStyle(soft_type);
 
-        mell_super_sr_layout.setHeaderViewBackgroundColor(0xff888888);
+        mell_super_sr_layout.setHeaderViewBackgroundColor(Color.WHITE);
         mell_super_sr_layout.setHeaderView(createHeaderView());// add headerView
         mell_super_sr_layout.setFooterView(createFooterView());
         mell_super_sr_layout.setTargetScrollWithLayout(true);

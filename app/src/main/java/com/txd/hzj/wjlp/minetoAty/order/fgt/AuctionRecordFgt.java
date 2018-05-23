@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +87,7 @@ public class AuctionRecordFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -234,9 +235,10 @@ public class OrderOnLineFgt extends BaseFgt {
         } else if (from.equals("8")) {
             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
         }
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setTargetScrollWithLayout(true);
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {

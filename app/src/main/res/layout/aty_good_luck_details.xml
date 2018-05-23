@@ -45,7 +45,65 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                            <include layout="@layout/aty_banner" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <include layout="@layout/aty_banner" />
+
+                                <RelativeLayout
+                                    android:id="@+id/tyLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="#000000"
+                                    android:visibility="gone">
+
+                                    <cn.iwgang.countdownview.CountdownView
+                                        android:id="@+id/good_count_down_view"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:isHideTimeBackground="false"
+                                        app:isShowHour="true"
+                                        app:isShowMillisecond="true"
+                                        app:isShowMinute="true"
+                                        app:isShowSecond="true"
+                                        app:isSuffixTextBold="true"
+                                        app:isTimeTextBold="true"
+                                        app:suffixDay=":"
+                                        app:suffixGravity="center"
+                                        app:suffixHour=":"
+                                        app:suffixLRMargin="3dp"
+                                        app:suffixMinute=":"
+                                        app:suffixSecond=":"
+                                        app:suffixTextColor="@color/white"
+                                        app:suffixTextSize="15sp"
+                                        app:timeBgColor="@color/colorAccent"
+                                        app:timeBgRadius="5dp"
+                                        app:timeTextColor="#FFFFFF"
+                                        app:timeTextSize="15sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_toStartOf="@id/good_count_down_view"
+                                        android:text="剩余 "
+                                        android:textColor="@color/white"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_toEndOf="@id/good_count_down_view"
+                                        android:text=" 结束"
+                                        android:textColor="@color/white"
+                                        android:textSize="15sp" />
+                                </RelativeLayout>
+                            </RelativeLayout>
 
                             <LinearLayout
                                 android:id="@+id/tv_expirationdateLayout"
@@ -61,9 +119,8 @@
                                     android:background="#FFF9E7"
                                     android:drawableLeft="@mipmap/icon_dengpao"
                                     android:drawablePadding="10dp"
-                                    android:ellipsize="end"
                                     android:gravity="center_vertical"
-                                    android:maxLines="2"
+                                    android:maxLines="3"
                                     android:padding="10dp"
                                     android:textColor="#666666"
                                     android:textSize="12sp" />
@@ -360,6 +417,7 @@
                                     android:layout_height="8dp" />
 
                                 <TextView
+                                    android:id="@+id/brzktTv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/white"

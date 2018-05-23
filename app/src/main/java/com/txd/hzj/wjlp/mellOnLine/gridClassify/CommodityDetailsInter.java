@@ -23,7 +23,6 @@ public interface CommodityDetailsInter {
          * @param title_goods_layout
          * @param title_details_layout
          * @param title_evaluate_layout
-         * @param limit_goods_details_sc
          */
        void setTabViews(View title_goods_layout, View title_details_layout, View title_evaluate_layout);
 
@@ -44,7 +43,7 @@ public interface CommodityDetailsInter {
 
     }
     public interface GoodLuckPranster{
-        void showExperiencePopWindow(Context context,View view);
+        void showExperiencePopWindow(Context context, View view,StringBuffer stringBuffer);
         void setGoodLuckView(GoodLuckView goodLuckView);
     }
 }

@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
+        <com.ants.theantsgo.view.DukeScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none">
@@ -24,20 +23,17 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="8dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/su_classify_goods_rv"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="wrap_content" />
 
                 <include
                     layout="@layout/aty_no_data_layout"
-                    android:layout_gravity="center"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
+        </com.ants.theantsgo.view.DukeScrollView>
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
-
-</LinearLayout>
+</FrameLayout>

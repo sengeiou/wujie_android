@@ -163,6 +163,36 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     }
 
     /**
+     * 体验拼单
+     * @param v
+     * @param from
+     * @param type
+     * @param goods_id
+     * @param imageurl
+     * @param price
+     * @param group_buy_id
+     * @param goods_attr
+     * @param goods_val
+     * @param is_attr
+     * @param groupType
+     */
+    public void toExAttars(View v, int from, String type, String goods_id, String imageurl,
+                           String price,
+                           String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr,String groupType){
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", from);
+        bundle.putString("type", type);
+        bundle.putString("goods_id", goods_id);
+        bundle.putString("group_buy_id", group_buy_id);
+        bundle.putString("imageurl", imageurl);
+        bundle.putString("price", price);
+        bundle.putSerializable("goods_attr_Serializable", (Serializable) goods_attr);
+        bundle.putSerializable("goods_val_Serializable", (Serializable) goods_val);
+        bundle.putString("is_attr", is_attr);
+        bundle.putString("group_type",groupType);
+        startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
+    }
+    /**
      * @param v
      * @param from
      * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购

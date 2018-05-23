@@ -149,7 +149,7 @@ public class AuctionCollectAty extends BaseAty {
      * 分页数据
      */
     private void getDataForPage() {
-        super_sr_layout.setHeaderViewBackgroundColor(0xff888888);
+        super_sr_layout.setHeaderViewBackgroundColor(Color.WHITE);
         super_sr_layout.setHeaderView(createHeaderView());// add headerView
         super_sr_layout.setFooterView(createFooterView());
         super_sr_layout.setTargetScrollWithLayout(true);

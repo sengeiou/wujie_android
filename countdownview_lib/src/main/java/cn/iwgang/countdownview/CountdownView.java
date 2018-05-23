@@ -38,7 +38,7 @@ public class CountdownView extends View {
         isHideTimeBackground = ta.getBoolean(R.styleable.CountdownView_isHideTimeBackground, true);
 
         mCountdown = isHideTimeBackground ? new BaseCountdowns() : new BackgroundCountdowns();
-        mCountdown.initStyleAttr(context,ta);
+        mCountdown.initStyleAttr(context, ta);
         ta.recycle();
 
         mCountdown.initialize();
@@ -58,6 +58,7 @@ public class CountdownView extends View {
 
     /**
      * measure view Size
+     *
      * @param specType    1 width 2 height
      * @param contentSize all content view size
      * @param measureSpec spec
@@ -104,6 +105,7 @@ public class CountdownView extends View {
 
     /**
      * start countdown
+     *
      * @param millisecond millisecond
      */
     public void start(long millisecond) {
@@ -166,16 +168,17 @@ public class CountdownView extends View {
 
     /**
      * custom time show
-     * @param isShowDay isShowDay
-     * @param isShowHour isShowHour
-     * @param isShowMinute isShowMinute
-     * @param isShowSecond isShowSecond
-     * @param isShowMillisecond isShowMillisecond
      *
-     * use:{@link #dynamicShow(DynamicConfig)}
+     * @param isShowDay         isShowDay
+     * @param isShowHour        isShowHour
+     * @param isShowMinute      isShowMinute
+     * @param isShowSecond      isShowSecond
+     * @param isShowMillisecond isShowMillisecond
+     *                          <p>
+     *                          use:{@link #dynamicShow(DynamicConfig)}
      */
     @Deprecated
-    public void customTimeShow(boolean isShowDay, boolean isShowHour, boolean  isShowMinute, boolean isShowSecond, boolean isShowMillisecond) {
+    public void customTimeShow(boolean isShowDay, boolean isShowHour, boolean isShowMinute, boolean isShowSecond, boolean isShowMillisecond) {
         mCountdown.mHasSetIsShowDay = true;
         mCountdown.mHasSetIsShowHour = true;
 
@@ -197,6 +200,7 @@ public class CountdownView extends View {
 
     /**
      * set countdown end callback listener
+     *
      * @param onCountdownEndListener OnCountdownEndListener
      */
     public void setOnCountdownEndListener(OnCountdownEndListener onCountdownEndListener) {
@@ -205,7 +209,8 @@ public class CountdownView extends View {
 
     /**
      * set interval callback listener
-     * @param interval interval time
+     *
+     * @param interval                    interval time
      * @param onCountdownIntervalListener OnCountdownIntervalListener
      */
     public void setOnCountdownIntervalListener(long interval, OnCountdownIntervalListener onCountdownIntervalListener) {
@@ -215,6 +220,7 @@ public class CountdownView extends View {
 
     /**
      * get day
+     *
      * @return current day
      */
     public int getDay() {
@@ -223,6 +229,7 @@ public class CountdownView extends View {
 
     /**
      * get hour
+     *
      * @return current hour
      */
     public int getHour() {
@@ -231,6 +238,7 @@ public class CountdownView extends View {
 
     /**
      * get minute
+     *
      * @return current minute
      */
     public int getMinute() {
@@ -239,6 +247,7 @@ public class CountdownView extends View {
 
     /**
      * get second
+     *
      * @return current second
      */
     public int getSecond() {
@@ -247,6 +256,7 @@ public class CountdownView extends View {
 
     /**
      * get remain time
+     *
      * @return remain time ( millisecond )
      */
     public long getRemainTime() {
@@ -286,9 +296,9 @@ public class CountdownView extends View {
             hour = (int) (ms / (1000 * 60 * 60));
         }
 
-        int minute = (int)((ms % (1000 * 60 * 60)) / (1000 * 60));
-        int second = (int)((ms % (1000 * 60)) / 1000);
-        int millisecond = (int)(ms % 1000);
+        int minute = (int) ((ms % (1000 * 60 * 60)) / (1000 * 60));
+        int second = (int) ((ms % (1000 * 60)) / 1000);
+        int millisecond = (int) (ms % 1000);
 
         mCountdown.setTimes(day, hour, minute, second, millisecond);
     }
@@ -303,6 +313,7 @@ public class CountdownView extends View {
 
     /**
      * Dynamic show
+     *
      * @param dynamicConfig DynamicConfig
      */
     public void dynamicShow(DynamicConfig dynamicConfig) {
@@ -382,7 +393,7 @@ public class CountdownView extends View {
         Float suffixSecondRightMargin = dynamicConfig.getSuffixSecondRightMargin();
         Float suffixMillisecondRightMargin = dynamicConfig.getSuffixMillisecondLeftMargin();
         if (mCountdown.setSuffixMargin(suffixDayLeftMargin, suffixDayRightMargin, suffixHourLeftMargin, suffixHourRightMargin,
-                                       suffixMinuteLeftMargin, suffixMinuteRightMargin, suffixSecondLeftMargin, suffixSecondRightMargin, suffixMillisecondRightMargin)) {
+                suffixMinuteLeftMargin, suffixMinuteRightMargin, suffixSecondLeftMargin, suffixSecondRightMargin, suffixMillisecondRightMargin)) {
             isReLayout = true;
         }
 
@@ -504,4 +515,7 @@ public class CountdownView extends View {
         }
     }
 
+    public void setConvertDaysToHours(boolean val) {
+        mCountdown.isConvertDaysToHours = val;
+    }
 }

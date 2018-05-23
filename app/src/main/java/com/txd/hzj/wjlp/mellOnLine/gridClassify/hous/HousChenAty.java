@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.hous;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -218,7 +219,7 @@ public class HousChenAty extends BaseAty {
         });
 
 
-        good_luck_sr.setHeaderViewBackgroundColor(0xff888888);
+        good_luck_sr.setHeaderViewBackgroundColor(Color.WHITE);
         good_luck_sr.setHeaderView(createHeaderView());// add headerView
         good_luck_sr.setFooterView(createFooterView());
         good_luck_sr.setTargetScrollWithLayout(true);

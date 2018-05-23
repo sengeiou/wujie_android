@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -22,14 +21,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/check_all_coupon_tv"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_margin="8dp"
-                    android:visibility="gone"
                     android:background="@drawable/shape_coupon_layout_bg"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -39,7 +39,7 @@
                         <View
                             android:layout_width="4dp"
                             android:layout_height="match_parent"
-                            android:background="@drawable/icon_get_coupon_view_style"/>
+                            android:background="@drawable/icon_get_coupon_view_style" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -54,14 +54,14 @@
                                 android:layout_height="wrap_content"
                                 android:text="本店有2张优惠券可领取"
                                 android:textColor="@color/app_text_color"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@color/bg_color"/>
+                        android:background="@color/bg_color" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -79,7 +79,7 @@
                             android:paddingTop="4dp"
                             android:text="领券"
                             android:textColor="@color/white"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -89,7 +89,7 @@
                     android:layout_height="match_parent"
                     android:divider="@color/bg_color"
                     android:dividerHeight="4dp"
-                    android:scrollbars="none"/>
+                    android:scrollbars="none" />
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/mell_goods_gv"
@@ -98,9 +98,9 @@
                     android:background="@color/bg_color"
                     android:horizontalSpacing="4dp"
                     android:numColumns="2"
-                    android:verticalSpacing="4dp"/>
+                    android:verticalSpacing="4dp" />
 
-                <include layout="@layout/aty_no_data_layout"/>
+                <include layout="@layout/aty_no_data_layout" />
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
@@ -153,9 +153,11 @@
                         android:layout_marginStart="16dp"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
+
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <TextView
                                 android:id="@+id/merchant_name_tv"
                                 android:layout_width="wrap_content"
@@ -165,12 +167,13 @@
                                 android:text="康尔馨酒店家纺"
                                 android:textColor="@color/white"
                                 android:textSize="16sp" />
+
                             <LinearLayout
-                                android:layout_alignParentRight="true"
                                 android:id="@+id/mell_info_by_off_line"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="12dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_toRightOf="@+id/merchant_name_tv"
                                 android:background="@drawable/shape_show_mell_ac_layout"
                                 android:gravity="center_vertical">
 
@@ -180,7 +183,7 @@
                                     android:padding="4dp"
                                     android:text="店铺信息"
                                     android:textColor="@color/white"
-                                    android:textSize="8sp" />
+                                    android:textSize="9sp" />
 
                                 <ImageView
                                     android:id="@+id/show_or_hide_info_iv"
@@ -210,7 +213,6 @@
                                 android:paddingEnd="4dp"
                                 android:paddingStart="4dp"
                                 android:paddingTop="2dp"
-                                android:text="To be NO.1. To be NO.1. To be NO.1. To be NO.1."
                                 android:textColor="@color/white"
                                 android:textSize="8sp" />
 
