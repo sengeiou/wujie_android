@@ -140,10 +140,10 @@ public class ClassifyFgt extends BaseFgt {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, ads_h);
         classify_ads_iv.setLayoutParams(params);
 
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
-        swipe_refresh.setTargetScrollWithLayout(false);
+        swipe_refresh.setTargetScrollWithLayout(true);
 
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {

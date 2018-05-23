@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.tricket;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -167,7 +168,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
                 ParticularsUsedByTricketAty.this.finish();
             }
         });
-        swipe_refresh.setHeaderViewBackgroundColor(0xff888888);
+        swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);

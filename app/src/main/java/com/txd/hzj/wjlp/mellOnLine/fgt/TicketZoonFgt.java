@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -217,7 +218,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
      * 更新数据
      */
     private void forUpdata() {
-        refresh_view.setHeaderViewBackgroundColor(0xff888888);
+        refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
         refresh_view.setHeaderView(createHeaderView());// add headerView
         refresh_view.setTargetScrollWithLayout(true);
         refresh_view.setFooterView(createFooterView());
