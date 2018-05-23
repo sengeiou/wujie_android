@@ -11,6 +11,7 @@ public class IntegralBuyOrder {
     private static String url = Config.BASE_URL + "IntegralBuyOrder/";
 
     /**
+     * 无界商店结算页
      * @param merchant_id
      * @param integralBuy_id
      * @param num
@@ -26,6 +27,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店添加订单
      * @param integralBuy_id
      * @param address_id
      * @param goods_num
@@ -48,6 +50,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店订单列表
      * @param order_status
      * @param p
      * @param baseView
@@ -80,6 +83,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店订单详情
      * @param order_id
      * @param baseView
      */
@@ -91,6 +95,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店删除订单
      * @param order_id
      * @param baseView
      */
@@ -102,6 +107,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店取消订单
      * @param order_id
      * @param baseView
      */
@@ -113,6 +119,7 @@ public class IntegralBuyOrder {
     }
 
     /**
+     * 无界商店确认收货
      * @param order_id
      * @param baseView
      */

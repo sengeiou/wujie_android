@@ -35,21 +35,17 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.Goods;
-import com.txd.hzj.wjlp.http.Invoice;
-import com.txd.hzj.wjlp.http.Order;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
-import com.txd.hzj.wjlp.new_wjyp.Bean;
-import com.txd.hzj.wjlp.new_wjyp.Invoice1;
-import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
+import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.PreOrder;
-import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.Invoice1;
+import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.MessageEvent;
@@ -423,13 +419,15 @@ public class BuildOrderAty extends BaseAty {
                     this.finish();
                 }
             }
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject itemJson = (JSONObject) jsonArray.get(i);
-                countryTax += itemJson.getDouble("country_tax");
-            }
-            if (countryTax > 0) {
-                // 刚开始如果有进口税则只显示进口税
-                tv_invoice.append("+进口税" + countryTax);
+            if (!"10".equals(type)){
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject itemJson = (JSONObject) jsonArray.get(i);
+                    countryTax += itemJson.getDouble("country_tax");
+                }
+                if (countryTax > 0) {
+                    // 刚开始如果有进口税则只显示进口税
+                    tv_invoice.append("+进口税" + countryTax);
+                }
             }
         } catch (JSONException e) {
             L.e("缺少对应字段");
@@ -896,28 +894,30 @@ public class BuildOrderAty extends BaseAty {
                 govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + " ¥" + splitNewList.get(i).getPay()));
             }
 
-            //是否存在公益宝贝
-            L.e("aaaa" + getItem(i).get("is_welfare"));
 
-            // 正品保证
-            govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
-            // 服务承诺
-            govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
-            // 发货时间
-            govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
-            // 公益宝贝
-            if (null == getItem(i).get("welfare")) {
-                govh.layout_gongyi.setVisibility(View.GONE);
-            } else {
-                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
-                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            if (!"10".equals(type)){
+                // 正品保证
+                govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
+                // 服务承诺
+                govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
+                // 发货时间
+                govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
+                // 售后
+                govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
+                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+                // 公益宝贝
+                if (null == getItem(i).get("welfare")) {
+                    govh.layout_gongyi.setVisibility(View.GONE);
+                } else {
+                    govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
+                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+                }
             }
-            // 售后
-            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
-            govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+
+
 
             /**
              * 选择配送方式
