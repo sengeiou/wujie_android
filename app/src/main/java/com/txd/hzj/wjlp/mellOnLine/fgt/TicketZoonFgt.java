@@ -358,7 +358,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         if (requestUrl.contains("groupBuyIndex")) {  //拼团
             GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
             numall = groupBuyBean.getNums();
-            if (1 == p) {//第一页数据
+            if (1 == p) {
+                //第一页数据
                 if (isLoding) {
                     gv_classify = groupBuyBean.getData().getTwo_cate_list();
                     if (!ListUtils.isEmpty(gv_classify)) {
