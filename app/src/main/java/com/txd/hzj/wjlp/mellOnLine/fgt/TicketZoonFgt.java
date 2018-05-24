@@ -2,11 +2,15 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -149,6 +153,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         return tzf;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -164,6 +169,28 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         ticket_zoon_goods_lv.setVisibility(View.GONE);
         ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
         ticket_zoon_goods_gv.setEmptyView(no_data_layout);
+
+        ticket_zoon_goods_gv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            boolean sIsScrolling = false;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                    sIsScrolling = true;
+                    Glide.with(getContext()).pauseRequests();
+                } else if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if (sIsScrolling == true) {
+                        Glide.with(getContext()).resumeRequests();
+                    }
+                    sIsScrolling = false;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
         group_ad_pic_iv.setLayoutParams(params);
 //        }
@@ -636,6 +663,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         }
 
     }
+
     private View createHeaderView() {
         View headerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_head, null);
         progressBar = headerView.findViewById(R.id.pb_view);
