@@ -68,8 +68,8 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
 
     @Override
     protected void requestData() {
-        tvName.setText("蓝色代金券");
-        layout_top_tv.setText("我的蓝色代金券");
+        tvName.setText("赠送蓝色代金券");
+        layout_top_tv.setText("蓝色代金券金额");
         if (blue_voucher!=null){
             number.setText(blue_voucher);
         }

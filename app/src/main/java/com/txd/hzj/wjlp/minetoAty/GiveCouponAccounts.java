@@ -72,7 +72,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
 
     @Override
     protected void requestData() {
-        tvName.setText("赠送蓝色代金券");
+        tvName.setText("赠送");
     }
 
     @Override

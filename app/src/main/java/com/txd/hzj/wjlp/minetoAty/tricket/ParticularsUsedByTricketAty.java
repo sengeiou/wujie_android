@@ -118,7 +118,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
         } else if (6 == from) {
             titlt_conter_tv.setText("线上充值明细");
         }else if (7==from){
-            titlt_conter_tv.setText("代金券赠送明细");
+            titlt_conter_tv.setText("赠送明细");
         }
 
         tricket_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

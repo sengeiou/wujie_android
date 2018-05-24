@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="收劵方    "
+            android:text="收券方    "
             android:textColor="@color/app_text_color" />
 
         <EditText
@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="请输入收劵方ID或手机号"
+            android:hint="请输入收券方ID或手机号"
             android:imeOptions="actionSearch"
             android:inputType="number"
             android:maxLines="1"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:text="收劵方信息"
+            android:text="收券方信息"
             android:textColor="@color/app_text_color" />
 
         <TextView
@@ -100,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="0"
+            android:hint="请输入金额"
             android:inputType="number"
             android:padding="12dp"
             android:textColor="@color/app_text_color"
@@ -126,6 +126,7 @@
             android:background="@color/white"
             android:inputType="textPassword"
             android:padding="12dp"
+            android:hint="请输入密码"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
     </LinearLayout>
