@@ -78,12 +78,17 @@ public class CarChenAty extends BaseAty {
                 if (rightPostion >= price.size()) {
                     rightPostion = price.size() - 1;
                 }
-                min_price = price.get(leftPostion);
+
+                if (leftPostion >= price.size()) {
+                    return;
+                } else {
+                    min_price = price.get(leftPostion);
+                }
                 if (min_price.equals("0")) {
                     min_price = "0.0001";
                 }
                 max_price = price.get(rightPostion);
-                tv_price.setText(price.get(leftPostion)+"-"+price.get(rightPostion)+"万");
+                tv_price.setText(price.get(leftPostion) + "-" + price.get(rightPostion) + "万");
             }
         });
         // RecycleView设置布局样式

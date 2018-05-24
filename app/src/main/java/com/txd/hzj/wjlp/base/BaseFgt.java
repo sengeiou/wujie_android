@@ -1,9 +1,13 @@
 package com.txd.hzj.wjlp.base;
 
 import android.os.Build;
+import android.support.v4.app.Fragment;
 
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
+import com.bumptech.glide.Glide;
+import com.squareup.leakcanary.RefWatcher;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -24,7 +28,7 @@ public abstract class BaseFgt extends BaseFragment {
 
     public void showStatusBar(int vid) {
         String name = android.os.Build.BRAND;
-        if(name.equals("Huawei")){
+        if (name.equals("Huawei")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
             } else {
@@ -37,6 +41,7 @@ public abstract class BaseFgt extends BaseFragment {
                 ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -47,5 +52,26 @@ public abstract class BaseFgt extends BaseFragment {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        try {
+            if(isVisibleToUser){
+                Glide.with((Fragment) this).resumeRequests();
+            }else{
+                Glide.with((Fragment)this).pauseRequests();
+            }
+        }catch (IllegalArgumentException e){
+
+        }
     }
 }

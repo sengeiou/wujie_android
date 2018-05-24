@@ -336,6 +336,7 @@ public class HousChenAty extends BaseAty {
 
     private void getData() {
         houseBuyPst.houseList(p, lng, lat, integral_sort, distance_sort, price_sort, sort);
+        good_luck_sr.setLoadMore(false);
     }
 
     @Override
@@ -389,6 +390,7 @@ public class HousChenAty extends BaseAty {
                     }
                     if (!frist) {
                         good_luck_sr.setRefreshing(false);
+                        good_luck_sr.setLoadMore(false);
                         progressBar.setVisibility(View.GONE);
                     }
                 } else {
@@ -401,11 +403,13 @@ public class HousChenAty extends BaseAty {
                 if (1 == p) {
                     if (!frist) {
                         good_luck_sr.setRefreshing(false);
+                        good_luck_sr.setLoadMore(false);
                         progressBar.setVisibility(View.GONE);
                     }
                 } else {
                     footerImageView.setVisibility(View.VISIBLE);
                     footerProgressBar.setVisibility(View.GONE);
+                    good_luck_sr.setRefreshing(false);
                     good_luck_sr.setLoadMore(false);
                 }
             }

@@ -57,6 +57,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     private int logo_size1 = 0;
     private int logo_size2 = 0;
+    private int imgWidth=0;
 
     public RacycleAllAdapter(Context context, List<CFGoodsList> list) {
         this.context = context;
@@ -65,6 +66,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 //        goods_pic = ToolKit.dip2px(context, 180);
         logo_size1 = ToolKit.dip2px(context, 36);
         logo_size2 = ToolKit.dip2px(context, 23);
+        imgWidth=(ToolKit.getScreenWidth(context) - 10) / 2;
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -157,7 +159,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
         // TODO 该处代码在加载到第10页左右的时候会报OOM的错
         Glide.with(context).load(cfGoodsList.getGoods_img())
-                .override((ToolKit.getScreenWidth(context) - 10) / 2, (ToolKit.getScreenWidth(context) - 10) / 2)
+                .override(imgWidth,imgWidth)
                 .centerCrop().placeholder(R.drawable.ic_default)
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .error(R.drawable.ic_default)

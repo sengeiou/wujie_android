@@ -147,43 +147,55 @@ public class fragment1 extends BaseFgt {
                 if (ProUrbAreaUtil.gainInstance().getProvince_id() != null && !ProUrbAreaUtil.gainInstance().getProvince_id().isEmpty()) {
                     // 如果回传的id不为空并且字符串不为空，则将其赋值给上传的字段中，下同
                     province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
+                } else if (province_id == null || province_id.isEmpty()) {
+                    showToast("请选择地址!");
+                    return;
                 }
                 if (ProUrbAreaUtil.gainInstance().getProvince() != null && !ProUrbAreaUtil.gainInstance().getProvince().isEmpty()) {
                     province = ProUrbAreaUtil.gainInstance().getProvince();
+                } else if (province == null || province.isEmpty()) {
+                    showToast("请选择地址!");
+                    return;
                 }
                 if (ProUrbAreaUtil.gainInstance().getCity_id() != null && !ProUrbAreaUtil.gainInstance().getCity_id().isEmpty()) {
                     city_id = ProUrbAreaUtil.gainInstance().getCity_id();
+                } else if (city_id == null || city_id.isEmpty()) {
+                    showToast("请选择地址!");
+                    return;
                 }
                 if (ProUrbAreaUtil.gainInstance().getArea_id() != null && !ProUrbAreaUtil.gainInstance().getArea_id().isEmpty()) {
                     area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                } else if (area_id == null || area_id.isEmpty()) {
+                    showToast("请选择地址!");
+                    return;
                 }
 
                 start_time = id_card_start_time.getText().toString().trim();
-                if (TextUtils.isEmpty(name.getText().toString())) {
+                if (name.getText().toString().trim() == null || TextUtils.isEmpty(name.getText().toString().trim())) {
                     showToast("请输入真实姓名!");
                     return;
                 }
-                if (TextUtils.isEmpty(sex) && isFirst) {
+                if ((sex == null || TextUtils.isEmpty(sex)) && isFirst) {
                     showToast("请选择性别！");
                     return;
                 }
-                if (TextUtils.isEmpty(idcard.getText().toString())) {
+                if (idcard.getText().toString().trim() == null || TextUtils.isEmpty(idcard.getText().toString().trim())) {
                     showToast("请输入身份证号！");
                     return;
                 }
-                if (TextUtils.isEmpty(start_time) && isFirst) {
+                if ((start_time == null || TextUtils.isEmpty(start_time)) && isFirst) {
                     showToast("请选择身份开始时间");
                     return;
                 }
-                if (TextUtils.isEmpty(end_time) && isFirst) {
+                if ((end_time == null || TextUtils.isEmpty(end_time)) && isFirst) {
                     showToast("请选择身份结束时间");
                     return;
                 }
-                if (TextUtils.isEmpty(province) && isFirst) {
+                if ((province == null || TextUtils.isEmpty(province)) && isFirst) {
                     showToast("请选择所在地区!");
                     return;
                 }
-                if (TextUtils.isEmpty(street_id) && isFirst) {
+                if ((street_id == null || TextUtils.isEmpty(street_id)) && isFirst) {
                     showToast("请选择所在街道！");
                     return;
                 }
@@ -197,9 +209,20 @@ public class fragment1 extends BaseFgt {
                 }
 
                 if (file1 != null && file2 != null) { // 请求接口
-                    User.personalAuth(this, name.getText().toString(), sex, idcard.getText().toString(),
-                            TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
-                            street_id, file1, file2);
+                    try {
+                        User.personalAuth(this, name.getText().toString().trim(), sex, idcard.getText().toString().trim(),
+                                TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
+                                street_id, file1, file2);
+                    } catch (Exception e) {
+                        L.e("User.personalAuth is Exception:" + e.toString());
+                        showErrorTip("上传参数出现异常");
+                    } finally {
+                        L.e("BaseView = " + this + "\nname = " + name.getText().toString().trim() + "\nsex = " + sex +
+                                "\nidcard = " + idcard.getText().toString() + "\nstart_time = " + TimeStampUtil.getTimeFour(start_time) +
+                                "\nend_time = " + end_time + "\nprovince_id = " + province_id + "\ncity_id = " + city_id +
+                                "\narea_id = " + area_id + "\nstreet_id = " + street_id + "\nfile1 = " + file1 + "\nfile2 = " + file2);
+                    }
+
                     showProgressDialog();
                 }
                 break;

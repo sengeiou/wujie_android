@@ -211,7 +211,7 @@ public class OrderDetailsAty extends BaseAty {
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
-                        if (type.equals("7")) {
+                        if (type.equals("10")) {
                             bundle.putString("type", "10");
                         }
                         bundle.putString("is_pay_password", is_pay_password);
@@ -416,7 +416,7 @@ public class OrderDetailsAty extends BaseAty {
                 // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
                 lin_logistics.setVisibility(View.GONE);
             }
-            if (type.equals("0") || type.equals("7")) {
+            if (type.equals("0") || type.equals("10")) {
                 setOrderStatus();
             } else if (type.equals("3")) {
                 setGroupBuyOrderStatus();
@@ -432,7 +432,10 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics_time.setText(data.get("logistics_time"));
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
-            order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
+            //type为10的时候代表无界商店，无界商店的订单详情没有freight这个参数
+            if (!"10".equals(type)) {
+                order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
+            }
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
 
             double total_price = 0.00f;//总价格
@@ -809,14 +812,15 @@ public class OrderDetailsAty extends BaseAty {
                 }
 
             }
-
-            if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
-                tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
-                tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
-            } else {
-                tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
+            if (!"10".equals(type)) {
+                if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
+                    tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
+                    tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
+                } else {
+                    tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
+                }
             }
-            tgvh.tv_price.setText("¥" + map.get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setText("10".equals(type)?map.get("shop_price")+"积分":"¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
             // 商品点击跳转至商品详情
@@ -894,7 +898,12 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
             tgvh.title.setText(map.get("attr")); // 设置商品属性
-            tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+            if ("10".equals(type)) {
+                tgvh.jifenTv.setVisibility(View.GONE);
+            } else {
+                tgvh.jifenTv.setVisibility(View.VISIBLE);
+                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+            }
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
             tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
@@ -918,24 +927,24 @@ public class OrderDetailsAty extends BaseAty {
                 }
             }
 
-
-            // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
-            tgvh.layout_fapiao.setVisibility(Integer.parseInt(map.get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
-            // 正品保证
-            tgvh.layout_zhengpinbaozheng.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
-            tgvh.tv_zhengpinbaozheng.setText(map.get("integrity_a").isEmpty() ? "" : map.get("integrity_a"));
-            // 服务承诺
-            tgvh.layout_fuwuchengnuo.setVisibility(map.get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
-            tgvh.tv_fuwuchengnuo.setText(map.get("integrity_b").isEmpty() ? "" : map.get("integrity_b"));
-            // 发货时间
-            tgvh.layout_fahuoshijian.setVisibility(map.get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
-            tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
-            if (map.containsKey("integrity_d")) {
-                // 公益宝贝
-                tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
-                tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
+            if (!"10".equals(type)) {
+                // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
+                tgvh.layout_fapiao.setVisibility(Integer.parseInt(map.get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
+                // 正品保证
+                tgvh.layout_zhengpinbaozheng.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.tv_zhengpinbaozheng.setText(map.get("integrity_a").isEmpty() ? "" : map.get("integrity_a"));
+                // 服务承诺
+                tgvh.layout_fuwuchengnuo.setVisibility(map.get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.tv_fuwuchengnuo.setText(map.get("integrity_b").isEmpty() ? "" : map.get("integrity_b"));
+                // 发货时间
+                tgvh.layout_fahuoshijian.setVisibility(map.get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
+                if (map.containsKey("integrity_d")) {
+                    // 公益宝贝
+                    tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
+                    tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
+                }
             }
-
             // 左侧延长收货按钮点击事件
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override

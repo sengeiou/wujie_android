@@ -15,14 +15,12 @@ package com.txd.hzj.wjlp;
 
 import android.app.Service;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Vibrator;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.WeApplication;
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
@@ -31,6 +29,8 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.txdHxListener.ChatListener;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.txd.hzj.wjlp.baidu.LocationService;
 
@@ -76,12 +76,17 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     private ChatListener chatListener;
 
+    public static RefWatcher getRefWatcher(Context context) {
+        DemoApplication application = (DemoApplication) context.getApplicationContext();
+        return application.refWatcher;
+    }
+
+    private RefWatcher refWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
 //        L.isDebug = false; // 正式版头部及Log日志
         L.isDebug = true; // 测试版头部及Log日志
-
         if (!L.isDebug) { // 如果是正式版则开启异常上报，意在防止在测试过程中上报的异常影响正常用户上报的真实数据
             // 腾讯Bugly初始化，第三个参数为SDK调试模式开关，建议在测试阶段建议设置成true，发布时设置为false。
             CrashReport.initCrashReport(getApplicationContext(), "c07fb2c1b8", false);
@@ -106,7 +111,15 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
-            L.e("=====Application=====");
+            L.e("=====Application=====" + e.toString());
+        }
+        if (L.isDebug) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                // This process is dedicated to LeakCanary for heap analysis.
+                // You should not init your app in this process.
+                return;
+            }
+            refWatcher = LeakCanary.install(this);
         }
     }
 
