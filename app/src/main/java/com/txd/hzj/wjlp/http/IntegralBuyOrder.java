@@ -50,6 +50,8 @@ public class IntegralBuyOrder {
      * @param order_status
      * @param p
      * @param baseView
+     * 无界商店订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
+     *
      */
     public static void OrderList(String order_status, int p, BaseView baseView) {
 

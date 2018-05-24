@@ -22,7 +22,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -30,14 +29,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Order;
 import com.txd.hzj.wjlp.bean.UserBalanceHjs;
-import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
-import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
-import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
-import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.CarOrder;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
@@ -46,7 +37,16 @@ import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.UserBalance;
+import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
+import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +68,7 @@ public class OrderOnLineFgt extends BaseFgt {
     private String title;
     /**
      * 订单类型
+     * 订单状态
      */
     private String type;
     @ViewInject(R.id.super_sr_layout)
@@ -168,7 +169,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     bundle.putString("id", goods_list.get(i).get("order_id"));
                     bundle.putString("type", from);
                     startActivity(OrderDetailsAty.class, bundle);
-                } else if (from.equals("7")) {
+                } else if (from.equals("10")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", goods_list.get(i).get("order_id"));
                     bundle.putString("type", from);
@@ -193,25 +194,6 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     public void onResume() {
         super.onResume();
-        if (from.equals("0")) {
-            com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
-        } else if (from.equals("1")) {
-            CarOrder.orderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("2")) {
-            HouseOrder.orderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("3")) {
-            GroupBuyOrder.orderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("4")) {
-            PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("5")) {
-            IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("6")) {
-            AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("7")) {
-            IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("8")) { // 获取线上充值订单列表
-            UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
-        }
     }
 
     @Override
@@ -230,7 +212,7 @@ public class OrderOnLineFgt extends BaseFgt {
             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("6")) {
             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-        } else if (from.equals("7")) {
+        } else if (from.equals("10")) {
             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
         } else if (from.equals("8")) {
             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", this);
@@ -264,7 +246,7 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("6")) {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("7")) {
+                        } else if (from.equals("10")) {
                             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("8")) {
                             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
@@ -306,7 +288,7 @@ public class OrderOnLineFgt extends BaseFgt {
                             IntegralOrder.orderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("6")) {
                             AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-                        } else if (from.equals("7")) {
+                        } else if (from.equals("10")) {
                             IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
                         } else if (from.equals("8")) {
                             UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
@@ -339,7 +321,7 @@ public class OrderOnLineFgt extends BaseFgt {
         super.onComplete(requestUrl, jsonStr);
         data = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (requestUrl.contains("orderList") || requestUrl.contains("OrderList") || requestUrl.contains("preOrderList")) {
-            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals("7")) {
+            if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals("10")) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
                     goodsAdapter = new GoodsAdapter();
@@ -425,7 +407,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("7")) {
+            } else if (from.equals("10")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("8")) {
                 UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
@@ -441,7 +423,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("7")) {
+            } else if (from.equals("10")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("8")) {
                 UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);
@@ -456,7 +438,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 PreOrder.preOrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("6")) {
                 AuctionOrder.OrderList(type, p, OrderOnLineFgt.this);
-            } else if (from.equals("7")) {
+            } else if (from.equals("10")) {
                 IntegralBuyOrder.OrderList(type, p, OrderOnLineFgt.this);
             } else if (from.equals("8")) {
                 UserBalance.userBalanceHjs(type.equals("2") ? "0" : type.equals("3") ? "1" : "", OrderOnLineFgt.this);

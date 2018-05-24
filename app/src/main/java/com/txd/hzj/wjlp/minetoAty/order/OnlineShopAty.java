@@ -87,9 +87,9 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         title = getIntent().getStringExtra("title");
         //添加页卡标题
-        if (title.equals("线上商城") || title.equals("线下商城") || title.equals("无界商店") || title.equals("无界商店")) {
+        if (title.equals("线上商城") || title.equals("线下商城")||title.equals("无界商店") ) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
-        } else if (title.equals("线上充值")){
+        }else if (title.equals("线上充值")){
             mTitleList = OrderTitleUtils.getInstance().orderTitle6();
         } else if (title.equals("拼团区")) {
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
