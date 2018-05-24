@@ -62,7 +62,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //竖屏锁定
+        // 竖屏锁定 除去GoodsAttributeAty和RegistrationCodeAty两个Activity之外都锁定竖屏界面，为兼容Android8.0系统
         if (!(this instanceof GoodsAttributeAty)&&!(this instanceof RegistrationCodeAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
