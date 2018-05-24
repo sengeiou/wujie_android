@@ -820,7 +820,7 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
                 }
             }
-            tgvh.tv_price.setText("¥" + map.get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setText("10".equals(type)?map.get("shop_price")+"积分":"¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
             // 商品点击跳转至商品详情
