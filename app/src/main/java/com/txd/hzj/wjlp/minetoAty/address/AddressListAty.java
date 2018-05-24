@@ -3,23 +3,23 @@ package com.txd.hzj.wjlp.minetoAty.address;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -43,10 +43,19 @@ public class AddressListAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     private TextView titlt_conter_tv;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     @ViewInject(R.id.address_lv)
-    private PullToRefreshListView address_lv;
-
+    private ListView address_lv;
+    @ViewInject(R.id.layout_super)
+    private SuperSwipeRefreshLayout swipeRefreshLayout;
     private List<Map<String, String>> addresses;
     private AddressAdapter addressAdapter;
 
@@ -98,9 +107,55 @@ public class AddressListAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("收货地址");
+        swipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
+        swipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        swipeRefreshLayout.setFooterView(createFooterView());
+        swipeRefreshLayout.setTargetScrollWithLayout(true);
+        swipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                addressPst.addressList(p, false);
+            }
 
+            @Override
+            public void onPullDistance(int i) {
 
-        address_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        swipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                addressPst.addressList(p, false);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
+        /*address_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
@@ -112,7 +167,7 @@ public class AddressListAty extends BaseAty {
                 p++;
                 addressPst.addressList(p, false);
             }
-        });
+        });*/
 
         address_lv.setEmptyView(no_data_layout);
     }
@@ -228,7 +283,9 @@ public class AddressListAty extends BaseAty {
                     addressAdapter.notifyDataSetChanged();
                 }
             }
-            address_lv.onRefreshComplete();
+            swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
             return;
         }
         if (requestUrl.contains("setDefault")) {
@@ -250,7 +307,9 @@ public class AddressListAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        address_lv.onRefreshComplete();
+        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setLoadMore(false);
+        progressBar.setVisibility(View.GONE);
         if (1 == p) {
             addresses.clear();
             if (addressAdapter != null) {
@@ -430,5 +489,31 @@ public class AddressListAty extends BaseAty {
             private TextView add_details_tv;
 
         }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(swipeRefreshLayout.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(swipeRefreshLayout.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }

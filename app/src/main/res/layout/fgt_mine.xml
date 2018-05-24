@@ -513,6 +513,7 @@
                             style="@style/mine_text_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
                             android:drawableEnd="@drawable/icon_turn_right_gray"
                             android:drawablePadding="10dp"
                             android:drawableStart="@drawable/give_coupon"
