@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +75,7 @@ public class OrderCenterAty extends BaseAty {
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("无界商店")) {
                     mBundle.putString("title", "无界商店");
-                    mBundle.putString("type", "7");
+                    mBundle.putString("type", "10");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("拼单购")) {
                     mBundle.putString("title", "拼团区");
@@ -148,6 +147,7 @@ public class OrderCenterAty extends BaseAty {
                 if (L.isDebug) { // L.isDebug = true; 测试版则添加拼单购
                     list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
                 }
+
             }
             itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
         }
