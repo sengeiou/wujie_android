@@ -99,6 +99,7 @@ public class CarCommodityChenAty extends BaseAty {
 
     private String lat;
     private String lng;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,7 +134,7 @@ public class CarCommodityChenAty extends BaseAty {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
+                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id, lng, lat);
                     }
 
                     @Override
@@ -159,7 +160,7 @@ public class CarCommodityChenAty extends BaseAty {
                         footerProgressBar.setVisibility(View.VISIBLE);
 
                         p++;
-                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
+                        carBuyPst.carList(min_price, max_price, p, style_id, brand_id, lng, lat);
                     }
 
                     @Override
@@ -213,7 +214,7 @@ public class CarCommodityChenAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        carBuyPst.carList(min_price, max_price, p, style_id, brand_id,lng,lat);
+        carBuyPst.carList(min_price, max_price, p, style_id, brand_id, lng, lat);
     }
 
     @Override
@@ -250,14 +251,15 @@ public class CarCommodityChenAty extends BaseAty {
                     swipe_refresh.setLoadMore(false);
                 }
             }
+            swipe_refresh.setLoadMore(false);
+            swipe_refresh.setRefreshing(false);
         }
     }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        swipe_refresh.setVisibility(View.GONE);
-        no_data_layout.setVisibility(View.VISIBLE);
+
         if (1 == p) {
             if (!frist) {
                 swipe_refresh.setRefreshing(false);
