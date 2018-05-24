@@ -36,6 +36,7 @@ import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.umeng.analytics.MobclickAgent;
 
@@ -62,7 +63,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //竖屏锁定
-        if (!(this instanceof GoodsAttributeAty)) {
+        if (!(this instanceof GoodsAttributeAty)&&!(this instanceof RegistrationCodeAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         if (L.isDebug) {
