@@ -401,6 +401,7 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("6")) {
             PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("7")) {
+            //积分抽奖
             if (!order_type.equals("7")) {
                 IntegralOrder.SetOrder(num, address_id, order_id, group_buy_id, "0", freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
             } else {
@@ -419,7 +420,8 @@ public class PayForAppAty extends BaseAty {
             AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
 
         } else if (type.equals("10")) {
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id ,   this);
+            //无界商店添加订单
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id ,freight,freight_type,   this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
