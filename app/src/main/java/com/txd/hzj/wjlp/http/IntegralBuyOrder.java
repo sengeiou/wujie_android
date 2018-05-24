@@ -35,13 +35,15 @@ public class IntegralBuyOrder {
      * @param baseView
      */
     public static void SetOrder(String integralBuy_id, String address_id,
-                                String goods_num, String order_id, BaseView baseView) {
+                                String goods_num, String order_id,String freight,String freight_type, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("integralBuy_id", integralBuy_id);
         params.addBodyParameter("address_id", address_id);
         params.addBodyParameter("goods_num", goods_num);
         params.addBodyParameter("order_id", order_id);
+        params.addBodyParameter("freight", freight);
+        params.addBodyParameter("freight_type", freight_type);
         apiTool2.postApi(url + "SetOrder", params, baseView);
     }
 
