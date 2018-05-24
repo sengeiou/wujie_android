@@ -216,7 +216,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getProvince_id() {
-        return province_id;
+        return (province_id == null || province_id.isEmpty()) ? "" : province_id;
     }
 
     /**
@@ -234,7 +234,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getCity_id() {
-        return city_id;
+        return (city_id == null || city_id.isEmpty()) ? "" : city_id;
     }
 
     /**
@@ -252,7 +252,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getArea_id() {
-        return area_id;
+        return (area_id == null || area_id.isEmpty()) ? "" : area_id;
     }
 
     /**
@@ -270,7 +270,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getProvince() {
-        return province;
+        return (province == null || province.isEmpty()) ? "" : province;
     }
 
     /**
@@ -288,7 +288,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getCity() {
-        return city;
+        return (city == null || city.isEmpty()) ? "" : city;
     }
 
     /**
@@ -306,7 +306,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @return
      */
     public String getArea() {
-        return area;
+        return (area == null || area.isEmpty()) ? "" : area;
     }
 
     /**

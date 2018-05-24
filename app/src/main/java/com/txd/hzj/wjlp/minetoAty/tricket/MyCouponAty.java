@@ -108,12 +108,12 @@ public class MyCouponAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
             if (ToolKit.isList(data, "out")) {
-                out = JSONUtils.parseKeyAndValueToMapList(data.get("out"));
+                out = JSONUtils.parseKeyAndValueToMapList(data.get("out")); // out表示过期的
                 TricketAdapter tricketAdapter1 = new TricketAdapter(1, this, out);
                 un_valid_ticket_lv.setAdapter(tricketAdapter1);
             }
             if (ToolKit.isList(data, "normal")) {
-                normal = JSONUtils.parseKeyAndValueToMapList(data.get("normal"));
+                normal = JSONUtils.parseKeyAndValueToMapList(data.get("normal")); // normal表示正常的
                 TricketAdapter tricketAdapter = new TricketAdapter(0, this, normal);
                 valid_ticket_lv.setAdapter(tricketAdapter);
             }

@@ -22,6 +22,7 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -46,7 +47,6 @@ import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
-import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
 import java.util.List;

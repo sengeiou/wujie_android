@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
@@ -192,20 +193,20 @@ public class ParticularsUserCouponAty extends BaseAty {
         super.onComplete(requestUrl, jsonStr);
         swipe_refresh.setRefreshing(false);
         swipe_refresh.setLoadMore(false);
-        if (requestUrl.contains("User/gifVoucherListDetail")){ // 赠送券的流水明细
+        if (requestUrl.contains("User/gifVoucherListDetail")) { // 赠送券的流水明细
             Gson gson = new Gson();
             GifVoucherListDetailBean gifVoucherListDetailBean = gson.fromJson(jsonStr, GifVoucherListDetailBean.class);
 
-            if (p == 1){
+            if (p == 1) {
                 tricketDetailksList.removeAll(tricketDetailksList); // 清空List
             }
-
-            for (GifVoucherListDetailBean.DataBean dataBean: gifVoucherListDetailBean.getData()) {
+            TricketDetailks tricketDetailks;
+            for (GifVoucherListDetailBean.DataBean dataBean : gifVoucherListDetailBean.getData()) {
 //                sticky, name, gender, profession, String reason, String
 //                log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding
-                TricketDetailks tricketDetailks = new TricketDetailks();
-                tricketDetailks.setSticky(dataBean.getTime()); // 设置吸顶标题
-                for (GifVoucherListDetailBean.DataBean.ListBean listBean: dataBean.getList()) {
+                for (GifVoucherListDetailBean.DataBean.ListBean listBean : dataBean.getList()) {
+                    tricketDetailks = new TricketDetailks();
+                    tricketDetailks.setSticky(dataBean.getTime()); // 设置吸顶标题
                     tricketDetailks.setName(""); // 条目标题
                     tricketDetailks.setGender(listBean.getCreate_time()); // 交易记录时间
                     tricketDetailks.setProfession(listBean.getVoucher_price()); // 交易数量
@@ -218,6 +219,7 @@ public class ParticularsUserCouponAty extends BaseAty {
 //                    tricketDetailks.setMemberCoding(); // 会员编号 查看会员卡消费明细会用到
                     tricketDetailks.setOrderId(listBean.getOrder_id()); // 订单编号，查看详情才使用
                     tricketDetailksList.add(tricketDetailks);
+                    L.e("=======tricketDetailks=========" + tricketDetailks.toString());
                 }
 
             }

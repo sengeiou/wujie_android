@@ -182,6 +182,40 @@ public class GifVoucherListDetailBean {
             public void setReason(String reason) {
                 this.reason = reason;
             }
+
+            @Override
+            public String toString() {
+                return "ListBean{" +
+                        "b_v_id='" + b_v_id + '\'' +
+                        ", order_id='" + order_id + '\'' +
+                        ", order_sn='" + order_sn + '\'' +
+                        ", user_id='" + user_id + '\'' +
+                        ", create_time='" + create_time + '\'' +
+                        ", voucher_price='" + voucher_price + '\'' +
+                        ", nickname='" + nickname + '\'' +
+                        ", order_type='" + order_type + '\'' +
+                        ", img='" + img + '\'' +
+                        ", reason='" + reason + '\'' +
+                        '}';
+            }
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "time='" + time + '\'' +
+                    ", list=" + list +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "GifVoucherListDetailBean{" +
+                "code='" + code + '\'' +
+                ", message='" + message + '\'' +
+                ", nums='" + nums + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

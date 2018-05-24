@@ -792,8 +792,8 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            <!--android:screenOrientation="portrait"-->
 
         <!-- 调用新浪原生SDK，需要注册的回调activity -->
         <activity

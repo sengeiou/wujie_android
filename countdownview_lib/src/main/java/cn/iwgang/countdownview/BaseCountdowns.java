@@ -454,7 +454,8 @@ class BaseCountdowns {
                 + mSuffixMinuteLeftMargin + mSuffixMinuteRightMargin + mSuffixSecondLeftMargin + mSuffixSecondRightMargin + mSuffixMillisecondLeftMargin);
 
         if (isConvertDaysToHours) {
-            width += getDayAndHourContentWidth();
+//            width += getDayAndHourContentWidth();
+            width += timeWidth;
         } else if (isShowHour) {
             width += timeWidth;
         }

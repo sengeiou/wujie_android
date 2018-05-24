@@ -87,6 +87,8 @@ import java.util.Map;
  */
 public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 
+    private boolean localShowAsd = true; // 是否由本地控制活动的显隐
+
     // Header View
     private ProgressBar progressBar;
     private TextView textView;
@@ -801,7 +803,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 // 设置界面广告显示开关
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 L.e("========dataASD========" + dataASD.toString());
-                if (dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
+                if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
                     limitBuy_llayout.setVisibility(View.VISIBLE);
                     groupBuy_llayout.setVisibility(View.VISIBLE);

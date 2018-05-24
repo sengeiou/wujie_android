@@ -7,7 +7,7 @@
     android:background="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt">
 
-    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/super_sr_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,5 +21,5 @@
             android:divider="@color/view_color"
             android:dividerHeight="1dp"
             android:scrollbars="none" />
-    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </FrameLayout>

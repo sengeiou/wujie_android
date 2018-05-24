@@ -21,10 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
-import com.ants.theantsgo.tips.ToastTip;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -36,21 +34,17 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.Goods;
-import com.txd.hzj.wjlp.http.Invoice;
-import com.txd.hzj.wjlp.http.Order;
-import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
-import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
-import com.txd.hzj.wjlp.new_wjyp.Bean;
-import com.txd.hzj.wjlp.new_wjyp.Invoice1;
-import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
+import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.PreOrder;
-import com.txd.hzj.wjlp.shoppingCart.adapter.GoodsByOrderAdapter;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
+import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
+import com.txd.hzj.wjlp.new_wjyp.Invoice1;
+import com.txd.hzj.wjlp.new_wjyp.InvoiceAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.MessageEvent;
@@ -109,10 +103,10 @@ public class BuildOrderAty extends BaseAty {
     @ViewInject(R.id.near_by_point_layout)
     private LinearLayout near_by_point_layout;
 
-//    @ViewInject(R.id.point_near_by_lv)
-//    private ListViewForScrollView point_near_by_lv;
+    //    @ViewInject(R.id.point_near_by_lv)
+    //    private ListViewForScrollView point_near_by_lv;
 
-//    private PostAdapter postAdapter;
+    //    private PostAdapter postAdapter;
 
     /**
      * 所有商品价格(不含邮费)
@@ -122,8 +116,8 @@ public class BuildOrderAty extends BaseAty {
     /**
      * 订单最终价格
      */
-//    @ViewInject(R.id.order_price_at_last_tv)
-//    private TextView order_price_at_last_tv;
+    //    @ViewInject(R.id.order_price_at_last_tv)
+    //    private TextView order_price_at_last_tv;
     private String mid = "";
     private String cart_id = "";
     private int p = 1; // 订单类型 0:普通 1限量购 2无界商店 3进口馆 4搭配购
@@ -181,17 +175,17 @@ public class BuildOrderAty extends BaseAty {
     private Bean bean;
     private double countryTax = 0.00; // 进口税
     private String order_id;
-//    private String groupType;
+    //    private String groupType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("确认订单");
-//        point_near_by_lv.setAdapter(postAdapter);
+        //        point_near_by_lv.setAdapter(postAdapter);
         setStyle(order_type);
         ChangeTextViewStyle.getInstance().forOrderPrice2(this, price_for_all_goods_tv, "共1件商品  合计￥14.80");
-//        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
+        //        ChangeTextViewStyle.getInstance().forOrderPrice2(this, order_price_at_last_tv, "合计：￥14.80");
     }
 
     @Override
@@ -208,17 +202,17 @@ public class BuildOrderAty extends BaseAty {
             case R.id.et_leave_message:
                 break;
             case R.id.layout_sle:
-//                if (!TextUtils.isEmpty(address_id)) {
-//                    if (TextUtils.isEmpty(freightJson)) {
-//                        Gson gson = new Gson();
-//                        freightJson = gson.toJson(list_bean);
-//                    }
-//                    Freight.split(address_id, freightJson, this);
-//                    showProgressDialog();
-//                    view_ads = v;
-//                } else {
-//                    showToast("请选择收货地址！");
-//                }
+                //                if (!TextUtils.isEmpty(address_id)) {
+                //                    if (TextUtils.isEmpty(freightJson)) {
+                //                        Gson gson = new Gson();
+                //                        freightJson = gson.toJson(list_bean);
+                //                    }
+                //                    Freight.split(address_id, freightJson, this);
+                //                    showProgressDialog();
+                //                    view_ads = v;
+                //                } else {
+                //                    showToast("请选择收货地址！");
+                //                }
                 break;
             case R.id.build_order_left_layout:// 线上商城
                 order_type = 0;
@@ -250,10 +244,10 @@ public class BuildOrderAty extends BaseAty {
                     }
                 }
 
-//                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
-//                    showToast("请选择配送方式");
-//                    return;
-//                }
+                //                if (TextUtils.isEmpty(tv_sle_right.getText().toString())) {
+                //                    showToast("请选择配送方式");
+                //                    return;
+                //                }
 
                 Gson gson = new Gson();
                 String json = gson.toJson(i_bean);
@@ -271,12 +265,12 @@ public class BuildOrderAty extends BaseAty {
                 }
 
 
-//                if (groupType != null && groupType.equals("1")) { // 1试用品拼单 2常规拼单",
-//
-////                    GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, gson.toJson(invoiceList), getString("leave_message"), TextUtils.isEmpty(cart_id) ? gson.toJson(goodsList) : gson.toJson(goodsCartList), this);
-//
-//                        type="2";
-//                }
+                //                if (groupType != null && groupType.equals("1")) { // 1试用品拼单 2常规拼单",
+                //
+                ////                    GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, "1", order_id, group_buy_id, freight, freight_type, gson.toJson(invoiceList), getString("leave_message"), TextUtils.isEmpty(cart_id) ? gson.toJson(goodsList) : gson.toJson(goodsCartList), this);
+                //
+                //                        type="2";
+                //                }
 
                 EventBus.getDefault().post(new MessageEvent("更新购物车列表"));
 
@@ -306,7 +300,7 @@ public class BuildOrderAty extends BaseAty {
 
 
                 bundle.putString("invoiceList", gson.toJson(invoiceList));
-//                bundle.putString("bean", gson.toJson());
+                //                bundle.putString("bean", gson.toJson());
                 bundle.putString("is_pay_password", is_pay_password);
                 bundle.putString("order_id", order_id);
                 bundle.putString("freight", String.valueOf(tp));
@@ -355,7 +349,7 @@ public class BuildOrderAty extends BaseAty {
 
     @Override
     protected void initialized() {
-//        postAdapter = new PostAdapter(this, points);
+        //        postAdapter = new PostAdapter(this, points);
         buildOrder_scrollView.smoothScrollTo(0, 0);
     }
 
@@ -368,7 +362,7 @@ public class BuildOrderAty extends BaseAty {
         }
         type = intent.getStringExtra("type");
         mid = intent.getStringExtra("mid");
-//        groupType = intent.getStringExtra("group_type");
+        //        groupType = intent.getStringExtra("group_type");
         cart_id = intent.getStringExtra("json");
         L.e("cart" + cart_id);
         goods_id = getString("goods_id", intent);
@@ -428,14 +422,15 @@ public class BuildOrderAty extends BaseAty {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject itemJson = (JSONObject) jsonArray.get(i);
-                countryTax += itemJson.getDouble("country_tax");
-            }
-            if (countryTax > 0) {
-                // 刚开始如果有进口税则只显示进口税
-                tv_invoice.append("+进口税" + countryTax);
+            if (!"10".equals(type)) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject itemJson = (JSONObject) jsonArray.get(i);
+                    countryTax += itemJson.getDouble("country_tax");
+                }
+                if (countryTax > 0) {
+                    // 刚开始如果有进口税则只显示进口税
+                    tv_invoice.append("+进口税" + countryTax);
+                }
             }
         } catch (JSONException e) {
             L.e("缺少对应字段");
@@ -477,12 +472,12 @@ public class BuildOrderAty extends BaseAty {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
             is_pay_password = map.get("is_pay_password");
-//            if (map.get("welfare_status").equals("1")) {
-//                layout1.setVisibility(View.VISIBLE);
-//                textview.setText("成交后卖家将捐款" + map.get("welfare_pay") + "元给公益计划");
-//            } else {
-//                layout1.setVisibility(View.GONE);
-//            }
+            //            if (map.get("welfare_status").equals("1")) {
+            //                layout1.setVisibility(View.VISIBLE);
+            //                textview.setText("成交后卖家将捐款" + map.get("welfare_pay") + "元给公益计划");
+            //            } else {
+            //                layout1.setVisibility(View.GONE);
+            //            }
             if (map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
@@ -498,11 +493,12 @@ public class BuildOrderAty extends BaseAty {
             tv_merchant_name.setText(map.get("merchant_name"));
             if (!type.equals("10")) {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
-//            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
+                //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
                 order_price_at_last_tv.setText("合计：¥" + total_price);
-//            if (map.get("sum_discount").equals("0")) {
+                //            if (map.get("sum_discount").equals("0")) {
                 tv_sum_discount.setVisibility(View.GONE);
             } else {
+                total_price = Double.parseDouble(map.get("sum_shop_price"));
                 tv_sum_discount.setVisibility(View.GONE);
                 order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
             }
@@ -573,7 +569,8 @@ public class BuildOrderAty extends BaseAty {
      * 选择配送方式
      */
     public void showPop(View view, final List<Map<String, String>> data) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+            return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_sle_address)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 3)
@@ -587,10 +584,10 @@ public class BuildOrderAty extends BaseAty {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//                                tv_sle_left.setText("配送方式");
-//                                freight = data.get(position).get("pay");
-//                                freight_type = data.get(position).get("type");
-//                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
+                                //                                tv_sle_left.setText("配送方式");
+                                //                                freight = data.get(position).get("pay");
+                                //                                freight_type = data.get(position).get("type");
+                                //                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
                                 same_tem_id = getSameID(data.get(position).get("same_tem_id"));
                                 for (int temp : same_tem_id) {
                                     String same_id = String.valueOf(temp);
@@ -665,7 +662,7 @@ public class BuildOrderAty extends BaseAty {
                                     goodsCartList.get(choice_goods).setSame_tem_id(data.get(position).get("same_tem_id"));
                                 }
 
-//                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
+                                //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                                 goodsAdapter.notifyDataSetChanged();
                                 tp = 0.00;
@@ -682,7 +679,11 @@ public class BuildOrderAty extends BaseAty {
                                     tv_youfei.setVisibility(View.VISIBLE);
                                     tv_youfei.setText("+" + tp + "元运费");
                                 }
-                                order_price_at_last_tv.setText("合计：¥" + total_price);
+                                if ("10".equals(type)){
+                                    order_price_at_last_tv.setText("合计：" + total_price+"积分");
+                                }else {
+                                    order_price_at_last_tv.setText("合计：¥" + total_price);
+                                }
 
                             }
                         });
@@ -764,7 +765,8 @@ public class BuildOrderAty extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
+        if (resultCode != RESULT_OK)
+            return;
         if (requestCode == 8888) {
             tv_name.setText("收货人：" + data.getStringExtra("receiver"));
             tv_tel.setText(data.getStringExtra("phone"));
@@ -872,7 +874,11 @@ public class BuildOrderAty extends BaseAty {
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
                 govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
             } else {
-                govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+                if ("10".equals(type)){
+                    govh.price_for_goods_tv.setText( getItem(i).get("shop_price")+"积分");
+                }else {
+                    govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+                }
             }
             try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
                 if (getItem(i).get("invoice_status").equals("1")) {
@@ -902,7 +908,7 @@ public class BuildOrderAty extends BaseAty {
                     }
 
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
-//                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
+                    //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
                 }
             });
             govh.tv_sle_left.setText(TextUtils.isEmpty(splitNewList.get(i).getId()) ? "请选择配送方式" : "");
@@ -910,28 +916,30 @@ public class BuildOrderAty extends BaseAty {
                 govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + " ¥" + splitNewList.get(i).getPay()));
             }
 
-            //是否存在公益宝贝
-            L.e("aaaa" + getItem(i).get("is_welfare"));
+            if (!"10".equals(type)) {
+                //是否存在公益宝贝
+                L.e("aaaa" + getItem(i).get("is_welfare"));
 
-            // 正品保证
-            govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
-            // 服务承诺
-            govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
-            // 发货时间
-            govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
-            govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
-            // 公益宝贝
-            if (null == getItem(i).get("welfare")) {
-                govh.layout_gongyi.setVisibility(View.GONE);
-            } else {
-                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
-                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+                // 正品保证
+                govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
+                // 服务承诺
+                govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
+                // 发货时间
+                govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
+                // 公益宝贝
+                if (null == getItem(i).get("welfare")) {
+                    govh.layout_gongyi.setVisibility(View.GONE);
+                } else {
+                    govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
+                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+                }
+                // 售后
+                govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
+                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
             }
-            // 售后
-            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
-            govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
 
             /**
              * 选择配送方式

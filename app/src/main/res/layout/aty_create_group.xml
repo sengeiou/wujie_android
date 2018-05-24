@@ -162,6 +162,8 @@
                             app:isShowMillisecond="true"
                             app:isShowMinute="true"
                             app:isShowSecond="true"
+                            app:isShowDay="false"
+                            app:isConvertDaysToHours="true"
                             app:isSuffixTextBold="true"
                             app:isTimeTextBold="false"
                             app:suffixGravity="center"

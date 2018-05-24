@@ -772,7 +772,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
                         startActivity(intent);
                     } else {
-                        toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                        toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
                 }
 
@@ -1915,6 +1915,24 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         "wy_price=" + data.getStringExtra("wy_price") + "\n");
             }
 
+        }
+
+        if (requestCode == 1000) {
+            L.e("返回商品详情");
+            if (resultCode == 0x0001) {
+                Bundle bundle = new Bundle();
+                bundle.putString("mid", data.getStringExtra("mid"));
+                bundle.putString("type", data.getStringExtra("type"));
+                bundle.putString("goods_id", data.getStringExtra("goods_id"));
+                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
+                String order_id = data.getStringExtra("order_id");
+                if (!android.text.TextUtils.isEmpty(order_id)) {
+                    bundle.putString("order_id", order_id);
+                }
+                bundle.putString("num", data.getStringExtra("num"));
+                bundle.putString("product_id", data.getStringExtra("product_id"));
+                startActivity(BuildOrderAty.class, bundle);
+            }
         }
     }
 }

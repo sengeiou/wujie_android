@@ -495,6 +495,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView tv_djq_desc2;
     @ViewInject(R.id.tyLayout)
     private RelativeLayout tyLayout;
+    @ViewInject(R.id.good_count_down_view)
+    private CountdownView good_count_down_view;
     @ViewInject(R.id.lv_qkk)
     private ListViewForScrollView lv_qkk;//去看看列表
 
@@ -1100,9 +1102,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             GroupBean groupBean = groupList.get(0);
 
                             tyLayout.setVisibility(View.VISIBLE);
-                            tyLayout.getBackground().setAlpha(100);
-                            CountdownView countdownView = (CountdownView) tyLayout.getChildAt(0);
-                            countdownView.setConvertDaysToHours(true);
+                            tyLayout.getBackground().setAlpha(125);
+
                             Calendar calendar = Calendar.getInstance();
                             if (!android.text.TextUtils.isEmpty(groupBean.getSys_time()))
                                 calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
@@ -1112,7 +1113,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             // 剩余时间
                             long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
                             // 开始倒计时
-                            countdownView.start(last_time * 1000);
+                            good_count_down_view.setConvertDaysToHours(true);
+                            good_count_down_view.start(last_time * 1000);
+//                            good_count_down_view.start(24*60*60*2 * 1000);
 
                             //设置提示信息
                             List<String> memoList = groupBean.getMemo();//设置提示信息

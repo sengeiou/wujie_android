@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <RelativeLayout
+        android:id="@+id/tyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:visibility="gone">
+
+        <cn.iwgang.countdownview.CountdownView
+            android:id="@+id/good_count_down_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:isConvertDaysToHours="true"
+            app:isHideTimeBackground="false"
+            app:isShowDay="false"
+            app:isShowHour="true"
+            app:isShowMillisecond="true"
+            app:isShowMinute="true"
+            app:isShowSecond="true"
+            app:isSuffixTextBold="true"
+            app:isTimeTextBold="false"
+            app:suffixGravity="center"
+            app:suffixHour=":"
+            app:suffixLRMargin="3dp"
+            app:suffixMinute=":"
+            app:suffixSecond=":"
+            app:suffixTextColor="#FFFFFF"
+            app:suffixTextSize="15sp"
+            app:timeBgColor="#DF3031"
+            app:timeBgRadius="5dp"
+            app:timeTextColor="#FFFFFF"
+            app:timeTextSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/good_count_down_view"
+            android:text="剩余 "
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/good_count_down_view"
+            android:text=" 结束"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</RelativeLayout>
