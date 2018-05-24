@@ -23,7 +23,6 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -243,7 +242,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        refresh_view.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+        refresh_view.setOnPushLoadMoreListener(new VpSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 footerTextView.setText("正在加载...");
