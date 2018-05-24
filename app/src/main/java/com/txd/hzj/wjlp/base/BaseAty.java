@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +19,7 @@ import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.bumptech.glide.Glide;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
@@ -63,7 +65,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 竖屏锁定 除去GoodsAttributeAty和RegistrationCodeAty两个Activity之外都锁定竖屏界面，为兼容Android8.0系统
-        if (!(this instanceof GoodsAttributeAty)&&!(this instanceof RegistrationCodeAty)) {
+        if (!(this instanceof GoodsAttributeAty) && !(this instanceof RegistrationCodeAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         if (L.isDebug) {
@@ -165,6 +167,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
     /**
      * 体验拼单
+     *
      * @param v
      * @param from
      * @param type
@@ -179,7 +182,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      */
     public void toExAttars(View v, int from, String type, String goods_id, String imageurl,
                            String price,
-                           String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr,String groupType){
+                           String group_buy_id, List<FirstListBean> goods_attr, List<FirstValBean> goods_val, String is_attr, String groupType) {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         bundle.putString("type", type);
@@ -190,9 +193,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         bundle.putSerializable("goods_attr_Serializable", (Serializable) goods_attr);
         bundle.putSerializable("goods_val_Serializable", (Serializable) goods_val);
         bundle.putString("is_attr", is_attr);
-        bundle.putString("group_type",groupType);
+        bundle.putString("group_type", groupType);
         startActivityForResult(GoodsAttributeAty.class, bundle, 1000);
     }
+
     /**
      * @param v
      * @param from
@@ -398,6 +402,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         MobclickAgent.onPageStart(this.getClass().getSimpleName());
         MobclickAgent.onResume(this);
         DemoApplication.getInstance().setChatListener(this);
+        Glide.with(this).resumeRequests();
     }
 
     @Override
@@ -405,6 +410,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         super.onPause();
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
         MobclickAgent.onPause(this);
+        Glide.with(this).pauseRequests();
     }
 
     @Override
@@ -436,4 +442,5 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         }
         return resources;
     }
+
 }

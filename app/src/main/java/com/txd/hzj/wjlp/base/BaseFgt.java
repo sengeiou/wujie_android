@@ -1,10 +1,12 @@
 package com.txd.hzj.wjlp.base;
 
 import android.os.Build;
+import android.support.v4.app.Fragment;
 
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.util.L;
+import com.bumptech.glide.Glide;
 import com.squareup.leakcanary.RefWatcher;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.umeng.analytics.MobclickAgent;
@@ -59,6 +61,20 @@ public abstract class BaseFgt extends BaseFragment {
         if(L.isDebug){
             RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
             refWatcher.watch(this);
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        try {
+            if(isVisibleToUser){
+                Glide.with((Fragment) this).resumeRequests();
+            }else{
+                Glide.with((Fragment)this).pauseRequests();
+            }
+        }catch (IllegalArgumentException e){
+
         }
     }
 }

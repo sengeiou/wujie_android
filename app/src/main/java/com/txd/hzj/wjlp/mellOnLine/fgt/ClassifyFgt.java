@@ -43,6 +43,7 @@ import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
+import com.txd.hzj.wjlp.tool.LoadMoreScroller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +121,6 @@ public class ClassifyFgt extends BaseFgt {
     }
 
 
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -144,7 +144,7 @@ public class ClassifyFgt extends BaseFgt {
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
-
+        classify_goods_rv.setOnScrollListener(new LoadMoreScroller(getActivity()));
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
@@ -274,7 +274,7 @@ public class ClassifyFgt extends BaseFgt {
                         lp.height = Settings.displayWidth * 200 / 621;
                         classify_ads_iv.setLayoutParams(lp);
                         classify_ads_iv.setMaxWidth(lp.width);
-                        classify_ads_iv.setMaxHeight(lp.width  * 200 / 621);
+                        classify_ads_iv.setMaxHeight(lp.width * 200 / 621);
 
                         Glide.with(getActivity()).load(ads.get("picture"))
                                 .override(Settings.displayWidth, ads_h)
@@ -283,7 +283,7 @@ public class ClassifyFgt extends BaseFgt {
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(classify_ads_iv);
 
-                                  classify_ads_iv.setOnClickListener(new View.OnClickListener() {
+                        classify_ads_iv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (!TextUtils.isEmpty(ads.get("merchant_id")) && !ads.get("merchant_id").equals("0")) {
