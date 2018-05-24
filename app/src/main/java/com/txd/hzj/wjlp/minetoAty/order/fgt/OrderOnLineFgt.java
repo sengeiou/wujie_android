@@ -397,7 +397,7 @@ public class OrderOnLineFgt extends BaseFgt {
             showToast(data.get("message"));
         }
 
-        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")) {
+        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")||requestUrl.contains("CancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
                 com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
@@ -631,11 +631,13 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         PreOrder.preDeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
                         showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -649,11 +651,13 @@ public class OrderOnLineFgt extends BaseFgt {
                     @Override
                     public void onClick(View v) {
                         PreOrder.preCancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
                         showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -691,7 +695,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -711,7 +715,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -730,13 +734,11 @@ public class OrderOnLineFgt extends BaseFgt {
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         }
-                        goods_list.remove(position);
-                        notifyDataSetChanged();
                         showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -782,7 +784,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View view) {
 
                     }
                 }).show();
@@ -945,11 +947,13 @@ public class OrderOnLineFgt extends BaseFgt {
                         @Override
                         public void onClick(View v) {
                             AuctionOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                            goods_list.remove(position);
+                            notifyDataSetChanged();
                             showProgressDialog();
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View view) {
 
                         }
                     }).show();
@@ -974,7 +978,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         }
                     }).setNegativeButton("取消", new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(View view) {
 
                         }
                     }).show();
@@ -1110,7 +1114,12 @@ public class OrderOnLineFgt extends BaseFgt {
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
-            goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
+            if (!"10".equals(from)) {
+                goVh.jifenTv.setVisibility(View.VISIBLE);
+                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
+            }else {
+                goVh.jifenTv.setVisibility(View.GONE);
+            }
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
             //            goVh.textview.setText("最晚发货时间");
             // TODO ============================================时间、积分设置=========================================================
