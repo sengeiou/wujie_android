@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 
 import com.ants.theantsgo.base.BaseFragment;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.squareup.leakcanary.RefWatcher;
 import com.txd.hzj.wjlp.DemoApplication;
@@ -58,10 +57,8 @@ public abstract class BaseFgt extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(L.isDebug){
-            RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
-            refWatcher.watch(this);
-        }
+        RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
     }
 
     @Override

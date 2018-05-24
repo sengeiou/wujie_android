@@ -21,14 +21,12 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
@@ -144,7 +142,7 @@ public class ClassifyFgt extends BaseFgt {
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
-        classify_goods_rv.setOnScrollListener(new LoadMoreScroller(getActivity()));
+        classify_goods_rv.addOnScrollListener(new LoadMoreScroller(getActivity()));
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
