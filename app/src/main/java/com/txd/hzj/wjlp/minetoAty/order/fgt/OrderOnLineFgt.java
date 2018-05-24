@@ -102,9 +102,11 @@ public class OrderOnLineFgt extends BaseFgt {
     private IndianaRecordAdapter indianarecordAdp;
     private String is_pay_password = "0";//是否设置密码
     private UserBalanceHjs userBalanceHjs;
+
     public OrderOnLineFgt() {
 
     }
+
 
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
@@ -188,7 +190,6 @@ public class OrderOnLineFgt extends BaseFgt {
     protected void initialized() {
 
     }
-
 
 
     @Override
@@ -397,7 +398,7 @@ public class OrderOnLineFgt extends BaseFgt {
             showToast(data.get("message"));
         }
 
-        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder")||requestUrl.contains("CancelOrder")) {
+        if (requestUrl.contains("cancelOrder") || requestUrl.contains("preCancelOrder") || requestUrl.contains("CancelOrder")) {
             showToast("取消成功");
             if (from.equals("0")) {
                 com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
@@ -530,7 +531,11 @@ public class OrderOnLineFgt extends BaseFgt {
             }
             List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
             holder.title.setText(getItem(position).get("merchant_name"));
-            holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：¥" + getItem(position).get("order_price"));
+            if ("10".equals(from)) {
+                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：" + getItem(position).get("order_price") + "积分");
+            } else {
+                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：¥" + getItem(position).get("order_price"));
+            }
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1106,7 +1111,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh = (GOVH) view.getTag();
             }
-            if ("3".equals(from)&&map_Type.get(pPosition)) {
+            if ("3".equals(from) && map_Type.get(pPosition)) {
                 goVh.tyIv.setVisibility(View.VISIBLE);
             } else {
                 goVh.tyIv.setVisibility(View.GONE);
@@ -1117,7 +1122,7 @@ public class OrderOnLineFgt extends BaseFgt {
             if (!"10".equals(from)) {
                 goVh.jifenTv.setVisibility(View.VISIBLE);
                 goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
-            }else {
+            } else {
                 goVh.jifenTv.setVisibility(View.GONE);
             }
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
@@ -1134,7 +1139,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 goVh.tv_price.setVisibility(View.GONE);
             } else {
                 goVh.tv_price.setVisibility(View.VISIBLE);
-                goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+                goVh.tv_price.setText("10".equals(from) ? getItem(i).get("shop_price") + "积分" : "¥" + getItem(i).get("shop_price"));
             }
 
             return view;
