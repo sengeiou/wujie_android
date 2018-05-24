@@ -80,6 +80,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         DemoApplication application = (DemoApplication) context.getApplicationContext();
         return application.refWatcher;
     }
+
     private RefWatcher refWatcher;
     @Override
     public void onCreate() {
@@ -110,7 +111,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
-            L.e("=====Application=====");
+            L.e("=====Application=====" + e.toString());
         }
         if (L.isDebug) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
