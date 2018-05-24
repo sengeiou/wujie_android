@@ -534,7 +534,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0") || from.equals("7")) {
+                    if (from.equals("0") || from.equals("10")) {
                         setOrderClickright(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickright(position);
@@ -548,7 +548,7 @@ public class OrderOnLineFgt extends BaseFgt {
             holder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (from.equals("0") || from.equals("7")) {
+                    if (from.equals("0") || from.equals("10")) {
                         setOrderClickleft(position);
                     } else if (from.equals("3")) {
                         setGroupBuyOrderClickleft(position);
@@ -587,7 +587,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
-                    } else if (from.equals("7")) {
+                    } else if (from.equals("10")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
@@ -596,7 +596,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
                 }
             });
-            if (from.equals("0") || from.equals("7")) {
+            if (from.equals("0") || from.equals("10")) {
                 setOrderStatus(position);
             } else if (from.equals("3")) {
                 setGroupBuyStatus(position);
@@ -610,7 +610,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
 
         private void setPreOrderClickright(final int position) {
-            if (getItem(position).get("order_status").equals("1") || getItem(position).get("order_status").equals("7")) {
+            if (getItem(position).get("order_status").equals("1") || getItem(position).get("order_status").equals("10")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
                 bundle.putString("group_buy_id", "");
@@ -727,10 +727,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     public void onClick(View v) {
                         if (from.equals("0")) {
                             com.txd.hzj.wjlp.http.Order.cancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                            showProgressDialog();
                         } else {
                             IntegralBuyOrder.CancelOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
                         }
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
+                        showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -745,8 +747,8 @@ public class OrderOnLineFgt extends BaseFgt {
             if (getItem(position).get("order_status").equals("0")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
-                if (from.equals("7")) {
-                    bundle.putString("type", "10");
+                if (from.equals("10")) {
+                    bundle.putString("type", from);
                 }
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
@@ -771,11 +773,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     public void onClick(View v) {
                         if (from.equals("0")) {
                             com.txd.hzj.wjlp.http.Order.deleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                            showProgressDialog();
                         } else {
                             IntegralBuyOrder.DeleteOrder(getItem(position).get("order_id"), OrderOnLineFgt.this);
-                            showProgressDialog();
                         }
+                        goods_list.remove(position);
+                        notifyDataSetChanged();
+                        showProgressDialog();
                     }
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
@@ -787,6 +790,7 @@ public class OrderOnLineFgt extends BaseFgt {
         }
 
         private void setOrderStatus(int position) {
+            //	无界商店订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
             switch (getItem(position).get("order_status")) {
                 case "0":
                     holder.state.setText("待付款");

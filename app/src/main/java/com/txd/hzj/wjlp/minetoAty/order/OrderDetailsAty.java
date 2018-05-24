@@ -196,7 +196,7 @@ public class OrderDetailsAty extends BaseAty {
             layout_yugou.setVisibility(View.VISIBLE);
         } else if (type.equals("6")) {
             AuctionOrder.preDetails(order_id, this);
-        } else if (type.equals("7")) {
+        } else if (type.equals("10")) {
             IntegralBuyOrder.details(order_id, this);
         }
     }
@@ -206,7 +206,8 @@ public class OrderDetailsAty extends BaseAty {
         tv_btn_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0") || type.equals("7")) {
+                if (type.equals("0") || type.equals("10")) {
+                    //订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
                     if (order_status.equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("order_id", order_id);
@@ -373,7 +374,7 @@ public class OrderDetailsAty extends BaseAty {
                                 showProgressDialog();
                             }
 
-                        } else if (type.equals("7")) {
+                        } else if (type.equals("10")) {
                             if (order_status.equals("1")) {
                                 IntegralBuyOrder.CancelOrder(order_id, OrderDetailsAty.this);
                                 showProgressDialog();
@@ -477,7 +478,7 @@ public class OrderDetailsAty extends BaseAty {
                 PreOrder.preDetails(order_id, this);
             } else if (type.equals("6")) {
                 AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals("7")) {
+            } else if (type.equals("10")) {
                 IntegralBuyOrder.details(order_id, this);
             }
             showProgressDialog();
@@ -494,7 +495,7 @@ public class OrderDetailsAty extends BaseAty {
                 PreOrder.preDetails(order_id, this);
             } else if (type.equals("6")) {
                 AuctionOrder.preDetails(order_id, this);
-            } else if (type.equals("7")) {
+            } else if (type.equals("10")) {
                 IntegralBuyOrder.details(order_id, this);
             }
             showProgressDialog();
