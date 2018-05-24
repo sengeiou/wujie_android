@@ -144,7 +144,7 @@ public class ClassifyFgt extends BaseFgt {
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
-        classify_goods_rv.setOnScrollListener(new LoadMoreScroller(getActivity()));
+        classify_goods_rv.addOnScrollListener(new LoadMoreScroller(getActivity()));
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
