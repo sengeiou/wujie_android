@@ -519,6 +519,15 @@ public class PayForAppAty extends BaseAty {
                     order_id = data.get("order_id");
                 }
             }
+
+            Double priceD=Double.parseDouble(data.get("order_price"));
+            if(priceD==0.0){
+                layout_yue.setVisibility(View.VISIBLE);
+                pay_by_balance_cb.setChecked(true);
+                layout_wx.setVisibility(View.GONE);
+                layout_ali.setVisibility(View.GONE);
+                cb_jfzf.setVisibility(View.GONE);
+            }
         }
         // 验证支付密码
         if (requestUrl.contains("verificationPayPwd")) {
