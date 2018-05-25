@@ -54,7 +54,25 @@ public class FirstValBean implements Serializable {
     private String examine_time;
     private String examine;
     private String arrtValue;
-    private String  group_buy_id; //拼单购id
+    private String group_buy_id; //拼单购id
+    private String pnumber;
+    private String group_type;
+
+    public String getPnumber() {
+        return pnumber;
+    }
+
+    public void setPnumber(String pnumber) {
+        this.pnumber = pnumber;
+    }
+
+    public String getGroup_type() {
+        return group_type;
+    }
+
+    public void setGroup_type(String group_type) {
+        this.group_type = group_type;
+    }
 
     public String getGroup_buy_id() {
         return group_buy_id;
@@ -401,5 +419,6 @@ public class FirstValBean implements Serializable {
     public void setDiscount(String discount) {
         this.discount = discount;
     }
+
 }
 
