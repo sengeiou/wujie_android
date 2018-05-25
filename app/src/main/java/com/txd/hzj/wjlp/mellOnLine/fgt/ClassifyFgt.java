@@ -22,6 +22,7 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -133,6 +134,7 @@ public class ClassifyFgt extends BaseFgt {
         classify_goods_rv.setHasFixedSize(true);
         classify_goods_rv.addItemDecoration(new GridDividerItemDecoration(height, Color.parseColor("#F6F6F6")));
         classify_goods_rv.setNestedScrollingEnabled(false);
+
 
         ads_h = Settings.displayWidth / 2;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, ads_h);
