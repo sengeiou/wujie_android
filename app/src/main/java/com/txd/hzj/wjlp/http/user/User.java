@@ -355,6 +355,15 @@ public class User {
     }
 
     /**
+      * 诚招无界推广员
+      */
+    void proMoters(BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url+"promoters",params,baseView);
+    }
+
+    /**
      * 会员成长
      *
      * @param baseView 回调

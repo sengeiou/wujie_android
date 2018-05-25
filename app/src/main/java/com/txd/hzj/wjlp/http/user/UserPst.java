@@ -173,6 +173,10 @@ public class UserPst extends BasePresenter {
     public void giveCoupon(String price, String code, String pay_password){
         user.giveCoupon(price,code,pay_password,baseView);
     }
+    //诚招无界推广员
+    public void proMoters(){
+        user.proMoters(baseView);
+    }
     // 会员推荐商户
     public void merchantRefer(String name, String range_id, String link_man, String link_phone, String job,
                               String tmail_url, String jd_url, String other_url, String product_desc,

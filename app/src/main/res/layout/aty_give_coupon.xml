@@ -8,6 +8,11 @@
     tools:context="com.txd.hzj.wjlp.minetoAty.balance.BalanceAty">
 
     <include layout="@layout/aty_title" />
+<LinearLayout
+    android:id="@+id/coupon_ll_vip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/aty_top_layout_for_mine" />
 
@@ -75,5 +80,10 @@
             android:textColor="@color/app_text_color" />
 
     </LinearLayout>
-
+</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_vip"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

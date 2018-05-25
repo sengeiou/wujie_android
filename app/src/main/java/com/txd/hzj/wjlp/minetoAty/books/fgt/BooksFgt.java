@@ -1,13 +1,17 @@
 package com.txd.hzj.wjlp.minetoAty.books.fgt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -15,6 +19,7 @@ import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -65,7 +70,7 @@ public class BooksFgt extends BaseFgt {
     private WjBooksAdapter wjBooksAdapter;
 
     @ViewInject(R.id.refresh_view)
-    private PullToRefreshLayout refresh_view;
+    private SuperSwipeRefreshLayout refresh_view;
 
 
     private AcademyPst academyPst;
@@ -106,7 +111,7 @@ public class BooksFgt extends BaseFgt {
     /**
      * 更新数据
      */
-    private void forUpdata() {
+    private void forUpdata() {/*
         refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -125,7 +130,72 @@ public class BooksFgt extends BaseFgt {
                 p++;
                 academyPst.academyIndex(p, type);
             }
-        });
+        });*/
+
+        refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
+        refresh_view.setHeaderView(createHeaderView());// add headerView
+        refresh_view.setFooterView(createFooterView());
+        refresh_view.setTargetScrollWithLayout(true);
+
+        refresh_view
+                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+
+                    @Override
+                    public void onRefresh() {
+                        textView.setText("正在刷新");
+                        imageView.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.VISIBLE);
+                        p = 1;
+                        academyPst.academyIndex(p, type);
+                    }
+
+                    @Override
+                    public void onPullDistance(int distance) {
+                    }
+
+                    @Override
+                    public void onPullEnable(boolean enable) {
+                        textView.setText(enable ? "松开刷新" : "下拉刷新");
+                        imageView.setVisibility(View.VISIBLE);
+                        imageView.setRotation(enable ? 180 : 0);
+                        // 加载操作
+
+                    }
+                });
+
+        refresh_view
+                .setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+
+                    @Override
+                    public void onLoadMore() {
+
+                        if (numall <= books.size()) {
+                            refresh_view.setRefreshing(false);
+                            refresh_view.setLoadMore(false);
+                            return;
+                        }
+                        // 加载操作
+                        p++;
+                        academyPst.academyIndex(p, type);
+                    }
+
+                    @Override
+                    public void onPushEnable(boolean enable) {
+                        if (numall <= books.size()) {
+                            refresh_view.setRefreshing(false);
+                            refresh_view.setLoadMore(false);
+                            return;
+                        }
+                        // 加载操作
+                    }
+
+                    @Override
+                    public void onPushDistance(int distance) {
+
+                    }
+
+                });
+
     }
 
     @Override
@@ -211,13 +281,44 @@ public class BooksFgt extends BaseFgt {
             books = academyIndex.getData().getAcademy_list();
             wjBooksAdapter = new WjBooksAdapter(getActivity(), books);
             books_lv.setAdapter(wjBooksAdapter);
-            refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            refresh_view.setRefreshing(false); // 刷新成功
         } else {
             books2 = academyIndex.getData().getAcademy_list();
             books.addAll(books2);
             wjBooksAdapter.notifyDataSetChanged();
 
-            refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            refresh_view.setLoadMore(false); // 刷新成功
         }
+    }
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_view.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
+
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_view.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
     }
 }

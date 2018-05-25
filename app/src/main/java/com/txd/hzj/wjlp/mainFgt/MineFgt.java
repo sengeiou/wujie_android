@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.Promoters;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
@@ -216,6 +218,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @ViewInject(R.id.merchant_will_move_into_tv)
     private TextView merchant_will_move_into_tv;
+    //
+    @ViewInject(R.id.give_coupon_tv)
+    private TextView give_coupon_tv;
 
     /**
      * 赠送蓝色代金券ll
@@ -227,6 +232,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private TextView message_num_tv;
     private String invite_code = "";
     private String server_line = "";
+    private String TYPE = "0";
     /**
      * 系统消息数量
      */
@@ -249,6 +255,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private String service_head_pic;
     private String service_nickname;
     private String blue_voucher;
+    private String imaUrl;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -279,6 +286,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             uset_other_info_layout.setVisibility(View.VISIBLE);
             center_tv.setText("积分");
         }
+
+
     }
 
     @Override
@@ -287,7 +296,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj,R.id.give_coupon_tv_ll})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -378,6 +387,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.give_coupon_tv_ll://蓝色代金券赠送
                 Intent intent1 = new Intent(getActivity(), GiveCouponAty.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("TYPE", TYPE);
+                bundle.putString("url", imaUrl);
                 bundle.putString("blue_voucher", blue_voucher);
                 intent1.putExtras(bundle);
                 startActivity(intent1);
@@ -486,6 +497,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.tv_lmsj)
     private TextView tv_lmsj;
 
+    private Promoters mData;
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
@@ -494,11 +507,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
-            if (data.get("member_coding").equals("3")){
-                give_coupon_tv_ll.setVisibility(View.VISIBLE);
+            if (data.get("member_coding").equals("3")) {
                 blue_voucher = data.get("blue_voucher");
-            }else{
-                give_coupon_tv_ll.setVisibility(View.GONE);
+                TYPE = "0";
+            } else {
+                TYPE = "1";
+                userPst.proMoters();
             }
             // 昵称
             String nickname = data.get("nickname");
@@ -512,6 +526,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             service_nickname = data.get("service_nickname");
             user_name_tv.setText(nickname);
             user_nick_tv.setText(nickname);
+
 
             // 如果是无忧、优享会员则显示商家推荐
             if (data.get("user_card_type").equals("2") || data.get("user_card_type").equals("3")) {
@@ -619,6 +634,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
 //                    .override(icon_size, icon_size)
                     .into(level_icon_iv);
+        }
+        if (requestUrl.contains("promoters")) {
+            Promoters promoters = GsonUtil.GsonToBean(jsonStr, Promoters.class);
+            Log.i("lanse",jsonStr);
+            if (promoters.getCode().equals("1")){
+                imaUrl= promoters.getData().getAds().get(0).getPicture();
+                give_coupon_tv.setText(promoters.getData().getAds().get(0).getDesc());
+                Log.i("textviewtoStroing",imaUrl+"==================="+promoters.getData().getAds().get(0).getDesc());
+            }
         }
 
         superSwipeRefreshLayout.setRefreshing(false);
