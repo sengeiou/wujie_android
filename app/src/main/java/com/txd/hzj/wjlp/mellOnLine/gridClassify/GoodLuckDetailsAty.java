@@ -105,6 +105,7 @@ import cn.iwgang.countdownview.CountdownView;
  * ===============Txunda===============
  */
 public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
+    private String  order_id;
     /**
      * 商品TextView
      */
@@ -1425,7 +1426,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-
                                 if (is_C) {
                                     Intent intent = new Intent();
                                     intent.putExtra("mid", mellInfoBean.getMerchant_id());
@@ -1435,6 +1435,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     intent.putExtra("num", String.valueOf(goods_number));
                                     intent.putExtra("product_id", product_id);
                                     intent.putExtra("group_type", groupType);
+                                    if (!android.text.TextUtils.isEmpty(order_id)) {
+                                        bundle.putString("order_id", order_id);
+                                    }
                                     intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
                                     startActivity(intent);
                                 } else {
@@ -1464,6 +1467,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                             intent.putExtra("num", String.valueOf(goods_number));
                                             intent.putExtra("product_id", product_id);
                                             intent.putExtra("group_type", groupType);
+                                            if (!android.text.TextUtils.isEmpty(order_id)) {
+                                                bundle.putString("order_id", order_id);
+                                            }
                                             intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
                                             startActivity(intent);
                                         } else {
@@ -1761,13 +1767,25 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == 0x0002 && data != null) {
             if (requestCode == 1000) {
                 is_C = true;
+                mellInfoBean.setMerchant_id(data.getStringExtra("mid"));
+
+                goods_id=data.getStringExtra("goods_id");
+                group_buy_id=data.getStringExtra("group_buy_id");
+                order_id = data.getStringExtra("order_id");
+
+                product_id=data.getStringExtra("product_id");
+                if (data.hasExtra("group_type")){
+                    groupType=data.getStringExtra("group_type");
+                }
+
                 goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
 //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
@@ -1830,8 +1848,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         "wy_price=" + data.getStringExtra("wy_price") + "\n");
             }
 
-        }
-        if (requestCode == 1000) {
+        } else if (requestCode == 1000) {
             L.e("返回商品详情");
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();

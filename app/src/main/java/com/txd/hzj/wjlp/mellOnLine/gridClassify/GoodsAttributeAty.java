@@ -175,6 +175,27 @@ public class GoodsAttributeAty extends BaseAty {
                             intent.putExtra("yx_price", val.getYx_price());
                             intent.putExtra("goods_num", val.getGoods_num());
                             intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
+
+////////////////////后加的
+
+
+                            intent.putExtra("mid", mid);
+                            intent.putExtra("type", type);
+                            intent.putExtra("goods_id", val.getGoods_id());
+
+                            if (group_buy_id.contains("-")) {
+                                String string[] = group_buy_id.split("-");
+                                group_buy_id = string[0];
+                                order_id = string[1];
+                            }
+                            if (!TextUtils.isEmpty(order_id))
+                                intent.putExtra("order_id", order_id);
+                            intent.putExtra("group_buy_id", val.getGroup_buy_id());
+                            intent.putExtra("product_id", pro_id);
+                            if (getIntent().hasExtra("group_type"))//体验拼单
+                                intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
+
+////////////////////后加的
                             setResult(0x0002, intent);
                             finish();
                         } else {
@@ -247,6 +268,8 @@ public class GoodsAttributeAty extends BaseAty {
             order_id = group_buy_id.split("-")[1];
         }
         is_attr = getIntent().getStringExtra("is_attr");
+        String a[] = goods_id.split("-");
+        goods_id = a[0];
         if (1 == from || 0 == from) {
             if (0 == from) {
                 is_go = true;
@@ -256,8 +279,6 @@ public class GoodsAttributeAty extends BaseAty {
                     to_buy_must_tv.setText("立即购买");
                 }
                 from = 1;
-                String a[] = goods_id.split("-");
-                goods_id = a[0];
                 if (a.length > 1)
                     mid = a[1];
             } else {
@@ -426,7 +447,8 @@ public class GoodsAttributeAty extends BaseAty {
                 Intent intent = new Intent();
                 intent.putExtra("mid", mid);
                 intent.putExtra("type", type);
-                intent.putExtra("goods_id", goods_id);
+//                intent.putExtra("goods_id", goods_id);
+                intent.putExtra("goods_id", val.getGoods_id());
 
                 if (group_buy_id.contains("-")) {
                     String string[] = group_buy_id.split("-");
@@ -435,7 +457,8 @@ public class GoodsAttributeAty extends BaseAty {
                 }
                 if (!TextUtils.isEmpty(order_id))
                     intent.putExtra("order_id", order_id);
-                intent.putExtra("group_buy_id", group_buy_id);
+                intent.putExtra("group_buy_id", val.getGroup_buy_id());
+//                intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
                 if (getIntent().hasExtra("group_type"))//体验拼单
@@ -837,6 +860,7 @@ public class GoodsAttributeAty extends BaseAty {
         for (int i = 0; i < valBeans.size(); i++) {
             FirstListValBean valBean = valBeans.get(i);
             boolean falgChoice = false;
+            int choicePos=0;
             outer:
             for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
                 String compareStr = lists.get(bdPos);
@@ -844,12 +868,14 @@ public class GoodsAttributeAty extends BaseAty {
                     case 0: {//颜色比对判断
                         if (compareStr.contains(valBean.getVal())) {
                             falgChoice = true;
+                            choicePos=bdPos;
                         }
                     }
                     break;
                     case 1: {//尺寸比对判断
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
                             falgChoice = true;
+                            choicePos=bdPos;
                         }
 
                     }
@@ -857,6 +883,7 @@ public class GoodsAttributeAty extends BaseAty {
                     case 2: {//大小比对判断 颜色+尺寸+高低
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
                             falgChoice = true;
+                            choicePos=bdPos;
                         }
                     }
                     break;
@@ -866,6 +893,7 @@ public class GoodsAttributeAty extends BaseAty {
             if (falgChoice) {
                 if (recordMutilMap.containsKey(type)) {
                     if (recordMutilMap.get(type).equals(valBean.getVal())) {
+                        FirstValBean temp= list_val.get(choicePos);
                         valBean.setStatus(SELECTED);
                     } else {
                         valBean.setStatus(UNSELECT);
