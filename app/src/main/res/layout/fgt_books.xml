@@ -9,7 +9,7 @@
 
     <include layout="@layout/refresh_head"/>
 
-    <com.ants.theantsgo.view.DukeScrollView
+    <android.support.v4.widget.NestedScrollView
         android:id="@+id/duke_test_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,7 +37,7 @@
             <include layout="@layout/aty_no_data_layout"/>
 
         </LinearLayout>
-    </com.ants.theantsgo.view.DukeScrollView>
+    </android.support.v4.widget.NestedScrollView>
     <include layout="@layout/load_more"/>
 
 </com.ants.theantsgo.view.PullToRefreshLayout>
