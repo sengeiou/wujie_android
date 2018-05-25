@@ -31,7 +31,8 @@ public class OrderTitleUtils {
     }
 
     private String title1[] = {"全部", "待付款", "待发货", "待收货", "待评价"};
-    private String title2[] = {"全部", "待付款", "待成团", "待发货", "待收货", "待评价"};
+    private String title2[] = {"全部", "待抽奖", "未中奖", "待付款", "待成团", "待发货", "待收货", "待评价"};
+    private String type_pt[] = {"0", "7", "10", "1", "2", "3", "4", "5"};
     private String title3[] = {"全部", "预购中", "待付尾款", "待发货", "待收货", "待评价"};
     private String title4[] = {"全部", "进行中", "未中奖", "已中奖"};
     private String title5[] = {"全部", "待付款", "办理手续中", "待评价"};
@@ -53,7 +54,7 @@ public class OrderTitleUtils {
         for (int i = 0; i < title2.length; i++) {
             Map<String, String> map = new HashMap<>();
             map.put("title", title2[i]);
-            map.put("type", String.valueOf(i));
+            map.put("type", type_pt[i]);
             list.add(map);
         }
         return list;
@@ -80,22 +81,24 @@ public class OrderTitleUtils {
         }
         return list;
     }
+
     public List<Map<String, String>> orderTitle5() {
         List<Map<String, String>> list = new ArrayList<>();
         for (int i = 0; i < title5.length; i++) {
             Map<String, String> map = new HashMap<>();
             map.put("title", title5[i]);
-            map.put("type", String.valueOf(i+1));
+            map.put("type", String.valueOf(i + 1));
             list.add(map);
         }
         return list;
     }
+
     public List<Map<String, String>> orderTitle6() {
         List<Map<String, String>> list = new ArrayList<>();
         for (int i = 0; i < title6.length; i++) {
             Map<String, String> map = new HashMap<>();
             map.put("title", title6[i]);
-            map.put("type", String.valueOf(i+1));
+            map.put("type", String.valueOf(i + 1));
             list.add(map);
         }
         return list;

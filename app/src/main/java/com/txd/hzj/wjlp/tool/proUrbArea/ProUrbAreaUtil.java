@@ -192,9 +192,11 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option2 = options2;
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
-
                             if (!TextUtils.isEmpty(goods_id))
                                 Freight.freight(goods_id, String.valueOf(tx), ProUrbAreaUtil.this);
+                            if (null != getData) {
+                                getData.getAddress();
+                            }
                         }
                     }).setTitleText("城市选择")
                             .setDividerColor(Color.BLACK)
@@ -208,6 +210,17 @@ public class ProUrbAreaUtil implements BaseView {
                 }
             }
         }
+    }
+
+
+    public void setGetData(GetData getData) {
+        this.getData = getData;
+    }
+
+    private GetData getData;
+
+    public interface GetData {
+        public void getAddress();
     }
 
     /**

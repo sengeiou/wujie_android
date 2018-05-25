@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ import java.util.Map;
  * ===============Txunda===============
  */
 
-public class AddNewAddressAty2 extends BaseAty {
+public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -132,6 +133,8 @@ public class AddNewAddressAty2 extends BaseAty {
         titlt_right_tv.setText("保存");
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+
+        ProUrbAreaUtil.gainInstance().setGetData(this);
     }
 
     @Override
@@ -145,18 +148,33 @@ public class AddNewAddressAty2 extends BaseAty {
                 String address = address_details_tv.getText().toString().trim();
                 if (receiver.equals("")) {
                     showToast("姓名不能为空");
+                    return;
                 } else if (phone.equals("")) {
                     showToast("电话不能为空");
+                    return;
                 } else if (zore_tv.getText().toString().trim().equals("")) {
                     showToast("区域不能为空");
+                    return;
                 } else if (street_tv.getText().toString().trim().equals("")) {
                     showToast("街道不能为空");
+                    return;
                 } else if (address.equals("")) {
                     showToast("详细地址不能为空");
+                    return;
                 } else {
-                    province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
-                    city_id = ProUrbAreaUtil.gainInstance().getCity_id();
-                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                    ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+                    if (choiceAddress) {
+                        province_id = proUrbAreaUtil.getProvince_id();
+                        province = proUrbAreaUtil.getProvince();
+
+                        city_id = proUrbAreaUtil.getCity_id();
+                        city = proUrbAreaUtil.getProvince();
+
+                        area_id = proUrbAreaUtil.getArea_id();
+                        area = proUrbAreaUtil.getArea();
+                    }
+
+
                     if (0 == type) {
                         addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
                     } else {
@@ -172,7 +190,10 @@ public class AddNewAddressAty2 extends BaseAty {
                 ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "", AddNewAddressAty2.this);
                 break;
             case R.id.street_layout:// 解析数据，跳转至街道选择页面
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                if (choiceAddress) {
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                }
+
                 if (area_id.equals("")) {
                     showErrorTip("请选择省市区");
                     break;
@@ -220,13 +241,22 @@ public class AddNewAddressAty2 extends BaseAty {
 
             address_name_tv.setText(data.get("receiver"));
             address_phone_tv.setText(data.get("phone"));
-            zore_tv.setText(data.get("province") + data.get("city") + data.get("area"));
-            street_tv.setText(data.get("street"));
-            province_id = data.get("province_id");
-            city_id = data.get("city_id");
-            area_id = data.get("area_id");
+
             street_id = data.get("street_id");
+            street = data.get("street");
+            street_tv.setText(street);
+
+            province_id = data.get("province_id");
+            province = data.get("province");
+
+            city_id = data.get("city_id");
+            city = data.get("city");
+
+            area_id = data.get("area_id");
+            area = data.get("area");
+
             address_details_tv.setText(data.get("address"));
+            zore_tv.setText(province +","+ city+"," + area);
 
             lng = data.get("lng");
             lat = data.get("lat");
@@ -268,4 +298,12 @@ public class AddNewAddressAty2 extends BaseAty {
         }
     }
 
+    private boolean choiceAddress = false;
+
+    @Override
+    public void getAddress() {
+        choiceAddress = true;
+        ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+        zore_tv.setText(proUrbAreaUtil.getProvince() +","+ proUrbAreaUtil.getCity()+"," + proUrbAreaUtil.getArea());
+    }
 }
