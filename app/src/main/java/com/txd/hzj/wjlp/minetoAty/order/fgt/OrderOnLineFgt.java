@@ -116,8 +116,8 @@ public class OrderOnLineFgt extends BaseFgt {
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
         OrderOnLineFgt fgt = new OrderOnLineFgt();
-        fgt.type = type;
-        fgt.from = from;
+        fgt.type = type;//订单状态
+        fgt.from = from;//从哪里过来
         fgt.title = title;
         return fgt;
     }
