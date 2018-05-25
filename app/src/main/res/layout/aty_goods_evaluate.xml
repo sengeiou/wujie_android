@@ -14,14 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.ants.theantsgo.view.PullToRefreshLayout
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
             android:id="@+id/refresh_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/refresh_head" />
+            <!--<include layout="@layout/refresh_head" />-->
 
-            <com.ants.theantsgo.view.DukeScrollView
+            <android.support.v4.widget.NestedScrollView
                 android:id="@+id/goods_comment_sc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -135,10 +135,10 @@
                     <include layout="@layout/aty_no_data_layout" />
 
                 </LinearLayout>
-            </com.ants.theantsgo.view.DukeScrollView>
+            </android.support.v4.widget.NestedScrollView>
 
-            <include layout="@layout/load_more" />
-        </com.ants.theantsgo.view.PullToRefreshLayout>
+            <!--<include layout="@layout/load_more" />-->
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
         <ImageView
             android:id="@+id/gc_be_back_top_iv"

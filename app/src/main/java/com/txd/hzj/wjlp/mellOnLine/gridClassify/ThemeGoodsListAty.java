@@ -1,8 +1,9 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.SparseArray;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +11,23 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.DukeScrollView;
-import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.street.ThemePst;
-import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ import java.util.Map;
  * 描述：5-1主题街2(主题街商品列表)
  * ===============Txunda===============
  */
-public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollViewListener {
+public class ThemeGoodsListAty extends BaseAty implements NestedScrollView.OnScrollChangeListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -54,12 +54,20 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
 
     private List<Map<String, String>> list;
     private ThemeGoodsAdapter themeGoodsAdapter;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     /**
      * 滚动监听的ScrollView
      */
     @ViewInject(R.id.tg_sc)
-    private DukeScrollView tg_sc;
+    private NestedScrollView tg_sc;
     /**
      * 回到顶部
      */
@@ -70,7 +78,7 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
      * 上拉加载，下拉刷新
      */
     @ViewInject(R.id.ptr_theme_goods_layout)
-    private PullToRefreshLayout ptr_theme_goods_layout;
+    private SuperSwipeRefreshLayout ptr_theme_goods_layout;
     private int size1 = 0;
     private int size2 = 0;
     private int logo_size1 = 0;
@@ -112,19 +120,53 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
             }
         });
         tg_sc.smoothScrollTo(0, 0);
-        tg_sc.setScrollViewListener(this);
-
-        ptr_theme_goods_layout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+        tg_sc.setOnScrollChangeListener(this);
+        ptr_theme_goods_layout.setHeaderViewBackgroundColor(Color.WHITE);
+        ptr_theme_goods_layout.setHeaderView(createHeaderView());// add headerView
+        ptr_theme_goods_layout.setFooterView(createFooterView());
+        ptr_theme_goods_layout.setTargetScrollWithLayout(true);
+        ptr_theme_goods_layout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 themePst.themeGoods(theme_id, p);
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        ptr_theme_goods_layout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 themePst.themeGoods(theme_id, p);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
             }
         });
 
@@ -182,7 +224,8 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                         list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
                         theme_goods_gv.setAdapter(themeGoodsAdapter);
                     }
-                    ptr_theme_goods_layout.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    progressBar.setVisibility(View.GONE);
+                    ptr_theme_goods_layout.setRefreshing(false); // 刷新成功
                 } else {
                     if (ToolKit.isList(data, "list")) {
                         List<Map<String, String>> list2 = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
@@ -191,17 +234,18 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
                             themeGoodsAdapter.notifyDataSetChanged();
                         }
                     }
-                    ptr_theme_goods_layout.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    footerImageView.setVisibility(View.GONE);
+                    footerProgressBar.setVisibility(View.VISIBLE);
+                    ptr_theme_goods_layout.setLoadMore(false); // 刷新成功
                     themeGoodsAdapter.notifyDataSetChanged();
                 }
             }
         }
     }
 
-
     @Override
-    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y < Settings.displayWidth / 2) {
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY < Settings.displayWidth / 2) {
             tg_be_back_top_iv.setVisibility(View.GONE);
         } else {
             tg_be_back_top_iv.setVisibility(View.VISIBLE);
@@ -327,5 +371,34 @@ public class ThemeGoodsListAty extends BaseAty implements DukeScrollView.ScrollV
             private TextView sold_num_tv;
 
         }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(ptr_theme_goods_layout.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView
+                .findViewById(R.id.footer_pb_view);
+        footerImageView = footerView
+                .findViewById(R.id.footer_image_view);
+        footerTextView = footerView
+                .findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(ptr_theme_goods_layout.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }
