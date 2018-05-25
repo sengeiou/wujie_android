@@ -1,24 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView
-        android:id="@+id/pr_third_lv"
+    <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+        android:id="@+id/refresh_views"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:horizontalSpacing="4dp"
-        android:numColumns="2"
-        android:scrollbars="none"
-        android:verticalSpacing="4dp"
-        app:ptrMode="both"/>
+        android:layout_height="match_parent">
 
-    <include
-        layout="@layout/aty_no_data_layout"
-        android:visibility="gone"/>
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/zooom_scs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/pr_third_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp" />
+
+                <include
+                    layout="@layout/aty_no_data_layout"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 </LinearLayout>

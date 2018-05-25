@@ -267,7 +267,7 @@
         <!-- 注册获取验证码 -->
         <activity android:name=".login.RegisterGetCodeAty" />
         <!-- 线上商城 -->
-        <activity android:name=".minetoAty.order.OnlineShopAty" />
+        <activity android:name=".minetoAty.order.OnlineShopAty" android:launchMode="singleTask"/>
         <!-- 订单中心 -->
         <activity android:name=".minetoAty.order.OrderCenterAty" />
         <!-- 线下商城店铺详情 -->

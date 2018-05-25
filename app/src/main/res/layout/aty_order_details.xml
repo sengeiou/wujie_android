@@ -87,6 +87,7 @@
             <include layout="@layout/aty_order_address_layout" />
 
             <Space
+                android:id="@+id/space_address"
                 android:layout_width="match_parent"
                 android:layout_height="8dp" />
 
@@ -351,6 +352,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/yfLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:divider="@drawable/lin_layout_vertical_line_shape"
@@ -399,6 +401,7 @@
                     android:layout_height="8dp" />
 
                 <LinearLayout
+                    android:id="@+id/ddLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
@@ -426,6 +429,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lyLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 

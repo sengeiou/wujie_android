@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="bottom"
     android:background="@drawable/shape_main_pop_window_bg"
-    android:orientation="vertical"
-    android:id="@+id/lay">
+    android:gravity="bottom"
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,33 +18,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:padding="12dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/main_wj_shop_iv"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/icon_wj_shop_hzj"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/icon_wj_shop_hzj" />
+
         <ImageView
             android:id="@+id/welfare_service_iv"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/icon_wj_fls_hzj"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/icon_wj_fls_hzj" />
+
         <ImageView
             android:id="@+id/main_wj_hatch_iv"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/icon_wj_ssfh_hzj"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/icon_wj_ssfh_hzj" />
+
         <ImageView
             android:id="@+id/recruit_stockholder_iv"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/icon_wj_zmgd_hzj"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/icon_wj_zmgd_hzj" />
 
 
     </LinearLayout>

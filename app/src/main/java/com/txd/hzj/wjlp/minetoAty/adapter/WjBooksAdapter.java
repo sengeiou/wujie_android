@@ -88,9 +88,9 @@ public class WjBooksAdapter extends BaseAdapter {
             bvh.books_select_iv.setVisibility(View.VISIBLE);
 
             if (academyList.isSelect()) {
-                bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                bvh.books_select_iv.setImageResource(R.drawable.icon_collect_mells_selected);
             } else {
-                bvh.books_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                bvh.books_select_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
             }
 
         } else {

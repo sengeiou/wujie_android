@@ -7,19 +7,26 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt">
 
-    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
-        android:id="@+id/collect_mell_lv"
+
+    <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+        android:id="@+id/super_layouts"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:divider="@color/bg_color"
-        android:dividerHeight="4dp"
-        android:scrollbars="none"
-        app:ptrMode="both" />
+        android:layout_weight="1">
 
-    <include layout="@layout/aty_no_data_layout" />
+        <ListView
+            android:id="@+id/collect_mell_lv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:background="@color/white" />
+
+    </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+
+    <include
+        layout="@layout/aty_no_data_layout"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/operation_mell_collect_layout"

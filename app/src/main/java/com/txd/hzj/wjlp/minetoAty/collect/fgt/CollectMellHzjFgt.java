@@ -2,18 +2,24 @@ package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -49,9 +55,10 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
      */
     private int dataType = 0;
 
+    @ViewInject(R.id.super_layouts)
+    private SuperSwipeRefreshLayout super_layouts;
     @ViewInject(R.id.collect_mell_lv)
-    private PullToRefreshListView collect_mell_lv;
-
+    private ListView collect_mell_lv;
     private MellListAdapter mellListAdapter;
 
     private List<FootMellsBan> mellsFoot;
@@ -68,7 +75,15 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     private LinearLayout operation_mell_collect_layout;
 
     private UserPst userPst;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     private UserCollectPst collectPst;
 
     @ViewInject(R.id.no_data_layout)
@@ -94,9 +109,17 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
         intent.setAction("sftv");
         intent.putExtra("index", 1);
         collect_mell_lv.setEmptyView(no_data_layout);
-        collect_mell_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+
+        super_layouts.setHeaderViewBackgroundColor(Color.WHITE);
+        super_layouts.setHeaderView(createHeaderView());// add headerView
+        super_layouts.setFooterView(createFooterView());
+        super_layouts.setTargetScrollWithLayout(true); // 跟随手指滑动
+        super_layouts.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 if (0 == dataType) {
                     userPst.myfooter(p, "2");
@@ -106,7 +129,23 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        super_layouts.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 if (allNum >= mells.size()) {
                     p++;
                     if (0 == dataType) {
@@ -115,10 +154,33 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                         collectPst.collectList(p, "2");
                     }
                 } else {
-                    collect_mell_lv.onRefreshComplete();
+                    super_layouts.setLoadMore(false);
                 }
             }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
         });
+    /*    collect_mell_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+
+            }
+        });*/
 
     }
 
@@ -241,7 +303,11 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
         } else {
             super.onError(requestUrl, error);
         }
-        collect_mell_lv.onRefreshComplete();
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+        super_layouts.setLoadMore(false);
+        super_layouts.setRefreshing(false);
     }
 
     @Override
@@ -267,7 +333,11 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                     mellListAdapter.notifyDataSetChanged();
                 }
             }
-            collect_mell_lv.onRefreshComplete();
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            super_layouts.setLoadMore(false);
+            super_layouts.setRefreshing(false);
             setStatus(status);
             return;
         }
@@ -291,7 +361,11 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
                     mellListAdapter.notifyDataSetChanged();
                 }
             }
-            collect_mell_lv.onRefreshComplete();
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            super_layouts.setLoadMore(false);
+            super_layouts.setRefreshing(false);
             setStatus(status);
             return;
         }
@@ -329,5 +403,29 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
             }
         }
 
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(super_layouts.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(super_layouts.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }

@@ -141,6 +141,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     userPst.myfooter(p, "1");
                 else
                     collectPst.collectList(p, "1");
+                if (collect_goods_select_all_cb.isChecked()){
+                    collect_goods_select_all_cb.setChecked(false);
+                }
             }
 
             @Override
