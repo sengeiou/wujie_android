@@ -195,11 +195,10 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     public void onResume() {
         super.onResume();
+        getData();
     }
 
-
-    @Override
-    protected void requestData() {
+    private void getData() {
         if (from.equals("0")) {
             com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
@@ -311,6 +310,11 @@ public class OrderOnLineFgt extends BaseFgt {
 
                 });
 
+
+    }
+
+    @Override
+    protected void requestData() {
 
     }
 

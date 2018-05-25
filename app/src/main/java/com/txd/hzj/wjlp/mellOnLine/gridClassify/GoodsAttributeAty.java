@@ -212,6 +212,8 @@ public class GoodsAttributeAty extends BaseAty {
         return R.layout.aty_goods_attribute;
     }
 
+    private String order_id;
+
     @Override
     protected void initialized() {
         et_num.addTextChangedListener(new TextWatcher() {
@@ -241,6 +243,9 @@ public class GoodsAttributeAty extends BaseAty {
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
         group_buy_id = getIntent().getStringExtra("group_buy_id");
+        if (group_buy_id.contains("-")) {
+            order_id = group_buy_id.split("-")[1];
+        }
         is_attr = getIntent().getStringExtra("is_attr");
         if (1 == from || 0 == from) {
             if (0 == from) {
@@ -360,7 +365,7 @@ public class GoodsAttributeAty extends BaseAty {
 //                        if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {
 //                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
 //                        } else
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
                     }
                     // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
                     et_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
@@ -395,9 +400,10 @@ public class GoodsAttributeAty extends BaseAty {
                 if (group_buy_id.contains("-")) {
                     String string[] = group_buy_id.split("-");
                     group_buy_id = string[0];
-                    String order_id = string[1];
-                    intent.putExtra("order_id", order_id);
+                    order_id = string[1];
                 }
+                if (!TextUtils.isEmpty(order_id))
+                    intent.putExtra("order_id", order_id);
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.setClass(this, BuildOrderAty.class);
@@ -421,13 +427,14 @@ public class GoodsAttributeAty extends BaseAty {
                 intent.putExtra("mid", mid);
                 intent.putExtra("type", type);
                 intent.putExtra("goods_id", goods_id);
-                String order_id = "";
+
                 if (group_buy_id.contains("-")) {
                     String string[] = group_buy_id.split("-");
                     group_buy_id = string[0];
                     order_id = string[1];
-                    intent.putExtra("order_id", order_id);
                 }
+                if (!TextUtils.isEmpty(order_id))
+                    intent.putExtra("order_id", order_id);
                 intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
                 intent.putExtra("product_id", pro_id);
@@ -788,7 +795,7 @@ public class GoodsAttributeAty extends BaseAty {
 //                            if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {// "group_type": "类型 1试用品拼单 2常规拼单",
 //                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
 //                            } else {
-                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
 //                            }
                         }
                         if (val.getGoods_num().equals("0")) {//切换时候库存数目是0的时候，购买数量那块写成0
