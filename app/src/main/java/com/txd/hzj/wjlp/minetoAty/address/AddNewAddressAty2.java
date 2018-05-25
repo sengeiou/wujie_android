@@ -256,7 +256,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
             area = data.get("area");
 
             address_details_tv.setText(data.get("address"));
-            zore_tv.setText(province +","+ city+"," + area);
+            zore_tv.setText(province + "," + city + "," + area);
 
             lng = data.get("lng");
             lat = data.get("lat");
@@ -304,6 +304,6 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
     public void getAddress() {
         choiceAddress = true;
         ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
-        zore_tv.setText(proUrbAreaUtil.getProvince() +","+ proUrbAreaUtil.getCity()+"," + proUrbAreaUtil.getArea());
+        zore_tv.setText(proUrbAreaUtil.getProvince() + "," + proUrbAreaUtil.getCity() + "," + proUrbAreaUtil.getArea());
     }
 }

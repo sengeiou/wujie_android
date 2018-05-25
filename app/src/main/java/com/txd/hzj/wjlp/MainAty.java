@@ -399,7 +399,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     private PopupWindow showPopupWindow(View anchorView) {
         final View contentView = LayoutInflater.from(anchorView.getContext()).inflate(R.layout.main_popup_windeow_layout, null);
-        LinearLayout lay = contentView.findViewById(R.id.lay);
+        LinearLayout lay = (LinearLayout) contentView.findViewById(R.id.lay);
         lay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -934,13 +934,13 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
                     @Override
                     public void onComplete(String path) {
-                                /*
-                                 * 安装APK工具类
-                                 * @param context       上下文
-                                 * @param filePath      文件路径
-                                 * @param authorities   ---------Manifest中配置provider的authorities字段---------
-                                 * @param callBack      安装界面成功调起的回调
-                                 */
+                        /*
+                         * 安装APK工具类
+                         * @param context       上下文
+                         * @param filePath      文件路径
+                         * @param authorities   ---------Manifest中配置provider的authorities字段---------
+                         * @param callBack      安装界面成功调起的回调
+                         */
                         InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
                                 InstallUtils.InstallCallBack
                                         () {
