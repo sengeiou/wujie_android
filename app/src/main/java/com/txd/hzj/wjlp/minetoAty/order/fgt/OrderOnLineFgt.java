@@ -576,7 +576,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("id", goods_list.get(position).get("order_id"));
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
-                    } else if (from.equals("3")) {
+                    } else if (from.equals("3")) {//拼团
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                         bundle.putString("type", from);
@@ -840,47 +840,67 @@ public class OrderOnLineFgt extends BaseFgt {
 
         private void setGroupBuyStatus(int position) {
             switch (getItem(position).get("order_status")) {
-                case "0":
+                case "0": {
                     holder.state.setText("待付款");
                     holder.tv_btn_left.setText("取消订单");
                     holder.tv_btn_right.setText("付款");
                     holder.tv_btn_left.setVisibility(View.VISIBLE);
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
-                    break;
-                case "2":
+                }
+                break;
+                case "2": {
                     holder.state.setText("待发货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
-                    break;
-                case "1":
+                }
+                break;
+                case "1": {
                     holder.state.setText("待成团");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
-                    break;
-                case "3":
+                }
+                break;
+                case "3": {
                     holder.state.setText("待收货");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
-                    holder.tv_btn_right.setVisibility(View.GONE);
-                    break;
-                case "4":
+                }
+                holder.tv_btn_right.setVisibility(View.GONE);
+                break;
+                case "4": {
                     holder.state.setText("待评价");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("评价");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
-                    break;
-                case "5":
+                }
+                break;
+                case "5": {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
-                    break;
-                case "6":
+                }
+                break;
+                case "6": {
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
-                    break;
+                }
+                break;
+                case "7": {
+                    holder.state.setText("待抽奖");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                }
+
+                break;
+                case "10": {
+                    holder.state.setText("未中奖");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                }
+                break;
             }
         }
 
