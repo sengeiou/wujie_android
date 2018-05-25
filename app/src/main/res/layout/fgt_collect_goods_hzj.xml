@@ -21,7 +21,8 @@
             android:background="@color/white" />
     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 
-    <include layout="@layout/aty_no_data_layout" />
+    <include layout="@layout/aty_no_data_layout"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/collect_operation_layout"
