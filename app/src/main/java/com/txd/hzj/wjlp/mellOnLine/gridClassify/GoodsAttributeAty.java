@@ -183,8 +183,8 @@ public class GoodsAttributeAty extends BaseAty {
                         return;
 
                     }
-                }else{
-                    num=1;
+                } else {
+                    num = 1;
                 }
                 goodAttChange();
                 break;
@@ -336,7 +336,7 @@ public class GoodsAttributeAty extends BaseAty {
             list.clear();
         }
         //        if (list.size() == 1) {
-        if (null != list_val && list_val.size() > 0){
+        if (null != list_val && list_val.size() > 0) {
             for (FirstValBean goods_val : list_val) {
                 //                String v = list.get(0).getFirst_list_val().get(0).getVal() + "+";
                 //                if (v.equals(goods_val.getArrtValue()))
@@ -354,10 +354,13 @@ public class GoodsAttributeAty extends BaseAty {
                     tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
                     maxNumber = Integer.parseInt(goods_val.getGoods_num());
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
-                    if ("10".equals(type)){
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price+"积分");
-                    }else {
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
+                    if ("10".equals(type)) {
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
+                    } else {
+                        if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
+                        } else
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + goods_val.getShop_price());
                     }
                     // 设置如果库存大于0 将初始的选择数量设为1，否则设为0
                     et_num.setText(String.valueOf(Integer.parseInt(goods_val.getGoods_num()) > 0 ? 1 : 0));
@@ -369,7 +372,7 @@ public class GoodsAttributeAty extends BaseAty {
                     break;
                 }
             }
-                }
+        }
 
     }
 
@@ -779,10 +782,14 @@ public class GoodsAttributeAty extends BaseAty {
                         tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
                         maxNumber = Integer.parseInt(val.getGoods_num());
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
-                        if ("10".equals(type)){
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price+"积分");
-                        }else {
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                        if ("10".equals(type)) {
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
+                        } else {
+                            if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {// "group_type": "类型 1试用品拼单 2常规拼单",
+                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
+                            } else {
+                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getShop_price());
+                            }
                         }
                         if (val.getGoods_num().equals("0")) {//切换时候库存数目是0的时候，购买数量那块写成0
                             et_num.setText("0");
