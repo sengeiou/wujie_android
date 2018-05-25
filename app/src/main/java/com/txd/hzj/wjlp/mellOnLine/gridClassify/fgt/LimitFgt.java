@@ -1,12 +1,16 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
@@ -17,11 +21,10 @@ import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.view.DukeScrollView;
-import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -48,12 +51,20 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：抢购碎片
  * ===============Txunda===============
  */
-public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListener {
+public class LimitFgt extends BaseFgt implements NestedScrollView.OnScrollChangeListener {
 
     private int type;
     private String stage_id = "";
     private String str = "";
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     /**
      * 倒计时
      */
@@ -70,7 +81,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
      * 可以监听滚动距离的ScrollView
      */
     @ViewInject(R.id.fgt_limit_sc)
-    private DukeScrollView fgt_limit_sc;
+    private NestedScrollView fgt_limit_sc;
 
     @ViewInject(R.id.top_ad_iv)
     private ImageView top_ad_iv;
@@ -94,7 +105,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
      * 刷新控件
      */
     @ViewInject(R.id.ptr_layout)
-    private PullToRefreshLayout refresh_view;
+    private SuperSwipeRefreshLayout refresh_view;
     private int numall = -1;
 
     @ViewInject(R.id.limit_status_tv)
@@ -136,7 +147,7 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
         height = Settings.displayWidth * 400 / 1242;
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, height);
         top_ad_iv.setLayoutParams(params);
-        fgt_limit_sc.setScrollViewListener(this);
+        fgt_limit_sc.setOnScrollChangeListener(this);
         fgt_limit_sc.smoothScrollTo(0, 0);
         forUpdata();
         limit_status_tv.setText(str);
@@ -288,7 +299,8 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
                         }
                     });
                 }
-                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                progressBar.setVisibility(View.GONE);
+                refresh_view.setRefreshing(false); // 刷新成功
             } else {
 
                 if (ToolKit.isList(data, "limitBuyList")) {
@@ -296,8 +308,9 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
                     list.addAll(list2);
                     limiAdapter.notifyDataSetChanged();
                 }
-
-                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                refresh_view.setLoadMore(false); // 刷新成功
             }
             return;
         }
@@ -314,33 +327,96 @@ public class LimitFgt extends BaseFgt implements DukeScrollView.ScrollViewListen
      * 更新数据
      */
     private void forUpdata() {
-        refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
-
+        refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
+        refresh_view.setHeaderView(createHeaderView());// add headerView
+        refresh_view.setFooterView(createFooterView());
+        refresh_view.setTargetScrollWithLayout(true);
+        refresh_view.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 limitBuyPst.limitBuyIndex(p, stage_id);
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refresh_view.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 if (numall <= list.size()) {
-                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                    refresh_view.setLoadMore(false); // 加载成功
                     return;
                 }
                 // 加载操作
                 p++;
                 limitBuyPst.limitBuyIndex(p, stage_id);
             }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
         });
     }
 
     @Override
-    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y < height) {
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY < height) {
             to_be_back_iv.setVisibility(View.GONE);
         } else {
             to_be_back_iv.setVisibility(View.VISIBLE);
         }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_view.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView
+                .findViewById(R.id.footer_pb_view);
+        footerImageView = footerView
+                .findViewById(R.id.footer_image_view);
+        footerTextView = footerView
+                .findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_view.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }

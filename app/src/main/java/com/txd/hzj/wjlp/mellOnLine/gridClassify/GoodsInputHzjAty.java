@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,17 +10,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.view.DukeScrollView;
-import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -43,11 +45,19 @@ import java.util.Map;
  * 描述：进口馆
  * ===============Txunda===============
  */
-public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollViewListener {
+public class GoodsInputHzjAty extends BaseAty implements NestedScrollView.OnScrollChangeListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     /**
      * 进口馆商品列表
      */
@@ -64,13 +74,13 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
     private ImageView input_be_back_top_iv;
 
     @ViewInject(R.id.input_sc)
-    private DukeScrollView input_sc;
+    private NestedScrollView input_sc;
     /**
      * 上拉加载
      * 下拉刷新
      */
     @ViewInject(R.id.ptr_input_layout)
-    private PullToRefreshLayout ptr_input_layout;
+    private SuperSwipeRefreshLayout ptr_input_layout;
     /**
      * 进口馆获取数据
      */
@@ -127,18 +137,54 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
         global_goods_gv.setEmptyView(no_data_layout);
 
         input_sc.smoothScrollTo(0, 0);
-        input_sc.setScrollViewListener(this);
-        ptr_input_layout.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
+        input_sc.setOnScrollChangeListener(this);
+
+        ptr_input_layout.setHeaderViewBackgroundColor(Color.WHITE);
+        ptr_input_layout.setHeaderView(createHeaderView());// add headerView
+        ptr_input_layout.setFooterView(createFooterView());
+        ptr_input_layout.setTargetScrollWithLayout(true);
+        ptr_input_layout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 countryPst.countryIndex(p);
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        ptr_input_layout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 countryPst.countryIndex(p);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
             }
         });
 
@@ -250,27 +296,30 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
                     allGvAdapter = new AllGvLvAdapter(this, list, type);
                     global_goods_gv.setAdapter(allGvAdapter);
                 }
-                ptr_input_layout.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                progressBar.setVisibility(View.GONE);
+                ptr_input_layout.setRefreshing(false); // 刷新成功
             } else {
                 if (ToolKit.isList(data, "goods_list")) {
                     list.addAll(GsonUtil.getObjectList(data.get("goods_list"), AllGoodsBean.class));
                     allGvAdapter.notifyDataSetChanged();
                 }
-                ptr_input_layout.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                ptr_input_layout.setLoadMore(false); // 刷新成功
             }
         } else {
             if (1 == p) {
-                ptr_input_layout.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                ptr_input_layout.setRefreshing(false); // 刷新成功
             } else {
-                ptr_input_layout.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                ptr_input_layout.setLoadMore(false); // 刷新成功
             }
         }
 
     }
 
     @Override
-    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y < Settings.displayWidth / 2) {
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY < Settings.displayWidth / 2) {
             input_be_back_top_iv.setVisibility(View.GONE);
         } else {
             input_be_back_top_iv.setVisibility(View.VISIBLE);
@@ -304,12 +353,12 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
             gridView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()){
+                    switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
                             break;
                         case MotionEvent.ACTION_MOVE:
                             break;
-                            case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_UP:
 
                     }
                     return false;
@@ -337,5 +386,33 @@ public class GoodsInputHzjAty extends BaseAty implements DukeScrollView.ScrollVi
         }
     }
 
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(ptr_input_layout.getContext())
+                .inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView
+                .findViewById(R.id.footer_pb_view);
+        footerImageView = footerView
+                .findViewById(R.id.footer_image_view);
+        footerTextView = footerView
+                .findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(ptr_input_layout.getContext())
+                .inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
 
 }

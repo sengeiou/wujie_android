@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
@@ -65,7 +64,7 @@ import java.util.List;
  * 描述：票券区 无界预购 进口馆 拼团购 无界商店
  * ===============Txunda===============
  */
-public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewListener {
+public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollChangeListener {
     /**
      * 商品
      */
@@ -101,7 +100,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     private ImageView zoom_be_back_top_iv;
 
     @ViewInject(R.id.zooom_sc)
-    private DukeScrollView zooom_sc;
+    private NestedScrollView zooom_sc;
 
     @ViewInject(R.id.goods_menu_vp)
     private TouchViewpager goods_menu_vp;
@@ -234,7 +233,7 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
             }
         });
         zooom_sc.smoothScrollTo(0, 0);
-        zooom_sc.setScrollViewListener(this);
+        zooom_sc.setOnScrollChangeListener(this);
 
         forUpdata();
     }
@@ -597,8 +596,8 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
     }
 
     @Override
-    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y < Settings.displayWidth / 2) {
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY < Settings.displayWidth / 2) {
             zoom_be_back_top_iv.setVisibility(View.GONE);
         } else {
             zoom_be_back_top_iv.setVisibility(View.VISIBLE);
@@ -687,4 +686,6 @@ public class TicketZoonFgt extends BaseFgt implements DukeScrollView.ScrollViewL
         footerTextView.setText("上拉加载更多...");
         return footerView;
     }
+
+
 }

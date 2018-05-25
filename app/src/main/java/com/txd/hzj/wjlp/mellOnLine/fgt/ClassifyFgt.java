@@ -22,7 +22,6 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.DukeScrollView;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;

@@ -3,12 +3,14 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -17,11 +19,10 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.DukeScrollView;
-import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -32,9 +33,9 @@ import com.txd.hzj.wjlp.http.carbuy.CarBuy;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
+import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.TextUtils;
-import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
@@ -53,7 +54,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：商品评价
  * ===============Txunda===============
  */
-public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollViewListener {
+public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScrollChangeListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -69,7 +70,15 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     @ViewInject(R.id.goods_evaluste_lv)
     private ListViewForScrollView goods_evaluste_lv;
 
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     /**
      * 0.商品全部评价
      * 1.我的全部评价
@@ -89,7 +98,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
      * 滚动监听
      */
     @ViewInject(R.id.goods_comment_sc)
-    private DukeScrollView goods_comment_sc;
+    private NestedScrollView goods_comment_sc;
 
     /**
      * 回到顶部
@@ -102,7 +111,7 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
     private int p = 1;
 
     @ViewInject(R.id.refresh_view)
-    private PullToRefreshLayout refresh_view;
+    private SuperSwipeRefreshLayout refresh_view;
 
     @ViewInject(R.id.evaluate_num_tv)
     private TextView evaluate_num_tv;
@@ -133,14 +142,20 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         // 滚动到顶部
         goods_comment_sc.smoothScrollTo(0, 0);
         // 滚动监听
-        goods_comment_sc.setScrollViewListener(this);
+        goods_comment_sc.setOnScrollChangeListener(this);
 
         goods_evaluste_lv.setEmptyView(no_data_layout);
 
-        refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
-
+        refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
+        refresh_view.setHeaderView(createHeaderView());// add headerView
+        refresh_view.setFooterView(createFooterView());
+        refresh_view.setTargetScrollWithLayout(true);
+        refresh_view.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 if (1 == from) {
                     userPst.myCommentList(p);
@@ -152,13 +167,27 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                     showProgressDialog();
                 }
+            }
+
+            @Override
+            public void onPullDistance(int i) {
 
             }
 
             @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refresh_view.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
                 // 加载操作
-
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 if (1 == from) {
                     userPst.myCommentList(p);
@@ -172,8 +201,19 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     showProgressDialog();
                 }
             }
-        });
 
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
     }
 
     @Override
@@ -226,15 +266,15 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         } else if (3 == from) { // 汽车购评价
             CarBuy.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p, this);
             showProgressDialog();
-        } else if (0 == from){ // 商品评价
+        } else if (0 == from) { // 商品评价
             merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
             L.e("商品评价");
             showProgressDialog();
         }
     }
 
-    List<Comment.CommentList> data=new ArrayList<>();//lec2018年3月10日15:57:38解决初始化bug
-    List<Comment.CommentList> data2=new ArrayList<>();
+    List<Comment.CommentList> data = new ArrayList<>();//lec2018年3月10日15:57:38解决初始化bug
+    List<Comment.CommentList> data2 = new ArrayList<>();
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
@@ -250,16 +290,19 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     _goodsEvalusteAdapter = new _GoodsEvalusteAdapter(this, data, from);
                     goods_evaluste_lv.setAdapter(_goodsEvalusteAdapter);
                 }
-                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                refresh_view.setRefreshing(false);
+                progressBar.setVisibility(View.GONE);// 刷新成功
             } else {
                 data2 = comment.getData();
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     _goodsEvalusteAdapter.notifyDataSetChanged();
                 }
-                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                refresh_view.setLoadMore(false); // 刷新成功
 
-        }
+            }
         }
         if (requestUrl.contains("CarBuy/commentList")) {
             BeanCommentList list = GsonUtil.GsonToBean(jsonStr, BeanCommentList.class);
@@ -316,14 +359,17 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
                     _goodsEvalusteAdapter = new _GoodsEvalusteAdapter(this, data, from);
                     goods_evaluste_lv.setAdapter(_goodsEvalusteAdapter);
                 }
-                refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                progressBar.setVisibility(View.GONE);
+                refresh_view.setRefreshing(false); // 刷新成功
             } else {
                 data2 = comment.getData();
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     _goodsEvalusteAdapter.notifyDataSetChanged();
                 }
-                refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
+                refresh_view.setLoadMore(false); // 刷新成功
             }
         }
     }
@@ -333,20 +379,24 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
         super.onError(requestUrl, error);
         evaluate_num_tv.setText("已有 0 条评价");
         if (1 == p) {
-            refresh_view.refreshFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            progressBar.setVisibility(View.GONE);
+            refresh_view.setRefreshing(false); // 刷新成功
         } else {
-            refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            refresh_view.setLoadMore(false); // 刷新成功
         }
     }
 
     @Override
-    public void onScrollChanged(DukeScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y < Settings.displayWidth) {
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY < Settings.displayWidth) {
             gc_be_back_top_iv.setVisibility(View.GONE);
         } else {
             gc_be_back_top_iv.setVisibility(View.VISIBLE);
         }
     }
+
 
     class _GoodsEvalusteAdapter extends BaseAdapter {
         private Context context;
@@ -560,5 +610,32 @@ public class GoodsEvaluateAty extends BaseAty implements DukeScrollView.ScrollVi
             }
         }
 
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView
+                .findViewById(R.id.footer_pb_view);
+        footerImageView = footerView
+                .findViewById(R.id.footer_image_view);
+        footerTextView = footerView
+                .findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }
