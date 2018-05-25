@@ -1,18 +1,24 @@
 package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -42,10 +48,24 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     private boolean status;
     private int dataType = 0;
     /**
+     * 刷新
+     */
+    @ViewInject(R.id.book_super_layouts)
+    private SuperSwipeRefreshLayout book_super_layouts;
+    /**
      * 列表
      */
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     @ViewInject(R.id.collect_bools_lv)
-    private PullToRefreshListView collect_bools_lv;
+    private ListView collect_bools_lv;
     /**
      * 全部收藏文章
      */
@@ -100,9 +120,17 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
         intent.setAction("sftv");
         intent.putExtra("index", 2);
         collect_bools_lv.setEmptyView(no_data_layout);
-        collect_bools_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+
+        book_super_layouts.setHeaderViewBackgroundColor(Color.WHITE);
+        book_super_layouts.setHeaderView(createHeaderView());// add headerView
+        book_super_layouts.setFooterView(createFooterView());
+        book_super_layouts.setTargetScrollWithLayout(true); // 跟随手指滑动
+        book_super_layouts.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 if (0 == dataType)
                     userPst.myfooter(p, "3");
@@ -111,9 +139,25 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        book_super_layouts.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 if (allNum <= books.size()) {
-                    collect_bools_lv.onRefreshComplete();
+                    book_super_layouts.setLoadMore(false);
                     return;
                 }
                 p++;
@@ -122,7 +166,20 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                 else
                     collectPst.collectList(p, "3");
             }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
         });
+
         collect_bools_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -281,7 +338,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                 }
                 wjBooksAdapter.notifyDataSetChanged();
             }
-            collect_bools_lv.onRefreshComplete();
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            book_super_layouts.setLoadMore(false);
+            book_super_layouts.setRefreshing(false);
             setStatus(status);
             return;
         }
@@ -305,7 +366,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
                 }
                 wjBooksAdapter.notifyDataSetChanged();
             }
-            collect_bools_lv.onRefreshComplete();
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            book_super_layouts.setLoadMore(false);
+            book_super_layouts.setRefreshing(false);
             setStatus(status);
         }
     }
@@ -316,7 +381,11 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
 //            ((FootprintAty)getActivity()).setView(View.VISIBLE);
             removeContent();
             removeDialog();
-            collect_bools_lv.onRefreshComplete();
+            footerImageView.setVisibility(View.VISIBLE);
+            footerProgressBar.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            book_super_layouts.setLoadMore(false);
+            book_super_layouts.setRefreshing(false);
 
         } else {
             super.onError(requestUrl, error);
@@ -330,5 +399,29 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
         } else {
             collect_books_select_all_cb.setChecked(false);
         }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(book_super_layouts.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(book_super_layouts.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }

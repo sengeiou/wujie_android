@@ -7,17 +7,7 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt">
 
-    <!--<com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView
-        android:id="@+id/collect_mell_lv"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:divider="@color/bg_color"
-        android:dividerHeight="4dp"
-        android:scrollbars="none"
-        app:ptrMode="both" />-->
+
     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
         android:id="@+id/super_layouts"
         android:layout_width="match_parent"
