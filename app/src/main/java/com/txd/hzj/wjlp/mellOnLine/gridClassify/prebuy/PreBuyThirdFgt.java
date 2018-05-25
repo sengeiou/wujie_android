@@ -1,17 +1,25 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -24,6 +32,7 @@ import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.WjMellAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +52,20 @@ public class PreBuyThirdFgt extends BaseFgt {
     private String three = "";
 
     private int type = 0;
+    // Header View
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
     @ViewInject(R.id.pr_third_lv)
-    private PullToRefreshGridView pr_third_lv;
+    private GridViewForScrollView pr_third_lv;
+    @ViewInject(R.id.refresh_views)
+    private VpSwipeRefreshLayout refresh_views;
 
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
@@ -90,21 +110,55 @@ public class PreBuyThirdFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         pr_third_lv.setEmptyView(no_data_layout);
-
-
-        pr_third_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
+        refresh_views.setHeaderView(createHeaderView());// add headerView
+        refresh_views.setFooterView(createFooterView());
+        refresh_views.setHeaderViewBackgroundColor(Color.WHITE);
+        refresh_views.setTargetScrollWithLayout(true);
+        refresh_views.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 forData();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refresh_views.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 forData();
             }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
         });
+
         pr_third_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -126,7 +180,7 @@ public class PreBuyThirdFgt extends BaseFgt {
                         break;
                     case 3:// 进口馆
                         bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
-                        bundle.putInt("from",1);
+                        bundle.putInt("from", 1);
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                         break;
                 }
@@ -169,6 +223,7 @@ public class PreBuyThirdFgt extends BaseFgt {
                 integralBuyPst.threeList(two, three, p);
                 break;
         }
+        //progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -231,7 +286,36 @@ public class PreBuyThirdFgt extends BaseFgt {
                         allGvLvAdapter1.notifyDataSetChanged();
                 }
             }
-            pr_third_lv.onRefreshComplete();
+            progressBar.setVisibility(View.GONE);
+            refresh_views.setLoadMore(false);
+            footerImageView.setVisibility(View.GONE);
+            footerProgressBar.setVisibility(View.VISIBLE);
+            refresh_views.setRefreshing(false);
         }
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_views.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_views.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }

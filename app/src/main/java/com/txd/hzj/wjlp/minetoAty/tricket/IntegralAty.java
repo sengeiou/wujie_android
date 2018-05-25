@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.minetoAty.tricket;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +56,8 @@ public class IntegralAty extends BaseAty {
     @ViewInject(R.id.layout_zidongduihuan)
     private LinearLayout layout_zidongduihuan;
     private boolean isYouXiang; // 当前是否是优享会员
+    @ViewInject(R.id.layout_bg_ic)
+    private ImageView layout_bg_ic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class IntegralAty extends BaseAty {
         titlt_conter_tv.setText("积分");
         download();
         setDownVisibility();
+        layout_bg_ic.setImageDrawable(getResources().getDrawable(R.drawable.icon_integral_hzj));
 
     }
 

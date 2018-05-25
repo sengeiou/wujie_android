@@ -275,6 +275,8 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 if (numall <= data.size()) {
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
                     refresh_view.setLoadMore(false); // 刷新成功
                     return;
                 }
@@ -295,25 +297,6 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
-       /* refresh_view.setOnRefreshListener(new PullToRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
-                p = 1;
-                forData();
-            }
-
-            @Override
-            public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
-                if (numall <= data.size()) {
-                    refresh_view.loadmoreFinish(PullToRefreshLayout.SUCCEED); // 刷新成功
-                    return;
-                }
-                // 加载操作
-                p++;
-                forData();
-            }
-        });*/
     }
 
     @Override
@@ -442,7 +425,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     href = adsBean.getHref();
 
                 }
-
+                progressBar.setVisibility(View.GONE);
                 refresh_view.setRefreshing(false); // 刷新成功
             } else {
                 data2 = groupBuyBean.getData().getGroup_buy_list();
@@ -450,8 +433,11 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     data.addAll(data2);
                     allGvLvAdapter1.notifyDataSetChanged();
                 }
+                footerImageView.setVisibility(View.VISIBLE);
+                footerProgressBar.setVisibility(View.GONE);
                 refresh_view.setLoadMore(false); // 刷新成功
             }
+
             return;
         }
         if (requestUrl.contains("preBuyIndex")) {// 无界预购
@@ -557,6 +543,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         desc = adsBean.getDesc();
                         href = adsBean.getHref();
                     }
+                    progressBar.setVisibility(View.GONE);
                     refresh_view.setRefreshing(false); // 刷新成功
                 } else {
                     switch (type) {
@@ -583,6 +570,8 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                             allGvLvAdapter1.notifyDataSetChanged();
                         }
                     }
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
                     refresh_view.setLoadMore(false); // 刷新成功
                 }
 
