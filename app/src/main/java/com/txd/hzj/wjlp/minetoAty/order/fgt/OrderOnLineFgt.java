@@ -195,10 +195,10 @@ public class OrderOnLineFgt extends BaseFgt {
     @Override
     public void onResume() {
         super.onResume();
+        getData();
     }
 
-    @Override
-    protected void requestData() {
+    private void getData() {
         if (from.equals("0")) {
             com.txd.hzj.wjlp.http.Order.orderList(type, from, p, this);
         } else if (from.equals("1")) {
@@ -310,6 +310,11 @@ public class OrderOnLineFgt extends BaseFgt {
 
                 });
 
+
+    }
+
+    @Override
+    protected void requestData() {
 
     }
 
@@ -622,7 +627,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("type", "6");
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
-                getActivity().finish();
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
@@ -681,7 +685,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
-                getActivity().finish();
             } else if (getItem(position).get("order_status").equals("4")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
@@ -761,7 +764,6 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
-                getActivity().finish();
             } else if (getItem(position).get("order_status").equals("3")) {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("order_id"));
