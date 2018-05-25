@@ -211,14 +211,10 @@ public class VipCardFgt extends BaseFgt {
     }
 
     private View createFooterView() {
-        View footerView = LayoutInflater.from(swipe_refresh.getContext())
-                .inflate(R.layout.layout_footer, null);
-        footerProgressBar = footerView
-                .findViewById(R.id.footer_pb_view);
-        footerImageView = footerView
-                .findViewById(R.id.footer_image_view);
-        footerTextView = footerView
-                .findViewById(R.id.footer_text_view);
+        View footerView = LayoutInflater.from(swipe_refresh.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
         footerProgressBar.setVisibility(View.GONE);
         footerImageView.setVisibility(View.VISIBLE);
         footerImageView.setImageResource(R.drawable.down_arrow);
