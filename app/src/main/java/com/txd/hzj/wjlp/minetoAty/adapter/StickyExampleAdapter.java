@@ -186,7 +186,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             } else if (4 == type) { // 线下充值
-                recyclerViewHolder.tvName.setText(stickyExampleModel.getName());
+                recyclerViewHolder.tvName.setText(transport(stickyExampleModel.getName()));
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             } else if (5 == type) { // 成长值明细
@@ -205,7 +205,23 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return stickyExampleModels == null ? 0 : stickyExampleModels.size();
     }
+    public String transport(String inputStr)
+    {
+        char arr[] = inputStr.toCharArray();
+        for(int i=0;i<arr.length;i++)
+        {
+            if(arr[i] == ' ')
+            {
+                arr[i]='\u3000';
+            }
+            else if (arr[i] < '\177')
+            {
+                arr[i] = (char) (arr[i] + 65248);
+            }
 
+        }
+        return new String(arr);
+    }
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
         @ViewInject(R.id.tv_sticky_header_view)
         TextView tvStickyHeader;
