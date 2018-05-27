@@ -2,6 +2,8 @@ package com.txd.hzj.wjlp.mellOnLine.fgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -42,6 +46,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 import com.txd.hzj.wjlp.tool.LoadMoreScroller;
+import com.txd.hzj.wjlp.tool.TouchStopListener4ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +148,8 @@ public class ClassifyFgt extends BaseFgt {
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
-        classify_goods_rv.addOnScrollListener(new LoadMoreScroller(getActivity()));
+
+
         swipe_refresh
                 .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
@@ -324,6 +330,7 @@ public class ClassifyFgt extends BaseFgt {
                         goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
                         racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
                         classify_goods_rv.setAdapter(racycleAllAdapter);
+                        ntsv.setOnTouchListener(new TouchStopListener4ScrollView(getContext(), (RacycleAllAdapter) classify_goods_rv.getAdapter()));
                         racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                             @Override
                             public void onItemClick(View view, int position) {

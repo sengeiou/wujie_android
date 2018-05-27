@@ -58,7 +58,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
     private int logo_size1 = 0;
     private int logo_size2 = 0;
     private int imgWidth=0;
-
+    private boolean canLoadImg=true;
     public RacycleAllAdapter(Context context, List<CFGoodsList> list) {
         this.context = context;
         this.list = list;
@@ -67,6 +67,11 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         logo_size1 = ToolKit.dip2px(context, 36);
         logo_size2 = ToolKit.dip2px(context, 23);
         imgWidth=(ToolKit.getScreenWidth(context) - 10) / 2;
+    }
+
+    public void setCanLoadImg(boolean canLoadImg) {
+        this.canLoadImg = canLoadImg;
+        notifyDataSetChanged();
     }
 
     public void setShowSelect(boolean showSelect) {
@@ -158,13 +163,16 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .into(holder.country_logo_iv);
 
         // TODO 该处代码在加载到第10页左右的时候会报OOM的错
-        Glide.with(context).load(cfGoodsList.getGoods_img())
-                .override(imgWidth,imgWidth)
-                .centerCrop().placeholder(R.drawable.ic_default)
-                .diskCacheStrategy(DiskCacheStrategy.RESULT)
-                .error(R.drawable.ic_default)
-                .into(holder.goods_pic_iv);
-
+        if(canLoadImg){
+            Glide.with(context).load(cfGoodsList.getGoods_img())
+                    .override(imgWidth,imgWidth)
+                    .centerCrop().placeholder(R.drawable.ic_default)
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .error(R.drawable.ic_default)
+                    .into(holder.goods_pic_iv);
+        }else{
+            holder.goods_pic_iv.setImageResource(R.drawable.ic_default);
+        }
 //        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();
 //        layoutParams.width=(ToolKit.getScreenWidth(context)-10)/2;
 //        layoutParams.height=(ToolKit.getScreenWidth(context)-10)/2;
@@ -308,7 +316,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
     @Override
     public void onViewRecycled(ItemView holder) {
         super.onViewRecycled(holder);
-        holder.goods_pic_iv.setImageBitmap(null);
+        Glide.clear(holder.goods_pic_iv);
 //        ImageView showImageView = holder.goods_pic_iv;
 //        showImageView.setDrawingCacheEnabled(true);
 //        Bitmap bitmap = showImageView.getDrawingCache();
