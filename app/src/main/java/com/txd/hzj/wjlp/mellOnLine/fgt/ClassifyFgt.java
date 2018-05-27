@@ -330,7 +330,12 @@ public class ClassifyFgt extends BaseFgt {
                         goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
                         racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
                         classify_goods_rv.setAdapter(racycleAllAdapter);
-                        ntsv.setOnTouchListener(new TouchStopListener4ScrollView(getContext(), (RacycleAllAdapter) classify_goods_rv.getAdapter()));
+                        ntsv.setOnTouchListener(new TouchStopListener4ScrollView(getContext(), new TouchStopListener4ScrollView.LoadListener() {
+                            @Override
+                            public void setCanLoadImg(boolean flag) {
+                                racycleAllAdapter.setCanLoadImg(flag);
+                            }
+                        }));
                         racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                             @Override
                             public void onItemClick(View view, int position) {

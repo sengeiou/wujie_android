@@ -21,11 +21,14 @@ import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
  */
 public class TouchStopListener4ScrollView implements View.OnTouchListener {
     Context context;
-    private RacycleAllAdapter recycleAdapter;
+    private LoadListener listener;
+    public interface LoadListener{
+        public void setCanLoadImg(boolean flag);
+    }
 
-    public TouchStopListener4ScrollView(Context context, RacycleAllAdapter recycleAdapter) {
+    public TouchStopListener4ScrollView(Context context, LoadListener listener) {
         this.context = context;
-        this.recycleAdapter = recycleAdapter;
+        this.listener = listener;
     }
 
     private int lastY = 0;
@@ -51,8 +54,8 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             handler.sendMessageDelayed(handler.obtainMessage(touchEventId, v), 5);
         } else {
-            if (null != recycleAdapter) {
-                recycleAdapter.setCanLoadImg(false);
+            if (null != listener) {
+                listener.setCanLoadImg(false);
             }
             Glide.with(context).pauseRequests();
         }
@@ -61,11 +64,11 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
 
 
     private void handleStop(Object view) {
-        NestedScrollView scroller = (NestedScrollView) view;
-//        Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
+//        NestedScrollView scroller = (NestedScrollView) view;
+        Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
         Glide.with(context).resumeRequests();
-        if (null != recycleAdapter)
-            recycleAdapter.setCanLoadImg(true);
+        if (null != listener)
+            listener.setCanLoadImg(true);
 //            scrollY = scroller.getScrollY();
     }
 }

@@ -516,16 +516,27 @@ public class AllGvLvAdapter extends BaseAdapter {
         }
         // 除掉汽车购，房产购
         if (6 != type && 7 != type) {
-            Glide.with(context).load(allGoodsBean.getGoods_img())
-                    .override(pic_size, pic_size2)
-                    .placeholder(R.drawable.ic_default)
-                    .error(R.drawable.ic_default)
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(vh.goods_pic_iv);
+            if (canLoadImg) {
+                Glide.with(context).load(allGoodsBean.getGoods_img())
+                        .override(pic_size, pic_size2)
+                        .placeholder(R.drawable.ic_default)
+                        .error(R.drawable.ic_default)
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(vh.goods_pic_iv);
+            } else {
+                vh.goods_pic_iv.setImageResource(R.drawable.ic_default);
+            }
         }
 
         return view;
+    }
+
+    private boolean canLoadImg = true;
+
+    public void setCanLoadImg(boolean canLoadImg) {
+        this.canLoadImg = canLoadImg;
+        notifyDataSetChanged();
     }
 
     class ViewHolder {
@@ -712,4 +723,5 @@ public class AllGvLvAdapter extends BaseAdapter {
         @ViewInject(R.id.showTyImg)//体验
         private ImageView showTyImg;
     }
+
 }

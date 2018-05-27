@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -120,7 +121,7 @@ public class ThirdClassifyFgt extends BaseFgt {
         if (requestUrl.contains("threeList")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, ThreeListBean.class, new ObserTool.BeanListener() {
                 @Override
-                public void returnObj(Object t) {
+                public void returnObj(final Object t) {
                     ThreeListBean threeListBean = (ThreeListBean) t;
                     ThreeListDataBean dataBean=threeListBean.getData();
                     if (1 == p) {
@@ -128,6 +129,21 @@ public class ThirdClassifyFgt extends BaseFgt {
                         if (!ListUtils.isEmpty(data)) {
                             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 8);
                             pr_third_lv.setAdapter(allGvLvAdapter1);
+                            pr_third_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+                                @Override
+                                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                                    if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+                                        allGvLvAdapter1.setCanLoadImg(true);
+                                    }else{
+                                        allGvLvAdapter1.setCanLoadImg(false);
+                                    }
+                                }
+
+                                @Override
+                                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                                }
+                            });
                         }
                     } else {
                         data2 = dataBean.getGroup_buy_list();

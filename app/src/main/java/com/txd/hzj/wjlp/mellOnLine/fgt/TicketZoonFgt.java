@@ -15,7 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Scroller;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
@@ -49,6 +51,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
+import com.txd.hzj.wjlp.tool.TouchStopListener4ScrollView;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.TouchViewpager;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -169,27 +172,6 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
         ticket_zoon_goods_gv.setVisibility(View.VISIBLE);
         ticket_zoon_goods_gv.setEmptyView(no_data_layout);
 
-        ticket_zoon_goods_gv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            boolean sIsScrolling = false;
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    sIsScrolling = true;
-                    Glide.with(getContext()).pauseRequests();
-                } else if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if (sIsScrolling == true) {
-                        Glide.with(getContext()).resumeRequests();
-                    }
-                    sIsScrolling = false;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(Settings.displayWidth, Settings.displayWidth * 400 / 1242);
         group_ad_pic_iv.setLayoutParams(params);
 //        }
@@ -390,6 +372,12 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
                     // ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
                     ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
+                    zooom_sc.setOnTouchListener(new TouchStopListener4ScrollView(getContext(), new TouchStopListener4ScrollView.LoadListener() {
+                        @Override
+                        public void setCanLoadImg(boolean flag) {
+                            allGvLvAdapter1.setCanLoadImg(flag);
+                        }
+                    }));
                 }
 
                 final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();

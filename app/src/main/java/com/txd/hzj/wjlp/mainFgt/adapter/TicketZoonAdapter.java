@@ -147,4 +147,5 @@ public class TicketZoonAdapter extends BaseAdapter {
         private TextView all_classify_title_tv;
 
     }
+
 }

@@ -66,6 +66,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
+import com.txd.hzj.wjlp.tool.TouchStopListener4ScrollView;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -85,7 +86,7 @@ import java.util.Map;
  * 描述：线上商城
  * ===============Txunda===============
  */
-public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
+public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener, TouchStopListener4ScrollView.LoadListener {
 
     private boolean localShowAsd = true; // 是否由本地控制活动的显隐
 
@@ -401,6 +402,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         forHorizontalItem();
         forMenu();
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
+        mell_on_line_sc.setOnTouchListener(new TouchStopListener4ScrollView(getActivity().getApplicationContext(), this));
         goodsAdapter();
     }
 
@@ -1537,4 +1539,43 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         return headerView;
     }
 
+    @Override
+    public void setCanLoadImg(boolean flag) {
+        AllGvLvAdapter auctionAdapter = (AllGvLvAdapter) auction_gv.getAdapter();
+        if (null != auctionAdapter)
+            auctionAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter carAdapter = (AllGvLvAdapter) car_gv.getAdapter();
+        if (null != carAdapter)
+            carAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter importAdapter = (AllGvLvAdapter) import_gv.getAdapter();
+        if (null != importAdapter)
+            importAdapter.setCanLoadImg(flag);
+
+
+        AllGvLvAdapter group_shoppingAdapter = (AllGvLvAdapter) group_shopping_lv.getAdapter();
+        if (null != group_shoppingAdapter)
+            group_shoppingAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter houseAdapter = (AllGvLvAdapter) house_gv.getAdapter();
+        if (null != houseAdapter)
+            houseAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter purchaseAdapter = (AllGvLvAdapter) purchase_gv.getAdapter();
+        if (null != purchaseAdapter)
+            purchaseAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter good_luckAdapter = (AllGvLvAdapter) good_luck_gv.getAdapter();
+        if (null != good_luckAdapter)
+            good_luckAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter ticketAdapter = (AllGvLvAdapter) ticket_gv.getAdapter();
+        if (null != ticketAdapter)
+            ticketAdapter.setCanLoadImg(flag);
+
+        AllGvLvAdapter limit_shoppingAdapter = (AllGvLvAdapter) limit_shopping_gv.getAdapter();
+        if (null != limit_shoppingAdapter)
+            limit_shoppingAdapter.setCanLoadImg(flag);
+    }
 }
