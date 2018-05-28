@@ -153,4 +153,17 @@ class Register {
         apiTool2.postApi(url + "otherLoginBind", params, baseView);
     }
 
+    /**
+     *
+     * @param sid  扫码时获取到的sid
+     * @param token  用户登录的token
+     */
+    void qr_login(String sid,String token,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sid", sid);
+        params.addBodyParameter("token", token);
+        apiTool2.postApi(url + "otherLoginBind", params, baseView);
+    }
+
 }

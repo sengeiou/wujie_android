@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.L;
@@ -98,6 +97,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
         } else if (title.equals("无界预购")) {
+            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模
             mTitleList = OrderTitleUtils.getInstance().orderTitle3();
         } else if (title.equals("比价购")) {
             titlt_right_tv.setText("比价纪录");
