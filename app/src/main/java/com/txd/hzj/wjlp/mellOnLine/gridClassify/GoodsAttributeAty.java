@@ -49,6 +49,11 @@ import java.util.Map;
  * 日期：2017/7/10 0010
  * 时间：下午 7:45
  * 描述：商品属性页面
+ *
+ * from
+    直接购买0
+    购物车1
+    设置 4
  * ===============Txunda===============
  */
 public class GoodsAttributeAty extends BaseAty {
@@ -130,82 +135,76 @@ public class GoodsAttributeAty extends BaseAty {
                     } else {
                         num = Integer.parseInt(et_num.getText().toString().trim());
                     }
-
-                    L.e("=====num==" + num);
-                    L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
-                    if (2 == from) {
-                        Intent intent = new Intent();
-                        intent.putExtra("num", num);
-
-                        if (ListUtils.isEmpty(list)) {
-                            intent.putExtra("product_id", "");
-                            intent.putExtra("pro_value", "");
-                            intent.putExtra("image", "");
-                            intent.putExtra("num", num);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                            return;
-                        }
-                        if (!TextUtils.isEmpty(pro_id)) {
-                            intent.putExtra("product_id", pro_id);
-                            intent.putExtra("pro_value", pro_value);
-                            intent.putExtra("num", num);
-                            intent.putExtra("image", image);
-                            setResult(RESULT_OK, intent);
-                            finish();
-                        } else {
-                            showToast("库存不足！");
-                        }
-                        return;
-                    }
-                    if (4 == from) {
-                        Intent intent = new Intent();
-                        if (!TextUtils.isEmpty(pro_id)) {
-                            intent.putExtra("product_id", pro_id);
-                            intent.putExtra("pro_value", pro_value);
-                            intent.putExtra("num", num);
-                            intent.putExtra("shop_price", val.getShop_price());
-                            intent.putExtra("market_price", val.getMarket_price());
-                            intent.putExtra("settlement_price", val.getSettlement_price());
-                            intent.putExtra("red_return_integral", val.getRed_return_integral());
-                            intent.putExtra("discount", val.getDiscount());
-                            intent.putExtra("yellow_discount", val.getYellow_discount());
-                            intent.putExtra("blue_discount", val.getBlue_discount());
-                            intent.putExtra("wy_price", val.getWy_price());
-                            intent.putExtra("yx_price", val.getYx_price());
-                            intent.putExtra("goods_num", val.getGoods_num());
-                            intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
-
-////////////////////后加的
-
-
-                            intent.putExtra("mid", mid);
-                            intent.putExtra("type", type);
-                            intent.putExtra("goods_id", val.getGoods_id());
-
-                            if (group_buy_id.contains("-")) {
-                                String string[] = group_buy_id.split("-");
-                                group_buy_id = string[0];
-                                order_id = string[1];
-                            }
-                            if (!TextUtils.isEmpty(order_id))
-                                intent.putExtra("order_id", order_id);
-                            intent.putExtra("group_buy_id", val.getGroup_buy_id());
-                            intent.putExtra("product_id", pro_id);
-                            if (getIntent().hasExtra("group_type"))//体验拼单
-                                intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
-
-////////////////////后加的
-                            setResult(0x0002, intent);
-                            finish();
-                        } else {
-                            showToast("库存不足！");
-                        }
-                        return;
-
-                    }
                 } else {
                     num = 1;
+                }
+
+                L.e("=====num==" + num);
+                L.e("list.size():" + list.size() + "-- pro_id:" + pro_id + "-- from:" + from);
+                if (2 == from) {
+                    Intent intent = new Intent();
+                    intent.putExtra("num", num);
+
+                    if (ListUtils.isEmpty(list)) {
+                        intent.putExtra("product_id", "");
+                        intent.putExtra("pro_value", "");
+                        intent.putExtra("image", "");
+                        intent.putExtra("num", num);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        return;
+                    }
+                    if (!TextUtils.isEmpty(pro_id)) {
+                        intent.putExtra("product_id", pro_id);
+                        intent.putExtra("pro_value", pro_value);
+                        intent.putExtra("num", num);
+                        intent.putExtra("image", image);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    } else {
+                        showToast("库存不足！");
+                    }
+                    return;
+                }
+                if (4 == from) {
+                    Intent intent = new Intent();
+                    if (!TextUtils.isEmpty(pro_id)) {
+                        intent.putExtra("product_id", pro_id);
+                        intent.putExtra("pro_value", pro_value);
+                        intent.putExtra("num", num);
+                        intent.putExtra("shop_price", val.getShop_price());
+                        intent.putExtra("market_price", val.getMarket_price());
+                        intent.putExtra("settlement_price", val.getSettlement_price());
+                        intent.putExtra("red_return_integral", val.getRed_return_integral());
+                        intent.putExtra("discount", val.getDiscount());
+                        intent.putExtra("yellow_discount", val.getYellow_discount());
+                        intent.putExtra("blue_discount", val.getBlue_discount());
+                        intent.putExtra("wy_price", val.getWy_price());
+                        intent.putExtra("yx_price", val.getYx_price());
+                        intent.putExtra("goods_num", val.getGoods_num());
+                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
+////////////////////后加的
+                        intent.putExtra("mid", mid);
+                        intent.putExtra("type", type);
+                        intent.putExtra("goods_id", val.getGoods_id());
+                        if (group_buy_id.contains("-")) {
+                            String string[] = group_buy_id.split("-");
+                            group_buy_id = string[0];
+                            order_id = string[1];
+                        }
+                        if (!TextUtils.isEmpty(order_id))
+                            intent.putExtra("order_id", order_id);
+                        intent.putExtra("group_buy_id", val.getGroup_buy_id());
+                        intent.putExtra("product_id", pro_id);
+                        if (getIntent().hasExtra("group_type"))//体验拼单
+                            intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
+////////////////////后加的
+                        setResult(0x0002, intent);
+                        finish();
+                    } else {
+                        showToast("库存不足！");
+                    }
+                    return;
                 }
                 goodAttChange();
                 break;
@@ -302,6 +301,9 @@ public class GoodsAttributeAty extends BaseAty {
             et_num.setText(String.valueOf(num));
         }
         if (4 == from) {
+//            if ("2".equals(type) && getIntent().hasExtra("group_type")) {//拼单购选择选规格
+//                is_go = true;
+//            }
             to_buy_must_tv.setText("确定");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);

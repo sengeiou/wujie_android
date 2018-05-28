@@ -10,14 +10,11 @@ import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Scroller;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
