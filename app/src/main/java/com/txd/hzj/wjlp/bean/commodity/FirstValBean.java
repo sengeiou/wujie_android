@@ -57,6 +57,15 @@ public class FirstValBean implements Serializable {
     private String group_buy_id; //拼单购id
     private String pnumber;
     private String group_type;
+    private String p_shop_price;//拼单购单独购买价
+
+    public String getP_shop_price() {
+        return p_shop_price;
+    }
+
+    public void setP_shop_price(String p_shop_price) {
+        this.p_shop_price = p_shop_price;
+    }
 
     public String getPnumber() {
         return pnumber;
