@@ -273,9 +273,12 @@ public class CollageDetailsAty extends BaseAty {
              * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
              */
             order_status = data.get("order_status");
-            if ("7".equals(order_status) || "10".equals(order_status)) {//等待抽奖 未中奖
+            if ("7".equals(order_status) || "10".equals(order_status) || "8".equals(order_status)) {//7:待抽奖 10:未中奖   8:未成团
                 isCJ = true;
-                tv_state.setText("7".equals(order_status) ? "待抽奖" : "未中奖");
+                if (order_status.equals("8")) {
+                    tv_state.setText("未成团");
+                } else
+                    tv_state.setText("7".equals(order_status) ? "待抽奖" : "未中奖");
                 lin_logistics.setVisibility(View.GONE);
                 space_address.setVisibility(View.GONE);
                 lyLayout.setVisibility(View.GONE);
@@ -491,7 +494,8 @@ public class CollageDetailsAty extends BaseAty {
                 }
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
-            if (isCJ) {//抽奖与未中奖
+            if (isCJ) {
+                //抽奖与未中奖
                 tgvh.layout_fapiao.setVisibility(View.GONE);
                 tgvh.lin_shouhou.setVisibility(View.GONE);
                 tgvh.layout_gongyi.setVisibility(View.GONE);

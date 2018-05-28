@@ -70,7 +70,7 @@ public class OrderOnLineFgt extends BaseFgt {
      * 订单类型
      * 订单状态
      */
-    private String type;
+    private String type;  //
     @ViewInject(R.id.super_sr_layout)
     private SuperSwipeRefreshLayout swipe_refresh;
     // Header View
