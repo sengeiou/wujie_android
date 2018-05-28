@@ -74,7 +74,7 @@ public class GoodLuckAdapter extends BaseAdapter {
     }
 
     private boolean getNow = false;
-    private Calendar calendar;
+
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
@@ -88,22 +88,34 @@ public class GoodLuckAdapter extends BaseAdapter {
             goodLuckVH = (GoodLuckVH) view.getTag();
         }
 
-        if (!getNow) {//当前服务器系统时间只获取一遍
-            calendar = Calendar.getInstance();
-            getNow = true;
+
+
+
+        Object TAG1=goodLuckVH.good_count_down_view.getTag();
+        if(null==TAG1){
+            String str="GoodLuck" + i;
+            //        if (!getNow) {//当前服务器系统时间只获取一遍
+            Calendar  calendar = Calendar.getInstance();
+//            getNow = true;
             if (!TextUtils.isEmpty(groupBean.getSys_time()))
                 calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
-        }
-        // 当前时间
-        long now_time = calendar.getTimeInMillis();
-        // 剩余时间
+//        }
+            // 当前时间
+            long now_time = calendar.getTimeInMillis();
+            // 剩余时间
 //        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
-        long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
+            long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
 //        long last_time=Long.parseLong(groupBean.getEnd_time())-Long.parseLong(groupBean.getSys_time()) ;
-        // 倒计时Tag
-        goodLuckVH.good_count_down_view.setTag("GoodLuck" + i);
-        // 开始倒计时
-        goodLuckVH.good_count_down_view.start(last_time * 1000);
+            // 倒计时Tag
+            goodLuckVH.good_count_down_view.setTag(str);
+            goodLuckVH.good_count_down_view.setConvertDaysToHours(true);
+            // 开始倒计时
+            if(last_time<0){
+                last_time=0;
+            }
+            goodLuckVH.good_count_down_view.start(last_time * 1000);
+        }
+
 
 //        if("2".equals(groupType)){  // 2常规拼单
             goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {

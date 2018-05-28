@@ -1119,6 +1119,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
                             // 开始倒计时
                             good_count_down_view.setConvertDaysToHours(true);
+                            if(last_time<0){
+                                last_time=0;
+                            }
                             good_count_down_view.start(last_time * 1000);
 //                            good_count_down_view.start(24*60*60*2 * 1000);
 

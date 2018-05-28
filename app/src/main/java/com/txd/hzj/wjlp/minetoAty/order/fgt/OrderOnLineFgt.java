@@ -906,6 +906,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
+                case "8": {
+                    holder.state.setText("未成团");
+                    holder.tv_btn_left.setVisibility(View.GONE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
+                }
+                break;
             }
         }
 
