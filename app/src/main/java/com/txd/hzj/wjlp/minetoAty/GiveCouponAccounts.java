@@ -2,7 +2,6 @@ package com.txd.hzj.wjlp.minetoAty;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -12,11 +11,10 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.bean.GiveCouponBean;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
-import java.util.Map;
+import io.reactivex.annotations.Nullable;
 
 /**
  * 创建者：Qyl

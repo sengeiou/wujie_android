@@ -24,6 +24,9 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.Map;
 
+/**
+ * 分享给好友
+ */
 public class ShareToFriendsAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)

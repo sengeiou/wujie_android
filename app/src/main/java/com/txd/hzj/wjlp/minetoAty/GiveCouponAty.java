@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.Promoters;
@@ -41,6 +42,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     private UserPst userPst;
     private String type;
     private LinearLayout view;
+    @ViewInject(R.id.iv_vip)
     private ImageView ima_view;
     private Context context;
     private Promoters mData;
@@ -50,7 +52,6 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -67,7 +68,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
             blue_voucher = extras.getString("blue_voucher");
         } else {
             view = (LinearLayout) findViewById(R.id.coupon_ll_vip);
-            ima_view = (ImageView) findViewById(R.id.iv_vip);
+//            ima_view = (ImageView) findViewById(R.id.iv_vip);
             view.setVisibility(View.GONE);
             ima_view.setVisibility(View.VISIBLE);
             String url = extras.getString("url");
@@ -82,7 +83,6 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
         /**
          * title
          * */
-
         back = (ImageView) findViewById(R.id.title_be_back_iv);
 
         tvName = (TextView) findViewById(R.id.titlt_conter_tv);
@@ -110,7 +110,7 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     protected void requestData() {
         if (type.equals("0")) {
             tvName.setText("蓝色代金券");
-        }else {
+        } else {
             tvName.setText("申请无界推广会员");
         }
         layout_top_tv.setText("蓝色代金券金额");

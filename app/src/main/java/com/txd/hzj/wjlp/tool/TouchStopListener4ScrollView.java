@@ -59,7 +59,7 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
             if (null != listener) {
                 listener.setCanLoadImg(false);
             }
-            Glide.with(context).pauseRequests();
+            Glide.with(context).pauseRequests(); // 当手指按下的时候停止图片加载
         }
         return false;
     }
@@ -67,8 +67,9 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
 
     private void handleStop(Object view) {
 //        NestedScrollView scroller = (NestedScrollView) view;
-        if (L.isDebug)
-            Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
+//        if (L.isDebug) {
+//            Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
+//        }
         Glide.with(context).resumeRequests();
         if (null != listener)
             listener.setCanLoadImg(true);

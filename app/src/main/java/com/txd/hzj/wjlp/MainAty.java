@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -88,6 +87,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * ===============Txunda===============
@@ -527,11 +528,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
     }
     // ============================== 环信 ==============================
-    // Todo 环信=========================================================
-    // Todo 环信=========================================================
-    // Todo 环信=========================================================
-    // Todo 环信=========================================================
-
     private boolean isExceptionDialogShow = false;
 
     private android.app.AlertDialog.Builder exceptionBuilder;
@@ -836,11 +832,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     }
 
     //==================== apk更新 =====================
-    // Todo============================================
-    // Todo============================================
-    // Todo============================================
-    // Todo============================================
-    // Todo============================================
     private void showAppUpdateDialog(final UpdataApp updataApp) {
 
         String name = updataApp.getData().getName();
@@ -872,28 +863,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             }
                         }
                     }).showDialog();
-
-//            final AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
-//            localBuilder.setTitle("提示")
-//                    .setIcon(R.mipmap.ic_launcher)
-//                    .setCancelable(!updataApp.getData().getUpdate().equals("0")) // 状态为false点击外侧不关闭对话框，否则点击外侧对话框消失
-//                    .setMessage("检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc()))
-//                    .setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            showDownloadDialog(updataApp);
-//                        }
-//                    })
-//                    // update为0是开启强制更新，为1未开启强制更新
-//                    .setNegativeButton(updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            if (updataApp.getData().getUpdate().equals("0")) {
-//                                System.exit(0);
-//                            }
-//                        }
-//                    })
-//                    .create().show();
         } else {
             PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//相同的情况下不做更新提示
         }

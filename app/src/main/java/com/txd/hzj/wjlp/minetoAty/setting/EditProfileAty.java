@@ -388,15 +388,14 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             }
             case R.id.user_select_zoon_layout:// 区域选择
                 ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "", EditProfileAty.this);
+                // 添加省市区的文字变化监听
                 ((TextView) findViewById(R.id.user_select_zoon_tv)).addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                     }
-
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
                     }
-
                     @Override
                     public void afterTextChanged(Editable s) {
                         user_select_street_tv.setText("");
@@ -431,7 +430,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
 
                 nickname = user_nickname_tv.getText().toString().trim();
                 email = user_email_ev.getText().toString().trim();
-                // 2018.2.23 个人信息不能为空
+                // 个人信息不能为空
                 if (user_nickname_tv.getText().toString().trim().equals("")) {
                     showToast("昵称不能为空");
                     return;
@@ -448,10 +447,12 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     Toast.makeText(this, "所在街道不能为空！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
-
-
-//                userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
+                try {
+                    userPst.editInfo(nickname, sex, email, province_id, city_id, area_id, street_id, file);
+                } catch (Exception e){
+                    L.e("EditProfileAty is throw Exception:" + e.toString());
+                    showErrorTip("填写数据异常，请重新检查！");
+                }
                 break;
         }
     }

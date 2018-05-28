@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -218,7 +219,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
     @ViewInject(R.id.merchant_will_move_into_tv)
     private TextView merchant_will_move_into_tv;
-    //
+    // 赠送蓝色代金券
     @ViewInject(R.id.give_coupon_tv)
     private TextView give_coupon_tv;
 
@@ -420,7 +421,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e){
+                    L.e("MineFgt Exception:" + e.toString());
+                    showErrorTip("跳转至应用市场失败，请到您自行到市场为我们评价哦ლ(⌒▽⌒ლ)");
+                }
                 break;
         }
     }
