@@ -175,7 +175,13 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("shop_price", val.getShop_price());
                         intent.putExtra("market_price", val.getMarket_price());
                         intent.putExtra("settlement_price", val.getSettlement_price());
-                        intent.putExtra("red_return_integral", val.getRed_return_integral());
+                        if(type.equals("3")||"4".equals(type)){//拼单或者参团
+                            intent.putExtra("red_return_integral", val.getIntegral());
+                            intent.putExtra("p_shop_price",val.getP_shop_price());
+                        }else{
+                            intent.putExtra("red_return_integral", val.getRed_return_integral());
+                        }
+
                         intent.putExtra("discount", val.getDiscount());
                         intent.putExtra("yellow_discount", val.getYellow_discount());
                         intent.putExtra("blue_discount", val.getBlue_discount());

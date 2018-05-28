@@ -105,7 +105,7 @@ import cn.iwgang.countdownview.CountdownView;
  * ===============Txunda===============
  */
 public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
-    private String  order_id;
+    private String order_id;
     /**
      * 商品TextView
      */
@@ -774,7 +774,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.layout_layout_settings:// 已选商品配置,
                 if ("1".equals(groupType)) {
-                    toExAttars(v, 4, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                    toExAttars(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
                             goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
                 } else {
                     toAttrs(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
@@ -1119,8 +1119,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
                             // 开始倒计时
                             good_count_down_view.setConvertDaysToHours(true);
-                            if(last_time<0){
-                                last_time=0;
+                            if (last_time < 0) {
+                                last_time = 0;
                             }
                             good_count_down_view.start(last_time * 1000);
 //                            good_count_down_view.start(24*60*60*2 * 1000);
@@ -1775,15 +1775,17 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 is_C = true;
                 mellInfoBean.setMerchant_id(data.getStringExtra("mid"));
 
-                goods_id=data.getStringExtra("goods_id");
-                group_buy_id=data.getStringExtra("group_buy_id");
+                goods_id = data.getStringExtra("goods_id");
+                group_buy_id = data.getStringExtra("group_buy_id");
                 order_id = data.getStringExtra("order_id");
 
-                product_id=data.getStringExtra("product_id");
-                if (data.hasExtra("group_type")){
-                    groupType=data.getStringExtra("group_type");
+                product_id = data.getStringExtra("product_id");
+                if (data.hasExtra("group_type")) {
+                    groupType = data.getStringExtra("group_type");
                 }
-
+                if (!android.text.TextUtils.isEmpty(data.getStringExtra("p_shop_price"))) {
+                    one_price_tv.setText("￥" + data.getStringExtra("p_shop_price") + "\n独立购买");
+                }
                 goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
