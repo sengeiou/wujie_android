@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.commodity.InvoiceBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +22,8 @@ import java.util.Map;
 public class aty_invoce2BaseAdapter extends BaseAdapter {
     Context context;
     LayoutInflater layoutInflater;
-    List<Map<String, String>> alist = new ArrayList<>();
-    public  aty_invoce2BaseAdapter(List<Map<String, String>> list,Context context){
+    private List<InvoiceBean> alist;
+    public  aty_invoce2BaseAdapter(List<InvoiceBean> list, Context context){
         this.alist = list;
         this.context = context;
     }
@@ -52,7 +53,7 @@ public class aty_invoce2BaseAdapter extends BaseAdapter {
         }else {
             vh = (ViewHolder) convertView.getTag();
         }
-        vh.tv.setText(alist.get(position).get("invoice_type"));
+        vh.tv.setText(alist.get(position).getInvoice_type());
 
         return convertView;
     }

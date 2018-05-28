@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.commodity.InvoiceBean;
+import com.txd.hzj.wjlp.bean.commodity.InvoiceDataBean;
 import com.txd.hzj.wjlp.http.Invoice;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,22 +60,23 @@ public class InvoiceAty2 extends BaseAty {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String json = getIntent().getStringExtra("json1");
+//                String json = getIntent().getStringExtra("json1");
                 Intent intent = getIntent();
 //                intent.putExtra("data", list.get(position).get("invoice_type"));
 //                PreferencesUtils.putString(InvoiceAty2.this,"tax",list.get(position).get("tax"));
 //                PreferencesUtils.putString(InvoiceAty2.this,"express_fee",list.get(position).get("express_fee"));
 
-                Invoice1 invoice = new Invoice1();
-                invoice.setTax(list.get(position).get("tax"));
-                invoice.setExpress_fee(list.get(position).get("express_fee"));
-                invoice.setInvoice_type(list.get(position).get("invoice_type"));
-                invoice.setText1("");
-                invoice.setText2("");
-                invoice.setText3("");
-                invoice.setText4("");
-
-                intent.putExtra("data1", invoice);
+                InvoiceBean invoiceBean=  list.get(position);
+                Invoice1 invoice1=new Invoice1();
+                invoice1.setExpress_fee(invoiceBean.getExpress_fee());
+                invoice1.setInvoice_type(invoiceBean.getInvoice_type());
+                invoice1.setTax(invoiceBean.getTax());
+                invoice1.setText1("");
+                invoice1.setText2("");
+                invoice1.setText3("");
+                invoice1.setText4("");
+                invoice1.setTax_pay(invoiceBean.getTax_pay());
+                intent.putExtra("data1", invoice1);
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -90,22 +93,25 @@ public class InvoiceAty2 extends BaseAty {
         goods_id = map.get(0).get("goods_id");
     }
 
-    Map<String, String> map;
-    List<Map<String, String>> list = new ArrayList<>();
+    List<InvoiceBean> list = new ArrayList<>();
     List<Boolean> status = new ArrayList<>();
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         Log.d("test=====", jsonStr);
-        map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-//        tv_explain.setText(map.get("explain"));
-        list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));
-
-        aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list, this);
-        lv.setAdapter(aty_invoce2BaseAdapter);
-        aty_invoce2BaseAdapter.notifyDataSetChanged();
+        ObserTool.gainInstance().jsonToBean(jsonStr, InvoiceDataBean.class, new ObserTool.BeanListener() {
+            @Override
+            public void returnObj(Object t) {
+                InvoiceDataBean invoiceDataBean= (InvoiceDataBean) t;
+                com.txd.hzj.wjlp.bean.commodity.Invoice invoice=invoiceDataBean.getData();
+                list= invoice.getList();
+                //        tv_explain.setText(map.get("explain"));
+                aty_invoce2BaseAdapter = new aty_invoce2BaseAdapter(list, InvoiceAty2.this);
+                lv.setAdapter(aty_invoce2BaseAdapter);
+                aty_invoce2BaseAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
 

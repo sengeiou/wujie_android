@@ -898,9 +898,11 @@ public class BuildOrderAty extends BaseAty {
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
                     // bundle.putString("wj_price", getItem(i).get("wj_price"));
                     if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
-                        bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
+//                        bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
+                        bundle.putSerializable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
-                        bundle.putParcelable("data1", invoice1s.get(index));
+//                        bundle.putParcelable("data1", invoice1s.get(index));
+                        bundle.putSerializable("data1", invoice1s.get(index));
                     }
 
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {

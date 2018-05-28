@@ -19,6 +19,7 @@ import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.commodity.InvoiceBean;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.http.Invoice;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
@@ -301,7 +302,8 @@ public class InvoiceAty extends BaseAty {
             }
         });
 
-        invoice1 = getIntent().getParcelableExtra("data1");
+//        invoice1 = getIntent().getParcelableExtra("data1");
+        invoice1 = (Invoice1) getIntent().getSerializableExtra("data1");
         String data2Str = getIntent().getStringExtra("data2");
         L.e("wang", "=========>>>>>>>>invoice1:" + invoice1);
         L.e("wang", "=========>>>>>>>>data2Str:" + data2Str);
@@ -335,8 +337,8 @@ public class InvoiceAty extends BaseAty {
 
     }
 
+//    InvoiceBean invoice1;
     Invoice1 invoice1;
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -349,13 +351,15 @@ public class InvoiceAty extends BaseAty {
             tv_type.setText(data.getStringExtra("list"));
         } else if (requestCode == 108) {
             if (data != null) {
-                invoice1 = (Invoice1) data.getParcelableExtra("data1");
+                invoice1 = (Invoice1) data.getSerializableExtra("data1");
 //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
+                if(!TextUtils.isEmpty(invoice1.getTax()))
                 L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
-                L.e("wang","  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
-                DecimalFormat df = new DecimalFormat(".##");
-                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
+//                L.e("wang","  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
+//                DecimalFormat df = new DecimalFormat(".##");
+//                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
+                tv_tax.setText("税金" + invoice1.getTax_pay());
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
                 layout.setVisibility(View.VISIBLE);
 //                L.e("===========",invoice1+"");

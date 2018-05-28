@@ -3,17 +3,28 @@ package com.txd.hzj.wjlp.new_wjyp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2018/2/12.
  */
 
-public class Invoice1 implements Parcelable {
+public class Invoice1 implements Serializable {
     String tax;
     String express_fee;
+    String tax_pay;
     String invoice_type;
     String text1, text2, text3, text4, text5, text6;
 
     public Invoice1() {
+    }
+
+    public String getTax_pay() {
+        return tax_pay;
+    }
+
+    public void setTax_pay(String tax_pay) {
+        this.tax_pay = tax_pay;
     }
 
     public void setText4(String text4) {
@@ -101,35 +112,35 @@ public class Invoice1 implements Parcelable {
         text6 = in.readString();
     }
 
-    public static final Creator<Invoice1> CREATOR = new Creator<Invoice1>() {
-        @Override
-        public Invoice1 createFromParcel(Parcel in) {
-            return new Invoice1(in);
-        }
-
-        @Override
-        public Invoice1[] newArray(int size) {
-            return new Invoice1[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(tax);
-        dest.writeString(express_fee);
-        dest.writeString(invoice_type);
-        dest.writeString(text1);
-        dest.writeString(text2);
-        dest.writeString(text3);
-        dest.writeString(text4);
-        dest.writeString(text5);
-        dest.writeString(text6);
-    }
+//    public static final Creator<Invoice1> CREATOR = new Creator<Invoice1>() {
+//        @Override
+//        public Invoice1 createFromParcel(Parcel in) {
+//            return new Invoice1(in);
+//        }
+//
+//        @Override
+//        public Invoice1[] newArray(int size) {
+//            return new Invoice1[size];
+//        }
+//    };
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(tax);
+//        dest.writeString(express_fee);
+//        dest.writeString(invoice_type);
+//        dest.writeString(text1);
+//        dest.writeString(text2);
+//        dest.writeString(text3);
+//        dest.writeString(text4);
+//        dest.writeString(text5);
+//        dest.writeString(text6);
+//    }
 
     @Override
     public String toString() {
