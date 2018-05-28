@@ -774,7 +774,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.layout_layout_settings:// 已选商品配置,
                 if ("1".equals(groupType)) {
-                    toExAttars(v, 4, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                    toExAttars(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
                             goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
                 } else {
                     toAttrs(v, 4, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
