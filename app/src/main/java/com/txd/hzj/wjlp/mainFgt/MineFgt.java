@@ -423,7 +423,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 try {
                     startActivity(intent);
-                } catch (ActivityNotFoundException e){
+                } catch (ActivityNotFoundException e) {
                     L.e("MineFgt Exception:" + e.toString());
                     showErrorTip("跳转至应用市场失败，请到您自行到市场为我们评价哦ლ(⌒▽⌒ლ)");
                 }
@@ -578,28 +578,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     + "\ndata.get(\"is_masonry_a\") = " + data.get("is_masonry_a")
                     + "\ndata.get(\"is_iron_a\") = " + data.get("is_iron_a"));
 
-//            if (data.get("is_agent").equals("1")) {
-//                tv_dljm.setVisibility(View.VISIBLE);
-//            }
-//            if (data.get("is_alliance").equals("1")) {
-//                tv_lmsj.setVisibility(View.VISIBLE);
-//            }
-//            if (data.get("is_gold").equals("1")) {
-//                im_jin.setImageResource(R.mipmap.icon_mine_jin1);
-//            }
-//            if (data.get("is_silver").equals("1")) {
-//                im_yin.setImageResource(R.mipmap.icon_mine_yin1);
-//            }
-//            if (data.get("is_copper").equals("1")) {
-//                im_tong.setImageResource(R.mipmap.icon_mine_tong1);
-//            }
-//            if (data.get("is_masonry").equals("1")) {
-//                im_gang.setImageResource(R.mipmap.icon_mine_gang1);
-//            }
-//            if (data.get("is_iron").equals("1")) {
-//                im_tie.setImageResource(R.mipmap.icon_mine_tie1);
-//            }
-
             Glide.with(getActivity()).load(head_pic)
                     .override(size, size)
                     .placeholder(R.drawable.ic_default)
@@ -643,11 +621,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         }
         if (requestUrl.contains("promoters")) {
             Promoters promoters = GsonUtil.GsonToBean(jsonStr, Promoters.class);
-            Log.i("lanse",jsonStr);
-            if (promoters.getCode().equals("1")){
-                imaUrl= promoters.getData().getAds().get(0).getPicture();
+            Log.i("lanse", jsonStr);
+            if (promoters.getCode().equals("1")) {
+                imaUrl = promoters.getData().getAds().get(0).getPicture();
                 give_coupon_tv.setText(promoters.getData().getAds().get(0).getDesc());
-                Log.i("textviewtoStroing",imaUrl+"==================="+promoters.getData().getAds().get(0).getDesc());
+                Log.i("textviewtoStroing", imaUrl + "===================" + promoters.getData().getAds().get(0).getDesc());
             }
         }
 

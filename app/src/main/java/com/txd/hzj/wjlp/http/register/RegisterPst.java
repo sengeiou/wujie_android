@@ -243,4 +243,13 @@ public class RegisterPst extends BasePresenter {
         register.otherLoginBind(bind_id, phone, verify, invite_code, baseView);
     }
 
+    /**
+     * 扫码登录
+     *
+     * @param sid 扫描到的sid
+     */
+    public void qr_login(String sid) {
+        register.qr_login(sid, baseView);
+    }
+
 }

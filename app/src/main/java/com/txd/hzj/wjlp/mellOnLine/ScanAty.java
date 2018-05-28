@@ -5,10 +5,16 @@ import android.os.Vibrator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 
@@ -73,14 +79,37 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
     public void onScanQRCodeSuccess(String result) {
         //  showRightTip(result);
         L.e(result);
-        Bundle bundle = new Bundle();
-        bundle.putInt("from", 4);
-        bundle.putString("href", result);
-        startActivity(NoticeDetailsAty.class, bundle);
         //震动
         vibrate();
         //停止预览
         mQR.stopCamera();
+
+        // type:1登录，2邀请码注册 ，3下载
+        if (result.contains("type")) {
+            if (!Config.isLogin()) { // 如果未登录则先去登录
+                toLogin();
+            } else {
+                // 已登录
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    String sid = data.getString("sid");
+
+                    // 实例化网络请求接口并添加请求参数
+                    RegisterPst registerPst = new RegisterPst(this);
+                    registerPst.qr_login(sid);
+
+                } catch (JSONException e) {
+                    L.e("扫码Json字符串异常：" + e.toString());
+                }
+            }
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putInt("from", 4);
+            bundle.putString("href", result);
+            startActivity(NoticeDetailsAty.class, bundle);
+        }
+
         finish();
     }
 
@@ -111,4 +140,11 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         super.onStop();
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("qr_login")){
+            L.e(jsonStr);
+        }
+    }
 }
