@@ -139,6 +139,17 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="b1UKT3NV7vCEPFWojdSA3DESUIuixKgK" />
+
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="com.txd.hzj.wjlp"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/file_paths" />-->
+        <!--</provider>-->
+
         <!-- 百度地图 End -->
         <!-- 首页启动界面 android:name=".MainAty" -->
         <activity android:name=".startPage.GuidanceAty">

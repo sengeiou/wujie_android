@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -191,7 +192,14 @@ public class SnatchGoodsDetailsAty extends BaseAty {
                     break;
                 }
 
-                toAttrs(v, 0, "7", goods_id + "-" + merchant_id, oneBuyInfo.get("pic"), oneBuyInfo.get("balance"), one_buy_id, goods_attr_first, first_val, is_attr);
+                try {
+                    String pic = oneBuyInfo.get("pic");
+                    String balance = oneBuyInfo.get("balance");
+                    toAttrs(v, 0, "7", goods_id + "-" + merchant_id, pic, balance, one_buy_id, goods_attr_first, first_val, is_attr);
+                } catch (Exception e) {
+                    L.e("SnatchGoodsDetailsAty is Error:" + e.toString());
+                }
+
 
                 break;
         }
