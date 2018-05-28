@@ -431,8 +431,8 @@ public class GoodsAttributeAty extends BaseAty {
                 startActivity(intent);
                 finish();
                 return;
-            }
-            Cart.addCart(goods_id, "", num, this);
+            } else
+                Cart.addCart(goods_id, "", num, this);
             //            RequestParams params = new RequestParams();
             //            ApiTool2 apiTool2 = new ApiTool2();
             //            params.addBodyParameter("goods_id", goods_id);
@@ -467,8 +467,8 @@ public class GoodsAttributeAty extends BaseAty {
                 setResult(0x0001, intent);
                 finish();
                 return;
-            }
-            Cart.addCart(goods_id, pro_id, num, this);
+            } else
+                Cart.addCart(goods_id, pro_id, num, this);
         } else {
             showToast("库存不足！");
         }
@@ -860,7 +860,7 @@ public class GoodsAttributeAty extends BaseAty {
         for (int i = 0; i < valBeans.size(); i++) {
             FirstListValBean valBean = valBeans.get(i);
             boolean falgChoice = false;
-            int choicePos=0;
+            int choicePos = 0;
             outer:
             for (int bdPos = 0; bdPos < lists.size(); bdPos++) {
                 String compareStr = lists.get(bdPos);
@@ -868,14 +868,14 @@ public class GoodsAttributeAty extends BaseAty {
                     case 0: {//颜色比对判断
                         if (compareStr.contains(valBean.getVal())) {
                             falgChoice = true;
-                            choicePos=bdPos;
+                            choicePos = bdPos;
                         }
                     }
                     break;
                     case 1: {//尺寸比对判断
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
                             falgChoice = true;
-                            choicePos=bdPos;
+                            choicePos = bdPos;
                         }
 
                     }
@@ -883,7 +883,7 @@ public class GoodsAttributeAty extends BaseAty {
                     case 2: {//大小比对判断 颜色+尺寸+高低
                         if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
                             falgChoice = true;
-                            choicePos=bdPos;
+                            choicePos = bdPos;
                         }
                     }
                     break;
@@ -893,7 +893,7 @@ public class GoodsAttributeAty extends BaseAty {
             if (falgChoice) {
                 if (recordMutilMap.containsKey(type)) {
                     if (recordMutilMap.get(type).equals(valBean.getVal())) {
-                        FirstValBean temp= list_val.get(choicePos);
+                        FirstValBean temp = list_val.get(choicePos);
                         valBean.setStatus(SELECTED);
                     } else {
                         valBean.setStatus(UNSELECT);

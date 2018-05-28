@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
 
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 
@@ -22,7 +23,8 @@ import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 public class TouchStopListener4ScrollView implements View.OnTouchListener {
     Context context;
     private LoadListener listener;
-    public interface LoadListener{
+
+    public interface LoadListener {
         public void setCanLoadImg(boolean flag);
     }
 
@@ -65,7 +67,8 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
 
     private void handleStop(Object view) {
 //        NestedScrollView scroller = (NestedScrollView) view;
-        Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
+        if (L.isDebug)
+            Toast.makeText(context, "手指停止滑动", Toast.LENGTH_SHORT).show();
         Glide.with(context).resumeRequests();
         if (null != listener)
             listener.setCanLoadImg(true);
