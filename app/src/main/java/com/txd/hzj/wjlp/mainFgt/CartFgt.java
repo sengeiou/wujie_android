@@ -14,7 +14,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Config;
@@ -36,11 +35,11 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.CartGoods;
 import com.txd.hzj.wjlp.bean.ShopingCart;
+import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.new_wjyp.Card_bean;
-import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.MessageEvent;
@@ -796,7 +795,7 @@ public class CartFgt extends BaseFgt {
              * 商品基本属性布局
              */
             @ViewInject(R.id.cart_goods_info_layout)
-            private RelativeLayout cart_goods_info_layout;
+            private LinearLayout cart_goods_info_layout;
             /**
              * 商品数量，属性操作布局
              */
