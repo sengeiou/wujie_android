@@ -321,8 +321,22 @@ public class CartFgt extends BaseFgt {
                     String json = gson.toJson(json_list);
                     params.addBodyParameter("cart_json", json);
                     apiTool2.postApi(Config.BASE_URL + "Cart/editCart", params, this);
+                    all_price = new BigDecimal("0.00");
+                    //当前编辑修改价格之后，保存会更新总价数据
+                    for (ShopingCart sc : shopingCarts) {
+                        List<CartGoods> cartGoodses = sc.getGoodsInfo();
+                        for (CartGoods cg : cartGoodses) {
+                            if (cg.isCheck()) {
+                                BigDecimal price = new BigDecimal(cg.getShop_price());
+                                price = price.multiply(new BigDecimal(cg.getNum()));
+                                all_price = all_price.add(price);
+                                toChangePrice();
+                            }
+                        }
+                    }
                     showProgressDialog();
                 }
+
                 cartAdapter.notifyDataSetChanged();
                 break;
             case R.id.operation_goods_tv:// 去结算，删除
@@ -657,9 +671,9 @@ public class CartFgt extends BaseFgt {
                 }
             }
             cgvh.reset_goods_attrs_tv.setText(goods_attr_name + "(库存：" + cg.getGoods_num() + ")");
-            cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());
+            cgvh.cart_goods_price_tv.setText("¥" + cg.getShop_price());//当前物品单价
 
-            // 数量
+            // 当前选择物品数量
             cgvh.cart_goods_num_tv.setText("x" + String.valueOf(cg.getNum()));
             cgvh.operation_goods_num_tv.setText(String.valueOf(cg.getNum()));
             L.e("canEdit" + canEdit);

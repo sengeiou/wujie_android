@@ -39,11 +39,9 @@ public class TouchViewpager extends ViewPager {
 
                 startX = (int) ev.getRawX();
                 startY = (int) ev.getRawY();
-                Log.i("viewpager点击", "==========================");
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                Log.i("viewpager滑动", "=================================");
                 int endX = (int) ev.getRawX();
                 int endY = (int) ev.getRawY();
 
@@ -52,14 +50,12 @@ public class TouchViewpager extends ViewPager {
                     if (endX > startX) {//右滑
 
                         if (getCurrentItem() == 0) {//第一个页面，需要父控件拦截
-                            Log.i("viewpager又话","============================");
                             getParent().requestDisallowInterceptTouchEvent(true);
                         }
 
                     } else {//左滑
 
                         if (getCurrentItem() == getAdapter().getCount() - 1) {//最后一个页面，需要拦截
-                            Log.i("viewpager作画","============================");
                             getParent().requestDisallowInterceptTouchEvent(true);
                         }
 
@@ -67,7 +63,6 @@ public class TouchViewpager extends ViewPager {
 
                 } else {//上下滑动，需要父控件拦截
                     getParent().requestDisallowInterceptTouchEvent(false);
-                    Log.i("viewpager上下","============================");
                 }
 
                 break;

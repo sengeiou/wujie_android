@@ -76,12 +76,12 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     private ChatListener chatListener;
 
-    public static RefWatcher getRefWatcher(Context context) {
+ /*   public static RefWatcher getRefWatcher(Context context) {
         DemoApplication application = (DemoApplication) context.getApplicationContext();
         return application.refWatcher;
-    }
+    }*/
 
-    private RefWatcher refWatcher;
+//    private RefWatcher refWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -115,14 +115,14 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         } catch (NullPointerException e) {
             L.e("=====Application=====" + e.toString());
         }
-        if (L.isDebug) {
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                // This process is dedicated to LeakCanary for heap analysis.
-                // You should not init your app in this process.
-                return;
-            }
-            refWatcher = LeakCanary.install(this);
-        }
+//        if (L.isDebug) {
+//            if (LeakCanary.isInAnalyzerProcess(this)) {
+//                // This process is dedicated to LeakCanary for heap analysis.
+//                // You should not init your app in this process.
+//                return;
+//            }
+//            refWatcher = LeakCanary.install(this);
+//        }
     }
 
     /**

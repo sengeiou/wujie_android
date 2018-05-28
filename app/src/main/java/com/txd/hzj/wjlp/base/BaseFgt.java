@@ -58,10 +58,10 @@ public abstract class BaseFgt extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(L.isDebug){
-            RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
-            refWatcher.watch(this);
-        }
+//        if(L.isDebug){
+//            RefWatcher refWatcher = DemoApplication.getRefWatcher(getActivity());
+//            refWatcher.watch(this);
+//        }
     }
 
     @Override

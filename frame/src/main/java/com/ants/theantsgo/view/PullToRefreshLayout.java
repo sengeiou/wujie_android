@@ -385,16 +385,13 @@ public class PullToRefreshLayout extends RelativeLayout {
                             pullDownY = 0;
                             canPullDown = false;
                             canPullUp = true;
-                            Log.i("============", "layout滑动事件");
                         }
                         if (pullDownY > getMeasuredHeight())
                             pullDownY = getMeasuredHeight();
                         if (state == REFRESHING) {
                             // 正在刷新的时候触摸移动
                             isTouch = true;
-                            Log.i("============", "layout滑动事件");
                         }
-                        Log.i("下拉成功", "=====================================");
                     } else if (pullUpY < 0 || (((Pullable) pullableView).canPullUp() && canPullUp && state !=
                             REFRESHING)) {
                         // 可以上拉，正在刷新时不能上拉
@@ -423,12 +420,10 @@ public class PullToRefreshLayout extends RelativeLayout {
                     if (pullDownY <= refreshDist && (state == RELEASE_TO_REFRESH || state == DONE)) {
                         // 如果下拉距离没达到刷新的距离且当前状态是释放刷新，改变状态为下拉刷新
                         changeState(INIT);
-                        Log.i("============", "layout滑动事件");
                     }
                     if (pullDownY >= refreshDist && state == INIT) {
                         // 如果下拉距离达到刷新的距离且当前状态是初始状态刷新，改变状态为释放刷新
                         changeState(RELEASE_TO_REFRESH);
-                        Log.i("============", "layout滑动事件");
                     }
                 } else if (pullUpY < 0) {
                     // 下面是判断上拉加载的，同上，注意pullUpY是负值
@@ -453,7 +448,6 @@ public class PullToRefreshLayout extends RelativeLayout {
                 // 正在刷新时往下拉（正在加载时往上拉），释放后下拉头（上拉头）不隐藏
                 {
                     isTouch = false;
-                    Log.i("============", "layout滑动事件");
                 }
                 if (state == RELEASE_TO_REFRESH) {
                     changeState(REFRESHING);
