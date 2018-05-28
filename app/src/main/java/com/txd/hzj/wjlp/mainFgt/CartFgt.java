@@ -127,6 +127,7 @@ public class CartFgt extends BaseFgt {
 
 
     private boolean is_all = false;
+    private ShopingCart sc;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -501,7 +502,7 @@ public class CartFgt extends BaseFgt {
 
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
-            final ShopingCart sc = getItem(i);
+            sc = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(getActivity()).inflate(R.layout.item_cart_lv_hzj, null);
                 cartVh = new CartVh();
@@ -512,7 +513,7 @@ public class CartFgt extends BaseFgt {
             }
 
             // 判断店铺中的商品是否被全部选中
-            if (sc.isAllCheck()) {
+            if (shopingCarts.get(i).isAllCheck()) {
                 cartVh.mell_goods_all_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
             } else {
                 cartVh.mell_goods_all_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
@@ -534,9 +535,9 @@ public class CartFgt extends BaseFgt {
             cartVh.mell_goods_all_select_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (sc.isAllCheck()) {
-                        sc.setAllCheck(false);
-                        for (CartGoods cg : sc.getGoodsInfo()) {
+                    if (shopingCarts.get(i).isAllCheck()) {
+                        shopingCarts.get(i).setAllCheck(false);
+                        for (CartGoods cg : shopingCarts.get(i).getGoodsInfo()) {
                             cg.setCheck(false);
                             BigDecimal price = new BigDecimal(cg.getShop_price());
                             price = price.multiply(new BigDecimal(cg.getNum()));
@@ -553,8 +554,8 @@ public class CartFgt extends BaseFgt {
                         // 取消全选
                         cart_select_all_cb.setChecked(false);
                     } else {
-                        sc.setAllCheck(true);
-                        for (CartGoods cg : sc.getGoodsInfo()) {
+                        shopingCarts.get(i).setAllCheck(true);
+                        for (CartGoods cg : shopingCarts.get(i).getGoodsInfo()) {
                             if (!cg.isCheck()) {
                                 cg.setCheck(true);
                                 BigDecimal price = new BigDecimal(cg.getShop_price());
@@ -646,8 +647,19 @@ public class CartFgt extends BaseFgt {
             }
             if (cg.isCheck()) {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_selected);
+                for (ShopingCart cat : shopingCarts) {
+                    if (!cat.isAllCheck()) {
+                        cart_select_all_cb.setChecked(false);
+                    } else {
+                        if (sc.isAllCheck()) {
+                            cart_select_all_cb.setChecked(true);
+                        }
+                    }
+                }
+
             } else {
                 cgvh.cart_goods_select_iv.setImageResource(R.drawable.icon_cart_goods_unselect);
+                cart_select_all_cb.setChecked(false);
             }
             Glide.with(getActivity()).load(getItem(i).getGoods_img()).into(cgvh.im_goods);
             cgvh.goods_name_tv.setText(cg.getGoods_name());
