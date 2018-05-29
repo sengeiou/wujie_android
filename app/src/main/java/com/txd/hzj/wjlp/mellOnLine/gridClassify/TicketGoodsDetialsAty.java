@@ -1608,7 +1608,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      * @param view
      */
     public void showDjqPop(final View view, final List<DjTicketBean> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) {
+            return;
+        }
+        if (list == null || list.size() == 0) {
+            return;
+        }
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.layout_popp_djq)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)

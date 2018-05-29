@@ -189,7 +189,7 @@ public class TagAliasOperatorHelper {
     public void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
         int sequence = jPushMessage.getSequence();
         L.i(TAG,"action - onTagOperatorResult, sequence:"+sequence+",tags:"+jPushMessage.getTags());
-        L.i(TAG,"tags size:"+jPushMessage.getTags().size());
+        L.i(TAG, "tags size:" + (jPushMessage.getTags() == null ? "0" : jPushMessage.getTags().size()));
         init(context);
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = tagAliasActionCache.get(sequence);

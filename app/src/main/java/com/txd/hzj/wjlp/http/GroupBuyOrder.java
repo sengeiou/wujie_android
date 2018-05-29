@@ -3,13 +3,7 @@ package com.txd.hzj.wjlp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.http.RequestParams;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 public class GroupBuyOrder {
     private static String url = Config.BASE_URL + "GroupBuyOrder/";
@@ -54,17 +48,6 @@ public class GroupBuyOrder {
         apiTool2.postApi(url + "setOrder", params, baseView);
     }
 
-
-    private String getShopping_id(String goods){
-        try {
-            JSONArray jsonObject=new JSONArray(goods);
-
-//            jsonObject.getString()
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     /**
      * 结算页
      *
