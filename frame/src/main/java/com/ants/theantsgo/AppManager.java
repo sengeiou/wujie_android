@@ -64,12 +64,8 @@ public class AppManager {
      */
     public void killActivity(Activity activity) {
         if (activity != null) {
-            for (Activity activitys : mActivityStack) {
-                if (activitys.getClass().equals(activity)) {
-                    mActivityStack.remove(activity);
-                    activity.finish();
-                }
-            }
+            //mActivityStack.remove(activity);
+            activity.finish();
         }
     }
 
