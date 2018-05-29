@@ -402,7 +402,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         forHorizontalItem();
         forMenu();
         mell_on_line_sc.setScrollViewListener(MellonLineFgt.this);
-        mell_on_line_sc.setOnTouchListener(new TouchStopListener4ScrollView(getActivity().getApplicationContext(), this));
         goodsAdapter();
     }
 

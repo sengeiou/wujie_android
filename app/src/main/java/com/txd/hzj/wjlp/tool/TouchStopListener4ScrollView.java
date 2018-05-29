@@ -3,16 +3,10 @@ package com.txd.hzj.wjlp.tool;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.Toast;
 
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 
 /**
  * 创建者：TJDragon（Liugang）
@@ -55,7 +49,7 @@ public class TouchStopListener4ScrollView implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             handler.sendMessageDelayed(handler.obtainMessage(touchEventId, v), 5);
-        } else {
+        } else if(event.getAction()==MotionEvent.ACTION_HOVER_MOVE){
             if (null != listener) {
                 listener.setCanLoadImg(false);
             }

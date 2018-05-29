@@ -28,9 +28,18 @@ public class GlideCache implements GlideModule {
     @Override
     public void applyOptions(Context context, GlideBuilder builder) {
 
+        //获取内存计算器
         MemorySizeCalculator calculator = new MemorySizeCalculator(context);
-        builder.setMemoryCache(new LruResourceCache(calculator.getMemoryCacheSize()));
-        builder.setBitmapPool(new LruBitmapPool(calculator.getBitmapPoolSize()));
+        //获取Glide默认内存缓存大小
+        int                  defaultMemoryCacheSize = calculator.getMemoryCacheSize();
+        //获取Glide默认图片池大小
+        int                  defaultBitmapPoolSize  = calculator.getBitmapPoolSize();
+        //将数值修改为之前的1.1倍
+        int                  myMemoryCacheSize  = (int) (1.1 * defaultMemoryCacheSize);
+        int                  myBitmapPoolSize   = (int) (1.1 * defaultBitmapPoolSize);
+        //修改默认值
+        builder.setMemoryCache(new LruResourceCache(myMemoryCacheSize));
+        builder.setBitmapPool(new LruBitmapPool(myBitmapPoolSize));
 
 //        int maxMemory = (int) Runtime.getRuntime().maxMemory();//获取系统分配给应用的总内存大小
 //        int memoryCacheSize = maxMemory / 8;//设置图片内存缓存占用八分之一
