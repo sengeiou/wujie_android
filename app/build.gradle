@@ -14,6 +14,10 @@ android {
         versionName "1.0.8"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters "armeabi","armeabi-v7a","arm64-v8a","x86","x86_64","mips","mips64"
+        }
     }
     lintOptions {
         checkReleaseBuilds false
@@ -132,4 +136,7 @@ dependencies {
 //    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    //引入
+    compile 'com.noober.light:core:1.1.9'
 }

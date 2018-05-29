@@ -3,8 +3,12 @@ package com.txd.hzj.wjlp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
+import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class GroupBuyOrder {
@@ -30,6 +34,7 @@ public class GroupBuyOrder {
                                 String invoice,
                                 String leave_message,
                                 String goods,
+                                String shipping_id,
                                 BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
@@ -45,15 +50,27 @@ public class GroupBuyOrder {
         params.addBodyParameter("invoice", invoice);
         params.addBodyParameter("leave_message", leave_message);
         params.addBodyParameter("goods", goods);
+        params.addBodyParameter("shipping_id", shipping_id);
         apiTool2.postApi(url + "setOrder", params, baseView);
     }
 
+
+    private String getShopping_id(String goods){
+        try {
+            JSONArray jsonObject=new JSONArray(goods);
+
+//            jsonObject.getString()
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * 结算页
      *
      * @param goods_id
      * @param num
-     * @param order_type     order_type	1直接购买 2拼单
+     * @param order_type  order_type	1直接购买 2拼单
      * @param product_id
      * @param merchant_id
      * @param baseView
@@ -189,18 +206,19 @@ public class GroupBuyOrder {
         params.addBodyParameter("group_buy_order_id", group_buy_order_id);
         apiTool2.postApi(url + "offered", params, baseView);
     }
+
     /***
      *分享所需要的链接地址
      * @param type   商品详情页  1  参团页面      type 2
      * @param groupId 商品详情页 group_buy_id    参团页面    group_buy_order_id
      * @param baseView
      */
-    public static void shareurl(String type,String groupId, BaseView baseView) {
+    public static void shareurl(String type, String groupId, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("type", type);
         params.addBodyParameter("id", groupId);
-        apiTool2.postApi(url +"mkShareUrl", params,baseView);
+        apiTool2.postApi(url + "mkShareUrl", params, baseView);
     }
 
     /**
@@ -219,6 +237,7 @@ public class GroupBuyOrder {
 
     /**
      * 延长收货
+     *
      * @param order_goods_id
      * @param baseView
      */

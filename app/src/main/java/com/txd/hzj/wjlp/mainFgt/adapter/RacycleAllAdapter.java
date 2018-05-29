@@ -13,15 +13,25 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.light.body.Light;
+import com.light.body.RxLight;
+import com.light.core.listener.OnCompressFinishListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.CFGoodsList;
 
 import java.util.List;
+
+import io.reactivex.Flowable;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * ===============Txunda===============
