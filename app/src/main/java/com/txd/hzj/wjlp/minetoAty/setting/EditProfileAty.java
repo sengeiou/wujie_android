@@ -527,7 +527,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
             if (data != null) {
                 switch (requestCode) {
                     case 101:
-                        /*街道*/
+                        /* 街道 */
                         String street = data.getStringExtra("street");
                         street_id = data.getStringExtra("street_id");
                         user_select_street_tv.setText(street);

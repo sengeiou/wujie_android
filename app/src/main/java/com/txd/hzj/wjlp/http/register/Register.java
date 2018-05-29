@@ -63,7 +63,7 @@ class Register {
         params.addBodyParameter("type", type);
         params.addBodyParameter("verify", verify);
         apiTool2.postApi(url + "checkVerify", params, baseView);
-        LogUtils.i("短信验证码============"+verify+"=====================");
+        LogUtils.i("短信验证码============" + verify + "=====================");
     }
 
     /**
@@ -137,13 +137,14 @@ class Register {
 
     /**
      * 三方登录绑定手机
-     * @param bind_id   绑定id
-     * @param phone 手机号
-     * @param verify    验证码
-     * @param invite_code   邀请码
-     * @param baseView  回调
+     *
+     * @param bind_id     绑定id
+     * @param phone       手机号
+     * @param verify      验证码
+     * @param invite_code 邀请码
+     * @param baseView    回调
      */
-    void  otherLoginBind(String bind_id,String phone,String verify,String invite_code,BaseView baseView){
+    void otherLoginBind(String bind_id, String phone, String verify, String invite_code, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("bind_id", bind_id);
@@ -151,6 +152,19 @@ class Register {
         params.addBodyParameter("verify", verify);
         params.addBodyParameter("invite_code", invite_code);
         apiTool2.postApi(url + "otherLoginBind", params, baseView);
+    }
+
+    /**
+     * 扫码登录
+     *
+     * @param sidStr
+     * @param baseView
+     */
+    void qr_login(String sidStr, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("sid", sidStr);
+        apiTool2.postApi(url + "qr_login", params, baseView);
     }
 
 }

@@ -72,12 +72,9 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- 百度地图 权限 End -->
 
-
     <!-- 环信权限 ↑ -->
 
-
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限BEGIN -->
-
 
     <!-- Required -->
     <permission
@@ -139,6 +136,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="b1UKT3NV7vCEPFWojdSA3DESUIuixKgK" />
+
         <!-- 百度地图 End -->
         <!-- 首页启动界面 android:name=".MainAty" -->
         <activity android:name=".startPage.GuidanceAty">

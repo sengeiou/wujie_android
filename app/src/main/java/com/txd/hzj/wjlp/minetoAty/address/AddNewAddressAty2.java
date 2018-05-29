@@ -174,11 +174,15 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                         area = proUrbAreaUtil.getArea();
                     }
 
-
-                    if (0 == type) {
-                        addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
-                    } else {
-                        addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
+                    try {
+                        if (0 == type) {
+                            addressPst.addAddress(receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
+                        } else {
+                            addressPst.editAddress(address_id, receiver, phone, province, city, area, street, province_id, city_id, area_id, street_id, address, lng, lat);
+                        }
+                    }catch (Exception e){
+                        L.e("AddNewAddressAty2 is throw exception:" + e.toString());
+                        showErrorTip("传入参数异常，请重新核对");
                     }
                 }
                 break;

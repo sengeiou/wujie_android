@@ -652,7 +652,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     apiTool2.postApi(Config.BASE_URL + "Cart/addCart", params, this);
                 } else {
                     // 购物车, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                    toAttrs(v, 1, "1", goods_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                    try {
+                        String goods_img = goodsInfo.get("goods_img");
+                        String shop_price = goodsInfo.get("shop_price");
+                        toAttrs(v, 1, "1", goods_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                    } catch (Exception e) {
+                        L.e("TicketGoodsDetialsAty is Exception:" + e.toString());
+                        showErrorTip("获取字段异常");
+                    }
                 }
                 break;
             case R.id.tv_ljgm:
@@ -668,7 +675,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     startActivity(intent);
                 } else {
                     //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                    toAttrs(v, 0, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+                    try {
+                        String goods_img = goodsInfo.get("goods_img");
+                        String shop_price = goodsInfo.get("shop_price");
+                        toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                    } catch (Exception e) {
+                        L.e("tv_ljgm throw Exception :" + e.toString());
+                        showErrorTip("获取字段异常");
+                    }
                 }
                 break;
             case R.id.btn_jgsm:
@@ -682,7 +696,16 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
                 break;
             case R.id.layout_layout_settings://(ArrayList) goodsAttrs, (ArrayList) goods_product
-                toAttrs(v, 4, "1", goods_id + "-" + mell_id, goodsInfo.get("goods_img"), goodsInfo.get("shop_price"), "", goods_attr_first, first_val, is_attr);
+
+                try {
+                    String goods_img = goodsInfo.get("goods_img");
+                    String shop_price = goodsInfo.get("shop_price");
+                    toAttrs(v, 4, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                } catch (Exception e) {
+                    L.e("layout_layout_settings throw Exception :" + e.toString());
+                    showErrorTip("获取字段异常");
+                }
+
                 break;
             case R.id.layout_djq:
                 showDjqPop(v, dj_ticket);
