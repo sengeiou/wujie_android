@@ -86,7 +86,7 @@ import java.util.Map;
  * 描述：线上商城
  * ===============Txunda===============
  */
-public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener, TouchStopListener4ScrollView.LoadListener {
+public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 
     private boolean localShowAsd = true; // 是否由本地控制活动的显隐
 
@@ -1538,43 +1538,43 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         return headerView;
     }
 
-    @Override
-    public void setCanLoadImg(boolean flag) {
-        AllGvLvAdapter auctionAdapter = (AllGvLvAdapter) auction_gv.getAdapter();
-        if (null != auctionAdapter)
-            auctionAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter carAdapter = (AllGvLvAdapter) car_gv.getAdapter();
-        if (null != carAdapter)
-            carAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter importAdapter = (AllGvLvAdapter) import_gv.getAdapter();
-        if (null != importAdapter)
-            importAdapter.setCanLoadImg(flag);
-
-
-        AllGvLvAdapter group_shoppingAdapter = (AllGvLvAdapter) group_shopping_lv.getAdapter();
-        if (null != group_shoppingAdapter)
-            group_shoppingAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter houseAdapter = (AllGvLvAdapter) house_gv.getAdapter();
-        if (null != houseAdapter)
-            houseAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter purchaseAdapter = (AllGvLvAdapter) purchase_gv.getAdapter();
-        if (null != purchaseAdapter)
-            purchaseAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter good_luckAdapter = (AllGvLvAdapter) good_luck_gv.getAdapter();
-        if (null != good_luckAdapter)
-            good_luckAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter ticketAdapter = (AllGvLvAdapter) ticket_gv.getAdapter();
-        if (null != ticketAdapter)
-            ticketAdapter.setCanLoadImg(flag);
-
-        AllGvLvAdapter limit_shoppingAdapter = (AllGvLvAdapter) limit_shopping_gv.getAdapter();
-        if (null != limit_shoppingAdapter)
-            limit_shoppingAdapter.setCanLoadImg(flag);
-    }
+//    @Override
+//    public void setCanLoadImg(boolean flag) {
+//        AllGvLvAdapter auctionAdapter = (AllGvLvAdapter) auction_gv.getAdapter();
+//        if (null != auctionAdapter)
+//            auctionAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter carAdapter = (AllGvLvAdapter) car_gv.getAdapter();
+//        if (null != carAdapter)
+//            carAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter importAdapter = (AllGvLvAdapter) import_gv.getAdapter();
+//        if (null != importAdapter)
+//            importAdapter.setCanLoadImg(flag);
+//
+//
+//        AllGvLvAdapter group_shoppingAdapter = (AllGvLvAdapter) group_shopping_lv.getAdapter();
+//        if (null != group_shoppingAdapter)
+//            group_shoppingAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter houseAdapter = (AllGvLvAdapter) house_gv.getAdapter();
+//        if (null != houseAdapter)
+//            houseAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter purchaseAdapter = (AllGvLvAdapter) purchase_gv.getAdapter();
+//        if (null != purchaseAdapter)
+//            purchaseAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter good_luckAdapter = (AllGvLvAdapter) good_luck_gv.getAdapter();
+//        if (null != good_luckAdapter)
+//            good_luckAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter ticketAdapter = (AllGvLvAdapter) ticket_gv.getAdapter();
+//        if (null != ticketAdapter)
+//            ticketAdapter.setCanLoadImg(flag);
+//
+//        AllGvLvAdapter limit_shoppingAdapter = (AllGvLvAdapter) limit_shopping_gv.getAdapter();
+//        if (null != limit_shoppingAdapter)
+//            limit_shoppingAdapter.setCanLoadImg(flag);
+//    }
 }
