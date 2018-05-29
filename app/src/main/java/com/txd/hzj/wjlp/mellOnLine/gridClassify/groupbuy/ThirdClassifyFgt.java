@@ -126,21 +126,21 @@ public class ThirdClassifyFgt extends BaseFgt {
                         if (!ListUtils.isEmpty(data)) {
                             allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, 8);
                             pr_third_lv.setAdapter(allGvLvAdapter1);
-                            pr_third_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-                                @Override
-                                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                                    if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
-                                        allGvLvAdapter1.setCanLoadImg(true);
-                                    }else{
-                                        allGvLvAdapter1.setCanLoadImg(false);
-                                    }
-                                }
-
-                                @Override
-                                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                                }
-                            });
+//                            pr_third_lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+//                                @Override
+//                                public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                                    if(scrollState== AbsListView.OnScrollListener.SCROLL_STATE_IDLE){
+//                                        allGvLvAdapter1.setCanLoadImg(true);
+//                                    }else{
+//                                        allGvLvAdapter1.setCanLoadImg(false);
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//                                }
+//                            });
                         }
                     } else {
                         data2 = dataBean.getGroup_buy_list();

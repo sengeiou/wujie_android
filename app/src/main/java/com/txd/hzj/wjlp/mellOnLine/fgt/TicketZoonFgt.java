@@ -369,12 +369,6 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     allGvLvAdapter1 = new AllGvLvAdapter(getActivity(), data, type);
                     // ticket_zoon_goods_lv.setAdapter(allGvLvAdapter1);
                     ticket_zoon_goods_gv.setAdapter(allGvLvAdapter1);
-                    zooom_sc.setOnTouchListener(new TouchStopListener4ScrollView(getContext(), new TouchStopListener4ScrollView.LoadListener() {
-                        @Override
-                        public void setCanLoadImg(boolean flag) {
-                            allGvLvAdapter1.setCanLoadImg(flag);
-                        }
-                    }));
                 }
 
                 final GroupBuyBean.Data.AdsBean adsBean = groupBuyBean.getData().getAds();

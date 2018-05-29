@@ -304,6 +304,7 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("is_pay_password", is_pay_password);
                 bundle.putString("order_id", order_id);
                 bundle.putString("freight", String.valueOf(tp));
+                bundle.putString("shippingId",recordShppingId);
                 startActivity(PayForAppAty.class, bundle);
 
                 finish();
@@ -564,7 +565,7 @@ public class BuildOrderAty extends BaseAty {
     private TextView tv_sle_left;
     @ViewInject(R.id.tv_sle_right)
     private TextView tv_sle_right;
-
+    private String recordShppingId;//快递公司id
     /**
      * 选择配送方式
      */
@@ -594,7 +595,8 @@ public class BuildOrderAty extends BaseAty {
                                     if (goodsList.size() != 0) {
                                         for (int g = 0; g < goodsList.size(); g++) {
                                             if (goodsList.get(g).getGoods_id().equals(same_id)) {
-                                                goodsList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                recordShppingId=data.get(position).get("shipping_id");
+                                                goodsList.get(g).setShipping_id(recordShppingId);
                                                 goodsList.get(g).setTem_id(data.get(position).get("id"));
                                                 goodsList.get(g).setPay(data.get(position).get("pay"));
                                                 goodsList.get(g).setType_status(data.get(position).get("type_status"));
@@ -603,7 +605,7 @@ public class BuildOrderAty extends BaseAty {
                                                 goodsList.get(g).setSame_tem_id(data.get(position).get("same_tem_id"));
                                                 splitNewList.get(g).setId(data.get(position).get("id"));
                                                 splitNewList.get(g).setType_status(data.get(position).get("type_status"));
-                                                splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                splitNewList.get(g).setShipping_id(recordShppingId);
                                                 splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
                                                 splitNewList.get(g).setType(data.get(position).get("type"));
                                                 splitNewList.get(g).setPay("0");
@@ -616,7 +618,8 @@ public class BuildOrderAty extends BaseAty {
                                             L.e("same_id=" + same_id + "goodsCartList=" + goodsCartList.get(g).getGoods_id());
                                             L.e("same_id" + goodsCartList.get(g).getGoods_id().equals(same_id));
                                             if (goodsCartList.get(g).getGoods_id().equals(same_id)) {
-                                                goodsCartList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                recordShppingId=data.get(position).get("shipping_id");
+                                                goodsCartList.get(g).setShipping_id(recordShppingId);
                                                 goodsCartList.get(g).setTem_id(data.get(position).get("id"));
                                                 goodsCartList.get(g).setPay(data.get(position).get("pay"));
                                                 goodsCartList.get(g).setType_status(data.get(position).get("type_status"));
@@ -625,7 +628,7 @@ public class BuildOrderAty extends BaseAty {
                                                 goodsCartList.get(g).setSame_tem_id(data.get(position).get("same_tem_id"));
                                                 splitNewList.get(g).setId(data.get(position).get("id"));
                                                 splitNewList.get(g).setType_status(data.get(position).get("type_status"));
-                                                splitNewList.get(g).setShipping_id(data.get(position).get("shipping_id"));
+                                                splitNewList.get(g).setShipping_id(recordShppingId);
                                                 splitNewList.get(g).setShipping_name(data.get(position).get("shipping_name"));
                                                 splitNewList.get(g).setType(data.get(position).get("type"));
                                                 splitNewList.get(g).setPay("0");

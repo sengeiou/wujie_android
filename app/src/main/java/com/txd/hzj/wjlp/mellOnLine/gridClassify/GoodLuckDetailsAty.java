@@ -868,6 +868,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             }
         });
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
+        showProgressDialog();
     }
 
     CommonPopupWindow commonPopupWindow;
@@ -1050,6 +1051,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        removeProgressDialog();
         if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
