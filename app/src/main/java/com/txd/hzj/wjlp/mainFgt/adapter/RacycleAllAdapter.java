@@ -58,7 +58,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
     private int logo_size1 = 0;
     private int logo_size2 = 0;
     private int imgWidth=0;
-    private boolean canLoadImg=true;
+//    private boolean canLoadImg=true;
     public RacycleAllAdapter(Context context, List<CFGoodsList> list) {
         this.context = context;
         this.list = list;
@@ -69,10 +69,10 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
         imgWidth=(ToolKit.getScreenWidth(context) - 10) / 2;
     }
 
-    public void setCanLoadImg(boolean canLoadImg) {
-        this.canLoadImg = canLoadImg;
-        notifyDataSetChanged();
-    }
+//    public void setCanLoadImg(boolean canLoadImg) {
+//        this.canLoadImg = canLoadImg;
+//        notifyDataSetChanged();
+//    }
 
     public void setShowSelect(boolean showSelect) {
         this.showSelect = showSelect;
@@ -163,16 +163,17 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
                 .into(holder.country_logo_iv);
 
         // TODO 该处代码在加载到第10页左右的时候会报OOM的错
-        if(canLoadImg){
+//        if(canLoadImg){
             Glide.with(context).load(cfGoodsList.getGoods_img())
                     .override(imgWidth,imgWidth)
                     .centerCrop().placeholder(R.drawable.ic_default)
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .error(R.drawable.ic_default)
                     .into(holder.goods_pic_iv);
-        }else{
-            holder.goods_pic_iv.setImageResource(R.drawable.ic_default);
-        }
+//        }else{
+//            holder.goods_pic_iv.setImageResource(R.drawable.ic_default);
+//        }
+
 //        ViewGroup.LayoutParams layoutParams=holder.goods_pic_iv.getLayoutParams();
 //        layoutParams.width=(ToolKit.getScreenWidth(context)-10)/2;
 //        layoutParams.height=(ToolKit.getScreenWidth(context)-10)/2;

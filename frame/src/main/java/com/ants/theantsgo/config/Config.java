@@ -1,8 +1,6 @@
 package com.ants.theantsgo.config;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import com.ants.theantsgo.util.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Config {
     /**

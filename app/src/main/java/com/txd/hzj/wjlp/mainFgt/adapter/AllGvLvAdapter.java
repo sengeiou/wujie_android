@@ -516,7 +516,7 @@ public class AllGvLvAdapter extends BaseAdapter {
         }
         // 除掉汽车购，房产购
         if (6 != type && 7 != type) {
-            if (canLoadImg) {
+//            if (canLoadImg) {
                 Glide.with(context).load(allGoodsBean.getGoods_img())
                         .override(pic_size, pic_size2)
                         .placeholder(R.drawable.ic_default)
@@ -524,20 +524,20 @@ public class AllGvLvAdapter extends BaseAdapter {
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(vh.goods_pic_iv);
-            } else {
-                vh.goods_pic_iv.setImageResource(R.drawable.ic_default);
-            }
+//            } else {
+//                vh.goods_pic_iv.setImageResource(R.drawable.ic_default);
+//            }
         }
 
         return view;
     }
 
-    private boolean canLoadImg = true;
+//    private boolean canLoadImg = true;
 
-    public void setCanLoadImg(boolean canLoadImg) {
-        this.canLoadImg = canLoadImg;
-        notifyDataSetChanged();
-    }
+//    public void setCanLoadImg(boolean canLoadImg) {
+////        this.canLoadImg = canLoadImg;
+//        notifyDataSetChanged();
+//    }
 
     class ViewHolder {
         @ViewInject(R.id.older_price_tv)
