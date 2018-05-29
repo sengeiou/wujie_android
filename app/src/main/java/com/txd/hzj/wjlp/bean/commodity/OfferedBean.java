@@ -18,6 +18,7 @@ public class OfferedBean implements Serializable {
     private String start_time;//开始时间",
     private String end_time;//截止时间",
     private String end_true_time;//延迟后截止时间（若无延迟，此时间等于截止时间）",
+    private String integral;//新增赠送积分数
     private String sys_time;//系统参照时间",
     private String colonel_head_pic;//http://www.tocolor.cn/Uploads/Goods/2016-12-01/583f0aa6dbe8f.jpg",//团长头像
     private String status;//1", //0团未满 1团已满
@@ -28,8 +29,17 @@ public class OfferedBean implements Serializable {
     private List<OfferedOfferBean> offered;//"参团说明"
     private List<GroupBuyIdsBean> group_buy_ids;//商品团购订单表（相同商品的不同制品）
     private String group_type;//类型 1试用品拼单 2常规拼单",
+
     public String getGoods_name() {
         return goods_name;
+    }
+
+    public String getIntegral() {
+        return integral;
+    }
+
+    public void setIntegral(String integral) {
+        this.integral = integral;
     }
 
     public void setGoods_name(String goods_name) {
