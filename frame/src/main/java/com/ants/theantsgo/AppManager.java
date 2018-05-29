@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -64,7 +63,6 @@ public class AppManager {
      */
     public void killActivity(Activity activity) {
         if (activity != null) {
-            //mActivityStack.remove(activity);
             activity.finish();
         }
     }
@@ -73,9 +71,12 @@ public class AppManager {
      * 结束指定类名的Activity
      */
     public void killActivity(Class<?> cls) {
-        for (Activity activity : mActivityStack) {
+        Iterator<Activity> iterator = mActivityStack.iterator();
+        while (iterator.hasNext()) {
+            Activity activity = iterator.next();
             if (activity.getClass().equals(cls)) {
                 killActivity(activity);
+                iterator.remove();
             }
         }
     }
