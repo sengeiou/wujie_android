@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -62,9 +64,12 @@ public class AppManager {
      */
     public void killActivity(Activity activity) {
         if (activity != null) {
-            mActivityStack.remove(activity);
-            activity.finish();
-            activity = null;
+            for (Activity activitys : mActivityStack) {
+                if (activitys.getClass().equals(activity)) {
+                    mActivityStack.remove(activity);
+                    activity.finish();
+                }
+            }
         }
     }
 
