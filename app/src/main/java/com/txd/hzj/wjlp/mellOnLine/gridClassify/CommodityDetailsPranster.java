@@ -4,23 +4,38 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.bumptech.glide.Glide;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
+import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.http.Freight;
+import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
+import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -255,6 +270,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     CommonPopupWindow commonPopupWindow = null;
+
     /**
      * 代金券的弹窗
      *
@@ -323,38 +339,6 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                         setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
                         break;
                 }
-
-//                switch (i) {
-//                    case 0: {
-//                        layout_djq0.setVisibility(View.VISIBLE);
-//                        tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-//                        break;
-//                    }
-//                    case 1: {
-//                        layout_djq1.setVisibility(View.VISIBLE);
-//                        tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-//                        break;
-//                    }
-//                    case 2: {
-//                        layout_djq2.setVisibility(View.VISIBLE);
-//                        tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-//                        break;
-//                    }
-//                }
-//                switch (list.get(i).getType()) {
-//                    case "0": {
-//                        tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-//                    }
-//                    break;
-//                    case "1": {
-//                        tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-//                    }
-//                    break;
-//                    case "2": {
-//                        tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-//                    }
-//                    break;
-//                }
             }
         }
 
@@ -367,4 +351,104 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             tv_djq_color.setBackgroundResource(shap_color);
         }
     }
+
+
+    /**
+     * 促销（抽）
+     *
+     * @param view
+     */
+    @Override
+    public void showCXPop(View view, final Activity activity, final List<PromotionBean> promotion) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(activity)
+                .setView(R.layout.layou_popp_cuxiao)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        ListView promotion_lv = (ListView) view.findViewById(R.id.promotion_lv);
+                        PromotionAdapter promotionAdapter = new PromotionAdapter(activity, promotion);
+                        promotion_lv.setAdapter(promotionAdapter);
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+
+
+    /**
+     * 领券(抽)
+     */
+    @Override
+    public void showLQPop(View view, final String title,final Activity activity, final TheTrickAdapter theTrickAdapter) {//
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(activity)
+                .setView(R.layout.popup_layout)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+                        recyclerview.setLayoutManager(new GridLayoutManager(activity, 2));
+                        recyclerview.setAdapter(theTrickAdapter);
+                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+                        tv_title.setText(title);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+
+
+    public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type,final Activity activity) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(activity)
+                .setView(R.layout.popup_layout)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+                        recyclerview.setLayoutManager(new LinearLayoutManager(activity, 1, false));
+                        recyclerview.setAdapter(new Service_adp(list, type,activity));
+                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+                        tv_title.setText(title);
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
 }

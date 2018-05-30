@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
+import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
+import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 import java.util.List;
@@ -45,6 +47,10 @@ public interface CommodityDetailsInter {
         void freight(String goods_id, String tx);
 
         void showDjqPop(View view, List<DjTicketBean> list, Activity activity, String vouchers_desc);
+
+        void showCXPop(View view, Activity activity, List<PromotionBean> promotion);
+
+        void showLQPop(View view, String title, Activity activity, final TheTrickAdapter theTrickAdapter);
     }
 
     public interface CommodityView {
