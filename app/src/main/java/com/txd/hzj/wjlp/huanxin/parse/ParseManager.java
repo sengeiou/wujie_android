@@ -1,7 +1,9 @@
 package com.txd.hzj.wjlp.huanxin.parse;
 
 import android.content.Context;
+import android.os.DeadObjectException;
 
+import com.ants.theantsgo.util.L;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.domain.EaseUser;
@@ -26,9 +28,6 @@ public class ParseManager {
 	
 	private static final String ParseAppID = "UUL8TxlHwKj7ZXEUr2brF3ydOxirCXdIj9LscvJs";
 	private static final String ParseClientKey = "B1jH9bmxuYyTcpoFfpeVslhmLYsytWTxqYqKQhBJ";
-	
-//	private static final String ParseAppID = "task";
-//	private static final String ParseClientKey = "123456789";
 
 	private static final String CONFIG_TABLE_NAME = "hxuser";
 	private static final String CONFIG_USERNAME = "username";
@@ -51,10 +50,14 @@ public class ParseManager {
 		Context appContext = context.getApplicationContext();
 		Parse.enableLocalDatastore(appContext);
 //		Parse.initialize(context, ParseAppID, ParseClientKey);
-		Parse.initialize(new Parse.Configuration.Builder(appContext)
-		        .applicationId(ParseAppID)
-		        .server(parseServer)
-		        .build());
+		try {
+			Parse.initialize(new Parse.Configuration.Builder(appContext)
+					.applicationId(ParseAppID)
+					.server(parseServer)
+					.build());
+		} catch (Exception e){
+			L.e("huanxin ParseManager Exception:" + e.toString());
+		}
 	}
 
 	public boolean updateParseNickName(final String nickname) {

@@ -210,18 +210,24 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 break;
             case R.id.share_to_wachar:// 微信
                 loginType = "1";
-                showDialog();
+                if (!LoginAty.this.isDestroyed()) {
+                    showDialog();
+                }
                 authorize(new Wechat(this));
                 break;
             case R.id.share_to_qq:// QQ
                 loginType = "3";
-                showDialog();
+                if (!LoginAty.this.isDestroyed()) {
+                    showDialog();
+                }
                 Platform qq = ShareSDK.getPlatform(QZone.NAME);
                 authorize(qq);
                 break;
             case R.id.share_to_sine:// 新浪微博
-                showDialog();
                 loginType = "2";
+                if (!LoginAty.this.isDestroyed()) {
+                    showDialog();
+                }
                 Platform wb = ShareSDK.getPlatform(SinaWeibo.NAME);
                 authorize(wb);
                 break;
@@ -307,7 +313,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             return;
         }
         if (requestUrl.contains("Register/login")) {
-            showToast("登录成功");
+//            showToast("登录成功");
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
@@ -331,8 +337,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             if (MainAty.isExit) {
                 startActivity(MainAty.class, null);
             }
-
-            //TODO  从分享跳转过来时候跳转到主页处理     AppManager.getInstance().killAllActivity();//            startActivity(MainAty.class, null);
 
             finish();
             return;

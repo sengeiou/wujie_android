@@ -31,6 +31,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 发票选择界面
+ */
 public class InvoiceAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;

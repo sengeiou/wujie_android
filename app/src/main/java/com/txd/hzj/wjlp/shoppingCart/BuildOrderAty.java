@@ -787,7 +787,7 @@ public class BuildOrderAty extends BaseAty {
         }
         if (requestCode == 1000) {
             if (data != null) {
-                invoice1 = data.getParcelableExtra("data1");
+                invoice1 = (Invoice1) data.getSerializableExtra("data1");
                 invoice1s.set(index, invoice1);
 
                 Bean b = data.getParcelableExtra("data");

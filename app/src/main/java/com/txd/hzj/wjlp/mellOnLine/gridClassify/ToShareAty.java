@@ -187,7 +187,7 @@ public class ToShareAty extends BaseAty {
                 public void run() {
                     // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
                     if (!isResume) {
-                        if (userPst == null) { // 判断对象是否为空，放置空指针报错
+                        if (userPst == null) { // 判断对象是否为空，防止空指针报错
                             userPst = new UserPst(ToShareAty.this);
                         }
                         userPst.shareBack(shareType, context, id, type, link);

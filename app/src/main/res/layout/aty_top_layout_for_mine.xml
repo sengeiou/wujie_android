@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -7,7 +8,7 @@
         android:id="@+id/layout_bg_ic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:src="@mipmap/bule_bg" />
 
     <TextView
@@ -21,13 +22,16 @@
         android:text="我的积分"
         android:textColor="@color/white" />
 
-    <TextView
+    <me.grantland.widget.AutofitTextView
         android:id="@+id/layout_bottom_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
+        android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="64dp" />
+        android:textSize="64dp"
+        autofit:minTextSize="10sp" />
+
 </FrameLayout>

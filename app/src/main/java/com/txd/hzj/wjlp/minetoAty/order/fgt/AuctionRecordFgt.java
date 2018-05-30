@@ -87,12 +87,14 @@ public class AuctionRecordFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
+        if (swipe_refresh == null){
+            swipe_refresh = getActivity().findViewById(R.id.super_sr_layout);
+        }
         swipe_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         swipe_refresh.setHeaderView(createHeaderView());// add headerView
         swipe_refresh.setFooterView(createFooterView());
         swipe_refresh.setTargetScrollWithLayout(true);
-        swipe_refresh
-                .setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        swipe_refresh.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
 
                     @Override
                     public void onRefresh() {

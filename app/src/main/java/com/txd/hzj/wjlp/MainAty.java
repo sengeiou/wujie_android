@@ -527,6 +527,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
         }
     }
+
     // ============================== 环信 ==============================
     private boolean isExceptionDialogShow = false;
 

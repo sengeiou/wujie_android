@@ -68,7 +68,7 @@ public class TimeStampUtil {
             d = sdf.parse(user_time);
             long l = d.getTime();
             String str = String.valueOf(l);
-            re_time = str.substring(0, 10);
+            re_time = str.substring(0, str.length() >= 10 ? 10 : str.length());
         } catch (ParseException e) {
             e.printStackTrace();
         }

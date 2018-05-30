@@ -390,13 +390,13 @@ public class PayForAppAty extends BaseAty {
         if (type.equals("0") || type.equals("1") || TextUtils.isEmpty(type)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("2")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id)?"4":"1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"),getString("shippingId"), this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "1", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), this);
         } else if (type.equals("3")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id)?"4":"2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"),getString("shippingId"), this);
-        }else if (type.equals("5")) {
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "2", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), this);
+        } else if (type.equals("5")) {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("4")) {
-            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id)?"4":"3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"),getString("shippingId"), this);
+            GroupBuyOrder.setOrder(address_id, num, goods_id, product_id, TextUtils.isEmpty(address_id) ? "4" : "3", order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), getString("shippingId"), this);
         } else if (type.equals("6")) {
             PreOrder.preSetOrder(num, address_id, order_id, group_buy_id, freight, freight_type, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (type.equals("7")) {
@@ -420,7 +420,7 @@ public class PayForAppAty extends BaseAty {
 
         } else if (type.equals("10")) {
             //无界商店添加订单
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id ,freight,freight_type,   this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, this);
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
@@ -495,25 +495,25 @@ public class PayForAppAty extends BaseAty {
             pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
             tv_shopname.setText(data.get("merchant_name"));
             if (data.get("is_integral").equals("1")) {
-                cb_jfzf.setText("积分支付("+data.get("integral")+")");
+                cb_jfzf.setText("积分支付(" + data.get("integral") + ")");
                 cb_jfzf.setVisibility(View.VISIBLE);
             } else {
                 cb_jfzf.setVisibility(View.GONE);
             }
-            if (type.equals("2") || type.equals("3")||type.equals("4")) {
+            if (type.equals("2") || type.equals("3") || type.equals("4")) {
                 if (TextUtils.isEmpty(group_buy_id)) {
                     group_buy_id = data.get("group_buy_id");
                 }
                 //获取订单id
-                order_id=data.get("group_buy_order_id");
+                order_id = data.get("group_buy_order_id");
             } else {
                 if (TextUtils.isEmpty(order_id)) {
                     order_id = data.get("order_id");
                 }
             }
 
-            Double priceD=Double.parseDouble(data.get("order_price"));
-            if(priceD==0.0){
+            Double priceD = Double.parseDouble(data.get("order_price"));
+            if (priceD == 0.0) {
                 layout_yue.setVisibility(View.VISIBLE);
                 pay_by_balance_cb.setChecked(true);
                 layout_wx.setVisibility(View.GONE);
@@ -812,7 +812,6 @@ public class PayForAppAty extends BaseAty {
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
                                 setCheck(1);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 commonPopupWindow.dismiss();
@@ -821,22 +820,17 @@ public class PayForAppAty extends BaseAty {
                         y.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
                                 setCheck(2);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 commonPopupWindow.dismiss();
-
                             }
                         });
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
                                 setCheck(3);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 commonPopupWindow.dismiss();
-
-
                             }
                         });
 
