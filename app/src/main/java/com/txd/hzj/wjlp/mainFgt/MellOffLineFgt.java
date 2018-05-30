@@ -4,11 +4,13 @@ package com.txd.hzj.wjlp.mainFgt;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +19,7 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -61,7 +64,19 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     /**
      * 轮播图图片
      */
-
+    /***
+     * 刷新 ---加载
+     * */
+    @ViewInject(R.id.super_offline_layout)
+    private SuperSwipeRefreshLayout swipeRefreshLayout;
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
 
@@ -134,7 +149,51 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 startActivity(OffLineDetailsAty.class, null);
             }
         });
+        swipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
+        swipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
+        swipeRefreshLayout.setTargetScrollWithLayout(true);
+        swipeRefreshLayout.setFooterView(createFooterView());
+        swipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                OfflineStore.Index(MellOffLineFgt.this);
+            }
 
+            @Override
+            public void onPullDistance(int i) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        swipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                OfflineStore.Index(MellOffLineFgt.this);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
     }
 
     /**
@@ -264,7 +323,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         lp.height = Settings.displayWidth * 400 / 1242;
         im_ads.setLayoutParams(lp);
         im_ads.setMaxWidth(lp.width);
-        im_ads.setMaxHeight(lp.width  * 400 / 1242);
+        im_ads.setMaxHeight(lp.width * 400 / 1242);
 
         Glide.with(getActivity()).load(list_ads.get(0).get("picture"))
                 .override(lp.width, lp.height)
@@ -360,6 +419,11 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 //                }
 //            }
 //        });
+        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false); // 刷新成功
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setLoadMore(false);
     }
 
     @Override
@@ -381,4 +445,29 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         }
         immersionInit();
     }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(swipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(swipeRefreshLayout.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
 }
