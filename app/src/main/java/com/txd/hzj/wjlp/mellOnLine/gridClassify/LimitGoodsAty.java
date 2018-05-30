@@ -105,7 +105,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：限量详情(2-3)
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
+public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,CommodityDetailsInter.CommodityView {
 
     /**
      * 商品TextView
@@ -651,6 +651,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+    @ViewInject(R.id.title_goods_layout)
+    private View title_goods_layout;
+
+    @ViewInject(R.id.title_details_layout)
+    private View title_details_layout;
+
+    @ViewInject(R.id.title_evaluate_layout)
+    private View title_evaluate_layout;
+
+    private CommodityDetailsInter.CommodityPranster commodityPranster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -664,12 +674,25 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         online_carvouse_view.setLayoutParams(layoutParams);
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
-        getHeight();
         rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(LimitGoodsAty.this, LinearLayoutManager.HORIZONTAL,
                 false));
         goods_trick_rv.setHasFixedSize(true);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
+        commodityPranster=new CommodityDetailsPranster();
+    }
+    private boolean init = false;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !init) {
+            commodityPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
+            commodityPranster.setTabViews(title_goods_layout, title_details_layout, title_evaluate_layout);
+            init = true;
+        }
+    }
+    private void  getHeight(){
+        commodityPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
     }
 
     @Override
@@ -1648,23 +1671,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         }
     };
 
-    private void getHeight() {
-        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                // 轮播图高度
-                bannerHeight = online_carvouse_view.getHeight();
-                // 商品信息的高度
-                topHeighe = top_lin_layout.getHeight();
-                // 商品信息和评价的高度
-                secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(LimitGoodsAty.this);
-            }
-        });
-    }
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
