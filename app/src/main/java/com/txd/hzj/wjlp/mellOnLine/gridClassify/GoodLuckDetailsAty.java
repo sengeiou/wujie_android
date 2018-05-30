@@ -598,7 +598,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.title_evaluate_layout)
     private View title_evaluate_layout;
     private StringBuffer ex_stringBuffer;
-
+    private CommodityDetailsPranster commodityDetailsPranster;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -623,6 +623,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
         goodLuckPranster = new GoodLuckDetailsPranster();
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
+        commodityDetailsPranster=new CommodityDetailsPranster();
     }
 
     private boolean init = false;
@@ -782,7 +783,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 break;
             case R.id.layout_djq:
-                showDjqPop(v, dj_ticket);
+                commodityDetailsPranster.showDjqPop(v, dj_ticket,GoodLuckDetailsAty.this,vouchers_desc);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -905,82 +906,82 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    /**
-     * 代金券的弹窗  (抽)
-     *
-     * @param view
-     */
-    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layout_popp_djq)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        tv_desc.setText(vouchers_desc);
-                        for (int i = 0; i < list.size(); i++) {
-
-                            switch (i) {
-                                case 0: {
-                                    layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 1: {
-                                    layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 2: {
-                                    layout_djq2.setVisibility(View.GONE);
-                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                            }
-
-                            switch (list.get(i).getType()) {
-                                case "0": {
-                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                                }
-                                break;
-                                case "1": {
-                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                                }
-                                break;
-                                case "2": {
-                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                                }
-
-                                break;
-                            }
-                        }
-
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
+//    /**
+//     * 代金券的弹窗  (抽)
+//     *
+//     * @param view
+//     */
+//    public void showDjqPop(final View view, final List<DjTicketBean> list) {
+//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+//        commonPopupWindow = new CommonPopupWindow.Builder(this)
+//                .setView(R.layout.layout_popp_djq)
+//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//                .setBackGroundLevel(0.7f)
+//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+//                    @Override
+//                    public void getChildView(View view, int layoutResId, int position) {
+//                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+//                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+//                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+//                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+//                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+//                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+//                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+//                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+//                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+//                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+//                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+//                        tv_cancel.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View v) {
+//                                commonPopupWindow.dismiss();
+//                            }
+//                        });
+//                        tv_desc.setText(vouchers_desc);
+//                        for (int i = 0; i < list.size(); i++) {
+//
+//                            switch (i) {
+//                                case 0: {
+//                                    layout_djq0.setVisibility(View.VISIBLE);
+//                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
+//                                    break;
+//                                }
+//                                case 1: {
+//                                    layout_djq1.setVisibility(View.VISIBLE);
+//                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
+//                                    break;
+//                                }
+//                                case 2: {
+//                                    layout_djq2.setVisibility(View.GONE);
+//                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
+//                                    break;
+//                                }
+//                            }
+//
+//                            switch (list.get(i).getType()) {
+//                                case "0": {
+//                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+//                                }
+//                                break;
+//                                case "1": {
+//                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+//                                }
+//                                break;
+//                                case "2": {
+//                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+//                                }
+//
+//                                break;
+//                            }
+//                        }
+//
+//
+//                    }
+//                }, 0)
+//                .setAnimationStyle(R.style.animbottom)
+//                .create();
+//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//    }
 
 
     public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type) {//

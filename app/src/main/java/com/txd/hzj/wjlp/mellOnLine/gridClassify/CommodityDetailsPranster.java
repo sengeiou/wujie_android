@@ -1,9 +1,12 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,10 +16,12 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.util.JSONUtils;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.http.Freight;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +30,7 @@ import java.util.Map;
  * 功能描述： 商品详情pranster
  * 联系方式：常用邮箱或电话
  */
-public class CommodityDetailsPranster implements CommodityDetailsInter.CommodityPranster, ObservableScrollView.ScrollViewListener,BaseView {
+public class CommodityDetailsPranster implements CommodityDetailsInter.CommodityPranster, ObservableScrollView.ScrollViewListener, BaseView {
     protected CommodityDetailsInter.CommodityView commodityView;
 
     @Override
@@ -94,7 +99,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
     boolean init = false;
 
-    public void getHeight(final CarouselView online_carvouse_view,final LinearLayout top_lin_layout,final LinearLayout second_lin_layout, final ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv) {
+    public void getHeight(final CarouselView online_carvouse_view, final LinearLayout top_lin_layout, final LinearLayout second_lin_layout, final ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv) {
 
 
         ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
@@ -230,13 +235,13 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-            if(requestUrl.contains("Freight/freight")){
-                if (requestUrl.contains("freight")) {
-                    Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-                    map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-                    commodityView.getFreightPay(map.get("pay"));
-                }
+        if (requestUrl.contains("Freight/freight")) {
+            if (requestUrl.contains("freight")) {
+                Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+                commodityView.getFreightPay(map.get("pay"));
             }
+        }
     }
 
     @Override
@@ -247,5 +252,119 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     @Override
     public void onErrorTip(String tips) {
 
+    }
+
+    CommonPopupWindow commonPopupWindow = null;
+    /**
+     * 代金券的弹窗
+     *
+     * @param view
+     */
+    public void showDjqPop(View view, List<DjTicketBean> list, Activity activity, String vouchers_desc) {
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        CommonPopupWindow.Builder builder = new CommonPopupWindow.Builder(activity).setView(R.layout.layout_popp_djq)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new ViewInterface(list, vouchers_desc), 0)
+                .setAnimationStyle(R.style.animbottom);
+        commonPopupWindow = builder.create();
+        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    class ViewInterface implements CommonPopupWindow.ViewInterface {
+        List<DjTicketBean> list;
+        String vouchers_desc;
+
+        public ViewInterface(List<DjTicketBean> list, String vouchers_desc) {
+            this.list = list;
+            this.vouchers_desc = vouchers_desc;
+        }
+
+        @Override
+        public void getChildView(View view, int layoutResId, int position) {
+            LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
+            LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
+            LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
+            TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
+            TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
+            TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
+            TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
+            TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
+            TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
+            TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
+            TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
+            tv_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commonPopupWindow.dismiss();
+                }
+            });
+            tv_desc.setText(vouchers_desc);
+            for (int i = 0; i < list.size(); i++) {
+                switch (i) {
+                    case 0:
+                        setStates(layout_djq0, tv_djq_desc0, list.get(i).getDiscount_desc());
+                        break;
+                    case 1:
+                        setStates(layout_djq1, tv_djq_desc1, list.get(i).getDiscount_desc());
+                        break;
+                    case 2:
+                        setStates(layout_djq2, tv_djq_desc2, list.get(i).getDiscount_desc());
+                        break;
+                }
+                switch (list.get(i).getType()) {
+                    case "0":
+                        setTypeStates(tv_djq_color0, R.drawable.shape_red_bg);
+                        break;
+                    case "1":
+                        setTypeStates(tv_djq_color1, R.drawable.shape_yellow_bg);
+                        break;
+                    case "2":
+                        setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
+                        break;
+                }
+
+//                switch (i) {
+//                    case 0: {
+//                        layout_djq0.setVisibility(View.VISIBLE);
+//                        tv_djq_desc0.setText(list.get(i).getDiscount_desc());
+//                        break;
+//                    }
+//                    case 1: {
+//                        layout_djq1.setVisibility(View.VISIBLE);
+//                        tv_djq_desc1.setText(list.get(i).getDiscount_desc());
+//                        break;
+//                    }
+//                    case 2: {
+//                        layout_djq2.setVisibility(View.VISIBLE);
+//                        tv_djq_desc2.setText(list.get(i).getDiscount_desc());
+//                        break;
+//                    }
+//                }
+//                switch (list.get(i).getType()) {
+//                    case "0": {
+//                        tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+//                    }
+//                    break;
+//                    case "1": {
+//                        tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+//                    }
+//                    break;
+//                    case "2": {
+//                        tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+//                    }
+//                    break;
+//                }
+            }
+        }
+
+        private void setStates(LinearLayout layout_djq, TextView tv_djq_desc, String txt) {
+            layout_djq.setVisibility(View.VISIBLE);
+            tv_djq_desc.setText(txt);
+        }
+
+        private void setTypeStates(TextView tv_djq_color, int shap_color) {
+            tv_djq_color.setBackgroundResource(shap_color);
+        }
     }
 }

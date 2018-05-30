@@ -1,13 +1,16 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.synnapps.carouselview.CarouselView;
-import com.txd.hzj.wjlp.http.Freight;
+import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+
+import java.util.List;
 
 /**
  * 创建者：TJDragon(LiuGang)
@@ -16,19 +19,21 @@ import com.txd.hzj.wjlp.view.ObservableScrollView;
  * 联系方式：常用邮箱或电话
  */
 public interface CommodityDetailsInter {
-    public interface CommodityPranster{
+    public interface CommodityPranster {
         void setView(CommodityView view);
 
         /**
          * 设置选项卡
+         *
          * @param title_goods_layout
          * @param title_details_layout
          * @param title_evaluate_layout
          */
-       void setTabViews(View title_goods_layout, View title_details_layout, View title_evaluate_layout);
+        void setTabViews(View title_goods_layout, View title_details_layout, View title_evaluate_layout);
 
         /**
          * 加载完成后获取控件
+         *
          * @param online_carvouse_view
          * @param top_lin_layout
          * @param second_lin_layout
@@ -37,20 +42,28 @@ public interface CommodityDetailsInter {
          */
         void getHeight(CarouselView online_carvouse_view, LinearLayout top_lin_layout, LinearLayout second_lin_layout, ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv);
 
-        void freight(String goods_id,String tx);
+        void freight(String goods_id, String tx);
+
+        void showDjqPop(View view, List<DjTicketBean> list, Activity activity, String vouchers_desc);
     }
-    public interface CommodityView{
+
+    public interface CommodityView {
         /**
          * 查询到运费
+         *
          * @param payStr
          */
         void getFreightPay(String payStr);
     }
-    public interface GoodLuckView{
+
+    public interface GoodLuckView {
 
     }
-    public interface GoodLuckPranster{
-        void showExperiencePopWindow(Context context, View view,StringBuffer stringBuffer);
+
+    public interface GoodLuckPranster {
+        void showExperiencePopWindow(Context context, View view, StringBuffer stringBuffer);
+
         void setGoodLuckView(GoodLuckView goodLuckView);
     }
+
 }

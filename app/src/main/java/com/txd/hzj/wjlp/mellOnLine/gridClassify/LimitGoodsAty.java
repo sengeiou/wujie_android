@@ -800,22 +800,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         removeDialog();
-//        if (requestUrl.contains("freight")) {
-//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-//            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-//            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-//                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
-//
-//        }
         if (requestUrl.contains("limitBuyInfo") ||
                 requestUrl.contains("preBuyInfo") ||
                 requestUrl.contains("integralBuyInfo")) {
-//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ObserTool.gainInstance().jsonToBean(jsonStr, IntegralBuyInfoBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-
                     IntegralBuyInfoBean integralBuyInfoBean = (IntegralBuyInfoBean) t;
                     IntegralBuyInfoDataBean data = integralBuyInfoBean.getData();
                     remarks.setText(data.getRemarks());
@@ -862,7 +852,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
                     tv_chose_ads.setText(tx);
-//                    Freight.freight(goods_id, tx, LimitGoodsAty.this);
                     commodityPranster.freight(goods_id,tx);
 
                     if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
@@ -1167,8 +1156,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                 case "0": {
                                     //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
                                     tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-
-
                                 }
                                 break;
                                 case "1": {
@@ -1178,10 +1165,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                 case "2": {
                                     tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
                                 }
-
                                 break;
                             }
-
                         }
                     } else {
                         layout_djq.setVisibility(View.GONE);
@@ -1206,7 +1191,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         is_f = false;
                     }
-
                     //搭配购
                     CheapGroupBean cheap_group = data.getCheap_group();
                     if (cheap_group != null) {
@@ -1255,12 +1239,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         super.onClick(v);
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
                 bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
-
                 break;
             }
             case R.id.tv_chose_ads:
@@ -1388,7 +1370,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 }
                 break;
             case R.id.layout_djq:
-                showDjqPop(v, dj_ticket);
+                commodityPranster.showDjqPop(v,dj_ticket,LimitGoodsAty.this,vouchers_desc);
                 break;
             case R.id.tv_quxiao://促销弹框
                 showCXPop(v);
@@ -1530,77 +1512,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    /**
-     * 代金券的弹窗
-     *
-     * @param view
-     */
-    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layout_popp_djq)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        tv_desc.setText(vouchers_desc);
-                        for (int i = 0; i < list.size(); i++) {
-                            switch (i) {
-                                case 0: {
-                                    layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 1: {
-                                    layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 2: {
-                                    layout_djq2.setVisibility(View.VISIBLE);
-                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                            }
-                            switch (list.get(i).getType()) {
-                                case "0": {
-                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                                }
-                                break;
-                                case "1": {
-                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                                }
-                                break;
-                                case "2": {
-                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
 
     private void setTextViewAndViewColor(int next) {
         title_goods_tv.setTextColor(Color.BLACK);
