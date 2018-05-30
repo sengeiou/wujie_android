@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -30,7 +29,6 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -79,7 +77,6 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
-import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -92,7 +89,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
@@ -105,7 +101,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：限量详情(2-3)
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
+public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,CommodityDetailsInter.CommodityView {
 
     /**
      * 商品TextView
@@ -651,6 +647,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+    @ViewInject(R.id.title_goods_layout)
+    private View title_goods_layout;
+
+    @ViewInject(R.id.title_details_layout)
+    private View title_details_layout;
+
+    @ViewInject(R.id.title_evaluate_layout)
+    private View title_evaluate_layout;
+
+    private CommodityDetailsInter.CommodityPranster commodityPranster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -664,12 +670,26 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         online_carvouse_view.setLayoutParams(layoutParams);
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮
-        getHeight();
         rv_service.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(LimitGoodsAty.this, LinearLayoutManager.HORIZONTAL,
                 false));
         goods_trick_rv.setHasFixedSize(true);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
+        commodityPranster=new CommodityDetailsPranster();
+        commodityPranster.setView(this);
+    }
+    private boolean init = false;
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && !init) {
+            commodityPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
+            commodityPranster.setTabViews(title_goods_layout, title_details_layout, title_evaluate_layout);
+            init = true;
+        }
+    }
+    private void  getHeight(){
+        commodityPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
     }
 
     @Override
@@ -743,7 +763,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_XLG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-
                 } else if (WJConfig.WJYG == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
                     if (is_C) {    //无界预购
                         Intent intent = new Intent();
@@ -758,8 +777,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-
-
                 } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
                     if (is_C) {
                         Intent intent = new Intent();
@@ -775,8 +792,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
                 }
-
-
             }
         });
     }
@@ -784,22 +799,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("freight")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
-
-        }
+        removeDialog();
         if (requestUrl.contains("limitBuyInfo") ||
                 requestUrl.contains("preBuyInfo") ||
                 requestUrl.contains("integralBuyInfo")) {
-//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ObserTool.gainInstance().jsonToBean(jsonStr, IntegralBuyInfoBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-
                     IntegralBuyInfoBean integralBuyInfoBean = (IntegralBuyInfoBean) t;
                     IntegralBuyInfoDataBean data = integralBuyInfoBean.getData();
                     remarks.setText(data.getRemarks());
@@ -846,8 +852,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
                     tv_chose_ads.setText(tx);
-                    Freight.freight(goods_id, tx, LimitGoodsAty.this);
-                    showProgressDialog();
+                    commodityPranster.freight(goods_id,tx);
+
                     if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
                     } else if (goodsInfo.getIs_new_goods().equals("0")) {
@@ -1150,8 +1156,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                 case "0": {
                                     //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
                                     tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-
-
                                 }
                                 break;
                                 case "1": {
@@ -1161,10 +1165,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                 case "2": {
                                     tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
                                 }
-
                                 break;
                             }
-
                         }
                     } else {
                         layout_djq.setVisibility(View.GONE);
@@ -1189,7 +1191,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         is_f = false;
                     }
-
                     //搭配购
                     CheapGroupBean cheap_group = data.getCheap_group();
                     if (cheap_group != null) {
@@ -1238,12 +1239,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         super.onClick(v);
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
-
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 2);
                 bundle.putString("mid", mell_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
-
                 break;
             }
             case R.id.tv_chose_ads:
@@ -1371,7 +1370,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 }
                 break;
             case R.id.layout_djq:
-                showDjqPop(v, dj_ticket);
+                commodityPranster.showDjqPop(v,dj_ticket,LimitGoodsAty.this,vouchers_desc);
                 break;
             case R.id.tv_quxiao://促销弹框
                 showCXPop(v);
@@ -1513,77 +1512,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    /**
-     * 代金券的弹窗
-     *
-     * @param view
-     */
-    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layout_popp_djq)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        tv_desc.setText(vouchers_desc);
-                        for (int i = 0; i < list.size(); i++) {
-                            switch (i) {
-                                case 0: {
-                                    layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 1: {
-                                    layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 2: {
-                                    layout_djq2.setVisibility(View.VISIBLE);
-                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                            }
-                            switch (list.get(i).getType()) {
-                                case "0": {
-                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                                }
-                                break;
-                                case "1": {
-                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                                }
-                                break;
-                                case "2": {
-                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
 
     private void setTextViewAndViewColor(int next) {
         title_goods_tv.setTextColor(Color.BLACK);
@@ -1648,23 +1576,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         }
     };
 
-    private void getHeight() {
-        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
-            @Override
-            public void onGlobalLayout() {
-                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                // 轮播图高度
-                bannerHeight = online_carvouse_view.getHeight();
-                // 商品信息的高度
-                topHeighe = top_lin_layout.getHeight();
-                // 商品信息和评价的高度
-                secondHeight = second_lin_layout.getHeight();
-                limit_goods_details_sc.setScrollViewListener(LimitGoodsAty.this);
-            }
-        });
-    }
 
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
@@ -1703,6 +1614,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     break;
             }
         }
+    }
+
+    @Override
+    public void getFreightPay(String payStr) {
+        removeDialog();
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                "运费" + payStr + "元", 2, Color.parseColor("#FD8214"));
     }
 
     class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {

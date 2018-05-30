@@ -513,8 +513,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
-            if (data.get("member_coding").equals("3")) {
+            if (data.get("complete_status").equals("1")) {
                 blue_voucher = data.get("blue_voucher");
+                give_coupon_tv.setText("赠送蓝色代金券");
                 TYPE = "0";
             } else {
                 TYPE = "1";

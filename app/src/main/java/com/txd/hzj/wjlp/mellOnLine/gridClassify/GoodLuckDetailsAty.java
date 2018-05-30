@@ -294,7 +294,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.good_luck_lv)
     private ListViewForScrollView good_luck_lv;
     private Bundle bundle;
-    private int clickType = 0;
 
 
     /**
@@ -557,12 +556,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView tv_goods_price;//省多少
     @ViewInject(R.id.rv_cheap_group)
     private RecyclerView rv_cheap_group;
-
     @ViewInject(R.id.tv_expirationdateLayout)
     private LinearLayout tv_expirationdateLayout;
     @ViewInject(R.id.layout_pt)
     private LinearLayout layout_pt;//活动倒计时|别人在开团
-
+    @ViewInject(R.id.remarks)
+    private TextView remarks;
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
 
@@ -598,6 +597,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.title_evaluate_layout)
     private View title_evaluate_layout;
     private StringBuffer ex_stringBuffer;
+    private CommodityDetailsPranster commodityDetailsPranster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -623,6 +623,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
         goodLuckPranster = new GoodLuckDetailsPranster();
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
+        commodityDetailsPranster = new CommodityDetailsPranster();
     }
 
     private boolean init = false;
@@ -763,14 +764,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.im_service_more:
                 if (ser_list != null) {
-                    showPop(v, "服务说明", ser_list, 1);
+                    commodityDetailsPranster.showPop(v, "服务说明", ser_list, 1, GoodLuckDetailsAty.this);
                 }
                 break;
             case R.id.tv_quxiao://促销弹框
-                showCXPop(v);
+                commodityDetailsPranster.showCXPop(v, GoodLuckDetailsAty.this, promotion);
                 break;
             case R.id.tv_lingquan:
-                showLQPop(v, "领券");
+                commodityDetailsPranster.showLQPop(v, "领券", GoodLuckDetailsAty.this, theTrickAdapter);
                 break;
             case R.id.layout_layout_settings:// 已选商品配置,
                 if ("1".equals(groupType)) {
@@ -782,7 +783,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 break;
             case R.id.layout_djq:
-                showDjqPop(v, dj_ticket);
+                commodityDetailsPranster.showDjqPop(v, dj_ticket, GoodLuckDetailsAty.this, vouchers_desc);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -871,181 +872,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         showProgressDialog();
     }
 
-    CommonPopupWindow commonPopupWindow;
 
-    /**
-     * 领券(抽)
-     */
-    public void showLQPop(View view, final String title) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.popup_layout)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-                        recyclerview.setLayoutManager(new GridLayoutManager(GoodLuckDetailsAty.this, 2));
-                        recyclerview.setAdapter(theTrickAdapter);
-                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-                        tv_title.setText(title);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
-
-    /**
-     * 代金券的弹窗  (抽)
-     *
-     * @param view
-     */
-    public void showDjqPop(final View view, final List<DjTicketBean> list) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layout_popp_djq)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        LinearLayout layout_djq0 = (LinearLayout) view.findViewById(R.id.layout_djq0);
-                        LinearLayout layout_djq1 = (LinearLayout) view.findViewById(R.id.layout_djq1);
-                        LinearLayout layout_djq2 = (LinearLayout) view.findViewById(R.id.layout_djq2);
-                        TextView tv_djq_color0 = (TextView) view.findViewById(R.id.tv_djq_color0);
-                        TextView tv_djq_color1 = (TextView) view.findViewById(R.id.tv_djq_color1);
-                        TextView tv_djq_color2 = (TextView) view.findViewById(R.id.tv_djq_color2);
-                        TextView tv_djq_desc0 = (TextView) view.findViewById(R.id.tv_djq_desc0);
-                        TextView tv_djq_desc1 = (TextView) view.findViewById(R.id.tv_djq_desc1);
-                        TextView tv_djq_desc2 = (TextView) view.findViewById(R.id.tv_djq_desc2);
-                        TextView tv_desc = (TextView) view.findViewById(R.id.tv_desc);
-                        TextView tv_cancel = (TextView) view.findViewById(R.id.tv_cancel);
-                        tv_cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        tv_desc.setText(vouchers_desc);
-                        for (int i = 0; i < list.size(); i++) {
-
-                            switch (i) {
-                                case 0: {
-                                    layout_djq0.setVisibility(View.VISIBLE);
-                                    tv_djq_desc0.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 1: {
-                                    layout_djq1.setVisibility(View.VISIBLE);
-                                    tv_djq_desc1.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                                case 2: {
-                                    layout_djq2.setVisibility(View.GONE);
-                                    tv_djq_desc2.setText(list.get(i).getDiscount_desc());
-                                    break;
-                                }
-                            }
-
-                            switch (list.get(i).getType()) {
-                                case "0": {
-                                    tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                                }
-                                break;
-                                case "1": {
-                                    tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                                }
-                                break;
-                                case "2": {
-                                    tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                                }
-
-                                break;
-                            }
-                        }
-
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
-
-
-    public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.popup_layout)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-                        recyclerview.setLayoutManager(new LinearLayoutManager(GoodLuckDetailsAty.this, 1, false));
-                        recyclerview.setAdapter(new service_adp(list, type));
-                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-                        tv_title.setText(title);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
-
-    /**
-     * 促销（抽）
-     *
-     * @param view
-     */
-    public void showCXPop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layou_popp_cuxiao)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        ListView promotion_lv = (ListView) view.findViewById(R.id.promotion_lv);
-                        PromotionAdapter promotionAdapter = new PromotionAdapter(GoodLuckDetailsAty.this, promotion);
-                        promotion_lv.setAdapter(promotionAdapter);
-                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
-
-    @ViewInject(R.id.remarks)
-    private TextView remarks;
     private String groupType;
 
     @Override
@@ -1282,7 +1109,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     if (null != dataBean.getGoods_server() && dataBean.getGoods_server().size() > 0) {
                         ser_list = (ArrayList<GoodsServerBean>) dataBean.getGoods_server();
                         rv_service.setAdapter(new
-                                service_adp(ser_list, 3));
+                                Service_adp(ser_list, 3, GoodLuckDetailsAty.this));
                     } else {
                         layout_service.setVisibility(View.GONE);
                     }
@@ -1611,18 +1438,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     private void getHeight() {
-//        ViewTreeObserver vto = online_carvouse_view.getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @SuppressWarnings("deprecation")
-//            @Override
-//            public void onGlobalLayout() {
-//                online_carvouse_view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-//                bannerHeight = online_carvouse_view.getHeight();
-//                topHeighe = top_lin_layout.getHeight();
-//                secondHeight = second_lin_layout.getHeight();
-//                limit_goods_details_sc.setScrollViewListener(GoodLuckDetailsAty.this);
-//            }
-//        });
         goodLuckPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
     }
 
@@ -1710,61 +1525,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     }
 
-
-    class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
-        ArrayList<GoodsServerBean> serverList;
-        int tpye = 0;
-
-        public service_adp(List<GoodsServerBean> list, int type) {
-            this.serverList = (ArrayList<GoodsServerBean>) list;
-            this.tpye = type;
-        }
-
-        @Override
-        public service_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new service_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lh_service, null));
-        }
-
-        @Override
-        public void onBindViewHolder(service_adp.ViewHolder holder, int position) {
-            String name = "";
-            String desc = "";
-            if (this.tpye == 0) {
-                name = serverList.get(position).getServer_name() + "：";
-                desc = serverList.get(position).getDesc();
-                SpannableString msp = new SpannableString(name + desc);
-                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
-                holder.tv_text.setText(msp);
-            } else if (this.tpye == 1) {
-                name = serverList.get(position).getServer_name() + "：";
-                desc = serverList.get(position).getDesc();
-                SpannableString msp = new SpannableString(name + desc);
-                msp.setSpan(new ForegroundColorSpan(Color.parseColor("#F23030")), 0, name.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置色
-                holder.tv_text.setText(msp);
-            } else {
-                name = serverList.get(position).getServer_name();
-                holder.tv_text.setTextColor(Color.parseColor("#F23030"));
-            }
-            Glide.with(GoodLuckDetailsAty.this).load(serverList.get(position).getIcon()).into(holder.im_logo);
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return serverList.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            ImageView im_logo;
-            TextView tv_text;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                im_logo = (ImageView) itemView.findViewById(R.id.im_logo);
-                tv_text = (TextView) itemView.findViewById(R.id.tv_text);
-            }
-        }
-    }
 
     @ViewInject(R.id.tv_chose_ads)
     private TextView tv_chose_ads;
