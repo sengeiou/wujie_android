@@ -16,7 +16,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -30,7 +29,6 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -79,7 +77,6 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
-import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -92,7 +89,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
@@ -680,6 +676,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         goods_trick_rv.setHasFixedSize(true);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
         commodityPranster=new CommodityDetailsPranster();
+        commodityPranster.setView(this);
     }
     private boolean init = false;
     @Override
@@ -766,7 +763,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_XLG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-
                 } else if (WJConfig.WJYG == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
                     if (is_C) {    //无界预购
                         Intent intent = new Intent();
@@ -781,8 +777,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-
-
                 } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
                     if (is_C) {
                         Intent intent = new Intent();
@@ -798,8 +792,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
                 }
-
-
             }
         });
     }
@@ -807,13 +799,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("freight")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
-
-        }
+        removeDialog();
+//        if (requestUrl.contains("freight")) {
+//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+//            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+//            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+//                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+//
+//        }
         if (requestUrl.contains("limitBuyInfo") ||
                 requestUrl.contains("preBuyInfo") ||
                 requestUrl.contains("integralBuyInfo")) {
@@ -869,8 +862,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
                     tv_chose_ads.setText(tx);
-                    Freight.freight(goods_id, tx, LimitGoodsAty.this);
-                    showProgressDialog();
+//                    Freight.freight(goods_id, tx, LimitGoodsAty.this);
+                    commodityPranster.freight(goods_id,tx);
+
                     if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
                     } else if (goodsInfo.getIs_new_goods().equals("0")) {
@@ -1709,6 +1703,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     break;
             }
         }
+    }
+
+    @Override
+    public void getFreightPay(String payStr) {
+        removeDialog();
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                "运费" + payStr + "元", 2, Color.parseColor("#FD8214"));
     }
 
     class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {

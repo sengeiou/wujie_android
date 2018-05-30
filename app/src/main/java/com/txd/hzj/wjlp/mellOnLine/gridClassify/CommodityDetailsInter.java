@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.synnapps.carouselview.CarouselView;
+import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
 /**
@@ -35,9 +36,15 @@ public interface CommodityDetailsInter {
          * @param be_back_top_iv
          */
         void getHeight(CarouselView online_carvouse_view, LinearLayout top_lin_layout, LinearLayout second_lin_layout, ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv);
+
+        void freight(String goods_id,String tx);
     }
     public interface CommodityView{
-            
+        /**
+         * 查询到运费
+         * @param payStr
+         */
+        void getFreightPay(String payStr);
     }
     public interface GoodLuckView{
 
