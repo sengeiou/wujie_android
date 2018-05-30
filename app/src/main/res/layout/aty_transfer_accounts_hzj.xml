@@ -94,12 +94,12 @@
             android:text="转账金额        "
             android:textColor="@color/app_text_color" />
 
-        <EditText
+        <com.txd.hzj.wjlp.view.MyEditText
             android:id="@+id/tr_acc_money_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="0"
+            android:hint="请输入转账金额"
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:textColor="@color/app_text_color"

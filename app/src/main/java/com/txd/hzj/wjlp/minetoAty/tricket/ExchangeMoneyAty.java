@@ -1,10 +1,15 @@
 package com.txd.hzj.wjlp.minetoAty.tricket;
 
 import android.content.Intent;
+import android.nfc.FormatException;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
+import android.text.method.NumberKeyListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,6 +28,7 @@ import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.view.MyEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -113,7 +119,7 @@ public class ExchangeMoneyAty extends BaseAty {
     private BalancePst balancePst;
 
     @ViewInject(R.id.money_ev)
-    private EditText money_ev;
+    private MyEditText money_ev;
     private String balance = "";
 
     private BigDecimal bal;
@@ -138,6 +144,20 @@ public class ExchangeMoneyAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
+        DigitsKeyListener keyListener = new DigitsKeyListener(false, true);
+        money_ev.setKeyListener(keyListener);
+        money_ev.setKeyListener(new NumberKeyListener() {
+            @NonNull
+            @Override
+            protected char[] getAcceptedChars() {
+                return new char[]{'1', '2', '3', '4', '5', '6', '7', '8','9', '0'};
+            }
+
+            @Override
+            public int getInputType() {
+                return  InputType.TYPE_NUMBER_FLAG_DECIMAL;
+            }
+        });
     }
 
     @Override
@@ -160,13 +180,24 @@ public class ExchangeMoneyAty extends BaseAty {
                 break;
 
             case R.id.submit_op_tv:// 确认，提交
-
+                long val=0;
                 if (!isClick) { // 如果没有点击
                     moneyStr = money_ev.getText().toString();
+
+                    val = (long)Math.floor(Double.parseDouble(moneyStr));
+
                     if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
                         showErrorTip("请输入有效数字");
-                        break;
+                        return;
+                    }else if(val%100!=0||val/100==0){
+                        showErrorTip("每次提现为100的倍数");
+                        return;
+                    }else if(val>50000){
+                        money_ev.setText("50000");
+                        showErrorTip("最大额度为50000");
+                        return;
                     }
+
 
 //                1:积分转余额 2：提现
                     if (type == 1) {

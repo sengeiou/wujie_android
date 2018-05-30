@@ -41,13 +41,15 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_exchange_hzj" />
 
-            <EditText
+            <com.txd.hzj.wjlp.view.MyEditText
                 android:id="@+id/money_ev"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="1234567890"
                 android:background="@drawable/icon_bg_foe_edit_hzj"
-                android:inputType="number"
+                android:inputType="phone|number"
                 android:padding="8dp" />
+
         </LinearLayout>
 
         <LinearLayout

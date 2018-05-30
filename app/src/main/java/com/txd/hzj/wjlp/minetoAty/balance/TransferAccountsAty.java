@@ -1,7 +1,11 @@
 package com.txd.hzj.wjlp.minetoAty.balance;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.InputType;
+import android.text.method.DigitsKeyListener;
+import android.text.method.NumberKeyListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -17,6 +21,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.view.MyEditText;
 
 import java.util.Map;
 
@@ -67,6 +72,20 @@ public class TransferAccountsAty extends BaseAty {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("转账");
+        DigitsKeyListener keyListener = new DigitsKeyListener(false, true);
+        tr_acc_money_et.setKeyListener(keyListener);
+        tr_acc_money_et.setKeyListener(new NumberKeyListener() {
+            @NonNull
+            @Override
+            protected char[] getAcceptedChars() {
+                return new char[]{'1', '2', '3', '4', '5', '6', '7', '8','9', '0'};
+            }
+
+            @Override
+            public int getInputType() {
+                return  InputType.TYPE_NUMBER_FLAG_DECIMAL;
+            }
+        });
 
     }
 
