@@ -276,6 +276,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         }
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+        super.startActivityForResult(intent, requestCode, options);
+        if (hasAnimiation) {//根据hasAnimiation的值来判断数否带有转换动画
+            overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+        }
+    }
+
     /**
      * 页面销毁时动画
      */
@@ -540,6 +548,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         // 设置剪贴板的主剪辑
         mClipboard.setPrimaryClip(clip);
     }
+
     /**
      * 黏贴
      */

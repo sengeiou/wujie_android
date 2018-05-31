@@ -134,12 +134,9 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                 startActivity(ParticularsUsedByTricketAty.class, bundles);
                 break;
             case R.id.give_accounts_tv:
-                Intent intent = new Intent();
-                intent.setClass(GiveCouponAty.this, GiveCouponAccounts.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("blue_voucher", number.getText().toString());
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 1000);
+                startActivityForResult(GiveCouponAccounts.class, bundle, 1000);
                 break;
             case R.id.iv_vip:
                 /**
