@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * by Txunda_LH on 2018/1/20.
+ * by GouRiD_LH on 2018/1/20.
  */
 
 public class OtherTicketAty extends BaseAty {
