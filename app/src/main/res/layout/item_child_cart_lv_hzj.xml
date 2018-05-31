@@ -37,7 +37,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="5dp"
                 android:visibility="visible">
 
                 <TextView
@@ -52,7 +54,6 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -62,9 +63,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="M 黑色"
-                        android:textColor="@color/app_text_color" />
+                        android:maxLines="2"
+                        android:text="M 黑色" />
 
                     <TextView
                         android:id="@+id/goods_jifen_tv"
@@ -75,13 +75,9 @@
                         android:maxLines="1"
                         android:text="显示积分显示积分显示积分显示积分显示积分显示积分显示积分"
                         android:textColor="@color/colorOrange"
+                        android:visibility="gone"
                         android:textSize="10sp" />
                 </LinearLayout>
-
-                <android.support.v4.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

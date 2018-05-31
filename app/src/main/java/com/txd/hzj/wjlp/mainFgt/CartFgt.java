@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -673,9 +674,9 @@ public class CartFgt extends BaseFgt {
                 }
             }
 
-            cgvh.goods_attrs_tv.setText(goodsAttrNameStr);
             String return_integral = cg.getReturn_integral();
-            cgvh.goods_jifen_tv.setText("（赠送:" + (return_integral == null || return_integral.equals("") ? "0" : return_integral) + "积分）");
+            String jifen="（赠送:" + (return_integral == null || return_integral.equals("") ? "0" : return_integral) + "积分）";
+            cgvh.goods_attrs_tv.setText(Html.fromHtml( "<font color=#333333>"+goodsAttrNameStr+"</font> "+ "<font color=#FD8214>"+jifen+"</font>"));
             String goods_attr_name = cg.getGoods_attr_name(); // 获取规格字符串
             if (!goods_attr_name.isEmpty() && !goods_attr_name.equals("")) { // 如果名称不为空则查找字符串最后的加号
                 if (goods_attr_name.substring(goods_attr_name.length() - 1, goods_attr_name.length()).equals("+")) { // 如果字符串最后一位是“+”
