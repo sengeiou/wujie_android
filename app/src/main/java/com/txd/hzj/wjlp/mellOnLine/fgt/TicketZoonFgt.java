@@ -48,7 +48,6 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
-import com.txd.hzj.wjlp.tool.TouchStopListener4ScrollView;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.TouchViewpager;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -293,6 +292,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
 //                break;
             case R.id.zoom_be_back_top_iv:
                 zoom_be_back_top_iv.setVisibility(View.GONE);
+                zooom_sc.fling(0);
                 zooom_sc.smoothScrollTo(0, 0);
                 break;
         }
