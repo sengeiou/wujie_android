@@ -1240,8 +1240,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
+//                bundle.putInt("from", 2);
+                bundle.putInt("from", 0);//0商品
                 bundle.putString("mid", mell_id);
+                bundle.putString("goods_id",goods_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             }

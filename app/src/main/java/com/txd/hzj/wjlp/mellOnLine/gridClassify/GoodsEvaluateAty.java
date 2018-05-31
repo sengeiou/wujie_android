@@ -161,12 +161,16 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     userPst.myCommentList(p);
                     layout_top.setVisibility(View.GONE);
                     goods_comment_tag.setVisibility(View.GONE);
-                } else if (2 == from) {
+                } else if (2 == from) {//店铺评价
                     merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                 } else if (3 == from) {
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                     showProgressDialog();
+                } else if (0 == from) { // 商品评价
+                    merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
+                    showProgressDialog();
                 }
+
             }
 
             @Override
@@ -197,7 +201,9 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                 } else if (3 == from) {
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
-
+                    showProgressDialog();
+                }else  if(0 == from) { // 商品评价
+                    merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                     showProgressDialog();
                 }
             }
@@ -241,7 +247,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
 
         if (0 == from) {
             titlt_conter_tv.setText("商品评价");
-            evaluate_lin_layout.setVisibility(View.GONE);
+            layout_top.setVisibility(View.GONE);//20180531
+            evaluate_lin_layout.setVisibility(View.VISIBLE);//20180531
             goods_comment_tag.setVisibility(View.VISIBLE);
         } else if (1 == from) {
             titlt_conter_tv.setText("我的评价");
@@ -251,6 +258,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             titlt_conter_tv.setText("店铺评价");
             evaluate_lin_layout.setVisibility(View.VISIBLE);
             goods_comment_tag.setVisibility(View.GONE);
+            layout_top.setVisibility(View.GONE);//20180531
         }
     }
 

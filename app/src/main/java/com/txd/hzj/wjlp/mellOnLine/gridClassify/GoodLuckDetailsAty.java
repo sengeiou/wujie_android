@@ -21,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -598,7 +599,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private View title_evaluate_layout;
     private StringBuffer ex_stringBuffer;
     private CommodityDetailsPranster commodityDetailsPranster;
-
+    @ViewInject(R.id.rb)
+    private RatingBar rb;
+    @ViewInject(R.id.tv_date)
+    private TextView tv_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -652,10 +656,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         switch (v.getId()) {
             case R.id.all_evaluate_tv: {
                 Bundle bundle = new Bundle();
-                bundle.putInt("from", 2);
+                bundle.putInt("from", 0);
                 bundle.putString("mid", mell_id);
+                bundle.putString("goods_id",goods_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
-
                 break;
             }
             case R.id.tv_chose_ads://运送至选择
@@ -1199,6 +1203,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                             .into(comm_user_head_iv);
                                     comm_user_name_tv.setText(bodyBean.getNickname());
                                     comm_content_tv.setText(bodyBean.getContent());
+
+                                    if(!android.text.TextUtils.isEmpty(bodyBean.getAll_star())){
+                                        int allStar=Integer.parseInt(bodyBean.getAll_star());
+                                        rb.setRating(allStar);
+                                    }
+                                    if(!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())){
+                                        tv_date.setText(bodyBean.getCreate_time());
+                                    }
                                     List<PicturesBean> pictures = bodyBean.getPictures();
                                     if (!ListUtils.isEmpty(pictures)) {
                                         CommentPicAdapter picadapter = new CommentPicAdapter(GoodLuckDetailsAty.this, pictures);
