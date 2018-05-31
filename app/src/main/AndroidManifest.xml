@@ -976,42 +976,70 @@
                 <data android:scheme="wxc971edce6f70ca57" />
             </intent-filter>
         </activity>
+        <!--商家推荐-->
         <activity android:name=".new_wjyp.aty_mine1" />
+        <!--代理加盟-->
         <activity android:name=".new_wjyp.aty_mine2" />
+        <!--拓展商 拓展员 联盟商家-->
         <activity android:name=".wjyp.WebViewAty" />
+        <!--拓展商申请-->
         <activity android:name=".wjyp.ExpandBusinessAty" />
+        <!--拓展商-->
         <activity android:name=".wjyp.ApplyAty" />
+        <!--支付成为拓展商-->
         <activity android:name=".wjyp.PayVipAty" />
         <activity android:name=".wjyp.TZSAty" />
+        <!--代金券申请-->
         <activity android:name=".wjyp.GetTicketAty" />
+        <!--平台代金券审核-->
         <activity android:name=".wjyp.TerraceTicketCheckAty" />
+        <!--审核详情-->
         <activity android:name=".wjyp.DetailsAty" />
         <activity android:name=".wjyp.MyTicketAty" />
+        <!--代金券审核-->
         <activity android:name=".wjyp.MyTicketCheckAty" />
+        <!--代金券发放记录 || 联盟商家列表-->
         <activity android:name=".wjyp.RecordAty" />
+        <!--推荐商家审核-->
         <activity android:name=".wjyp.MerchantCheckAty" />
+        <!--审核详情-->
         <activity android:name=".wjyp.MerchantCheckDetailsAty" />
+        <!--物料申请-->
         <activity android:name=".wjyp.MaterialApplyAty" />
+        <!--数量类型-->
         <activity android:name=".wjyp.TypeNumberAty" />
         <activity android:name=".wjyp.PersonnelManagementAty" />
         <activity android:name=".wjyp._PersonnelManagementAty" />
+        <!--蓝色代金券使用明细-->
         <activity android:name=".minetoAty.tricket.ParticularsUserCouponAty" />
+        <!--拓展员添加-->
         <activity android:name=".wjyp.AddRecordAty" />
+        <!--编辑拓展员-->
         <activity android:name=".wjyp.EditPresMangAty" />
+        <!--选择所属拓展员-->
         <activity android:name=".wjyp.ChoosePresMangAty" />
         <activity android:name=".wjyp.OtherTicketAty" />
+        <!--发放记录-->
         <activity android:name=".wjyp.ReleaseRecordAty" />
+        <!--详情-->
         <activity android:name=".wjyp.ReleaseRecordDetailsAty" />
+        <!--平台物料审核-->
         <activity android:name=".wjyp.PlatformMaterialAuditAty" />
+        <!--审核详情-->
         <activity android:name=".wjyp.PlatformMaterialAuditDetailsAty" />
+        <!--下级物料审核-->
         <activity android:name=".wjyp.LowerMaterialAuditAty" />
         <activity android:name=".wjyp.ExpandTheMemberAty" />
         <activity android:name=".wjyp.LMSJAty" />
+        <!--无界驿站升级-->
         <activity android:name=".wjyp.ApplyPostAty" />
         <!-- 会员详情 -->
         <activity android:name=".new_wjyp.VipDetailsAty" />
+        <!--购买会员卡支付界面-->
         <activity android:name=".new_wjyp.VipPayAty" />
+        <!--线下店铺商家推荐-->
         <activity android:name=".wjyp.PushMerchantAty" />
+        <!--发票选择界面-->
         <activity android:name=".new_wjyp.InvoiceAty" />
         <!-- 订单物流 -->
         <activity android:name=".minetoAty.OrderLogisticsAty" />

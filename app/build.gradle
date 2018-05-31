@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 20180520
-        versionName "1.0.8"
+        versionCode 20180531
+        versionName "1.0.9"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
