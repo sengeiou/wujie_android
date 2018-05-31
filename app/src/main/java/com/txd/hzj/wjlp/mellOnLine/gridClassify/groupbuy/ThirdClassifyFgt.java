@@ -1,15 +1,21 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.ListUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -21,6 +27,7 @@ import com.txd.hzj.wjlp.bean.commodity.ThreeListDataBean;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +50,7 @@ public class ThirdClassifyFgt extends BaseFgt {
     private String three = "";
 
     @ViewInject(R.id.pr_third_lv)
-    private PullToRefreshGridView pr_third_lv;
-
-    @ViewInject(R.id.no_data_layout)
-    private LinearLayout no_data_layout;
+    private GridViewForScrollView pr_third_lv;
 
     private List<AllGoodsBean> data;
     private List<AllGoodsBean> data2;
@@ -54,6 +58,21 @@ public class ThirdClassifyFgt extends BaseFgt {
     private GroupBuyPst groupBuyPst;
     private int p = 1;
     private AllGvLvAdapter allGvLvAdapter1;
+
+    @ViewInject(R.id.refresh_view)
+    private VpSwipeRefreshLayout refresh_view;
+    private int numall = 0;
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+    // Header View
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
 
     public static ThirdClassifyFgt getFgt(String two, String three) {
         ThirdClassifyFgt subClassifyListFgt = new ThirdClassifyFgt();
@@ -66,7 +85,7 @@ public class ThirdClassifyFgt extends BaseFgt {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         pr_third_lv.setEmptyView(no_data_layout);
-        pr_third_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
+        /*pr_third_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<GridView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p = 1;
@@ -78,7 +97,7 @@ public class ThirdClassifyFgt extends BaseFgt {
                 p++;
                 groupBuyPst.threeList(two, p, three);
             }
-        });
+        });*/
         pr_third_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -87,6 +106,8 @@ public class ThirdClassifyFgt extends BaseFgt {
                 startActivity(GoodLuckDetailsAty.class, bundle);
             }
         });
+        pr_third_lv.setEmptyView(no_data_layout);
+        forUpdata();
     }
 
     @Override
@@ -142,17 +163,107 @@ public class ThirdClassifyFgt extends BaseFgt {
 //                                }
 //                            });
                         }
+                        progressBar.setVisibility(View.GONE);
+                        refresh_view.setRefreshing(false); // 刷新成功
                     } else {
                         data2 = dataBean.getGroup_buy_list();
                         if (!ListUtils.isEmpty(data2)) {
                             data.addAll(data2);
                             allGvLvAdapter1.notifyDataSetChanged();
                         }
+                        footerImageView.setVisibility(View.VISIBLE);
+                        footerProgressBar.setVisibility(View.GONE);
+                        refresh_view.setLoadMore(false); // 刷新成功
                     }
                 }
             });
 
-            pr_third_lv.onRefreshComplete();
+            /*pr_third_lv.onRefreshComplete();*/
         }
+    }
+
+    /**
+     * 更新数据
+     */
+    private void forUpdata() {
+        refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
+        refresh_view.setHeaderView(createHeaderView());// add headerView
+        refresh_view.setTargetScrollWithLayout(true);
+        refresh_view.setFooterView(createFooterView());
+        refresh_view.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                groupBuyPst.threeList(two, p, three);//请求接口
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        refresh_view.setOnPushLoadMoreListener(new VpSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                if (numall <= data.size()) {
+                    footerImageView.setVisibility(View.VISIBLE);
+                    footerProgressBar.setVisibility(View.GONE);
+                    refresh_view.setLoadMore(false); // 刷新成功
+                    return;
+                }
+                // 加载操作
+                p++;
+                groupBuyPst.threeList(two, p, three);
+            }
+
+            @Override
+            public void onPushDistance(int i) {
+
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(refresh_view.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
     }
 }

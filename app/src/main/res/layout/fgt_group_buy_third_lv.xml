@@ -6,16 +6,65 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView
-        android:id="@+id/pr_third_lv"
+    <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+        android:id="@+id/refresh_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:divider="@color/bg_color"
-        android:dividerHeight="4dp"
-        android:numColumns="2"
-        android:scrollbars="none"
-        app:ptrMode="both" />
+        android:layout_height="match_parent">
+
+        <!--<include layout="@layout/refresh_head"/>-->
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/zooom_sc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.txd.hzj.wjlp.view.TouchViewpager
+                    android:id="@+id/goods_menu_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"/>
+
+                <ImageView
+                    android:id="@+id/group_ad_pic_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"/>
+
+                <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+                    android:id="@+id/pr_third_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:horizontalSpacing="4dp"
+                    android:numColumns="2"
+                    android:scrollbars="none"
+                    android:verticalSpacing="4dp"/>
+
+                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                    android:id="@+id/ticket_zoon_goods_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:divider="@color/bg_color"
+                    android:dividerHeight="4dp"
+                    android:scrollbars="none"
+                    android:visibility="gone"/>
+
+                <include
+                    layout="@layout/aty_no_data_layout"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <include layout="@layout/load_more"/>
+
+    </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
     <include layout="@layout/aty_no_data_layout" />
 
