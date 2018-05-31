@@ -222,6 +222,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         super.onClick(v);
         switch (v.getId()) {
             case R.id.gc_be_back_top_iv:
+                goods_comment_sc.fling(0);
                 goods_comment_sc.smoothScrollTo(0, 0);
                 break;
         }
