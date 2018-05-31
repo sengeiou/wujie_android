@@ -851,7 +851,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             switch (btnType) {
                                 case MikyouCommonDialog.OK: { // 立即更新
                                     showDownloadDialog(updataApp);
-                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//
+//                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//
                                 }
                                 break;
                                 case MikyouCommonDialog.NO: { // 稍后更新或退出
@@ -916,6 +916,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                                         () {
                                     @Override
                                     public void onSuccess() {
+                                        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);
                                         Toast.makeText(MainAty.this, "正在安装程序", Toast.LENGTH_SHORT).show();
                                     }
 
