@@ -264,7 +264,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="8dp">
+                        >
 
                         <!--<ImageView
                             android:id="@+id/goods_title_collect_iv"
@@ -274,9 +274,9 @@
 
                         <TextView
                             android:id="@+id/goods_title_collect_tv"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_marginTop="8dp"
                             android:layout_height="match_parent"
-                            android:drawablePadding="4dp"
                             android:drawableTop="@drawable/icon_collect_w_hzj"
                             android:gravity="center"
                             android:text="已收藏"
