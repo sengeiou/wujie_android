@@ -72,6 +72,7 @@ import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
+import com.txd.hzj.wjlp.tool.AppUpdate;
 import com.txd.hzj.wjlp.tool.MessageEvent;
 import com.txd.hzj.wjlp.tool.NotifyUtil;
 import com.yanzhenjie.permission.AndPermission;
@@ -152,9 +153,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     //========== 环信相关 ==========
     private InviteMessgeDao inviteMessgeDao;
-    //========== apk更新 ==========
-    private MaterialDialog dialogUpdate;
-    private NotifyUtil notifyUtils;
+//    //========== apk更新 ==========
+//    private MaterialDialog dialogUpdate;
+//    private NotifyUtil notifyUtils;
 
     // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
@@ -507,10 +508,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             return;
         }
         if (requestUrl.contains("Upgrade")) {
-            if (!PreferencesUtils.getBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE)) {
-                UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
-                showAppUpdateDialog(updataApp);
-            }
+            UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+            AppUpdate.getInstance().showAppUpdateDialog(updataApp, this);
         } else if (requestUrl.contains("Index/index")) {
             try {
                 jsonStr = JSONUtils.parseData(new JSONObject(jsonStr));
@@ -828,151 +827,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             isExceptionDialogShow = false;
         }
         unregisterBroadcastReceiver();
-        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);//退出时候将是否检查过更新制成false
-
-    }
-
-    //==================== apk更新 =====================
-    private void showAppUpdateDialog(final UpdataApp updataApp) {
-
-        String name = updataApp.getData().getName();
-
-        if (!TextUtils.isEmpty(name) && !name.equals(BuildConfig.VERSION_NAME)) {
-            // 如果auto_update_status为空返回false，不强制更新，不为空则判断是否需要强制更新，如果为0则返回true开启强制更新，否则返回false不强制更新
-
-            String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
-            String exitBtnStr = updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新";
-
-            new MikyouCommonDialog(this, messageStr, "APP更新", "立即更新", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
-                    .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-
-                        @Override
-                        public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                            switch (btnType) {
-                                case MikyouCommonDialog.OK: { // 立即更新
-                                    showDownloadDialog(updataApp);
-//                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//
-                                }
-                                break;
-                                case MikyouCommonDialog.NO: { // 稍后更新或退出
-                                    PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);
-                                    if (updataApp.getData().getUpdate().equals("0")) {//强制更新
-                                        System.exit(0);
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }).showDialog();
-        } else {
-            PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);//相同的情况下不做更新提示
-        }
-    }
-
-    private void showDownloadDialog(UpdataApp appUpdateInfo) {
-
-//        // 通过浏览器去下载APK
-//        Intent intent = new Intent();
-//        intent.setAction("android.intent.action.VIEW");
-//        Uri content_url = Uri.parse(appUpdateInfo.getData().getUrl());
-//        intent.setData(content_url);
-//        startActivity(intent);
-
-        dialogUpdate = new MaterialDialog.Builder(MainAty.this)
-                .title("正在下载最新版本")
-                .content("请稍等")
-                .canceledOnTouchOutside(false)
-                .cancelable(false)
-                .progress(false, 100, false)
-                .negativeText("后台下载")
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        startNotifyProgress();
-                    }
-                })
-                .show();
-
-        new InstallUtils(MainAty.this, appUpdateInfo.getData().getUrl(), "无界优品 " + appUpdateInfo.getData().getMessage(),
-                new InstallUtils.DownloadCallBack() {
-                    @Override
-                    public void onStart() {
-                        if (dialogUpdate != null) {
-                            dialogUpdate.setProgress(0);
-                        }
-                    }
-
-                    @Override
-                    public void onComplete(String path) {
-                        /*
-                         * 安装APK工具类
-                         * @param context       上下文
-                         * @param filePath      文件路径
-                         * @param authorities   ---------Manifest中配置provider的authorities字段---------
-                         * @param callBack      安装界面成功调起的回调
-                         */
-                        InstallUtils.installAPK(MainAty.this, path, getPackageName() + ".fileProvider", new
-                                InstallUtils.InstallCallBack
-                                        () {
-                                    @Override
-                                    public void onSuccess() {
-                                        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, true);
-                                        Toast.makeText(MainAty.this, "正在安装程序", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    @Override
-                                    public void onFail(Exception e) {
-                                        Toast.makeText(MainAty.this, "安装失败:" + e.toString(), Toast
-                                                .LENGTH_SHORT).show();
-                                    }
-                                });
-                        if (dialogUpdate != null && dialogUpdate.isShowing()) {
-                            dialogUpdate.dismiss();
-                        }
-                        if (notifyUtils != null) {
-                            notifyUtils.setNotifyProgressComplete();
-                            notifyUtils.clear();
-                        }
-                    }
-
-                    @Override
-                    public void onLoading(long total, long current) {
-                        int currentProgress = (int) (current * 100 / total);
-                        if (dialogUpdate != null) {
-                            dialogUpdate.setProgress(currentProgress);
-                        }
-                        if (notifyUtils != null) {
-                            notifyUtils.setNotifyProgress(100, currentProgress, false);
-                        }
-                    }
-
-                    @Override
-                    public void onFail(Exception e) {
-                        if (dialogUpdate != null && dialogUpdate.isShowing()) {
-                            dialogUpdate.dismiss();
-                        }
-                        if (notifyUtils != null) {
-                            notifyUtils.clear();
-                        }
-                    }
-                }).downloadAPK();
-
-    }
-
-    /**
-     * 开启通知栏
-     */
-    private void startNotifyProgress() {
-        // 设置想要展示的数据内容
-        Intent intent = new Intent(this, SetAty.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent rightPendIntent = PendingIntent.getActivity(this,
-                0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        int smallIcon = R.mipmap.wjyp2;
-        String ticker = "正在下载无界优品更新包...";
-        //实例化工具类，并且调用接口
-        notifyUtils = new NotifyUtil(this, 0);
-        notifyUtils.notify_progress(rightPendIntent, smallIcon, ticker, "无界优品 下载", "正在下载中...", false, false, false);
+//        PreferencesUtils.putBoolean(getApplicationContext(), Config.IS_CHECK_UPDATE, false);//退出时候将是否检查过更新制成false
     }
 
     // ====================android M+动态授权====================

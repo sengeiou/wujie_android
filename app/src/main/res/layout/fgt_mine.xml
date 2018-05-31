@@ -527,7 +527,7 @@
                             android:drawablePadding="10dp"
                             android:drawableStart="@drawable/give_coupon"
                             android:padding="12dp"
-                            android:text="赠送蓝色代金券"
+                            android:text="申请无界推广员"
                             android:textColor="@color/app_text_color" />
 
                         <View

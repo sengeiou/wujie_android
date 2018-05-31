@@ -385,7 +385,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.books_tv:// 无界书院
                 startActivity(BooksAty.class, null);
                 break;
-            case R.id.give_coupon_tv_ll://蓝色代金券赠送
+            case R.id.give_coupon_tv_ll:// 蓝色代金券赠送
                 Intent intent1 = new Intent(getActivity(), GiveCouponAty.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("TYPE", TYPE);
@@ -513,13 +513,29 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
-            if (data.get("complete_status").equals("1")) {
-                blue_voucher = data.get("blue_voucher");
-                give_coupon_tv.setText("赠送蓝色代金券");
-                TYPE = "0";
-            } else {
-                TYPE = "1";
-                userPst.proMoters();
+            if (data.containsKey("complete_status")) { // 如果存在指定key
+                if (data.get("complete_status").equals("1")) { // 如果可以转蓝色代金券
+                    // 修改跳转过去的字段属性
+                    blue_voucher = data.get("blue_voucher");
+                    give_coupon_tv.setText("赠送蓝色代金券");
+                    TYPE = "0";
+                } else { // 否则不可以转的话
+                    // 也设置其相应属性
+                    TYPE = "1";
+                    userPst.proMoters();
+                }
+            } else { // 如果没有该字段的情况下
+                // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
+                if (data.get("member_coding").equals("3")) { // 判断是否是优享会员
+                    // 如果是优享会员则设置状态和传到下一界面的属性值
+                    blue_voucher = data.get("blue_voucher");
+                    give_coupon_tv.setText("赠送蓝色代金券");
+                    TYPE = "0";
+                } else { // 否则不是优享会员
+                    // 设置其不可转的属性
+                    TYPE = "1";
+                    userPst.proMoters();
+                }
             }
             // 昵称
             String nickname = data.get("nickname");

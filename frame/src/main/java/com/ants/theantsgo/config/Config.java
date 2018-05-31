@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-    /**
-     *  是否检查过更新
-     */
-    public static final String IS_CHECK_UPDATE="IS_CHECK_UPDATE";
+//    /**
+//     *  是否检查过更新
+//     */
+//    public static final String IS_CHECK_UPDATE="IS_CHECK_UPDATE";
     /**
      * 登录状态
      */
