@@ -58,7 +58,7 @@ public class AppUpdate {
         // 如果服务器的Code值大于本地的Code值则执行更新
 //        if (serverCode > BuildConfig.VERSION_CODE) {
         // TODO 如果服务器返回的Name值与本地的Name值不一致则执行更新，下次版本发布之时需要为判断Code值
-        if (updataApp.getData().getName().equals(BuildConfig.VERSION_NAME)){
+        if (!updataApp.getData().getName().equals(BuildConfig.VERSION_NAME)){
             // 如果auto_update_status为空返回false，不强制更新，不为空则判断是否需要强制更新，如果为0则返回true开启强制更新，否则返回false不强制更新
 
             String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());

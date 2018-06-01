@@ -116,9 +116,9 @@ public class OrderOnLineFgt extends BaseFgt {
 
     public static OrderOnLineFgt getFgt(String title, String type, String from) {
         OrderOnLineFgt fgt = new OrderOnLineFgt();
-        fgt.type = type;//订单状态
-        fgt.from = from;//从哪里过来
-        fgt.title = title;
+        fgt.type = type == null ? "" : type;//订单状态
+        fgt.from = from == null ? "" : from;//从哪里过来
+        fgt.title = title == null ? "" : title;
         return fgt;
     }
 
@@ -330,7 +330,7 @@ public class OrderOnLineFgt extends BaseFgt {
             if (from.equals("0") || from.equals("3") || from.equals("4") || from.equals("6") || from.equals("10")) {
                 if (p == 1) {
                     goods_list = JSONUtils.parseKeyAndValueToMapList(data.get("data"));
-                    goodsAdapter=new GoodsAdapter();
+                    goodsAdapter = new GoodsAdapter();
                     order_on_line_lv.setAdapter(goodsAdapter);
                     if (!frist) {
                         swipe_refresh.setRefreshing(false);
@@ -461,11 +461,11 @@ public class OrderOnLineFgt extends BaseFgt {
         footerImageView.setVisibility(View.VISIBLE);
         footerProgressBar.setVisibility(View.GONE);
         swipe_refresh.setLoadMore(false);
-        if ("0".equals(error.get("code"))&&"暂无订单".equals(error.get("message"))) {
-            if (p==1) {
+        if ("0".equals(error.get("code")) && "暂无订单".equals(error.get("message"))) {
+            if (p == 1) {
                 goods_list.clear();
             }
-            if (goodsAdapter!=null) {
+            if (goodsAdapter != null) {
                 goodsAdapter.notifyDataSetChanged();
             }
         }

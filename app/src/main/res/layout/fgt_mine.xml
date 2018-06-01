@@ -242,10 +242,12 @@
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/integral_tv2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
                             android:layout_marginBottom="6dp"
+                            android:gravity="center"
                             android:maxLines="1"
+                            android:text="0.00"
                             android:textColor="#000000"
                             android:textSize="16sp"
                             autofit:minTextSize="10sp" />
@@ -268,10 +270,12 @@
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/balance_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
                             android:layout_marginBottom="6dp"
+                            android:gravity="center"
                             android:maxLines="1"
+                            android:text="0.00"
                             android:textColor="#000000"
                             android:textSize="16sp"
                             autofit:minTextSize="10sp" />
@@ -293,10 +297,14 @@
 
                         <me.grantland.widget.AutofitTextView
                             android:id="@+id/ticket_num_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
                             android:layout_marginBottom="6dp"
+                            android:gravity="center"
                             android:maxLines="1"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            android:text="0.00"
                             android:textColor="#000000"
                             android:textSize="16sp"
                             autofit:minTextSize="10sp" />
