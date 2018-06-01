@@ -4,14 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +77,6 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
@@ -1003,7 +996,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
-                    Glide.with(GoodLuckDetailsAty.this).load(goodsInfo.getCountry_logo()).into(im_country_logo);
+                    commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this,goodsInfo.getCountry_logo(),im_country_logo);
+                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(),tv_country_desc);
+                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_tax() + "元",tv_country_tax);
                     tv_country_desc.setText(goodsInfo.getCountry_desc());
                     tv_country_tax.setText(goodsInfo.getCountry_tax() + "元");
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
@@ -1378,11 +1373,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     is_collect = dataBean.getIs_collect();
                     if ("0".equals(is_collect)) {
 
-                        goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(GoodLuckDetailsAty.this, R.drawable.icon_collect), null, null);
-                        goods_title_collect_tv.setText("收藏");
+                        commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
                     } else {
-                        goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(GoodLuckDetailsAty.this, R.drawable.icon_collected), null, null);
-                        goods_title_collect_tv.setText("已收藏");
+                        commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
                     }
 
                     // 参团列表
@@ -1440,16 +1433,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             showRightTip("收藏成功");
             is_collect = "1";
 
-            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
-            goods_title_collect_tv.setText("已收藏");
+            commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
 
-            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
-            goods_title_collect_tv.setText("收藏");
+            commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
             return;
         }
     }

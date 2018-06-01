@@ -49,11 +49,11 @@ import java.util.Map;
  * 日期：2017/7/10 0010
  * 时间：下午 7:45
  * 描述：商品属性页面
- *
+ * <p>
  * from
-    直接购买0
-    购物车1
-    设置 4
+ * 直接购买0
+ * 购物车1
+ * 设置 4
  * ===============Txunda===============
  */
 public class GoodsAttributeAty extends BaseAty {
@@ -175,10 +175,10 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("shop_price", val.getShop_price());
                         intent.putExtra("market_price", val.getMarket_price());
                         intent.putExtra("settlement_price", val.getSettlement_price());
-                        if(type.equals("3")||"4".equals(type)){//拼单或者参团
+                        if (type.equals("3") || "4".equals(type)) {//拼单或者参团
                             intent.putExtra("red_return_integral", val.getIntegral());
-                            intent.putExtra("p_shop_price",val.getP_shop_price());
-                        }else{
+                            intent.putExtra("p_shop_price", val.getP_shop_price());
+                        } else {
                             intent.putExtra("red_return_integral", val.getRed_return_integral());
                         }
 
@@ -268,7 +268,12 @@ public class GoodsAttributeAty extends BaseAty {
         from = getIntent().getIntExtra("from", 0);
         goods_id = getIntent().getStringExtra("goods_id");
         type = getIntent().getStringExtra("type");
-        group_buy_id = getIntent().getStringExtra("group_buy_id");
+        if (getIntent().hasExtra("group_buy_id")) { // 如果传入的值中包含Key：group_buy_id则去获取该值
+            String getgroup_buy_id = getIntent().getStringExtra("group_buy_id");
+            group_buy_id = getgroup_buy_id == null ? "" : getgroup_buy_id;
+        } else { // 否则不包含该Key，将其设置为空字符串
+            group_buy_id = "";
+        }
         if (group_buy_id.contains("-")) {
             order_id = group_buy_id.split("-")[1];
         }
