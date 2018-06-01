@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -80,7 +79,6 @@ import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
-import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -827,11 +825,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     is_collect = data.getIs_collect();
 
                     if ("0".equals(is_collect)) {
-                        goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(LimitGoodsAty.this, R.drawable.icon_collect), null, null);
-                        goods_title_collect_tv.setText("收藏");
+                        commodityPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,LimitGoodsAty.this);
                     } else {
-                        goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(LimitGoodsAty.this, R.drawable.icon_collected), null, null);
-                        goods_title_collect_tv.setText("已收藏");
+                        commodityPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,LimitGoodsAty.this);
                     }
                     share_url = data.getShare_url();
                     share_img = data.getShare_img();
@@ -866,9 +862,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                     tv_wy_price.setText("¥" + goodsInfo.getWy_price());
                     tv_yx_price.setText("¥" + goodsInfo.getYx_price());
-                    Glide.with(LimitGoodsAty.this).load(goodsInfo.getCountry_logo()).into(im_country_logo);
-                    tv_country_desc.setText(goodsInfo.getCountry_desc());
-                    tv_country_tax.setText(goodsInfo.getCountry_tax() + "元");
+                    commodityPranster.setBitmap(LimitGoodsAty.this,goodsInfo.getCountry_logo(),im_country_logo);
+                    commodityPranster.setTextContent(goodsInfo.getCountry_desc(),tv_country_desc);
+                    commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "元",tv_country_tax);
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                         layou_jinkoushui.setVisibility(View.GONE);
                     }
@@ -1214,15 +1210,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
-            goods_title_collect_tv.setText("已收藏");
+            commodityPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,LimitGoodsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
-            goods_title_collect_tv.setText("收藏");
+            commodityPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,LimitGoodsAty.this);
             return;
         }
     }
@@ -1375,10 +1369,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 commodityPranster.showDjqPop(v,dj_ticket,LimitGoodsAty.this,vouchers_desc);
                 break;
             case R.id.tv_quxiao://促销弹框
-                showCXPop(v);
+                commodityPranster.showCXPop(v,LimitGoodsAty.this,promotionBeen);
+//                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
-                showLQPop(v, "领券");
+                commodityPranster.showLQPop(v,"领券",LimitGoodsAty.this,theTrickAdapter);
+//                showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings:
                 toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
@@ -1450,69 +1446,69 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     }
 
 
-    /**
-     * 领券
-     */
-    public void showLQPop(View view, final String title) {//
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.popup_layout)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
-                        recyclerview.setLayoutManager(new GridLayoutManager(LimitGoodsAty.this, 2));
-                        recyclerview.setAdapter(theTrickAdapter);
-                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
-                        tv_title.setText(title);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
+//    /**
+//     * 领券
+//     */
+//    public void showLQPop(View view, final String title) {//
+//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+//        commonPopupWindow = new CommonPopupWindow.Builder(this)
+//                .setView(R.layout.popup_layout)
+//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+//                .setBackGroundLevel(0.7f)
+//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+//                    @Override
+//                    public void getChildView(View view, int layoutResId, int position) {
+//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+//                        RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
+//                        recyclerview.setLayoutManager(new GridLayoutManager(LimitGoodsAty.this, 2));
+//                        recyclerview.setAdapter(theTrickAdapter);
+//                        TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
+//                        tv_title.setText(title);
+//                        cancel.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                commonPopupWindow.dismiss();
+//                            }
+//                        });
+//
+//                    }
+//                }, 0)
+//                .setAnimationStyle(R.style.animbottom)
+//                .create();
+//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//    }
 
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
-
-    /**
-     * 促销
-     *
-     * @param view
-     */
-    public void showCXPop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.layou_popp_cuxiao)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
-                        PromotionAdapter promotionAdapter = new PromotionAdapter(LimitGoodsAty.this, promotionBeen);
-                        promotion_lv.setAdapter(promotionAdapter);
-                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
-    }
+//    /**
+//     * 促销
+//     *
+//     * @param view
+//     */
+//    public void showCXPop(View view) {
+//        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+//        commonPopupWindow = new CommonPopupWindow.Builder(this)
+//                .setView(R.layout.layou_popp_cuxiao)
+//                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2)
+//                .setBackGroundLevel(0.7f)
+//                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+//                    @Override
+//                    public void getChildView(View view, int layoutResId, int position) {
+//                        ListView promotion_lv = view.findViewById(R.id.promotion_lv);
+//                        PromotionAdapter promotionAdapter = new PromotionAdapter(LimitGoodsAty.this, promotionBeen);
+//                        promotion_lv.setAdapter(promotionAdapter);
+//                        TextView cancel = (TextView) view.findViewById(R.id.cancel);
+//                        cancel.setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                commonPopupWindow.dismiss();
+//                            }
+//                        });
+//
+//                    }
+//                }, 0)
+//                .setAnimationStyle(R.style.animbottom)
+//                .create();
+//        commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+//    }
 
 
     private void setTextViewAndViewColor(int next) {

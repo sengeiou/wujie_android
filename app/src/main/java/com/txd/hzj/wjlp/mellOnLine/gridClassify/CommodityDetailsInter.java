@@ -51,6 +51,18 @@ public interface CommodityDetailsInter {
         void showCXPop(View view, Activity activity, List<PromotionBean> promotion);
 
         void showLQPop(View view, String title, Activity activity, final TheTrickAdapter theTrickAdapter);
+
+        /**
+         * 拼单购、无界商店和进口馆商品详情页公共属性封装(包括国家的图片，描述和进口税，收藏)
+         * @param context
+         * @param url
+         * @param view
+         */
+        void setBitmap(Context context,String url,View view);
+
+        void setTextContent(String content,View view);
+
+        void isCollect(String is_collect,String viewContent,View view,Context context);
     }
 
     public interface CommodityView {

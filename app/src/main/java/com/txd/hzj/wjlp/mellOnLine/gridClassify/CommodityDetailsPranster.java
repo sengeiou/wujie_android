@@ -7,11 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -33,9 +29,9 @@ import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -423,6 +419,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
 
 
+
     public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type,final Activity activity) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
@@ -449,6 +446,33 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 .setAnimationStyle(R.style.animbottom)
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
+    /**
+     * 拼单购、无界商店和进口馆商品详情页公共属性封装
+     */
+    @Override
+    public void setBitmap(Context context, String url, View view) {
+        Glide.with(context).load(url).into((ImageView) view);
+    }
+
+    @Override
+    public void setTextContent(String content, View view) {
+        ((TextView) view).setText(content);
+
+    }
+
+    /**
+     * 拼单购、无界商店和进口馆商品详情页收藏
+     */
+    @Override
+    public void isCollect(String is_collect, String viewContent, View view, Context context) {
+        if (is_collect.equals("0")){
+            ((TextView)view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collect), null, null);
+        }else {
+            ((TextView)view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collected), null, null);
+        }
+        ((TextView)view).setText(viewContent);
     }
 
 }
