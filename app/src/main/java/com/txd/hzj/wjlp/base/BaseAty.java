@@ -37,6 +37,7 @@ import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.mell.QRCodeForMellGoodsAty;
 import com.txd.hzj.wjlp.popAty.GetRedPackageAty;
@@ -62,12 +63,13 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public static boolean isExit = false; // 判断Activity是否被销毁
     private CommonPopupWindow commonPopupWindow;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 竖屏锁定 除去GoodsAttributeAty和RegistrationCodeAty两个Activity之外都锁定竖屏界面，为兼容Android8.0系统
-        if ( !(this instanceof GoodsAttributeAty) && !(this instanceof ToShareAty) && !(this instanceof RegistrationCodeAty)
-                && !(this instanceof GetRedPackageAty) && !(this instanceof QRCodeForMellGoodsAty)) {
+        if (!(this instanceof GoodsAttributeAty) && !(this instanceof ToShareAty) && !(this instanceof RegistrationCodeAty)
+                && !(this instanceof GetRedPackageAty) && !(this instanceof QRCodeForMellGoodsAty)&&!(this instanceof ApprenticeCodeAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         if (L.isDebug) {
@@ -172,7 +174,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      *
      * @param v
      * @param from
-     * @param type   "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price

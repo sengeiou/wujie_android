@@ -83,34 +83,41 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         vibrate();
         //停止预览
         mQR.stopCamera();
-
-        // type:1登录，2邀请码注册 ，3下载
-        if (result.contains("type")) {
+        if (result.contains("User/mentorship/invite_code")) {
+            if (!Config.isLogin()) { // 如果未登录则先去登录
+                toLogin();
+            }else{
+                toDetail(4,result);
+            }
+        } else if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
             if (!Config.isLogin()) { // 如果未登录则先去登录
                 toLogin();
             } else {
                 // 已登录
                 try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    String sid = data.getString("sid");
+                    if ("1".equals("type")) {
+                        JSONObject jsonObject = new JSONObject(result);
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String sid = data.getString("sid");
 
-                    // 实例化网络请求接口并添加请求参数
-                    RegisterPst registerPst = new RegisterPst(this);
-                    registerPst.qr_login(sid);
-
+                        // 实例化网络请求接口并添加请求参数
+                        RegisterPst registerPst = new RegisterPst(this);
+                        registerPst.qr_login(sid);
+                    }
                 } catch (JSONException e) {
                     L.e("扫码Json字符串异常：" + e.toString());
                 }
             }
         } else {
-            Bundle bundle = new Bundle();
-            bundle.putInt("from", 4);
-            bundle.putString("href", result);
-            startActivity(NoticeDetailsAty.class, bundle);
+            toDetail(4,result);
         }
-
         finish();
+    }
+    private void toDetail(int from,String herf){
+        Bundle bundle = new Bundle();
+        bundle.putInt("from", from);
+        bundle.putString("href", herf);
+        startActivity(NoticeDetailsAty.class, bundle);
     }
 
     @Override
@@ -143,7 +150,7 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (requestUrl.contains("qr_login")){
+        if (requestUrl.contains("qr_login")) {
             L.e(jsonStr);
         }
     }

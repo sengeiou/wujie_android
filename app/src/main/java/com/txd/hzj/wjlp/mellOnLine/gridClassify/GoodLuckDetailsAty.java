@@ -603,6 +603,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private RatingBar rb;
     @ViewInject(R.id.tv_date)
     private TextView tv_date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -628,6 +629,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goodLuckPranster = new GoodLuckDetailsPranster();
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
         commodityDetailsPranster = new CommodityDetailsPranster();
+//        List<WebView> webViewList=new ArrayList<>();
+//        webViewList.add(goods_desc_wv);
+//        webViewList.add(goods_brief_tv);
+//        configWebView(webViewList);
     }
 
     private boolean init = false;
@@ -658,7 +663,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 Bundle bundle = new Bundle();
                 bundle.putInt("from", 0);
                 bundle.putString("mid", mell_id);
-                bundle.putString("goods_id",goods_id);
+                bundle.putString("goods_id", goods_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             }
@@ -1204,11 +1209,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     comm_user_name_tv.setText(bodyBean.getNickname());
                                     comm_content_tv.setText(bodyBean.getContent());
 
-                                    if(!android.text.TextUtils.isEmpty(bodyBean.getAll_star())){
-                                        int allStar=Integer.parseInt(bodyBean.getAll_star());
+                                    if (!android.text.TextUtils.isEmpty(bodyBean.getAll_star())) {
+                                        int allStar = Integer.parseInt(bodyBean.getAll_star());
                                         rb.setRating(allStar);
                                     }
-                                    if(!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())){
+                                    if (!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())) {
                                         tv_date.setText(bodyBean.getCreate_time());
                                     }
                                     List<PicturesBean> pictures = bodyBean.getPictures();
@@ -1647,5 +1652,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             }
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        List<WebView> webViewList = new ArrayList<>();
+        webViewList.add(goods_desc_wv);
+        webViewList.add(goods_brief_tv);
+        destoryWebViews(webViewList);
+        super.onDestroy();
     }
 }

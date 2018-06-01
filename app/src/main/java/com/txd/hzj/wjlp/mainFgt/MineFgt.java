@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,6 +46,7 @@ import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
 import com.txd.hzj.wjlp.minetoAty.books.BooksAty;
 import com.txd.hzj.wjlp.minetoAty.collect.CollectHzjAty;
 import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
+import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty;
 import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
@@ -252,6 +252,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private ImageView im_gang;
     @ViewInject(R.id.im_tie)
     private ImageView im_tie;
+    //拜师码
+    @ViewInject(R.id.apprentice_code_tv)
+    private View apprentice_code_tv;
+    @ViewInject(R.id.apprentice_code_line)
+    private View apprentice_code_line;
+    private String is_member_trainer,is_merchant_trainer,code;
     private String service_easemob_account;
     private String service_head_pic;
     private String service_nickname;
@@ -297,7 +303,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll,R.id.apprentice_code_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -428,6 +434,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     showErrorTip("跳转至应用市场失败，请到您自行到市场为我们评价哦ლ(⌒▽⌒ლ)");
                 }
                 break;
+            case R.id.apprentice_code_tv:{
+                 bundle = new Bundle();
+                bundle.putString("head_pic", head_pic);
+                bundle.putString("code", code);
+                bundle.putString("is_member_trainer",is_member_trainer);
+                bundle.putString("is_merchant_trainer",is_merchant_trainer);
+                startActivity(ApprenticeCodeAty.class, bundle);
+            }break;
         }
     }
 
@@ -537,12 +551,26 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     userPst.proMoters();
                 }
             }
+            /***********************拜师码*************************************/
+            /************************************************************/
             // 昵称
             String nickname = data.get("nickname");
             // 头像
             head_pic = data.get("head_pic");
             // 邀请码
             invite_code = data.get("invite_code");
+//            拜师码判断
+            is_member_trainer=data.get("is_member_trainer");
+            is_merchant_trainer=data.get("is_merchant_trainer");
+
+            if(TextUtils.isEmpty(is_member_trainer)&&TextUtils.isEmpty(is_merchant_trainer)){
+                apprentice_code_tv.setVisibility(View.GONE);
+                apprentice_code_line.setVisibility(View.GONE);
+            }else{
+                code=data.get("code");
+                apprentice_code_tv.setVisibility(View.VISIBLE);
+                apprentice_code_line.setVisibility(View.VISIBLE);
+            }
 
             service_easemob_account = data.get("service_easemob_account");
             service_head_pic = data.get("service_head_pic");

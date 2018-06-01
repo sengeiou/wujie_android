@@ -88,9 +88,9 @@
         android:debuggable="true"
         android:icon="@mipmap/wjyp2"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:largeHeap="true"
         android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
         tools:replace="android:icon,android:theme,android:allowBackup">
@@ -258,7 +258,9 @@
         <!-- 注册获取验证码 -->
         <activity android:name=".login.RegisterGetCodeAty" />
         <!-- 线上商城 -->
-        <activity android:name=".minetoAty.order.OnlineShopAty" android:launchMode="singleTask"/>
+        <activity
+            android:name=".minetoAty.order.OnlineShopAty"
+            android:launchMode="singleTask" />
         <!-- 订单中心 -->
         <activity android:name=".minetoAty.order.OrderCenterAty" />
         <!-- 线下商城店铺详情 -->
@@ -280,6 +282,10 @@
         <!-- 注册码 -->
         <activity
             android:name=".minetoAty.dialog.RegistrationCodeAty"
+            android:theme="@style/share_style" />
+        <!-- 拜师码 -->
+        <activity
+            android:name=".minetoAty.dialog.ApprenticeCodeAty"
             android:theme="@style/share_style" />
         <!-- 余额 -->
         <activity android:name=".minetoAty.balance.BalanceAty" />
@@ -784,7 +790,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-            <!--android:screenOrientation="portrait"-->
+        <!--android:screenOrientation="portrait"-->
 
         <!-- 调用新浪原生SDK，需要注册的回调activity -->
         <activity

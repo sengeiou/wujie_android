@@ -6,7 +6,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -29,13 +29,9 @@ import com.ants.theantsgo.R;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.ants.theantsgo.tips.ToastTip;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 
-import java.io.InterruptedIOException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.net.UnknownServiceException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -574,6 +570,38 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         }
         showTip(R.mipmap.icon_right_tip, "粘贴成功");
         Et.setText(resultString);
+    }
+
+    /**
+     * 如果有webview退出界面时候清除webview缓存
+     *
+     * @param webViews
+     */
+    protected void destoryWebViews(List<WebView> webViews) {
+        for (WebView webView : webViews) {
+            webView.clearCache(true);
+            webView.clearFormData();
+            webView.clearMatches();
+            webView.clearSslPreferences();
+            webView.clearDisappearingChildren();
+            webView.clearHistory();
+            //@Deprecated
+            //clearView();
+            webView.clearAnimation();
+            webView.loadUrl("about:blank");
+            webView.removeAllViews();
+            webView.freeMemory();
+            webView.destroy();
+        }
+    }
+
+    protected void configWebView(List<WebView> webViews) {
+        for (WebView webView : webViews) {
+            webView.getSettings().setDomStorageEnabled(true);
+            final String dbPath = getApplicationContext().getDir("db",Context.MODE_PRIVATE).getPath();
+            webView.getSettings().setDatabasePath(dbPath);
+        }
+
     }
 
 }
