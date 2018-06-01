@@ -3,11 +3,13 @@ package com.txd.hzj.wjlp.minetoAty.dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
@@ -16,7 +18,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.util.LogUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.BitmapUtils;
+
 import java.util.HashMap;
+
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 /**
@@ -25,7 +30,7 @@ import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
  * 功能描述：拜师码
  * 联系方式：常用邮箱或电话
  */
-public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
+public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener{
     private TextView member_trainerTv;
     private TextView merchant_trainerTv;
     private HashMap<String, StringBuffer> stringBuffers;
@@ -155,7 +160,12 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
                                     switch (btnType) {
                                         case MikyouCommonDialog.OK: { //确定
                                             Bitmap bitmap = recordBtimaps.get(currentType);
-                                            Toast.makeText(ApprenticeCodeAty.this, "ok", Toast.LENGTH_LONG).show();
+                                            BitmapUtils.gainInstance().saveBmp2Gallery(ApprenticeCodeAty.this, bitmap, TYPE_MEMBER.equals(currentType) ? "huiyuan_baishima" : "shangjia_baishima", new BitmapUtils.Listener() {
+                                                @Override
+                                                public void saveSuccess() {
+                                                    Toast.makeText(ApprenticeCodeAty.this, "保存成功", Toast.LENGTH_LONG).show();
+                                                }
+                                            });
                                         }
                                         break;
                                         case MikyouCommonDialog.NO: { // 取消
@@ -172,22 +182,25 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
 
     /**
      * 改变选中状态
+     *
      * @param type
      */
-    private void changeSelect(String type){
+    private void changeSelect(String type) {
         member_trainerTv.clearFocus();
         member_trainerTv.setSelected(false);
         merchant_trainerTv.clearFocus();
         merchant_trainerTv.setSelected(false);
-        switch (type){
-            case TYPE_MEMBER:{
+        switch (type) {
+            case TYPE_MEMBER: {
                 member_trainerTv.requestFocus();
                 member_trainerTv.setSelected(true);
-            }break;
-            case TYPE_MERCHANT:{
+            }
+            break;
+            case TYPE_MERCHANT: {
                 merchant_trainerTv.requestFocus();
                 merchant_trainerTv.setSelected(true);
-            }break;
+            }
+            break;
         }
 
     }

@@ -10,9 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
         android:background="@drawable/shape_r_code_bg_hzj"
+        android:paddingBottom="20dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -20,12 +21,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="12dp">
+            >
 
             <ImageView
                 android:id="@+id/code_user_head_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:visibility="gone"
                 android:src="@drawable/icon_temp_mine_head_hzj" />
 
             <TextView
@@ -34,16 +36,24 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:padding="12dp"
+                android:text="商家拜师码"
                 android:textColor="@color/selector_txt"
-                android:visibility="gone" />
+                android:visibility="visible" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="70dp"
+                android:layout_weight="0.01"
+                android:background="@color/bg_color" />
             <TextView
                 android:id="@+id/merchant_trainerTv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:text="会员拜师码"
                 android:textColor="@color/selector_txt"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,6 +61,7 @@
                 android:layout_weight="1"
                 android:gravity="end|center_vertical"
                 android:text="拜师码"
+                android:visibility="gone"
                 android:textColor="@color/app_text_color" />
 
         </LinearLayout>
@@ -73,7 +84,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="12dp"
-            android:text="扫描跳转拜师界面，长按保存二维码"
+            android:text="点击二维码保存"
             android:textColor="@color/app_text_color" />
     </LinearLayout>
 
