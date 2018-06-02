@@ -683,7 +683,8 @@ public class BuildOrderAty extends BaseAty {
                                 BigDecimal bg = new BigDecimal(tp);
                                 tp = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 if (tp == 0.00) {
-                                    tv_youfei.setVisibility(View.GONE);
+//                                    tv_youfei.setVisibility(View.GONE);
+                                    tv_youfei.setText("包邮");
                                 } else {
                                     tv_youfei.setVisibility(View.VISIBLE);
                                     tv_youfei.setText("+" + tp + "元运费");
