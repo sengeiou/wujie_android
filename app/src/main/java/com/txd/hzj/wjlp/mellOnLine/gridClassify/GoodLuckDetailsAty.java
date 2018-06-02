@@ -99,7 +99,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView{
     private String order_id;
     /**
      * 商品TextView
@@ -808,7 +808,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             break;
             case R.id.pdMoreLLayout: {
                 //参团查看更多(参团弹窗)
-                commodityDetailsPranster.showCollagePop(v,"正在拼单",groupList,groupType,GoodLuckDetailsAty.this,group_count);
+                goodLuckPranster.showCollagePop(v,"正在拼单",groupList,groupType,GoodLuckDetailsAty.this,group_count);
             }
             break;
         }
@@ -1420,23 +1420,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             goodLuckAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
                                 @Override
                                 public void onTextViewClick(View v, int position) {
-                                    if (!Config.isLogin()) {
-                                        toLogin();
-                                        return;
-                                    }
-                                    bundle = new Bundle();
-                                    bundle.putInt("status", 0);
-                                    bundle.putString("goods_id", goods_id + "-" + mellInfoBean.getMerchant_id());
-//                        bundle.putParcelableArrayList("list", (ArrayList) goodsAttrs);
-//                        bundle.putParcelableArrayList("list_p", (ArrayList) goods_produc);
-                                    bundle.putSerializable("goods_attr_first", (Serializable) goods_attr_first);
-                                    bundle.putSerializable("first_val", (Serializable) first_val);
-                                    bundle.putString("is_attr", is_attr);
-                                    if (null != goodsInfo.getIntegral())
-                                        bundle.putString("integral", goodsInfo.getIntegral());
-                                    bundle.putString("group_buy_id", group_buy_id);
-                                    bundle.putString("id", groupList.get(position).getId());
-                                    startActivity(CreateGroupAty.class, bundle);
+                                    itmeClick(v,position);
                                 }
                             });
                         }
@@ -1484,6 +1468,28 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             groupBuyPst.groupBuyInfo(group_buy_id, page);
         }
     }
+
+    @Override
+    public void itmeClick(View v, int position) {
+        if (!Config.isLogin()) {
+            toLogin();
+            return;
+        }
+        bundle = new Bundle();
+        bundle.putInt("status", 0);
+        bundle.putString("goods_id", goods_id + "-" + mellInfoBean.getMerchant_id());
+        //                        bundle.putParcelableArrayList("list", (ArrayList) goodsAttrs);
+        //                        bundle.putParcelableArrayList("list_p", (ArrayList) goods_produc);
+        bundle.putSerializable("goods_attr_first", (Serializable) goods_attr_first);
+        bundle.putSerializable("first_val", (Serializable) first_val);
+        bundle.putString("is_attr", is_attr);
+        if (null != goodsInfo.getIntegral())
+            bundle.putString("integral", goodsInfo.getIntegral());
+        bundle.putString("group_buy_id", group_buy_id);
+        bundle.putString("id", groupList.get(position).getId());
+        startActivity(CreateGroupAty.class, bundle);
+    }
+
 
     class cg_adp extends RecyclerView.Adapter<cg_adp.ViewHolder> {
         ArrayList<GoodsBean> list;

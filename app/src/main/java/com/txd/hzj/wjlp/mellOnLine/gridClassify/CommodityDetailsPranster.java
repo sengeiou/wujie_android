@@ -24,10 +24,8 @@ import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
-import com.txd.hzj.wjlp.bean.commodity.GroupBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.http.Freight;
-import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -450,29 +448,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
     }
 
-    public void showCollagePop(View view, final String title, final List<GroupBean> list, final String type, final Activity activity, final String group_count) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
-        commonPopupWindow = new CommonPopupWindow.Builder(activity)
-                .setView(R.layout.collagepop_layout)
-                .setWidthAndHeight(Settings.displayWidth*370/414, Settings.displayHeight / 2)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        Integer integer = Integer.valueOf(group_count);
-                        TextView tenCollage =  view.findViewById(R.id.tenCollage);
-                        tenCollage.setVisibility(integer>10?View.VISIBLE:View.GONE);
-                        ListView listView =  view.findViewById(R.id.collageListView);
-                        listView.setAdapter(new GoodLuckAdapter(activity, list,type));
-                        TextView tv_title =  view.findViewById(R.id.popp_title);
-                        tv_title.setText(title);
 
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-    }
     /**
      * 拼单购、无界商店和进口馆商品详情页公共属性封装
      */

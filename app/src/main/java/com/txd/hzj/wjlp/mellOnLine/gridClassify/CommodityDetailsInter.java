@@ -63,6 +63,8 @@ public interface CommodityDetailsInter {
         void setTextContent(String content,View view);
 
         void isCollect(String is_collect,String viewContent,View view,Context context);
+
+
     }
 
     public interface CommodityView {
@@ -72,10 +74,12 @@ public interface CommodityDetailsInter {
          * @param payStr
          */
         void getFreightPay(String payStr);
+
+
     }
 
     public interface GoodLuckView {
-
+        void itmeClick(View v,int position);
     }
 
     public interface GoodLuckPranster {
