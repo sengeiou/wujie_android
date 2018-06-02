@@ -61,6 +61,7 @@ public class Service_adp extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             name = serverList.get(position).getServer_name();
             holder.tv_text.setTextColor(Color.parseColor("#F23030"));
+            holder.tv_text.setText(name);
         }
         Glide.with(context).load(serverList.get(position).getIcon()).into(holder.im_logo);
     }
