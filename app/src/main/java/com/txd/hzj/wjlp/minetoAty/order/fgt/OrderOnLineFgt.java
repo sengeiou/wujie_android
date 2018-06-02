@@ -40,6 +40,7 @@ import com.txd.hzj.wjlp.http.UserBalance;
 import com.txd.hzj.wjlp.mainFgt.adapter.IndianaRecordAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.MyOrderAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.OnlineChongAdapter;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
@@ -591,11 +592,24 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
                     } else if (from.equals("3")) {//拼团
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
-                        bundle.putString("type", from);
-                        bundle.putBoolean("isTy", map_Type.get(position));
-                        startActivity(CollageDetailsAty.class, bundle);
+                        if ("1".equals(goods_list.get(position).get("order_status"))) {
+                            Bundle bundle = new Bundle();
+                            if ("2".equals(goods_list.get(i).get("order_type"))) {
+                                bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
+                            }else if ("3".equals(goods_list.get(i).get("order_type"))){
+                                bundle.putString("id", goods_list.get(i).get("p_id"));
+                            }
+                            bundle.putString("integral", goods_list.get(i).get("return_integral"));
+                            bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
+                            bundle.putInt("status", 0);
+                            startActivity(CreateGroupAty.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
+                            bundle.putString("type", from);
+                            bundle.putBoolean("isTy", map_Type.get(position));
+                            startActivity(CollageDetailsAty.class, bundle);
+                        }
                     } else if (from.equals("4")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("id", goods_list.get(position).get("order_id"));
