@@ -60,7 +60,7 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size() > 2 ? 2 : list.size();
+        return  list.size();
     }
 
     @Override

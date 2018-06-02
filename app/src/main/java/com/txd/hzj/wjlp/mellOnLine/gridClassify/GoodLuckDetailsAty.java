@@ -604,6 +604,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView pdnumTv;
     @ViewInject(R.id.seeMoreTv)
     private TextView seeMoreTv;
+    //开团总数
+    private String group_count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -806,7 +808,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             break;
             case R.id.pdMoreLLayout: {
                 //参团查看更多(参团弹窗)
-
+                commodityDetailsPranster.showCollagePop(v,"正在拼单",groupList,groupType,GoodLuckDetailsAty.this,group_count);
             }
             break;
         }
@@ -1395,16 +1397,19 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 参团列表
                     groupList = (List<GroupBean>) dataBean.getGroup();
                     if (!ListUtils.isEmpty(groupList)) {//最多十个团
-//                        if(groupList.size()>2){
-//                            pdMoreLLayout.setVisibility(View.VISIBLE);
-//                        }else{
-//                            pdMoreLLayout.setVisibility(View.GONE);
-//                        }
-                        if (!TextUtils.isEmpty(dataBean.getGroup_count()))
-                            pdnumTv.setText(dataBean.getGroup_count() + "人在开团");
+                        List<GroupBean> twoGroupBean=new ArrayList<>();
+                        if(groupList.size()>2){
+                            twoGroupBean.add(groupList.get(0));
+                            twoGroupBean.add(groupList.get(1));
+                        }else{
+                            twoGroupBean.addAll(groupList);
+                        }
+                        group_count = dataBean.getGroup_count();
+                        if (!TextUtils.isEmpty(group_count))
+                            pdnumTv.setText(group_count + "人在开团");
 
                         // 拼团列表
-                        GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, groupList, groupType);
+                        GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, twoGroupBean, groupType);
                         good_luck_lv.setAdapter(goodLuckAdapter);
                         //Item高度80，分割线1. 我也不知道怎么获取setAdapter之后的高度。。。
                         int list_h = groupList.size() * ToolKit.dip2px(GoodLuckDetailsAty.this, 80) + groupList.size();
