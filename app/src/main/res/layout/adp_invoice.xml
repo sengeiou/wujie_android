@@ -20,5 +20,5 @@
         android:textSize="14sp"
         android:paddingRight="28dp"
         android:text="不要发票"
-        android:textColor="@drawable/selector_tab_text_color" />
+        android:textColor="@drawable/selector_invoice_text_color" />
 </LinearLayout>
