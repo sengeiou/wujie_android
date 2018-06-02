@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.shoppingCart;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcel;
@@ -41,6 +42,7 @@ import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.PreOrder;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.new_wjyp.Invoice1;
@@ -136,8 +138,8 @@ public class BuildOrderAty extends BaseAty {
     private String address_id;
     @ViewInject(R.id.order_price_at_last_tv)
     private TextView order_price_at_last_tv;
-    @ViewInject(R.id.tv_sum_discount)
-    private TextView tv_sum_discount;
+//    @ViewInject(R.id.tv_sum_discount)
+//    private TextView tv_sum_discount;
     String goods_id, num, ordertype, product_id;
     private String type;
     private String group_buy_id;
@@ -159,6 +161,8 @@ public class BuildOrderAty extends BaseAty {
     private TextView tv_youfei;//邮费
     @ViewInject(R.id.buildOrder_scrollView)
     private ScrollView buildOrder_scrollView;
+    @ViewInject(R.id.tv_Postage)
+    private TextView  tv_Postage;//邮费
 
     private List<Goods> goodsList = new ArrayList<>();//普通商品快递属性list
     private List<GoodsCart> goodsCartList = new ArrayList<>();//购物车商品属性list
@@ -304,7 +308,7 @@ public class BuildOrderAty extends BaseAty {
                 bundle.putString("is_pay_password", is_pay_password);
                 bundle.putString("order_id", order_id);
                 bundle.putString("freight", String.valueOf(tp));
-                bundle.putString("shippingId",recordShppingId);
+                bundle.putString("shippingId", recordShppingId);
                 startActivity(PayForAppAty.class, bundle);
 
                 finish();
@@ -416,8 +420,6 @@ public class BuildOrderAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         L.e(requestUrl + "cccc=====>>>>>" + jsonStr);
-
-
         // 设置显示的进口税字段
         try {
             JSONObject jsonObject = new JSONObject(jsonStr);
@@ -482,7 +484,8 @@ public class BuildOrderAty extends BaseAty {
             if (map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
-                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") + map.get("address"));
+//                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") + map.get("address"));
+                tv_address.setText(map.get("province") + map.get("city") + map.get("area") + map.get("address"));
                 tv_c_ads.setVisibility(View.GONE);
                 layout_choose_address.setVisibility(View.VISIBLE);
             } else {
@@ -495,13 +498,17 @@ public class BuildOrderAty extends BaseAty {
             if (!type.equals("10")) {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
                 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
-                order_price_at_last_tv.setText("合计：¥" + total_price);
+                ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
+                        "合计：¥" + total_price, "合计：".length(), Color.parseColor("#FF0000"));
                 //            if (map.get("sum_discount").equals("0")) {
-                tv_sum_discount.setVisibility(View.GONE);
+//                tv_sum_discount.setVisibility(View.GONE);
             } else {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
-                tv_sum_discount.setVisibility(View.GONE);
-                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
+//                tv_sum_discount.setVisibility(View.GONE);
+
+                ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
+                        "合计：" + map.get("sum_shop_price") + "积分", "合计：".length(), Color.parseColor("#FF0000"));
+//                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
             }
             if (ToolKit.isList(map, "item")) { // 判断该Map是否可解析成List
                 /*
@@ -566,6 +573,7 @@ public class BuildOrderAty extends BaseAty {
     @ViewInject(R.id.tv_sle_right)
     private TextView tv_sle_right;
     private String recordShppingId;//快递公司id
+
     /**
      * 选择配送方式
      */
@@ -595,7 +603,7 @@ public class BuildOrderAty extends BaseAty {
                                     if (goodsList.size() != 0) {
                                         for (int g = 0; g < goodsList.size(); g++) {
                                             if (goodsList.get(g).getGoods_id().equals(same_id)) {
-                                                recordShppingId=data.get(position).get("shipping_id");
+                                                recordShppingId = data.get(position).get("shipping_id");
                                                 goodsList.get(g).setShipping_id(recordShppingId);
                                                 goodsList.get(g).setTem_id(data.get(position).get("id"));
                                                 goodsList.get(g).setPay(data.get(position).get("pay"));
@@ -618,7 +626,7 @@ public class BuildOrderAty extends BaseAty {
                                             L.e("same_id=" + same_id + "goodsCartList=" + goodsCartList.get(g).getGoods_id());
                                             L.e("same_id" + goodsCartList.get(g).getGoods_id().equals(same_id));
                                             if (goodsCartList.get(g).getGoods_id().equals(same_id)) {
-                                                recordShppingId=data.get(position).get("shipping_id");
+                                                recordShppingId = data.get(position).get("shipping_id");
                                                 goodsCartList.get(g).setShipping_id(recordShppingId);
                                                 goodsCartList.get(g).setTem_id(data.get(position).get("id"));
                                                 goodsCartList.get(g).setPay(data.get(position).get("pay"));
@@ -682,9 +690,9 @@ public class BuildOrderAty extends BaseAty {
                                     tv_youfei.setVisibility(View.VISIBLE);
                                     tv_youfei.setText("+" + tp + "元运费");
                                 }
-                                if ("10".equals(type)){
-                                    order_price_at_last_tv.setText("合计：" + total_price+"积分");
-                                }else {
+                                if ("10".equals(type)) {
+                                    order_price_at_last_tv.setText("合计：" + total_price + "积分");
+                                } else {
                                     order_price_at_last_tv.setText("合计：¥" + total_price);
                                 }
 
@@ -875,12 +883,15 @@ public class BuildOrderAty extends BaseAty {
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
-                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first") + "\n¥" + getItem(i).get("shop_price"));
+                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
+                govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
             } else {
-                if ("10".equals(type)){
-                    govh.price_for_goods_tv.setText( getItem(i).get("shop_price")+"积分");
-                }else {
-                    govh.price_for_goods_tv.setText("¥" + getItem(i).get("shop_price"));
+                if ("10".equals(type)) {
+                    govh.price_for_goods_tv.setVisibility(View.GONE);
+                    govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
+                } else {
+                    govh.price_for_goods_tv.setVisibility(View.GONE);
+                    govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
                 }
             }
             try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
@@ -976,6 +987,8 @@ public class BuildOrderAty extends BaseAty {
             private ImageView goods_comment_pic;
             @ViewInject(R.id.goods_title_for_evaluate_tv)
             private TextView goods_title_for_evaluate_tv;
+            @ViewInject(R.id.shop_priceTv)
+            private TextView shop_priceTv;
             @ViewInject(R.id.price_for_goods_tv)
             private TextView price_for_goods_tv;
             @ViewInject(R.id.jifen_tv)

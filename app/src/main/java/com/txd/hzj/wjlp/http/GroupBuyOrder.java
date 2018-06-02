@@ -18,6 +18,7 @@ public class GroupBuyOrder {
      * @param order_type
      * @param group_buy_order_id
      * @param group_buy_id
+     * @param leave_word 用户订单留言
      * @param baseView
      */
     public static void setOrder(String address_id, String goods_num, String goods_id, String product_id,
@@ -29,6 +30,7 @@ public class GroupBuyOrder {
                                 String leave_message,
                                 String goods,
                                 String shipping_id,
+                                String leave_word,
                                 BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
