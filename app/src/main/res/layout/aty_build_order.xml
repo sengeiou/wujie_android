@@ -344,20 +344,20 @@
                 android:id="@+id/order_price_at_last_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
                 android:layout_margin="8dp"
+                android:gravity="left"
                 android:text="合计：￥0.00"
                 android:textColor="@color/app_text_color" />
 
             <!--<TextView-->
-                <!--android:layout_weight="1"-->
-                <!--android:id="@+id/tv_sum_discount"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:gravity="right"-->
-                <!--android:text="总抵扣￥0"-->
-                <!--android:textColor="@color/app_text_color" />-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/tv_sum_discount"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:gravity="right"-->
+            <!--android:text="总抵扣￥0"-->
+            <!--android:textColor="@color/app_text_color" />-->
 
 
             <TextView
@@ -365,7 +365,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="left"
+                android:gravity="right"
                 android:text="+0.00元邮费"
                 android:textColor="@color/holo_red_light"
                 android:visibility="visible" />

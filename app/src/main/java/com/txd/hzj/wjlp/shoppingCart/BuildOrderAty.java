@@ -161,8 +161,6 @@ public class BuildOrderAty extends BaseAty {
     private TextView tv_youfei;//邮费
     @ViewInject(R.id.buildOrder_scrollView)
     private ScrollView buildOrder_scrollView;
-    @ViewInject(R.id.tv_Postage)
-    private TextView  tv_Postage;//邮费
 
     private List<Goods> goodsList = new ArrayList<>();//普通商品快递属性list
     private List<GoodsCart> goodsCartList = new ArrayList<>();//购物车商品属性list
@@ -499,7 +497,7 @@ public class BuildOrderAty extends BaseAty {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
                 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
                 ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                        "合计：¥" + total_price, "合计：".length(), Color.parseColor("#FF0000"));
+                        "合计：¥" + total_price, "合计：".length(),getResources().getColor(R.color.holo_red_light));
                 //            if (map.get("sum_discount").equals("0")) {
 //                tv_sum_discount.setVisibility(View.GONE);
             } else {
@@ -693,7 +691,9 @@ public class BuildOrderAty extends BaseAty {
                                 if ("10".equals(type)) {
                                     order_price_at_last_tv.setText("合计：" + total_price + "积分");
                                 } else {
-                                    order_price_at_last_tv.setText("合计：¥" + total_price);
+                                    ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
+                                            "合计：¥" + total_price, "合计：".length(),getResources().getColor(R.color.holo_red_light));
+//                                    order_price_at_last_tv.setText("合计：¥" + total_price);
                                 }
 
                             }
