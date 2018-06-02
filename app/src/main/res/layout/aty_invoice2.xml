@@ -5,10 +5,15 @@
     android:orientation="vertical">
 
     <include layout="@layout/aty_title" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
 
     <ListView
         android:id="@+id/lv"
         android:layout_width="match_parent"
+        android:divider="@null"
         android:layout_height="match_parent">
     </ListView>
 </LinearLayout>

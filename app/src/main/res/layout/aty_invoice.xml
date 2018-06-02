@@ -10,12 +10,15 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="8dp" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
     <TextView
         android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
         android:padding="10dp"
         android:text="选择发票"
         android:textColor="@android:color/black"
@@ -24,6 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -60,12 +64,12 @@
             android:paddingBottom="10dp"
             android:paddingLeft="8dp"
             android:paddingTop="10dp"
-            android:text="需要发票"
+            android:text="请选择发票类型"
             android:textColor="@drawable/selector_tab_text_color"
             android:textSize="12sp" />
 
     </LinearLayout>
-
+</LinearLayout>
     <RadioGroup
         android:id="@+id/invoice_type_rg"
         android:layout_width="match_parent"
@@ -127,7 +131,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -211,6 +215,7 @@
                 android:drawablePadding="10dp"
                 android:drawableRight="@mipmap/icon_more"
                 android:maxLines="1"
+                android:text="请选择"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />

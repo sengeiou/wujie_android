@@ -5,6 +5,7 @@
     <color name="colorAccent">#F23030</color>
     <color name="black">#000000</color>
     <color name="gray">#E7E7E7</color>
+    <color name="red_tv_back">#FF0000</color>
     <color name="background_tab_pressed">#6633B5E5</color>
 
     <color name="translucentForColorPrimary">#7fFF4081</color>

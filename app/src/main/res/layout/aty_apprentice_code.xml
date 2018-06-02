@@ -32,7 +32,7 @@
 
             <TextView
                 android:id="@+id/member_trainerTv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -47,7 +47,7 @@
                 android:background="@color/bg_color" />
             <TextView
                 android:id="@+id/merchant_trainerTv"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="12dp"
-            android:text="点击二维码保存"
+            android:text="点击图片保存二维码"
             android:textColor="@color/app_text_color" />
     </LinearLayout>
 

@@ -33,12 +33,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/group_goods_pic_iv"
                         android:layout_width="100dp"
-                        android:layout_height="100dp" />
+                        android:layout_height="100dp"
+                        android:layout_marginStart="10dp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -48,6 +51,7 @@
                         <TextView
                             android:id="@+id/group_goods_name_tv"
                             android:layout_width="match_parent"
+                            android:textColor="@color/black"
                             android:layout_height="wrap_content" />
 
                         <LinearLayout
@@ -70,7 +74,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
-                                    android:textColor="#E02F25"
+                                    android:textColor="@color/red_tv_back"
                                     android:textSize="18sp" />
 
 
@@ -83,7 +87,7 @@
                                     android:layout_marginEnd="80dp"
                                     android:drawableLeft="@drawable/icon_send"
                                     android:drawablePadding="4dp"
-                                    android:textColor="@color/gray_text_color"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </RelativeLayout>
 
@@ -93,7 +97,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_height="1dp"
                     android:background="@color/bg_color" />
 
                 <LinearLayout
@@ -124,7 +129,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="1"
-                            android:textColor="@color/colorRed"
+                            android:textColor="@color/red_tv_back"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -157,24 +162,24 @@
                             android:id="@+id/times_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            app:isConvertDaysToHours="true"
                             app:isHideTimeBackground="false"
+                            app:isShowDay="false"
                             app:isShowHour="true"
                             app:isShowMillisecond="true"
                             app:isShowMinute="true"
                             app:isShowSecond="true"
-                            app:isShowDay="false"
-                            app:isConvertDaysToHours="true"
                             app:isSuffixTextBold="true"
                             app:isTimeTextBold="false"
                             app:suffixGravity="center"
                             app:suffixHour=":"
                             app:suffixLRMargin="3dp"
                             app:suffixMinute=":"
+                            app:suffixSecond=":"
                             app:suffixTextColor="#000000"
                             app:suffixTextSize="15sp"
                             app:timeBgColor="#000000"
                             app:timeBgRadius="5dp"
-                            app:suffixSecond=":"
                             app:timeTextColor="#FFFFFF"
                             app:timeTextSize="15sp" />
                         <!--app:suffixMillisecond=":"-->
@@ -185,6 +190,16 @@
                             android:textColor="@color/black"
                             android:textSize="15sp" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/group_timing_state"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="(已延时)"
+                        android:textColor="@color/colorRed"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <TextView
@@ -209,6 +224,7 @@
                     android:id="@+id/group_operation_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="24dp"
@@ -221,41 +237,47 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="8dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="8dp">
+                >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:text="参团须知"
+                    android:textColor="@color/black" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="拼团须知" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@drawable/icon_close"
+                    android:visibility="gone" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:src="@drawable/icon_close"
-                        android:visibility="gone" />
-                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@color/bg_color" />
 
                 <TextView
                     android:id="@+id/textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="·邀请好友参团" />
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="·邀请好友参团"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
         </LinearLayout>

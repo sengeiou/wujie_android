@@ -49,7 +49,7 @@ import cn.iwgang.countdownview.CountdownView;
  * ===============Txunda===============
  */
 public class CreateGroupAty extends BaseAty {
-    private   OfferedDataBean offeredDataBean;
+    private OfferedDataBean offeredDataBean;
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
@@ -154,20 +154,19 @@ public class CreateGroupAty extends BaseAty {
             group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
         }
 
-        //times.setStopTime(Long.valueOf("14903387320000"));
         group_member_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         group_member_rv.setHasFixedSize(true);
         group_member_rv.setItemAnimator(new DefaultItemAnimator());
         group_operation_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Integer.parseInt(offeredDataBean.getData().getIs_colonel())>0){
+                if (Integer.parseInt(offeredDataBean.getData().getIs_colonel()) > 0) {
 //                    "is_colonel": "1",
-                    Toast.makeText(CreateGroupAty.this,"团长不能重复参团",Toast.LENGTH_LONG).show();
-                }else if(Integer.parseInt(offeredDataBean.getData().getIs_member())>0){
+                    Toast.makeText(CreateGroupAty.this, "团长不能重复参团", Toast.LENGTH_LONG).show();
+                } else if (Integer.parseInt(offeredDataBean.getData().getIs_member()) > 0) {
 //                    "0"//1是团员 0不是团员
-                    Toast.makeText(CreateGroupAty.this,"您已经在团里了",Toast.LENGTH_LONG).show();
-                }else{
+                    Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
+                } else {
                     Intent intent = getIntent();
                     List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
                     List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
@@ -235,7 +234,7 @@ public class CreateGroupAty extends BaseAty {
         String integralStr = intent.getStringExtra("integral");
         if (!TextUtils.isEmpty(integralStr))
             ChangeTextViewStyle.getInstance().forTextColor(CreateGroupAty.this, goods_profit_num_tv,
-                    "积分" + integralStr, 2, Color.parseColor("#FD8214"));
+                    "积分" + integralStr, 2, Color.parseColor("#E02F25"));
 
         GroupBuyOrder.offered(log_id, this);
         showProgressDialog();
@@ -253,7 +252,7 @@ public class CreateGroupAty extends BaseAty {
             ObserTool.gainInstance().jsonToBean(jsonStr, OfferedDataBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
-                    offeredDataBean= (OfferedDataBean) t;
+                    offeredDataBean = (OfferedDataBean) t;
                     data = offeredDataBean.getData();
                     list_pic = data.getHead_pic();
                     offered = data.getOffered();
@@ -267,9 +266,14 @@ public class CreateGroupAty extends BaseAty {
                     i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
                     Log.i("倒计时时间", i1 + "");
                     times.setConvertDaysToHours(true);
-//                    times.start(8*24*60*60* 1000);
                     times.start(i1 * 1000);
-
+                    if (Long.valueOf(data.getSys_time()) > Long.valueOf(data.getEnd_time())) {
+                        //已延时
+                        findViewById(R.id.group_timing_state).setVisibility(View.VISIBLE);
+                    } else {
+                        //未延时
+                        findViewById(R.id.group_timing_state).setVisibility(View.GONE);
+                    }
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
@@ -281,13 +285,7 @@ public class CreateGroupAty extends BaseAty {
                     HeadPicBean head1 = new HeadPicBean();
                     head1.setType("1");
                     head1.setPic(data.getColonel_head_pic());
-                    list_pic.add(0,head1);//团长
-
-//                    for(int i=0;i<list_pic.size();i++){
-//                        HeadPicBean head = new HeadPicBean();
-//                        head.setPic(list_pic.get(0).getPic());
-//                        head.setType(data.getIs_colonel());
-//                    }
+                    list_pic.add(0, head1);//团长
 
 
                     //分享按钮

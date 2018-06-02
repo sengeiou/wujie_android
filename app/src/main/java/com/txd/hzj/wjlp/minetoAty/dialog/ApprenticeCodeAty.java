@@ -30,7 +30,7 @@ import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
  * 功能描述：拜师码
  * 联系方式：常用邮箱或电话
  */
-public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener{
+public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
     private TextView member_trainerTv;
     private TextView merchant_trainerTv;
     private HashMap<String, StringBuffer> stringBuffers;
@@ -153,7 +153,14 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener{
             break;
             case R.id.user_code_iv: {
                 if (recordBtimaps.size() > 0) {
-                    new MikyouCommonDialog(ApprenticeCodeAty.this, "将二维码保存到本地相册", "操作提示", "确定", "取消", true)
+                    Bitmap bitmap = recordBtimaps.get(currentType);
+                    BitmapUtils.gainInstance().saveBmp2Gallery(ApprenticeCodeAty.this, bitmap, TYPE_MEMBER.equals(currentType) ? "huiyuan_baishima" : "shangjia_baishima", new BitmapUtils.Listener() {
+                        @Override
+                        public void saveSuccess() {
+                            Toast.makeText(ApprenticeCodeAty.this, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                   /* new MikyouCommonDialog(ApprenticeCodeAty.this, "将二维码保存到本地相册", "操作提示", "确定", "取消", true)
                             .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
                                 @Override
                                 public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
@@ -174,7 +181,7 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener{
                                         break;
                                     }
                                 }
-                            }).showDialog();
+                            }).showDialog();*/
                 }
             }
         }
