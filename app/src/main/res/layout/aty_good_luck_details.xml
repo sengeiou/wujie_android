@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical"
-    tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty">
+    tools:context=".mellOnLine.gridClassify.GoodLuckDetailsAty">
 
     <include layout="@layout/aty_title_for_goods_details" />
 
@@ -56,6 +56,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true">
+
                                     <include layout="@layout/layout_countdown"></include>
                                 </LinearLayout>
 
@@ -362,7 +363,6 @@
                             </LinearLayout>
 
                             <LinearLayout
-
                                 android:id="@+id/layout_pt"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -371,14 +371,35 @@
                                 <Space
                                     android:layout_width="match_parent"
                                     android:layout_height="8dp" />
-
-                                <TextView
-                                    android:id="@+id/brzktTv"
+                                <!--显示多少人在拼单-->
+                                <LinearLayout
+                                    android:id="@+id/pdMoreLLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:background="@color/white"
-                                    android:padding="8dp"
-                                    android:text="别人在开团" />
+                                    android:background="@android:color/white"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:id="@+id/pdnumTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:padding="10dp"
+                                        android:textColor="@color/app_text_color"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:textSize="14sp"
+                                        android:id="@+id/seeMoreTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:drawableEnd="@mipmap/icon_more"
+                                        android:paddingEnd="8dp"
+                                        android:paddingStart="8dp"
+                                        android:text="查看更多" />
+
+                                </LinearLayout>
 
                                 <Space
                                     android:layout_width="match_parent"

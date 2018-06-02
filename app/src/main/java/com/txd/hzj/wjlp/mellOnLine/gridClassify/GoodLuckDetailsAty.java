@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -597,6 +598,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.tv_date)
     private TextView tv_date;
 
+    @ViewInject(R.id.pdMoreLLayout)
+    private LinearLayout pdMoreLLayout;
+    @ViewInject(R.id.pdnumTv)
+    private TextView pdnumTv;
+    @ViewInject(R.id.seeMoreTv)
+    private TextView seeMoreTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -647,7 +655,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             R.id.creat_group_tv, R.id.go_to_main_layouts, R.id.details_into_mell_tv, R.id.to_chat_tv,
             R.id.tv_chose_ads, R.id.all_evaluate_tv,
             R.id.im_service_more, R.id.tv_tab_1, R.id.tv_tab_2, R.id.tv_tab_3, R.id.tv_gwc, R.id.tv_ljgm, R.id.btn_jgsm,
-            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq, R.id.tv_expirationdateLayout
+            R.id.tv_quxiao, R.id.tv_lingquan, R.id.tv_showClassify, R.id.layout_layout_settings, R.id.layout_djq, R.id.tv_expirationdateLayout, R.id.pdMoreLLayout
     })
     public void onClick(View v) {
         super.onClick(v);
@@ -795,6 +803,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             case R.id.tv_expirationdateLayout: {
                 goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, ex_stringBuffer);
             }
+            break;
+            case R.id.pdMoreLLayout: {
+                //参团查看更多(参团弹窗)
+
+            }
+            break;
         }
     }
 
@@ -996,9 +1010,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
-                    commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this,goodsInfo.getCountry_logo(),im_country_logo);
-                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(),tv_country_desc);
-                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_tax() + "元",tv_country_tax);
+                    commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
+                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
+                    commodityDetailsPranster.setTextContent(goodsInfo.getCountry_tax() + "元", tv_country_tax);
                     tv_country_desc.setText(goodsInfo.getCountry_desc());
                     tv_country_tax.setText(goodsInfo.getCountry_tax() + "元");
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
@@ -1148,12 +1162,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     ChangeTextViewStyle.getInstance().forGoodsLineFeed(GoodLuckDetailsAty.this, all_collect_tv,
                             mellInfoBean.getView_num() + "\n人关注");
                     ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, goods_describe_tv,
-                            "宝贝描述" + mellInfoBean.getGoods_score(), 4, Color.parseColor("#FD8214"));
+                            "宝贝描述" + mellInfoBean.getGoods_score(), 4, Color.parseColor("#FF0000"));
                     ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, mell_serve_tv,
-                            "卖家服务" + mellInfoBean.getMerchant_score(), 4, Color.parseColor("#FD8214"));
+                            "卖家服务" + mellInfoBean.getMerchant_score(), 4, Color.parseColor("#FF0000"));
                     ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, log_serve_tv,
-                            "物流服务" + mellInfoBean.getShipping_score(), 4, Color.parseColor("#FD8214"));
-
+                            "物流服务" + mellInfoBean.getShipping_score(), 4, Color.parseColor("#FF0000"));
+//                    FD8214
                     // 店铺活动
                     promotion = dataBean.getPromotion();
                     if (!ListUtils.isEmpty(promotion)) {
@@ -1373,14 +1387,22 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     is_collect = dataBean.getIs_collect();
                     if ("0".equals(is_collect)) {
 
-                        commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
+                        commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
                     } else {
-                        commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
+                        commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
                     }
 
                     // 参团列表
                     groupList = (List<GroupBean>) dataBean.getGroup();
-                    if (!ListUtils.isEmpty(groupList)) {
+                    if (!ListUtils.isEmpty(groupList)) {//最多十个团
+//                        if(groupList.size()>2){
+//                            pdMoreLLayout.setVisibility(View.VISIBLE);
+//                        }else{
+//                            pdMoreLLayout.setVisibility(View.GONE);
+//                        }
+                        if (!TextUtils.isEmpty(dataBean.getGroup_count()))
+                            pdnumTv.setText(dataBean.getGroup_count() + "人在开团");
+
                         // 拼团列表
                         GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, groupList, groupType);
                         good_luck_lv.setAdapter(goodLuckAdapter);
@@ -1433,14 +1455,14 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             showRightTip("收藏成功");
             is_collect = "1";
 
-            commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
 
-            commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,GoodLuckDetailsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, GoodLuckDetailsAty.this);
             return;
         }
     }
