@@ -50,8 +50,8 @@ public class GoodLuckAdapter extends BaseAdapter {
         this.adapterTextViewClickListener = adapterTextViewClickListener;
     }
 
-    public GoodLuckAdapter(Context context, List<GroupBean> list,String groupType) {
-        this.groupType=groupType;
+    public GoodLuckAdapter(Context context, List<GroupBean> list, String groupType) {
+        this.groupType = groupType;
         this.context = context;
         this.list = list;
         size = ToolKit.dip2px(context, 40);
@@ -60,7 +60,7 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return  list.size();
     }
 
     @Override
@@ -72,8 +72,6 @@ public class GoodLuckAdapter extends BaseAdapter {
     public long getItemId(int i) {
         return i;
     }
-
-    private boolean getNow = false;
 
 
     @Override
@@ -87,57 +85,57 @@ public class GoodLuckAdapter extends BaseAdapter {
         } else {
             goodLuckVH = (GoodLuckVH) view.getTag();
         }
-
-
-
-
-        Object TAG1=goodLuckVH.good_count_down_view.getTag();
-        if(null==TAG1){
-            String str="GoodLuck" + i;
-            //        if (!getNow) {//当前服务器系统时间只获取一遍
-            Calendar  calendar = Calendar.getInstance();
-//            getNow = true;
-            if (!TextUtils.isEmpty(groupBean.getSys_time()))
-                calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
-//        }
+        Object TAG1 = goodLuckVH.good_count_down_view.getTag();
+        if (null == TAG1) {
+            String str = "GoodLuck" + i;
+            Calendar calendar = Calendar.getInstance();
+            long sysTime = Long.parseLong(groupBean.getSys_time());
+            long endTime = Long.parseLong(groupBean.getEnd_time());
+            long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
+            if (!TextUtils.isEmpty(groupBean.getSys_time())) {
+                calendar.setTimeInMillis(sysTime);
+            }
             // 当前时间
             long now_time = calendar.getTimeInMillis();
             // 剩余时间
-//        long last_time = Long.parseLong(groupBean.getStart_time()) - now_time;
-            long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
-//        long last_time=Long.parseLong(groupBean.getEnd_time())-Long.parseLong(groupBean.getSys_time()) ;
+            long last_time = endTime - now_time;
+            long last_endTime = endTrueTime - now_time;
             // 倒计时Tag
             goodLuckVH.good_count_down_view.setTag(str);
             goodLuckVH.good_count_down_view.setConvertDaysToHours(true);
-            // 开始倒计时
-            if(last_time<0){
-                last_time=0;
+            if (last_time < 0) {
+                goodLuckVH.yanshiTv.setVisibility(View.VISIBLE);
+                if (last_endTime < 0) { // 屏蔽小于零的情况
+                    last_endTime = 0;
+                }
+                goodLuckVH.good_count_down_view.start(last_endTime * 1000);
+            } else {
+                goodLuckVH.yanshiTv.setVisibility(View.GONE);
+                goodLuckVH.good_count_down_view.start(last_time * 1000);
             }
-            goodLuckVH.good_count_down_view.start(last_time * 1000);
         }
 
-
 //        if("2".equals(groupType)){  // 2常规拼单
-            goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (adapterTextViewClickListener != null) {
-                        adapterTextViewClickListener.onTextViewClick(view, i);
-                    }
+        goodLuckVH.join_in_group_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (adapterTextViewClickListener != null) {
+                    adapterTextViewClickListener.onTextViewClick(view, i);
                 }
-            });
+            }
+        });
 
-            Glide.with(context).load(groupBean.getHead_user().getHead_pic())
-                    .override(size, size)
-                    .placeholder(R.drawable.ic_default)
-                    .centerCrop()
-                    .error(R.drawable.ic_default)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(goodLuckVH.group_head_pic_iv);
-            // 昵称
-            goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
-            //还差。。。人
-            goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
+        Glide.with(context).load(groupBean.getHead_user().getHead_pic())
+                .override(size, size)
+                .placeholder(R.drawable.ic_default)
+                .centerCrop()
+                .error(R.drawable.ic_default)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(goodLuckVH.group_head_pic_iv);
+        // 昵称
+        goodLuckVH.group_name_tv.setText(groupBean.getHead_user().getNickname());
+        //还差。。。人
+        goodLuckVH.group_diff_tv.setText(groupBean.getDiff());
 //        }
 
 //        else{// 2体验拼单
@@ -175,6 +173,11 @@ public class GoodLuckAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.good_count_down_view)
         private CountdownView good_count_down_view;
+        /**
+         * 已延时
+         */
+        @ViewInject(R.id.yanshiTv)
+        private TextView yanshiTv;
 
     }
 }
