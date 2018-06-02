@@ -35,6 +35,7 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -265,8 +266,21 @@ public class CreateGroupAty extends BaseAty {
                     textNums.setText(data.getM_short());
                     i1 = Long.valueOf(data.getEnd_time()) - Long.valueOf(data.getSys_time());
                     Log.i("倒计时时间", i1 + "");
+                    Calendar calendar = Calendar.getInstance();
+                    long sysTime = Long.parseLong(data.getSys_time());
+                    long endTime = Long.parseLong(data.getEnd_time());
+                    long endTrueTime = Long.parseLong(data.getEnd_true_time());
+                    if (!TextUtils.isEmpty(data.getSys_time())) {
+                        calendar.setTimeInMillis(sysTime);
+                    }
+                    // 当前时间
+                    long now_time = calendar.getTimeInMillis();
+                    // 剩余时间
+                    long last_endTime = endTrueTime - now_time;
                     times.setConvertDaysToHours(true);
-                    times.start(i1 * 1000);
+                    times.start(last_endTime * 1000);
+
+
                     if (Long.valueOf(data.getSys_time()) > Long.valueOf(data.getEnd_time())) {
                         //已延时
                         findViewById(R.id.group_timing_state).setVisibility(View.VISIBLE);
@@ -319,28 +333,26 @@ public class CreateGroupAty extends BaseAty {
                         group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);
                     }
                 }
-
-                //        if (requestUrl.contains("goGroup")) {
-                //            GroupPager groupPager = GsonUtil.GsonToBean(jsonStr, GroupPager.class);
-                //
-                //            GroupPager.Data.GroupInfo groupInfo = groupPager.getData().getInfo();
-                //            Glide.with(this).load(groupInfo.getGoods_img())
-                //                    .override(size, size)
-                //                    .placeholder(R.drawable.ic_default)
-                //                    .centerCrop()
-                //                    .error(R.drawable.ic_default)
-                //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                //                    .into(group_goods_pic_iv);
-
-                //            data = groupPager.getData().getPerson();
-                //            if (!ListUtils.isEmpty(data)) {
-                //                groupMemberAdapter = new GroupMemberAdapter(this, data);
-                //                group_member_rv.setAdapter(groupMemberAdapter);
-                //            }
-                //            // =====参团页======
-                //        }
-
             });
+            //        if (requestUrl.contains("goGroup")) {
+            //            GroupPager groupPager = GsonUtil.GsonToBean(jsonStr, GroupPager.class);
+            //
+            //            GroupPager.Data.GroupInfo groupInfo = groupPager.getData().getInfo();
+            //            Glide.with(this).load(groupInfo.getGoods_img())
+            //                    .override(size, size)
+            //                    .placeholder(R.drawable.ic_default)
+            //                    .centerCrop()
+            //                    .error(R.drawable.ic_default)
+            //                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            //                    .into(group_goods_pic_iv);
+
+            //            data = groupPager.getData().getPerson();
+            //            if (!ListUtils.isEmpty(data)) {
+            //                groupMemberAdapter = new GroupMemberAdapter(this, data);
+            //                group_member_rv.setAdapter(groupMemberAdapter);
+            //            }
+            //            // =====参团页======
+            //        }
         }
     }
 }

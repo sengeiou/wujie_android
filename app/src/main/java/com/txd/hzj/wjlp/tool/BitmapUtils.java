@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,9 +40,10 @@ public class BitmapUtils {
 
         String fileName = null;
         //系统相册目录
-        String galleryPath = Environment.getExternalStorageDirectory()
+        /*String galleryPath = Environment.getExternalStorageDirectory()
                 + File.separator + Environment.DIRECTORY_DCIM
-                + File.separator + "Camera" + File.separator;
+                + File.separator + "Camera" + File.separator;*/
+        String galleryPath = Environment.getExternalStorageDirectory().getAbsolutePath().toString();
 
 
         // 声明文件对象

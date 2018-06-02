@@ -957,13 +957,17 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             tyLayout.getBackground().setAlpha(125);
 
                             Calendar calendar = Calendar.getInstance();
+                            long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
+                            long sysTime = Long.parseLong(groupBean.getSys_time());
+                            long endTime = Long.parseLong(groupBean.getEnd_time());
                             if (!android.text.TextUtils.isEmpty(groupBean.getSys_time()))
-                                calendar.setTimeInMillis(Long.parseLong(groupBean.getSys_time()));
+                                calendar.setTimeInMillis(sysTime);
 
                             // 当前时间
                             long now_time = calendar.getTimeInMillis();
                             // 剩余时间
-                            long last_time = Long.parseLong(groupBean.getEnd_time()) - now_time;
+                            long last_time = endTime - now_time;
+                            long last_endTime = endTrueTime - now_time;
                             // 开始倒计时
                             good_count_down_view.setConvertDaysToHours(true);
                             if (last_time < 0) {
