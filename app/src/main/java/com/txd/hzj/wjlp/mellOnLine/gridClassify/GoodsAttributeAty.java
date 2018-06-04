@@ -138,7 +138,7 @@ public class GoodsAttributeAty extends BaseAty {
                     if (num >= maxNumber) {
                         num = maxNumber;
                     }
-                    tv_xg.setText(num);
+                    tv_xg.setText(String.valueOf(num));
                     // 获取输入框的输入件数
                     if (0 == num) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
                         showErrorTip("购买件数不能小于等于零");
