@@ -565,6 +565,7 @@ public class CollageDetailsAty extends BaseAty {
                 } else if (order_status.equals("3")) { // 订单待收货状态
                     if (Integer.valueOf(map.get("status")) > 1 && map.containsKey("sale_status")) {
                         tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
+                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0")?"":map.get("auto_time"));
                     } else {
                         tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                     }
@@ -773,6 +774,9 @@ public class CollageDetailsAty extends BaseAty {
             private TextView tv_fahuoshijian;
             @ViewInject(R.id.itemGoods_goods_layout)
             private LinearLayout itemGoods_goods_layout;
+
+            @ViewInject(R.id.delayReceivingtv)
+            private TextView delayReceivingtv;//订单详情中延长收货时间显示
         }
     }
 
