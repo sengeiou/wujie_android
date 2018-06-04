@@ -277,8 +277,14 @@ public class CreateGroupAty extends BaseAty {
                     long now_time = calendar.getTimeInMillis();
                     // 剩余时间
                     long last_endTime = endTrueTime - now_time;
+                   long end_last =  endTime - now_time;
                     times.setConvertDaysToHours(true);
-                    times.start(last_endTime * 1000);
+                    if (end_last >0){
+                        times.start(end_last * 1000);
+                    }else{
+                        times.start(last_endTime * 1000);
+                    }
+
 
 
                     if (Long.valueOf(data.getSys_time()) > Long.valueOf(data.getEnd_time())) {

@@ -67,13 +67,12 @@
                 android:id="@+id/tv_chose_ads"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/sz"
-                android:layout_toStartOf="@+id/freight_tv"
-                android:drawableEnd="@drawable/icon_search_goods_mell"
+                android:drawableRight="@drawable/icon_search_goods_mell"
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
+                android:text="asd"
                 android:maxLines="2"
                 android:textColor="@color/app_text_color" />
         </RelativeLayout>

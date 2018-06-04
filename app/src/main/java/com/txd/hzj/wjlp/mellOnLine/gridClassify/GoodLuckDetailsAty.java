@@ -901,7 +901,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+                     map.get("pay"), 0, Color.parseColor("#FD8214"));
         }
         if (requestUrl.contains("groupBuyInfo")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
@@ -1593,7 +1593,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 if (!android.text.TextUtils.isEmpty(data.getStringExtra("p_shop_price"))) {
                     one_price_tv.setText("￥" + data.getStringExtra("p_shop_price") + "\n独立购买");
                 }
-                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
+                goods_select_attr_tv.setText(data.getStringExtra("pro_value") + "x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

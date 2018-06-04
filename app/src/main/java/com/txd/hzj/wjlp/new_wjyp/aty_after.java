@@ -52,7 +52,7 @@ public class aty_after extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("协商退货退款");
+        titlt_conter_tv.setText("售后处理");
     }
 
     @Override

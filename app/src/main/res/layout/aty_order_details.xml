@@ -112,7 +112,7 @@
                     android:id="@+id/goods_for_this_order_lv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/bg_color"
+                    android:background="@color/white"
                     android:divider="@color/white"
                     android:dividerHeight="2dp"
                     android:padding="8dp" />
@@ -437,6 +437,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
+                        android:paddingStart="16dp"
                         android:text="给卖家留言："
                         android:textColor="@color/app_text_color"
                         android:textSize="16sp" />
