@@ -933,8 +933,6 @@ public class BuildOrderAty extends BaseAty {
             }
 
             if (!"10".equals(type)) {
-                //是否存在公益宝贝
-                L.e("aaaa" + getItem(i).get("is_welfare"));
 
                 // 正品保证
                 govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
@@ -946,7 +944,7 @@ public class BuildOrderAty extends BaseAty {
                 govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
                 govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
                 // 公益宝贝
-                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
+                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").equals("0") ? View.GONE : View.VISIBLE);
                 govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
                 // 售后
                 govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);

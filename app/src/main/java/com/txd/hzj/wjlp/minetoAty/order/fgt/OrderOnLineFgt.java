@@ -598,17 +598,24 @@ public class OrderOnLineFgt extends BaseFgt {
                     } else if (from.equals("3")) {//拼团
                         if ("1".equals(goods_list.get(position).get("order_status"))) {
                             Bundle bundle = new Bundle();
-                            if ("2".equals(goods_list.get(i).get("order_type"))) {
-                                bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
-                            }else if ("3".equals(goods_list.get(i).get("order_type"))){
-                                bundle.putString("id", goods_list.get(i).get("p_id"));
+                            if ("1".equals(goods_list.get(position).get("group_type"))){
+                                bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
+                                bundle.putString("type", from);
+                                bundle.putBoolean("isTy", map_Type.get(position));
+                                startActivity(CollageDetailsAty.class, bundle);
+                            }else {
+                                if ("2".equals(goods_list.get(i).get("order_type"))) {
+                                    bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
+                                } else if ("3".equals(goods_list.get(i).get("order_type"))) {
+                                    bundle.putString("id", goods_list.get(i).get("p_id"));
+                                }
+                                String order_goods = goods_list.get(i).get("order_goods");
+                                JSONArray jsonArray = JSONArray.parseArray(order_goods);
+                                bundle.putString("integral", ((JSONObject) jsonArray.get(0)).getString("return_integral"));
+                                bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
+                                bundle.putInt("status", 0);
+                                startActivity(CreateGroupAty.class, bundle);
                             }
-                            String order_goods = goods_list.get(i).get("order_goods");
-                            JSONArray jsonArray = JSONArray.parseArray(order_goods);
-                            bundle.putString("integral", ((JSONObject)jsonArray.get(0)).getString("return_integral"));
-                            bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
-                            bundle.putInt("status", 0);
-                            startActivity(CreateGroupAty.class, bundle);
                         } else {
                             Bundle bundle = new Bundle();
                             bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
