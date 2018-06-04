@@ -961,7 +961,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 creat_group_tv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                             tyLayout.setVisibility(View.VISIBLE);
-                            tyLayout.getBackground().setAlpha(80);
+                            tyLayout.getBackground().setAlpha(180);
 
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
