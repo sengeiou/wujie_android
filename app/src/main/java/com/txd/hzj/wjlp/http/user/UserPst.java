@@ -329,15 +329,4 @@ public class UserPst extends BasePresenter {
         user.referInfo(refer_id, baseView);
     }
 
-    public void bindOther(String openid, String type, String nickname) {
-        baseView.showDialog();
-        user.bindOther(openid, type, nickname, baseView);
-    }
-
-    public void removeBind(String type) {
-        baseView.showDialog();
-        user.removeBind(type, baseView);
-    }
-
-
 }

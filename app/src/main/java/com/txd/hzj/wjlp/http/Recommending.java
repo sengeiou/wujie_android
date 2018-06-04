@@ -7,6 +7,9 @@ import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
 
+/**
+ * 推荐
+ */
 public class Recommending {
 
     private static String url = Config.BASE_URL + "Recommending/";

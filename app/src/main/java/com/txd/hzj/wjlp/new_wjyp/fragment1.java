@@ -551,12 +551,20 @@ public class fragment1 extends BaseFgt {
                 String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                 switch (requestCode) {
                     case 101: // 身份证正面照
-                        file1 = new File(pic_path);
-                        Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
+                        if (!pic_path.equals("")) {
+                            file1 = new File(pic_path);
+                            if (file1 != null && file1.isFile()) {
+                                Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
+                            }
+                        }
                         break;
                     case 102: // 身份证反面照
-                        file2 = new File(pic_path);
-                        Glide.with(this).load(file2).override(size, size).centerCrop().into(image2);
+                        if (!pic_path.equals("")) {
+                            file2 = new File(pic_path);
+                            if (file2 != null && file2.isFile()) {
+                                Glide.with(this).load(file2).override(size, size).centerCrop().into(image2);
+                            }
+                        }
                         break;
                 }
             }
