@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.tools.RegexUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -119,6 +120,10 @@ public class aty_addshipping extends BaseAty {
                 }
                 if (phone.equals("")) {
                     showToast("电话不能为空");
+                    return;
+                }
+                if (RegexUtils.checkMobile(phone)) {
+                    showToast("电话号码不正确");
                     return;
                 }
                 if (zore_tv.getText().toString().trim().equals("")) {
