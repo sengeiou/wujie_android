@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10.23"
-            android:textColor="@color/colorOrange"/>
+            android:textColor="@color/colorAccent"/>
     </LinearLayout>
 
     <com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar

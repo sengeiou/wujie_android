@@ -74,7 +74,7 @@
                         android:layout_marginLeft="3dp"
                         android:maxLines="1"
                         android:text="显示积分显示积分显示积分显示积分显示积分显示积分显示积分"
-                        android:textColor="@color/colorOrange"
+                        android:textColor="@color/colorAccent"
                         android:visibility="gone"
                         android:textSize="10sp" />
                 </LinearLayout>
