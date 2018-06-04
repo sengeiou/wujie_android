@@ -116,6 +116,8 @@ public class GoodsAttributeAty extends BaseAty {
     private List<Map<Integer, String>> recordMutilMapList;
     private Map<Integer, String> recordMutilMap;
     private int position = 0;
+    @ViewInject(R.id.tv_xg)//限购
+    private TextView tv_xg;
 
     @Override
     @OnClick({R.id.to_buy_must_tv, R.id.im_jian, R.id.im_jia})
@@ -128,12 +130,19 @@ public class GoodsAttributeAty extends BaseAty {
                         showErrorTip("库存不足请您下次再买");
                         return;
                     }
+
+                    num = Integer.parseInt(et_num.getText().toString().trim());
+                    if (tv_xg.getVisibility() == View.VISIBLE && num >= Integer.parseInt(val.getMax_num())) {
+                        num = Integer.parseInt(val.getMax_num());
+                    }
+                    if (num >= maxNumber) {
+                        num = maxNumber;
+                    }
+                    tv_xg.setText(num);
                     // 获取输入框的输入件数
-                    if (et_num.getText().toString().trim().equals("") || et_num.getText().toString().trim().equals("0")) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
+                    if (0 == num) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
                         showErrorTip("购买件数不能小于等于零");
                         return;
-                    } else {
-                        num = Integer.parseInt(et_num.getText().toString().trim());
                     }
                 } else {
                     num = 1;
@@ -216,6 +225,9 @@ public class GoodsAttributeAty extends BaseAty {
                 goodAttChange();
                 break;
             case R.id.im_jia:
+                if (tv_xg.getVisibility() == View.VISIBLE && num >= Integer.parseInt(val.getMax_num())) {
+                    return;
+                }
                 if (num >= maxNumber) {
                     return;
                 }
@@ -372,7 +384,7 @@ public class GoodsAttributeAty extends BaseAty {
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
         } else {
             maxNumber = Integer.parseInt(string[1]);
-            tv_kucun.setText("(库存：" + string[1] + ")");
+            tv_kucun.setText("（库存：" + string[1] + "）");
             et_num.setText(String.valueOf(num));
             list.clear();
         }
@@ -392,7 +404,15 @@ public class GoodsAttributeAty extends BaseAty {
                 }
                 if (goods_val.getArrtValue().contains(recordStr)) {
                     GoodsAttributeAty.this.val = goods_val;
-                    tv_kucun.setText("(库存：" + goods_val.getGoods_num() + ")");
+
+                    if (TextUtils.isEmpty(val.getMax_num())) {
+                        tv_xg.setVisibility(View.INVISIBLE);
+                    } else {
+                        tv_xg.setVisibility(View.VISIBLE);
+                        tv_xg.setText("限购（" + val.getMax_num() + "）");
+                    }
+
+                    tv_kucun.setText("（库存：" + goods_val.getGoods_num() + "）");
                     maxNumber = Integer.parseInt(goods_val.getGoods_num());
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     if ("10".equals(type)) {
@@ -824,7 +844,13 @@ public class GoodsAttributeAty extends BaseAty {
                         GoodsAttributeAty.this.val = val;
                         if (!TextUtils.isEmpty(val.getGroup_buy_id()))
                             group_buy_id = val.getGroup_buy_id();
-                        tv_kucun.setText("(库存：" + val.getGoods_num() + ")");
+                        if (TextUtils.isEmpty(val.getMax_num())) {
+                            tv_xg.setVisibility(View.INVISIBLE);
+                        } else {
+                            tv_xg.setVisibility(View.VISIBLE);
+                            tv_xg.setText("限购（" + val.getMax_num() + "）");
+                        }
+                        tv_kucun.setText("（库存：" + val.getGoods_num() + "）");
                         maxNumber = Integer.parseInt(val.getGoods_num());
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                         if ("10".equals(type)) {
@@ -947,7 +973,12 @@ public class GoodsAttributeAty extends BaseAty {
         }
         if (null == recordMutilMap) {
             recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-
+            if (TextUtils.isEmpty(list_val.get(0).getMax_num())) {
+                tv_xg.setVisibility(View.INVISIBLE);
+            } else {
+                tv_xg.setVisibility(View.VISIBLE);
+                tv_xg.setText("限购（" + list_val.get(0).getMax_num() + "）");
+            }
         } else {
 
             //            boolean equal = false;
