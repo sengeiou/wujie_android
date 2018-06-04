@@ -248,7 +248,8 @@
         <!-- 户型详情 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty" />
         <!-- 登录注册 -->
-        <activity android:name=".login.LoginAty" />
+        <activity android:name=".login.LoginAty"
+            android:launchMode="singleTop"/>
         <!-- 忘记密码 -->
         <activity android:name=".login.FindPwgBackHzjAty" />
         <!-- 重置密码 -->
