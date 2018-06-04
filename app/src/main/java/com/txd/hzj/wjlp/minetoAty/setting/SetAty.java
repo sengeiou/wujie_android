@@ -256,7 +256,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     }).setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            userPst.removeBind("1");
+                            User.removeBind("1", SetAty.this);
                         }
                     }).show();
 
@@ -278,10 +278,9 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     }).setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            userPst.removeBind("3");
+                            User.removeBind("3", SetAty.this);
                         }
                     }).show();
-
 
                 }
                 break;
@@ -300,7 +299,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                     }).setPositiveButton("确定", new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            userPst.removeBind("2");
+                            User.removeBind("2", SetAty.this);
                         }
                     }).show();
                 }
@@ -321,7 +320,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
     @Override
     protected void requestData() {
-
     }
 
     @Override
@@ -474,7 +472,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             nick = plat.getDb().getUserName();
             if (openid != null && nick != null) {
                 //head_pic = plat.getDb().getUserIcon();
-                userPst.bindOther(openid, loginType, nick);
+                User.bindOther(openid, loginType, nick, this);
+//                userPst.bindOther(openid, loginType, nick);
                 //getHeadPicAndLogin(head_pic);
                 return;
             }
@@ -500,10 +499,10 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 Environment.getExternalStorageDirectory() + "/Txunda/img_head/head.png", new RequestCallBack<File>() {
                     @Override
                     public void onSuccess(ResponseInfo<File> responseInfo) {
-                        File head = new File(Environment.getExternalStorageDirectory() +
-                                "/Txunda/img_head/head.png");
+                        File head = new File(Environment.getExternalStorageDirectory() + "/Txunda/img_head/head.png");
                         //   registerPst.otherLogin(openid, loginType, head, nick);
-                        userPst.bindOther(openid, loginType, nick);
+                        User.bindOther(openid, loginType, nick, SetAty.this);
+//                        userPst.bindOther(openid, loginType, nick);
                     }
 
                     @Override

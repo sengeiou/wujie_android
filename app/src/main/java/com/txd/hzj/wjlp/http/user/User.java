@@ -557,36 +557,6 @@ public class User {
     }
 
     /**
-     * 绑定第三方
-     *
-     * @param openid
-     * @param type
-     * @param nickname
-     * @param baseView
-     */
-    void bindOther(String openid, String type, String nickname, BaseView baseView) {
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("openid", openid);
-        params.addBodyParameter("type", type);
-        params.addBodyParameter("nickname", nickname);
-        apiTool2.postApi(url + "bindOther", params, baseView);
-    }
-
-    /**
-     * 解除绑定
-     *
-     * @param type
-     * @param baseView
-     */
-    void removeBind(String type, BaseView baseView) {
-        RequestParams params = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("type", type);
-        apiTool2.postApi(url + "removeBind", params, baseView);
-    }
-
-    /**
      * 会员卡列表
      *
      * @param view

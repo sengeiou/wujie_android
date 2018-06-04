@@ -111,11 +111,19 @@
 
                 <TextView
                     android:id="@+id/tv_kucun"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:padding="8dp"
                     android:text="(库存：0)" />
+                <TextView
+                    android:id="@+id/tv_xg"
+                    android:visibility="invisible"
+                    android:text="限购(0)"
+                    android:layout_marginStart="5dip"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:id="@+id/im_jian"

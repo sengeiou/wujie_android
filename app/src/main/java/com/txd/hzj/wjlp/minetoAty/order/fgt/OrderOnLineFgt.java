@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -597,17 +598,24 @@ public class OrderOnLineFgt extends BaseFgt {
                     } else if (from.equals("3")) {//拼团
                         if ("1".equals(goods_list.get(position).get("order_status"))) {
                             Bundle bundle = new Bundle();
-                            if ("2".equals(goods_list.get(i).get("order_type"))) {
-                                bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
-                            }else if ("3".equals(goods_list.get(i).get("order_type"))){
-                                bundle.putString("id", goods_list.get(i).get("p_id"));
+                            if ("1".equals(goods_list.get(position).get("group_type"))){
+                                bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
+                                bundle.putString("type", from);
+                                bundle.putBoolean("isTy", map_Type.get(position));
+                                startActivity(CollageDetailsAty.class, bundle);
+                            }else {
+                                if ("2".equals(goods_list.get(i).get("order_type"))) {
+                                    bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
+                                } else if ("3".equals(goods_list.get(i).get("order_type"))) {
+                                    bundle.putString("id", goods_list.get(i).get("p_id"));
+                                }
+                                String order_goods = goods_list.get(i).get("order_goods");
+                                JSONArray jsonArray = JSONArray.parseArray(order_goods);
+                                bundle.putString("integral", ((JSONObject) jsonArray.get(0)).getString("return_integral"));
+                                bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
+                                bundle.putInt("status", 0);
+                                startActivity(CreateGroupAty.class, bundle);
                             }
-                            String order_goods = goods_list.get(i).get("order_goods");
-                            JSONArray jsonArray = JSONArray.parseArray(order_goods);
-                            bundle.putString("integral", ((JSONObject)jsonArray.get(0)).getString("return_integral"));
-                            bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
-                            bundle.putInt("status", 0);
-                            startActivity(CreateGroupAty.class, bundle);
                         } else {
                             Bundle bundle = new Bundle();
                             bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
@@ -877,33 +885,39 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待付款");
                     holder.tv_btn_left.setText("取消订单");
                     holder.tv_btn_right.setText("付款");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_left.setVisibility(View.VISIBLE);
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
                 case "2": {
                     holder.state.setText("待发货");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "1": {
                     holder.state.setText("待成团");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "3": {
                     holder.state.setText("待收货");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.GONE);
                 }
-                holder.tv_btn_right.setVisibility(View.GONE);
+
                 break;
                 case "4": {
                     holder.state.setText("待评价");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("评价");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -911,6 +925,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -918,6 +933,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -930,12 +946,14 @@ public class OrderOnLineFgt extends BaseFgt {
                 break;
                 case "10": {
                     holder.state.setText("未中奖");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "8": {
                     holder.state.setText("未成团");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
@@ -1129,6 +1147,8 @@ public class OrderOnLineFgt extends BaseFgt {
 
             @ViewInject(R.id.goods_for_order_lv)
             private ListViewForScrollView goods_for_order_lv;
+            @ViewInject(R.id.lineColor)
+            private View lineColor;
 
         }
     }

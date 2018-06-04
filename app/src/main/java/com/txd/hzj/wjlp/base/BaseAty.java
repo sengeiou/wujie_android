@@ -35,11 +35,14 @@ import com.txd.hzj.wjlp.mellOnLine.AllClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
+import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.mell.QRCodeForMellGoodsAty;
+import com.txd.hzj.wjlp.minetoAty.order.GoodLuckOrderDetailsAty;
 import com.txd.hzj.wjlp.popAty.GetRedPackageAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.umeng.analytics.MobclickAgent;
@@ -68,8 +71,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 竖屏锁定 除去GoodsAttributeAty和RegistrationCodeAty两个Activity之外都锁定竖屏界面，为兼容Android8.0系统
+        // 1GoodsAttributeAty 2RegistrationCodeAty 3AuctionGoodsDetailsAty 4GoodLuckOrderDetailsAty 5ToShareAty 6ApprenticeCodeAty
         if (!(this instanceof GoodsAttributeAty) && !(this instanceof ToShareAty) && !(this instanceof RegistrationCodeAty)
-                && !(this instanceof GetRedPackageAty) && !(this instanceof QRCodeForMellGoodsAty)&&!(this instanceof ApprenticeCodeAty)) {
+                && !(this instanceof GetRedPackageAty) && !(this instanceof QRCodeForMellGoodsAty) && !(this instanceof ApprenticeCodeAty)
+                && !(this instanceof AuctionGoodsDetailsAty) && !(this instanceof BankCardHzjAty) && !(this instanceof GoodLuckOrderDetailsAty)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         if (L.isDebug) {
@@ -77,6 +82,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         } else {
             rootText.setVisibility(View.GONE);
         }
+
     }
 
     /**

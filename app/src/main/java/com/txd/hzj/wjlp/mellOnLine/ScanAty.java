@@ -6,8 +6,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -83,11 +85,13 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         vibrate();
         //停止预览
         mQR.stopCamera();
+
+        // 扫描商家拜师码
         if (result.contains("User/mentorship/invite_code")) {
             if (!Config.isLogin()) { // 如果未登录则先去登录
                 toLogin();
-            }else{
-                toDetail(4,result);
+            } else {
+                toDetail(4, result);
             }
         } else if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
             if (!Config.isLogin()) { // 如果未登录则先去登录
@@ -109,13 +113,19 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                 }
             }
         } else {
-            toDetail(4,result);
+            toDetail(4, result);
         }
         finish();
     }
-    private void toDetail(int from,String herf){
+
+    private void toDetail(int from, String herf) {
+
+        String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", ""); // 获取当前账号的Token
+
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
+        herf = herf.contains("User/mentorship/invite_code") ? herf + "/token/" + token : herf; // 如果是拜师码，则添加当前登录人的Token
+        L.e("===============herf==================" + herf);
         bundle.putString("href", herf);
         startActivity(NoticeDetailsAty.class, bundle);
     }

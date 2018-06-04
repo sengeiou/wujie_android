@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.wjyp;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.new_wjyp.RoundTransformation;
@@ -61,7 +62,11 @@ public class PushMerchantAty extends BaseAty {
                 startActivity(intent);
             }
         });
-        load();
+        try {
+            load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -71,69 +76,74 @@ public class PushMerchantAty extends BaseAty {
     }
 
     private void load() {
-        Recommending.businessList(new BaseView() {
-            @Override
-            public void showDialog() {
+        try {
+            Recommending.businessList(new BaseView() {
+                @Override
+                public void showDialog() {
 
-            }
+                }
 
-            @Override
-            public void showDialog(String text) {
+                @Override
+                public void showDialog(String text) {
 
-            }
+                }
 
-            @Override
-            public void showContent() {
+                @Override
+                public void showContent() {
 
-            }
+                }
 
-            @Override
-            public void removeDialog() {
+                @Override
+                public void removeDialog() {
 
-            }
+                }
 
-            @Override
-            public void removeContent() {
+                @Override
+                public void removeContent() {
 
-            }
+                }
 
-            @Override
-            public void onStarted() {
+                @Override
+                public void onStarted() {
 
-            }
+                }
 
-            @Override
-            public void onCancelled() {
+                @Override
+                public void onCancelled() {
 
-            }
+                }
 
-            @Override
-            public void onLoading(long total, long current, boolean isUploading) {
+                @Override
+                public void onLoading(long total, long current, boolean isUploading) {
 
-            }
+                }
 
-            @Override
-            public void onException(Exception exception) {
+                @Override
+                public void onException(Exception exception) {
 
-            }
+                }
 
-            @Override
-            public void onComplete(String requestUrl, String jsonStr) {
-                map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                recyclerView.setAdapter(new MyAdpater());
-            }
+                @Override
+                public void onComplete(String requestUrl, String jsonStr) {
+                    map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+                    list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+                    recyclerView.setAdapter(new MyAdpater());
+                }
 
-            @Override
-            public void onError(String requestUrl, Map<String, String> error) {
+                @Override
+                public void onError(String requestUrl, Map<String, String> error) {
 
-            }
+                }
 
-            @Override
-            public void onErrorTip(String tips) {
+                @Override
+                public void onErrorTip(String tips) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(this, "数据有点问题", Toast.LENGTH_SHORT);
+            L.e("===========pushMerchantAty load Exception=========" + e.toString());
+        }
     }
 
     @Override
@@ -154,7 +164,7 @@ public class PushMerchantAty extends BaseAty {
             Glide.with(PushMerchantAty.this).load(list.get(position).get("logo")).bitmapTransform(new RoundTransformation(PushMerchantAty.this, 10)).into(holder.im_head);
             holder.tv_name.setText(list.get(position).get("user_name"));
             holder.tv_text.setText(list.get(position).get("merchant_name"));
-            holder.tv_time.setText("推荐时间\n"+list.get(position).get("create_time"));
+            holder.tv_time.setText("推荐时间\n" + list.get(position).get("create_time"));
             holder.tv_tel.setText(list.get(position).get("user_phone"));
             holder.tv_address.setText(list.get(position).get("city") + list.get(position).get("street"));
             switch (list.get(position).get("status")) {

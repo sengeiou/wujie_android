@@ -42,7 +42,6 @@ import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralOrder;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.PreOrder;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.new_wjyp.Invoice1;
@@ -138,8 +137,8 @@ public class BuildOrderAty extends BaseAty {
     private String address_id;
     @ViewInject(R.id.order_price_at_last_tv)
     private TextView order_price_at_last_tv;
-//    @ViewInject(R.id.tv_sum_discount)
-//    private TextView tv_sum_discount;
+    //    @ViewInject(R.id.tv_sum_discount)
+    //    private TextView tv_sum_discount;
     String goods_id, num, ordertype, product_id;
     private String type;
     private String group_buy_id;
@@ -482,7 +481,7 @@ public class BuildOrderAty extends BaseAty {
             if (map.get("is_default").equals("1")) {
                 tv_name.setText("收货人：" + map.get("receiver"));
                 tv_tel.setText(map.get("phone"));
-//                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") + map.get("address"));
+                //                tv_address.setText("收货地址：" + map.get("province") + map.get("city") + map.get("area") + map.get("address"));
                 tv_address.setText(map.get("province") + map.get("city") + map.get("area") + map.get("address"));
                 tv_c_ads.setVisibility(View.GONE);
                 layout_choose_address.setVisibility(View.VISIBLE);
@@ -497,16 +496,16 @@ public class BuildOrderAty extends BaseAty {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
                 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
                 ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                        "合计：¥" + total_price, "合计：".length(),getResources().getColor(R.color.holo_red_light));
+                        "合计：¥" + total_price, "合计：".length(), getResources().getColor(R.color.holo_red_light));
                 //            if (map.get("sum_discount").equals("0")) {
-//                tv_sum_discount.setVisibility(View.GONE);
+                //                tv_sum_discount.setVisibility(View.GONE);
             } else {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
-//                tv_sum_discount.setVisibility(View.GONE);
+                //                tv_sum_discount.setVisibility(View.GONE);
 
                 ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
                         "合计：" + map.get("sum_shop_price") + "积分", "合计：".length(), Color.parseColor("#FF0000"));
-//                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
+                //                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
             }
             if (ToolKit.isList(map, "item")) { // 判断该Map是否可解析成List
                 /*
@@ -683,7 +682,7 @@ public class BuildOrderAty extends BaseAty {
                                 BigDecimal bg = new BigDecimal(tp);
                                 tp = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                                 if (tp == 0.00) {
-//                                    tv_youfei.setVisibility(View.GONE);
+                                    //                                    tv_youfei.setVisibility(View.GONE);
                                     tv_youfei.setText("包邮");
                                 } else {
                                     tv_youfei.setVisibility(View.VISIBLE);
@@ -693,8 +692,8 @@ public class BuildOrderAty extends BaseAty {
                                     order_price_at_last_tv.setText("合计：" + total_price + "积分");
                                 } else {
                                     ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                                            "合计：¥" + total_price, "合计：".length(),getResources().getColor(R.color.holo_red_light));
-//                                    order_price_at_last_tv.setText("合计：¥" + total_price);
+                                            "合计：¥" + total_price, "合计：".length(), getResources().getColor(R.color.holo_red_light));
+                                    //                                    order_price_at_last_tv.setText("合计：¥" + total_price);
                                 }
 
                             }
@@ -913,10 +912,10 @@ public class BuildOrderAty extends BaseAty {
                     bundle.putString("json", toJson(getItem(i).get("goods_id"), getItem(i).get("num"), getItem(i).get("product_id")));
                     // bundle.putString("wj_price", getItem(i).get("wj_price"));
                     if (invoice1s.get(index) == null || invoice1s.get(index).getExpress_fee() == null || invoice1s.get(index).getExpress_fee() == null) {
-//                        bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
+                        //                        bundle.putParcelable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                         bundle.putSerializable("data1", null); // 如果当前位置的值为空，那么传一个空值给发票选择界面
                     } else {
-//                        bundle.putParcelable("data1", invoice1s.get(index));
+                        //                        bundle.putParcelable("data1", invoice1s.get(index));
                         bundle.putSerializable("data1", invoice1s.get(index));
                     }
 
@@ -934,8 +933,6 @@ public class BuildOrderAty extends BaseAty {
             }
 
             if (!"10".equals(type)) {
-                //是否存在公益宝贝
-                L.e("aaaa" + getItem(i).get("is_welfare"));
 
                 // 正品保证
                 govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
@@ -947,12 +944,8 @@ public class BuildOrderAty extends BaseAty {
                 govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
                 govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
                 // 公益宝贝
-                if (null == getItem(i).get("welfare")) {
-                    govh.layout_gongyi.setVisibility(View.GONE);
-                } else {
-                    govh.layout_gongyi.setVisibility(getItem(i).get("welfare").isEmpty() ? View.GONE : View.VISIBLE);
-                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
-                }
+                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").equals("0") ? View.GONE : View.VISIBLE);
+                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
                 // 售后
                 govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
                 govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));

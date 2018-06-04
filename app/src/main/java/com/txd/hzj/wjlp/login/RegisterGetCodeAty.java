@@ -54,7 +54,6 @@ public class RegisterGetCodeAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("输入验证码");
 
-        registerPst.getVerify(phone, "activate");
     }
 
     @Override
@@ -81,6 +80,7 @@ public class RegisterGetCodeAty extends BaseAty {
     protected void initialized() {
         registerPst = new RegisterPst(this);
         phone = getIntent().getStringExtra("phone");
+        registerPst.getVerify(phone, "activate");
     }
 
     @Override
@@ -91,6 +91,7 @@ public class RegisterGetCodeAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("==============json==============" + jsonStr);
         if (requestUrl.contains("sendVerify")) {// 获取验证码
             if (codeCountDown == null) {// 倒计时
                 codeCountDown = new CodeCountDown(60000, 1000, this, register_get_code_tv);
