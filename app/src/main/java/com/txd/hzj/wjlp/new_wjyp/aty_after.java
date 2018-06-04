@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -59,11 +60,11 @@ public class aty_after extends BaseAty {
     @OnClick({R.id.tv_btn_tuihuo, R.id.tv_btn_quxiao, R.id.tv_btn_chongxinshenqing})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_btn_tuihuo: // 退货跳转至输入运单号等信息界面
                 bundle = new Bundle();
                 bundle.putString("id", back_apply_id);
-                startActivity(aty_addshipping.class, bundle);
+                startActivityForResult(aty_addshipping.class, bundle, 1000);
                 break;
             case R.id.tv_btn_quxiao: // 取消售后申请
                 AfterSale.cancelAfter(back_apply_id, aty_after.this);
@@ -73,11 +74,21 @@ public class aty_after extends BaseAty {
                 bundle = new Bundle();
                 bundle.putString("price", price);
                 bundle.putString("order_goods_id", order_goods_id);
-                bundle.putString("order_id",order_id );
+                bundle.putString("order_id", order_id);
                 bundle.putString("type", type);
                 bundle.putString("maxPrice", price);
                 startActivity(ApplyForAfterSalesAty.class, bundle);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1000) {
+            if (resultCode == 500) {
+                tv_btn_tuihuo.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -91,7 +102,7 @@ public class aty_after extends BaseAty {
         initPage();
     }
 
-    private void initPage(){
+    private void initPage() {
         is_sales = getIntent().getStringExtra("is_sales");
         after_type = getIntent().getStringExtra("after_type");
         back_apply_id = getIntent().getStringExtra("back_apply_id");
@@ -103,7 +114,7 @@ public class aty_after extends BaseAty {
         type = getIntent().getStringExtra("type");
 
         tv_btn_tuihuo.setVisibility(is_sales.equals("1") ? View.VISIBLE : View.GONE);
-        switch (Integer.parseInt(after_type)){
+        switch (Integer.parseInt(after_type)) {
             case 1:
                 tv_btn_quxiao.setVisibility(View.VISIBLE);
                 break;

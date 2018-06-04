@@ -113,13 +113,13 @@ public class aty_commentindex extends BaseAty {
 
             @Override
             public void afterTextChanged(Editable s) {
-                textLength.setText(s.length()+"/500");
+                textLength.setText(s.length() + "/500");
             }
         });
         tv_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (evalusete_context_tv.getText().length()<5){
+                if (evalusete_context_tv.getText().length() < 5) {
                     showToast("评价字数不能少于5字");
                     return;
                 }

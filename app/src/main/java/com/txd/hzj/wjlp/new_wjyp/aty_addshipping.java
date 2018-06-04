@@ -210,6 +210,7 @@ public class aty_addshipping extends BaseAty {
         if (requestUrl.contains("addShipping")) {
             showToast(map1.get("message"));
             if (map1.get("code").equals("1")) {
+                setResult(500);
                 finish();
             }
         }

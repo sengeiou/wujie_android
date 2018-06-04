@@ -82,7 +82,7 @@ public class EvaluationReleaseAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("评价详情");
+        titlt_conter_tv.setText("订单评价");
     }
 
     @Override

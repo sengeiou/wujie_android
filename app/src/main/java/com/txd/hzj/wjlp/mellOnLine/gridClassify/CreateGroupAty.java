@@ -308,7 +308,7 @@ public class CreateGroupAty extends BaseAty {
                     list_pic.add(0, head1);//团长
 
 
-                    //分享按钮
+                    //分享按钮·····∂▪•●•
                     goods_title_share_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -325,7 +325,7 @@ public class CreateGroupAty extends BaseAty {
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(group_goods_pic_iv);
                     group_goods_name_tv.setText(data.getGoods_name());
-                    group_other_info_tv.setText("已团" + data.getAlready() + "件●" + data.getNumber());
+                    group_other_info_tv.setText("已团" + data.getAlready() + "件( " + data.getNumber()+" )");
                     group_goods_price_tv.setText("￥" + data.getShop_price());
                     if (data.getIs_colonel().equals("1")) {// 我是团长
                         group_operation_tv.setText("我是团长");
