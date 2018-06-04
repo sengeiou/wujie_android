@@ -46,7 +46,9 @@
                     android:text="线下店铺" />
 
                 <RadioButton
+                    android:id="@+id/main_tab_style"
                     style="@style/main_tab_bottom_style"
+                    android:drawableTop="@drawable/icon_main_more"
                     android:text="更多"
                     android:visibility="invisible" />
 
@@ -121,14 +123,16 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:visibility="visible"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
             android:paddingTop="4dp">
 
             <ImageView
                 android:id="@+id/mach_more_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 android:src="@drawable/icon_main_more" />
 
             <TextView
@@ -136,6 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:visibility="visible"
                 android:text="更多"
                 android:textColor="@color/gray_text_color"
                 android:textSize="12sp" />
