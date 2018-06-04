@@ -156,6 +156,7 @@
                             <TextView
                                 android:id="@+id/delayReceivingtv"
                                 android:textSize="10sp"
+                                android:visibility="gone"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
                         </LinearLayout>

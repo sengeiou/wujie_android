@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -877,28 +878,33 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待付款");
                     holder.tv_btn_left.setText("取消订单");
                     holder.tv_btn_right.setText("付款");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_left.setVisibility(View.VISIBLE);
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
                 case "2": {
                     holder.state.setText("待发货");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "1": {
                     holder.state.setText("待成团");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "3": {
                     holder.state.setText("待收货");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("确认收货");
+                    holder.tv_btn_right.setVisibility(View.GONE);
                 }
-                holder.tv_btn_right.setVisibility(View.GONE);
+
                 break;
                 case "4": {
                     holder.state.setText("待评价");
@@ -1129,6 +1135,8 @@ public class OrderOnLineFgt extends BaseFgt {
 
             @ViewInject(R.id.goods_for_order_lv)
             private ListViewForScrollView goods_for_order_lv;
+            @ViewInject(R.id.lineColor)
+            private View lineColor;
 
         }
     }
