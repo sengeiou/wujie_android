@@ -99,7 +99,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView{
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
     private String order_id;
     /**
      * 商品TextView
@@ -591,7 +591,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.title_evaluate_layout)
     private View title_evaluate_layout;
-    private StringBuffer ex_stringBuffer;
+    private List<String> expStrList;
     private CommodityDetailsPranster commodityDetailsPranster;
     @ViewInject(R.id.rb)
     private RatingBar rb;
@@ -803,12 +803,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(aty_collocations.class, bundle1);
                 break;
             case R.id.tv_expirationdateLayout: {
-                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, ex_stringBuffer);
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, expStrList);
             }
             break;
             case R.id.pdMoreLLayout: {
                 //参团查看更多(参团弹窗)
-                goodLuckPranster.showCollagePop(v,"正在拼单",groupList,groupType,GoodLuckDetailsAty.this,group_count);
+                goodLuckPranster.showCollagePop(v, "正在拼单", groupList, groupType, GoodLuckDetailsAty.this, group_count);
             }
             break;
         }
@@ -901,7 +901,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay"), 2,getResources().getColor(R.color.red_tv_back));
+                    "运费" + map.get("pay"), 2, getResources().getColor(R.color.red_tv_back));
 //            Color.parseColor("#FD8214")
         }
         if (requestUrl.contains("groupBuyInfo")) {
@@ -985,11 +985,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                             //设置提示信息
                             List<String> memoList = groupBean.getMemo();//设置提示信息
-                            ex_stringBuffer = new StringBuffer();
-                            for (String str : memoList
-                                    ) {
+                            expStrList = new ArrayList<>();
+                            StringBuffer ex_stringBuffer = new StringBuffer();
+                            for (int i = 0; i < memoList.size(); i++) {
+                                String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
                                 ex_stringBuffer.append("\n");
+                                if (i > 0) {
+                                    expStrList.add(str);
+                                }
                             }
                             tv_expirationdate.setText(ex_stringBuffer);
                         }
@@ -1410,11 +1414,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 参团列表
                     groupList = (List<GroupBean>) dataBean.getGroup();
                     if (!ListUtils.isEmpty(groupList)) {//最多十个团
-                        List<GroupBean> twoGroupBean=new ArrayList<>();
-                        if(groupList.size()>2){
+                        List<GroupBean> twoGroupBean = new ArrayList<>();
+                        if (groupList.size() > 2) {
                             twoGroupBean.add(groupList.get(0));
                             twoGroupBean.add(groupList.get(1));
-                        }else{
+                        } else {
                             twoGroupBean.addAll(groupList);
                         }
                         group_count = dataBean.getGroup_count();
@@ -1433,7 +1437,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             goodLuckAdapter.setAdapterTextViewClickListener(new AdapterTextViewClickListener() {
                                 @Override
                                 public void onTextViewClick(View v, int position) {
-                                    itmeClick(v,position);
+                                    itmeClick(v, position);
                                 }
                             });
                         }
@@ -1606,13 +1610,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 now_price_tv.setText(data.getStringExtra("shop_price"));
 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                if("1".equals(groupType)){
+                if ("1".equals(groupType)) {
                     creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n体验拼单");
-                }else{
+                } else {
                     creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
                 }
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2,getResources().getColor(R.color.red_tv_back));
+                        "积分" + data.getStringExtra("red_return_integral"), 2, getResources().getColor(R.color.red_tv_back));
 //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
                 dj_ticket = (ArrayList<DjTicketBean>) data.getSerializableExtra("data");
                 if (dj_ticket != null) {

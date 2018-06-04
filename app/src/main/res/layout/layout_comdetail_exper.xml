@@ -18,18 +18,24 @@
         android:layout_height="1dp"
         android:background="#dddddd" />
 
-    <TextView
-        android:id="@+id/pop_exper_content"
+    <!--<TextView-->
+    <!--android:id="@+id/pop_exper_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="14dp"-->
+    <!--android:layout_marginLeft="4dp"-->
+    <!--android:layout_marginStart="14dp"-->
+    <!--android:layout_marginTop="14dp"-->
+    <!--android:ellipsize="end"-->
+    <!--android:text="@string/jitsPopStr"-->
+    <!--android:textColor="#999999"-->
+    <!--android:textSize="14sp" />-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/experRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginLeft="4dp"
         android:layout_marginStart="14dp"
-        android:layout_marginTop="14dp"
-        android:ellipsize="end"
-        android:text="@string/jitsPopStr"
-        android:textColor="#999999"
-        android:textSize="14sp" />
+        android:layout_marginTop="14dp"></android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/cancel"

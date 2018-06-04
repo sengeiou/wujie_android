@@ -83,7 +83,7 @@ public interface CommodityDetailsInter {
     }
 
     public interface GoodLuckPranster {
-        void showExperiencePopWindow(Context context, View view, StringBuffer stringBuffer);
+        void showExperiencePopWindow(Context context, View view,List<String> strList);
 
         void setGoodLuckView(GoodLuckView goodLuckView);
     }
