@@ -548,10 +548,11 @@ public class OrderOnLineFgt extends BaseFgt {
             }
             List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
             holder.title.setText(getItem(position).get("merchant_name"));
+            String freight = getItem(position).get("freight");
             if ("10".equals(from)) {
-                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：" + getItem(position).get("order_price") + "积分");
+                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：" + getItem(position).get("order_price") + "积分"+" 运费："+("0.00".equals(freight)?"包邮":freight+"元"));
             } else {
-                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：¥" + getItem(position).get("order_price"));
+                holder.goods_price_info_tv.setText("共" + list_data.size() + "件商品 合计：¥" + getItem(position).get("order_price")+" 运费："+("0.00".equals(freight)?"包邮":freight+"元"));
             }
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
