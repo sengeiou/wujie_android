@@ -287,7 +287,8 @@ public class GoodsAttributeAty extends BaseAty {
                 if ("10".equals(type)) {
                     to_buy_must_tv.setText("立即兑换");
                 } else {
-                    to_buy_must_tv.setText("立即购买");
+                    to_buy_must_tv.setText("确定");
+//                    to_buy_must_tv.setText("立即购买");
                 }
                 from = 1;
                 if (a.length > 1)

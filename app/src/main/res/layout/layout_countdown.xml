@@ -10,7 +10,7 @@
         android:id="@+id/tyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#000000"
+        android:background="#ebd9cf"
         android:visibility="gone">
 
         <cn.iwgang.countdownview.CountdownView
@@ -34,7 +34,7 @@
             app:suffixLRMargin="3dp"
             app:suffixMinute=":"
             app:suffixSecond=":"
-            app:suffixTextColor="#FFFFFF"
+            app:suffixTextColor="@color/colorAccent"
             app:suffixTextSize="15sp"
             app:timeBgColor="#DF3031"
             app:timeBgRadius="5dp"
@@ -47,7 +47,7 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/good_count_down_view"
             android:text="剩余 "
-            android:textColor="@color/white"
+            android:textColor="@color/colorAccent"
             android:textSize="15sp" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/good_count_down_view"
             android:text=" 结束"
-            android:textColor="@color/white"
+            android:textColor="@color/colorAccent"
             android:textSize="15sp" />
     </RelativeLayout>
 </RelativeLayout>
