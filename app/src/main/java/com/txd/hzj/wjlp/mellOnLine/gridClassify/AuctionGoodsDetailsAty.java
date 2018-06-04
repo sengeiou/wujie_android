@@ -500,7 +500,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         if (requestUrl.contains("freight")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
         }
         if (requestUrl.contains("AuctionOrder/SetOrder")) {
             showToast(map.get("message"));
@@ -630,7 +630,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
             // 积分
             ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
-                    "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+                    "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FF0000"));
             // 当前价
             ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥" +
                     auctionInfo.get("now_price"));

@@ -500,7 +500,7 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         old_price_tv.setText(goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FF0000"));
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));
         // 长按标题进行复制标题文字
         goods_details_name_tv.setOnLongClickListener(new View.OnLongClickListener() {
@@ -557,11 +557,11 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, mInfo.get("all_goods") + "\n全部宝贝");
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, mInfo.get("view_num") + "\n人关注");
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述" + mInfo.get("goods_score"), 4, Color.parseColor("#FD8214"));
+                "宝贝描述" + mInfo.get("goods_score"), 4, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务" + mInfo.get("merchant_score"), 4, Color.parseColor("#FD8214"));
+                "卖家服务" + mInfo.get("merchant_score"), 4, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务" + mInfo.get("shipping_score"), 4, Color.parseColor("#FD8214"));
+                "物流服务" + mInfo.get("shipping_score"), 4, Color.parseColor("#FF0000"));
     }
 
     private void forBase(Map<String, String> data) {
@@ -674,21 +674,21 @@ public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollVie
         ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥14.8");
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "分红权10.23", 3, Color.parseColor("#FD8214"));
+                "分红权10.23", 3, Color.parseColor("#FF0000"));
 
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FD8214"));
+                "运费10元", 2, Color.parseColor("#FF0000"));
 
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, "339\n全部宝贝");
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, "359.9万\n人关注");
 
 
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述4.7", 2, Color.parseColor("#FD8214"));
+                "宝贝描述4.7", 2, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务4.8", 2, Color.parseColor("#FD8214"));
+                "卖家服务4.8", 2, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务4.8", 2, Color.parseColor("#FD8214"));
+                "物流服务4.8", 2, Color.parseColor("#FF0000"));
     }
 
     @Override

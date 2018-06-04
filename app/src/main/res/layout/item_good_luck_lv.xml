@@ -17,21 +17,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/group_name_tv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/app_text_color" />
 
         <LinearLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:gravity="start|center_vertical"
             android:orientation="horizontal">
 
@@ -52,7 +53,18 @@
                 android:layout_marginBottom="2dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="(已延时)"
+                android:text="(已延迟)"
+                android:textColor="@color/gray_text_color"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/shengyuTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="剩余"
                 android:textColor="@color/gray_text_color"
                 android:textSize="10sp" />
 

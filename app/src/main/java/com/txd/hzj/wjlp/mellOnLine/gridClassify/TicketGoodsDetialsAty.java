@@ -899,7 +899,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             freight_tv.setText(map.get("pay"));
-            freight_tv.setTextColor(Color.parseColor("#FD8214"));
+            freight_tv.setTextColor(Color.parseColor("#FF0000"));
             tv_freight.setText(map.get("pay"));
         }
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
@@ -1314,10 +1314,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+                "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FF0000"));
         // 运费(待定)
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FD8214"));
+                "运费10元", 2, Color.parseColor("#FF0000"));
         // 文字描述
         // goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
         // 图文详情
@@ -1521,11 +1521,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_prodect_tv, mInfo.get("all_goods") + "\n全部宝贝");
         ChangeTextViewStyle.getInstance().forGoodsLineFeed(this, all_collect_tv, mInfo.get("view_num") + "\n人关注");
         ChangeTextViewStyle.getInstance().forTextColor(this, goods_describe_tv,
-                "宝贝描述" + mInfo.get("goods_score"), 4, Color.parseColor("#FD8214"));
+                "宝贝描述" + mInfo.get("goods_score"), 4, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, mell_serve_tv,
-                "卖家服务" + mInfo.get("merchant_score"), 4, Color.parseColor("#FD8214"));
+                "卖家服务" + mInfo.get("merchant_score"), 4, Color.parseColor("#FF0000"));
         ChangeTextViewStyle.getInstance().forTextColor(this, log_serve_tv,
-                "物流服务" + mInfo.get("shipping_score"), 4, Color.parseColor("#FD8214"));
+                "物流服务" + mInfo.get("shipping_score"), 4, Color.parseColor("#FF0000"));
     }
 
     /**
@@ -1945,7 +1945,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FF0000"));
 //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
                 dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
                 if (null != dj_ticket) {

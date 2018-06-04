@@ -486,7 +486,7 @@
                                     android:id="@+id/tv_group_integral"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="#FD8214"
+                                    android:textColor="#FF0000"
                                     android:textSize="14sp" />
 
                                 <TextView

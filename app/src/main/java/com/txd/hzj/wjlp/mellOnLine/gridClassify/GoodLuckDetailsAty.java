@@ -901,7 +901,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay"), 2, Color.parseColor("#FD8214"));
+                    "运费" + map.get("pay"), 2,getResources().getColor(R.color.red_tv_back));
+//            Color.parseColor("#FD8214")
         }
         if (requestUrl.contains("groupBuyInfo")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
@@ -1005,15 +1006,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     // 积分
                     ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, goods_profit_num_tv,
-                            "积分" + goodsInfo.getIntegral(), 2, Color.parseColor("#FD8214"));
+                            "积分" + goodsInfo.getIntegral(), 2, getResources().getColor(R.color.red_tv_back));
+//                    FD8214
 
                     // 名称
                     goods_details_name_tv.setText(goodsInfo.getGoods_name());
 
                     // 运费
                     ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, freight_tv,
-                            "运费10元", 2, Color.parseColor("#FD8214"));
-
+                            "运费10元", 2, getResources().getColor(R.color.red_tv_back));
+//#FD8214
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
                     commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
@@ -1599,7 +1601,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                        "积分" + data.getStringExtra("red_return_integral"), 2,getResources().getColor(R.color.red_tv_back));
 //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
                 dj_ticket = (ArrayList<DjTicketBean>) data.getSerializableExtra("data");
                 if (dj_ticket != null) {
