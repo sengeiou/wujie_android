@@ -62,7 +62,11 @@ public class PushMerchantAty extends BaseAty {
                 startActivity(intent);
             }
         });
-        load();
+        try {
+            load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

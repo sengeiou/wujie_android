@@ -77,6 +77,7 @@ public class EditLoginPasswordAty extends BaseAty {
     @OnClick({R.id.to_change_pwd_tv})
     public void onClick(View v) {
         super.onClick(v);
+
         switch (v.getId()) {
             case R.id.to_change_pwd_tv:// 修改密码
                 newPassword = new_pwd_tv.getText().toString();
@@ -87,8 +88,19 @@ public class EditLoginPasswordAty extends BaseAty {
                 } else {
                     userPst.setPassword(newPassword, rePassword);
                 }
+                hideSoftInput();
                 break;
         }
+    }
+
+    /**
+     * 强制收起输入键盘
+     */
+    private void hideSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(old_pwd_tv.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(re_pwd_tv.getWindowToken(), 0);
     }
 
     @Override
