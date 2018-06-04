@@ -188,7 +188,8 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("wy_price", val.getWy_price());
                         intent.putExtra("yx_price", val.getYx_price());
                         intent.putExtra("goods_num", val.getGoods_num());
-                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
+//                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
+                        intent.putExtra("data", (Serializable) val.getDj_ticket());
 ////////////////////后加的
                         intent.putExtra("mid", mid);
                         intent.putExtra("type", type);
