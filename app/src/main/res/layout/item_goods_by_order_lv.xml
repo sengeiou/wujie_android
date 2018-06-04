@@ -219,7 +219,7 @@
                 android:layout_gravity="center_vertical"
                 android:maxLines="1"
                 android:paddingStart="8dp"
-                android:text="品质保障"
+                android:text="正品保证"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 

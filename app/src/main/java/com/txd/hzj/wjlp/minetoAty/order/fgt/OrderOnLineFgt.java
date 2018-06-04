@@ -910,6 +910,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("待评价");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("评价");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -917,6 +918,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -924,6 +926,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -936,12 +939,14 @@ public class OrderOnLineFgt extends BaseFgt {
                 break;
                 case "10": {
                     holder.state.setText("未中奖");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "8": {
                     holder.state.setText("未成团");
+                    holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
                 }
