@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.ants.theantsgo.util.JSONUtils;
@@ -599,7 +601,9 @@ public class OrderOnLineFgt extends BaseFgt {
                             }else if ("3".equals(goods_list.get(i).get("order_type"))){
                                 bundle.putString("id", goods_list.get(i).get("p_id"));
                             }
-                            bundle.putString("integral", goods_list.get(i).get("return_integral"));
+                            String order_goods = goods_list.get(i).get("order_goods");
+                            JSONArray jsonArray = JSONArray.parseArray(order_goods);
+                            bundle.putString("integral", ((JSONObject)jsonArray.get(0)).getString("return_integral"));
                             bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
                             bundle.putInt("status", 0);
                             startActivity(CreateGroupAty.class, bundle);
