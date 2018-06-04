@@ -58,6 +58,7 @@ public class FirstValBean implements Serializable {
     private String pnumber;
     private String group_type;
     private String p_shop_price;//拼单购单独购买价
+    private String max_num;//拼单购限购数量
 
     public String getP_shop_price() {
         return p_shop_price;
@@ -429,5 +430,12 @@ public class FirstValBean implements Serializable {
         this.discount = discount;
     }
 
+    public String getMax_num() {
+        return max_num;
+    }
+
+    public void setMax_num(String max_num) {
+        this.max_num = max_num;
+    }
 }
 

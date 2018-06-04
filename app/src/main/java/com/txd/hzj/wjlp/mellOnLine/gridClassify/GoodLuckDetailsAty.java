@@ -944,6 +944,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      */
                     groupType = dataBean.getGroup_type();
                     if ("1".equals(groupType)) {  //体验拼单
+
                         layout_pt.setVisibility(View.GONE); // 隐藏开团列表
 
                         online_carvouse_view.setPageColor(0);//设置banner圆点非可见
@@ -953,9 +954,15 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
                         if (null != groupList && groupList.size() == 1) {
                             GroupBean groupBean = groupList.get(0);
-
+                            if (groupBean.getDiff_num().equals("0")) {
+                                creat_group_tv.setBackgroundColor(getResources().getColor(R.color.color_background_gray));
+                                creat_group_tv.setClickable(false);
+                            } else {
+                                creat_group_tv.setClickable(true);
+                                creat_group_tv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                            }
                             tyLayout.setVisibility(View.VISIBLE);
-                            tyLayout.getBackground().setAlpha(125);
+                            tyLayout.getBackground().setAlpha(80);
 
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
@@ -975,7 +982,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 last_time = 0;
                             }
                             good_count_down_view.start(last_time * 1000);
-//                            good_count_down_view.start(24*60*60*2 * 1000);
 
                             //设置提示信息
                             List<String> memoList = groupBean.getMemo();//设置提示信息
@@ -1316,7 +1322,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                         });
                     } else if ("1".equals(groupType)) {//1试用品拼单
-                        creat_group_tv.setText("体验拼单");
+                        creat_group_tv.setText("￥" + groupPrice + "\n体验拼单");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
@@ -1600,7 +1606,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 now_price_tv.setText(data.getStringExtra("shop_price"));
 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
+                if("1".equals(groupType)){
+                    creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n体验拼单");
+                }else{
+                    creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
+                }
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2,getResources().getColor(R.color.red_tv_back));
 //                ArrayList<Map<String, String>> dj_list = JSONUtils.parseKeyAndValueToMapList(data.getStringExtra("data"));
