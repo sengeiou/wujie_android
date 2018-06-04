@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -453,8 +455,17 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     L.e("EditProfileAty is throw Exception:" + e.toString());
                     showErrorTip("填写数据异常，请重新检查！");
                 }
+                hideSoftInput();
                 break;
         }
+    }
+    /**
+     * 强制收起输入键盘
+     */
+    private void hideSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(user_nickname_tv.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(user_email_ev.getWindowToken(), 0);
     }
 
     /**

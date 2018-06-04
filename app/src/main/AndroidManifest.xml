@@ -625,9 +625,9 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="com.hyphenate.chat.EMGCMListenerService"
-            android:exported="false" />
+        <!--<service-->
+            <!--android:name="com.hyphenate.chat.EMGCMListenerService"-->
+            <!--android:exported="false" />-->
 
         <receiver
             android:name=".huanxin.receiver.GCMPushBroadCast"

@@ -1,8 +1,10 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -97,11 +99,19 @@ public class EditPayPasswordAty extends BaseAty {
                 } else {
                     userPst.setPayPwd(newPayPwd, rePayPwd);
                 }
-
+                hideSoftInput();
                 break;
         }
     }
-
+    /**
+     * 强制收起输入键盘
+     */
+    private void hideSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(new_pay_pwd_ev.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(old_pay_pwd_ev.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(re_pay_pwd_tv.getWindowToken(), 0);
+    }
     @Override
     protected int getLayoutResId() {
         return R.layout.aty_edit_pay_password_li;

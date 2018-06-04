@@ -57,8 +57,7 @@ public class CheckNumDialog extends Dialog implements View.OnClickListener {
         findViewById(R.id.be_dismiss_iv).setOnClickListener(this);
         join_times_tv = (TextView) findViewById(R.id.join_times_tv);
         num_dialog_lv = findViewById(R.id.num_dialog_lv);
-        join_times_tv.setText("您参与了" + nums
-                .size() + "次，参与号码如下");
+        join_times_tv.setText("您参与了" + nums.size() + "次，参与号码如下");
         numAdapter = new NumAdapter();
         num_dialog_lv.setAdapter(numAdapter);
     }

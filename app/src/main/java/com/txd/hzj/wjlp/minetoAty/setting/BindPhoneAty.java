@@ -1,8 +1,10 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -65,9 +67,17 @@ public class BindPhoneAty extends BaseAty {
             case R.id.btn_next:// 下一步
                 String verify = mod_bind_code_ev.getText().toString();
                 registerPst.checkVerify(phone,"mod_bind",verify);
-
+                hideSoftInput();
                 break;
         }
+    }
+
+    /**
+     * 强制收起输入键盘
+     */
+    private void hideSoftInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mod_bind_code_ev.getWindowToken(), 0);
     }
 
     @Override
