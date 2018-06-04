@@ -98,7 +98,7 @@
                                     android:drawablePadding="8dp"
                                     android:gravity="center"
                                     android:text="10.23"
-                                    android:textColor="#FD8214"/>
+                                    android:textColor="#FF0000"/>
 
                             </LinearLayout>
 

@@ -929,7 +929,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         // 积分
                         ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_profit_num_tv,
-                                "积分" + goodsInfo.getIntegral(), 2, Color.parseColor("#FD8214"));
+                                "积分" + goodsInfo.getIntegral(), 2, Color.parseColor("#FF0000"));
 
                         try {
                             if (WJConfig.XLG == type) {
@@ -1006,7 +1006,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                    ContextCompat.getColor(this, R.color.theme_color));
 //            // 运费
 //            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-//                    "运费10元", 2, Color.parseColor("#FD8214"));
+//                    "运费10元", 2, Color.parseColor("#FF0000"));
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
@@ -1039,15 +1039,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     ChangeTextViewStyle.getInstance().forGoodsLineFeed(LimitGoodsAty.this, all_prodect_tv, mInfo.getAll_goods() + "\n全部宝贝");
                     ChangeTextViewStyle.getInstance().forGoodsLineFeed(LimitGoodsAty.this, all_collect_tv, mInfo.getView_num() + "\n人关注");
                     ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_describe_tv,
-                            "宝贝描述" + mInfo.getGoods_score(), 4, Color.parseColor("#FD8214"));
+                            "宝贝描述" + mInfo.getGoods_score(), 4, Color.parseColor("#FF0000"));
                     ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, mell_serve_tv,
-                            "卖家服务" + mInfo.getMerchant_score(), 4, Color.parseColor("#FD8214"));
+                            "卖家服务" + mInfo.getMerchant_score(), 4, Color.parseColor("#FF0000"));
                     ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, log_serve_tv,
-                            "物流服务" + mInfo.getShipping_score(), 4, Color.parseColor("#FD8214"));
+                            "物流服务" + mInfo.getShipping_score(), 4, Color.parseColor("#FF0000"));
 
                     tv_bzqd.setText(goodsInfo.getPackage_list()); //包装清单
                     tv_shfw.setText(goodsInfo.getAfter_sale_service()); //售后服务
-                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
+//                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
+                    tv_jgsm.setText(data.getPrice_desc()); //价格说明
                     // 促销活动
                     if (null != data.getPromotion() && data.getPromotion().size() > 0) {
                         promotionBeen = data.getPromotion();
@@ -1618,7 +1619,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     public void getFreightPay(String payStr) {
         removeDialog();
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费" + payStr + "元", 2, Color.parseColor("#FD8214"));
+                "运费" + payStr + "元", 2, Color.parseColor("#FF0000"));
     }
 
     class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
@@ -1771,7 +1772,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FD8214"));
+                        "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FF0000"));
                 dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
                 if (dj_ticket != null) {
                     for (int i = 0; i < dj_ticket.size(); i++) {

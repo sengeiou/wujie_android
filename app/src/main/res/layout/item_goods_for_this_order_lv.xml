@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="8dp"
-            android:text="售后服务类型"
+            android:text="售后服务"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
 
@@ -63,7 +63,6 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="8dp"
-            android:text="(免费换货，免费维修)7天"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
 
@@ -92,7 +91,6 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:padding="8dp"
-            android:layout_marginLeft="30dp"
             android:textColor="@color/app_text_color"
             android:textSize="14sp" />
 
@@ -125,7 +123,6 @@
                 android:id="@+id/tv_zhengpinbaozheng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:maxLines="2"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
@@ -154,7 +151,6 @@
                 android:id="@+id/tv_fuwuchengnuo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:maxLines="2"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
@@ -183,7 +179,6 @@
                 android:id="@+id/tv_fahuoshijian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:maxLines="2"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
@@ -192,7 +187,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/layout_order_btn"
-        />
+    <include layout="@layout/collage_layout_order_btn" />
 
 </LinearLayout>

@@ -67,8 +67,8 @@
             android:layout_height="wrap_content">
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/icon_mine_about" />
 
             <ImageView
@@ -151,8 +151,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="（赠送积分）"
-                                android:textColor="@color/colorOrange"
+                                android:textColor="#F6B87A"
                                 android:textSize="10sp" />
+                            <TextView
+                                android:id="@+id/delayReceivingtv"
+                                android:textSize="10sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
                         </LinearLayout>
 
                         <TextView

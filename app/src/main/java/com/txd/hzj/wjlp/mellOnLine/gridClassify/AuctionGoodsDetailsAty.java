@@ -500,7 +500,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         if (requestUrl.contains("freight")) {
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FD8214"));
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
         }
         if (requestUrl.contains("AuctionOrder/SetOrder")) {
             showToast(map.get("message"));
@@ -630,7 +630,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
             // 积分
             ChangeTextViewStyle.getInstance().forTextColor(this, auction_profit_num_tv,
-                    "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FD8214"));
+                    "积分" + auctionInfo.get("integral"), 2, Color.parseColor("#FF0000"));
             // 当前价
             ChangeTextViewStyle.getInstance().forAuctionPrice(this, auction_price_tv, "当前价 ￥" +
                     auctionInfo.get("now_price"));
@@ -687,7 +687,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
             tv_bzqd.setText(auctionInfo.get("package_list")); //包装清单
             tv_shfw.setText(auctionInfo.get("after_sale_service")); //售后服务
-            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+//            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+            tv_jgsm.setText(data.get("price_desc")); //价格说明
 
             if (ToolKit.isList(data, "guess_goods_list")) {
                 if (page == 1) {

@@ -116,7 +116,7 @@ public class OrderLogisticsAty extends BaseAty {
                 viewHolder = (ViewHolder) view.getTag();
             }
             Glide.with(OrderLogisticsAty.this).load(list.get(i).getGoods_img()).into(viewHolder.image);
-
+            viewHolder.jifenTv.setVisibility(View.GONE);
             viewHolder.goosOrderItem_wuliu_layout.setVisibility(View.VISIBLE);
             viewHolder.goosOrderItem_wuliuNumber_tv.setText(list.get(i).getExpress_no());
             viewHolder.goosOrderItem_showLogistics_tv.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +155,8 @@ public class OrderLogisticsAty extends BaseAty {
             private TextView title;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
+            @ViewInject(R.id.jifenTv)
+            private TextView jifenTv;
         }
     }
 }

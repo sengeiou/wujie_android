@@ -113,7 +113,7 @@
                                             android:id="@+id/car_d_integral_tv"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textColor="#FD8214" />
+                                            android:textColor="#FF0000" />
                                     </LinearLayout>
                                 </LinearLayout>
 
