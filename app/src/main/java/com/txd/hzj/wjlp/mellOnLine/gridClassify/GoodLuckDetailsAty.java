@@ -1254,7 +1254,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     tv_bzqd.setText(goodsInfo.getPackage_list()); //包装清单
                     tv_shfw.setText(goodsInfo.getAfter_sale_service()); //售后服务
-                    tv_jgsm.setText(Html.fromHtml(dataBean.getPrice_desc())); //价格说明
+//                    tv_jgsm.setText(Html.fromHtml(dataBean.getPrice_desc())); //价格说明
+                    tv_jgsm.setText(dataBean.getPrice_desc()); //价格说明
 
                     //搭配购
                     final CheapGroupBean cheap_group = dataBean.getCheap_group();
@@ -1597,7 +1598,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 }
                 goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
-                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+//                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,

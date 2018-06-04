@@ -1047,7 +1047,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                     tv_bzqd.setText(goodsInfo.getPackage_list()); //包装清单
                     tv_shfw.setText(goodsInfo.getAfter_sale_service()); //售后服务
-                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
+//                    tv_jgsm.setText(Html.fromHtml(data.getPrice_desc())); //价格说明
+                    tv_jgsm.setText(data.getPrice_desc()); //价格说明
                     // 促销活动
                     if (null != data.getPromotion() && data.getPromotion().size() > 0) {
                         promotionBeen = data.getPromotion();

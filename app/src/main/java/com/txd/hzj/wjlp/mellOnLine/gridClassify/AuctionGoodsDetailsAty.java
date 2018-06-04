@@ -687,7 +687,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 
             tv_bzqd.setText(auctionInfo.get("package_list")); //包装清单
             tv_shfw.setText(auctionInfo.get("after_sale_service")); //售后服务
-            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+//            tv_jgsm.setText(Html.fromHtml(data.get("price_desc"))); //价格说明
+            tv_jgsm.setText(data.get("price_desc")); //价格说明
 
             if (ToolKit.isList(data, "guess_goods_list")) {
                 if (page == 1) {
