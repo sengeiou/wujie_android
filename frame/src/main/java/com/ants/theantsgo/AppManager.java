@@ -90,7 +90,12 @@ public class AppManager {
                 mActivityStack.get(i).finish();
             }
         }
+        //清除栈内存
         mActivityStack.clear();
+        //结束当前程序进程
+        android.os.Process.killProcess(android.os.Process.myPid());
+        //销毁jvm虚拟机
+        System.exit(0);
     }
 
     /**
