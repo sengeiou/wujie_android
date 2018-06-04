@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.order;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -286,14 +287,11 @@ public class CollageDetailsAty extends BaseAty {
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
                 tv_merchant_name.setText(data.get("merchant_name"));
                 goods_for_this_order_lv.setAdapter(thisAdapter);
-//                if (type.equals("3")) {
-//                    setGroupBuyOrderStatus();
-//                }
                 tv_name.setText(data.get("user_name"));
                 tv_tel.setText(data.get("phone"));
                 tv_address.setText(data.get("address"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
-                order_price_info_tv.setText("共" + list.size() + "件商品 合计：¥" + data.get("order_price"));
+                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计："+"<font color='#DF3031'>"+"¥"+data.get("order_price")+"</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -316,7 +314,7 @@ public class CollageDetailsAty extends BaseAty {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
 
-                order_price_info_tv.setText("共" + list.size() + "件商品 合计：¥" + data.get("order_price"));
+                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计："+"<font color='#DF3031'>"+"¥"+data.get("order_price")+"</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 is_pay_password = data.get("is_pay_password");
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
