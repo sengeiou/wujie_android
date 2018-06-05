@@ -86,7 +86,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
     protected void initialized() {
         mAdapter = new MyPagerAdapter(getSupportFragmentManager());
         title = getIntent().getStringExtra("title");
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        //mTabLayout.setTabGravity(TabLayout.);
 
         //添加页卡标题
         if (title.equals("线上商城") || title.equals("线下商城")||title.equals("无界商店") ) {
@@ -97,7 +97,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
         } else if (title.equals("无界预购")) {
-            mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模
+           // mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模
             mTitleList = OrderTitleUtils.getInstance().orderTitle3();
         } else if (title.equals("比价购")) {
             titlt_right_tv.setText("比价纪录");
