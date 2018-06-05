@@ -26,8 +26,8 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
-//    public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
+//    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
+    public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
 //    public final static String BASE_URL = "http://htest.wujiemall.com/index.php/Api/"; // 测试拼单服务器
 
     public static List<Activity> list = new ArrayList<>();
