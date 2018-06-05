@@ -188,13 +188,12 @@ public class ProUrbAreaUtil implements BaseView {
                             tx.append(area);
                             //文字过长的处理
                             tv_chose_ads.setText(tx);
-                            Freight.freight(goods_id,tx.toString(),activity);
                             record_option1 = options1;
                             record_option2 = options2;
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
                             if (!TextUtils.isEmpty(goods_id))
-                                Freight.freight(goods_id, String.valueOf(tx), ProUrbAreaUtil.this);
+                                Freight.freight(goods_id,tx.toString(),activity);
                             if (null != getData) {
                                 getData.getAddress();
                             }
