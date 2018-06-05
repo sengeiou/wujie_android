@@ -175,6 +175,7 @@ public class BuildOrderAty extends BaseAty {
     private Bean bean;
     private double countryTax = 0.00; // 进口税
     private String order_id;
+    private boolean isChange;
     //    private String groupType;
 
     @Override
@@ -202,17 +203,6 @@ public class BuildOrderAty extends BaseAty {
             case R.id.et_leave_message:
                 break;
             case R.id.layout_sle:
-                //                if (!TextUtils.isEmpty(address_id)) {
-                //                    if (TextUtils.isEmpty(freightJson)) {
-                //                        Gson gson = new Gson();
-                //                        freightJson = gson.toJson(list_bean);
-                //                    }
-                //                    Freight.split(address_id, freightJson, this);
-                //                    showProgressDialog();
-                //                    view_ads = v;
-                //                } else {
-                //                    showToast("请选择收货地址！");
-                //                }
                 break;
             case R.id.build_order_left_layout:// 线上商城
                 order_type = 0;
@@ -312,6 +302,8 @@ public class BuildOrderAty extends BaseAty {
 
                 break;
             case R.id.layout_choose_address:
+                tv_youfei.setText("");
+                goodsAdapter.setPeisong();
                 bundle = new Bundle();
                 bundle.putInt("type", 2);
                 startActivityForResult(AddressListAty.class, bundle, 8888);
@@ -588,11 +580,6 @@ public class BuildOrderAty extends BaseAty {
                         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                                //                                tv_sle_left.setText("配送方式");
-                                //                                freight = data.get(position).get("pay");
-                                //                                freight_type = data.get(position).get("type");
-                                //                                tv_sle_right.setText(data.get(position).get("type") + "(¥" + data.get(position).get("pay") + ")");
                                 same_tem_id = getSameID(data.get(position).get("same_tem_id"));
                                 for (int temp : same_tem_id) {
                                     String same_id = String.valueOf(temp);
@@ -672,11 +659,12 @@ public class BuildOrderAty extends BaseAty {
                                 //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                                 goodsAdapter.notifyDataSetChanged();
+                                tp=0.00;
                                 for (SplitNew temp : splitNewList) {
                                     tp += Double.parseDouble(temp.getPay());
                                 }
                                 DecimalFormat df = new DecimalFormat("0.00");
-                                String kk=df.format(tp);
+                                String kk = df.format(tp);
                                 if ("0.00".equals(kk)) {
                                     //                                    tv_youfei.setVisibility(View.GONE);
                                     tv_youfei.setText("包邮");
@@ -788,6 +776,7 @@ public class BuildOrderAty extends BaseAty {
             address_id = data.getStringExtra("id");
             tv_c_ads.setVisibility(View.GONE);
             layout_choose_address.setVisibility(View.VISIBLE);
+            //            isChange = true;
         }
         if (requestCode == 1000) {
             if (data != null) {
@@ -855,6 +844,10 @@ public class BuildOrderAty extends BaseAty {
             return i;
         }
 
+        public void setPeisong(){
+            govh.tv_sle_left.setText("请选择配送方式");
+            govh.tv_sle_right.setText("");
+        }
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {

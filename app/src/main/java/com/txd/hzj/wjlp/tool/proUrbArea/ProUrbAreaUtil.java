@@ -188,6 +188,7 @@ public class ProUrbAreaUtil implements BaseView {
                             tx.append(area);
                             //文字过长的处理
                             tv_chose_ads.setText(tx);
+                            Freight.freight(goods_id,tx.toString(),activity);
                             record_option1 = options1;
                             record_option2 = options2;
                             record_option3 = options3;
