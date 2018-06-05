@@ -13,20 +13,13 @@ android {
         versionCode 20180531
         versionName "1.0.9"
         multiDexEnabled true
+//        flavorDimensions "versionCode" // 友盟Studio3.0版本名后面添加一句话，意思就是flavor dimension 它的维度就是该版本号，这样维度就是都是统一的了
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
-
-//    allprojects {
-//        gradle.projectsEvaluated {
-//            tasks.withType(JavaCompile) {
-//                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-//            }
-//        }
-//    }
 
     signingConfigs {
         releaseConfig {
@@ -36,9 +29,31 @@ android {
             storePassword 'wotian999888'
             v2SigningEnabled false
         }
+        debugConfig {}
     }
 
+    /*配置渠道*/
+    productFlavors {
+        wjyp {} // 自测 测试版直接生成该版本的，无需加固
+//        Service {} // 官网投放 正式版日常生成该版本，加固
+//        Baidu {} // 百度投放 // 以下就是投放市场的时候生成的版本，加上Service版本
+//        Xiaomi {} // 小米投放
+//        Vivo {} // VIVO投放
+//        Yingyongbao {} // 应用宝投放
+//        Huawei {} // 华为投放
+//        Oppo {} // OPPO投放
+//        Meizu {} // 魅族投放
+//        Lianxiang {} // 联想乐商城投放
+//        Sougou {} // 搜狗投放
+//        _360 {} // 360投放
+//        Yingyonghui {} // 应用汇投放
+//        Wandoujia {} // 豌豆荚投放
+//        PP {} // PP助手投放
+    }
 
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
 
     buildTypes {
         release {
@@ -69,7 +84,6 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
 
 }
 
@@ -131,4 +145,8 @@ dependencies {
 
     //引入
 //    compile 'com.noober.light:core:1.1.9'
+
+    /*友盟统计需要的最新版本组件化基础库和统计SDK*/
+    compile 'com.umeng.sdk:common:latest.integration'
+    compile 'com.umeng.sdk:analytics:latest.integration'
 }

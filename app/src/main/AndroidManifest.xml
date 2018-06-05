@@ -8,6 +8,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
+    <!--友盟统计所需权限-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 访问网络 -->
@@ -248,8 +254,9 @@
         <!-- 户型详情 -->
         <activity android:name=".mellOnLine.gridClassify.hous.HouseTypeDetailsHzjAty" />
         <!-- 登录注册 -->
-        <activity android:name=".login.LoginAty"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".login.LoginAty"
+            android:launchMode="singleTop" />
         <!-- 忘记密码 -->
         <activity android:name=".login.FindPwgBackHzjAty" />
         <!-- 重置密码 -->
@@ -488,7 +495,7 @@
                 <!-- 必须，用于接收消息 -->
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
             </intent-filter>
-            />
+
             <meta-data
                 android:name="CS_cloud_ablitity"
                 android:value="successRateAnalytics" />
@@ -542,6 +549,16 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
+        <!--友盟统计配置Appkey与Channel-->
+        <!--value的值填写你在友盟后台申请的应用Appkey-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5a727a08b27b0a4a2900003b" />-->
+        <!--&lt;!&ndash;value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量&ndash;&gt;-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
 
         <!-- umeng appkey，可忽略 -->
         <!-- 友盟统计的暂时忽略 -->
@@ -626,8 +643,8 @@
         </receiver>
 
         <!--<service-->
-            <!--android:name="com.hyphenate.chat.EMGCMListenerService"-->
-            <!--android:exported="false" />-->
+        <!--android:name="com.hyphenate.chat.EMGCMListenerService"-->
+        <!--android:exported="false" />-->
 
         <receiver
             android:name=".huanxin.receiver.GCMPushBroadCast"
@@ -679,7 +696,7 @@
                 <!-- 必须，用于接收消息 -->
                 <action android:name="com.huawei.android.push.intent.RECEIVE" />
             </intent-filter>
-            />
+
             <meta-data
                 android:name="CS_cloud_ablitity"
                 android:value="successRateAnalytics" />
@@ -734,6 +751,12 @@
             </intent-filter>
         </receiver>
 
+        <!--友盟统计配置Appkey与Channel-->
+        <!--value的值填写你在友盟后台申请的应用Appkey-->
+        <meta-data android:value="5a727a08b27b0a4a2900003b" android:name="UMENG_APPKEY"/>
+        <!--value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量-->
+        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
+
         <!-- umeng appkey，可忽略 -->
         <!-- 友盟统计的暂时忽略 -->
         <!-- 友盟统计的暂时忽略 -->
@@ -784,7 +807,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        >>>>>>> master
+
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -807,12 +830,12 @@
 
 
         <!-- 友盟统计 -->
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5a727a08b27b0a4a2900003b" />
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Umeng" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_APPKEY"-->
+            <!--android:value="5a727a08b27b0a4a2900003b" />-->
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="Umeng" />-->
         <!-- 友盟统计 -->
 
 

@@ -60,7 +60,7 @@ dependencies {
     compile 'com.lzy.widget:imagepicker:0.5.3'
     // 廖子尧图片选择控件
     compile 'com.android.support:support-v4:26.+'
-    compile 'com.umeng.analytics:analytics:latest.integration'
+//    compile 'com.umeng.analytics:analytics:latest.integration'
     // 友盟
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.synnapps:carouselview:0.1.3'
