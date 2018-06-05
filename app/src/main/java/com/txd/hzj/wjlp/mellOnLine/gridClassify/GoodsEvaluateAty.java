@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -202,7 +203,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                 } else if (3 == from) {
                     CarBuy.commentList(getIntent().getStringExtra("id"), label_id, p, GoodsEvaluateAty.this);
                     showProgressDialog();
-                }else  if(0 == from) { // 商品评价
+                } else if (0 == from) { // 商品评价
                     merchantPst.commentList(getIntent().getStringExtra("mid"), getIntent().getStringExtra("goods_id"), p);
                     showProgressDialog();
                 }
@@ -291,7 +292,9 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         if (requestUrl.contains("Merchant/commentList")) {
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
-            evaluate_num_tv.setText("已有 " + numall + "条评价");
+            // evaluate_num_tv.setText("已有 " + numall + "条评价");
+            ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
+                    "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
             if (1 == p) {
                 data.clear();
                 data = comment.getData();
@@ -360,7 +363,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         if (requestUrl.contains("myCommentList")) {
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
-            evaluate_num_tv.setText("已有 " + numall + "条评价");
+            ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
+                    "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
             if (1 == p) {
                 data.clear();
                 data = comment.getData();
@@ -386,7 +390,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        evaluate_num_tv.setText("已有 0 条评价");
+        ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
+                "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
         if (1 == p) {
             progressBar.setVisibility(View.GONE);
             refresh_view.setRefreshing(false); // 刷新成功
@@ -474,44 +479,47 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
 
             gevh.comm_user_name_tv.setText(commentList.getNickname());
             gevh.comm_content_tv.setText(commentList.getContent());
+            gevh.tv_label.setText(commentList.getCreate_time() + commentList.getGood_attr());
 
-            if (0 == type) {
+           /* if (0 == type) {
                 gevh.goods_for_my_evaluste_layout.setVisibility(View.GONE);
-            } else {
-
-                Glide.with(context)
-                        .load(commentList.getGoods_img())
-                        .error(R.drawable.ic_default)
-                        .placeholder(R.drawable.ic_default)
-                        .override(head_size, head_size)
-                        .into(gevh.goods_comment_pic);
-                String type = "";
-                switch (commentList.getOrder_type()) {
-                    case "0":
-                    case "6":
-                    case "7":
-                    case "8":
-                        type = "";
-                        break;
-                    case "1":
-                        type = "拼团";
-                        break;
-                    case "2":
-                        type = "预购";
-                        break;
-                    case "3":
-                        type = "竞拍";
-                        break;
-                    case "4":
-                        type = "夺宝";
-                        break;
-                }
-                gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
-                TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
-                        Color.parseColor("#47CEF7"), r);
-                ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.price_for_goods_tv,
-                        "￥" + commentList.getShop_price());
+            } else {*/
+            gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
+            Log.i("商品图片+s", commentList.getGoods_img().toString());
+            Glide.with(context)
+                    .load(commentList.getGoods_img())
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .override(head_size, head_size)
+                    .into(gevh.goods_comment_pic);
+            String type = "";
+            switch (commentList.getOrder_type()) {
+                case "0":
+                case "6":
+                case "7":
+                case "8":
+                    type = "";
+                    break;
+                case "1":
+                    type = "拼团";
+                    break;
+                case "2":
+                    type = "预购";
+                    break;
+                case "3":
+                    type = "竞拍";
+                    break;
+                case "4":
+                    type = "夺宝";
+                    break;
             }
+            gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
+            TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
+                    Color.parseColor("#47CEF7"), r);
+            ChangeTextViewStyle.getInstance().forOrderPrice2(context, gevh.shop_priceTv,
+                    "￥" + commentList.getShop_price());
+            Log.i("商品内容+s", commentList.getGoods_name() + "HHHHHHHHH" + commentList.getShop_price());
+            // }
 
             return view;
         }
@@ -544,7 +552,11 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
              */
             @ViewInject(R.id.goods_comment_pic)
             private ImageView goods_comment_pic;
-
+            /**
+             * 商品信息
+             */
+            @ViewInject(R.id.tv_label)
+            private TextView tv_label;
             /**
              * 标题
              */
@@ -553,8 +565,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             /**
              * 价格
              */
-            @ViewInject(R.id.price_for_goods_tv)
-            private TextView price_for_goods_tv;
+            @ViewInject(R.id.shop_priceTv)
+            private TextView shop_priceTv;
 
         }
 

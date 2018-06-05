@@ -45,7 +45,12 @@
             android:stepSize="1" />
 
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textSize="14sp" />
     <TextView
         android:id="@+id/comm_content_tv"
         android:layout_width="match_parent"
@@ -54,12 +59,7 @@
         android:paddingTop="8dp"
         android:textColor="@color/app_text_color" />
 
-    <TextView
-        android:id="@+id/tv_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textSize="14sp" />
+
 
     <com.ants.theantsgo.view.inScroll.GridViewForScrollView
         android:id="@+id/estimate_pic"
