@@ -480,8 +480,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             gevh.comm_user_name_tv.setText(commentList.getNickname());
             gevh.comm_content_tv.setText(commentList.getContent());
             gevh.tv_label.setText(commentList.getCreate_time() + commentList.getGood_attr());
-
-           /* if (0 == type) {
+            gevh.goods_evaluate_num.setText("X"+commentList.getGoods_num());
+           /* if (0 == type) {goods_num
                 gevh.goods_for_my_evaluste_layout.setVisibility(View.GONE);
             } else {*/
             gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
@@ -536,6 +536,11 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
              */
             @ViewInject(R.id.comm_user_head_iv)
             private ShapedImageView comm_user_head_iv;
+            /**
+             * 商品数量
+             * */
+            @ViewInject(R.id.goods_evaluate_num)
+            private TextView goods_evaluate_num;
             /**
              * 昵称
              */
