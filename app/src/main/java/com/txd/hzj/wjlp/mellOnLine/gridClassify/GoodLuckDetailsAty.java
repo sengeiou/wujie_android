@@ -374,8 +374,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     /**
      * 评价的商品
      */
-    @ViewInject(R.id.goods_for_my_evaluste_layout)
-    private LinearLayout goods_for_my_evaluste_layout;
+//    @ViewInject(R.id.goods_for_my_evaluste_layout)
+//    private LinearLayout goods_for_my_evaluste_layout;
 
     /**
      * 评价--买家头像
@@ -618,7 +618,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         limit_goods_details_sc.scrollTo(0, 0);
 
         //评价的商品布局(隐藏)
-        goods_for_my_evaluste_layout.setVisibility(View.GONE);
+//        goods_for_my_evaluste_layout.setVisibility(View.GONE);
 
         wujie_post_lv.setAdapter(postAdapter);
         // 判断是否显示回到顶部按钮

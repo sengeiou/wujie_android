@@ -25,7 +25,6 @@
                 android:text="商品评价(0)"
                 android:textColor="@color/app_text_color"
                 android:textSize="16sp" />
-            <!--       android:background="@drawable/shape_all_estimate"-->
             <TextView
                 android:id="@+id/all_evaluate_tv"
                 android:layout_width="wrap_content"

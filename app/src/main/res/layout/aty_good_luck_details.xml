@@ -503,7 +503,7 @@
 
                         </LinearLayout>
 
-                        <include layout="@layout/aty_goods_details_estimate" />
+                        <include layout="@layout/aty_goods_details_evaluate" />
 
                         <Space
                             android:layout_width="match_parent"
