@@ -284,9 +284,9 @@ public class fragment2 extends BaseFgt {
         if (requestUrl.contains("User/personalAuthInfo")) {
             if (data.get("comp_auth_status").equals("3")) {
                 textview.setText("认证：已拒绝\n拒绝原因：" + data.get("comp_desc"));
-                Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
+                Glide.with(getActivity()).load(data.get("comp_business_license")).error(R.mipmap.icon_yyzz1).placeholder(R.mipmap.icon_yyzz1).into(image1);
             } else {
-                Glide.with(getActivity()).load(data.get("comp_business_license")).into(image1);
+                Glide.with(getActivity()).load(data.get("comp_business_license")).error(R.mipmap.icon_yyzz1).placeholder(R.mipmap.icon_yyzz1).into(image1);
             }
             isFirst = TextUtils.isEmpty(data.get("comp_business_license")) ? true : false;
             start_time = data.get("comp_start_time");
@@ -442,7 +442,7 @@ public class fragment2 extends BaseFgt {
                 switch (requestCode) {
                     case 101:
                         file1 = new File(pic_path);
-                        Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
+                        Glide.with(this).load(file1).error(R.mipmap.icon_yyzz1).placeholder(R.mipmap.icon_yyzz1).override(size, size).centerCrop().into(image1);
                         break;
                 }
             }

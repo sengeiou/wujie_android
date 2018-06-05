@@ -290,11 +290,15 @@ public class fragment1 extends BaseFgt {
         if (requestUrl.contains("User/personalAuthInfo")) { // 查询个人认证详情
             if (data.get("auth_status").equals("3")) {
                 textview.setText("认证：" + data.get("auth_desc"));
-                Glide.with(getActivity()).load(data.get("positive_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
-                Glide.with(getActivity()).load(data.get("back_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
+                Glide.with(getActivity()).load(data.get("positive_id_card")).error(R.mipmap.icon_idcard_front)
+                        .placeholder(R.mipmap.icon_idcard_front).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
+                Glide.with(getActivity()).load(data.get("back_id_card")).error(R.mipmap.icon_idcard_back)
+                        .placeholder(R.mipmap.icon_idcard_back).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             } else {
-                Glide.with(getActivity()).load(data.get("positive_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
-                Glide.with(getActivity()).load(data.get("back_id_card")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
+                Glide.with(getActivity()).load(data.get("positive_id_card")) .error(R.mipmap.icon_idcard_front)
+                        .placeholder(R.mipmap.icon_idcard_front).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
+                Glide.with(getActivity()).load(data.get("back_id_card")).error(R.mipmap.icon_idcard_back)
+                        .placeholder(R.mipmap.icon_idcard_back).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             }
 
             // 将获取到的图片缓存成文件
@@ -554,7 +558,8 @@ public class fragment1 extends BaseFgt {
                         if (!pic_path.equals("")) {
                             file1 = new File(pic_path);
                             if (file1 != null && file1.isFile()) {
-                                Glide.with(this).load(file1).override(size, size).centerCrop().into(image1);
+                                Glide.with(this).load(file1).error(R.mipmap.icon_idcard_front)
+                                        .placeholder(R.mipmap.icon_idcard_front).override(size, size).centerCrop().into(image1);
                             }
                         }
                         break;
@@ -562,7 +567,8 @@ public class fragment1 extends BaseFgt {
                         if (!pic_path.equals("")) {
                             file2 = new File(pic_path);
                             if (file2 != null && file2.isFile()) {
-                                Glide.with(this).load(file2).override(size, size).centerCrop().into(image2);
+                                Glide.with(this).load(file2).error(R.mipmap.icon_idcard_back)
+                                        .placeholder(R.mipmap.icon_idcard_back).override(size, size).centerCrop().into(image2);
                             }
                         }
                         break;
