@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layout_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/all_comment_num_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="商品评价(0)"
+                android:textColor="@color/app_text_color"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/all_evaluate_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="全部评价"
+                android:textColor="#9A9A9A" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+                android:id="@+id/comm_user_head_iv"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:shape_mode="circle" />
+
+            <TextView
+                android:id="@+id/comm_user_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/app_text_color" />
+
+            <RatingBar
+                android:id="@+id/rb"
+                style="@style/foodRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="0.0"
+                android:stepSize="1" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_label"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="53dp"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/comm_content_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:layout_marginLeft="53dp"
+            android:textColor="@color/app_text_color" />
+
+
+
+        <com.ants.theantsgo.view.inScroll.GridViewForScrollView
+            android:id="@+id/estimate_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="4dp"
+            android:numColumns="4"
+            android:visibility="gone"
+            android:scrollbars="none"
+            android:verticalSpacing="4dp" />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_marginLeft="53dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+</LinearLayout>
