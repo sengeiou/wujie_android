@@ -604,7 +604,7 @@ public class OrderOnLineFgt extends BaseFgt {
                                 bundle.putBoolean("isTy", map_Type.get(position));
                                 startActivity(CollageDetailsAty.class, bundle);
                             }else {
-                                if ("2".equals(goods_list.get(i).get("order_type"))) {
+                                if ("2".equals(goods_list.get(position).get("order_type"))) {
                                     bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                                 } else if ("3".equals(goods_list.get(i).get("order_type"))) {
                                     bundle.putString("id", goods_list.get(i).get("p_id"));

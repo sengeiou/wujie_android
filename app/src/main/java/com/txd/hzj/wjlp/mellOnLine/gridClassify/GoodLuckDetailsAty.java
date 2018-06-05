@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -961,7 +960,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 creat_group_tv.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                             }
                             tyLayout.setVisibility(View.VISIBLE);
-                            tyLayout.getBackground().setAlpha(80);
+                            tyLayout.getBackground().setAlpha(180);
 
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
@@ -1245,7 +1244,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     List<PicturesBean> pictures = bodyBean.getPictures();
                                     if (!ListUtils.isEmpty(pictures)) {
                                         CommentPicAdapter picadapter = new CommentPicAdapter(GoodLuckDetailsAty.this, pictures);
+                                        estimate_pic.setVisibility(View.VISIBLE);
                                         estimate_pic.setAdapter(picadapter);
+                                    }else {
+                                        estimate_pic.setVisibility(View.GONE);
                                     }
                                 }
                             } else { // 否则没有商品评价

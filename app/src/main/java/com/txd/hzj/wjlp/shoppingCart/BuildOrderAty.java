@@ -55,7 +55,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +168,7 @@ public class BuildOrderAty extends BaseAty {
     private List<Invoice> invoiceList = new ArrayList<>();//商品类型
     private Bundle bundle;
     private double total_price = 0.00f;//总价格
-    private double tp = 0.00;
+    private double tp;
     private String is_pay_password = "0";//是否设置密码
     private int[] same_tem_id;//相同模板id
 
@@ -673,20 +672,17 @@ public class BuildOrderAty extends BaseAty {
                                 //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                                 goodsAdapter.notifyDataSetChanged();
-                                tp = 0.00;
                                 for (SplitNew temp : splitNewList) {
-                                    L.e("tp" + temp.getPay());
                                     tp += Double.parseDouble(temp.getPay());
                                 }
-                                tp = (double) Math.round(tp * 100) / 100;
-                                BigDecimal bg = new BigDecimal(tp);
-                                tp = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                                if (tp == 0.00) {
+                                DecimalFormat df = new DecimalFormat("0.00");
+                                String kk=df.format(tp);
+                                if ("0.00".equals(kk)) {
                                     //                                    tv_youfei.setVisibility(View.GONE);
                                     tv_youfei.setText("包邮");
                                 } else {
                                     tv_youfei.setVisibility(View.VISIBLE);
-                                    tv_youfei.setText("+" + tp + "元运费");
+                                    tv_youfei.setText("+" + kk + "元运费");
                                 }
                                 if ("10".equals(type)) {
                                     order_price_at_last_tv.setText("合计：" + total_price + "积分");
