@@ -31,7 +31,8 @@ public class FirstValBean implements Serializable {
     private String market_price;// "市场价",
     private String goods_img;//"商品图片",
     private String discoun;
-    private String integral;
+    private String integral;//积分价格
+    private String p_integral; //"原积分"
     private String red_return_integral;
     private String yellow_discount;
     private String yellow_return_integral;
@@ -436,6 +437,14 @@ public class FirstValBean implements Serializable {
 
     public void setMax_num(String max_num) {
         this.max_num = max_num;
+    }
+
+    public String getP_integral() {
+        return p_integral;
+    }
+
+    public void setP_integral(String p_integral) {
+        this.p_integral = p_integral;
     }
 }
 

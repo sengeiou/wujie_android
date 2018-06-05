@@ -18,6 +18,7 @@ public class GoodsInfoBean implements Serializable {
     private String goods_img;//"商品缩略图",
     private String share_content;//分享内容"
     private String integral;//"赠送积分",
+    private String p_integral;//原积分
     private String goods_desc = "";//"商品图文详情",//HTML格式
     private String goods_brief;// "商品简介",
     private String merchant_id;//"店铺id",
@@ -535,4 +536,11 @@ public class GoodsInfoBean implements Serializable {
         this.product_id = product_id;
     }
 
+    public String getP_integral() {
+        return p_integral;
+    }
+
+    public void setP_integral(String p_integral) {
+        this.p_integral = p_integral;
+    }
 }

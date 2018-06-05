@@ -61,7 +61,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="end"
                 android:text="运费"
-                android:textColor="@color/gray_text_color" />
+                android:textColor="@color/red_tv_back" />
 
             <TextView
                 android:id="@+id/tv_chose_ads"

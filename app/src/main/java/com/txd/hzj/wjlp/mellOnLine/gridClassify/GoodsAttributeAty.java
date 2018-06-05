@@ -186,6 +186,7 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("settlement_price", val.getSettlement_price());
                         if (type.equals("3") || "4".equals(type)) {//拼单或者参团
                             intent.putExtra("red_return_integral", val.getIntegral());
+                            intent.putExtra("p_integral",val.getP_integral()); //"原积分"
                             intent.putExtra("p_shop_price", val.getP_shop_price());
                         } else {
                             intent.putExtra("red_return_integral", val.getRed_return_integral());
