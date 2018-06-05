@@ -138,7 +138,7 @@ public class GoodsAttributeAty extends BaseAty {
                     if (num >= maxNumber) {
                         num = maxNumber;
                     }
-                    tv_xg.setText(String.valueOf(num));
+                    et_num.setText(String.valueOf(num));
                     // 获取输入框的输入件数
                     if (0 == num) { // 如果件数小于1件则直接弹出提示框，并打断后续代码的运行状态
                         showErrorTip("购买件数不能小于等于零");
@@ -405,7 +405,7 @@ public class GoodsAttributeAty extends BaseAty {
                 if (goods_val.getArrtValue().contains(recordStr)) {
                     GoodsAttributeAty.this.val = goods_val;
 
-                    if (TextUtils.isEmpty(val.getMax_num())) {
+                    if (TextUtils.isEmpty(val.getMax_num())||"0".equals(val.getMax_num())) {
                         tv_xg.setVisibility(View.INVISIBLE);
                     } else {
                         tv_xg.setVisibility(View.VISIBLE);
@@ -844,7 +844,7 @@ public class GoodsAttributeAty extends BaseAty {
                         GoodsAttributeAty.this.val = val;
                         if (!TextUtils.isEmpty(val.getGroup_buy_id()))
                             group_buy_id = val.getGroup_buy_id();
-                        if (TextUtils.isEmpty(val.getMax_num())) {
+                        if (TextUtils.isEmpty(val.getMax_num())||"0".equals(val.getMax_num())) {
                             tv_xg.setVisibility(View.INVISIBLE);
                         } else {
                             tv_xg.setVisibility(View.VISIBLE);
@@ -973,7 +973,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
         if (null == recordMutilMap) {
             recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-            if (TextUtils.isEmpty(list_val.get(0).getMax_num())) {
+            if (TextUtils.isEmpty(list_val.get(0).getMax_num())||"0".equals(list_val.get(0).getMax_num())) {
                 tv_xg.setVisibility(View.INVISIBLE);
             } else {
                 tv_xg.setVisibility(View.VISIBLE);
