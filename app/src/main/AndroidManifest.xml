@@ -8,11 +8,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!--友盟统计所需权限-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
-    <!--<uses-permission android:name="android.permission.INTERNET" />-->
-    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!-- 友盟统计所需权限 -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
+
 
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -70,9 +71,12 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- 百度地图 权限 End -->
 
+
     <!-- 环信权限 ↑ -->
 
+
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限BEGIN -->
+
 
     <!-- Required -->
     <permission
@@ -84,9 +88,8 @@
     <!-- Optional for location -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
     <!-- 测试提交 LH -->
-
-
     <!-- 极光推送 极光推送 极光推送 极光推送 极光推送 极光推送 权限END -->
     <application
         android:name=".DemoApplication"
@@ -550,15 +553,16 @@
             </intent-filter>
         </receiver>
 
-        <!--友盟统计配置Appkey与Channel-->
-        <!--value的值填写你在友盟后台申请的应用Appkey-->
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="5a727a08b27b0a4a2900003b" />-->
-        <!--&lt;!&ndash;value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量&ndash;&gt;-->
-        <!--<meta-data-->
-            <!--android:name="UMENG_CHANNEL"-->
-            <!--android:value="${UMENG_CHANNEL_VALUE}" />-->
+        <!-- 友盟统计配置Appkey与Channel -->
+        <!-- value的值填写你在友盟后台申请的应用Appkey -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="5a727a08b27b0a4a2900003b" /> -->
+        <!-- &lt;!&ndash;value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量&ndash;&gt; -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_CHANNEL" -->
+        <!-- android:value="${UMENG_CHANNEL_VALUE}" /> -->
+
 
         <!-- umeng appkey，可忽略 -->
         <!-- 友盟统计的暂时忽略 -->
@@ -642,9 +646,9 @@
             </intent-filter>
         </receiver>
 
-        <!--<service-->
-        <!--android:name="com.hyphenate.chat.EMGCMListenerService"-->
-        <!--android:exported="false" />-->
+        <!-- <service -->
+        <!-- android:name="com.hyphenate.chat.EMGCMListenerService" -->
+        <!-- android:exported="false" /> -->
 
         <receiver
             android:name=".huanxin.receiver.GCMPushBroadCast"
@@ -751,11 +755,15 @@
             </intent-filter>
         </receiver>
 
-        <!--友盟统计配置Appkey与Channel-->
-        <!--value的值填写你在友盟后台申请的应用Appkey-->
-        <meta-data android:value="5a727a08b27b0a4a2900003b" android:name="UMENG_APPKEY"/>
-        <!--value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量-->
-        <meta-data android:value="${UMENG_CHANNEL_VALUE}" android:name="UMENG_CHANNEL"/>
+        <!-- 友盟统计配置Appkey与Channel -->
+        <!-- value的值填写你在友盟后台申请的应用Appkey -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a727a08b27b0a4a2900003b" />
+        <!-- value的值填写渠道名称，例如yingyongbao。这里设置动态渠道变量 -->
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
 
         <!-- umeng appkey，可忽略 -->
         <!-- 友盟统计的暂时忽略 -->
@@ -814,7 +822,8 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--android:screenOrientation="portrait"-->
+        <!-- android:screenOrientation="portrait" -->
+
 
         <!-- 调用新浪原生SDK，需要注册的回调activity -->
         <activity
@@ -830,12 +839,12 @@
 
 
         <!-- 友盟统计 -->
-        <!--<meta-data-->
-            <!--android:name="UMENG_APPKEY"-->
-            <!--android:value="5a727a08b27b0a4a2900003b" />-->
-        <!--<meta-data-->
-            <!--android:name="UMENG_CHANNEL"-->
-            <!--android:value="Umeng" />-->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_APPKEY" -->
+        <!-- android:value="5a727a08b27b0a4a2900003b" /> -->
+        <!-- <meta-data -->
+        <!-- android:name="UMENG_CHANNEL" -->
+        <!-- android:value="Umeng" /> -->
         <!-- 友盟统计 -->
 
 
@@ -868,9 +877,9 @@
         <!-- 房产和车辆的订单 -->
         <activity android:name=".new_wjyp.aty_submit_order" />
         <activity android:name=".new_wjyp.aty_pay" />
-        <!--蓝色代金券转账页面-->
+        <!-- 蓝色代金券转账页面 -->
         <activity android:name=".minetoAty.GiveCouponAccounts" />
-        <!--蓝色代金券详情-->
+        <!-- 蓝色代金券详情 -->
         <activity android:name=".minetoAty.GiveCouponAty" />
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -1006,70 +1015,70 @@
                 <data android:scheme="wxc971edce6f70ca57" />
             </intent-filter>
         </activity>
-        <!--商家推荐-->
+        <!-- 商家推荐 -->
         <activity android:name=".new_wjyp.aty_mine1" />
-        <!--代理加盟-->
+        <!-- 代理加盟 -->
         <activity android:name=".new_wjyp.aty_mine2" />
-        <!--拓展商 拓展员 联盟商家-->
+        <!-- 拓展商 拓展员 联盟商家 -->
         <activity android:name=".wjyp.WebViewAty" />
-        <!--拓展商申请-->
+        <!-- 拓展商申请 -->
         <activity android:name=".wjyp.ExpandBusinessAty" />
-        <!--拓展商-->
+        <!-- 拓展商 -->
         <activity android:name=".wjyp.ApplyAty" />
-        <!--支付成为拓展商-->
+        <!-- 支付成为拓展商 -->
         <activity android:name=".wjyp.PayVipAty" />
         <activity android:name=".wjyp.TZSAty" />
-        <!--代金券申请-->
+        <!-- 代金券申请 -->
         <activity android:name=".wjyp.GetTicketAty" />
-        <!--平台代金券审核-->
+        <!-- 平台代金券审核 -->
         <activity android:name=".wjyp.TerraceTicketCheckAty" />
-        <!--审核详情-->
+        <!-- 审核详情 -->
         <activity android:name=".wjyp.DetailsAty" />
         <activity android:name=".wjyp.MyTicketAty" />
-        <!--代金券审核-->
+        <!-- 代金券审核 -->
         <activity android:name=".wjyp.MyTicketCheckAty" />
-        <!--代金券发放记录 || 联盟商家列表-->
+        <!-- 代金券发放记录 || 联盟商家列表 -->
         <activity android:name=".wjyp.RecordAty" />
-        <!--推荐商家审核-->
+        <!-- 推荐商家审核 -->
         <activity android:name=".wjyp.MerchantCheckAty" />
-        <!--审核详情-->
+        <!-- 审核详情 -->
         <activity android:name=".wjyp.MerchantCheckDetailsAty" />
-        <!--物料申请-->
+        <!-- 物料申请 -->
         <activity android:name=".wjyp.MaterialApplyAty" />
-        <!--数量类型-->
+        <!-- 数量类型 -->
         <activity android:name=".wjyp.TypeNumberAty" />
         <activity android:name=".wjyp.PersonnelManagementAty" />
         <activity android:name=".wjyp._PersonnelManagementAty" />
-        <!--蓝色代金券使用明细-->
+        <!-- 蓝色代金券使用明细 -->
         <activity android:name=".minetoAty.tricket.ParticularsUserCouponAty" />
-        <!--拓展员添加-->
+        <!-- 拓展员添加 -->
         <activity android:name=".wjyp.AddRecordAty" />
-        <!--编辑拓展员-->
+        <!-- 编辑拓展员 -->
         <activity android:name=".wjyp.EditPresMangAty" />
-        <!--选择所属拓展员-->
+        <!-- 选择所属拓展员 -->
         <activity android:name=".wjyp.ChoosePresMangAty" />
         <activity android:name=".wjyp.OtherTicketAty" />
-        <!--发放记录-->
+        <!-- 发放记录 -->
         <activity android:name=".wjyp.ReleaseRecordAty" />
-        <!--详情-->
+        <!-- 详情 -->
         <activity android:name=".wjyp.ReleaseRecordDetailsAty" />
-        <!--平台物料审核-->
+        <!-- 平台物料审核 -->
         <activity android:name=".wjyp.PlatformMaterialAuditAty" />
-        <!--审核详情-->
+        <!-- 审核详情 -->
         <activity android:name=".wjyp.PlatformMaterialAuditDetailsAty" />
-        <!--下级物料审核-->
+        <!-- 下级物料审核 -->
         <activity android:name=".wjyp.LowerMaterialAuditAty" />
         <activity android:name=".wjyp.ExpandTheMemberAty" />
         <activity android:name=".wjyp.LMSJAty" />
-        <!--无界驿站升级-->
+        <!-- 无界驿站升级 -->
         <activity android:name=".wjyp.ApplyPostAty" />
         <!-- 会员详情 -->
         <activity android:name=".new_wjyp.VipDetailsAty" />
-        <!--购买会员卡支付界面-->
+        <!-- 购买会员卡支付界面 -->
         <activity android:name=".new_wjyp.VipPayAty" />
-        <!--线下店铺商家推荐-->
+        <!-- 线下店铺商家推荐 -->
         <activity android:name=".wjyp.PushMerchantAty" />
-        <!--发票选择界面-->
+        <!-- 发票选择界面 -->
         <activity android:name=".new_wjyp.InvoiceAty" />
         <!-- 订单物流 -->
         <activity android:name=".minetoAty.OrderLogisticsAty" />
@@ -1080,7 +1089,9 @@
         <!-- 快递物流详情 -->
         <activity android:name=".minetoAty.ExpressAtv" />
         <!-- 拼单购订单详情 -->
-        <activity android:name=".minetoAty.order.CollageDetailsAty"></activity>
+        <activity android:name=".minetoAty.order.CollageDetailsAty" />
+        <activity android:name=".distribution.ApplyForShop" />
+        <activity android:name=".distribution.PersonalStores"></activity>
     </application>
 
 </manifest>
