@@ -1004,7 +1004,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 售价
                     //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
                     now_price_tv.setText(goodsInfo.getShop_price());
-                    old_price_tv.setText("已团" + dataBean.getTotal() + "件");
+                    old_price_tv.setText("已拼" + dataBean.getTotal() + "件");
 //            // 市场价
 //            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
 //            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

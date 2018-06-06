@@ -52,13 +52,15 @@ public class aty_commentindex extends BaseAty {
     private ImageView imageview;
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
+    @ViewInject(R.id.tv_good_name)
+    private TextView tv_good_name;
 
     private GridImageAdapter gridImageAdapter;
     private FullyGridLayoutManager manager;
     private int selectPicNum = 9;
     List<File> list = new ArrayList<>();
 
-    String goods_id, goods_img, order_id;
+    String goods_id, goods_img, order_id,good_name;
     private TextView textLength;
     private String type;
 
@@ -79,9 +81,11 @@ public class aty_commentindex extends BaseAty {
         goods_img = getIntent().getStringExtra("goods_img");
         order_id = getIntent().getStringExtra("order_id");
         type = getIntent().getStringExtra("type");
+        good_name = getIntent().getStringExtra("good_name");
         Glide.with(this).load(goods_img).into(imageview);
         textLength = (TextView) findViewById(R.id.ed_text_length);
-        titlt_conter_tv.setText("发布评价");
+        titlt_conter_tv.setText("商品评价");
+        tv_good_name.setText(good_name);
         manager = new FullyGridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         updata_pic_rv.setLayoutManager(manager);
         gridImageAdapter = new GridImageAdapter(this,

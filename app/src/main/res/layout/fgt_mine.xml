@@ -359,6 +359,12 @@
                         android:padding="12dp"
                         android:text="收货地址"
                         android:textColor="@color/app_text_color" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/bg_color" />
 
                     <TextView
                         android:id="@+id/tv_order_center"

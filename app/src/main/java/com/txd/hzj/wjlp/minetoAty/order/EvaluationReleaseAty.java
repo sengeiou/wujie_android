@@ -82,7 +82,7 @@ public class EvaluationReleaseAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("订单评价");
+        titlt_conter_tv.setText("商品评价");
     }
 
     @Override
@@ -337,6 +337,7 @@ public class EvaluationReleaseAty extends BaseAty {
                         bundle.putString("goods_img", bean.getGoods_img());
                         bundle.putString("order_id", order_id);
                         bundle.putString("type", type);
+                        bundle.putString("good_name",bean.getGoods_name());
                         startActivity(aty_commentindex.class, bundle);
                     }
                 }
