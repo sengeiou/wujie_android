@@ -23,6 +23,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private LinearLayout shopSetUp;
     private LinearLayout shopPersonManage;
     private LinearLayout shopOrderManage;
+    private TextView visitor;
+    private TextView orderNum;
 
     @Override
     protected int getLayoutResId() {
@@ -44,7 +46,10 @@ public class ShopMain extends BaseAty implements OnClickListener {
         shopPersonManage = findViewById(R.id.shop_person_manage);
         //订单管理
         shopOrderManage = findViewById(R.id.shop_order_magage);
-
+        //访客量
+        visitor = findViewById(R.id.shop_visitor);
+        //订单量
+        orderNum = findViewById(R.id.shop_order);
 
         //注册点击事件
         shopUpGoods.setOnClickListener(this);
@@ -57,14 +62,15 @@ public class ShopMain extends BaseAty implements OnClickListener {
 
     @Override
     protected void requestData() {
-    titleName.setText("店铺管理");
-
+        titleName.setText("店铺管理");
+        visitor.setText("访客量" + "\n100");
+        orderNum.setText("订单量" + "\n7");
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.shop_up_goods:
                 break;
             case R.id.shop_goods_manage:
@@ -73,14 +79,15 @@ public class ShopMain extends BaseAty implements OnClickListener {
                 break;
             case R.id.shop_set_up:
                 //店铺设置
-                startActivity(ShopSetUp.class,null);
+                startActivity(ShopSetUp.class, null);
                 break;
             case R.id.shop_person_manage:
                 //顾客管理
-                startActivity(ShopPersonManage.class,null);
+                startActivity(ShopPersonManage.class, null);
                 break;
             case R.id.shop_order_magage:
                 //订单管理
+                startActivity(ShopOrderManage.class, null);
                 break;
         }
     }

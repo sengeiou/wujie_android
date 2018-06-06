@@ -178,6 +178,9 @@
         <!--分销店铺顾客管理-->
         <activity android:name=".distribution.shopmanage.ShopPersonManage"
             android:launchMode="singleTop"/>
+        <!--分销店铺订单管理-->
+        <activity android:name=".distribution.shopmanage.ShopOrderManage"
+            android:launchMode="singleTop"/>
         <!-- 商家列表 -->
         <activity
             android:name=".mellOnLine.MellListAty"

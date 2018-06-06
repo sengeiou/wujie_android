@@ -36,33 +36,42 @@
             android:textColor="@color/black"
             android:textSize="17sp" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="20dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:background="@color/black" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
-            android:text="访客量+\n100"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="10dp"
-            android:text="订单数\n7"
-            android:layout_marginEnd="10dp"
-            android:textColor="@color/black"
-            android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/shop_visitor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/shop_order"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="13sp" />
+        </LinearLayout>
     </RelativeLayout>
 
 
@@ -70,7 +79,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
         app:columnCount="3"
         app:rowCount="1">
 
