@@ -788,7 +788,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         L.e("onError======================error" + error.toString());
-        removeProgressDialog();
+        try {
+            removeProgressDialog();
+        } catch (IllegalArgumentException e) {
+            L.e("remove Dialog Error:" + e.toString());
+        }
         superSwipeRefreshLayout.setRefreshing(false);
     }
 

@@ -893,7 +893,7 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
 
         cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
                 + System.currentTimeMillis() + ".jpg");
-        //noinspection ResultOfMethodCallIgnored
+        // noinspection ResultOfMethodCallIgnored
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(
                 new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
