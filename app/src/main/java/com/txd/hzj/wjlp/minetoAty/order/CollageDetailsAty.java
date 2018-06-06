@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -34,6 +35,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_after;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
 import java.util.List;
@@ -41,6 +43,18 @@ import java.util.Map;
 
 /**
  * 描述：拼单购订单详情
+ *
+ * //商品
+ @property (nonatomic, copy) NSArray * item;
+ @property (nonatomic, copy) NSString * welfare;//": 5.696,            // 公益金额
+ @property (nonatomic, copy) NSString * is_welfare;//": 1,   // 是否存在公益金额    （1存在，0不存在）
+ @property (nonatomic, copy) NSString * after_sale_status;//": 1,   // 是否存在售后服务类型    （1存在，0不存在）
+ @property (nonatomic, copy) NSString * after_sale_type;//": "商家承诺在您签收货物后的7天内，在无人为损坏的情形下，向您提供退货服务。",                      // 售后服务类型
+ @property (nonatomic, copy) NSString * invoice_status;//": 1,   // 是否可开发票    （1存在，0不存在）
+ *
+ *
+ *
+ *
  */
 public class CollageDetailsAty extends BaseAty {
 
@@ -514,8 +528,10 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.tv_price.setText("¥" + map.get("shop_price")); // 设置订单中商品价格
                 tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
-                tgvh.title.setText(map.get("attr")); // 设置商品属性
-                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+//                tgvh.title.setText(map.get("attr")); // 设置商品属性
+//                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+                ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
+                        map.get("attr")+"（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
                 tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
                 tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
                 tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
@@ -656,8 +672,12 @@ public class CollageDetailsAty extends BaseAty {
                 Glide.with(CollageDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
                 tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
                 tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
-                tgvh.title.setText(map.get("attr")); // 设置商品属性
-                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+//                tgvh.title.setText(map.get("attr")); // 设置商品属性
+//                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
+
+                ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
+                        map.get("attr")+"（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
+
                 tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
                 tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
                 L.e("time" + map.get("sure_delivery_time"));
@@ -674,11 +694,33 @@ public class CollageDetailsAty extends BaseAty {
                 // 发货时间
                 tgvh.layout_fahuoshijian.setVisibility(map.get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
-                if (map.containsKey("integrity_d")) {
-                    // 公益宝贝
-                    tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
-                    tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
+
+
+                    String is_welfareStr=map.get("is_welfare");
+                    if(!TextUtils.isEmpty(is_welfareStr)&&"1".equals(is_welfareStr)){
+                        String integrity_dStr= map.get("integrity_d");
+                        // 公益宝贝
+                        tgvh.layout_gongyi.setVisibility(TextUtils.isEmpty(integrity_dStr)? View.GONE : View.VISIBLE);
+                        tgvh.tv_gongyi.setText(TextUtils.isEmpty(integrity_dStr)?"" : integrity_dStr);
+                    }else{
+                        tgvh.layout_gongyi.setVisibility(View.GONE);
+                        tgvh.tv_gongyi.setText("");
+                    }
+
+                String afterSaleStatusStr=map.get("after_sale_status");
+                if(!TextUtils.isEmpty(afterSaleStatusStr)&&"1".equals(afterSaleStatusStr)){
+                    String after_sale_typeStr=map.get("after_sale_type");
+                    if(!TextUtils.isEmpty(after_sale_typeStr)){
+                        //售后服务
+                        tgvh.lin_shouhou.setVisibility(View.VISIBLE);
+                        tgvh.tv_shouhou.setText(after_sale_typeStr);
+                    }else{
+                        tgvh.lin_shouhou.setVisibility(View.GONE);
+                        tgvh.tv_shouhou.setText("");
+                    }
                 }
+
+
                 // 左侧延长收货按钮点击事件
                 tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -733,8 +775,8 @@ public class CollageDetailsAty extends BaseAty {
             private TextView num;
             @ViewInject(R.id.title)
             private TextView title;
-            @ViewInject(R.id.jifenTv)
-            private TextView jifenTv;
+//            @ViewInject(R.id.jifenTv)
+//            private TextView jifenTv;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
             @ViewInject(R.id.tv_btn_left)
@@ -750,35 +792,35 @@ public class CollageDetailsAty extends BaseAty {
             @ViewInject(R.id.delayReceiving)
             private TextView delayReceiving;
             @ViewInject(R.id.lin_shouhou)
-            private LinearLayout lin_shouhou;
+            private View lin_shouhou;
             @ViewInject(R.id.tv_shouhou)
             private TextView tv_shouhou;
             @ViewInject(R.id.layout_gongyi)
-            private LinearLayout layout_gongyi;
+            private View layout_gongyi;
             @ViewInject(R.id.tv_gongyi)
             private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
-            private LinearLayout lin_server_status;
+            private View lin_server_status;
 
             //            android:id="@+id/tv_btn_right"
 
             @ViewInject(R.id.layout_fapiao)
-            private LinearLayout layout_fapiao;
+            private View layout_fapiao;
 
             @ViewInject(R.id.layout_zhengpinbaozheng) // 正品保证
-            private LinearLayout layout_zhengpinbaozheng;
+            private View layout_zhengpinbaozheng;
             @ViewInject(R.id.tv_zhengpinbaozheng)
             private TextView tv_zhengpinbaozheng;
             @ViewInject(R.id.layout_fuwuchengnuo) // 服务承诺
-            private LinearLayout layout_fuwuchengnuo;
+            private View layout_fuwuchengnuo;
             @ViewInject(R.id.tv_fuwuchengnuo)
             private TextView tv_fuwuchengnuo;
             @ViewInject(R.id.layout_fahuoshijian) // 发货时间
-            private LinearLayout layout_fahuoshijian;
+            private View layout_fahuoshijian;
             @ViewInject(R.id.tv_fahuoshijian)
             private TextView tv_fahuoshijian;
             @ViewInject(R.id.itemGoods_goods_layout)
-            private LinearLayout itemGoods_goods_layout;
+            private View itemGoods_goods_layout;
 
             @ViewInject(R.id.delayReceivingtv)
             private TextView delayReceivingtv;//订单详情中延长收货时间显示

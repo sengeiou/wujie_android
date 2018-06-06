@@ -480,7 +480,13 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             gevh.comm_user_name_tv.setText(commentList.getNickname());
             gevh.comm_content_tv.setText(commentList.getContent());
             gevh.tv_label.setText(commentList.getCreate_time() + commentList.getGood_attr());
-            gevh.goods_evaluate_num.setText("X"+commentList.getGoods_num());
+            if (!android.text.TextUtils.isEmpty(commentList.getGoods_num())) {
+                gevh.goods_evaluate_num.setVisibility(View.VISIBLE);
+                gevh.goods_evaluate_num.setText("X" + commentList.getGoods_num());
+            } else {
+                gevh.goods_evaluate_num.setVisibility(View.GONE);
+            }
+
            /* if (0 == type) {goods_num
                 gevh.goods_for_my_evaluste_layout.setVisibility(View.GONE);
             } else {*/
@@ -513,6 +519,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     type = "夺宝";
                     break;
             }
+            type="";
             gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
             TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
                     Color.parseColor("#47CEF7"), r);
@@ -538,7 +545,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             private ShapedImageView comm_user_head_iv;
             /**
              * 商品数量
-             * */
+             */
             @ViewInject(R.id.goods_evaluate_num)
             private TextView goods_evaluate_num;
             /**

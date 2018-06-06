@@ -102,7 +102,8 @@ public class GoodLuckAdapter extends BaseAdapter {
             long last_endTime = endTrueTime - now_time;
             // 倒计时Tag
             goodLuckVH.good_count_down_view.setTag(str);
-            goodLuckVH.good_count_down_view.setConvertDaysToHours(true);
+//            goodLuckVH.good_count_down_view.setConvertDaysToHours(true);
+//            goodLuckVH.good_count_down_view.
             if (last_time < 0) {
                 goodLuckVH.yanshiTv.setVisibility(View.VISIBLE);
                 if (last_endTime < 0) { // 屏蔽小于零的情况

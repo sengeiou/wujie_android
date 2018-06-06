@@ -62,9 +62,10 @@
         android:orientation="horizontal">
 
         <RelativeLayout
-            android:layout_marginRight="3dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="80dp"
@@ -72,11 +73,11 @@
                 android:src="@drawable/icon_mine_about" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/tyIv"
-                android:src="@mipmap/ttdd"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ttdd"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <LinearLayout
@@ -109,8 +110,8 @@
                         android:id="@+id/tv_price"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:paddingLeft="8dp"
                         android:gravity="center"
+                        android:paddingLeft="8dp"
                         android:text="¥25"
                         android:textColor="@color/gray_text_color" />
                 </LinearLayout>
@@ -119,8 +120,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:gravity="bottom"
+                    android:orientation="horizontal"
                     android:paddingBottom="10dp">
 
                     <LinearLayout
@@ -133,16 +134,15 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxEms="5"
-                                android:textColor="@color/gray_text_color"
-                                android:maxLines="2"
                                 android:ellipsize="end"
+                                android:maxLines="2"
+                                android:textColor="@color/gray_text_color"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -151,13 +151,15 @@
                                 android:layout_height="wrap_content"
                                 android:text="（赠送积分）"
                                 android:textColor="#F6B87A"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                android:visibility="gone" />
+
                             <TextView
                                 android:id="@+id/delayReceivingtv"
-                                android:textSize="10sp"
-                                android:visibility="gone"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:textSize="10sp"
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <TextView

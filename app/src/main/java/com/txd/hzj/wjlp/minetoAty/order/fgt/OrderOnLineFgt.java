@@ -50,6 +50,7 @@ import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
+import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.HashMap;
@@ -1220,21 +1221,26 @@ public class OrderOnLineFgt extends BaseFgt {
             Glide.with(getActivity()).load(getItem(i).get("pic")).into(goVh.image);
             goVh.name.setText(getItem(i).get("goods_name"));
             goVh.num.setText("x" + getItem(i).get("goods_num"));
-            if (!"10".equals(from)) {
-                goVh.jifenTv.setVisibility(View.VISIBLE);
-                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
-            } else {
-                goVh.jifenTv.setVisibility(View.GONE);
-            }
+//            if (!"10".equals(from)) {
+//                goVh.jifenTv.setVisibility(View.VISIBLE);
+//                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
+//            } else {//无界商店
+//                goVh.jifenTv.setVisibility(View.GONE);
+//            }
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));
             //            goVh.textview.setText("最晚发货时间");
             // TODO ============================================时间、积分设置=========================================================
+
+
 
             if (TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
                 goVh.title.setVisibility(View.GONE);
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
-                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
+                String goods_attr_str="规格" +getItem(i).get("goods_attr");
+                ChangeTextViewStyle.getInstance().forTextColor(getActivity(),goVh.title,
+                        goods_attr_str+"（赠送:" + getItem(i).get("return_integral") + "积分）",goods_attr_str.length(), Color.parseColor("#F6B87A"));
+//                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
             }
             if (TextUtils.isEmpty(getItem(i).get("shop_price"))) {
                 goVh.tv_price.setVisibility(View.GONE);
@@ -1257,10 +1263,10 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView title;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
-            @ViewInject(R.id.jifenTv)
-            private TextView jifenTv;
-            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
-            private TextView textview;
+//            @ViewInject(R.id.jifenTv)
+//            private TextView jifenTv;
+//            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
+//            private TextView textview;
             @ViewInject(R.id.goodsForOrder_layout)
             private LinearLayout goodsForOrder_layout;
             @ViewInject(R.id.tyIv)
