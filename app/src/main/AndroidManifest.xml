@@ -170,6 +170,7 @@
         <!-- 商品列表 -->
         <activity android:name=".mellOnLine.GoodsListAty" />
         <!--分销店铺管理首页-->
+        <!-- 店铺管理首页 -->
         <activity android:name=".distribution.shopmanage.ShopMain"
             android:launchMode="singleTop"/>
         <!--分销店铺设置-->
@@ -1100,6 +1101,9 @@
         <!-- 拼单购订单详情 -->
         <activity android:name=".minetoAty.order.CollageDetailsAty" />
         <activity android:name=".distribution.ApplyForShop" />
+        <activity android:name=".distribution.shopmanage.ShopExhibit" />
+        <activity android:name=".distribution.shopmanage.ShopGoodsManage" />
+        <activity android:name=".distribution.shopmanage.ShopRevenue"></activity>
     </application>
 
 </manifest>
