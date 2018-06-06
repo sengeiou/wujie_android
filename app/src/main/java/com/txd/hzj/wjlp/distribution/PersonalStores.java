@@ -6,7 +6,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 我的店铺
+ * 店铺管理
  */
 public class PersonalStores extends BaseAty {
 
