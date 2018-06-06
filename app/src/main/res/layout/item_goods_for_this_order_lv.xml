@@ -9,6 +9,11 @@
         android:id="@+id/itemGoods_goods_layout"
         layout="@layout/aty_goods_for_order" />
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:id="@+id/layout_fapiao"
         android:layout_width="match_parent"
@@ -67,7 +72,11 @@
             android:textSize="14sp" />
 
     </LinearLayout>
-
+<View
+    android:layout_width="match_parent"
+    android:background="@color/line_color"
+    android:layout_marginLeft="15dp"
+    android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/layout_gongyi"
         android:layout_width="match_parent"
@@ -95,7 +104,11 @@
             android:textSize="14sp" />
 
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/line_color"
+        android:layout_marginLeft="15dp"
+        android:layout_height="1dp"/>
     <LinearLayout
         android:id="@+id/lin_server_status"
         android:layout_width="match_parent"
@@ -129,7 +142,11 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/line_color"
+            android:layout_marginLeft="15dp"
+            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/layout_fuwuchengnuo"
             android:layout_width="match_parent"
@@ -157,7 +174,11 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/line_color"
+            android:layout_marginLeft="15dp"
+            android:layout_height="1dp"/>
         <LinearLayout
             android:id="@+id/layout_fahuoshijian"
             android:layout_width="match_parent"
@@ -186,7 +207,7 @@
 
         </LinearLayout>
     </LinearLayout>
-
+</LinearLayout>
     <include layout="@layout/collage_layout_order_btn" />
 
 </LinearLayout>
