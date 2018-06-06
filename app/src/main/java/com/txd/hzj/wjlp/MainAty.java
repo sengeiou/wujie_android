@@ -833,24 +833,29 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     // ====================android M+动态授权====================
     private void requestSomePermission() {
 
+        /**
+         * 暂时不需要的权限，维护用户体验
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||电话
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.RECORD_AUDIO)录音
+         *
+         * Manifest.permission.RECORD_AUDIO, // 启用录音权限
+         * Manifest.permission.CALL_PHONE,
+         * */
         // 先判断是否有权限。
         if (!AndPermission.hasPermission(MainAty.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.READ_PHONE_STATE) ||
-                !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.CAMERA) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
-                !AndPermission.hasPermission(MainAty.this, Manifest.permission.RECORD_AUDIO)
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+
                 ) {
             // 申请权限。
             AndPermission.with(MainAty.this)
                     .requestCode(100)
                     .permission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
                             Manifest.permission.READ_PHONE_STATE,
-                            Manifest.permission.CALL_PHONE,
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.RECORD_AUDIO, // 启用录音权限
                             Manifest.permission.ACCESS_COARSE_LOCATION)
                     .send();
         }

@@ -374,7 +374,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:gravity="right"
-                android:textColor="@color/app_text_color"
+                android:textColor="@color/holo_red_light"
                 android:textSize="12dp" />
 
 

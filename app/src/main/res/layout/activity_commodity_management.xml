@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/apply_for_shop_linlayout"
     android:orientation="vertical"
-    tools:context=".distribution.ApplyForShop">
-
-    <include layout="@layout/aty_shop_title" />
-
+    tools:context=".distribution.shopmanage.ShopGoodsManage">
+    <include layout="@layout/aty_shop_title"/>
 </LinearLayout>

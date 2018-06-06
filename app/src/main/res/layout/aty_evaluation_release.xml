@@ -9,8 +9,10 @@
     tools:context="com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty">
 
     <include layout="@layout/aty_title" />
-
-    <LinearLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"/>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,7 +21,6 @@
             android:id="@+id/for_goods_evaluste_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@color/white"
             android:divider="@color/bg_color"
             android:dividerHeight="8dp" />
@@ -27,6 +28,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
             android:background="@color/white"
             android:orientation="horizontal"
             android:padding="8dp">
@@ -97,13 +99,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:padding="10dp"
+                android:background="@drawable/shape_red_btn_01_li"
                 android:text="评价服务"
                 android:textSize="14sp"
                 android:visibility="visible" />
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <!--<RelativeLayout--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
 

@@ -949,8 +949,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
                         if (null != groupList && groupList.size() == 1) {
                             GroupBean groupBean = groupList.get(0);
-                            if (groupBean.getDiff_num().equals("0")) {
-                                creat_group_tv.setBackgroundColor(getResources().getColor(R.color.color_background_gray));
+                            if (groupBean.getDiff_num().equals("0")||!groupBean.getIs_member().equals("0")) {
+                                creat_group_tv.setBackgroundColor(Color.parseColor("#9D9D9D"));
                                 creat_group_tv.setClickable(false);
                             } else {
                                 creat_group_tv.setClickable(true);

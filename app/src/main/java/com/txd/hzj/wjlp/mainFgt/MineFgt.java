@@ -31,6 +31,8 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Promoters;
+import com.txd.hzj.wjlp.distribution.ApplyForShop;
+import com.txd.hzj.wjlp.distribution.shopmanage.ShopMain;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
@@ -300,9 +302,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
             R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
-            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,
+            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,R.id.apply_for_shop,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
-            R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,
+            R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,R.id.personalStores,
             R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll,R.id.apprentice_code_tv})
     public void onClick(View v) {
         super.onClick(v);
@@ -408,6 +410,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 toChat(service_easemob_account, service_head_pic, service_nickname);
 
+                break;
+                //申请开店
+            case R.id.apply_for_shop:
+                startActivity(ApplyForShop.class,null);
+                break;
+                //店铺管理
+            case R.id.personalStores:
+                startActivity(ShopMain.class,null);
                 break;
             case R.id.stock_record_tv:// 进货记录
                 this.bundle = new Bundle();

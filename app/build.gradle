@@ -149,4 +149,6 @@ dependencies {
     /*友盟统计需要的最新版本组件化基础库和统计SDK*/
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
+
+    compile 'com.android.support:gridlayout-v7:22.+'
 }

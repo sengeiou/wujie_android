@@ -9,114 +9,14 @@
         android:id="@+id/itemGoods_goods_layout"
         layout="@layout/aty_goods_for_order" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:layout_height="wrap_content">
     <LinearLayout
-        android:id="@+id/layout_fapiao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:text="发票"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/itemGoods_invoiceName_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawablePadding="10dp"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:text="无"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lin_shouhou"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:text="售后服务"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_shouhou"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-<View
-    android:layout_width="match_parent"
-    android:background="@color/line_color"
-    android:layout_marginLeft="15dp"
-    android:layout_height="1dp"/>
-    <LinearLayout
-        android:id="@+id/layout_gongyi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:text="公益宝贝"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_gongyi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:padding="8dp"
-            android:textColor="@color/app_text_color"
-            android:textSize="14sp" />
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/line_color"
-        android:layout_marginLeft="15dp"
-        android:layout_height="1dp"/>
-    <LinearLayout
-        android:id="@+id/lin_server_status"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/layout_zhengpinbaozheng"
+            android:id="@+id/layout_fapiao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -126,29 +26,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="正品保证"
+                android:text="发票"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_zhengpinbaozheng"
+                android:id="@+id/itemGoods_invoiceName_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:drawablePadding="10dp"
+                android:maxLines="1"
                 android:padding="8dp"
+                android:text="无"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/line_color"
-            android:layout_marginLeft="15dp"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:id="@+id/layout_fuwuchengnuo"
+
+        <RelativeLayout
+            android:id="@+id/lin_shouhou"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -156,31 +55,36 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tv_shfw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="服务承诺"
+                android:text="售后服务"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_fuwuchengnuo"
+                android:id="@+id/tv_shouhou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:layout_toEndOf="@+id/tv_shfw"
+                android:maxLines="1"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/line_color"
-            android:layout_marginLeft="15dp"
-            android:layout_height="1dp"/>
-        <LinearLayout
-            android:id="@+id/layout_fahuoshijian"
+            <View
+                android:id="@+id/lin_shouhou_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_shfw"
+                android:layout_marginLeft="15dp"
+                android:background="@color/line_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_gongyi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -188,26 +92,150 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tv_gybb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:text="发货时间"
+                android:text="公益宝贝"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_fahuoshijian"
+                android:id="@+id/tv_gongyi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="2"
+                android:layout_toEndOf="@+id/tv_gybb"
+                android:maxLines="1"
                 android:padding="8dp"
                 android:textColor="@color/app_text_color"
                 android:textSize="14sp" />
 
+            <View
+                android:id="@+id/layout_gongyi_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_gybb"
+                android:layout_marginLeft="15dp"
+                android:background="@color/line_color" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/lin_server_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/layout_zhengpinbaozheng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_zpbz"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:text="正品保证"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_zhengpinbaozheng"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_zpbz"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/layout_zhengpinbaozheng_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_zpbz"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_color" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_fuwuchengnuo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_fwcn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:text="服务承诺"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_fuwuchengnuo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_fwcn"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+                <View
+                    android:id="@+id/layout_fuwuchengnuo_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_fwcn"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/line_color" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_fahuoshijian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_fhsj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:text="发货时间"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_fahuoshijian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_fhsj"
+                    android:maxLines="2"
+                    android:padding="8dp"
+                    android:textColor="@color/app_text_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
     <include layout="@layout/collage_layout_order_btn" />
 
 </LinearLayout>
