@@ -6,7 +6,7 @@
     android:background="#EEEEEE"
     android:orientation="horizontal"
     android:padding="8dp">
-
+<!--商品图片-->
     <ImageView
         android:id="@+id/goods_comment_pic"
         android:layout_width="80dp"
@@ -14,10 +14,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:orientation="vertical">
-
+<!--商品标题-->
         <TextView
             android:id="@+id/goods_title_for_evaluate_tv"
             android:layout_width="match_parent"
@@ -29,29 +29,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-            <LinearLayout
+            android:orientation="vertical">
+<!--属性-->
+            <TextView
+                android:id="@+id/price_for_goods_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/price_for_goods_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/gray_text_color"
-                    android:textSize="15sp" />
-            </LinearLayout>
+                android:textColor="@color/gray_text_color"
+                android:textSize="15sp" />
+<!--价格-->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/shop_priceTv"
@@ -65,34 +56,35 @@
                     android:id="@+id/goods_evaluate_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
                     android:layout_alignParentRight="true"
                     android:textColor="#3F3F3F"
                     android:textSize="12sp" />
             </RelativeLayout>
-            <LinearLayout
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+<!--积分-->
+            <TextView
+                android:id="@+id/jifen_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:lineSpacingExtra="6dp"
+                android:textColor="@color/colorOrange"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:id="@+id/jifen_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="6dp"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="10sp" />
-
-
-                <TextView
-                    android:id="@+id/tv_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:textColor="@color/app_text_color"
-                    android:textSize="15sp" />
-            </LinearLayout>
+<!--数目-->
+            <TextView
+                android:id="@+id/tv_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:textColor="@color/app_text_color"
+                android:textSize="15sp" />
         </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

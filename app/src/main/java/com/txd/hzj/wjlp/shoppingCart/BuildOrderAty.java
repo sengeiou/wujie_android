@@ -485,9 +485,11 @@ public class BuildOrderAty extends BaseAty {
             tv_merchant_name.setText(map.get("merchant_name"));
             if (!type.equals("10")) {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
+                // 设置税金四舍五入显示到界面上
+                DecimalFormat df = new DecimalFormat("0.00");
                 //            tv_sum_discount.setText("总抵扣¥" + map.get("sum_discount"));
                 ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                        "合计：¥" + total_price, "合计：".length(), getResources().getColor(R.color.holo_red_light));
+                        "合计：¥" + df.format(total_price), "合计：".length(), getResources().getColor(R.color.holo_red_light));
                 //            if (map.get("sum_discount").equals("0")) {
                 //                tv_sum_discount.setVisibility(View.GONE);
             } else {
@@ -659,7 +661,7 @@ public class BuildOrderAty extends BaseAty {
                                 //                                order_price_at_last_tv.setText(price + "+" + data.get(position).get("pay") + "运费");
                                 commonPopupWindow.dismiss();
                                 goodsAdapter.notifyDataSetChanged();
-                                tp=0.00;
+                                tp = 0.00;
                                 for (SplitNew temp : splitNewList) {
                                     tp += Double.parseDouble(temp.getPay());
                                 }
@@ -844,10 +846,11 @@ public class BuildOrderAty extends BaseAty {
             return i;
         }
 
-        public void setPeisong(){
+        public void setPeisong() {
             govh.tv_sle_left.setText("请选择配送方式");
             govh.tv_sle_right.setText("");
         }
+
         @Override
         public View getView(final int i, View view, ViewGroup viewGroup) {
             if (view == null) {
@@ -1015,6 +1018,8 @@ public class BuildOrderAty extends BaseAty {
             private LinearLayout layout_fahuoshijian;
             @ViewInject(R.id.tv_fahuoshijian) // 发货时间
             private TextView tv_fahuoshijian;
+            @ViewInject(R.id.goods_evaluate_num) // 数量
+            private TextView goods_evaluate_num;
         }
     }
 
