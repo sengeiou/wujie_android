@@ -295,7 +295,7 @@ public class fragment1 extends BaseFgt {
                 Glide.with(getActivity()).load(data.get("back_id_card")).error(R.mipmap.icon_idcard_back)
                         .placeholder(R.mipmap.icon_idcard_back).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
             } else {
-                Glide.with(getActivity()).load(data.get("positive_id_card")) .error(R.mipmap.icon_idcard_front)
+                Glide.with(getActivity()).load(data.get("positive_id_card")).error(R.mipmap.icon_idcard_front)
                         .placeholder(R.mipmap.icon_idcard_front).diskCacheStrategy(DiskCacheStrategy.ALL).into(image1);
                 Glide.with(getActivity()).load(data.get("back_id_card")).error(R.mipmap.icon_idcard_back)
                         .placeholder(R.mipmap.icon_idcard_back).diskCacheStrategy(DiskCacheStrategy.ALL).into(image2);
@@ -550,31 +550,35 @@ public class fragment1 extends BaseFgt {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
-            if (data != null) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-                String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
-                switch (requestCode) {
-                    case 101: // 身份证正面照
-                        if (!pic_path.equals("")) {
-                            file1 = new File(pic_path);
-                            if (file1 != null && file1.isFile()) {
-                                Glide.with(this).load(file1).error(R.mipmap.icon_idcard_front)
-                                        .placeholder(R.mipmap.icon_idcard_front).override(size, size).centerCrop().into(image1);
+            try {
+                if (data != null && data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS) != null) {
+                    ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                    String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
+                    switch (requestCode) {
+                        case 101: // 身份证正面照
+                            if (!pic_path.equals("")) {
+                                file1 = new File(pic_path);
+                                if (file1 != null && file1.isFile()) {
+                                    Glide.with(this).load(file1).error(R.mipmap.icon_idcard_front)
+                                            .placeholder(R.mipmap.icon_idcard_front).override(size, size).centerCrop().into(image1);
+                                }
                             }
-                        }
-                        break;
-                    case 102: // 身份证反面照
-                        if (!pic_path.equals("")) {
-                            file2 = new File(pic_path);
-                            if (file2 != null && file2.isFile()) {
-                                Glide.with(this).load(file2).error(R.mipmap.icon_idcard_back)
-                                        .placeholder(R.mipmap.icon_idcard_back).override(size, size).centerCrop().into(image2);
+                            break;
+                        case 102: // 身份证反面照
+                            if (!pic_path.equals("")) {
+                                file2 = new File(pic_path);
+                                if (file2 != null && file2.isFile()) {
+                                    Glide.with(this).load(file2).error(R.mipmap.icon_idcard_back)
+                                            .placeholder(R.mipmap.icon_idcard_back).override(size, size).centerCrop().into(image2);
+                                }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
+            }catch (Exception e){
+                L.e("fragment1 onActivityResult is exception:" + e.toString());
+                showErrorTip("图片选择出现异常");
             }
-
         }
 
         if (resultCode == RESULT_OK) {
