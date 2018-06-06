@@ -900,7 +900,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    map.get("pay"), 0,getResources().getColor(R.color.red_tv_back));
+                    map.get("pay"), 0, getResources().getColor(R.color.red_tv_back));
         }
         if (requestUrl.contains("groupBuyInfo")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
@@ -949,11 +949,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
                         if (null != groupList && groupList.size() == 1) {
                             GroupBean groupBean = groupList.get(0);
-                            if (groupBean.getDiff_num().equals("0")||!groupBean.getIs_member().equals("0")) {
+                            if (groupBean.getDiff_num().equals("0") || !groupBean.getIs_member().equals("0")) {
                                 creat_group_tv.setBackgroundColor(Color.parseColor("#9D9D9D"));
                                 creat_group_tv.setClickable(false);
+                                creat_group_tv.setEnabled(false);
                             } else {
                                 creat_group_tv.setClickable(true);
+                                creat_group_tv.setEnabled(true);
                                 creat_group_tv.setBackgroundColor(getResources().getColor(R.color.red_tv_back));
                             }
                             tyLayout.setVisibility(View.VISIBLE);
@@ -1607,11 +1609,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     one_price_tv.setText("送" + data.getStringExtra("p_integral") + "积分\n独立购买");
                 }
 
-                String pro_valStr=data.getStringExtra("pro_value");
-                if(pro_valStr.lastIndexOf("+")==pro_valStr.length()-1){//多规格属性后面带+时候需要屏蔽+
-                    pro_valStr=pro_valStr.substring(0,pro_valStr.lastIndexOf("+"));
+                String pro_valStr = data.getStringExtra("pro_value");
+                if (pro_valStr.lastIndexOf("+") == pro_valStr.length() - 1) {//多规格属性后面带+时候需要屏蔽+
+                    pro_valStr = pro_valStr.substring(0, pro_valStr.lastIndexOf("+"));
                 }
-                goods_select_attr_tv.setText(pro_valStr+ "x" + data.getIntExtra("num", 0));
+                goods_select_attr_tv.setText(pro_valStr + "x" + data.getIntExtra("num", 0));
                 now_price_tv.setText(data.getStringExtra("shop_price"));
 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

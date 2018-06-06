@@ -43,18 +43,15 @@ import java.util.Map;
 
 /**
  * 描述：拼单购订单详情
- *
+ * <p>
  * //商品
- @property (nonatomic, copy) NSArray * item;
- @property (nonatomic, copy) NSString * welfare;//": 5.696,            // 公益金额
- @property (nonatomic, copy) NSString * is_welfare;//": 1,   // 是否存在公益金额    （1存在，0不存在）
- @property (nonatomic, copy) NSString * after_sale_status;//": 1,   // 是否存在售后服务类型    （1存在，0不存在）
- @property (nonatomic, copy) NSString * after_sale_type;//": "商家承诺在您签收货物后的7天内，在无人为损坏的情形下，向您提供退货服务。",                      // 售后服务类型
- @property (nonatomic, copy) NSString * invoice_status;//": 1,   // 是否可开发票    （1存在，0不存在）
  *
- *
- *
- *
+ * @property (nonatomic, copy) NSArray * item;
+ * @property (nonatomic, copy) NSString * welfare;//": 5.696,            // 公益金额
+ * @property (nonatomic, copy) NSString * is_welfare;//": 1,   // 是否存在公益金额    （1存在，0不存在）
+ * @property (nonatomic, copy) NSString * after_sale_status;//": 1,   // 是否存在售后服务类型    （1存在，0不存在）
+ * @property (nonatomic, copy) NSString * after_sale_type;//": "商家承诺在您签收货物后的7天内，在无人为损坏的情形下，向您提供退货服务。",                      // 售后服务类型
+ * @property (nonatomic, copy) NSString * invoice_status;//": 1,   // 是否可开发票    （1存在，0不存在）
  */
 public class CollageDetailsAty extends BaseAty {
 
@@ -305,7 +302,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_tel.setText(data.get("phone"));
                 tv_address.setText(data.get("address"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
-                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计："+"<font color='#DF3031'>"+"¥"+data.get("order_price")+"</font>"));
+                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -328,7 +325,7 @@ public class CollageDetailsAty extends BaseAty {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
 
-                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计："+"<font color='#DF3031'>"+"¥"+data.get("order_price")+"</font>"));
+                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 is_pay_password = data.get("is_pay_password");
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
@@ -531,9 +528,19 @@ public class CollageDetailsAty extends BaseAty {
 //                tgvh.title.setText(map.get("attr")); // 设置商品属性
 //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
                 ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
-                        map.get("attr")+"（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
-                tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
-                tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
+                        map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
+
+
+                if (map.containsKey("is_invoice")&&Integer.parseInt(map.get("is_invoice")) == 1) {
+                    // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
+                    tgvh.layout_fapiao.setVisibility(View.VISIBLE);
+                    tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
+                    //                    tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
+                    tgvh.textviews.setText("(发票运费："+map.get("express_fee")+" 税金："+map.get("tax_pay")+")"); // 设置发票名称
+                } else {
+                    tgvh.layout_fapiao.setVisibility(View.GONE);
+                }
+
                 tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
                 tgvh.itemGoods_goods_layout.setTag(i);
                 tgvh.itemGoods_goods_layout.setOnClickListener(new View.OnClickListener() {
@@ -585,8 +592,8 @@ public class CollageDetailsAty extends BaseAty {
                 } else if (order_status.equals("3")) { // 订单待收货状态
                     if (Integer.valueOf(map.get("status")) > 1 && map.containsKey("sale_status")) {
                         tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
-                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0")?View.GONE:View.VISIBLE);
-                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0")?"":map.get("auto_time"));
+                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0") ? View.GONE : View.VISIBLE);
+                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0") ? "" : map.get("auto_time"));
                     } else {
                         tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                     }
@@ -676,15 +683,18 @@ public class CollageDetailsAty extends BaseAty {
 //                tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
 
                 ChangeTextViewStyle.getInstance().forTextColor(CollageDetailsAty.this, tgvh.title,
-                        map.get("attr")+"（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
+                        map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
 
-                tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
-                tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
+
                 L.e("time" + map.get("sure_delivery_time"));
-
-
-                // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
-                tgvh.layout_fapiao.setVisibility(Integer.parseInt(map.get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
+                if (map.containsKey("is_invoice")&&Integer.parseInt(map.get("is_invoice")) == 1) {
+                    // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
+                    tgvh.layout_fapiao.setVisibility(View.VISIBLE);
+                    tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
+                    tgvh.textviews.setText("(发票运费："+map.get("express_fee")+" 税金："+map.get("tax_pay")+")"); // 设置发票名称
+                } else {
+                    tgvh.layout_fapiao.setVisibility(View.GONE);
+                }
                 // 正品保证
                 tgvh.layout_zhengpinbaozheng.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_zhengpinbaozheng.setText(map.get("integrity_a").isEmpty() ? "" : map.get("integrity_a"));
@@ -696,25 +706,25 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
 
 
-                    String is_welfareStr=map.get("is_welfare");
-                    if(!TextUtils.isEmpty(is_welfareStr)&&"1".equals(is_welfareStr)){
-                        String integrity_dStr= map.get("integrity_d");
-                        // 公益宝贝
-                        tgvh.layout_gongyi.setVisibility(TextUtils.isEmpty(integrity_dStr)? View.GONE : View.VISIBLE);
-                        tgvh.tv_gongyi.setText(TextUtils.isEmpty(integrity_dStr)?"" : integrity_dStr);
-                    }else{
-                        tgvh.layout_gongyi.setVisibility(View.GONE);
-                        tgvh.tv_gongyi.setText("");
-                    }
+                String is_welfareStr = map.get("is_welfare");
+                if (!TextUtils.isEmpty(is_welfareStr) && "1".equals(is_welfareStr)) {
+                    String integrity_dStr = map.get("integrity_d");
+                    // 公益宝贝
+                    tgvh.layout_gongyi.setVisibility(TextUtils.isEmpty(integrity_dStr) ? View.GONE : View.VISIBLE);
+                    tgvh.tv_gongyi.setText(TextUtils.isEmpty(integrity_dStr) ? "" : integrity_dStr);
+                } else {
+                    tgvh.layout_gongyi.setVisibility(View.GONE);
+                    tgvh.tv_gongyi.setText("");
+                }
 
-                String afterSaleStatusStr=map.get("after_sale_status");
-                if(!TextUtils.isEmpty(afterSaleStatusStr)&&"1".equals(afterSaleStatusStr)){
-                    String after_sale_typeStr=map.get("after_sale_type");
-                    if(!TextUtils.isEmpty(after_sale_typeStr)){
+                String afterSaleStatusStr = map.get("after_sale_status");
+                if (!TextUtils.isEmpty(afterSaleStatusStr) && "1".equals(afterSaleStatusStr)) {
+                    String after_sale_typeStr = map.get("after_sale_type");
+                    if (!TextUtils.isEmpty(after_sale_typeStr)) {
                         //售后服务
                         tgvh.lin_shouhou.setVisibility(View.VISIBLE);
                         tgvh.tv_shouhou.setText(after_sale_typeStr);
-                    }else{
+                    } else {
                         tgvh.lin_shouhou.setVisibility(View.GONE);
                         tgvh.tv_shouhou.setText("");
                     }
@@ -775,7 +785,7 @@ public class CollageDetailsAty extends BaseAty {
             private TextView num;
             @ViewInject(R.id.title)
             private TextView title;
-//            @ViewInject(R.id.jifenTv)
+            //            @ViewInject(R.id.jifenTv)
 //            private TextView jifenTv;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
