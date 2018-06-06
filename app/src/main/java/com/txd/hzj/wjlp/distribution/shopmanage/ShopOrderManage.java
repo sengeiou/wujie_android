@@ -10,7 +10,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 /**
  * 创建者：Qyl
  * 创建时间：2018/6/6 0006 15:14
- * 功能描述：
+ * 功能描述：订单管理页面
  * 联系方式：无
  */
 public class ShopOrderManage extends BaseAty {

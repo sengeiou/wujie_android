@@ -11,7 +11,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 /**
  * 创建者：Qyl
  * 创建时间：2018/6/6 0006 10:08
- * 功能描述：
+ * 功能描述：店铺管理首页，跳转相关管理页面
  * 联系方式：无
  */
 public class ShopMain extends BaseAty implements OnClickListener {

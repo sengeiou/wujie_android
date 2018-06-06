@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.huanxin.ui;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.txd.hzj.wjlp.base.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.yanzhenjie.permission.AndPermission;
 
 import java.util.List;
 
@@ -45,6 +47,12 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
+if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_AUDIO)){
+    AndPermission.with(ChatActivity.this)
+            .requestCode(100)
+            .permission(Manifest.permission.RECORD_AUDIO)
+            .send();
+}
         activityInstance = this;
         // 获取用户id或者群组id
         toChatUsername = getIntent().getExtras().getString("userId");
