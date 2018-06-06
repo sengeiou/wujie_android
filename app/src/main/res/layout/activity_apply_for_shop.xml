@@ -5,5 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".distribution.ApplyForShop">
+<com.txd.hzj.wjlp.view.ScForWebView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+</com.txd.hzj.wjlp.view.ScForWebView>
 </android.support.constraint.ConstraintLayout>

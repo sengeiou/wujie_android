@@ -16,7 +16,10 @@
     <color name="translucence_black">#7F000000</color>
     <!--白色-->
     <color name="white">#ffffff</color>
-
+    <!--分销商店title颜色-->
+    <color name="shop_title">#F8F8F8</color>
+    <!--分销分割线颜色-->
+    <color name="shop_division">#CCCCCC</color>
     <!--RecyclerView-->
 
     <!-- 主题色 -->

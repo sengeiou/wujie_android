@@ -169,6 +169,9 @@
         <activity android:name=".mellOnLine.SearchAty" />
         <!-- 商品列表 -->
         <activity android:name=".mellOnLine.GoodsListAty" />
+        <!--店铺管理首页-->
+        <activity android:name=".distribution.shopmanage.ShopMain"
+            android:launchMode="singleTop"/>
         <!-- 商家列表 -->
         <activity
             android:name=".mellOnLine.MellListAty"
@@ -1091,7 +1094,6 @@
         <!-- 拼单购订单详情 -->
         <activity android:name=".minetoAty.order.CollageDetailsAty" />
         <activity android:name=".distribution.ApplyForShop" />
-        <activity android:name=".distribution.PersonalStores"></activity>
     </application>
 
 </manifest>
