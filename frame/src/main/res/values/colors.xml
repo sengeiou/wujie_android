@@ -20,6 +20,8 @@
     <color name="shop_title">#F8F8F8</color>
     <!--分销分割线颜色-->
     <color name="shop_division">#CCCCCC</color>
+    <!--分销顾客管理title颜色-->
+    <color name="titleColors">#0076FF</color>
     <!--RecyclerView-->
 
     <!-- 主题色 -->

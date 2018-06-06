@@ -72,10 +72,15 @@ public class ShopMain extends BaseAty implements OnClickListener {
             case R.id.shop_money:
                 break;
             case R.id.shop_set_up:
+                //店铺设置
+                startActivity(ShopSetUp.class,null);
                 break;
             case R.id.shop_person_manage:
+                //顾客管理
+                startActivity(ShopPersonManage.class,null);
                 break;
             case R.id.shop_order_magage:
+                //订单管理
                 break;
         }
     }

@@ -169,8 +169,14 @@
         <activity android:name=".mellOnLine.SearchAty" />
         <!-- 商品列表 -->
         <activity android:name=".mellOnLine.GoodsListAty" />
-        <!--店铺管理首页-->
+        <!--分销店铺管理首页-->
         <activity android:name=".distribution.shopmanage.ShopMain"
+            android:launchMode="singleTop"/>
+        <!--分销店铺设置-->
+        <activity android:name=".distribution.shopmanage.ShopSetUp"
+            android:launchMode="singleTop"/>
+        <!--分销店铺顾客管理-->
+        <activity android:name=".distribution.shopmanage.ShopPersonManage"
             android:launchMode="singleTop"/>
         <!-- 商家列表 -->
         <activity
