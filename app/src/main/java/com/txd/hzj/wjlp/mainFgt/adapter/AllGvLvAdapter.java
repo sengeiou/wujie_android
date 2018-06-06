@@ -460,14 +460,14 @@ public class AllGvLvAdapter extends BaseAdapter {
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(vh.sec_head_iv);
                     } else {
-                        vh.frist_head_iv.setVisibility(View.GONE);
+                        vh.sec_head_iv.setVisibility(View.GONE);
                         Glide.with(context).load(append_person.get(0).getHead_pic())
                                 .override(group_size, group_size)
                                 .placeholder(R.drawable.ic_default)
                                 .error(R.drawable.ic_default)
                                 .centerCrop()
                                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(vh.sec_head_iv);
+                                .into(vh.frist_head_iv);
                     }
 
                 } else {
