@@ -13,12 +13,11 @@ public class PersonalStores extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_stores);
     }
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.activity_personal_stores;
     }
 
     @Override

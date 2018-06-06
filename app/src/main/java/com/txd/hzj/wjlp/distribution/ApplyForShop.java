@@ -13,12 +13,11 @@ public class ApplyForShop extends BaseAty {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apply_for_shop);
     }
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.activity_apply_for_shop;
     }
 
     @Override
