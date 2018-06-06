@@ -68,6 +68,17 @@ public class AppManager {
     }
 
     /**
+     * 销毁其他的Activity（保留栈顶的Activity）
+     */
+    public void killOtherActivity() {
+        int i = 0;
+        while (i < mActivityStack.size()) {
+            killActivity(mActivityStack.get(i));
+            i++;
+        }
+    }
+
+    /**
      * 结束指定类名的Activity
      */
     public void killActivity(Class<?> cls) {

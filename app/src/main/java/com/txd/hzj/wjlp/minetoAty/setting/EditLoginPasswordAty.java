@@ -24,7 +24,7 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.login.LoginAty;
 
 /**
- * Created by lienchao on 2017/7/14 0014.
+ * 修改编辑登录密码
  */
 
 public class EditLoginPasswordAty extends BaseAty {
@@ -129,9 +129,10 @@ public class EditLoginPasswordAty extends BaseAty {
             // 收起键盘
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            AppManager.getInstance().killAllActivity();
+//            AppManager.getInstance().killAllActivity();
+            AppManager.getInstance().killOtherActivity();
             startActivity(LoginAty.class,null);
-//            finish();
+            finish();
 //            logout();
             return;
         }
