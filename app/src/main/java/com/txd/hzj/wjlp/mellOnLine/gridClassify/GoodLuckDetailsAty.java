@@ -1364,7 +1364,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
                     // 单独购买
 //                    one_price_tv.setText("￥" + dataBean.getOne_price() + "\n独立购买");
-                    one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
+                    if (null!=goodsInfo.getP_integral()) {
+                        one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
+                    }
                     one_price_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
