@@ -510,7 +510,7 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
 
-            if(map.containsValue("auto_time")){
+            if(map.containsKey("auto_time")&&!TextUtils.isEmpty(map.get("auto_time"))){
                 tgvh.delayReceivingtv.setText(map.get("auto_time"));
                 tgvh.delayReceivingtv.setVisibility(View.VISIBLE);
             }else{
