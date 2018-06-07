@@ -1021,7 +1021,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.tyIv.setVisibility(View.GONE);
             }
 //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
-            String is_back_apply = data.get("is_back_apply");
+            String is_back_apply = map.get("is_back_apply");
             if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
             } else {
