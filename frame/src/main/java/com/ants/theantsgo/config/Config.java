@@ -26,10 +26,9 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-    //    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
-//    public final static String BASE_URL = "http://fztest.wujiemall.com/index.php/Api/"; // 正式数据库的  测试库
+//    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
     public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
-//    public final static String BASE_URL = "http://dev.wujiemall.com/index.php/Api/"; // 后台临时需要改动地址时候使用的备用服务器
+//    public final static String BASE_URL = "http://fztest.wujiemall.com/index.php/Api/"; // 正式数据库的  测试库
 
     public static List<Activity> list = new ArrayList<>();
 

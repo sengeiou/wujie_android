@@ -1,15 +1,20 @@
 package com.txd.hzj.wjlp.login;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -142,8 +147,18 @@ public class ReSetPwdAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("resetPassword")) {
-            showRightTip("重置成功");
+            showRightTip("修改成功");
+            Config.setLoginState(false);
+            PreferencesUtils.putString(this, "pwd", "");
+            // 收起键盘
+            hideKeyBoard();
+            AppManager.getInstance().killOtherActivity();
+            startActivity(LoginAty.class,null);
             finish();
+
+//            showRightTip("重置成功");
+//            finish();
+
         }
     }
 }
