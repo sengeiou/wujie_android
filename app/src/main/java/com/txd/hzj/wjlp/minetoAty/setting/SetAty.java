@@ -29,11 +29,14 @@ import com.mob.tools.utils.UIHandler;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.minetoAty.balance.BankInfoForReChargeAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
 import com.txd.hzj.wjlp.http.User;
+import com.txd.hzj.wjlp.tool.AppUpdate;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
@@ -120,6 +123,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     private TextView tv_wx_bind;
     @ViewInject(R.id.tv_wb_bind)
     private TextView tv_wb_bind;
+    @ViewInject(R.id.set_upDate_tv)
+    private TextView set_upDate_tv;
 
     /**
      * 我的银行卡
@@ -143,7 +148,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     @OnClick({R.id.rel_editprofile, R.id.rel_editpassword, R.id.rel_editpaypassword, R.id.rel_realname,
             R.id.rel_bind_phone, R.id.sing_out_tv, R.id.clear_cach_layout
-            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind, R.id.rel_myBankCard})
+            , R.id.layout_wechat_bind, R.id.layout_qq_bind, R.id.layout_sina_bind, R.id.set_upDate_tv, R.id.rel_myBankCard})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -305,6 +310,10 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 }
 
                 break;
+            case R.id.set_upDate_tv: // 检查更新
+                UpdataPst updataPst = new UpdataPst(this);
+                updataPst.toUpdata();
+                break;
         }
     }
 
@@ -368,6 +377,10 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         L.e("类型" + jsonStr);
+        if (requestUrl.contains("Upgrade")) {
+            UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
+            AppUpdate.getInstance().showAppUpdateDialog(updataApp, this, false);
+        }
         if (requestUrl.contains("bindOther")) {
             showToast("绑定成功！");
             userPst.setting();

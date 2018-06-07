@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.config.Config;
 import com.lidroid.xutils.util.LogUtils;
@@ -66,7 +69,7 @@ public class ExpressAtv extends BaseAty {
         String type = getIntent().getStringExtra("type");//0 普通商品 1拼单购
         inquireExpress(order_goods_id, type);
     }
-
+    private static final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 1;
     // ====================android M+动态授权====================
     private void requestSomePermission() {
         /**
@@ -85,16 +88,19 @@ public class ExpressAtv extends BaseAty {
                     .permission(Manifest.permission.CALL_PHONE)
                     .send();
         }else{
-            callPhone();
+            call(mobile);
+//            callPhone();
         }
+
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
     }
-    private  void callPhone(){
+   /* private  void callPhone(){
     Uri uri = Uri.parse("tel:" + mobile);
     Intent intent = new Intent(Intent.ACTION_CALL, uri);
     if (ActivityCompat.checkSelfPermission(ExpressAtv.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
@@ -109,11 +115,12 @@ public class ExpressAtv extends BaseAty {
     }
     startActivity(intent);
     //这个超连接,java已经处理了，webview不要处理了
-}
+}*/
     private PermissionListener listener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, List<String> grantedPermissions) {
-            callPhone();
+            call(mobile);
+//            callPhone();
 
         }
 
