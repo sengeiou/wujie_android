@@ -1039,35 +1039,35 @@ public class OrderDetailsAty extends BaseAty {
             @ViewInject(R.id.delayReceiving)
             private TextView delayReceiving;
             @ViewInject(R.id.lin_shouhou)
-            private LinearLayout lin_shouhou;
+            private View lin_shouhou;
             @ViewInject(R.id.tv_shouhou)
             private TextView tv_shouhou;
             @ViewInject(R.id.layout_gongyi)
-            private LinearLayout layout_gongyi;
+            private View layout_gongyi;
             @ViewInject(R.id.tv_gongyi)
             private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
-            private LinearLayout lin_server_status;
+            private View lin_server_status;
 
             //            android:id="@+id/tv_btn_right"
 
             @ViewInject(R.id.layout_fapiao)
-            private LinearLayout layout_fapiao;
+            private View layout_fapiao;
 
             @ViewInject(R.id.layout_zhengpinbaozheng) // 正品保证
-            private LinearLayout layout_zhengpinbaozheng;
+            private View layout_zhengpinbaozheng;
             @ViewInject(R.id.tv_zhengpinbaozheng)
             private TextView tv_zhengpinbaozheng;
             @ViewInject(R.id.layout_fuwuchengnuo) // 服务承诺
-            private LinearLayout layout_fuwuchengnuo;
+            private View layout_fuwuchengnuo;
             @ViewInject(R.id.tv_fuwuchengnuo)
             private TextView tv_fuwuchengnuo;
             @ViewInject(R.id.layout_fahuoshijian) // 发货时间
-            private LinearLayout layout_fahuoshijian;
+            private View layout_fahuoshijian;
             @ViewInject(R.id.tv_fahuoshijian)
             private TextView tv_fahuoshijian;
             @ViewInject(R.id.itemGoods_goods_layout)
-            private LinearLayout itemGoods_goods_layout;
+            private View itemGoods_goods_layout;
         }
     }
 
