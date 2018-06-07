@@ -509,6 +509,14 @@ public class CollageDetailsAty extends BaseAty {
                 }
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
+
+            if(map.containsValue("auto_time")){
+                tgvh.delayReceivingtv.setText(map.get("auto_time"));
+                tgvh.delayReceivingtv.setVisibility(View.VISIBLE);
+            }else{
+                tgvh.delayReceivingtv.setVisibility(View.GONE);
+            }
+
             if (isCJ) {
                 //抽奖与未中奖
                 tgvh.layout_fapiao.setVisibility(View.GONE);
@@ -592,8 +600,8 @@ public class CollageDetailsAty extends BaseAty {
                 } else if (order_status.equals("3")) { // 订单待收货状态
                     if (Integer.valueOf(map.get("status")) > 1 && map.containsKey("sale_status")) {
                         tgvh.delayReceiving.setVisibility(map.get("sale_status").equals("0") ? View.VISIBLE : View.GONE); // 延长收货按钮显示
-                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0") ? View.GONE : View.VISIBLE);
-                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0") ? "" : map.get("auto_time"));
+//                        tgvh.delayReceivingtv.setVisibility(map.get("sale_status").equals("0") ? View.GONE : View.VISIBLE);
+//                        tgvh.delayReceivingtv.setText(map.get("sale_status").equals("0") ? "" : map.get("auto_time"));
                     } else {
                         tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                     }

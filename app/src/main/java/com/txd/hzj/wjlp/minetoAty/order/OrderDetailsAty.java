@@ -820,7 +820,7 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
                 }
             }
-            tgvh.tv_price.setText("10".equals(type)?map.get("shop_price")+"积分":"¥" + map.get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setText("10".equals(type) ? map.get("shop_price") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
             // 商品点击跳转至商品详情
@@ -908,6 +908,15 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
 
+
+            if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))){
+                tgvh.textview.setVisibility(View.VISIBLE);
+                tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
+            }else{
+                tgvh.textview.setVisibility(View.GONE);
+            }
+
+
             /**
              * "status":"//1->已收货，2->未收货  0->待发货
              */
@@ -915,10 +924,12 @@ public class OrderDetailsAty extends BaseAty {
                 if (map.get("status").equals("2")) { // 如果是未收货
                     tgvh.delayReceiving.setVisibility(View.VISIBLE); // 显示左侧延长收货
                     tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 显示中间确认收货
-                    tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
+//                    if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time")))
+//                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
                 } else if (map.get("status").equals("0")) { // 否则商品未发货
                     // 如果未提醒过发货，则将提醒发货按钮设置为显示
-                    tgvh.textview.setText(map.get("auto_time")); // 设置文字为最晚收货的时间
+//                    if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time")))
+//                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
                     if (order_status.equals("1")) { // 如果订单状态是待发货
                         tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
                     }
