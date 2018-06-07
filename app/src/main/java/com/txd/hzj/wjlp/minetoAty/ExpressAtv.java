@@ -1,7 +1,13 @@
 package com.txd.hzj.wjlp.minetoAty;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -13,8 +19,15 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Config;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
+
+import java.util.List;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * 开发者： WangJJ
@@ -50,10 +63,76 @@ public class ExpressAtv extends BaseAty {
         titlt_conter_tv.setText("物流详情");
         // 订单商品的id
         String order_goods_id = getIntent().getStringExtra("order_goods_id");
-        String type=getIntent().getStringExtra("type");//0 普通商品 1拼单购
-        inquireExpress(order_goods_id,type);
+        String type = getIntent().getStringExtra("type");//0 普通商品 1拼单购
+        inquireExpress(order_goods_id, type);
     }
 
+    // ====================android M+动态授权====================
+    private void requestSomePermission() {
+        /**
+         * 暂时不需要的权限，维护用户体验
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||电话
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.RECORD_AUDIO)录音
+         *
+         * Manifest.permission.RECORD_AUDIO, // 启用录音权限
+         * Manifest.permission.CALL_PHONE,
+         * */
+        // 先判断是否有权限。
+        if (!AndPermission.hasPermission(ExpressAtv.this, Manifest.permission.CALL_PHONE)) {
+            // 申请权限。
+            AndPermission.with(ExpressAtv.this)
+                    .requestCode(100)
+                    .permission(Manifest.permission.CALL_PHONE)
+                    .send();
+        }else{
+            callPhone();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+    }
+    private  void callPhone(){
+    Uri uri = Uri.parse("tel:" + mobile);
+    Intent intent = new Intent(Intent.ACTION_CALL, uri);
+    if (ActivityCompat.checkSelfPermission(ExpressAtv.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for ActivityCompat#requestPermissions for more details.
+        return;
+    }
+    startActivity(intent);
+    //这个超连接,java已经处理了，webview不要处理了
+}
+    private PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantedPermissions) {
+            callPhone();
+
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // 权限申请失败回调。
+            // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+            if (AndPermission.hasAlwaysDeniedPermission(ExpressAtv.this, deniedPermissions)) {
+                // 第二种：用自定义的提示语。
+                AndPermission.defaultSettingDialog(ExpressAtv.this, 300)
+                        .setTitle("权限申请失败")
+                        .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                        .setPositiveButton("好，去设置")
+                        .show();
+            }
+        }
+    };
+
+    private String mobile;
     /**
      * 加载WebView查询订单物流
      *
@@ -72,6 +151,22 @@ public class ExpressAtv extends BaseAty {
         express_webView.setWebChromeClient(new WebChromeClient());
         express_webView.setWebViewClient(new WebViewClient() {
             @Override
+            public boolean shouldOverrideUrlLoading
+                    (WebView view, String url) {
+                Log.i("用户单击超连接", url);
+                //判断用户单击的是那个超连接
+                String tag="tel:";
+                if (url.contains(tag))
+                {
+
+                    mobile = url.substring(tag.length(),url.length());
+                    requestSomePermission();
+                    return true;
+                }
+
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+            @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 // 网页开始加载
@@ -88,7 +183,6 @@ public class ExpressAtv extends BaseAty {
         express_webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE); // 不使用缓存，只从网络获取数据
         express_webView.getSettings().setSupportZoom(true); // 支持屏幕缩放
         express_webView.getSettings().setSupportMultipleWindows(true);
-
         express_webView.loadUrl(String.valueOf(expressUrl));
     }
 

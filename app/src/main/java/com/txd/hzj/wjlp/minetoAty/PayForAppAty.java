@@ -27,6 +27,8 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.haha.perflib.Main;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
@@ -431,7 +433,7 @@ public class PayForAppAty extends BaseAty {
         }
         showProgressDialog();
     }
-
+    //支付弹出框
     public void showPwdPop(View view) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
@@ -451,6 +453,40 @@ public class PayForAppAty extends BaseAty {
                                     return;
                                 }
                                 User.verificationPayPwd(et_password.getText().toString(), PayForAppAty.this);
+                                showProgressDialog();
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+    //兑换成功
+    public  void showExchangePop(View view){
+        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_exc_success)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight )
+                .setBackGroundLevel(1f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        TextView lookOrder = view.findViewById(R.id.tv_look_order);
+                        lookOrder.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(PayForAppAty.this, MainAty.class));
+                                showProgressDialog();
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        TextView tv_back_home_page = view.findViewById(R.id.tv_back_home_page);
+                        tv_back_home_page.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(PayForAppAty.this, MainAty.class));
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
                             }
@@ -629,6 +665,7 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "10", "", num, this);
                     }
                     showProgressDialog();
+
                 }
             } else {
                 showToast("请设置支付密码");
