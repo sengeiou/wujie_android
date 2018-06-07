@@ -1,87 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5E5E5"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <include layout="@layout/aty_shop_title"/>
+
+    <include layout="@layout/aty_shop_title" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="8dp" />
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="10dp"
-    android:background="@color/white"
-    android:paddingEnd="10dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:layout_centerVertical="true"
-        android:textSize="15sp"
-        android:text="店铺头像"/>
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
-        android:id="@+id/img_head"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_toLeftOf="@+id/shop"
-        android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:shape_mode="circle"
-        app:stroke_color="@color/white"
-        app:stroke_width="2dp" />
-    <ImageView
-        android:id="@+id/shop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/icon_turn_right_gray"/>
-</RelativeLayout>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
+
     <RelativeLayout
+        android:id="@+id/shop_set_ima"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      android:padding="10dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="店铺名称"/>
+            android:layout_centerVertical="true"
+            android:text="店铺头像"
+            android:textColor="@color/hint_text_color"
+            android:textSize="13sp" />
+
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/img_head"
+            android:layout_width="71dp"
+            android:layout_height="71dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="17dp"
+            android:layout_toLeftOf="@+id/shop"
+            app:shape_mode="circle"
+            app:stroke_color="@color/white"
+            app:stroke_width="2dp" />
+
         <ImageView
+            android:id="@+id/shop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/icon_turn_right_gray"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/icon_turn_right_gray" />
     </RelativeLayout>
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="1dp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      android:padding="10dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:text="店铺简介"/>
-        <ImageView
+            android:id="@+id/shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/icon_turn_right_gray"/>
+            android:text="店铺名称"
+            android:textColor="@color/hint_text_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_toRightOf="@+id/shop_name"
+            android:text="水晶家纺"
+            android:textColor="@color/black"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="193dp"
+        android:background="@color/white"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/shop_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="店铺简介"
+            android:textColor="@color/hint_text_color"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/shop_introduces"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_marginStart="33dp"
+            android:layout_toRightOf="@+id/shop_introduce"
+            android:textColor="@color/shop_text_color"
+            android:lines="2"
+            android:ellipsize="end"
+            android:textSize="17sp" />
+
     </RelativeLayout>
 </LinearLayout>

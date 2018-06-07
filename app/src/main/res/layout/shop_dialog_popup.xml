@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/shop_set_main"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="11dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_dialog_top_style"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="拍照"
+            android:textColor="@color/titleColors"
+            android:textSize="17sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_dialog_bottom_style"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="我的相册"
+            android:textColor="@color/titleColors"
+            android:textSize="17sp" />
+        <TextView
+            android:id="@+id/shop_dialog_disimis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_mell_tv_w_hzj"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:padding="24dp"
+            android:text="取消"
+            android:textColor="@color/titleColors"
+            android:textSize="17sp" />
+
+    </LinearLayout>
+</RelativeLayout>
