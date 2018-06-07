@@ -670,14 +670,14 @@ public class BuildOrderAty extends BaseAty {
                                 String kk = df.format(tp);
                                 if (countryTax > 0) {
                                     // 刚开始如果有进口税则只显示进口税
-                                    tv_youfei.setText("+" + countryTax+"进口税");
+                                    tv_youfei.setText("+" + countryTax + "进口税");
                                     if ("0.00".equals(kk)) {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.append("包邮");
                                     } else {
                                         tv_youfei.append("+" + kk + "元运费");
                                     }
-                                }else {
+                                } else {
                                     if ("0.00".equals(kk)) {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.setText("包邮");
@@ -818,17 +818,17 @@ public class BuildOrderAty extends BaseAty {
                 tv_invoice.setText("");
                 if (countryTax > 0) {
                     // 界面返回的时候显示税金、发票运费等，如果先前包含进口税，则添加进口税显示
-                    if (tax_pay!=0||express_fee!=0) {
-                        tv_invoice.setVisibility(View.VISIBLE);
-                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
-                    }else {
-                        tv_invoice.setVisibility(View.GONE);
-                    }
-                }else {
                     if (tax_pay != 0 || express_fee != 0) {
                         tv_invoice.setVisibility(View.VISIBLE);
                         tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
-                    }else {
+                    } else {
+                        tv_invoice.setVisibility(View.GONE);
+                    }
+                } else {
+                    if (tax_pay != 0 || express_fee != 0) {
+                        tv_invoice.setVisibility(View.VISIBLE);
+                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
+                    } else {
                         tv_invoice.setVisibility(View.GONE);
                     }
                 }
@@ -963,8 +963,9 @@ public class BuildOrderAty extends BaseAty {
                 govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
                 govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
                 // 公益宝贝
-                govh.layout_gongyi.setVisibility(getItem(i).get("welfare").equals("0") ? View.GONE : View.VISIBLE);
-                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+                govh.layout_gongyi.setVisibility(getItem(i).get("is_welfare").equals("0") ? View.GONE : View.VISIBLE);
+                if (getItem(i).containsKey("integrity_d"))
+                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("integrity_d") + "元给公益计划");
                 // 售后
                 govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
                 govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));

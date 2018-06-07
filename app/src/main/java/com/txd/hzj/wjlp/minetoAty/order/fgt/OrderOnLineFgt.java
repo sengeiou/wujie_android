@@ -1018,13 +1018,13 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "5":
                     holder.state.setText("已取消");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "6":
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "7":
