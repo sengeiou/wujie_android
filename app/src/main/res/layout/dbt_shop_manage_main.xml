@@ -208,19 +208,20 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="37dp"
                     android:id="@+id/shop_goods_manage"
                     android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_columnWeight="1"
+                    android:paddingTop="2dp"
                     app:rowCount="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="16dp"
-                        android:drawableTop="@drawable/shopmanage"
+                        android:drawableTop="@drawable/shopgoods"
                         android:gravity="center"
                         android:text="商品管理"
                         android:textColor="@color/shop_main_fontcolor_black"
@@ -248,27 +249,26 @@
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
 
+
                 <LinearLayout
-                    android:id="@+id/shop_set_up"
                     android:layout_marginTop="27dp"
+                    android:id="@+id/shop_order_magage"
                     android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_columnWeight="1"
-                    android:paddingTop="9dp"
                     app:rowCount="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopset"
+                        android:drawableTop="@drawable/shopmanage"
                         android:gravity="center"
-                        android:text="店铺设置"
+                        android:text="订单管理"
                         android:drawablePadding="16dp"
                         android:textSize="15sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_marginTop="27dp"
                     android:id="@+id/shop_person_manage"
@@ -291,20 +291,21 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/shop_set_up"
                     android:layout_marginTop="27dp"
-                    android:id="@+id/shop_order_magage"
                     android:background="@color/white"
                     android:gravity="center"
                     android:orientation="horizontal"
                     app:layout_columnWeight="1"
+                    android:paddingTop="9dp"
                     app:rowCount="1">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableTop="@drawable/shopmanage"
+                        android:drawableTop="@drawable/shopset"
                         android:gravity="center"
-                        android:text="订单管理"
+                        android:text="店铺设置"
                         android:drawablePadding="16dp"
                         android:textSize="15sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
