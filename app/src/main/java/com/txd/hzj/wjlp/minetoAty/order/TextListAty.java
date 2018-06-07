@@ -80,6 +80,7 @@ public class TextListAty extends BaseAty {
 
     private String cate_id = "";
     private String scope = "";
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +187,7 @@ public class TextListAty extends BaseAty {
     @Override
     protected void initialized() {
         title = getIntent().getStringExtra("title");
-
+        type = getIntent().getStringExtra("type");
         addressPst = new AddressPst(this);
 
         dataList = new ArrayList<>();
@@ -218,10 +219,20 @@ public class TextListAty extends BaseAty {
             textlist_select_et.setVisibility(View.VISIBLE); // 显示搜索银行卡输入框
             balancePst.getBankType();
         } else if (title.equals("售后类型")) {
-            AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
+            //type为3的时候代表拼单购
+            if ("3".equals(type)){
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),"2",this);
+            }else {
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
+            }
+
             showProgressDialog();
         } else if (title.equals("货物状态")) {
-            AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
+            if ("3".equals(type)){
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),"2",this);
+            }else {
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), this);
+            }
             showProgressDialog();
 //            map = new HashMap<>();
 //            map.put("name", "已收到货");

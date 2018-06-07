@@ -144,6 +144,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
         switch (v.getId()) {
             case R.id.apply_type_tv:
                 bundle = new Bundle();
+                bundle.putString("type",type);
                 bundle.putString("title", "售后类型");
                 bundle.putString("order_goods_id", getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 101);
@@ -151,6 +152,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
             case R.id.goods_status_tv:
                 bundle = new Bundle();
                 bundle.putString("title", "货物状态");
+                bundle.putString("type",type);
+                bundle.putString("order_goods_id", getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 102);
                 break;
             case R.id.apply_cause_tv:
