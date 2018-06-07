@@ -420,8 +420,9 @@ public class BuildOrderAty extends BaseAty {
                 }
                 if (countryTax > 0) {
                     // 刚开始如果有进口税则只显示进口税
-                    tv_invoice.append("+进口税" + countryTax);
+                    tv_youfei.append("+进口税" + countryTax);
                 }
+
             }
         } catch (JSONException e) {
             L.e("缺少对应字段");
@@ -667,13 +668,25 @@ public class BuildOrderAty extends BaseAty {
                                 }
                                 DecimalFormat df = new DecimalFormat("0.00");
                                 String kk = df.format(tp);
-                                if ("0.00".equals(kk)) {
-                                    //                                    tv_youfei.setVisibility(View.GONE);
-                                    tv_youfei.setText("包邮");
-                                } else {
-                                    tv_youfei.setVisibility(View.VISIBLE);
-                                    tv_youfei.setText("+" + kk + "元运费");
+                                if (countryTax > 0) {
+                                    // 刚开始如果有进口税则只显示进口税
+                                    tv_youfei.setText("+" + countryTax+"进口税");
+                                    if ("0.00".equals(kk)) {
+                                        //                                    tv_youfei.setVisibility(View.GONE);
+                                        tv_youfei.append("包邮");
+                                    } else {
+                                        tv_youfei.append("+" + kk + "元运费");
+                                    }
+                                }else {
+                                    if ("0.00".equals(kk)) {
+                                        //                                    tv_youfei.setVisibility(View.GONE);
+                                        tv_youfei.setText("包邮");
+                                    } else {
+                                        tv_youfei.setText("+" + kk + "元运费");
+                                    }
                                 }
+
+
                                 if ("10".equals(type)) {
                                     order_price_at_last_tv.setText("合计：" + total_price + "积分");
                                 } else {
@@ -802,11 +815,25 @@ public class BuildOrderAty extends BaseAty {
 
                 // 设置税金四舍五入显示到界面上
                 DecimalFormat df = new DecimalFormat(".##");
-                tv_invoice.setText("+税金:" + df.format(tax_pay) + "\n+发票运费:" + express_fee);
+                tv_invoice.setText("");
                 if (countryTax > 0) {
                     // 界面返回的时候显示税金、发票运费等，如果先前包含进口税，则添加进口税显示
-                    tv_invoice.append("\n+进口税" + countryTax);
+                    if (tax_pay!=0||express_fee!=0) {
+                        tv_invoice.setVisibility(View.VISIBLE);
+                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
+                    }else {
+                        tv_invoice.setVisibility(View.GONE);
+                    }
+                }else {
+                    if (tax_pay != 0 || express_fee != 0) {
+                        tv_invoice.setVisibility(View.VISIBLE);
+                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
+                    }else {
+                        tv_invoice.setVisibility(View.GONE);
+                    }
                 }
+
+
             }
         }
     }

@@ -357,25 +357,35 @@
             <!--android:gravity="right"-->
             <!--android:text="总抵扣￥0"-->
             <!--android:textColor="@color/app_text_color" />-->
-
-
-            <TextView
-                android:id="@+id/tv_youfei"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textColor="@color/holo_red_light"
-                android:visibility="visible" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_youfei"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right|center_vertical"
+                    android:textColor="@color/holo_red_light"
+                    android:visibility="visible"
+                    android:textSize="12dp"/>
+                <TextView
+                    android:id="@+id/tv_invoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/holo_red_light"
+                    android:textSize="12dp" />
 
-            <TextView
-                android:id="@+id/tv_invoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:gravity="right"
-                android:textColor="@color/holo_red_light"
-                android:textSize="12dp" />
+            </LinearLayout>
+
+
+
+
 
 
             <TextView
