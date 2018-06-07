@@ -909,10 +909,10 @@ public class OrderDetailsAty extends BaseAty {
             L.e("time" + map.get("sure_delivery_time"));
 
 
-            if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))){
+            if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))) {
                 tgvh.textview.setVisibility(View.VISIBLE);
                 tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
-            }else{
+            } else {
                 tgvh.textview.setVisibility(View.GONE);
             }
 
@@ -1017,8 +1017,17 @@ public class OrderDetailsAty extends BaseAty {
             }
             if (isTy) {
                 tgvh.tyIv.setVisibility(View.VISIBLE);
-            } else
+            } else {
                 tgvh.tyIv.setVisibility(View.GONE);
+            }
+//            "is_back_apply":  //是否对应售后服务 0不对应 1对应
+            String is_back_apply = data.get("is_back_apply");
+            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
+                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
+            } else {
+                tgvh.tv_btn_left.setVisibility(View.GONE);
+            }
+
             return view;
         }
 
