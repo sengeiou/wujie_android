@@ -259,7 +259,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private View apprentice_code_tv;
     @ViewInject(R.id.apprentice_code_line)
     private View apprentice_code_line;
-    private String is_member_trainer,is_merchant_trainer,code;
+    private String is_member_trainer, is_merchant_trainer, code;
     private String service_easemob_account;
     private String service_head_pic;
     private String service_nickname;
@@ -302,10 +302,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     @OnClick({R.id.tv_set, R.id.rel_mine_about, R.id.tv_help_center, R.id.tv_order_center, R.id.grade_of_member_layout,
             R.id.mine_member_type_layout, R.id.my_coupon_layout, R.id.integral_tv, R.id.registration_code_tv,
-            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv,R.id.apply_for_shop,
+            R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv, R.id.apply_for_shop,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
-            R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv,R.id.personalStores,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll,R.id.apprentice_code_tv})
+            R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -411,13 +411,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 toChat(service_easemob_account, service_head_pic, service_nickname);
 
                 break;
-                //申请开店
+            //申请开店
             case R.id.apply_for_shop:
-                startActivity(ApplyForShop.class,null);
+                startActivity(ApplyForShop.class, null);
                 break;
-                //店铺管理
+            //店铺管理
             case R.id.personalStores:
-                startActivity(ShopMain.class,null);
+                startActivity(ShopMain.class, null);
                 break;
             case R.id.stock_record_tv:// 进货记录
                 this.bundle = new Bundle();
@@ -444,14 +444,15 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     showErrorTip("跳转至应用市场失败，请到您自行到市场为我们评价哦ლ(⌒▽⌒ლ)");
                 }
                 break;
-            case R.id.apprentice_code_tv:{
-                 bundle = new Bundle();
+            case R.id.apprentice_code_tv: {
+                bundle = new Bundle();
                 bundle.putString("head_pic", head_pic);
                 bundle.putString("code", code);
-                bundle.putString("is_member_trainer",is_member_trainer);
-                bundle.putString("is_merchant_trainer",is_merchant_trainer);
+                bundle.putString("is_member_trainer", is_member_trainer);
+                bundle.putString("is_merchant_trainer", is_merchant_trainer);
                 startActivity(ApprenticeCodeAty.class, bundle);
-            }break;
+            }
+            break;
         }
     }
 
@@ -569,15 +570,23 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             head_pic = data.get("head_pic");
             // 邀请码
             invite_code = data.get("invite_code");
-//            拜师码判断
-            is_member_trainer=data.get("is_member_trainer");
-            is_merchant_trainer=data.get("is_merchant_trainer");
 
-            if(TextUtils.isEmpty(is_member_trainer)&&TextUtils.isEmpty(is_merchant_trainer)){
+            //      "is_agent":"0",    //是否显示    代理加盟  0 不显示  1 显示
+            String is_agent = data.get("is_agent");
+            if (!TextUtils.isEmpty(is_agent) && "1".equals(is_agent)) {
+                tv_dljm.setVisibility(View.VISIBLE);
+            } else {
+                tv_dljm.setVisibility(View.GONE);
+            }
+//            拜师码判断
+            is_member_trainer = data.get("is_member_trainer");
+            is_merchant_trainer = data.get("is_merchant_trainer");
+
+            if (TextUtils.isEmpty(is_member_trainer) && TextUtils.isEmpty(is_merchant_trainer)) {
                 apprentice_code_tv.setVisibility(View.GONE);
                 apprentice_code_line.setVisibility(View.GONE);
-            }else{
-                code=data.get("code");
+            } else {
+                code = data.get("code");
                 apprentice_code_tv.setVisibility(View.VISIBLE);
                 apprentice_code_line.setVisibility(View.VISIBLE);
             }
