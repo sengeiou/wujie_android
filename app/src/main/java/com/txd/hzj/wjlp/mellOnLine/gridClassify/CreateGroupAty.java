@@ -168,22 +168,23 @@ public class CreateGroupAty extends BaseAty {
 //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
                 } else {
-                    Intent intent = getIntent();
-                    List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
-                    List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
-                    toAttrs(v,
-                            0,
-                            "4",
-                            goods_id,
-                            data.getGoods_img(),
-                            data.getShop_price(),
-                            getIntent().getStringExtra("group_buy_id") + "-" + log_id,
-                            goods_attr, goods_val,
-                            getIntent().getStringExtra("is_attr")
-                    );
+                    if(!TextUtils.isEmpty(goods_id)){
+                        Intent intent = getIntent();
+                        List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
+                        List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
+                        toAttrs(v,
+                                0,
+                                "4",
+                                goods_id,
+                                data.getGoods_img(),
+                                data.getShop_price(),
+                                getIntent().getStringExtra("group_buy_id") + "-" + log_id,
+                                goods_attr, goods_val,
+                                getIntent().getStringExtra("is_attr")
+                        );
+                    }
+
                 }
-
-
             }
         });
     }
