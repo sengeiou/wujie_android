@@ -122,7 +122,7 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="bottom"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="5dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
