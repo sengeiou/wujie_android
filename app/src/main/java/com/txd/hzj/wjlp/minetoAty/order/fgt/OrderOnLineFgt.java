@@ -897,13 +897,13 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "4":
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "5":
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
             }
@@ -954,7 +954,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "5": {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
@@ -962,7 +962,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "6": {
                     holder.state.setText("取消订单");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
@@ -1127,13 +1127,13 @@ public class OrderOnLineFgt extends BaseFgt {
                 case "5":
                     holder.state.setText("已取消");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "6":
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setText("删除");
+                    holder.tv_btn_right.setText("删除订单");
                     holder.tv_btn_right.setVisibility(View.VISIBLE);
                     break;
                 case "10":
