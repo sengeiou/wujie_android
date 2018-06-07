@@ -7,5 +7,7 @@
     <color name="colorOrange">#FD8214</color>
     <color name="colorRed">#DF3031</color>
     <color name="colorGray">#a5a5a5</color>
+    <color name="shop_main_fontcolor_black">#ff333333</color>
+    <color name="shop_main_fontcolor_red">#fff84242</color>
 
 </resources>

@@ -63,8 +63,6 @@ public class ShopMain extends BaseAty implements OnClickListener {
     @Override
     protected void requestData() {
         titleName.setText("店铺管理");
-        visitor.setText("访客量" + "\n100");
-        orderNum.setText("订单量" + "\n7");
     }
 
     @Override
