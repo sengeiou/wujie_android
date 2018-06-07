@@ -964,8 +964,8 @@ public class BuildOrderAty extends BaseAty {
                 govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
                 // 公益宝贝
                 govh.layout_gongyi.setVisibility(getItem(i).get("is_welfare").equals("0") ? View.GONE : View.VISIBLE);
-                if (getItem(i).containsKey("integrity_d"))
-                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("integrity_d") + "元给公益计划");
+                if (getItem(i).containsKey("welfare"))
+                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
                 // 售后
                 govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
                 govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));

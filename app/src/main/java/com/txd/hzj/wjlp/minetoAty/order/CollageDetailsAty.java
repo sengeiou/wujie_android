@@ -510,10 +510,10 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
 
-            if(map.containsKey("auto_time")&&!TextUtils.isEmpty(map.get("auto_time"))){
+            if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))) {
                 tgvh.delayReceivingtv.setText(map.get("auto_time"));
                 tgvh.delayReceivingtv.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tgvh.delayReceivingtv.setVisibility(View.GONE);
             }
 
@@ -539,12 +539,12 @@ public class CollageDetailsAty extends BaseAty {
                         map.get("attr") + "（赠送:" + map.get("return_integral") + "积分）", map.get("attr").length(), Color.parseColor("#F6B87A"));
 
 
-                if (map.containsKey("is_invoice")&&Integer.parseInt(map.get("is_invoice")) == 1) {
+                if (map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) {
                     // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
                     tgvh.layout_fapiao.setVisibility(View.VISIBLE);
                     tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
                     //                    tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
-                    tgvh.textviews.setText("(发票运费："+map.get("express_fee")+" 税金："+map.get("tax_pay")+")"); // 设置发票名称
+                    tgvh.textviews.setText("(发票运费：" + map.get("express_fee") + " 税金：" + map.get("tax_pay") + ")"); // 设置发票名称
                 } else {
                     tgvh.layout_fapiao.setVisibility(View.GONE);
                 }
@@ -695,11 +695,11 @@ public class CollageDetailsAty extends BaseAty {
 
 
                 L.e("time" + map.get("sure_delivery_time"));
-                if (map.containsKey("is_invoice")&&Integer.parseInt(map.get("is_invoice")) == 1) {
+                if (map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) {
                     // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
                     tgvh.layout_fapiao.setVisibility(View.VISIBLE);
                     tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
-                    tgvh.textviews.setText("(发票运费："+map.get("express_fee")+" 税金："+map.get("tax_pay")+")"); // 设置发票名称
+                    tgvh.textviews.setText("(发票运费：" + map.get("express_fee") + " 税金：" + map.get("tax_pay") + ")"); // 设置发票名称
                 } else {
                     tgvh.layout_fapiao.setVisibility(View.GONE);
                 }
@@ -714,12 +714,11 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
 
 
-                String is_welfareStr = map.get("is_welfare");
-                if (!TextUtils.isEmpty(is_welfareStr) && "1".equals(is_welfareStr)) {
-                    String integrity_dStr = map.get("integrity_d");
+                String integrity_dStr = map.get("integrity_d");
+                if (!TextUtils.isEmpty(integrity_dStr)) {
                     // 公益宝贝
-                    tgvh.layout_gongyi.setVisibility(TextUtils.isEmpty(integrity_dStr) ? View.GONE : View.VISIBLE);
-                    tgvh.tv_gongyi.setText(TextUtils.isEmpty(integrity_dStr) ? "" : integrity_dStr);
+                    tgvh.layout_gongyi.setVisibility(View.VISIBLE);
+                    tgvh.tv_gongyi.setText(integrity_dStr);
                 } else {
                     tgvh.layout_gongyi.setVisibility(View.GONE);
                     tgvh.tv_gongyi.setText("");
