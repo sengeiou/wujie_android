@@ -128,7 +128,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
 
                 ViewGroup.LayoutParams lp = holder.image_for_mell.getLayoutParams();
                 lp.width = adsSize;
-                lp.height = adsSize * 2 / 3 ;
+                lp.height = adsSize * 2 / 3;
                 holder.image_for_mell.setLayoutParams(lp);
                 holder.image_for_mell.setMaxWidth(adsSize);
                 holder.image_for_mell.setMaxHeight(adsSize * 2 / 3);
@@ -320,26 +320,26 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.goods_integral_tv.setText(map.get("integral"));
 
                 /*
-                * 是否可以使用代金券
-                * 使用多少优惠
-                */
-                if (map.get("ticket_buy_discount").equals("0")) {
-                    holder.use_coupon_tv.setText("不可使用代金券");
-                    holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
-                } else {
+                 * 是否可以使用代金券
+                 * 使用多少优惠
+                 */
+                if (map.containsKey("ticket_buy_discount") && !map.get("ticket_buy_discount").equals("0")) {
                     holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_buy_discount") + "%代金券");
                     holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                } else {
+                    holder.use_coupon_tv.setText("不可使用代金券");
+                    holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
                 }
                 break;
         }
         if (0 != type) {
             L.e("ticket" + map.get("ticket_buy_discount"));
-            if (map.get("ticket_buy_discount").equals("0")) {
-                holder.use_coupon_tv.setText("不可使用代金券");
-                holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
-            } else {
+            if (map.containsKey("ticket_buy_discount") && !map.get("ticket_buy_discount").equals("0")) {
                 holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_buy_discount") + "%代金券");
                 holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+            } else {
+                holder.use_coupon_tv.setText("不可使用代金券");
+                holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
             }
         }
         // type == 2,4,5的时候，设置倒计时

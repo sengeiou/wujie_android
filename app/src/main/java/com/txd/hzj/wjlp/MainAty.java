@@ -509,7 +509,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         }
         if (requestUrl.contains("Upgrade")) {
             UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
-            AppUpdate.getInstance().showAppUpdateDialog(updataApp, this);
+            AppUpdate.getInstance().showAppUpdateDialog(updataApp, this, true);
         } else if (requestUrl.contains("Index/index")) {
             try {
                 jsonStr = JSONUtils.parseData(new JSONObject(jsonStr));

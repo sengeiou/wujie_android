@@ -43,10 +43,11 @@ public class AppUpdate {
     /**
      * 检测APP是否有更新
      *
-     * @param updataApp 服务器回传的更新对象
-     * @param activity  调用的Activity
+     * @param updataApp     服务器回传的更新对象
+     * @param activity      调用的Activity
+     * @param systemChecked 是否是系统检测的
      */
-    public void showAppUpdateDialog(final UpdataApp updataApp, final Activity activity) {
+    public void showAppUpdateDialog(final UpdataApp updataApp, final Activity activity, boolean systemChecked) {
 
         if (updataApp == null || activity == null) {
             return;
@@ -58,7 +59,7 @@ public class AppUpdate {
         // 如果服务器的Code值大于本地的Code值则执行更新
 //        if (serverCode > BuildConfig.VERSION_CODE) {
         // TODO 如果服务器返回的Name值与本地的Name值不一致则执行更新，下次版本发布之时需要为判断Code值
-        if (!updataApp.getData().getName().equals(BuildConfig.VERSION_NAME)){
+        if (!updataApp.getData().getName().equals(BuildConfig.VERSION_NAME)) {
             // 如果auto_update_status为空返回false，不强制更新，不为空则判断是否需要强制更新，如果为0则返回true开启强制更新，否则返回false不强制更新
 
             String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
@@ -83,6 +84,21 @@ public class AppUpdate {
                             }
                         }
                     }).showDialog();
+        } else { // 没有版本更新
+            if (!systemChecked) { // 如果不是系统检测的（手动检查更新）要弹窗提示一下用户
+                new MikyouCommonDialog(activity, "当前已是最新版本", "检查更新", "知道了", "", true)
+                        .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+                            @Override
+                            public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                                switch (btnType) {
+                                    case MikyouCommonDialog.OK: {
+                                        // 直接关闭该对话框
+                                    }
+                                    break;
+                                }
+                            }
+                        }).showDialog();
+            }
         }
     }
 
