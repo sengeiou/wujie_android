@@ -10,14 +10,18 @@ import com.lidroid.xutils.http.RequestParams;
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：09:44
- * 描述：
+ * 描述：APP更新模块
  * ===============Txunda===============
  */
-
 public class Upgrade {
 
     private String url = Config.BASE_URL + "Upgrade/";
 
+    /**
+     * 检查更新
+     *
+     * @param baseView
+     */
     public void upgrade(BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool = new ApiTool2();
