@@ -114,8 +114,7 @@
         <!-- android:name="com.txd.hzj.wjlp.tool.GlideConfiguration" -->
         <!-- android:value="GlideModule" /> -->
 
-
-        <!-- App升级 -->
+        <!--android7.0拍照 需要注册FileProvider-->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -125,6 +124,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_provider" />
         </provider>
+
         <!-- 百度地图 Begin -->
         <service
             android:name="com.baidu.location.f"

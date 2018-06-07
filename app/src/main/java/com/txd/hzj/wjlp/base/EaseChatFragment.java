@@ -3,14 +3,17 @@ package com.txd.hzj.wjlp.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.Gravity;
@@ -60,6 +63,8 @@ import com.hyphenate.util.PathUtil;
 import com.txd.hzj.wjlp.DemoApplication;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -745,26 +750,31 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
         EMMessage message = EaseCommonUtils.createExpressionMessage(toChatUsername, name, identityCode);
         sendMessage(message);
     }
+
     //发送一条语音消息
     protected void sendVoiceMessage(String filePath, int length) {
         EMMessage message = EMMessage.createVoiceSendMessage(filePath, length, toChatUsername);
         sendMessage(message);
     }
+
     //发送图片消息
     protected void sendImageMessage(String imagePath) {
         EMMessage message = EMMessage.createImageSendMessage(imagePath, false, toChatUsername);
         sendMessage(message);
     }
+
     //发送位置消息
     protected void sendLocationMessage(double latitude, double longitude, String locationAddress) {
         EMMessage message = EMMessage.createLocationSendMessage(latitude, longitude, locationAddress, toChatUsername);
         sendMessage(message);
     }
+
     //发送视频消息
     protected void sendVideoMessage(String videoPath, String thumbPath, int videoLength) {
         EMMessage message = EMMessage.createVideoSendMessage(videoPath, thumbPath, videoLength, toChatUsername);
         sendMessage(message);
     }
+
     //发送文件
     protected void sendFileMessage(String filePath) {
         EMMessage message = EMMessage.createFileSendMessage(filePath, toChatUsername);
@@ -891,13 +901,29 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
             return;
         }
 
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
-                + System.currentTimeMillis() + ".jpg");
-        // noinspection ResultOfMethodCallIgnored
+        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser() + System.currentTimeMillis() + ".jpg");
         cameraFile.getParentFile().mkdirs();
-        startActivityForResult(
-                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-                REQUEST_CODE_CAMERA);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (Build.VERSION.SDK_INT >= 24) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //24以上使用FileProvider
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), "com.txd.hzj.wjlp.fileProvider", cameraFile));
+        } else {
+            //24以下
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+        }
+        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+
+//        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
+//                + System.currentTimeMillis() + ".jpg");
+//        // noinspection ResultOfMethodCallIgnored
+//        cameraFile.getParentFile().mkdirs();
+//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+//        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+//        startActivityForResult(
+//                new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
+//                REQUEST_CODE_CAMERA);
     }
 
     /**
