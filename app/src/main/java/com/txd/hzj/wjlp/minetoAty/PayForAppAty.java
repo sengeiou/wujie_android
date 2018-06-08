@@ -47,6 +47,7 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Map;
 
 /**
@@ -160,6 +161,7 @@ public class PayForAppAty extends BaseAty {
     private String is_pay_password = "0";
     private double total_price = 0.00f;//总价格
     private BigDecimal bd;
+    private DecimalFormat decimalFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -522,8 +524,11 @@ public class PayForAppAty extends BaseAty {
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
 
             if (!type.equals("10")) {
-                tv_price.setText("¥" + data.get("order_price"));
+                decimalFormat = new DecimalFormat("0.00");
+
                 total_price = Double.parseDouble(data.get("order_price"));
+                String format = decimalFormat.format(total_price);
+                tv_price.setText("¥" + format);
             } else {
                 tv_price.setText(data.get("order_price") + "积分");
             }
@@ -876,6 +881,8 @@ public class PayForAppAty extends BaseAty {
                                 commonPopupWindow.dismiss();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
+                                String  num = decimalFormat.format(total_price);
+                                tv_price.setText(num);
                             }
                         });
                     }
@@ -910,14 +917,16 @@ public class PayForAppAty extends BaseAty {
         if (is_r) {
             textview.setText(order.get("red_desc"));
             bd = new BigDecimal(total_price - Double.parseDouble(order.get("discount_price")));
-
-            tv_price.setText("¥" + bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            String format = decimalFormat.format(bd);
+            tv_price.setText("¥" + format);
+            //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
         }
         if (is_y) {
             textview.setText(order.get("yellow_desc"));
             bd = new BigDecimal(total_price - Double.parseDouble(order.get("yellow_price")));
-
-            tv_price.setText("¥" + bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            String format = decimalFormat.format(bd);
+            tv_price.setText("¥" + format);
+            //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
         }
         if (is_b) {
             textview.setText(order.get("blue_desc"));
