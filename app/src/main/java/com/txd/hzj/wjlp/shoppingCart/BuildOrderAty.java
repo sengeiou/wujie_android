@@ -221,14 +221,14 @@ public class BuildOrderAty extends BaseAty {
                 if (goodsList.size() != 0) {
                     for (Goods temp : goodsList) {
                         while (TextUtils.isEmpty(temp.getTem_id())) {
-                            showToast("请完善所有商品的快递方式！");
+                            showToast("请选择所有商品的配送方式");
                             return;
                         }
                     }
                 } else {
                     for (GoodsCart temp : goodsCartList) {
                         while (TextUtils.isEmpty(temp.getTem_id())) {
-                            showToast("请完善所有商品的快递方式！");
+                            showToast("请选择所有商品的配送方式");
                             return;
                         }
                     }
