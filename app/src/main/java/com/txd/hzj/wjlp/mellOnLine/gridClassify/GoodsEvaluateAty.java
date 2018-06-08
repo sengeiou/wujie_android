@@ -482,7 +482,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             gevh.tv_label.setText(commentList.getCreate_time() + commentList.getGood_attr());
             if (!android.text.TextUtils.isEmpty(commentList.getGoods_num())) {
                 gevh.tv_number.setVisibility(View.VISIBLE);
-                gevh.tv_number.setText("X" + commentList.getGoods_num());
+                gevh.tv_number.setText("x" + commentList.getGoods_num());
                 gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.goods_evaluate_num.setVisibility(View.GONE);
             } else {
