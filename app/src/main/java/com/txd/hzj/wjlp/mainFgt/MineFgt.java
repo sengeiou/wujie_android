@@ -32,7 +32,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Promoters;
 import com.txd.hzj.wjlp.distribution.ApplyForShop;
-import com.txd.hzj.wjlp.distribution.shopmanage.ShopMain;
+import com.txd.hzj.wjlp.distribution.shopAty.ShopMain;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;

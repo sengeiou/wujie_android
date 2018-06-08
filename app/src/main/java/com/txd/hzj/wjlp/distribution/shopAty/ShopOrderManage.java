@@ -1,7 +1,6 @@
-package com.txd.hzj.wjlp.distribution.shopmanage;
+package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.support.design.widget.TabLayout;
-import android.view.View;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;

@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".distribution.shopmanage.ShopRevenue">
+    tools:context=".distribution.shopAty.ShopRevenue">
     <include layout="@layout/aty_shop_title"/>
 </LinearLayout>

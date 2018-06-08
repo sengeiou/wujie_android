@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.distribution.shopmanage;
+package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,9 +10,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 小店营收
+ * 商品管理
  */
-public class ShopRevenue extends BaseAty {
+public class ShopGoodsManage extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
@@ -26,7 +26,6 @@ public class ShopRevenue extends BaseAty {
     @ViewInject(R.id.shop_person)
     TextView shop_person;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,15 +33,15 @@ public class ShopRevenue extends BaseAty {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.activity_store_revenue;
+        return R.layout.activity_commodity_management;
     }
 
     @Override
     protected void initialized() {
         titlt_conter_tv.setVisibility(View.GONE);
         shop_person_title_manage.setVisibility(View.VISIBLE);
-        shop_shopkeeper.setText("销售额");
-        shop_person.setText("净收益");
+        shop_shopkeeper.setText("普通商品");
+        shop_person.setText("开店商品");
     }
 
     @Override

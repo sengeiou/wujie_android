@@ -3,7 +3,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".distribution.shopmanage.ShopExhibit">
+    tools:context=".distribution.shopAty.ShopExhibit">
     <include layout="@layout/aty_shop_title" />
+    <View
+        android:layout_width="match_parent"
+        android:background="#ffdddddd"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/exhibit_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            app:tl_indicator_color="@color/theme_color"
+            app:tl_textAllCaps="true"
+            app:tl_textBold="NONE"
+            app:tl_textSelectColor="@color/theme_color"
+            app:tl_textUnselectColor="@color/app_text_color"
+            app:tl_textsize="14sp"
+            app:tl_underline_color="@color/white"
+            app:tl_underline_height="1dp" />
+        <ImageView
+            android:id="@+id/spread_img"
+            android:src="@drawable/arrowdown"
+            android:paddingLeft="14dp"
+            android:paddingRight="13dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_for_exhibit"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

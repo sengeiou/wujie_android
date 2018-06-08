@@ -1,4 +1,4 @@
-package com.txd.hzj.wjlp.distribution.shopmanage;
+package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.view.View;
 import android.widget.LinearLayout;

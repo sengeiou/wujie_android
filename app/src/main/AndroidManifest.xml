@@ -171,16 +171,16 @@
         <activity android:name=".mellOnLine.GoodsListAty" />
         <!--分销店铺管理首页-->
         <!-- 店铺管理首页 -->
-        <activity android:name=".distribution.shopmanage.ShopMain"
+        <activity android:name=".distribution.shopAty.ShopMain"
             android:launchMode="singleTop"/>
         <!--分销店铺设置-->
-        <activity android:name=".distribution.shopmanage.ShopSetUp"
+        <activity android:name=".distribution.shopAty.ShopSetUp"
             android:launchMode="singleTop"/>
         <!--分销店铺顾客管理-->
-        <activity android:name=".distribution.shopmanage.ShopPersonManage"
+        <activity android:name=".distribution.shopAty.ShopPersonManage"
             android:launchMode="singleTop"/>
         <!--分销店铺订单管理-->
-        <activity android:name=".distribution.shopmanage.ShopOrderManage"
+        <activity android:name=".distribution.shopAty.ShopOrderManage"
             android:launchMode="singleTop"/>
         <!-- 商家列表 -->
         <activity
@@ -1104,9 +1104,9 @@
         <!-- 拼单购订单详情 -->
         <activity android:name=".minetoAty.order.CollageDetailsAty" />
         <activity android:name=".distribution.ApplyForShop" />
-        <activity android:name=".distribution.shopmanage.ShopExhibit" />
-        <activity android:name=".distribution.shopmanage.ShopGoodsManage" />
-        <activity android:name=".distribution.shopmanage.ShopRevenue"></activity>
+        <activity android:name=".distribution.shopAty.ShopExhibit" />
+        <activity android:name=".distribution.shopAty.ShopGoodsManage" />
+        <activity android:name=".distribution.shopAty.ShopRevenue"></activity>
     </application>
 
 </manifest>

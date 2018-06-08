@@ -1,17 +1,11 @@
-package com.txd.hzj.wjlp.distribution.shopmanage;
+package com.txd.hzj.wjlp.distribution.shopAty;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
