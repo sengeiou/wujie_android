@@ -1841,7 +1841,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 bundle.putString("mid", data.getStringExtra("mid"));
                 bundle.putString("type", data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
-                bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
+                bundle.putString("group_buy_id", limit_buy_id);
                 String order_id = data.getStringExtra("order_id");
                 if (!android.text.TextUtils.isEmpty(order_id)) {
                     bundle.putString("order_id", order_id);
