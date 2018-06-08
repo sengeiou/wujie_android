@@ -24,7 +24,7 @@ public class GroupBean implements Serializable {
     private String group_buy_id;// "组团ID",
     private String group_num;//"需参团人数",
     ///////////////////////体验拼单
-    private String max_num;
+    private String max_num; //团购人数上限
     private String award_num;
     private String return_num;
     private List<String> memo;//活动说明

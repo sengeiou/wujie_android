@@ -34,13 +34,25 @@
             android:layout_height="wrap_content"
             android:textColor="@color/theme_color"
             android:textSize="26sp" />
-
-        <TextView
-            android:id="@+id/old_price_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_marginStart="16dp"
-            android:textColor="@color/gray_text_color" />
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <!--体验拼单最多人数，默认状态隐藏-->
+            <TextView
+                android:id="@+id/max_num_tv"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_text_color" />
+            <TextView
+                android:id="@+id/old_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_text_color" />
+        </LinearLayout>
+
 
         <Space
             android:layout_width="0dp"

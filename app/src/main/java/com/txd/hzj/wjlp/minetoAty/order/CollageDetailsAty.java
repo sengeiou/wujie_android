@@ -145,7 +145,7 @@ public class CollageDetailsAty extends BaseAty {
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-        if(isTy){
+        if (isTy) {
             lin_logistics.setVisibility(View.GONE);
         }
     }
@@ -186,8 +186,6 @@ public class CollageDetailsAty extends BaseAty {
     protected void onResume() {
         super.onResume();
         efreshPage(); // 刷新界面
-
-
     }
 
     /**
@@ -275,6 +273,19 @@ public class CollageDetailsAty extends BaseAty {
     List<Map<String, String>> list;
     private boolean isCJ = false;
 
+    private int calcGoodsNum() {
+        int numSum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            String numStr = list.get(i).get("goods_num");
+            if (TextUtils.isEmpty(numStr)) {
+                continue;
+            } else {
+                numSum += Integer.parseInt(numStr);
+            }
+        }
+        return numSum;
+    }
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         L.e("wang", requestUrl + "=======>>>>>>>>>" + jsonStr);
@@ -307,7 +318,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_tel.setText(data.get("phone"));
                 tv_address.setText(data.get("address"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
-                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
+                order_price_info_tv.setText(Html.fromHtml("共" +calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -331,7 +342,7 @@ public class CollageDetailsAty extends BaseAty {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
 
-                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
+                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 is_pay_password = data.get("is_pay_password");
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
@@ -384,6 +395,7 @@ public class CollageDetailsAty extends BaseAty {
             if (requestCodeStr.equals("1")) {
                 if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
+                    efreshPage(); // 刷新界面
                 } else {
                     GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
                     showProgressDialog();
@@ -403,7 +415,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_state.setText("待支付");
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
-                layout_choose_address.setVisibility(View.GONE);
+//                layout_choose_address.setVisibility(View.GONE);
                 lin_logistics.setVisibility(View.GONE);
                 break;
             case "1":
@@ -789,10 +801,10 @@ public class CollageDetailsAty extends BaseAty {
                     tgvh.tyIv.setVisibility(View.GONE);
             }
             //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
-            String is_back_apply=map.get("is_back_apply");
-            if(!TextUtils.isEmpty(is_back_apply)&&"1".equals(is_back_apply)){
+            String is_back_apply = map.get("is_back_apply");
+            if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tgvh.tv_btn_left.setVisibility(View.GONE);
             }
 

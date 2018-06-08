@@ -556,6 +556,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private LinearLayout layout_pt;//活动倒计时|别人在开团
     @ViewInject(R.id.remarks)
     private TextView remarks;
+    @ViewInject(R.id.max_num_tv)
+    private TextView max_num_tv;//成团所需x人
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
 
@@ -960,7 +962,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                             tyLayout.setVisibility(View.VISIBLE);
                             tyLayout.getBackground().setAlpha(180);
-
+                            max_num_tv.setVisibility(View.VISIBLE);
+                            max_num_tv.setText("成团所需"+groupBean.getMax_num()+"人");
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
                             long sysTime = Long.parseLong(groupBean.getSys_time());
