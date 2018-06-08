@@ -101,6 +101,7 @@
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/shape_red_btn_01_li"
                 android:text="评价服务"
+                android:textColor="@color/colorAccent"
                 android:textSize="14sp"
                 android:visibility="visible" />
         </LinearLayout>

@@ -93,7 +93,7 @@ public class OnlineShopAty extends BaseAty implements View.OnClickListener {
             mTitleList = OrderTitleUtils.getInstance().orderTitle1();
         }else if (title.equals("线上充值")){
             mTitleList = OrderTitleUtils.getInstance().orderTitle6();
-        } else if (title.equals("拼团区")) {
+        } else if (title.equals("拼单购")) {
             mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);//设置tab模式，当前为系统默认模式
             mTitleList = OrderTitleUtils.getInstance().orderTitle2();
         } else if (title.equals("无界预购")) {

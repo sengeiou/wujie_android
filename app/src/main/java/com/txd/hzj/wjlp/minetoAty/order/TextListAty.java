@@ -95,7 +95,7 @@ public class TextListAty extends BaseAty {
                 if (title.equals("售后类型")) {
                     data.putExtra("type", dataList.get(i).get("name"));
                     data.putExtra("typeTypeId", dataList.get(i).get("type_id"));
-                } else if (title.equals("原因")) {
+                } else if (title.equals("售后原因")) {
                     data.putExtra("cause", dataList.get(i).get("name"));
                     data.putExtra("causeTypeId", dataList.get(i).get("id"));
                 } else if (title.equals("货物状态")) {

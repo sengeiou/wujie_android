@@ -481,10 +481,13 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             gevh.comm_content_tv.setText(commentList.getContent());
             gevh.tv_label.setText(commentList.getCreate_time() + commentList.getGood_attr());
             if (!android.text.TextUtils.isEmpty(commentList.getGoods_num())) {
-                gevh.goods_evaluate_num.setVisibility(View.VISIBLE);
-                gevh.goods_evaluate_num.setText("X" + commentList.getGoods_num());
-            } else {
+                gevh.tv_number.setVisibility(View.VISIBLE);
+                gevh.tv_number.setText("X" + commentList.getGoods_num());
+                gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.goods_evaluate_num.setVisibility(View.GONE);
+            } else {
+                gevh.jifen_tv.setText(View.GONE);
+                gevh.tv_number.setVisibility(View.GONE);
             }
 
            /* if (0 == type) {goods_num
@@ -545,6 +548,16 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             private ShapedImageView comm_user_head_iv;
             /**
              * 商品数量
+             */
+            @ViewInject(R.id.tv_number)
+            private TextView tv_number;
+            /**
+             * 积分
+             */
+            @ViewInject(R.id.jifen_tv)
+            private TextView jifen_tv;
+            /**
+             * 积分
              */
             @ViewInject(R.id.goods_evaluate_num)
             private TextView goods_evaluate_num;
