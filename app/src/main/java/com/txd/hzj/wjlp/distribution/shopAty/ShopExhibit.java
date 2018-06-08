@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
@@ -59,6 +59,7 @@ public class ShopExhibit extends BaseAty {
 
     private MyPagerAdapter myPagerAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +92,7 @@ public class ShopExhibit extends BaseAty {
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             for (Map<String, String> title : horizontal_classify) {
 //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
-                fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"),""));
+                fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
             }
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
@@ -106,16 +107,19 @@ public class ShopExhibit extends BaseAty {
     @OnClick({R.id.spread_img})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             //tablayout右边的展开按钮
             case R.id.spread_img:
-                Toast.makeText(ShopExhibit.this, "1111", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, PopupClassification.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_top_in,0);
                 break;
         }
 
     }
 
-    private   class  MyPagerAdapter extends FragmentPagerAdapter{
+
+    private class MyPagerAdapter extends FragmentPagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -135,4 +139,5 @@ public class ShopExhibit extends BaseAty {
             return fragments.get(position);
         }
     }
+
 }
