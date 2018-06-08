@@ -150,12 +150,12 @@ public class ExchangeMoneyAty extends BaseAty {
             @NonNull
             @Override
             protected char[] getAcceptedChars() {
-                return new char[]{'1', '2', '3', '4', '5', '6', '7', '8','9', '0'};
+                return new char[]{'1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
             }
 
             @Override
             public int getInputType() {
-                return  InputType.TYPE_NUMBER_FLAG_DECIMAL;
+                return InputType.TYPE_NUMBER_FLAG_DECIMAL;
             }
         });
     }
@@ -180,19 +180,24 @@ public class ExchangeMoneyAty extends BaseAty {
                 break;
 
             case R.id.submit_op_tv:// 确认，提交
-                long val=0;
+                long val = 0;
                 if (!isClick) { // 如果没有点击
                     moneyStr = money_ev.getText().toString();
 
-                    val = (long)Math.floor(Double.parseDouble(moneyStr));
+                    try {
+                        val = (long) Math.floor(Double.parseDouble(moneyStr));
+                    } catch (NumberFormatException e) {
+                        L.e("money_ev.textView To Number Double Exception:" + e.toString());
+                        showErrorTip("输入的数字格式异常，请检查！");
+                    }
 
                     if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
                         showErrorTip("请输入有效数字");
                         return;
-                    }else if(val%100!=0||val/100==0){
+                    } else if (val % 100 != 0 || val / 100 == 0) {
                         showErrorTip("每次提现为100的倍数");
                         return;
-                    }else if(val>50000){
+                    } else if (val > 50000) {
                         money_ev.setText("50000");
                         showErrorTip("最大额度为50000");
                         return;
