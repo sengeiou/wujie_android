@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:paddingLeft="8dp" >
+        android:paddingLeft="8dp">
 
         <TextView
             android:id="@+id/tv_rmb"
@@ -34,22 +34,27 @@
             android:layout_height="wrap_content"
             android:textColor="@color/theme_color"
             android:textSize="26sp" />
+
         <LinearLayout
-            android:layout_marginStart="16dp"
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
             <!--体验拼单最多人数，默认状态隐藏-->
             <TextView
                 android:id="@+id/max_num_tv"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/gray_text_color" />
+                android:text="333"
+                android:textColor="@color/gray_text_color"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/old_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="222"
                 android:textColor="@color/gray_text_color" />
         </LinearLayout>
 
@@ -71,9 +76,9 @@
 
         <TextView
             android:id="@+id/tv_kucun"
-            android:padding="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:textSize="12sp" />
     </LinearLayout>
 
