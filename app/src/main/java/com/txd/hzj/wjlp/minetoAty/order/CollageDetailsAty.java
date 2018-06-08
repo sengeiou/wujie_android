@@ -145,6 +145,9 @@ public class CollageDetailsAty extends BaseAty {
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        if(isTy){
+            lin_logistics.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -183,6 +186,8 @@ public class CollageDetailsAty extends BaseAty {
     protected void onResume() {
         super.onResume();
         efreshPage(); // 刷新界面
+
+
     }
 
     /**
@@ -307,6 +312,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
             } else {
+
                 isCJ = false;
                 if (order_status.equals("0") || order_status.equals("2")) {
                     // 如果订单状态为待付款或待发货，则隐藏订单详情查看入口
@@ -398,6 +404,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_left.setText("取消订单");
                 tv_btn_right.setText("付款");
                 layout_choose_address.setVisibility(View.GONE);
+                lin_logistics.setVisibility(View.GONE);
                 break;
             case "1":
 //                titlt_conter_tv.setText("待成团订单");
@@ -407,6 +414,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_right.setVisibility(View.GONE);
                 bot_for_order.setVisibility(View.GONE);
                 buttom.setVisibility(View.GONE);
+                lin_logistics.setVisibility(View.GONE);
                 break;
             case "2":
 //                titlt_conter_tv.setText("待发货订单");
@@ -416,6 +424,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_right.setVisibility(View.GONE);
                 bot_for_order.setVisibility(View.GONE);
                 buttom.setVisibility(View.GONE);
+                lin_logistics.setVisibility(View.GONE);
                 break;
             case "3":
 //                titlt_conter_tv.setText("待收货订单");
@@ -424,6 +433,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("确认收货");
                 tv_btn_right.setVisibility(View.GONE);
+                lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "4":
 //                titlt_conter_tv.setText("待评价订单");
@@ -432,6 +442,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("评价");
                 bot_for_order.setVisibility(View.VISIBLE);
+                lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "5":
 //                titlt_conter_tv.setText("已完成订单");
@@ -440,6 +451,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setText("删除");
                 bot_for_order.setVisibility(View.VISIBLE);
+                lin_logistics.setVisibility(View.VISIBLE);
                 break;
             case "6":
 //                titlt_conter_tv.setText("已取消订单");
