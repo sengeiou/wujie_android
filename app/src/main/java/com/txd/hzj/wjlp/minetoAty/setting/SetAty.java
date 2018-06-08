@@ -204,8 +204,10 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 if (wx.isAuthValid()) {
                                     wx.removeAccount(true);
                                 }
-                                if (sl.isAuthValid()) {
-                                    sl.removeAccount(true);
+                                if(null!=sl){
+                                    if (sl.isAuthValid()) {
+                                        sl.removeAccount(true);
+                                    }
                                 }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
