@@ -882,7 +882,7 @@ public class PayForAppAty extends BaseAty {
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
                                 String  num = decimalFormat.format(total_price);
-                                tv_price.setText(num);
+                                tv_price.setText("¥"+num);
                             }
                         });
                     }
