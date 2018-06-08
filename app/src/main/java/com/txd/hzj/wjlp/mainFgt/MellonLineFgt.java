@@ -832,7 +832,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     house_llayout.setVisibility(View.GONE);
                 }
 
-                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
+                // 获取回传的Data值
+                JSONObject jsonData = jsonObject.getJSONObject("data");
+                // 获取个人所在地址填写状态 0是未填写 1是已填写
+                if (jsonData.getString("city_status").equals("0") && !Config.getToken().equals("")) {
+//                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("请完善个人资料地区信息")
                             .setMessage("前往个人个人资料页面？")

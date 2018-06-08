@@ -89,46 +89,51 @@ public class ShopExhibitFragment extends BaseFgt {
         super.onClick(v);
         switch (v.getId()){
             case R.id.internal_tv:
-                internal_tv.setTextColor(Color.parseColor(redColor));
-                internal_tv.setCompoundDrawables(null,null,selectId,null);
-                cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
-                cash_coupon_tv.setCompoundDrawables(null,null,unSelectId,null);
-                sales_volume_tv.setTextColor(Color.parseColor(blgColor));
-                sales_volume_tv.setCompoundDrawables(null,null,unSelectId,null);
-                price_tv.setTextColor(Color.parseColor(blgColor));
-                price_tv.setCompoundDrawables(null,null,unSelectId,null);
+                setChioceItem(0);
                 break;
             case R.id.cash_coupon_tv:
-                internal_tv.setTextColor(Color.parseColor(blgColor));
-                internal_tv.setCompoundDrawables(null,null,unSelectId,null);
-                cash_coupon_tv.setTextColor(Color.parseColor(redColor));
-                cash_coupon_tv.setCompoundDrawables(null,null,selectId,null);
-                sales_volume_tv.setTextColor(Color.parseColor(blgColor));
-                sales_volume_tv.setCompoundDrawables(null,null,unSelectId,null);
-                price_tv.setTextColor(Color.parseColor(blgColor));
-                price_tv.setCompoundDrawables(null,null,unSelectId,null);
+                setChioceItem(1);
                 break;
             case R.id.sales_volume_tv:
-                internal_tv.setTextColor(Color.parseColor(blgColor));
-                internal_tv.setCompoundDrawables(null,null,unSelectId,null);
-                cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
-                cash_coupon_tv.setCompoundDrawables(null,null,unSelectId,null);
-                sales_volume_tv.setTextColor(Color.parseColor(redColor));
-                sales_volume_tv.setCompoundDrawables(null,null,selectId,null);
-                price_tv.setTextColor(Color.parseColor(blgColor));
-                price_tv.setCompoundDrawables(null,null,unSelectId,null);
+                setChioceItem(2);
                 break;
             case R.id.price_tv:
-                internal_tv.setTextColor(Color.parseColor(blgColor));
-                internal_tv.setCompoundDrawables(null,null,unSelectId,null);
-                cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
-                cash_coupon_tv.setCompoundDrawables(null,null,unSelectId,null);
-                sales_volume_tv.setTextColor(Color.parseColor(blgColor));
-                sales_volume_tv.setCompoundDrawables(null,null,unSelectId,null);
+                setChioceItem(3);
+                break;
+        }
+    }
+
+    private void setChioceItem(int index) {
+        clearChioce();
+        switch (index){
+            case 0:
+                internal_tv.setTextColor(Color.parseColor(redColor));
+                internal_tv.setCompoundDrawables(null,null,selectId,null);
+                break;
+            case 1:
+                cash_coupon_tv.setTextColor(Color.parseColor(redColor));
+                cash_coupon_tv.setCompoundDrawables(null,null,selectId,null);
+                break;
+            case 2:
+                sales_volume_tv.setTextColor(Color.parseColor(redColor));
+                sales_volume_tv.setCompoundDrawables(null,null,selectId,null);
+                break;
+            case 3:
                 price_tv.setTextColor(Color.parseColor(redColor));
                 price_tv.setCompoundDrawables(null,null,selectId,null);
                 break;
         }
+    }
+
+    private void clearChioce() {
+        internal_tv.setTextColor(Color.parseColor(blgColor));
+        internal_tv.setCompoundDrawables(null,null,unSelectId,null);
+        cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
+        cash_coupon_tv.setCompoundDrawables(null,null,unSelectId,null);
+        sales_volume_tv.setTextColor(Color.parseColor(blgColor));
+        sales_volume_tv.setCompoundDrawables(null,null,unSelectId,null);
+        price_tv.setTextColor(Color.parseColor(blgColor));
+        price_tv.setCompoundDrawables(null,null,unSelectId,null);
     }
 
 }

@@ -78,7 +78,7 @@ public class OrderCenterAty extends BaseAty {
                     mBundle.putString("type", "10");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("拼单购")) {
-                    mBundle.putString("title", "拼团区");
+                    mBundle.putString("title", "拼单购");
                     mBundle.putString("type", "3");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("无界预购")) {

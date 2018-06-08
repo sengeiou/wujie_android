@@ -158,7 +158,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 break;
             case R.id.apply_cause_tv:
                 bundle = new Bundle();
-                bundle.putString("title", "原因");
+                bundle.putString("title", "售后原因");
                 startActivityForResult(TextListAty.class, bundle, 103);
                 break;
             case R.id.submit_apply_tv:

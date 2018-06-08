@@ -794,7 +794,7 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("type", "0");
         }
         if (type.equals("2") || type.equals("3") || type.equals("4")) {
-            mBundle.putString("title", "拼团区");
+            mBundle.putString("title", "拼单购");
             mBundle.putString("type", "3");
         }
         if (type.equals("6")) {
