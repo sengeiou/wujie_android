@@ -92,29 +92,37 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     /*天迅达基本框架*/
     compile project(':frame')
+
     /* 仿ios滚轮 */
     compile project(':pickerview')
+
     /* 地址选择侧边栏 */
     compile project(':sideBar')
+
     /* 环信*/
-    compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.+'
     compile 'com.android.support:design:26.+'
+
     /* zXing */
     compile 'com.google.zxing:core:3.1.0'
     compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
     compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
     compile 'cc.solart:turbo-recyclerview-helper:1.0.3-beta'
     compile 'com.parse:parse-android:1.13.1'
+
     /* Dex分包 */
     compile 'com.android.support:multidex:1.0.1'
+
     /* 版本升级 */
     compile 'com.github.maning0303:MNUpdateAPK:V1.0.5'
+
     /*权限库*/
     compile 'com.yanzhenjie:permission:1.0.5'
+
     /*上拉加载下拉刷新*/
     compile 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
     testCompile 'junit:junit:4.12'
@@ -122,33 +130,42 @@ dependencies {
     compile files('libs/jcore-android-1.1.7.jar')
     compile files('libs/jpush-android-3.0.9.jar')
     compile files('libs/jpush-android-3.0.9.jar')
+
     //    状态按钮
     compile 'lib.kingja.switchbutton:switchbutton:1.1.3'
+
     //   compile 'com.contrarywind:Android-PickerView:3.2.5'
     compile 'com.tamic.novate:novate:1.5.4.3'
     compile files('libs/pinyin4j-2.5.0.jar')
     compile 'org.greenrobot:eventbus:3.0.0'
+
     // CardView卡样式
     compile 'com.android.support:cardview-v7:24.2.1'
 
     // 腾讯Bugly
     compile 'com.tencent.bugly:crashreport:latest.release'
+
     //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
     compile project(path: ':countdownview_lib')
-//    leakcanary
-//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-//    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    //    leakcanary
+
+    //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+
+    //    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    compile 'me.grantland:autofittextview:0.2.+'
 
-    compile 'me.grantland:autofittextview:0.2.+' // 动态调整字体大小
+    // 动态调整字体大小
 
     //引入
-//    compile 'com.noober.light:core:1.1.9'
+
+    //    compile 'com.noober.light:core:1.1.9'
 
     /*友盟统计需要的最新版本组件化基础库和统计SDK*/
     compile 'com.umeng.sdk:common:latest.integration'
     compile 'com.umeng.sdk:analytics:latest.integration'
-
     compile 'com.android.support:gridlayout-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.1.0'
 }
