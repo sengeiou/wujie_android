@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -653,6 +652,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
     @ViewInject(R.id.title_evaluate_layout)
     private View title_evaluate_layout;
+    @ViewInject(R.id.tv_date)
+    private TextView tv_date;
 
     private CommodityDetailsInter.CommodityPranster commodityPranster;
 
@@ -1096,6 +1097,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                         .into(comm_user_head_iv);
                                 comm_user_name_tv.setText(bodyBean.getNickname());
                                 comm_content_tv.setText(bodyBean.getContent());
+                                if (!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())) {
+                                    tv_date.setText(bodyBean.getCreate_time());
+                                }
                                 List<PicturesBean> pictures = bodyBean.getPictures();
                                 if (!ListUtils.isEmpty(pictures)) {
                                     CommentPicAdapter picadapter = new CommentPicAdapter(LimitGoodsAty.this, pictures);

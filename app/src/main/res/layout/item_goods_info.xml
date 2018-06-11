@@ -62,7 +62,17 @@
         android:orientation="horizontal">
 
         <TextView
+            android:background="@drawable/circular"
+            android:gravity="center"
+            android:text="需"
+            android:textSize="13sp"
+            android:textColor="@color/white"
+            android:layout_width="18sp"
+            android:layout_height="18sp" />
+
+        <TextView
             android:id="@+id/peice_tv"
+            android:layout_marginLeft="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/theme_color"

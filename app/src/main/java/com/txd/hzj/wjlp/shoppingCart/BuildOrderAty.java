@@ -688,7 +688,11 @@ public class BuildOrderAty extends BaseAty {
 
 
                                 if ("10".equals(type)) {
-                                    order_price_at_last_tv.setText("合计：" + total_price + "积分");
+                                    DecimalFormat decimalFormat = new DecimalFormat("0");
+                                    String str = decimalFormat.format(total_price);
+                                    order_price_at_last_tv.setText("合计：" + str + "积分");
+                                    ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
+                                            "合计：" + str+"积分", "合计：".length(), getResources().getColor(R.color.holo_red_light));
                                 } else {
                                     ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
                                             "合计：¥" + df.format(total_price), "合计：".length(), getResources().getColor(R.color.holo_red_light));

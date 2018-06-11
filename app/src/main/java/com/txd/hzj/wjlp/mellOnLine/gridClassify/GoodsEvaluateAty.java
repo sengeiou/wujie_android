@@ -486,7 +486,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                 gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.goods_evaluate_num.setVisibility(View.GONE);
             } else {
-                gevh.jifen_tv.setText(View.GONE);
+                gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.tv_number.setVisibility(View.GONE);
             }
 

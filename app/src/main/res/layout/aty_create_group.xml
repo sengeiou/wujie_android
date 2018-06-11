@@ -51,8 +51,8 @@
                         <TextView
                             android:id="@+id/group_goods_name_tv"
                             android:layout_width="match_parent"
-                            android:textColor="@color/black"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -63,8 +63,8 @@
                             <TextView
                                 android:id="@+id/group_other_info_tv"
                                 android:layout_width="match_parent"
-                                android:textSize="13sp"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:textSize="13sp" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -98,8 +98,8 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_marginStart="10dp"
                     android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/bg_color" />
 
                 <LinearLayout
@@ -144,12 +144,26 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/wctTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:text="拼团失败，未成团！"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/count_down_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -244,17 +258,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:layout_marginStart="10dp"
                     android:text="参团须知"
                     android:textColor="@color/black" />
 
@@ -275,8 +288,8 @@
                     android:id="@+id/textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="·邀请好友参团"
                     android:textColor="@color/black" />
 
