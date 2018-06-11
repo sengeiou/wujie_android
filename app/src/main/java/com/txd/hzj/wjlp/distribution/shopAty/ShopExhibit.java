@@ -72,7 +72,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     private RelativeLayout ll_view;
     private ImageView back;
     private GridView grView;
-    private ArrayList<String> list;
+    private ArrayList<String> lists;
     private ShopUpGoodsAdapet myAdapter;
     private View viewBack;
     private RelativeLayout rlLayout;
@@ -101,11 +101,9 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         back = findViewById(R.id.popup_back);
         grView = findViewById(R.id.gr_view);
         grView.setGravity(Gravity.CENTER);
-        list = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            list.add("视频生鲜");
-        }
-        myAdapter = new ShopUpGoodsAdapet(this, list);
+        lists = new ArrayList<>();
+
+        myAdapter = new ShopUpGoodsAdapet(this, lists);
         //注册点击事件
         grView.setAdapter(myAdapter);
         ll_view.setOnClickListener(this);
@@ -119,6 +117,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         super.onItemClick(parent, view, position, id);
         myAdapter.setseclection(position);
         myAdapter.notifyDataSetChanged();
+        exhibit_tab_layout.onPageScrolled(position,0,0);
+        exhibit_tab_layout.onPageSelected(position);
+        ll_view.setVisibility(View.GONE);
+        ll_view.setAnimation(moveToViewLocation());
     }
 
     @Override
@@ -139,6 +141,9 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
             for (Map<String, String> title : horizontal_classify) {
 //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
                 fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
+            }
+            for (int i = 0; i <horizontal_classify.size(); i++) {
+                lists.add(horizontal_classify.get(i).get("short_name"));
             }
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
