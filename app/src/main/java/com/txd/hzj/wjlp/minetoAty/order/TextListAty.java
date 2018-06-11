@@ -242,7 +242,7 @@ public class TextListAty extends BaseAty {
 //            list.add(map);
 //            tAdapter = new TextAdapter(list);
 //            all_text_lv.setAdapter(tAdapter);
-        } else if (title.equals("原因")) {
+        } else if (title.equals("售后原因")) {
             AfterSale.cause(this);
         } else if (title.equals("选择快递")) {
             AfterSale.shipping(this);
@@ -368,7 +368,7 @@ public class TextListAty extends BaseAty {
             } else
                 tvvh = (TVVh) view.getTag();
 
-            if (title.equals("售后类型") || title.equals("货物状态") || title.equals("原因")) {
+            if (title.equals("售后类型") || title.equals("货物状态") || title.equals("售后原因")) {
                 tvvh.text_context_tv.setText(map.get("name"));
             } else if (title.equals("选择快递")) {
                 tvvh.text_context_tv.setText(map.get("shipping_name"));
