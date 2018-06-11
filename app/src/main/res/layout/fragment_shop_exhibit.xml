@@ -14,42 +14,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="9dp"
             android:background="@drawable/shopexhibit"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="13dp"
-                android:text="温馨提示"
-                android:textColor="#fffc655e"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:text="选择您想要代理的商品，上架此商品将会在您的分销店中展示！"
-                android:textColor="#ff333333"
-                android:textSize="13sp" />
-
-        </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:background="@color/white"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
         android:orientation="horizontal">
 
         <TextView
@@ -62,7 +43,7 @@
             android:gravity="right"
             android:drawablePadding="6dp"
             android:textColor="#ff333333"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/cash_coupon_tv"
             android:layout_width="wrap_content"
@@ -73,7 +54,7 @@
             android:drawableRight="@drawable/shopblgjiantou"
             android:gravity="right"
             android:textColor="#ff333333"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/sales_volume_tv"
             android:layout_width="wrap_content"
@@ -84,7 +65,7 @@
             android:drawableRight="@drawable/shopblgjiantou"
             android:gravity="right"
             android:textColor="#ff333333"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
         <TextView
             android:id="@+id/price_tv"
             android:layout_marginRight="26dp"
@@ -96,13 +77,14 @@
             android:drawableRight="@drawable/shopjiantou"
             android:gravity="right"
             android:textColor="#ffe71f19"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
     <include layout="@layout/exhibit_fgt_item"/>
 
 </LinearLayout>

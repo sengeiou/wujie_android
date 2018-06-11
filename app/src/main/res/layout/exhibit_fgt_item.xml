@@ -23,18 +23,18 @@
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="48dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginRight="41dp"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人"
             android:textColor="#ff323232"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="11dp"
             android:text="最多可使用50%代金券"
             android:textColor="#fffc655e"
             android:background="@drawable/exhibit_redshape"
@@ -42,12 +42,12 @@
             android:paddingBottom="3dp"
             android:paddingLeft="5dp"
             android:paddingRight="6dp"
-            android:textSize="13sp" />
+            android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="¥1380.00"
                 android:textColor="#ffe71f19"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <ImageView
                 android:layout_marginLeft="19dp"
@@ -70,18 +70,17 @@
                 android:layout_marginLeft="6dp"
                 android:text="10.00积分"
                 android:textColor="#fffd8214"
-                android:textSize="13sp"
+                android:textSize="12sp"
                 />
         </LinearLayout>
 
         <ImageView
             android:src="@drawable/shopshangjia"
-            android:layout_gravity="end"
-            android:layout_marginTop="4dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="17dp"/>
-
+            android:layout_marginBottom="15dp"/>
     </LinearLayout>
 
 </LinearLayout>

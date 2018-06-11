@@ -33,9 +33,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="39dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="34dp"
                 android:background="@drawable/collage_pop"
                 android:orientation="vertical">
 
@@ -44,24 +44,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="24dp"
                     android:text="付款金额（元）"
                     android:textColor="@color/shop_main_fontcolor_black"
-                    android:textSize="15sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="11dp"
+                    android:layout_marginTop="10dp"
                     android:text="172980.00"
                     android:textColor="@color/shop_main_fontcolor_red"
-                    android:textSize="23sp" />
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="38dp"
+                    android:layout_marginTop="33dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -76,24 +76,24 @@
                             android:layout_gravity="center_horizontal"
                             android:text="访客量"
                             android:textColor="@color/shop_main_fontcolor_black"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/shop_visitor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="43dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="38dp"
+                            android:layout_marginTop="7dp"
                             android:text="700"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
 
                     <View
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="37dp"
+                        android:layout_marginBottom="32dp"
                         android:alpha="0.2"
                         android:background="#ff000000" />
 
@@ -110,17 +110,17 @@
                             android:gravity="center"
                             android:text="订单数"
                             android:textColor="@color/shop_main_fontcolor_black"
-                            android:textSize="15sp" />
+                            android:textSize="13sp" />
 
                         <TextView
                             android:id="@+id/shop_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginBottom="43dp"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="38dp"
+                            android:layout_marginTop="7dp"
                             android:text="5"
-                            android:textSize="18sp" />
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -138,8 +138,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp">
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp">
 
                 <TextView
                     android:id="@+id/gongju"
@@ -148,27 +148,27 @@
                     android:layout_centerHorizontal="true"
                     android:text="常用工具"
                     android:textColor="#ff000000"
-                    android:textSize="17sp" />
+                    android:textSize="15sp" />
 
                 <View
-                    android:layout_width="17dp"
+                    android:layout_width="15dp"
                     android:layout_height="1dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="9dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginTop="20dp"
                     android:layout_toLeftOf="@+id/gongju"
                     android:background="#ffe72420"
 
                     />
 
                 <View
-                    android:layout_width="17dp"
+                    android:layout_width="15dp"
                     android:layout_height="1dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="9dp"
-                    android:layout_marginTop="23dp"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="20dp"
                     android:layout_toRightOf="@+id/gongju"
                     android:background="#ffe72420"
 
@@ -199,11 +199,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="16dp"
+                        android:drawablePadding="14dp"
                         android:drawableTop="@drawable/shopshanghuo"
                         android:gravity="center"
                         android:text="小店上货"
-                        android:textSize="15sp"
+                        android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
 
@@ -220,12 +220,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawablePadding="16dp"
+                        android:drawablePadding="13dp"
                         android:drawableTop="@drawable/shopgoods"
                         android:gravity="center"
                         android:text="商品管理"
                         android:textColor="@color/shop_main_fontcolor_black"
-                        android:textSize="15sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -244,8 +244,8 @@
                         android:drawableTop="@drawable/shopyingshou"
                         android:gravity="center"
                         android:text="小店营收"
-                        android:drawablePadding="16dp"
-                        android:textSize="15sp"
+                        android:drawablePadding="14dp"
+                        android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
 
@@ -265,8 +265,8 @@
                         android:drawableTop="@drawable/shopmanage"
                         android:gravity="center"
                         android:text="订单管理"
-                        android:drawablePadding="16dp"
-                        android:textSize="15sp"
+                        android:drawablePadding="13dp"
+                        android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
                 <LinearLayout
@@ -285,8 +285,8 @@
                         android:drawableTop="@drawable/shopcustom"
                         android:gravity="center"
                         android:text="顾客管理"
-                        android:drawablePadding="16dp"
-                        android:textSize="15sp"
+                        android:drawablePadding="13dp"
+                        android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
 
@@ -306,8 +306,8 @@
                         android:drawableTop="@drawable/shopset"
                         android:gravity="center"
                         android:text="店铺设置"
-                        android:drawablePadding="16dp"
-                        android:textSize="15sp"
+                        android:drawablePadding="14dp"
+                        android:textSize="13sp"
                         android:textColor="@color/shop_main_fontcolor_black" />
                 </LinearLayout>
             </android.support.v7.widget.GridLayout>
