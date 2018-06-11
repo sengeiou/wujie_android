@@ -1,13 +1,20 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
@@ -17,6 +24,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopExhibitFragment;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 
@@ -27,7 +35,7 @@ import java.util.Map;
 /**
  * 小店上货
  */
-public class ShopExhibit extends BaseAty {
+public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
@@ -58,7 +66,17 @@ public class ShopExhibit extends BaseAty {
     private String cate_id = "";
 
     private MyPagerAdapter myPagerAdapter;
-
+    /**
+     *
+     * */
+    private RelativeLayout ll_view;
+    private ImageView back;
+    private GridView grView;
+    private ArrayList<String> list;
+    private ShopUpGoodsAdapet myAdapter;
+    private View viewBack;
+    private RelativeLayout rlLayout;
+    private float pivotY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +93,39 @@ public class ShopExhibit extends BaseAty {
         titlt_conter_tv.setText("小店上货");
         goodsPst = new GoodsPst(this);
         fragments = new ArrayList<>();
+
+
+        rlLayout = findViewById(R.id.rl_layout);
+        viewBack = findViewById(R.id.shop_view_backs);
+        ll_view = findViewById(R.id.views);
+        back = findViewById(R.id.popup_back);
+        grView = findViewById(R.id.gr_view);
+        grView.setGravity(Gravity.CENTER);
+        list = new ArrayList<>();
+        for (int i = 0; i < 15; i++) {
+            list.add("视频生鲜");
+        }
+        myAdapter = new ShopUpGoodsAdapet(this, list);
+        //注册点击事件
+        grView.setAdapter(myAdapter);
+        ll_view.setOnClickListener(this);
+        viewBack.setOnClickListener(this);
+        back.setOnClickListener(this);
+        grView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        super.onItemClick(parent, view, position, id);
+        myAdapter.setseclection(position);
+        myAdapter.notifyDataSetChanged();
     }
 
     @Override
     protected void requestData() {
         goodsPst.goodsList(1, cate_id, 0);
+        pivotY = rlLayout.getPivotY();
+        Log.i("Y轴距离", pivotY + "=========");
     }
 
     @Override
@@ -110,10 +156,23 @@ public class ShopExhibit extends BaseAty {
         switch (v.getId()) {
             //tablayout右边的展开按钮
             case R.id.spread_img:
-                Intent intent = new Intent(this, PopupClassification.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_top_in,0);
+
+                ll_view.setVisibility(View.VISIBLE);
+                ll_view.setAnimation(moveToViewUp());
+                viewBack.setVisibility(View.VISIBLE);
+                viewBack.setAlpha(0.5f);
                 break;
+            case R.id.popup_back:
+                ll_view.setVisibility(View.GONE);
+                ll_view.setAnimation(moveToViewLocation());
+                viewBack.setVisibility(View.GONE);
+                viewBack.setAlpha(0f);
+                break;
+            case R.id.shop_view_backs:
+                ll_view.setVisibility(View.GONE);
+                ll_view.setAnimation(moveToViewLocation());
+                viewBack.setVisibility(View.GONE);
+                viewBack.setAlpha(0f);
         }
 
     }
@@ -139,5 +198,26 @@ public class ShopExhibit extends BaseAty {
             return fragments.get(position);
         }
     }
+
+    public Animation moveToViewUp() {
+        TranslateAnimation mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF,
+                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        mHiddenAction.setDuration(400);
+        return mHiddenAction;
+    }
+
+    /**
+     * 从控件的底部移动到控件所在位置
+     *
+     * @return
+     */
+    public Animation moveToViewLocation() {
+        TranslateAnimation mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
+        mHiddenAction.setDuration(400);
+        return mHiddenAction;
+    }
+
 
 }

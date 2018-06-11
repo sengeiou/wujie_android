@@ -1,48 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".distribution.shopAty.ShopExhibit">
-    <include layout="@layout/aty_shop_title" />
-    <View
-        android:layout_width="match_parent"
-        android:background="#ffdddddd"
-        android:layout_height="1dp"/>
+
     <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:background="@color/white"
-        android:gravity="center"
-        android:layout_height="wrap_content">
-        <com.flyco.tablayout.SlidingTabLayout
-            android:id="@+id/exhibit_tab_layout"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            app:tl_indicator_color="@color/theme_color"
-            app:tl_textAllCaps="true"
-            app:tl_textBold="NONE"
-            app:tl_textSelectColor="@color/theme_color"
-            app:tl_textUnselectColor="@color/app_text_color"
-            app:tl_textsize="14sp"
-            app:tl_underline_color="@color/white"
-            app:tl_underline_height="1dp" />
-        <ImageView
-            android:id="@+id/spread_img"
-            android:src="@drawable/arrowdown"
-            android:paddingLeft="14dp"
-            android:paddingRight="13dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/aty_shop_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ffdddddd" />
     </LinearLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_for_exhibit"
-        android:layout_marginTop="10dp"
+
+    <RelativeLayout
+        android:id="@+id/rl_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/shop_sifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/exhibit_tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:tl_indicator_color="@color/theme_color"
+                app:tl_textAllCaps="true"
+                app:tl_textBold="NONE"
+                app:tl_textSelectColor="@color/theme_color"
+                app:tl_textUnselectColor="@color/app_text_color"
+                app:tl_textsize="14sp"
+                app:tl_underline_color="@color/white"
+                app:tl_underline_height="1dp" />
+
+            <ImageView
+                android:id="@+id/spread_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="13dp"
+                android:paddingTop="20dp"
+                android:src="@drawable/arrowdown" />
+        </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_for_exhibit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/shop_sifi"
+            android:layout_marginTop="10dp" />
+        <RelativeLayout
+            android:id="@+id/views"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="47dp"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="全部分类"
+                        android:textColor="@color/black"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/popup_back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="14dp"
+                        android:paddingRight="13dp"
+                        android:paddingTop="20dp"
+                        android:src="@drawable/arrowup"
+
+                        />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/bg_color" />
+
+                <GridView
+                    android:id="@+id/gr_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:horizontalSpacing="12dp"
+                    android:listSelector="@android:color/transparent"
+                    android:numColumns="4"
+                    android:paddingBottom="18dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="12dp"
+                    android:verticalSpacing="20dp"
+                    android:visibility="visible" />
+                <View
+                    android:id="@+id/shop_view_backs"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    android:background="@color/black" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
 </LinearLayout>
