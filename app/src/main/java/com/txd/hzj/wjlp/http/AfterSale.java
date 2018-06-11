@@ -128,31 +128,33 @@ public class AfterSale {
     }
 
 
-    //售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
-    public static void backApplyType(String order_type, BaseView baseView) {
-        RequestParams requestParams = new RequestParams();
-        ApiTool2 apiTool2 = new ApiTool2();
-        requestParams.addBodyParameter("order_type", order_type);
-
-        apiTool2.postApi(url + "backApplyType", requestParams, baseView);
-    }
+//    //售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
+//    public static void backApplyType(String order_type, BaseView baseView) {
+//        RequestParams requestParams = new RequestParams();
+//        ApiTool2 apiTool2 = new ApiTool2();
+//        requestParams.addBodyParameter("order_type", order_type);
+//        apiTool2.postApi(url + "backApplyType", requestParams, baseView);
+//    }
     //拼单售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
     public static void backApplyType(String order_goods_id,String order_type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+//        order_goods_id  订单商品表id
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
+//        order_type  订单类型 1普通订单 2拼单购 3无界预购 4比价购 5限量购 6积分抽奖 (拼单购之外的订单可不输入此参数)
         requestParams.addBodyParameter("order_type", order_type);
         apiTool2.postApi(url + "backApplyType", requestParams, baseView);
     }
 
     /**
-     * 售后类型及货物状态
+     * 售后类型及货物状态(普通订单)
      * @param baseView
      * @param order_goods_id 订单物品Id
      */
-    public static void backApplyType(BaseView baseView, String order_goods_id){
+    public static void backNormalApplyType(BaseView baseView, String order_goods_id){
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_goods_id", order_goods_id);
+        params.addBodyParameter("order_type", "1");
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "backApplyType", params, baseView);
     }

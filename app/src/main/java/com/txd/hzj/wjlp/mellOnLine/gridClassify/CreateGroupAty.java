@@ -18,6 +18,7 @@ import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hp.hpl.sparta.Text;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -52,12 +53,15 @@ import cn.iwgang.countdownview.CountdownView;
 public class CreateGroupAty extends BaseAty {
     private OfferedDataBean offeredDataBean;
     @ViewInject(R.id.titlt_conter_tv)
-    public TextView titlt_conter_tv;
+    private TextView titlt_conter_tv;
 
     @ViewInject(R.id.goods_title_share_tv)
-    public TextView goods_title_share_tv;
+    private TextView goods_title_share_tv;
+    @ViewInject(R.id.wctTv)
+    private TextView wctTv;
 
-
+    @ViewInject(R.id.count_down_layout)
+    private View count_down_layout;
     /**
      * 团圆列表
      */
@@ -168,7 +172,7 @@ public class CreateGroupAty extends BaseAty {
 //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
                 } else {
-                    if(!TextUtils.isEmpty(goods_id)){
+                    if (!TextUtils.isEmpty(goods_id)) {
                         Intent intent = getIntent();
                         List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
                         List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
@@ -278,23 +282,28 @@ public class CreateGroupAty extends BaseAty {
                     long now_time = calendar.getTimeInMillis();
                     // 剩余时间
                     long last_endTime = endTrueTime - now_time;
-                   long end_last =  endTime - now_time;
+                    long end_last = endTime - now_time;
                     times.setConvertDaysToHours(true);
-                    if (end_last >0){
-                        times.start(end_last * 1000);
-                    }else{
-                        times.start(last_endTime * 1000);
-                    }
-
-
-
-                    if (Long.valueOf(data.getSys_time()) > Long.valueOf(data.getEnd_time())) {
-                        //已延时
-                        findViewById(R.id.group_timing_state).setVisibility(View.VISIBLE);
+                    if (last_endTime < 0) {
+                        count_down_layout.setVisibility(View.GONE);
+                        wctTv.setVisibility(View.VISIBLE);
                     } else {
-                        //未延时
-                        findViewById(R.id.group_timing_state).setVisibility(View.GONE);
+                        count_down_layout.setVisibility(View.VISIBLE);
+                        wctTv.setVisibility(View.GONE);
+                        if (end_last > 0) {
+                            times.start(end_last * 1000);
+                        } else {
+                            times.start(last_endTime * 1000);
+                        }
+                        if (Long.valueOf(data.getSys_time()) > Long.valueOf(data.getEnd_time())) {
+                            //已延时
+                            findViewById(R.id.group_timing_state).setVisibility(View.VISIBLE);
+                        } else {
+                            //未延时
+                            findViewById(R.id.group_timing_state).setVisibility(View.GONE);
+                        }
                     }
+
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
@@ -326,7 +335,7 @@ public class CreateGroupAty extends BaseAty {
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(group_goods_pic_iv);
                     group_goods_name_tv.setText(data.getGoods_name());
-                    group_other_info_tv.setText("已团" + data.getAlready() + "件( " + data.getNumber()+" )");
+                    group_other_info_tv.setText("已团" + data.getAlready() + "件( " + data.getNumber() + " )");
                     group_goods_price_tv.setText("￥" + data.getShop_price());
                     if (data.getIs_colonel().equals("1")) {// 我是团长
                         group_operation_tv.setText("我是团长");

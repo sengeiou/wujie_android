@@ -144,7 +144,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
         switch (v.getId()) {
             case R.id.apply_type_tv:
                 bundle = new Bundle();
-                bundle.putString("type",type);
+                bundle.putString("type", type);
                 bundle.putString("title", "售后类型");
                 bundle.putString("order_goods_id", getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 101);
@@ -152,7 +152,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             case R.id.goods_status_tv:
                 bundle = new Bundle();
                 bundle.putString("title", "货物状态");
-                bundle.putString("type",type);
+                bundle.putString("type", type);
                 bundle.putString("order_goods_id", getIntent().getStringExtra("order_goods_id"));
                 startActivityForResult(TextListAty.class, bundle, 102);
                 break;
@@ -188,7 +188,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 //                L.e("wang", df.format(money_be_back_ev.getText().toString()) + "=====================");
                 if ("3".equals(type)) {
                     AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, "2", order_goods_id, this);
-                }else {
+                } else {
                     AfterSale.backApply(typeTypeId, priceStr, edittext.getText().toString(), pic, causeTypeId, statusTypeId, order_id, type, order_goods_id, this);
                 }
 
@@ -218,7 +218,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             // 获取到order_goods_id，先请求一下商品状态=============================================
             AfterSale.backApplyType(order_goods_id, "2", this);
         } else {
-            AfterSale.backApplyType(order_goods_id, this);
+            AfterSale.backNormalApplyType(this, order_goods_id);
         }
         String maxPriceStr = getIntent().getStringExtra("maxPrice");
         if (!TextUtils.isEmpty(maxPriceStr)) {
