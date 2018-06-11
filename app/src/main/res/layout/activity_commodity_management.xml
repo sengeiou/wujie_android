@@ -5,5 +5,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".distribution.shopAty.ShopGoodsManage">
-    <include layout="@layout/aty_shop_title"/>
+
+    <include layout="@layout/aty_shop_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/bg_color" />
+
+    <FrameLayout
+        android:id="@+id/commodityManage_content_fLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
