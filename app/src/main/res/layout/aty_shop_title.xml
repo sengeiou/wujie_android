@@ -31,17 +31,15 @@
         android:id="@+id/shop_person_title_manage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/titleColors"
-        android:visibility="gone"
         android:layout_centerInParent="true"
+        android:background="@color/white"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal">
         <TextView
             android:id="@+id/shop_shopkeeper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:background="@color/titleColors"
+            android:background="@drawable/shop_title_choice_left"
             android:textColor="@color/white"
            android:paddingStart="15dp"
             android:paddingTop="5dp"
@@ -51,9 +49,8 @@
         <TextView
             android:id="@+id/shop_person"
             android:layout_width="wrap_content"
-            android:background="@color/white"
-            android:layout_margin="1dp"
-            android:textColor="@color/titleColors"
+            android:background="@drawable/shop_title_choice_right"
+
             android:paddingStart="15dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
