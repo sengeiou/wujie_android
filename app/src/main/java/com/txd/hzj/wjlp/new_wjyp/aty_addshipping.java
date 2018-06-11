@@ -149,7 +149,7 @@ public class aty_addshipping extends BaseAty {
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "", aty_addshipping.this);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "", aty_addshipping.this, null);
                 break;
             case R.id.street_layout:
                 // 选择街道
@@ -176,7 +176,7 @@ public class aty_addshipping extends BaseAty {
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
 //        addressPst = new AddressPst(this);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        String data=application.getCityProvienceJson();
+        String data = application.getCityProvienceJson();
 //        if (android.text.TextUtils.isEmpty(data)) {
 //            addressPst.androidAddress();
 //        }else{

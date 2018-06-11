@@ -119,7 +119,7 @@ public class fragment2 extends BaseFgt {
             case R.id.ads0:
                 if (check) {
                     if (isLoaded) {
-                        ProUrbAreaUtil.gainInstance().showPickerView(ads0, "", (BaseActivity) getActivity());
+                        ProUrbAreaUtil.gainInstance().showPickerView(ads0, "", (BaseActivity) getActivity(),null);
                     }
                 }
                 break;

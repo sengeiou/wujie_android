@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.tool.proUrbArea;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -14,11 +15,13 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.listener.OnDismissListener;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.Freight;
+import com.txd.hzj.wjlp.wjyp.BaseAty;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +45,7 @@ public class ProUrbAreaUtil implements BaseView {
 
     private WeApplication application;
     private static ProUrbAreaUtil proUrbAreaUtil;
+    private CallBack callBack;
 
     public static ProUrbAreaUtil gainInstance() {
         synchronized (ProUrbAreaUtil.class) {
@@ -139,8 +143,13 @@ public class ProUrbAreaUtil implements BaseView {
         return detail;
     }
 
-    public void showPickerView(final TextView tv_chose_ads, final String goods_id, final BaseActivity activity) {// 弹出选择器
+    private BaseActivity baseActivity;
+
+    public void showPickerView(final TextView tv_chose_ads, final String goods_id, BaseActivity activity, CallBack callback) {// 弹出选择器
+        this.baseActivity = activity;
+        showDialog();
         String data = application.getCityProvienceJson();
+        this.callBack = callback;
         dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id));
     }
 
@@ -163,6 +172,7 @@ public class ProUrbAreaUtil implements BaseView {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            removeDialog();
             switch (msg.what) {
                 case MSG_LOAD_SUCCESS: {
 //                    专门为滚轮准备
@@ -193,7 +203,7 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
                             if (!TextUtils.isEmpty(goods_id))
-                                Freight.freight(goods_id,tx.toString(),activity);
+                                Freight.freight(goods_id, tx.toString(), ProUrbAreaUtil.this);
                             if (null != getData) {
                                 getData.getAddress();
                             }
@@ -207,6 +217,12 @@ public class ProUrbAreaUtil implements BaseView {
                     pvOptions.setPicker(options1Items, options2Items, options3Items);//三级选择器
                     pvOptions.setSelectOptions(record_option1, record_option2, record_option3);
                     pvOptions.show();
+                    pvOptions.setOnDismissListener(new OnDismissListener() {
+                        @Override
+                        public void onDismiss(Object o) {
+                            removeDialog();
+                        }
+                    });
                 }
             }
         }
@@ -333,7 +349,8 @@ public class ProUrbAreaUtil implements BaseView {
 
     @Override
     public void showDialog() {
-
+        if (null != baseActivity)
+            baseActivity.showDialog();
     }
 
     @Override
@@ -348,7 +365,8 @@ public class ProUrbAreaUtil implements BaseView {
 
     @Override
     public void removeDialog() {
-
+        if (null != baseActivity)
+            baseActivity.removeProgressDialog();
     }
 
     @Override
@@ -392,7 +410,8 @@ public class ProUrbAreaUtil implements BaseView {
         } else if (requestUrl.contains("freight")) {
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            callBack.freightGetEd(map);
+            if (null != callBack)
+                callBack.freightGetEd(map);
 //            freight_tv.setText(map.get("pay"));
 //            freight_tv.setTextColor(Color.parseColor("#FD8214"));
 //            tv_freight.setText(map.get("pay"));
@@ -400,16 +419,6 @@ public class ProUrbAreaUtil implements BaseView {
 
     }
 
-    CallBack callBack;
-
-    public interface CallBack {
-        /**
-         * 得到运费
-         *
-         * @param map
-         */
-        void freightGetEd(Map<String, String> map);
-    }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
@@ -419,5 +428,14 @@ public class ProUrbAreaUtil implements BaseView {
     @Override
     public void onErrorTip(String tips) {
 
+    }
+
+    public interface CallBack {
+        /**
+         * 得到运费
+         *
+         * @param map
+         */
+        void freightGetEd(Map<String, String> map);
     }
 }

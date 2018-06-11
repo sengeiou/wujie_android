@@ -86,6 +86,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
@@ -98,7 +99,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：限量详情(2-3)
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,CommodityDetailsInter.CommodityView {
+public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack  {
 
     /**
      * 商品TextView
@@ -674,10 +675,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 false));
         goods_trick_rv.setHasFixedSize(true);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
-        commodityPranster=new CommodityDetailsPranster();
+        commodityPranster = new CommodityDetailsPranster();
         commodityPranster.setView(this);
     }
+
     private boolean init = false;
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -687,7 +690,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             init = true;
         }
     }
-    private void  getHeight(){
+
+    private void getHeight() {
         commodityPranster.getHeight(online_carvouse_view, top_lin_layout, second_lin_layout, limit_goods_details_sc, be_back_top_iv);
     }
 
@@ -748,7 +752,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         tv_ljgm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (WJConfig.XLG== type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
+                if (WJConfig.XLG == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
                     if (is_C) {//限量购物
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
@@ -788,7 +792,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
                         startActivity(intent);
                     } else {
-                        toAttrs(v, 0, "10", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                        toAttrs(v, 0, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
                 }
             }
@@ -826,9 +830,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     is_collect = data.getIs_collect();
 
                     if ("0".equals(is_collect)) {
-                        commodityPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,LimitGoodsAty.this);
+                        commodityPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, LimitGoodsAty.this);
                     } else {
-                        commodityPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,LimitGoodsAty.this);
+                        commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, LimitGoodsAty.this);
                     }
                     share_url = data.getShare_url();
                     share_img = data.getShare_img();
@@ -841,7 +845,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     }
                     // 商品基本信息
                     goodsInfo = data.getGoodsInfo();
-                    is_attr=data.getIs_attr();
+                    is_attr = data.getIs_attr();
                     is_attr = is_attr + "-" + goodsInfo.getGoods_num();
                     // 商品id
                     goods_id = goodsInfo.getGoods_id();
@@ -849,7 +853,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
                     tv_chose_ads.setText(tx);
-                    commodityPranster.freight(goods_id,tx);
+                    commodityPranster.freight(goods_id, tx);
 
                     if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
@@ -863,9 +867,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                     tv_wy_price.setText("¥" + goodsInfo.getWy_price());
                     tv_yx_price.setText("¥" + goodsInfo.getYx_price());
-                    commodityPranster.setBitmap(LimitGoodsAty.this,goodsInfo.getCountry_logo(),im_country_logo);
-                    commodityPranster.setTextContent(goodsInfo.getCountry_desc(),tv_country_desc);
-                    commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "元",tv_country_tax);
+                    commodityPranster.setBitmap(LimitGoodsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
+                    commodityPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
+                    commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "元", tv_country_tax);
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                         layou_jinkoushui.setVisibility(View.GONE);
                     }
@@ -981,7 +985,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         }
                     } else {
                         layout_service.setVisibility(View.GONE);
-                        layout_layout_settings.setVisibility(View.GONE);
+//                        layout_layout_settings.setVisibility(View.GONE);
                         layout_djq.setVisibility(View.GONE);
                         tv_kucun.setText("库存" + goodsInfo.getGoods_num());
                         layout_jgsm.setVisibility(View.GONE);
@@ -1215,13 +1219,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            commodityPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,LimitGoodsAty.this);
+            commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, LimitGoodsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            commodityPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,LimitGoodsAty.this);
+            commodityPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, LimitGoodsAty.this);
             return;
         }
     }
@@ -1242,7 +1246,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                bundle.putInt("from", 2);
                 bundle.putInt("from", 0);//0商品
                 bundle.putString("mid", mell_id);
-                bundle.putString("goods_id",goods_id);
+                bundle.putString("goods_id", goods_id);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
             }
@@ -1250,7 +1254,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, LimitGoodsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, LimitGoodsAty.this,LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
                 Intent intent = new Intent();
@@ -1371,18 +1375,25 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 }
                 break;
             case R.id.layout_djq:
-                commodityPranster.showDjqPop(v,dj_ticket,LimitGoodsAty.this,vouchers_desc);
+                commodityPranster.showDjqPop(v, dj_ticket, LimitGoodsAty.this, vouchers_desc);
                 break;
             case R.id.tv_quxiao://促销弹框
-                commodityPranster.showCXPop(v,LimitGoodsAty.this,promotionBeen);
+                commodityPranster.showCXPop(v, LimitGoodsAty.this, promotionBeen);
 //                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
-                commodityPranster.showLQPop(v,"领券",LimitGoodsAty.this,theTrickAdapter);
+                commodityPranster.showLQPop(v, "领券", LimitGoodsAty.this, theTrickAdapter);
 //                showLQPop(v, "领券");
                 break;
             case R.id.layout_layout_settings:
-                toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                if (WJConfig.XLG == type) {
+                    toAttrs(v, 4, WJConfig.TYPE_XLG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                } else if (WJConfig.WJYG == type) {
+                    toAttrs(v, 4, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                } else if (WJConfig.WJSD == type) {
+                    toAttrs(v, 4, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                }
+//                toAttrs(v, 4, "5", goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -1626,6 +1637,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 "运费" + payStr + "元", 2, Color.parseColor("#FF0000"));
     }
 
+    @Override
+    public void freightGetEd(Map<String, String> map) {
+        removeDialog();
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                map.get("pay") , 2, Color.parseColor("#FF0000"));
+    }
+
     class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
         ArrayList<GoodsServerBean> list;
         private int tpye;
@@ -1766,94 +1784,103 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            if (requestCode == 1000) {
-                is_C = true;
-                goods_select_attr_tv.setText("已选商品配置(" + data.getStringExtra("pro_value") + ")x" + data.getIntExtra("num", 0));
-                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
-                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
-                now_price_tv.setText(data.getStringExtra("shop_price"));
-                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
-                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        if (resultCode == 0x0002 && data != null && requestCode == 1000) {
+            is_C = true;
+            goods_number = data.getIntExtra("num", 0);
+            product_id = data.getStringExtra("product_id");
+            if (WJConfig.TYPE_WJSD.equals(data.getStringExtra("type"))) {//无界商店
+                limit_buy_id = data.getStringExtra("integral_buy_id");
+                String use_integral = data.getStringExtra("use_integral");
+                old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
+                now_price_tv.setText("此物品兑换，需要" + use_integral + "积分");
+                tv_kucun.setText("库存" + data.getStringExtra("goods_num"));
+            } else {
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, Color.parseColor("#FF0000"));
-                dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
-                if (dj_ticket != null) {
-                    for (int i = 0; i < dj_ticket.size(); i++) {
-                        if (i == 2) {
-                            break;
-                        }
-                        switch (i) {
-                            case 0: {
-                                layout_djq0.setVisibility(View.VISIBLE);
-                                tv_djq_desc0.setText(dj_ticket.get(i).getDiscount_desc());
-                                break;
-                            }
-                            case 1: {
-                                layout_djq1.setVisibility(View.VISIBLE);
-                                tv_djq_desc1.setText(dj_ticket.get(i).getDiscount_desc());
-                                break;
-                            }
-                            case 2: {
-                                layout_djq2.setVisibility(View.VISIBLE);
-                                tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
-                                break;
-                            }
-                        }
-                        switch (dj_ticket.get(i).getType()) {
-                            case "0": {
-                                //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
-                                tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
-                            }
-                            break;
-                            case "1": {
-                                tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
-                            }
-                            break;
-                            case "2": {
-                                tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
-                            }
+                now_price_tv.setText(data.getStringExtra("shop_price"));
+                tv_wy_price.setText("¥" + data.getStringExtra("wy_price"));
+                tv_yx_price.setText("¥" + data.getStringExtra("wy_price"));
+            }
+            String pro_valStr = data.getStringExtra("pro_value");
+            if (pro_valStr.lastIndexOf("+") == pro_valStr.length() - 1) {//多规格属性后面带+时候需要屏蔽+
+                pro_valStr = pro_valStr.substring(0, pro_valStr.lastIndexOf("+"));
+            }
+            goods_select_attr_tv.setText("已选商品配置(" + pro_valStr + ")x" + goods_number);
+//                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
+//                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
-                            break;
-                        }
-
+            dj_ticket = (List<DjTicketBean>) data.getSerializableExtra("data");
+            if (dj_ticket != null) {
+                for (int i = 0; i < dj_ticket.size(); i++) {
+                    if (i == 2) {
+                        break;
                     }
-                } else {
-                    layout_djq.setVisibility(View.GONE);
+                    switch (i) {
+                        case 0: {
+                            layout_djq0.setVisibility(View.VISIBLE);
+                            tv_djq_desc0.setText(dj_ticket.get(i).getDiscount_desc());
+                            break;
+                        }
+                        case 1: {
+                            layout_djq1.setVisibility(View.VISIBLE);
+                            tv_djq_desc1.setText(dj_ticket.get(i).getDiscount_desc());
+                            break;
+                        }
+                        case 2: {
+                            layout_djq2.setVisibility(View.VISIBLE);
+                            tv_djq_desc2.setText(dj_ticket.get(i).getDiscount_desc());
+                            break;
+                        }
+                    }
+                    switch (dj_ticket.get(i).getType()) {
+                        case "0": {
+                            //  tv_djq_color0.setBackgroundColor(Color.parseColor("#FF534C"));
+                            tv_djq_color0.setBackgroundResource(R.drawable.shape_red_bg);
+                        }
+                        break;
+                        case "1": {
+                            tv_djq_color1.setBackgroundResource(R.drawable.shape_yellow_bg);
+                        }
+                        break;
+                        case "2": {
+                            tv_djq_color2.setBackgroundResource(R.drawable.shape_blue_bg);
+                        }
+
+                        break;
+                    }
+
                 }
-                goods_number = data.getIntExtra("num", 0);
-                product_id = data.getStringExtra("product_id");
-                L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
-                        "pro_value=" + data.getStringExtra("pro_value") + "\n" +
-                        "num=" + data.getIntExtra("num", 0) + "\n" +
-                        "shop_price=" + data.getStringExtra("shop_price") + "\n" +
-                        "market_price=" + data.getStringExtra("market_price") + "\n" +
-                        "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
-                        "discount=" + data.getStringExtra("discount") + "\n" +
-                        "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
-                        "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
-                        "wy_price=" + data.getStringExtra("wy_price") + "\n" +
-                        "wy_price=" + data.getStringExtra("wy_price") + "\n");
+            } else {
+                layout_djq.setVisibility(View.GONE);
             }
 
-        }
+//            L.e("product_id=" + data.getStringExtra("product_id") + "\n" +
+//                    "pro_value=" + data.getStringExtra("pro_value") + "\n" +
+//                    "num=" + data.getIntExtra("num", 0) + "\n" +
+//                    "shop_price=" + data.getStringExtra("shop_price") + "\n" +
+//                    "market_price=" + data.getStringExtra("market_price") + "\n" +
+//                    "red_return_integral=" + data.getStringExtra("red_return_integral") + "\n" +
+//                    "discount=" + data.getStringExtra("discount") + "\n" +
+//                    "yellow_discount=" + data.getStringExtra("yellow_discount") + "\n" +
+//                    "blue_discount=" + data.getStringExtra("blue_discount") + "\n" +
+//                    "wy_price=" + data.getStringExtra("wy_price") + "\n" +
+//                    "wy_price=" + data.getStringExtra("wy_price") + "\n");
 
-        if (requestCode == 1000) {
+        } else if (requestCode == 1000 && resultCode == 0x0001 && null != data) {
             L.e("返回商品详情");
-            if (resultCode == 0x0001) {
-                Bundle bundle = new Bundle();
-                bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type", data.getStringExtra("type"));
-                bundle.putString("goods_id", data.getStringExtra("goods_id"));
-                bundle.putString("group_buy_id", limit_buy_id);
-                String order_id = data.getStringExtra("order_id");
-                if (!android.text.TextUtils.isEmpty(order_id)) {
-                    bundle.putString("order_id", order_id);
-                }
-                bundle.putString("num", data.getStringExtra("num"));
-                bundle.putString("product_id", data.getStringExtra("product_id"));
-                startActivity(BuildOrderAty.class, bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("mid", data.getStringExtra("mid"));
+            bundle.putString("type", data.getStringExtra("type"));
+            bundle.putString("goods_id", data.getStringExtra("goods_id"));
+            bundle.putString("group_buy_id", limit_buy_id);
+            String order_id = data.getStringExtra("order_id");
+            if (!android.text.TextUtils.isEmpty(order_id)) {
+                bundle.putString("order_id", order_id);
             }
+            bundle.putString("num", data.getStringExtra("num"));
+            bundle.putString("product_id", data.getStringExtra("product_id"));
+            startActivity(BuildOrderAty.class, bundle);
         }
     }
+
 }

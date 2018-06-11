@@ -348,7 +348,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     /**
      * 移除掉上面那个dialog
      */
-    protected void removeProgressDialog() {
+    public void removeProgressDialog() {
         if (progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

@@ -98,7 +98,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：票券区商品详情(3-2票券)
  * ===============Txunda===============
  */
-public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener {
+public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,ProUrbAreaUtil.CallBack{
     private String is_attr = "";
 
     /**
@@ -539,7 +539,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             }
             case R.id.tv_chose_ads: // 弹出地址选择器
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this,this);
                 break;
             case R.id.title_goods_layout:// 商品
                 clickType = 1;
@@ -895,13 +895,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 goodsPst.goodsInfo(ticket_buy_id, page);
             }
         }
-        if (requestUrl.contains("freight")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            freight_tv.setText(map.get("pay"));
-            freight_tv.setTextColor(Color.parseColor("#FF0000"));
-            tv_freight.setText(map.get("pay"));
-        }
+
         if (requestUrl.contains("ticketBuyInfo") || requestUrl.contains("goodsInfo")) {
             L.e("cccc" + jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -1142,6 +1136,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         }
 
+    }
+
+    @Override
+    public void freightGetEd(Map<String, String> map) {
+        freight_tv.setText(map.get("pay"));
+        freight_tv.setTextColor(Color.parseColor("#FF0000"));
+        tv_freight.setText(map.get("pay"));
     }
 
     /**

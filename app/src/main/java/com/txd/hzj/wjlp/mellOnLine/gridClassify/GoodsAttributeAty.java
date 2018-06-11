@@ -83,6 +83,12 @@ public class GoodsAttributeAty extends BaseAty {
     @ViewInject(R.id.imageview)
     private ImageView imageview;
     private GoodsAttrsAdapter goodsAttrsAdapter;
+    /**
+     * from
+     * 直接购买0
+     * 购物车1
+     * 设置 4
+     */
     private int from = 0;
     private String price = "";
     private String imageurl = "";
@@ -93,6 +99,9 @@ public class GoodsAttributeAty extends BaseAty {
     private String goods_id = "";
     private String mid = "";
     private String group_buy_id = "";
+    /**
+     * "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     */
     private String type;
     private List<FirstListBean> list;
     private List<FirstValBean> list_val;
@@ -130,7 +139,6 @@ public class GoodsAttributeAty extends BaseAty {
                         showErrorTip("库存不足请您下次再买");
                         return;
                     }
-
                     num = Integer.parseInt(et_num.getText().toString().trim());
                     if (tv_xg.getVisibility() == View.VISIBLE && num >= Integer.parseInt(val.getMax_num())) {
                         num = Integer.parseInt(val.getMax_num());
@@ -177,6 +185,7 @@ public class GoodsAttributeAty extends BaseAty {
                 }
                 if (4 == from) {
                     Intent intent = new Intent();
+                    intent.putExtra("type", type);
                     if (!TextUtils.isEmpty(pro_id)) {
                         intent.putExtra("product_id", pro_id);
                         intent.putExtra("pro_value", pro_value);
@@ -186,12 +195,15 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("settlement_price", val.getSettlement_price());
                         if (type.equals("3") || "4".equals(type)) {//拼单或者参团
                             intent.putExtra("red_return_integral", val.getIntegral());
-                            intent.putExtra("p_integral",val.getP_integral()); //"原积分"
+                            intent.putExtra("p_integral", val.getP_integral()); //"原积分"
                             intent.putExtra("p_shop_price", val.getP_shop_price());
+                        } else if (type.equals("10")) {//无界商店
+                            intent.putExtra("use_integral", val.getUse_integral());
+                            intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
                         } else {
                             intent.putExtra("red_return_integral", val.getRed_return_integral());
-                        }
 
+                        }
                         intent.putExtra("discount", val.getDiscount());
                         intent.putExtra("yellow_discount", val.getYellow_discount());
                         intent.putExtra("blue_discount", val.getBlue_discount());
@@ -212,7 +224,6 @@ public class GoodsAttributeAty extends BaseAty {
                         if (!TextUtils.isEmpty(order_id))
                             intent.putExtra("order_id", order_id);
                         intent.putExtra("group_buy_id", val.getGroup_buy_id());
-                        intent.putExtra("product_id", pro_id);
                         if (getIntent().hasExtra("group_type"))//体验拼单
                             intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
 ////////////////////后加的
@@ -406,7 +417,7 @@ public class GoodsAttributeAty extends BaseAty {
                 if (goods_val.getArrtValue().contains(recordStr)) {
                     GoodsAttributeAty.this.val = goods_val;
 
-                    if (TextUtils.isEmpty(val.getMax_num())||"0".equals(val.getMax_num())) {
+                    if (TextUtils.isEmpty(val.getMax_num()) || "0".equals(val.getMax_num())) {
                         tv_xg.setVisibility(View.INVISIBLE);
                     } else {
                         tv_xg.setVisibility(View.VISIBLE);
@@ -845,7 +856,7 @@ public class GoodsAttributeAty extends BaseAty {
                         GoodsAttributeAty.this.val = val;
                         if (!TextUtils.isEmpty(val.getGroup_buy_id()))
                             group_buy_id = val.getGroup_buy_id();
-                        if (TextUtils.isEmpty(val.getMax_num())||"0".equals(val.getMax_num())) {
+                        if (TextUtils.isEmpty(val.getMax_num()) || "0".equals(val.getMax_num())) {
                             tv_xg.setVisibility(View.INVISIBLE);
                         } else {
                             tv_xg.setVisibility(View.VISIBLE);
@@ -974,7 +985,7 @@ public class GoodsAttributeAty extends BaseAty {
         }
         if (null == recordMutilMap) {
             recordMutilMap = recordMutilMapList.get(0);//第一次进入选头一个
-            if (TextUtils.isEmpty(list_val.get(0).getMax_num())||"0".equals(list_val.get(0).getMax_num())) {
+            if (TextUtils.isEmpty(list_val.get(0).getMax_num()) || "0".equals(list_val.get(0).getMax_num())) {
                 tv_xg.setVisibility(View.INVISIBLE);
             } else {
                 tv_xg.setVisibility(View.VISIBLE);

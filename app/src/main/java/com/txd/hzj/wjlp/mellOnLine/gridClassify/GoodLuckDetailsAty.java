@@ -98,7 +98,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：拼团详情
  * ===============Txunda===============
  */
-public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView {
+public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView, ProUrbAreaUtil.CallBack {
     private String order_id;
     /**
      * 商品TextView
@@ -675,7 +675,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this,GoodLuckDetailsAty.this);
 
                 break;
             case R.id.tv_showClassify://查看分类
@@ -898,12 +898,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         removeProgressDialog();
-        if (requestUrl.contains("freight")) {
-            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    map.get("pay"), 0, getResources().getColor(R.color.red_tv_back));
-        }
+
         if (requestUrl.contains("groupBuyInfo")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
                 @Override
@@ -963,7 +958,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             tyLayout.setVisibility(View.VISIBLE);
                             tyLayout.getBackground().setAlpha(180);
                             max_num_tv.setVisibility(View.VISIBLE);
-                            max_num_tv.setText("成团所需"+groupBean.getMax_num()+"人");
+                            max_num_tv.setText("成团所需" + groupBean.getMax_num() + "人");
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
                             long sysTime = Long.parseLong(groupBean.getSys_time());
@@ -1367,7 +1362,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
                     // 单独购买
 //                    one_price_tv.setText("￥" + dataBean.getOne_price() + "\n独立购买");
-                    if (null!=goodsInfo.getP_integral()) {
+                    if (null != goodsInfo.getP_integral()) {
                         one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
                     }
                     one_price_tv.setOnClickListener(new View.OnClickListener() {
@@ -1720,5 +1715,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         webViewList.add(goods_brief_tv);
         destoryWebViews(webViewList);
         super.onDestroy();
+    }
+
+    @Override
+    public void freightGetEd(Map<String, String> map) {
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                map.get("pay"), 0, getResources().getColor(R.color.red_tv_back));
     }
 }
