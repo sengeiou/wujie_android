@@ -200,7 +200,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 for (CFGoodsList cg : data) {
                     cg.setIsSelect(select);
                 }
-                racycleAllAdapter.notifyDataSetChanged();
+                if (racycleAllAdapter != null) {
+                    racycleAllAdapter.notifyDataSetChanged();
+                }
                 break;
             case R.id.operation_goods_tv:
 

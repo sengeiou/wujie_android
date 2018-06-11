@@ -64,7 +64,7 @@ import java.util.Map;
  * 描述：8-3拍品详情
  * ===============Txunda===============
  */
-public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener {
+public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener,ProUrbAreaUtil.CallBack {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -358,7 +358,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this,this);
                 break;
             case R.id.tv_tochar:
                 toChat(easemob_account, merchant_logo, merchant_name);
@@ -497,11 +497,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
-        if (requestUrl.contains("freight")) {
-            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
-        }
+
         if (requestUrl.contains("AuctionOrder/SetOrder")) {
             showToast(map.get("message"));
             return;
@@ -845,6 +841,12 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
      * 街道id
      */
     private String street_id = "";
+
+    @Override
+    public void freightGetEd(Map<String, String> map) {
+            ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                    "运费" + map.get("pay") + "元", 2, Color.parseColor("#FF0000"));
+    }
 
     private class AuctionInfoAdapter extends BaseAdapter {
         private AuctionVh auctionVh;

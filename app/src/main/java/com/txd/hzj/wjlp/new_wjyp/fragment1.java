@@ -228,7 +228,7 @@ public class fragment1 extends BaseFgt {
                 break;
             case R.id.ads0:
                 if (check) {
-                    ProUrbAreaUtil.gainInstance().showPickerView(ads0, "", (BaseActivity) getActivity());
+                    ProUrbAreaUtil.gainInstance().showPickerView(ads0, "", (BaseActivity) getActivity(), null);
                 }
                 break;
             case R.id.ads1:
@@ -575,7 +575,7 @@ public class fragment1 extends BaseFgt {
                             break;
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 L.e("fragment1 onActivityResult is exception:" + e.toString());
                 showErrorTip("图片选择出现异常");
             }
