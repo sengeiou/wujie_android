@@ -1,9 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.annotation.SuppressLint;
-import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
@@ -23,8 +21,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt {
      */
     private int from;
 
-    @ViewInject(R.id.ordinaryChild_show_tv)
-    private TextView ordinaryChild_show_tv;
+//    @ViewInject(R.id.ordinaryChild_show_tv)
+//    private TextView ordinaryChild_show_tv;
 
     public ShopManageOrdinaryChildFgt(int index) {
         from = index;
@@ -41,7 +39,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-        ordinaryChild_show_tv.setText(from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄");
+//        ordinaryChild_show_tv.setText(from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄");
     }
 
     @Override
