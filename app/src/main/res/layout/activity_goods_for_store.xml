@@ -41,12 +41,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:tl_indicator_color="@color/theme_color"
+                app:tl_indicator_color="#ffe71f19"
                 app:tl_textAllCaps="true"
                 app:tl_textBold="NONE"
-                app:tl_textSelectColor="@color/theme_color"
-                app:tl_textUnselectColor="@color/app_text_color"
-                app:tl_textsize="14sp"
+                app:tl_textSelectColor="#ff333333"
+                app:tl_textUnselectColor="#ff333333"
+                app:tl_textsize="12sp"
                 app:tl_underline_color="@color/white"
                 app:tl_underline_height="1dp" />
 
