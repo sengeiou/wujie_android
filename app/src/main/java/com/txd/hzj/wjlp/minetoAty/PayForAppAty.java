@@ -424,7 +424,11 @@ public class PayForAppAty extends BaseAty {
         } else if (type.equals("10")) {
             //无界商店添加订单
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, this);
-            tv_price.setText("付款金额" + getIntent().getStringExtra("money")+"积分");
+            decimalFormat = new DecimalFormat("0");
+
+            total_price = Double.parseDouble(getIntent().getStringExtra("money"));
+            String format = decimalFormat.format(total_price);
+            tv_price.setText("付款金额" + format+"积分");
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
