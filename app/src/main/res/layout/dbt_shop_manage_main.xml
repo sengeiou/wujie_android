@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <include layout="@layout/aty_shop_title" />
@@ -30,14 +31,17 @@
                 android:layout_height="200dp"
                 android:background="@drawable/shopbg"></FrameLayout>
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="34dp"
-                android:background="@drawable/collage_pop"
-                android:orientation="vertical">
+                card_view:cardBackgroundColor="@color/white"
+                card_view:cardCornerRadius="15dp"
+                card_view:cardElevation="5dp"
+                card_view:contentPadding="8dp"
+                >
 
                 <TextView
                     android:id="@+id/shop_tv_money"
@@ -53,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="48dp"
                     android:text="172980.00"
                     android:textColor="@color/shop_main_fontcolor_red"
                     android:textSize="20sp" />
@@ -61,7 +65,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="33dp"
+                    android:layout_marginTop="98dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -123,7 +127,7 @@
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
         </FrameLayout>
 
         <LinearLayout
