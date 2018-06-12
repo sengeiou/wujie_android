@@ -91,14 +91,26 @@ public class AfterSale {
     }
 
     /**
-     * 快递列表
-     *
+     * 快递单号位数必须大于等于5的时候才能计算出快递公司名称
+     * @param invoice
      * @param baseView
      */
-    public static void shipping(BaseView baseView) {
+    public static void get_company_name(String invoice, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
-        apiTool2.postApi(url + "shipping", new RequestParams(), baseView);
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("invoice", invoice);
+        apiTool2.postApi(url + "get_company_name", requestParams, baseView);
     }
+
+//    /**
+//     * 快递列表
+//     *
+//     * @param baseView
+//     */
+//    public static void shipping(BaseView baseView) {
+//        ApiTool2 apiTool2 = new ApiTool2();
+//        apiTool2.postApi(url + "shipping", new RequestParams(), baseView);
+//    }
 
     /**
      * 添加快递单号
@@ -128,7 +140,7 @@ public class AfterSale {
     }
 
 
-//    //售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
+    //    //售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
 //    public static void backApplyType(String order_type, BaseView baseView) {
 //        RequestParams requestParams = new RequestParams();
 //        ApiTool2 apiTool2 = new ApiTool2();
@@ -136,7 +148,7 @@ public class AfterSale {
 //        apiTool2.postApi(url + "backApplyType", requestParams, baseView);
 //    }
     //拼单售后类型及货物状态  普通订单只需要订单商品id，所有拼单都需要两个参数
-    public static void backApplyType(String order_goods_id,String order_type, BaseView baseView) {
+    public static void backApplyType(String order_goods_id, String order_type, BaseView baseView) {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
 //        order_goods_id  订单商品表id
@@ -148,10 +160,11 @@ public class AfterSale {
 
     /**
      * 售后类型及货物状态(普通订单)
+     *
      * @param baseView
      * @param order_goods_id 订单物品Id
      */
-    public static void backNormalApplyType(BaseView baseView, String order_goods_id){
+    public static void backNormalApplyType(BaseView baseView, String order_goods_id) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_goods_id", order_goods_id);
         params.addBodyParameter("order_type", "1");

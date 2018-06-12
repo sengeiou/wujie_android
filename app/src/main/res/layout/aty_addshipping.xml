@@ -7,35 +7,6 @@
     <include layout="@layout/aty_title" />
 
     <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="承运公司"
-            android:textColor="@android:color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/icon_turn_right_g"
-            android:padding="10dp"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#dddddd" />
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
@@ -55,6 +26,36 @@
             android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:inputType="number"
+            android:padding="10dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#dddddd" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="承运公司"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/icon_turn_right_g"
             android:padding="10dp"
             android:textSize="14sp" />
     </LinearLayout>

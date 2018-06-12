@@ -102,8 +102,8 @@ public class TextListAty extends BaseAty {
                     data.putExtra("status", dataList.get(i).get("name"));
                     data.putExtra("statusTypeId", dataList.get(i).get("type_id"));
                 } else if (title.equals("选择快递")) {
-                    data.putExtra("express", dataList.get(i).get("shipping_name"));
-                    data.putExtra("id", dataList.get(i).get("shopping_id"));
+                    data.putExtra("express", dataList.get(i).get("cname"));
+                    data.putExtra("id", dataList.get(i).get("invoice"));
                 } else if (title.equals("选择经营范围")) {
 //                    data.putExtra("scope", dataList.get(i).get("short_name"));
 //                    data.putExtra("cate_id", dataList.get(i).get("cate_id"));
@@ -169,7 +169,7 @@ public class TextListAty extends BaseAty {
             @Override
             public void afterTextChanged(Editable s) {
                 String selectCardName = textlist_select_et.getText().toString().trim();
-                if (selectCardName.equals("")){
+                if (selectCardName.equals("")) {
                     balancePst.getBankType();
                 } else {
                     UserBalance.searchBank(selectCardName, TextListAty.this);
@@ -220,18 +220,18 @@ public class TextListAty extends BaseAty {
             balancePst.getBankType();
         } else if (title.equals("售后类型")) {
             //type为3的时候代表拼单购
-            if ("3".equals(type)){
-                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),"2",this);
-            }else {
-                AfterSale.backNormalApplyType(this,getIntent().getStringExtra("order_goods_id"));
+            if ("3".equals(type)) {
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
+            } else {
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
             }
 
             showProgressDialog();
         } else if (title.equals("货物状态")) {
-            if ("3".equals(type)){
-                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"),"2",this);
-            }else {
-                AfterSale.backNormalApplyType(this,getIntent().getStringExtra("order_goods_id"));
+            if ("3".equals(type)) {
+                AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
+            } else {
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
             }
             showProgressDialog();
 //            map = new HashMap<>();
@@ -245,7 +245,8 @@ public class TextListAty extends BaseAty {
         } else if (title.equals("售后原因")) {
             AfterSale.cause(this);
         } else if (title.equals("选择快递")) {
-            AfterSale.shipping(this);
+//            AfterSale.shipping(this);
+            AfterSale.get_company_name(getIntent().getStringExtra("invoice"), this);
             showProgressDialog();
         } else if (title.equals("选择类型")) {
             Recommending.businessType(this);
@@ -295,7 +296,7 @@ public class TextListAty extends BaseAty {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
-            if (dataList.size() < 1){
+            if (dataList.size() < 1) {
                 balancePst.getBankType();
             }
         }
@@ -304,7 +305,7 @@ public class TextListAty extends BaseAty {
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
         }
-        if (requestUrl.contains("shipping")) {
+        if (requestUrl.contains("AfterSale/get_company_name")) {
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
@@ -315,7 +316,7 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
         }
         if (requestUrl.contains("backApplyType")) {
-            if (title.equals("货物状态")){
+            if (title.equals("货物状态")) {
                 map = (Map<String, Object>) map.get("data");
                 dataList = (List<Map<String, String>>) map.get("goods_status");
                 tAdapter = new TextAdapter(dataList);
@@ -371,7 +372,7 @@ public class TextListAty extends BaseAty {
             if (title.equals("售后类型") || title.equals("货物状态") || title.equals("售后原因")) {
                 tvvh.text_context_tv.setText(map.get("name"));
             } else if (title.equals("选择快递")) {
-                tvvh.text_context_tv.setText(map.get("shipping_name"));
+                tvvh.text_context_tv.setText(map.get("cname"));
             } else if (title.equals("选择经营范围")) {
 //                tvvh.text_context_tv.setText(map.get("short_name"));
                 tvvh.layout.setVisibility(View.GONE);
@@ -417,4 +418,9 @@ public class TextListAty extends BaseAty {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeProgressDialog();
+    }
 }

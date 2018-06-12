@@ -2,18 +2,22 @@ package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.tools.RegexUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CompayDataBean;
 import com.txd.hzj.wjlp.http.AfterSale;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
@@ -95,11 +99,22 @@ public class aty_addshipping extends BaseAty {
     @OnClick({R.id.layout, R.id.submit, R.id.zore_layout, R.id.street_layout})
     public void OnClick(View view) {
         switch (view.getId()) {
-            case R.id.layout:
+            case R.id.layout: {
+                String et_numberStr = String.valueOf(et_number.getText());
+                if (TextUtils.isEmpty(et_numberStr)) {
+                    showErrorTip("请先填写快递单号");
+                    return;
+                }
+                if (et_numberStr.trim().length() < 5) {
+                    showErrorTip("快递单号需大于五位数");
+                    return;
+                }
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "选择快递");
+                bundle.putString("invoice", et_numberStr);
                 startActivityForResult(TextListAty.class, bundle, 888);
-                break;
+            }
+            break;
             case R.id.submit:
 
                 if (TextUtils.isEmpty(id)) {
@@ -190,9 +205,6 @@ public class aty_addshipping extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
-        Map<String, String> map1 = JSONUtils.parseKeyAndValueToMap(jsonStr);
-
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("getOneAddress")) {// 获取一条地址
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -211,8 +223,8 @@ public class aty_addshipping extends BaseAty {
             lng = data.get("lng");
             lat = data.get("lat");
             return;
-        }
-        if (requestUrl.contains("addShipping")) {
+        } else if (requestUrl.contains("addShipping")) {
+            Map<String, String> map1 = JSONUtils.parseKeyAndValueToMap(jsonStr);
             showToast(map1.get("message"));
             if (map1.get("code").equals("1")) {
                 setResult(500);
@@ -225,11 +237,13 @@ public class aty_addshipping extends BaseAty {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 888) {
-            id = data.getStringExtra("id");
-            tv_name.setText(data.getStringExtra("express"));
+        if (requestCode == 888 && resultCode == RESULT_OK) {
+            if (data.hasExtra("id")) {
+                id = data.getStringExtra("id");
+                tv_name.setText(data.getStringExtra("express"));
+            }
         }
-        if (requestCode == 100) {// 街道选择
+        if (requestCode == 100 && resultCode == RESULT_OK) {// 街道选择
             street = data.getStringExtra("street");
             street_tv.setText(street);
             street_id = data.getStringExtra("street_id");

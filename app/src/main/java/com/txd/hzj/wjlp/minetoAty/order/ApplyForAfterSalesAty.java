@@ -315,6 +315,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
                     apply_type_tv.setText(data.getStringExtra("type"));
                     if(data.getStringExtra("type").contains("免费")){
                         layoutlayout.setVisibility(View.GONE);
+                    }else{
+                        layoutlayout.setVisibility(View.VISIBLE);
                     }
                     typeTypeId = data.getStringExtra("typeTypeId");
                     break;
