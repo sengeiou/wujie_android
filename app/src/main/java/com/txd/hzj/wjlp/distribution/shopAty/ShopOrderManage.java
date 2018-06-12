@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.support.design.widget.TabLayout;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
@@ -16,6 +18,7 @@ public class ShopOrderManage extends BaseAty {
 
     private TabLayout tabView;
     private TextView titleName;
+    private LinearLayout shop_person_title_manage;
 
     @Override
     protected int getLayoutResId() {
@@ -26,7 +29,8 @@ public class ShopOrderManage extends BaseAty {
     protected void initialized() {
         tabView = findViewById(R.id.shop_tab_view);
         titleName = findViewById(R.id.titlt_conter_tv);
-
+        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage.setVisibility(View.GONE);
     }
 
     @Override

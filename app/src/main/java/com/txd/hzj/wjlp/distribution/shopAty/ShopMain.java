@@ -17,6 +17,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 public class ShopMain extends BaseAty implements OnClickListener {
 
     private TextView titleName;
+    private LinearLayout shop_person_title_manage;
     private LinearLayout shopUpGoods;
     private LinearLayout shopGoodsManage;
     private LinearLayout shopMoney;
@@ -34,6 +35,8 @@ public class ShopMain extends BaseAty implements OnClickListener {
     @Override
     protected void initialized() {
         titleName = findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage.setVisibility(View.GONE);
         //小店上货
         shopUpGoods = findViewById(R.id.shop_up_goods);
         //商品管理

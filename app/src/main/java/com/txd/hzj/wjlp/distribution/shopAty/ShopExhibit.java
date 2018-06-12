@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,13 +37,14 @@ import java.util.Map;
  */
 public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    TextView titlt_conter_tv;
+    private TextView titlt_conter_tv;
+    private LinearLayout shop_person_title_manage;
 
-    SlidingTabLayout exhibit_tab_layout;
+    private SlidingTabLayout exhibit_tab_layout;
 
-    ImageView spread_img;
+    private ImageView spread_img;
 
-    ViewPager vp_for_exhibit;
+    private ViewPager vp_for_exhibit;
 
     /**
      * 前一页选中的分类标识
@@ -85,12 +87,13 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void initialized() {
+        titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage.setVisibility(View.GONE);
 
-
-        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
-        exhibit_tab_layout=findViewById(R.id.exhibit_tab_layout);
-        spread_img=findViewById(R.id.spread_img);
-        vp_for_exhibit=findViewById(R.id.vp_for_exhibit);
+        exhibit_tab_layout = findViewById(R.id.exhibit_tab_layout);
+        spread_img = findViewById(R.id.spread_img);
+        vp_for_exhibit = findViewById(R.id.vp_for_exhibit);
 
         rlLayout = findViewById(R.id.rl_layout);
         viewBack = findViewById(R.id.shop_view_backs);
@@ -119,7 +122,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         super.onItemClick(parent, view, position, id);
         myAdapter.setseclection(position);
         myAdapter.notifyDataSetChanged();
-        exhibit_tab_layout.onPageScrolled(position,0,0);
+        exhibit_tab_layout.onPageScrolled(position, 0, 0);
         exhibit_tab_layout.onPageSelected(position);
         ll_view.setVisibility(View.GONE);
         ll_view.setAnimation(moveToViewLocation());
@@ -141,10 +144,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
             horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             for (Map<String, String> title : horizontal_classify) {
-//                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
+                //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
                 fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
             }
-            for (int i = 0; i <horizontal_classify.size(); i++) {
+            for (int i = 0; i < horizontal_classify.size(); i++) {
                 lists.add(horizontal_classify.get(i).get("short_name"));
             }
             // ViewPager设置适配器
