@@ -8,16 +8,22 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="1dp" />
-    <android.support.design.widget.TabLayout
-        android:id="@+id/shop_tab_view"
+    <com.flyco.tablayout.SlidingTabLayout
+        android:id="@+id/exhibit_tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="#ffe71f19"
         android:background="@color/white"
-        app:tabSelectedTextColor="#ff333333"
-        app:tabIndicatorHeight="3dp"
-        app:tabTextColor="#ff333333"
-        />
+        android:paddingTop="14dp"
+        android:paddingBottom="15dp"
+        app:tl_tab_space_equal="true"
+        app:tl_indicator_color="#ffe71f19"
+        app:tl_indicator_height="2dp"
+        app:tl_indicator_width_equal_title="true"
+        app:tl_textAllCaps="true"
+        app:tl_textBold="NONE"
+        app:tl_textSelectColor="#ffd21f18"
+        app:tl_textUnselectColor="#ff333333"
+        app:tl_textsize="12sp"/>
     <LinearLayout
         android:id="@+id/data_llt"
         android:orientation="vertical"

@@ -1,14 +1,12 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopOrderFragment;
@@ -23,20 +21,12 @@ import java.util.ArrayList;
  */
 public class ShopOrderManage extends BaseAty {
 
-    private TabLayout tabView;
+    private SlidingTabLayout tabView;
     private TextView titleName;
     private ArrayList<Fragment> fragments;
     private ViewPager orderVp;
     private ArrayList<String> titles;
     private MyPagerAdapter myPagerAdapter;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        orderVp.setAdapter(myPagerAdapter);
-        tabView.setupWithViewPager(orderVp);
-    }
 
     @Override
     protected int getLayoutResId() {
@@ -51,7 +41,7 @@ public class ShopOrderManage extends BaseAty {
         titles.add("代发货");
         titles.add("待收货");
         titles.add("已完成");
-        tabView = findViewById(R.id.shop_tab_view);
+        tabView = findViewById(R.id.exhibit_tab_layout);
         titleName = findViewById(R.id.titlt_conter_tv);
         orderVp = findViewById(R.id.shop_order_vp);
         fragments = new ArrayList<>();
@@ -60,6 +50,9 @@ public class ShopOrderManage extends BaseAty {
             String s = titles.get(i);
             fragments.add(ShopOrderFragment.newInstance(s));
         }
+        orderVp.setAdapter(myPagerAdapter);
+        tabView.setViewPager(orderVp);
+        tabView.setCurrentTab(0);
     }
 
     @Override
