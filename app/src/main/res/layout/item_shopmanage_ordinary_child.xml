@@ -5,7 +5,16 @@
     android:orientation="horizontal"
     android:padding="15dp">
 
+    <CheckBox
+        android:id="@+id/itemShopManageOrd_select_cbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="5dp"
+        android:visibility="gone" />
+
     <ImageView
+        android:id="@+id/itemShopManageOrd_image_imgv"
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:scaleType="fitXY"
@@ -19,45 +28,65 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/itemShopManageOrd_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:textSize="14sp"
             android:ellipsize="end"
-            android:text="康尔馨五星级酒店毛巾纯棉加大加 厚面巾洗脸全棉吸水男女成人阿艰苦奋斗安居客东方红辣豆腐" />
+            android:maxLines="2"
+            android:text="康尔馨五星级酒店毛巾纯棉加大加 厚面巾洗脸全棉吸水男女成人阿艰苦奋斗安居客东方红辣豆腐"
+            android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/itemShopManageOrd_daiJinQuan_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/shape_max_coupon_tv"
             android:maxLines="1"
-            android:text="看见俺大哥好丰盛的"
+            android:text="最多可用50%代金券"
             android:textColor="#FC655E" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:maxLines="1"
-                android:text="￥1380.00"
-                android:textColor="#E71F19" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="￥"
+                    android:textColor="#E71F19"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/itemShopManageOrd_meny_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:maxLines="1"
+                    android:text="1380.00"
+                    android:textColor="#E71F19" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/background_tab" />
+                    android:layout_marginRight="3dp"
+                    android:src="@drawable/icon_send" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -65,6 +94,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/itemShopManageOrd_jifen_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10.00"
@@ -78,6 +108,7 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/itemShopManageOrd_share_imgv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

@@ -5,32 +5,26 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/ajhdflkajsld"
+        android:id="@+id/shopManageOrdinaryChild_down_fLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/red_tv_back"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="批量管理"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
             <LinearLayout
+                android:id="@+id/shopManageOrdinaryChild_edit_lLayout"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <CheckBox
+                    android:id="@+id/shopManageOrdinaryChild_selectAll_cbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -44,18 +38,46 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/shopManageOrdinaryChild_addForShelves_lLayout"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@drawable/icon_send" />
+
+                    <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="上架" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shopManageOrdinaryChild_removeForShelves_lLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@drawable/icon_send" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -65,17 +87,52 @@
                         android:text="下架" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/shopManageOrdinaryChild_delete_lLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginBottom="3dp"
+                        android:src="@drawable/icon_send" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="删除" />
+
+                </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/shopManageOrdinaryChild_batchManagement_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/red_tv_back"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="批量管理"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:visibility="visible" />
 
         </RelativeLayout>
 
     </FrameLayout>
 
     <ListView
-        android:id="@+id/lakjdfhlkaf"
+        android:id="@+id/shopManageOrdinaryChild_data_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ajhdflkajsld"
+        android:layout_above="@id/shopManageOrdinaryChild_down_fLayout"
         tools:listitem="@layout/item_shopmanage_ordinary_child" />
 
 </RelativeLayout>
