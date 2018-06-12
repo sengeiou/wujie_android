@@ -81,14 +81,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        tools:listitem="@layout/exhibit_fgt_item"
         android:layout_marginTop="9dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
-    <include layout="@layout/exhibit_fgt_item"/>
-    <View
-        android:background="@color/line_color"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
-    <include layout="@layout/exhibit_fgt_item"/>
 </LinearLayout>
