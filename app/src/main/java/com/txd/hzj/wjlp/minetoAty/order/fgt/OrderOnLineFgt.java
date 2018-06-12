@@ -580,8 +580,8 @@ public class OrderOnLineFgt extends BaseFgt {
                     num+=Integer.parseInt(goods_num);
                 }
             }
-            if ("10".equals(from)) {
-                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：" + getItem(position).get("order_price") + "积分"+" 运费："+("0.00".equals(freight)?"包邮":freight+"元"));
+            if ("10".equals(from)) {// 无界商店
+                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：" + getItem(position).get("order_price") + "积分"+" 运费："+("0.00".equals(freight)?"包邮":freight+"积分"));
             } else {
                 holder.goods_price_info_tv.setText("共" + num + "件商品 合计：¥" + getItem(position).get("order_price")+" 运费："+("0.00".equals(freight)?"包邮":freight+"元"));
             }

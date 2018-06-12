@@ -9,19 +9,17 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.flyco.tablayout.SlidingTabLayout;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
@@ -33,21 +31,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 小店上货
+ * 创建者：Zyf
+ * 功能描述：小店上货
+ * 联系方式：无
  */
 public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    @ViewInject(R.id.titlt_conter_tv)
-    TextView titlt_conter_tv;
+    private TextView titlt_conter_tv;
+    private LinearLayout shop_person_title_manage;
 
-    @ViewInject(R.id.exhibit_tab_layout)
-    SlidingTabLayout exhibit_tab_layout;
+    private SlidingTabLayout exhibit_tab_layout;
 
-    @ViewInject(R.id.spread_img)
-    ImageView spread_img;
+    private ImageView spread_img;
 
-    @ViewInject(R.id.vp_for_exhibit)
-    ViewPager vp_for_exhibit;
+    private ViewPager vp_for_exhibit;
 
     /**
      * 前一页选中的分类标识
@@ -90,10 +87,13 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void initialized() {
-        titlt_conter_tv.setText("小店上货");
-        goodsPst = new GoodsPst(this);
-        fragments = new ArrayList<>();
+        titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage.setVisibility(View.GONE);
 
+        exhibit_tab_layout = findViewById(R.id.exhibit_tab_layout);
+        spread_img = findViewById(R.id.spread_img);
+        vp_for_exhibit = findViewById(R.id.vp_for_exhibit);
 
         rlLayout = findViewById(R.id.rl_layout);
         viewBack = findViewById(R.id.shop_view_backs);
@@ -103,9 +103,14 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         grView.setGravity(Gravity.CENTER);
         lists = new ArrayList<>();
 
+        titlt_conter_tv.setText("小店上货");
+        goodsPst = new GoodsPst(this);
+        fragments = new ArrayList<>();
+
         myAdapter = new ShopUpGoodsAdapet(this, lists);
         //注册点击事件
         grView.setAdapter(myAdapter);
+        spread_img.setOnClickListener(this);
         ll_view.setOnClickListener(this);
         viewBack.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -117,7 +122,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         super.onItemClick(parent, view, position, id);
         myAdapter.setseclection(position);
         myAdapter.notifyDataSetChanged();
-        exhibit_tab_layout.onPageScrolled(position,0,0);
+        exhibit_tab_layout.onPageScrolled(position, 0, 0);
         exhibit_tab_layout.onPageSelected(position);
         ll_view.setVisibility(View.GONE);
         ll_view.setAnimation(moveToViewLocation());
@@ -139,10 +144,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
             horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
             for (Map<String, String> title : horizontal_classify) {
-//                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
+                //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
                 fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
             }
-            for (int i = 0; i <horizontal_classify.size(); i++) {
+            for (int i = 0; i < horizontal_classify.size(); i++) {
                 lists.add(horizontal_classify.get(i).get("short_name"));
             }
             // ViewPager设置适配器
@@ -155,7 +160,6 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     }
 
     @Override
-    @OnClick({R.id.spread_img})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {

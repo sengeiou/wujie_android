@@ -25,8 +25,8 @@
         android:maxLength="8"
         android:visibility="visible"
         android:text="零食"
-        android:textColor="@color/app_text_color"
-        android:textSize="20sp" />
+        android:textColor="#ff323232"
+        android:textSize="17sp" />
     <LinearLayout
         android:id="@+id/shop_person_title_manage"
         android:layout_width="wrap_content"

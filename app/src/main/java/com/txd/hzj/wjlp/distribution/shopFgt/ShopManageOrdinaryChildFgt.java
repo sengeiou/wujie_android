@@ -1,9 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.annotation.SuppressLint;
-import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 

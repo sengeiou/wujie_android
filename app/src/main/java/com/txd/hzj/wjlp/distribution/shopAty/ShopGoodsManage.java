@@ -8,8 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopManageOpenShopFgt;
@@ -18,20 +16,18 @@ import com.txd.hzj.wjlp.distribution.shopFgt.ShopManageOrdinaryFgt;
 import java.util.ArrayList;
 
 /**
- * 商品管理
+ * 创建者：Zyf
+ * 功能描述：商品管理
+ * 联系方式：无
  */
-public class ShopGoodsManage extends BaseAty {
+public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
 
-    @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
 
-    @ViewInject(R.id.shop_person_title_manage)
     LinearLayout shop_person_title_manage;
 
-    @ViewInject(R.id.shop_shopkeeper)
     TextView shop_shopkeeper;
 
-    @ViewInject(R.id.shop_person)
     TextView shop_person;
 
     private ArrayList<Fragment> fragments; // 展示的Fragment集合
@@ -49,10 +45,20 @@ public class ShopGoodsManage extends BaseAty {
 
     @Override
     protected void initialized() {
+        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id. shop_person_title_manage);
+        shop_shopkeeper=findViewById(R.id.shop_shopkeeper);
+        shop_person=findViewById(R.id.shop_person);
+
+
         titlt_conter_tv.setVisibility(View.GONE);
         shop_person_title_manage.setVisibility(View.VISIBLE);
         shop_shopkeeper.setText("普通商品");
         shop_person.setText("开店商品");
+
+        shop_shopkeeper.setOnClickListener(this);
+        shop_person.setOnClickListener(this);
+
     }
 
     @Override
@@ -65,7 +71,6 @@ public class ShopGoodsManage extends BaseAty {
         setTextViewAndViewColor(0);
     }
 
-    @OnClick({R.id.shop_shopkeeper, R.id.shop_person})
     @Override
     public void onClick(View v) {
         super.onClick(v);

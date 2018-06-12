@@ -5,25 +5,22 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 小店营收
+ * 创建者：Zyf
+ * 功能描述：小店营收
+ * 联系方式：无
  */
 public class ShopRevenue extends BaseAty {
 
-    @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
 
-    @ViewInject(R.id.shop_person_title_manage)
     LinearLayout shop_person_title_manage;
 
-    @ViewInject(R.id.shop_shopkeeper)
     TextView shop_shopkeeper;
 
-    @ViewInject(R.id.shop_person)
     TextView shop_person;
 
 
@@ -39,6 +36,12 @@ public class ShopRevenue extends BaseAty {
 
     @Override
     protected void initialized() {
+        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id. shop_person_title_manage);
+        shop_shopkeeper=findViewById(R.id.shop_shopkeeper);
+        shop_person=findViewById(R.id.shop_person);
+
+
         titlt_conter_tv.setVisibility(View.GONE);
         shop_person_title_manage.setVisibility(View.VISIBLE);
         shop_shopkeeper.setText("销售额");

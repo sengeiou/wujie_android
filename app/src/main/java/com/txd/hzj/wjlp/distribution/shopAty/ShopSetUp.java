@@ -4,8 +4,10 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -21,6 +23,8 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private RelativeLayout setIma;
     private View view;
     private PopupWindow popupWindow;
+    private TextView titleName;
+    private LinearLayout shop_person_title_manage;
 
     @Override
     protected int getLayoutResId() {
@@ -30,8 +34,10 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     @Override
     protected void initialized() {
         setIma = findViewById(R.id.shop_set_ima);
-
-
+        titleName = findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage.setVisibility(View.GONE);
+        titleName.setText("店铺设置");
         //注册点击事件
         setIma.setOnClickListener(this);
     }

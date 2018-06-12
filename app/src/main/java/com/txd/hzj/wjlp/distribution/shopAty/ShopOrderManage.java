@@ -6,20 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.flyco.tablayout.SlidingTabLayout;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopOrderFragment;
 
 import java.util.ArrayList;
-
-import static android.support.design.widget.TabLayout.*;
 
 /**
  * 创建者：Qyl

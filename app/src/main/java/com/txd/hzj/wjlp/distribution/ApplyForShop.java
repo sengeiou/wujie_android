@@ -8,20 +8,19 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 申请开店
+ * 创建者：Zyf
+ * 功能描述：申请开店
+ * 联系方式：无
  */
 public class ApplyForShop extends BaseAty {
 
     //标题
-    @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
 
-    @ViewInject(R.id.apply_for_shop_linlayout)
     LinearLayout apply_for_shop_linlayout;
     private WebView mWebView;
 
@@ -38,6 +37,9 @@ public class ApplyForShop extends BaseAty {
 
     @Override
     protected void initialized() {
+        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
+        apply_for_shop_linlayout=findViewById(R.id.apply_for_shop_linlayout);
+
         titlt_conter_tv.setText("申请开店");
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         mWebView = new WebView(getApplicationContext());

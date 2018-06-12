@@ -6,11 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
+/**
+ * 创建者：Zyf
+ * 功能描述：小店上货fragment
+ * 联系方式：无
+ */
 public class ShopExhibitFragment extends BaseFgt {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,16 +26,12 @@ public class ShopExhibitFragment extends BaseFgt {
     private String mParam2;
 
     //积分
-    @ViewInject(R.id.internal_tv)
     TextView internal_tv;
     //代金券
-    @ViewInject(R.id.cash_coupon_tv)
     TextView cash_coupon_tv;
     //销量
-    @ViewInject(R.id.sales_volume_tv)
     TextView sales_volume_tv;
     //价格
-    @ViewInject(R.id.price_tv)
     TextView price_tv;
 
     private String redColor="#ffe71f19";
@@ -62,6 +62,15 @@ public class ShopExhibitFragment extends BaseFgt {
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_shop_exhibit;
+    }
+
+    @Override
+    protected void getView(View view) {
+        super.getView(view);
+        internal_tv=view.findViewById(R.id.internal_tv);
+        cash_coupon_tv=view.findViewById(R.id.cash_coupon_tv);
+        sales_volume_tv=view.findViewById(R.id.sales_volume_tv);
+        price_tv=view.findViewById(R.id.price_tv);
     }
 
     @Override
