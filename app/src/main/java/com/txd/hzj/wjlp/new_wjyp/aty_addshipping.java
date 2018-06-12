@@ -116,16 +116,14 @@ public class aty_addshipping extends BaseAty {
             }
             break;
             case R.id.submit:
-
-                if (TextUtils.isEmpty(id)) {
-                    showToast("请选择快递！");
-                    return;
-                }
                 if (TextUtils.isEmpty(et_number.getText().toString())) {
                     showToast("请输入快递单号！");
                     return;
                 }
-
+                if (TextUtils.isEmpty(id)) {
+                    showToast("请选择快递！");
+                    return;
+                }
                 String receiver = address_name_et.getText().toString().trim();
                 String phone = address_phone_et.getText().toString().trim();
                 String address = address_details_et.getText().toString().trim();
