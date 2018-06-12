@@ -99,7 +99,7 @@ import cn.iwgang.countdownview.CountdownView;
  * 描述：限量详情(2-3)
  * ===============Txunda===============
  */
-public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack  {
+public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack {
 
     /**
      * 商品TextView
@@ -1254,7 +1254,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, LimitGoodsAty.this,LimitGoodsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, LimitGoodsAty.this, LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
                 Intent intent = new Intent();
@@ -1634,14 +1634,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     public void getFreightPay(String payStr) {
         removeDialog();
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费" + payStr + "元", 2, Color.parseColor("#FF0000"));
+                payStr, 2, Color.parseColor("#FF0000"));
     }
 
     @Override
     public void freightGetEd(Map<String, String> map) {
         removeDialog();
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                map.get("pay") , 2, Color.parseColor("#FF0000"));
+                map.get("pay"), 2, Color.parseColor("#FF0000"));
     }
 
     class service_adp extends RecyclerView.Adapter<service_adp.ViewHolder> {
