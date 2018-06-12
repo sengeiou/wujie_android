@@ -19,8 +19,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
 import com.flyco.tablayout.SlidingTabLayout;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
@@ -38,16 +36,12 @@ import java.util.Map;
  */
 public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListener, View.OnClickListener {
 
-    @ViewInject(R.id.titlt_conter_tv)
     TextView titlt_conter_tv;
 
-    @ViewInject(R.id.exhibit_tab_layout)
     SlidingTabLayout exhibit_tab_layout;
 
-    @ViewInject(R.id.spread_img)
     ImageView spread_img;
 
-    @ViewInject(R.id.vp_for_exhibit)
     ViewPager vp_for_exhibit;
 
     /**
@@ -95,6 +89,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         goodsPst = new GoodsPst(this);
         fragments = new ArrayList<>();
 
+        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
+        exhibit_tab_layout=findViewById(R.id.exhibit_tab_layout);
+        spread_img=findViewById(R.id.spread_img);
+        vp_for_exhibit=findViewById(R.id.vp_for_exhibit);
 
         rlLayout = findViewById(R.id.rl_layout);
         viewBack = findViewById(R.id.shop_view_backs);
@@ -107,6 +105,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         myAdapter = new ShopUpGoodsAdapet(this, lists);
         //注册点击事件
         grView.setAdapter(myAdapter);
+        spread_img.setOnClickListener(this);
         ll_view.setOnClickListener(this);
         viewBack.setOnClickListener(this);
         back.setOnClickListener(this);
@@ -156,7 +155,6 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     }
 
     @Override
-    @OnClick({R.id.spread_img})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {

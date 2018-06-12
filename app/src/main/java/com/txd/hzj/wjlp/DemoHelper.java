@@ -406,7 +406,7 @@ public class DemoHelper {
                 }
             }
         });
-        //set emoji icon provider
+        //set emoji titles provider
         easeUI.setEmojiconInfoProvider(new EaseEmojiconInfoProvider() {
 
             @Override
@@ -437,7 +437,7 @@ public class DemoHelper {
 
             @Override
             public int getSmallIcon(EMMessage message) {
-                //you can update icon here
+                //you can update titles here
                 return 0;
             }
 
