@@ -127,6 +127,7 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
         View view = inflater.inflate(layoutResId, null);
         LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         view.setLayoutParams(layoutParams);
+        getView(view);
         content.addView(view);
     }
 
@@ -150,6 +151,8 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
     protected abstract void initialized();
 
     protected abstract void requestData();
+
+    protected  void getView(View view){};
 
     public BaseActivity getContext() {
         return (BaseActivity) getActivity();
