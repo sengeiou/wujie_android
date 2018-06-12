@@ -58,6 +58,11 @@ public class ApplyForAfterSalesAty extends BaseAty {
     @ViewInject(R.id.money_be_back_ev)
     private EditText money_be_back_ev;
     /**
+     * 控制退款金额页面隐藏显示
+     */
+    @ViewInject(R.id.layoutlayout)
+    private LinearLayout layoutlayout;
+    /**
      * 允许退款的最大金额
      */
     private double maxPrice;
@@ -308,6 +313,9 @@ public class ApplyForAfterSalesAty extends BaseAty {
             switch (requestCode) {
                 case 101:// 售后类型
                     apply_type_tv.setText(data.getStringExtra("type"));
+                    if(data.getStringExtra("type").contains("免费")){
+                        layoutlayout.setVisibility(View.GONE);
+                    }
                     typeTypeId = data.getStringExtra("typeTypeId");
                     break;
                 case 102:// 货物状态
