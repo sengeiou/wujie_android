@@ -505,6 +505,10 @@ public class GoodsAttributeAty extends BaseAty {
                 }
                 if (!TextUtils.isEmpty(order_id))
                     intent.putExtra("order_id", order_id);
+                if (type.equals("10")) {//无界商店
+                    intent.putExtra("use_integral", val.getUse_integral());
+                    intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
+                }
                 intent.putExtra("group_buy_id", val.getGroup_buy_id());
 //                intent.putExtra("group_buy_id", group_buy_id);
                 intent.putExtra("num", String.valueOf(num));
