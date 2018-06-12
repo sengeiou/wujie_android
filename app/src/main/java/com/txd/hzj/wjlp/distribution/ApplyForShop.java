@@ -13,7 +13,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 申请开店
+ * 创建者：Zyf
+ * 功能描述：申请开店
+ * 联系方式：无
  */
 public class ApplyForShop extends BaseAty {
 

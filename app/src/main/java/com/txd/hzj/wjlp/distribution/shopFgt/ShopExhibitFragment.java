@@ -11,6 +11,11 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
+/**
+ * 创建者：Zyf
+ * 功能描述：小店上货fragment
+ * 联系方式：无
+ */
 public class ShopExhibitFragment extends BaseFgt {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

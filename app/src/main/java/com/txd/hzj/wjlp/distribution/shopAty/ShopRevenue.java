@@ -10,7 +10,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * 小店营收
+ * 创建者：Zyf
+ * 功能描述：小店营收
+ * 联系方式：无
  */
 public class ShopRevenue extends BaseAty {
 

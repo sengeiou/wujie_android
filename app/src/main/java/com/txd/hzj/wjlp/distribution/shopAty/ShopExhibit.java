@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -33,7 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 小店上货
+ * 创建者：Zyf
+ * 功能描述：小店上货
+ * 联系方式：无
  */
 public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListener, View.OnClickListener {
 

@@ -18,7 +18,9 @@ import com.txd.hzj.wjlp.distribution.shopFgt.ShopManageOrdinaryFgt;
 import java.util.ArrayList;
 
 /**
- * 商品管理
+ * 创建者：Zyf
+ * 功能描述：商品管理
+ * 联系方式：无
  */
 public class ShopGoodsManage extends BaseAty {
 

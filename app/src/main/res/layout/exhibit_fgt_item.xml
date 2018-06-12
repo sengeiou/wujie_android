@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -11,7 +12,7 @@
         android:id="@+id/product_igv"
         android:layout_width="123dp"
         android:layout_height="123dp"
-        android:src="@drawable/ic_launcher" />
+        tools:src="@drawable/ic_launcher" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,64 +24,63 @@
             android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
             android:layout_marginRight="41dp"
+            android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人"
             android:textColor="#ff323232"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            tools:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:text="最多可使用50%代金券"
-            android:textColor="#fffc655e"
             android:background="@drawable/exhibit_redshape"
-            android:paddingTop="2dp"
             android:paddingBottom="3dp"
             android:paddingLeft="5dp"
             android:paddingRight="6dp"
-            android:textSize="11sp" />
+            android:paddingTop="2dp"
+            android:textColor="#fffc655e"
+            android:textSize="11sp"
+            tools:text="最多可使用50%代金券" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥1380.00"
                 android:textColor="#ffe71f19"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="¥1380.00" />
 
             <ImageView
-                android:layout_marginLeft="19dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
                 android:src="@drawable/icon_send" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
-                android:text="10.00积分"
                 android:textColor="#fffd8214"
                 android:textSize="12sp"
-                />
+                tools:text="10.00积分" />
         </LinearLayout>
 
         <ImageView
-            android:src="@drawable/shopshangjia"
-            android:layout_gravity="right"
-            android:layout_marginTop="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"/>
+            android:layout_gravity="right"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/shopshangjia" />
     </LinearLayout>
 
 </LinearLayout>
