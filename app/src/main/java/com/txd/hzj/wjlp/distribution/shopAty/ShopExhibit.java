@@ -85,9 +85,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void initialized() {
-        titlt_conter_tv.setText("小店上货");
-        goodsPst = new GoodsPst(this);
-        fragments = new ArrayList<>();
+
 
         titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
         exhibit_tab_layout=findViewById(R.id.exhibit_tab_layout);
@@ -101,6 +99,10 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         grView = findViewById(R.id.gr_view);
         grView.setGravity(Gravity.CENTER);
         lists = new ArrayList<>();
+
+        titlt_conter_tv.setText("小店上货");
+        goodsPst = new GoodsPst(this);
+        fragments = new ArrayList<>();
 
         myAdapter = new ShopUpGoodsAdapet(this, lists);
         //注册点击事件
