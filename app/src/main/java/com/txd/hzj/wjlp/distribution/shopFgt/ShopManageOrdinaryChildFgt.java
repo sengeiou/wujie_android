@@ -23,8 +23,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt {
      */
     private int from;
 
-    @ViewInject(R.id.ordinaryChild_show_tv)
-    private TextView ordinaryChild_show_tv;
+
+
 
     public ShopManageOrdinaryChildFgt(int index) {
         from = index;
@@ -41,7 +41,6 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt {
 
     @Override
     protected void requestData() {
-        ordinaryChild_show_tv.setText(from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄");
     }
 
     @Override
