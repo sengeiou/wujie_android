@@ -83,6 +83,9 @@ public class WjMellAdapter extends BaseAdapter {
         // 优惠券
         wjmvh.use_coupon_tv.setVisibility(View.GONE);
         wjmvh.jf_layout.setVisibility(View.GONE);
+
+        //需字
+        wjmvh.tv_xu.setVisibility(View.VISIBLE);
         // 国旗
         Glide.with(context).load(allGoodsBean.getCountry_logo())
 //                .override(logo_size1, logo_size2)
@@ -145,6 +148,9 @@ public class WjMellAdapter extends BaseAdapter {
          */
         @ViewInject(R.id.item_goods_name_tv)
         private TextView item_goods_name_tv;
+
+        @ViewInject(R.id.tv_xu)
+        private TextView tv_xu;
 
     }
 }
