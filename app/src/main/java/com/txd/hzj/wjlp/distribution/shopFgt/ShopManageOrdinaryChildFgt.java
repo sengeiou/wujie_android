@@ -2,10 +2,15 @@ package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tips.MikyouCommonDialog;
@@ -17,9 +22,20 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
+import com.txd.hzj.wjlp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.CarOrder;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.http.HouseOrder;
+import com.txd.hzj.wjlp.http.IntegralBuyOrder;
+import com.txd.hzj.wjlp.http.IntegralOrder;
+import com.txd.hzj.wjlp.http.PreOrder;
+import com.txd.hzj.wjlp.http.UserBalance;
+import com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：wjj
@@ -60,6 +76,22 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     @ViewInject(R.id.shopManageOrdinaryChild_delete_lLayout)
     private LinearLayout shopManageOrdinaryChild_delete_lLayout;
 
+    // 列表刷新加载布局
+    @ViewInject(R.id.shopManageOrdinaryChild_sr_layout)
+    private SuperSwipeRefreshLayout shopManageOrdinaryChild_sr_layout;
+
+    private int p = 1; // 请求的分页
+    // Header View
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
+
     public ShopManageOrdinaryChildFgt(int index) {
         from = index;
     }
@@ -70,13 +102,33 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     }
 
     @Override
+    public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
+        super.onMultiWindowModeChanged(isInMultiWindowMode);
+        shopManageOrdinaryChild_sr_layout.setRefreshing(true);
+    }
+
+    @Override
     protected void initialized() {
     }
 
     @Override
-    protected void requestData() {
-        shopManageOrdinaryChild_batchManagement_tv.setOnClickListener(this);
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        removeProgressDialog();
+        shopManageOrdinaryChild_sr_layout.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        shopManageOrdinaryChild_sr_layout.setLoadMore(false);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    private void getData() {
         // TODO 模拟数据，后续请求数据改动的话需要一并修改的文件有：DistributionGoodsBean（商品对象）、ShopManageOrdinaryAdapter（List的Adapter）
         list = new ArrayList<>();
         DistributionGoodsBean distributionGoodsBean;
@@ -93,6 +145,78 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         }
         adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
         shopManageOrdinaryChild_data_lv.setAdapter(adapter);
+
+        shopManageOrdinaryChild_sr_layout.setHeaderView(createHeaderView());// add headerView
+        shopManageOrdinaryChild_sr_layout.setFooterView(createFooterView());
+        shopManageOrdinaryChild_sr_layout.setHeaderViewBackgroundColor(Color.WHITE);
+        shopManageOrdinaryChild_sr_layout.setTargetScrollWithLayout(true);
+        shopManageOrdinaryChild_sr_layout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                if (from == 0) {
+                    // TODO 请求接口
+                } else if (from == 1) {
+                    // TODO 请求接口
+                } else if (from == 2) {
+                    // TODO 请求接口
+                }
+
+//                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
+//                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        shopManageOrdinaryChild_sr_layout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                if (from == 0) {
+                    // TODO 请求接口
+                } else if (from == 1) {
+                    // TODO 请求接口
+                } else if (from == 2) {
+                    // TODO 请求接口
+                }
+                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
+
+    }
+
+    @Override
+    protected void requestData() {
+        shopManageOrdinaryChild_batchManagement_tv.setOnClickListener(this);
 
         switch (from) {
             case 0: // 出售中
@@ -120,13 +244,13 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
                 shopGoodsManage.setTitltRightText("完成"); // 设置显示字体
                 // 设置右侧按钮的显隐
-                final TextView titleRightTv = shopGoodsManage.setTitltRightVisibility(true);
-                titleRightTv.setOnClickListener(new View.OnClickListener() {
+                final TextView titleRightTv = shopGoodsManage.setTitltRightVisibility(true); // 设置显示之后返回设置的控件
+                titleRightTv.setOnClickListener(new View.OnClickListener() { // 对返回的控件进行点击处理
                     @Override
                     public void onClick(View v) {
                         titleRightTv.setVisibility(View.GONE);
                         shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE); // 显示批量管理按钮
-                        adapter.setShowCbox(false); // 显示列表中的复选框
+                        adapter.setShowCbox(false); // 隐藏列表中的复选框
                         adapter.notifyDataSetChanged(); // 刷新Adapter数据
                     }
                 });
@@ -193,6 +317,31 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                         }
                     }
                 }).showDialog();
+    }
+
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(shopManageOrdinaryChild_sr_layout.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(shopManageOrdinaryChild_sr_layout.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
 }

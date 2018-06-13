@@ -89,6 +89,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ShopManageCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_shop_manage_checkbox</item>
+    </style>
+
     <!--自定义textview配置文件-->
 
         <attr name="textwidth" format="integer"/>
