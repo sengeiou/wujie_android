@@ -23,7 +23,6 @@
         android:ellipsize="middle"
         android:gravity="center"
         android:maxLength="8"
-        android:text="零食"
         android:textColor="@color/app_text_color"
         android:textSize="20sp" />
 
