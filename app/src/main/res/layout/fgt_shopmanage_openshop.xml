@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
+    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+        android:id="@+id/shopManageOpen_super_ssrl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="开店商品管理" />
+        android:layout_height="match_parent">
+
+        <GridView
+            android:id="@+id/shopManageOpen_data_gv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2" />
+    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
 
 </LinearLayout>
