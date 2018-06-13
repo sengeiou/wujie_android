@@ -812,14 +812,14 @@ public class OrderDetailsAty extends BaseAty {
                 }
 
             }
-            if (!"10".equals(type)) {
-                if (map.get("after_sale_status").equals("1")) { // 如果存在售后售后
-                    tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
-                    tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
-                } else {
-                    tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
-                }
+//            if (!"10".equals(type)) {
+            if (map.containsKey("after_sale_status") && map.get("after_sale_status").equals("1")) { // 如果存在售后售后
+                tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
+                tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
+            } else {
+                tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
             }
+//            }
             tgvh.tv_price.setText("10".equals(type) ? map.get("shop_price") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
@@ -938,24 +938,40 @@ public class OrderDetailsAty extends BaseAty {
                 }
             }
 
-            if (!"10".equals(type)) {
-                // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
-                tgvh.layout_fapiao.setVisibility(Integer.parseInt(map.get("is_invoice")) == 1 ? View.VISIBLE : View.GONE);
-                // 正品保证
+//            if (!"10".equals(type)) {
+            // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
+            tgvh.layout_fapiao.setVisibility((map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) ? View.VISIBLE : View.GONE);
+            // 正品保证
+            if (map.containsKey("integrity_a")) {
                 tgvh.layout_zhengpinbaozheng.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_zhengpinbaozheng.setText(map.get("integrity_a").isEmpty() ? "" : map.get("integrity_a"));
-                // 服务承诺
+            } else {
+                tgvh.layout_zhengpinbaozheng.setVisibility(View.GONE);
+            }
+
+            // 服务承诺
+            if (map.containsKey("integrity_b")) {
                 tgvh.layout_fuwuchengnuo.setVisibility(map.get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_fuwuchengnuo.setText(map.get("integrity_b").isEmpty() ? "" : map.get("integrity_b"));
-                // 发货时间
+            } else {
+                tgvh.layout_fuwuchengnuo.setVisibility(View.GONE);
+            }
+            // 发货时间
+            if (map.containsKey("integrity_c")) {
                 tgvh.layout_fahuoshijian.setVisibility(map.get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_fahuoshijian.setText(map.get("integrity_c").isEmpty() ? "" : map.get("integrity_c"));
-                if (map.containsKey("integrity_d")) {
-                    // 公益宝贝
-                    tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
-                    tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
-                }
+            } else {
+                tgvh.layout_fahuoshijian.setVisibility(View.GONE);
             }
+
+            if (map.containsKey("integrity_d")) {
+                // 公益宝贝
+                tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
+            } else {
+                tgvh.layout_gongyi.setVisibility(View.GONE);
+            }
+//            }
             // 左侧延长收货按钮点击事件
             tgvh.delayReceiving.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1002,6 +1018,7 @@ public class OrderDetailsAty extends BaseAty {
                     tgvh.tv_btn_right.setVisibility(View.GONE); // 延长收货按钮显示
                 }
                 tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
+                tgvh.tv_btn_right.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_left.setVisibility(View.VISIBLE);
                 tgvh.tv_btn_remind.setVisibility(View.GONE);
             } else if (order_status.equals("0")) { // 订单为待付款状态
