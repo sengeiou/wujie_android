@@ -34,10 +34,15 @@ public class ShopExhibitFragment extends BaseFgt {
     //价格
     TextView price_tv;
 
-    private String redColor="#ffe71f19";
-    private String blgColor="#ff333333";
+    private String redColor = "#ffe71f19";
+    private String blgColor = "#ff333333";
     private Drawable selectId;
+    private Drawable twoSelectId;
     private Drawable unSelectId;
+    private int internalNum = 0;
+    private int cashCouponNum = 0;
+    private int salesVolumeNum = 0;
+    private int priceNum = 0;
 
 
     public static ShopExhibitFragment newInstance(String param1, String param2) {
@@ -67,18 +72,20 @@ public class ShopExhibitFragment extends BaseFgt {
     @Override
     protected void getView(View view) {
         super.getView(view);
-        internal_tv=view.findViewById(R.id.internal_tv);
-        cash_coupon_tv=view.findViewById(R.id.cash_coupon_tv);
-        sales_volume_tv=view.findViewById(R.id.sales_volume_tv);
-        price_tv=view.findViewById(R.id.price_tv);
+        internal_tv = view.findViewById(R.id.internal_tv);
+        cash_coupon_tv = view.findViewById(R.id.cash_coupon_tv);
+        sales_volume_tv = view.findViewById(R.id.sales_volume_tv);
+        price_tv = view.findViewById(R.id.price_tv);
     }
 
     @Override
     protected void initialized() {
         selectId = getResources().getDrawable(R.drawable.shopjiantou);
+        twoSelectId = getResources().getDrawable(R.drawable.shop_red_down);
         unSelectId = getResources().getDrawable(R.drawable.shopblgjiantou);
-        selectId.setBounds(0,0,selectId.getMinimumWidth(),selectId.getMinimumHeight());
-        unSelectId.setBounds(0,0,unSelectId.getMinimumWidth(),unSelectId.getMinimumHeight());
+        selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
+        twoSelectId.setBounds(0, 0, twoSelectId.getMinimumWidth(), twoSelectId.getMinimumWidth());
+        unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
     }
 
     @Override
@@ -93,10 +100,10 @@ public class ShopExhibitFragment extends BaseFgt {
     }
 
     @Override
-    @OnClick({R.id.internal_tv,R.id.cash_coupon_tv,R.id.sales_volume_tv,R.id.price_tv})
+    @OnClick({R.id.internal_tv, R.id.cash_coupon_tv, R.id.sales_volume_tv, R.id.price_tv})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.internal_tv:
                 setChioceItem(0);
                 break;
@@ -114,35 +121,51 @@ public class ShopExhibitFragment extends BaseFgt {
 
     private void setChioceItem(int index) {
         clearChioce();
-        switch (index){
+        switch (index) {
             case 0:
                 internal_tv.setTextColor(Color.parseColor(redColor));
-                internal_tv.setCompoundDrawables(null,null,selectId,null);
+                internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
+                internalNum++;
+                cashCouponNum=0;
+                salesVolumeNum=0;
+                priceNum=0;
                 break;
             case 1:
                 cash_coupon_tv.setTextColor(Color.parseColor(redColor));
-                cash_coupon_tv.setCompoundDrawables(null,null,selectId,null);
+                cash_coupon_tv.setCompoundDrawables(null, null, cashCouponNum % 2 == 0 ? selectId : twoSelectId, null);
+                internalNum=0;
+                cashCouponNum++;
+                salesVolumeNum=0;
+                priceNum=0;
                 break;
             case 2:
                 sales_volume_tv.setTextColor(Color.parseColor(redColor));
-                sales_volume_tv.setCompoundDrawables(null,null,selectId,null);
+                sales_volume_tv.setCompoundDrawables(null, null, salesVolumeNum % 2 == 0 ? selectId : twoSelectId, null);
+                internalNum=0;
+                cashCouponNum=0;
+                salesVolumeNum++;
+                priceNum=0;
                 break;
             case 3:
                 price_tv.setTextColor(Color.parseColor(redColor));
-                price_tv.setCompoundDrawables(null,null,selectId,null);
+                price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
+                internalNum=0;
+                cashCouponNum=0;
+                salesVolumeNum=0;
+                priceNum++;
                 break;
         }
     }
 
     private void clearChioce() {
         internal_tv.setTextColor(Color.parseColor(blgColor));
-        internal_tv.setCompoundDrawables(null,null,unSelectId,null);
+        internal_tv.setCompoundDrawables(null, null, unSelectId, null);
         cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
-        cash_coupon_tv.setCompoundDrawables(null,null,unSelectId,null);
+        cash_coupon_tv.setCompoundDrawables(null, null, unSelectId, null);
         sales_volume_tv.setTextColor(Color.parseColor(blgColor));
-        sales_volume_tv.setCompoundDrawables(null,null,unSelectId,null);
+        sales_volume_tv.setCompoundDrawables(null, null, unSelectId, null);
         price_tv.setTextColor(Color.parseColor(blgColor));
-        price_tv.setCompoundDrawables(null,null,unSelectId,null);
+        price_tv.setCompoundDrawables(null, null, unSelectId, null);
     }
 
 }
