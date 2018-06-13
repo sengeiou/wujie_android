@@ -319,6 +319,11 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                 }).showDialog();
     }
 
+    /**
+     * 创建底部加载布局
+     *
+     * @return
+     */
     private View createFooterView() {
         View footerView = LayoutInflater.from(shopManageOrdinaryChild_sr_layout.getContext()).inflate(R.layout.layout_footer, null);
         footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
@@ -331,6 +336,11 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         return footerView;
     }
 
+    /**
+     * 创建头部加载布局
+     *
+     * @return
+     */
     private View createHeaderView() {
         View headerView = LayoutInflater.from(shopManageOrdinaryChild_sr_layout.getContext()).inflate(R.layout.layout_head, null);
         head_container = headerView.findViewById(R.id.head_container);
