@@ -9,6 +9,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
  * 功能描述： 开店商品管理界面
  */
 public class ShopManageOpenShopFgt extends BaseFgt {
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fgt_shopmanage_openshop;

@@ -121,7 +121,7 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
      * @param isShow 是否显示
      */
     public TextView setTitltRightVisibility(boolean isShow) {
-        titlt_right_tv.setVisibility(isShow ?  View.VISIBLE : View.GONE);
+        titlt_right_tv.setVisibility(isShow ? View.VISIBLE : View.GONE);
         return titlt_right_tv;
     }
 
