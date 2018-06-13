@@ -76,7 +76,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
             tv_daijinquan=itemView.findViewById(R.id.tv_daijinquan);
             tv_price=itemView.findViewById(R.id.tv_price);
             tv_jifen=itemView.findViewById(R.id.tv_jifen);
-            img_shangjia=itemView.findViewById(R.id.product_igv);
+            img_shangjia=itemView.findViewById(R.id.img_shangjia);
         }
     }
 }

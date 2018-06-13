@@ -98,7 +98,7 @@ public class ShopExhibitFragment extends BaseFgt {
         price_tv = view.findViewById(R.id.price_tv);
         exhibit_recyclerView=view.findViewById(R.id.exhibit_recyclerView);
         exhibit_recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
-        exhibit_recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.HORIZONTAL));
+        exhibit_recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
     }
 
     @Override
