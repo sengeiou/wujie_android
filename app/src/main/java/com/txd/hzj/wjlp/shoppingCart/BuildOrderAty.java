@@ -907,7 +907,11 @@ public class BuildOrderAty extends BaseAty {
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
                 govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
-                govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
+                if("10".equals(type)){
+                    govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
+                }else {
+                    govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
+                }
             } else {
                 if ("10".equals(type)) {
                     govh.price_for_goods_tv.setVisibility(View.GONE);

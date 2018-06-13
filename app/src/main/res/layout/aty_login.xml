@@ -78,6 +78,7 @@
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/icon_login_phone_hzj"
             android:hint="手机号"
+            android:maxLength="11"
             android:inputType="phone"
             android:orientation="vertical"
             android:paddingBottom="12dp"

@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F6F6F6"
     android:orientation="vertical">
 
     <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
         android:id="@+id/shopManageOpen_super_ssrl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <GridView
             android:id="@+id/shopManageOpen_data_gv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2" />
+            android:horizontalSpacing="1dp"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="1dp"
+            tools:listitem="@layout/item_shopmanage_openshop" />
+
     </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+
 
 </LinearLayout>

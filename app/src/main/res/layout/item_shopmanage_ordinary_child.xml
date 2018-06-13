@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:minLines="2"
             android:text="康尔馨五星级酒店毛巾纯棉加大加 厚面巾洗脸全棉吸水男女成人阿艰苦奋斗安居客东方红辣豆腐"
             android:textSize="14sp" />
 
