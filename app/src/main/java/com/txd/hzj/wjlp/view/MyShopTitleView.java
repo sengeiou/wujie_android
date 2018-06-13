@@ -57,6 +57,7 @@ public class MyShopTitleView extends LinearLayout implements View.OnClickListene
         ordinary = inflate.findViewById(R.id.shop_person);
         shopkeeper.setOnClickListener(this);
         ordinary.setOnClickListener(this);
+
     }
 
     @Override
