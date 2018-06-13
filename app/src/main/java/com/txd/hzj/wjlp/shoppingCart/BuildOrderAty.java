@@ -675,14 +675,22 @@ public class BuildOrderAty extends BaseAty {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.append("包邮");
                                     } else {
-                                        tv_youfei.append("+" + kk + "元运费");
+                                        if("10".equals(type)){
+                                            tv_youfei.append("+" + kk + "积分");
+                                        }else {
+                                            tv_youfei.append("+" + kk + "元运费");
+                                        }
                                     }
                                 } else {
                                     if ("0.00".equals(kk)) {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.setText("包邮");
                                     } else {
-                                        tv_youfei.setText("+" + kk + "元运费");
+                                        if("10".equals(type)){
+                                            tv_youfei.setText("+" + kk + "积分");
+                                        }else {
+                                            tv_youfei.setText("+" + kk + "元运费");
+                                        }
                                     }
                                 }
 
