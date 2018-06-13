@@ -135,7 +135,7 @@ public class aty_addshipping extends BaseAty {
                     showToast("电话不能为空");
                     return;
                 }
-                if (RegexUtils.checkMobile(phone)) {
+                if (!RegexUtils.checkMobile(phone)) {
                     showToast("电话号码不正确");
                     return;
                 }
@@ -154,7 +154,7 @@ public class aty_addshipping extends BaseAty {
                 province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
                 city_id = ProUrbAreaUtil.gainInstance().getCity_id();
                 area_id = ProUrbAreaUtil.gainInstance().getArea_id();
-                AfterSale.addShipping(id, et_number.getText().toString(), getIntent().getStringExtra("id"), receiver, phone, province_id, city_id, area_id, street_id, address, this);
+                AfterSale.addShipping(tv_name.getText().toString(), et_number.getText().toString(), getIntent().getStringExtra("id"), receiver, phone, province_id, city_id, area_id, street_id, address, this);
                 showProgressDialog();
                 break;
             case R.id.zore_layout:// 解析数据，弹出城市选择弹窗
