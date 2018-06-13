@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * 功能描述：商品管理
  * 联系方式：无
  */
-public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
+public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
 
     TextView titlt_conter_tv;
 
@@ -29,6 +29,8 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
     TextView shop_shopkeeper;
 
     TextView shop_person;
+
+    TextView titlt_right_tv;
 
     private ArrayList<Fragment> fragments; // 展示的Fragment集合
     private FragmentChangeManager fragmentChangeManager;
@@ -45,11 +47,11 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
 
     @Override
     protected void initialized() {
-        titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
-        shop_person_title_manage=findViewById(R.id. shop_person_title_manage);
-        shop_shopkeeper=findViewById(R.id.shop_shopkeeper);
-        shop_person=findViewById(R.id.shop_person);
-
+        titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
+        shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
+        shop_shopkeeper = findViewById(R.id.shop_shopkeeper);
+        shop_person = findViewById(R.id.shop_person);
+        titlt_right_tv = findViewById(R.id.titlt_right_tv);
 
         titlt_conter_tv.setVisibility(View.GONE);
         shop_person_title_manage.setVisibility(View.VISIBLE);
@@ -58,6 +60,7 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
 
         shop_shopkeeper.setOnClickListener(this);
         shop_person.setOnClickListener(this);
+        titlt_right_tv.setOnClickListener(this);
 
     }
 
@@ -111,4 +114,24 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener{
 
         fragmentChangeManager.setFragments(i);
     }
+
+    /**
+     * 设置控件的显示隐藏
+     *
+     * @param isShow 是否显示
+     */
+    public TextView setTitltRightVisibility(boolean isShow) {
+        titlt_right_tv.setVisibility(isShow ? View.VISIBLE : View.GONE);
+        return titlt_right_tv;
+    }
+
+    /**
+     * 设置显示文字
+     *
+     * @param showStr 显示的字符串
+     */
+    public void setTitltRightText(String showStr) {
+        titlt_right_tv.setText(showStr);
+    }
+
 }

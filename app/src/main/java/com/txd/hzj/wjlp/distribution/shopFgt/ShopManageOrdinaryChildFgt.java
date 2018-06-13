@@ -16,6 +16,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
+import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,19 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         super.onClick(v);
         switch (v.getId()) {
             case R.id.shopManageOrdinaryChild_batchManagement_tv: // 批量管理
+                ShopGoodsManage shopGoodsManage = (ShopGoodsManage) getActivity();
+                shopGoodsManage.setTitltRightText("完成"); // 设置显示字体
+                // 设置右侧按钮的显隐
+                final TextView titleRightTv = shopGoodsManage.setTitltRightVisibility(true);
+                titleRightTv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        titleRightTv.setVisibility(View.GONE);
+                        shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE); // 显示批量管理按钮
+                        adapter.setShowCbox(false); // 显示列表中的复选框
+                        adapter.notifyDataSetChanged(); // 刷新Adapter数据
+                    }
+                });
                 shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.GONE); // 隐藏批量管理按钮
                 adapter.setShowCbox(true); // 显示列表中的复选框
                 adapter.notifyDataSetChanged(); // 刷新Adapter数据
@@ -180,6 +194,5 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                     }
                 }).showDialog();
     }
-
 
 }
