@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="38dp"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="11dp"
                 android:text="普通商品"
                 android:textColor="#ff999999"
                 android:drawableLeft="@drawable/blue_circle"

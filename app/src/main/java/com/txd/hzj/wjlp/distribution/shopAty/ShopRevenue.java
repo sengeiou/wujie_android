@@ -5,10 +5,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.view.MyShopTitleView;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * 创建者：Zyf
@@ -95,6 +100,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
         super.onClick(v);
         switch (v.getId()){
             case R.id.time_select_img:
+                showPop();
                 break;
             case R.id.llyt_week:
                 clearChoice();
@@ -112,9 +118,49 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
 
     }
 
+
+
     private void clearChoice() {
         view_week.setBackgroundColor(getResources().getColor(R.color.white));
         view_month.setBackgroundColor(getResources().getColor(R.color.white));
         view_year.setBackgroundColor(getResources().getColor(R.color.white));
+    }
+
+    private void showPop() {
+        //时间选择器
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar startDate = Calendar.getInstance();
+        Calendar endDate = Calendar.getInstance();
+
+        //正确设置方式 原因：注意事项有说明
+        startDate.set(2013,0,1);
+        endDate.set(2020,11,31);
+
+        TimePickerView pvTime = new TimePickerView.Builder(ShopRevenue.this, new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date, View v) {
+                Toast.makeText(ShopRevenue.this, date.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+                .setType(new boolean[]{true, true, false, false, false, false})
+                .setCancelText("取消")//取消按钮文字
+                .setSubmitText("完成")//确认按钮文字
+                .setContentSize(18)//滚轮文字大小
+                .setTitleSize(16)//标题文字大小
+                .setTitleText("选择日期")//标题文字
+                .setOutSideCancelable(true)//点击屏幕，点在控件外部范围时，是否取消显示
+                .isCyclic(true)//是否循环滚动
+                .setTitleColor(getResources().getColor(R.color.shop_main_fontcolor_black))//标题文字颜色
+                .setSubmitColor(getResources().getColor(R.color.shop_main_fontcolor_black))//确定按钮文字颜色
+                .setCancelColor(getResources().getColor(R.color.shop_main_fontcolor_black))//取消按钮文字颜色
+                .setTitleBgColor(getResources().getColor(R.color.white))//标题背景颜色 Night mode
+//                .setBgColor(0xFF333333)//滚轮背景颜色 Night mode
+//                .setDate(selectedDate)// 如果不设置的话，默认是系统时间*/
+//                .setRangDate(startDate,endDate)//起始终止年月日设定
+                .setLabel("年","月","日","时","分","秒")//默认设置为年月日时分秒
+                .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
+                .isDialog(false)//是否显示为对话框样式
+                .build();
+        pvTime.show();
     }
 }
