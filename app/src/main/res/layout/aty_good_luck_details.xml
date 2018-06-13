@@ -844,7 +844,7 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="￥14.50\n一键开团"
+                android:text="￥14.50\n一键拼单"
                 android:textColor="@color/white" />
         </LinearLayout>
     </RelativeLayout>

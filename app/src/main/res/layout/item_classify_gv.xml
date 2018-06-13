@@ -12,7 +12,7 @@
         android:layout_height="30dp"
         android:background="@drawable/shape_mell_share"
         android:gravity="center"
-        android:text="拼团"
+        android:text="拼单"
         android:textColor="@color/app_text_color"/>
 
 </LinearLayout>

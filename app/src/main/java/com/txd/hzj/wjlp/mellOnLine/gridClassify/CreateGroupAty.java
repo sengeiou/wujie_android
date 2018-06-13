@@ -167,7 +167,7 @@ public class CreateGroupAty extends BaseAty {
             public void onClick(View v) {
                 if (Integer.parseInt(offeredDataBean.getData().getIs_colonel()) > 0) {
 //                    "is_colonel": "1",
-                    Toast.makeText(CreateGroupAty.this, "团长不能重复参团", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateGroupAty.this, "团长不能重复拼单", Toast.LENGTH_LONG).show();
                 } else if (Integer.parseInt(offeredDataBean.getData().getIs_member()) > 0) {
 //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
@@ -343,7 +343,7 @@ public class CreateGroupAty extends BaseAty {
                         group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
                         //                group_status_tv.setText(groupPager.getData().getDiff());
                     } else {// 我不是团长，参团
-                        group_operation_tv.setText("一键参团");
+                        group_operation_tv.setText("一键拼单");
                         group_operation_tv.setEnabled(true);
                         //                group_status_tv.setText(groupPager.getData().getDiff());
                         group_operation_tv.setBackgroundResource(R.drawable.shape_good_luck_tv);

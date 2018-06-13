@@ -127,7 +127,7 @@ public class GoodsEvalusteAdapter extends BaseAdapter {
 //                    type = "";
 //                    break;
 //                case "1":
-//                    type = "拼团";
+//                    type = "拼单";
 //                    break;
 //                case "2":
 //                    type = "预购";

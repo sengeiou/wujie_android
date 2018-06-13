@@ -510,7 +510,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     type = "";
                     break;
                 case "1":
-                    type = "拼团";
+                    type = "拼单";
                     break;
                 case "2":
                     type = "预购";

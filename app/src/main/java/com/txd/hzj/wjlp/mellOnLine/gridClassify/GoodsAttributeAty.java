@@ -331,7 +331,7 @@ public class GoodsAttributeAty extends BaseAty {
             et_num.setText(String.valueOf(num));
         }
         if (3 == from) {
-            to_buy_must_tv.setText("参团");
+            to_buy_must_tv.setText("拼单");
             goods_into_cart_tv.setVisibility(View.GONE);
             at_left_lin_layout.setVisibility(View.GONE);
             num = getIntent().getIntExtra("num", 0);

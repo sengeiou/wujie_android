@@ -150,7 +150,7 @@
         android:paddingLeft="12dp"
         android:paddingRight="6dp"
         android:paddingTop="6dp"
-        android:text="去开团"
+        android:text="去拼单"
         android:textColor="@color/white"
         android:textSize="13sp"
         android:visibility="gone"/>

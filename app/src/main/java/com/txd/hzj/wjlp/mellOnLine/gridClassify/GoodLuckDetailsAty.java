@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -24,6 +25,7 @@ import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
+import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
@@ -675,7 +677,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this,GoodLuckDetailsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this, GoodLuckDetailsAty.this);
 
                 break;
             case R.id.tv_showClassify://查看分类
@@ -907,6 +909,24 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     final DataBean dataBean = goodLuckBean.getData();
                     remarks.setText(dataBean.getRemarks());
                     goodsInfo = dataBean.getGoodsInfo();
+
+                    /**
+                     *以下表示如果buy_status==0，表示当前商品已经下架
+                     * */
+                    String buyStatusStr=goodsInfo.getBuy_status();
+                    if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
+                        CustomDialog.Builder dialog = new CustomDialog.Builder(GoodLuckDetailsAty.this);
+                        dialog.setMessage("当前商品已下架");
+                        dialog.setTitle("下架提示");
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GoodLuckDetailsAty.this.finish();
+                            }
+                        });
+                        dialog.create().show();
+                    }
+
                     image = dataBean.getGoods_banner();
                     share_url = dataBean.getShare_url();
                     share_img = dataBean.getShare_img();
@@ -1328,38 +1348,40 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-                                GroupBean groupBean = dataBean.getGroup().get(0);
-                                if (groupBean.getDiff_num().equals("0")) {
-                                    showErrorTip("团已满");
-                                } else {
-                                    if (groupBean.getIs_member().equals("0")) {
-                                        if (is_C) {
-                                            Intent intent = new Intent();
-                                            intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                            intent.putExtra("type", "2");
-                                            intent.putExtra("goods_id", goods_id);
-                                            intent.putExtra("group_buy_id", group_buy_id);
-                                            intent.putExtra("num", String.valueOf(goods_number));
-                                            intent.putExtra("product_id", product_id);
-                                            intent.putExtra("group_type", groupType);
-                                            if (!android.text.TextUtils.isEmpty(order_id)) {
-                                                bundle.putString("order_id", order_id);
-                                            }
-                                            intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                            startActivity(intent);
-                                        } else {
-                                            toExAttars(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                                    goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
-                                        }
+                                if (null != dataBean && dataBean.getGroup().size() > 0) {
+                                    GroupBean groupBean = dataBean.getGroup().get(0);
+                                    if (groupBean.getDiff_num().equals("0")) {
+                                        showErrorTip("团已满");
                                     } else {
-                                        showErrorTip("您已参加活动");
+                                        if (groupBean.getIs_member().equals("0")) {
+                                            if (is_C) {
+                                                Intent intent = new Intent();
+                                                intent.putExtra("mid", mellInfoBean.getMerchant_id());
+                                                intent.putExtra("type", "2");
+                                                intent.putExtra("goods_id", goods_id);
+                                                intent.putExtra("group_buy_id", group_buy_id);
+                                                intent.putExtra("num", String.valueOf(goods_number));
+                                                intent.putExtra("product_id", product_id);
+                                                intent.putExtra("group_type", groupType);
+                                                if (!android.text.TextUtils.isEmpty(order_id)) {
+                                                    bundle.putString("order_id", order_id);
+                                                }
+                                                intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+                                                startActivity(intent);
+                                            } else {
+                                                toExAttars(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
+                                            }
+                                        } else {
+                                            showErrorTip("您已参加活动");
+                                        }
                                     }
                                 }
                             }
                         });
                     }
 
-                    //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键开团");
+                    //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键拼单");
                     // 单独购买
 //                    one_price_tv.setText("￥" + dataBean.getOne_price() + "\n独立购买");
                     if (null != goodsInfo.getP_integral()) {
@@ -1424,7 +1446,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         }
                         group_count = dataBean.getGroup_count();
                         if (!TextUtils.isEmpty(group_count))
-                            pdnumTv.setText(group_count + "人在开团");
+                            pdnumTv.setText(group_count + "人在拼单");
 
                         // 拼团列表
                         GoodLuckAdapter goodLuckAdapter = new GoodLuckAdapter(GoodLuckDetailsAty.this, twoGroupBean, groupType);
