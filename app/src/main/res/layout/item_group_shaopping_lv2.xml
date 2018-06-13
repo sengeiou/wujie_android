@@ -109,7 +109,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:gravity="end"
-            android:text="已团1.3万件"
             android:textColor="@color/gray_text_color"
             android:textSize="13sp"/>
 

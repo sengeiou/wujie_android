@@ -177,7 +177,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 // 商品积分
                 holder.group_integral_tv.setText(map.get("integral"));
                 // 已团。。。。。件
-                holder.group_already_tv.setText("已团" + map.get("total") + "件");
+                holder.group_already_tv.setText("已拼" + map.get("total") + "件");
                 // 商品图片
                 Glide.with(context).load(map.get("goods_img"))
                         .override(pic_size, pic_size)
@@ -227,7 +227,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     holder.frist_head_iv.setVisibility(View.GONE);
                     holder.sec_head_iv.setVisibility(View.GONE);
                 }
-                holder.group_already_tv.setText("已团" + map.get("total") + "件");
+                holder.group_already_tv.setText("已拼" + map.get("total") + "件");
 
                 Glide.with(context).load(map.get("country_logo"))
                         .override(logo_size1, logo_size2)
