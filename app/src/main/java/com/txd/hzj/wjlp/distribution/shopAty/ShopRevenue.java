@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.view.MyShopTitleView;
 
 /**
  * 创建者：Zyf
@@ -20,12 +21,21 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
 
     private LinearLayout shop_person_title_manage;
 
-    private TextView shop_shopkeeper;
-
-    private TextView shop_person;
-
     private ImageView time_select;
 
+    private MyShopTitleView mytitle_tv;
+
+    private LinearLayout llyt_week;
+
+    private LinearLayout llyt_month;
+
+    private LinearLayout llyt_year;
+
+    private View view_week;
+
+    private View view_month;
+
+    private View view_year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +51,38 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
     protected void initialized() {
         titlt_conter_tv=findViewById(R.id.titlt_conter_tv);
         shop_person_title_manage=findViewById(R.id. shop_person_title_manage);
-        shop_shopkeeper=findViewById(R.id.shop_shopkeeper);
-        shop_person=findViewById(R.id.shop_person);
         time_select=findViewById(R.id.time_select_img);
-
-
-        titlt_conter_tv.setVisibility(View.GONE);
+        mytitle_tv=findViewById(R.id.mytitle_tv);
         shop_person_title_manage.setVisibility(View.VISIBLE);
-        shop_shopkeeper.setText("销售额");
-        shop_person.setText("净收益");
-        shop_shopkeeper.setOnClickListener(this);
-        shop_person.setOnClickListener(this);
+        llyt_week=findViewById(R.id.llyt_week);
+        llyt_month=findViewById(R.id.llyt_month);
+        llyt_year=findViewById(R.id.llyt_year);
+        view_week=findViewById(R.id.view_week);
+        view_month=findViewById(R.id.view_month);
+        view_year=findViewById(R.id.view_year);
+        mytitle_tv.setVisibility(View.VISIBLE);
+        titlt_conter_tv.setVisibility(View.GONE);
+        time_select.setVisibility(View.VISIBLE);
+
+
+
+
+        mytitle_tv.setLeftName("销售额");
+        mytitle_tv.setRightName("净收益");
+
+
         time_select.setOnClickListener(this);
+        llyt_week.setOnClickListener(this);
+        llyt_month.setOnClickListener(this);
+        llyt_year.setOnClickListener(this);
+
+
+        mytitle_tv.setleftListener(new MyShopTitleView.LeftContent() {
+            @Override
+            public void getLeft(String string) {
+
+            }
+        });
     }
 
     @Override
@@ -64,21 +94,27 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()){
-            case R.id.shop_shopkeeper:
-                shop_shopkeeper.setTextColor(this.getResources().getColor(R.color.white));
-                shop_shopkeeper.setBackgroundResource(R.drawable.shop_title_choice_left);
-                shop_person.setBackgroundResource(R.drawable.shop_title_unchoice_right);
-                shop_person.setTextColor(this.getResources().getColor(R.color.titleColors));
-                break;
-            case R.id.shop_person:
-                shop_shopkeeper.setTextColor(this.getResources().getColor(R.color.titleColors));
-                shop_shopkeeper.setBackgroundResource(R.drawable.shop_title_unchoice_left);
-                shop_person.setBackgroundResource(R.drawable.shop_title_choice_right);
-                shop_person.setTextColor(this.getResources().getColor(R.color.white));
-                break;
             case R.id.time_select_img:
+                break;
+            case R.id.llyt_week:
+                clearChoice();
+                view_week.setBackgroundColor(getResources().getColor(R.color.titleColors));
+                break;
+            case R.id.llyt_month:
+                clearChoice();
+                view_month.setBackgroundColor(getResources().getColor(R.color.titleColors));
+                break;
+            case R.id.llyt_year:
+                clearChoice();
+                view_year.setBackgroundColor(getResources().getColor(R.color.titleColors));
                 break;
         }
 
+    }
+
+    private void clearChoice() {
+        view_week.setBackgroundColor(getResources().getColor(R.color.white));
+        view_month.setBackgroundColor(getResources().getColor(R.color.white));
+        view_year.setBackgroundColor(getResources().getColor(R.color.white));
     }
 }
