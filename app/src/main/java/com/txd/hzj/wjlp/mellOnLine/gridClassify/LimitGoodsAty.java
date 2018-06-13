@@ -869,7 +869,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     tv_yx_price.setText("¥" + goodsInfo.getYx_price());
                     commodityPranster.setBitmap(LimitGoodsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
                     commodityPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
-                    commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "元", tv_country_tax);
+                    commodityPranster.setTextContent(goodsInfo.getCountry_tax() + "积分", tv_country_tax);
                     if (Double.parseDouble(goodsInfo.getCountry_tax()) <= 0) {
                         layou_jinkoushui.setVisibility(View.GONE);
                     }

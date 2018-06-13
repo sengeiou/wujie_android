@@ -1,14 +1,23 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.distribution.adapter.ShopExhibitAdapter;
+import com.txd.hzj.wjlp.distribution.bean.ExhibitGoosBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 创建者：Zyf
@@ -26,13 +35,17 @@ public class ShopExhibitFragment extends BaseFgt {
     private String mParam2;
 
     //积分
-    TextView internal_tv;
+    private TextView internal_tv;
     //代金券
-    TextView cash_coupon_tv;
+    private TextView cash_coupon_tv;
     //销量
-    TextView sales_volume_tv;
+    private TextView sales_volume_tv;
     //价格
-    TextView price_tv;
+    private TextView price_tv;
+
+    private RecyclerView exhibit_recyclerView;
+
+    private Context mContext;
 
     private String redColor = "#ffe71f19";
     private String blgColor = "#ff333333";
@@ -43,7 +56,8 @@ public class ShopExhibitFragment extends BaseFgt {
     private int cashCouponNum = 0;
     private int salesVolumeNum = 0;
     private int priceNum = 0;
-
+    private ShopExhibitAdapter shopExhibitAdapter;
+    private List<ExhibitGoosBean> datas;
 
     public static ShopExhibitFragment newInstance(String param1, String param2) {
         ShopExhibitFragment fragment = new ShopExhibitFragment();
@@ -52,6 +66,12 @@ public class ShopExhibitFragment extends BaseFgt {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext=context;
     }
 
     @Override
@@ -76,6 +96,9 @@ public class ShopExhibitFragment extends BaseFgt {
         cash_coupon_tv = view.findViewById(R.id.cash_coupon_tv);
         sales_volume_tv = view.findViewById(R.id.sales_volume_tv);
         price_tv = view.findViewById(R.id.price_tv);
+        exhibit_recyclerView=view.findViewById(R.id.exhibit_recyclerView);
+        exhibit_recyclerView.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));
+        exhibit_recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
     }
 
     @Override
@@ -90,7 +113,18 @@ public class ShopExhibitFragment extends BaseFgt {
 
     @Override
     protected void requestData() {
-
+        datas=new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            ExhibitGoosBean exhibitGoosBean=new ExhibitGoosBean();
+            exhibitGoosBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
+            exhibitGoosBean.setGoodsTitle("康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人");
+            exhibitGoosBean.setDaijinquan("最多可使用50%代金券");
+            exhibitGoosBean.setJifen("10");
+            exhibitGoosBean.setPrice("1380.00");
+            datas.add(exhibitGoosBean);
+        }
+        shopExhibitAdapter=new ShopExhibitAdapter(datas);
+        exhibit_recyclerView.setAdapter(shopExhibitAdapter);
     }
 
 

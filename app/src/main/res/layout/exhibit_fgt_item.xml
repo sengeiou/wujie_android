@@ -21,7 +21,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title_tv"
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="41dp"
@@ -33,6 +33,7 @@
             tools:text="康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人" />
 
         <TextView
+            android:id="@+id/tv_daijinquan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
@@ -53,6 +54,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#ffe71f19"
@@ -66,6 +68,7 @@
                 android:src="@drawable/icon_send" />
 
             <TextView
+                android:id="@+id/tv_jifen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="6dp"
@@ -75,6 +78,7 @@
         </LinearLayout>
 
         <ImageView
+            android:id="@+id/img_shangjia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

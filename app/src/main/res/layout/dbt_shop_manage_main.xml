@@ -189,7 +189,7 @@
                >
 
                 <LinearLayout
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="26dp"
                     android:id="@+id/shop_up_goods"
                     android:background="@color/white"
                     android:gravity="center"
@@ -209,7 +209,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginTop="37dp"
+                    android:layout_marginTop="32dp"
                     android:id="@+id/shop_goods_manage"
                     android:background="@color/white"
                     android:gravity="center"
@@ -231,7 +231,7 @@
 
                 <LinearLayout
                     android:id="@+id/shop_money"
-                    android:layout_marginTop="38dp"
+                    android:layout_marginTop="30dp"
                     android:background="@color/white"
                     android:gravity="center"
                     android:paddingTop="5dp"

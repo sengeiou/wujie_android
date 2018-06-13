@@ -144,13 +144,31 @@ public class ProUrbAreaUtil implements BaseView {
     }
 
     private BaseActivity baseActivity;
+    /**
+     * 丢失数据了
+     */
+    private boolean getWrong = false;
+    private TextView tv_chose_ads;
+    private String goods_id;
 
     public void showPickerView(final TextView tv_chose_ads, final String goods_id, BaseActivity activity, CallBack callback) {// 弹出选择器
         this.baseActivity = activity;
         showDialog();
+        if(null==application){
+            application= (WeApplication) activity.getApplication();
+        }
         String data = application.getCityProvienceJson();
+        this.tv_chose_ads = tv_chose_ads;
+        this.goods_id = goods_id;
         this.callBack = callback;
-        dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id));
+        if (!TextUtils.isEmpty(data)) {
+            getWrong = false;
+            dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id));
+        } else {
+            getWrong = true;
+            checkData(application);
+        }
+
     }
 
     //记录选中的位置
@@ -403,7 +421,9 @@ public class ProUrbAreaUtil implements BaseView {
                 jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
                 application.setCityProvience(data);
-//                dealJsonData(data, null);
+                if (getWrong&&null!=baseActivity&&null!=tv_chose_ads) {
+                    dealJsonData(data, new AreaHandler(baseActivity, tv_chose_ads, goods_id) );
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
