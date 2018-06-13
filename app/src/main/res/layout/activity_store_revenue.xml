@@ -5,5 +5,163 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".distribution.shopAty.ShopRevenue">
-    <include layout="@layout/aty_shop_title"/>
+
+    <include layout="@layout/aty_shop_title" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llyt_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="14dp"
+                android:text="周"
+                android:textColor="#ff666666"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/view_week"
+                android:layout_width="35dp"
+                android:layout_height="2dp"
+                android:background="@color/titleColors" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llyt_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="14dp"
+                android:text="月"
+                android:textColor="#ff666666"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/view_month"
+                android:layout_width="35dp"
+                android:layout_height="2dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llyt_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="14dp"
+                android:text="年"
+                android:textColor="#ff666666"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/view_year"
+                android:layout_width="35dp"
+                android:layout_height="2dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/shop_main_fontcolor_black"
+                android:layout_marginTop="15dp"
+                android:text="5,000.00"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="38dp"
+                android:layout_marginTop="12dp"
+                android:drawableLeft="@drawable/red_circle"
+                android:drawablePadding="6dp"
+                android:text="分销商品"
+                android:textColor="#ff999999"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="9dp"
+            android:background="#ffdddddd" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/shop_main_fontcolor_black"
+                android:text="15,000.00"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="38dp"
+                android:layout_marginTop="11dp"
+                android:text="普通商品"
+                android:textColor="#ff999999"
+                android:drawableLeft="@drawable/blue_circle"
+                android:drawablePadding="6dp"
+                android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

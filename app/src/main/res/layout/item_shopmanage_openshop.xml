@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="12dp">
+
+    <ImageView
+        android:id="@+id/itemShopManageOpen_image_imgv"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:src="@drawable/img_tricket_right_weishixiao" />
+
+    <TextView
+        android:id="@+id/itemShopManageOpen_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:minLines="2"
+        android:text="安静多了房间里大力开发和拉肯定会福利卡上的福利卡上代理反馈哈劳动法考核阿里单号福利卡好的福利卡好的福利卡回来的看法回来的鸿福路口sad风火轮开始"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"
+                android:textColor="#E71F19"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/itemShopManageOpen_meny_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="499.00"
+                android:textColor="#E71F19"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/itemShopManageOpen_share_imgv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="2dp"
+            android:src="@drawable/shop_share" />
+
+    </RelativeLayout>
+
+</LinearLayout>
