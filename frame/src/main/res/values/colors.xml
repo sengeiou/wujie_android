@@ -21,7 +21,7 @@
     <!--分销分割线颜色-->
     <color name="shop_division">#CCCCCC</color>
     <!--分销顾客管理title颜色-->
-    <color name="titleColors">#D21F18</color>
+    <color name="titleColors">#ffd21f18</color>
     <!--RecyclerView-->
 
     <!-- 主题色 -->
