@@ -3,9 +3,11 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.view.MyShopTitleView;
 
 /**
  * 创建者：Qyl
@@ -15,9 +17,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
  */
 public class ShopPersonManage extends BaseAty implements View.OnClickListener {
 
-    private LinearLayout titleManage;
-    private TextView shopKeeper;
-    private TextView person;
+    private MyShopTitleView titleView;
 
     @Override
     protected int getLayoutResId() {
@@ -26,35 +26,28 @@ public class ShopPersonManage extends BaseAty implements View.OnClickListener {
 
     @Override
     protected void initialized() {
-    findViewById(R.id.titlt_conter_tv).setVisibility(View.GONE);
-        titleManage = findViewById(R.id.shop_person_title_manage);
-        titleManage.setVisibility(View.VISIBLE);
-        //店主身份
-        shopKeeper = findViewById(R.id.shop_shopkeeper);
-        //普通顾客
-        person = findViewById(R.id.shop_person);
-        //注册点击事件
-        shopKeeper.setOnClickListener(this);
-        person.setOnClickListener(this);
+        findViewById(R.id.titlt_conter_tv).setVisibility(View.GONE);
+        titleView = findViewById(R.id.mytitle_tv);
+        titleView.setVisibility(View.VISIBLE);
+        titleView.setLeftName("店主身份");
+        titleView.setRightName("普通顾客");
+        titleView.setleftListener(new MyShopTitleView.LeftContent() {
+            @Override
+            public void getLeft(String string) {
+                if (string.equals("0")) {
+                    Toast.makeText(ShopPersonManage.this, "店主" + string, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShopPersonManage.this, "用户" + string, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
-            case R.id.shop_shopkeeper:
-                shopKeeper.setTextColor(this.getResources().getColor(R.color.white));
-                shopKeeper.setBackgroundColor(this.getResources().getColor(R.color.titleColors));
-                person.setBackgroundColor(this.getResources().getColor(R.color.white));
-                person.setTextColor(this.getResources().getColor(R.color.titleColors));
-                break;
-            case R.id.shop_person:
-                shopKeeper.setTextColor(this.getResources().getColor(R.color.titleColors));
-                shopKeeper.setBackgroundColor(this.getResources().getColor(R.color.white));
-                person.setBackgroundColor(this.getResources().getColor(R.color.titleColors));
-                person.setTextColor(this.getResources().getColor(R.color.white));
-                break;
-        }
+
     }
 
     @Override

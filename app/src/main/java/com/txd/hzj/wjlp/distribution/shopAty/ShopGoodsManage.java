@@ -2,16 +2,16 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopManageOpenShopFgt;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopManageOrdinaryFgt;
+import com.txd.hzj.wjlp.view.MyShopTitleView;
 
 import java.util.ArrayList;
 
@@ -24,16 +24,11 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
 
     TextView titlt_conter_tv;
 
-    LinearLayout shop_person_title_manage;
-
-    TextView shop_shopkeeper;
-
-    TextView shop_person;
-
-    TextView titlt_right_tv;
 
     private ArrayList<Fragment> fragments; // 展示的Fragment集合
     private FragmentChangeManager fragmentChangeManager;
+    private MyShopTitleView titleView;
+    TextView titlt_right_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +43,26 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
     @Override
     protected void initialized() {
         titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
-        shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
-        shop_shopkeeper = findViewById(R.id.shop_shopkeeper);
-        shop_person = findViewById(R.id.shop_person);
         titlt_right_tv = findViewById(R.id.titlt_right_tv);
+        titleView = findViewById(R.id.mytitle_tv);
+        titleView.setVisibility(View.VISIBLE);
+        titleView.setLeftName("普通商品");
+        titleView.setRightName("开店商品");
+        titleView.setleftListener(new MyShopTitleView.LeftContent() {
+            @Override
+            public void getLeft(String string) {
+                fragmentChangeManager.setFragments(Integer.valueOf(string));
+                if (string.equals("0")){
+                    Toast.makeText(ShopGoodsManage.this, "普通" + string, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(ShopGoodsManage.this, "开店" + string, Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         titlt_conter_tv.setVisibility(View.GONE);
-        shop_person_title_manage.setVisibility(View.VISIBLE);
-        shop_shopkeeper.setText("普通商品");
-        shop_person.setText("开店商品");
 
-        shop_shopkeeper.setOnClickListener(this);
-        shop_person.setOnClickListener(this);
-        titlt_right_tv.setOnClickListener(this);
 
     }
 
@@ -71,49 +73,8 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
         fragments.add(new ShopManageOpenShopFgt()); // 开店商品管理界面
 
         fragmentChangeManager = new FragmentChangeManager(getSupportFragmentManager(), R.id.commodityManage_content_fLayout, fragments);
-        setTextViewAndViewColor(0);
     }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.shop_shopkeeper: // 普通商品
-                setTextViewAndViewColor(0);
-                break;
-            case R.id.shop_person: // 开店商品
-                setTextViewAndViewColor(1);
-                break;
-        }
-    }
-
-    /**
-     * 设置标题栏选中状态
-     *
-     * @param i 选中的下表
-     */
-    private void setTextViewAndViewColor(int i) {
-
-        // 初始化普通商品字体和颜色
-        shop_shopkeeper.setTextColor(ContextCompat.getColor(this, R.color.titleColors));
-        shop_shopkeeper.setBackground(getResources().getDrawable(R.color.white));
-        // 初始化开店商品字体和颜色
-        shop_person.setTextColor(ContextCompat.getColor(this, R.color.titleColors));
-        shop_person.setBackground(getResources().getDrawable(R.color.white));
-
-        switch (i) {
-            case 0: // 选中普通商品管理
-                shop_shopkeeper.setTextColor(ContextCompat.getColor(this, R.color.white));
-                shop_shopkeeper.setBackground(getResources().getDrawable(R.color.titleColors));
-                break;
-            case 1: // 选中开店商品管理
-                shop_person.setTextColor(ContextCompat.getColor(this, R.color.white));
-                shop_person.setBackground(getResources().getDrawable(R.color.titleColors));
-                break;
-        }
-
-        fragmentChangeManager.setFragments(i);
-    }
 
     /**
      * 设置控件的显示隐藏

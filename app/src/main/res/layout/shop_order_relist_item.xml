@@ -43,7 +43,7 @@
             android:layout_marginBottom="9dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
-            android:background="@color/red_tv_back" />
+           android:src="@drawable/icon_temp_mine_head_hzj"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/icon_mine_collection" />
+                android:src="@drawable/kaidian" />
 
             <TextView
                 android:id="@+id/shop_order_voucher_type"
