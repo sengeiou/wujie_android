@@ -309,5 +309,6 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
         choiceAddress = true;
         ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
         zore_tv.setText(proUrbAreaUtil.getProvince() + "," + proUrbAreaUtil.getCity() + "," + proUrbAreaUtil.getArea());
+        street_tv.setText("");
     }
 }
