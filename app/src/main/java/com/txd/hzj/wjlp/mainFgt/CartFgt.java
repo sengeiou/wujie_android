@@ -28,6 +28,7 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -48,6 +49,9 @@ import com.txd.hzj.wjlp.tool.MessageEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -226,6 +230,18 @@ public class CartFgt extends BaseFgt {
             L.e("cart" + jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+
+            String goods_id = "";
+            if (map.containsKey("first_val")) {
+                try {
+                    JSONArray jsonArray = new JSONArray(map.get("first_val"));
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+                    goods_id = jsonObject.getString("goods_id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
             Intent intent = new Intent();
             intent.setClass(getActivity(), GoodsAttributeAty.class);
             intent.putExtra("from", 2);
@@ -235,6 +251,7 @@ public class CartFgt extends BaseFgt {
             intent.putExtra("is_attr", map.get("is_attr") + "-" + map.get("goods_num"));
             intent.putExtra("goods_attr", map.get("first_list"));
             intent.putExtra("goods_val", map.get("first_val"));
+            intent.putExtra("goods_id", goods_id);
             startActivityForResult(intent, 8888);
 //            Gson gson = new Gson();
 //            String json = gson.toJson(cg.getGoods_attr_first());

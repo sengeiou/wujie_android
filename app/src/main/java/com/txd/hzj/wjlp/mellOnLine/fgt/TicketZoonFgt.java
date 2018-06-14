@@ -20,6 +20,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -175,6 +176,10 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Bundle bundle = new Bundle();
+                if (i >= data.size()) { // 添加判断主要是防止数组下标越界
+                    L.e("TicketZoonFgt click i >= data.size()");
+                    return;
+                }
                 switch (type) {
                     case WJConfig.PQQ:// 票券区
                         bundle.putString("ticket_buy_id", data.get(i).getTicket_buy_id());

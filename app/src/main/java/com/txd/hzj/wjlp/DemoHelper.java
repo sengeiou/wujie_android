@@ -512,19 +512,19 @@ public class DemoHelper {
             public void onDisconnected(int error) {
                 // TODO 环信监听回调方法
                 EMLog.d("global listener", "onDisconnect================>>>>>>>>>" + error);
-                if (error == EMError.USER_REMOVED) {
+                if (error == EMError.USER_REMOVED) { // 用户删除
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
-                    onUserException(Constant.ACCOUNT_REMOVED);
-                } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                    onUserException(Constant.ACCOUNT_REMOVED); // 账号删除
+                } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) { // 用户登录另一个设备
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
-                    onUserException(Constant.ACCOUNT_CONFLICT);
-                } else if (error == EMError.SERVER_SERVICE_RESTRICTED) {
+                    onUserException(Constant.ACCOUNT_CONFLICT); // 账户冲突
+                } else if (error == EMError.SERVER_SERVICE_RESTRICTED) { // 服务器服务限制
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
-                    onUserException(Constant.ACCOUNT_FORBIDDEN);
-                } else if (error == EMError.USER_KICKED_BY_CHANGE_PASSWORD) {
+                    onUserException(Constant.ACCOUNT_FORBIDDEN); // 账号被禁止的
+                } else if (error == EMError.USER_KICKED_BY_CHANGE_PASSWORD) { // 用户更改密码被踢
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD);
-                } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
+                } else if (error == EMError.USER_KICKED_BY_OTHER_DEVICE) { // 用户踢其他设备
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE);
                 }
@@ -1187,7 +1187,7 @@ public class DemoHelper {
     protected void onUserException(String exception) {
         EMLog.e(TAG, "onUserException=========================: " + exception);
         // TODO 环信监听错误返回处理方法
-        AppManager.getInstance().killAllActivity();
+        AppManager.getInstance().killAllActivityNoExit();
         Intent intent = new Intent(appContext, MainAty.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);

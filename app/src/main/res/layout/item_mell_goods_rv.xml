@@ -47,9 +47,9 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="180dp"
+            android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/mell_goods_name_tv"

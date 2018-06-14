@@ -110,6 +110,18 @@ public class AppManager {
     }
 
     /**
+     * 结束所有Activity但是并不退出程序
+     * 应用在相同账号登录时被挤掉的状态，不退出程序
+     */
+    public void killAllActivityNoExit() {
+        for (int i = 0, size = mActivityStack.size(); i < size; i++) {
+            if (null != mActivityStack.get(i)) {
+                mActivityStack.get(i).finish();
+            }
+        }
+    }
+
+    /**
      * 退出应用程序
      */
     public void AppExit(Context context) {

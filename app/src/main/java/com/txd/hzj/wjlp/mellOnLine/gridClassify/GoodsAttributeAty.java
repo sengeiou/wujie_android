@@ -939,10 +939,17 @@ public class GoodsAttributeAty extends BaseAty {
 
                     }
                     break;
-                    case 2: {//大小比对判断 颜色+尺寸+高低
-                        if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
-                            falgChoice = true;
-                            choicePos = bdPos;
+                    case 2: { // 大小比对判断 颜色+尺寸+高低
+                        if (recordMutilMap.size() >= 2) { // 此处上报数组下标越界，添加的判断
+                            if (compareStr.contains(recordMutilMap.get(0) + "+" + recordMutilMap.get(1) + "+" + valBean.getVal())) {
+                                falgChoice = true;
+                                choicePos = bdPos;
+                            }
+                        } else {
+                            if (compareStr.contains(recordMutilMap.get(0) + "+" + valBean.getVal())) {
+                                falgChoice = true;
+                                choicePos = bdPos;
+                            }
                         }
                     }
                     break;

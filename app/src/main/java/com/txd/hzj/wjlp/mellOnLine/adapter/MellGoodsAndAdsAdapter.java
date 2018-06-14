@@ -67,7 +67,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
             adsSize1 = Settings.displayWidth;
         } else {
             logo_size1 = ToolKit.dip2px(context, 36);
-            logo_size2 = ToolKit.dip2px(context, 24);
+            logo_size2 = ToolKit.dip2px(context, 23);
             pic_size = ToolKit.dip2px(context, 180);
             group_size = ToolKit.dip2px(context, 40);
         }
@@ -155,11 +155,11 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .into(holder.logo_for_country_iv);
 
                 Glide.with(context).load(map.get("goods_img"))
-                        .override(pic_size, pic_size)
+//                        .override(pic_size, pic_size)sgds
                         .error(R.drawable.ic_default)
                         .placeholder(R.drawable.ic_default)
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .centerCrop()
+//                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+//                        .centerCrop()
                         .into(holder.imageView);
 
                 holder.mell_goods_name_tv.setText(map.get("goods_name"));

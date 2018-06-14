@@ -83,6 +83,9 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,7 +101,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：票券区商品详情(3-2票券)
  * ===============Txunda===============
  */
-public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener,ProUrbAreaUtil.CallBack{
+public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack {
     private String is_attr = "";
 
     /**
@@ -515,7 +518,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         goods_trick_rv.setHasFixedSize(true);
         goods_trick_rv.setAdapter(theTrickAdapter);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
-        commodityDetailsPranster=new CommodityDetailsPranster();
+        commodityDetailsPranster = new CommodityDetailsPranster();
     }
 
     @Override
@@ -539,7 +542,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             }
             case R.id.tv_chose_ads: // 弹出地址选择器
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this,this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this, this);
                 break;
             case R.id.title_goods_layout:// 商品
                 clickType = 1;
@@ -708,7 +711,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
                 break;
             case R.id.layout_djq:
-                commodityDetailsPranster.showDjqPop(v,dj_ticket,TicketGoodsDetialsAty.this,vouchers_desc);
+                commodityDetailsPranster.showDjqPop(v, dj_ticket, TicketGoodsDetialsAty.this, vouchers_desc);
                 break;
             case R.id.tv_showClassify:
                 cate_id = goodsInfo.get("cate_id");
@@ -718,11 +721,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
                 break;
             case R.id.tv_quxiao://促销弹框
-                commodityDetailsPranster.showCXPop(v,TicketGoodsDetialsAty.this,promotionBeen);
+                commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);
 //                showCXPop(v);
                 break;
             case R.id.tv_lingquan:
-                commodityDetailsPranster.showLQPop(v,"领券",TicketGoodsDetialsAty.this,theTrickAdapter);
+                commodityDetailsPranster.showLQPop(v, "领券", TicketGoodsDetialsAty.this, theTrickAdapter);
 //                showLQPop(v, "领券");
                 break;
             case R.id.tv_wjsd:
@@ -892,7 +895,20 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             if (0 == from) {
                 ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
             } else {
+                L.e("ticket_buy_id:" + ticket_buy_id);
                 goodsPst.goodsInfo(ticket_buy_id, page);
+            }
+        }
+
+//        // 获取商品的运费信息
+        if (requestUrl.contains("freight")) {
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONObject data = jsonObject.getJSONObject("data");
+                tv_freight.setText(data.getString("pay"));
+            } catch (JSONException e) {
+                showErrorTip("回传运费格式出错");
+                L.e("回传Json字符串格式异常");
             }
         }
 
@@ -1052,13 +1068,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (requestUrl.contains("addCollect")) {// 添加收藏
             showRightTip("收藏成功");
             is_collect = "1";
-            commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
             return;
         }
         if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             is_collect = "0";
-            commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
         }
         if (requestUrl.contains("cateIndex")) {
             L.e("json" + jsonStr);
@@ -1140,6 +1156,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     public void freightGetEd(Map<String, String> map) {
+        L.e("TicketGoodsDetialsAty.map=" + map.toString());
         freight_tv.setText(map.get("pay"));
         freight_tv.setTextColor(Color.parseColor("#FF0000"));
         tv_freight.setText(map.get("pay"));
@@ -1224,9 +1241,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         is_collect = data.get("is_collect");
 
         if ("0".equals(is_collect)) {
-            commodityDetailsPranster.isCollect(is_collect,"收藏",goods_title_collect_tv,TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
         } else {
-            commodityDetailsPranster.isCollect(is_collect,"已收藏",goods_title_collect_tv,TicketGoodsDetialsAty.this);
+            commodityDetailsPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, TicketGoodsDetialsAty.this);
         }
     }
 
@@ -1314,11 +1331,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         old_price_tv.setText("￥" + goodsInfo.get("market_price"));
         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         // 积分
-        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
-                "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FF0000"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv, "积分" + goodsInfo.get("integral"), 2, Color.parseColor("#FF0000"));
         // 运费(待定)
-        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
-                "运费10元", 2, Color.parseColor("#FF0000"));
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv, "运费10元", 2, Color.parseColor("#FF0000"));
         // 文字描述
         // goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
         // 图文详情
@@ -1368,7 +1383,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_salesvolume.setText("销量\t" + goodsInfo.get("sell_num"));
         tv_inventory.setText("库存\t" + goodsInfo.get("goods_num"));
         is_attr = is_attr + "-" + goodsInfo.get("goods_num");
-        //tv_freight.setText(goodsInfo.get(""));
+//        tv_freight.setText(goodsInfo.get(""));
+        L.e("TicketGoodsDetialsAty:" + goodsInfo.toString());
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
         if (goodsInfo.get("integral_buy_id").equals("0")) {
@@ -1472,9 +1488,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 }
             });
         }
-        commodityDetailsPranster.setBitmap(TicketGoodsDetialsAty.this,goodsInfo.get("country_logo"),im_country_logo);
-        commodityDetailsPranster.setTextContent(goodsInfo.get("country_desc"),tv_country_desc);
-        commodityDetailsPranster.setTextContent(goodsInfo.get("country_tax") + "元",tv_country_tax);
+        commodityDetailsPranster.setBitmap(TicketGoodsDetialsAty.this, goodsInfo.get("country_logo"), im_country_logo);
+        commodityDetailsPranster.setTextContent(goodsInfo.get("country_desc"), tv_country_desc);
+        commodityDetailsPranster.setTextContent(goodsInfo.get("country_tax") + "元", tv_country_tax);
         if (Double.parseDouble(goodsInfo.get("country_tax")) <= 0) {
             layou_jinkoushui.setVisibility(View.GONE);
         }

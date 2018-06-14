@@ -173,13 +173,14 @@ public class AllClassifyAty extends BaseAty {
     protected void requestData() {
         categoryPst.cateIndex(cate_id);
     }
-/**
- * 请求网络
- * */
+
+    /**
+     * 请求网络
+     */
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Log.i("分类左侧请求数据",jsonStr.toString());
+        Log.i("分类左侧请求数据", jsonStr.toString());
         if (requestUrl.contains("cateIndex")) {
             CateIndex cateIndex = GsonUtil.GsonToBean(jsonStr, CateIndex.class);
 
@@ -200,16 +201,19 @@ public class AllClassifyAty extends BaseAty {
                 }
             }
             right = cateIndex.getData().getTwo_cate();
-            Log.i("分类右侧数据",right.toString());
-            if (!ListUtils.isEmpty(right)) { // 如果有数据
+            if (right != null) { // 如果有数据
                 classify_nullData_layout.setVisibility(View.GONE);
                 classify_right_lv.setVisibility(View.VISIBLE);
                 rightAdapter = new RightAdapter();
                 classify_right_lv.setAdapter(rightAdapter);
-            } else { // 否则右侧没有数据
+            } else { // 否则没有数据
                 classify_nullData_layout.setVisibility(View.VISIBLE);
                 classify_right_lv.setVisibility(View.GONE);
             }
+//            Log.i("分类右侧数据",right.toString());
+//            if (!ListUtils.isEmpty(right)) { // 如果有数据
+//            } else { // 否则右侧没有数据
+//            }
         }
     }
 
