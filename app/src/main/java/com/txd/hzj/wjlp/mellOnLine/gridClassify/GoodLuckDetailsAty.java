@@ -879,7 +879,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     protected void requestData() {
-        groupBuyPst.groupBuyInfo(group_buy_id, page);
+        Intent gIntent=getIntent();
+        groupBuyPst.groupBuyInfo(group_buy_id, page,gIntent.getStringExtra("a_id"));
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1505,7 +1506,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     public void onBottom() {
         if (is_f) {
             page++;
-            groupBuyPst.groupBuyInfo(group_buy_id, page);
+            groupBuyPst.groupBuyInfo(group_buy_id, page,null);
         }
     }
 

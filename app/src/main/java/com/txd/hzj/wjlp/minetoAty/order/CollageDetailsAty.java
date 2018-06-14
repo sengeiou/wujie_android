@@ -318,7 +318,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_tel.setText(data.get("phone"));
                 tv_address.setText(data.get("address"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
-                order_price_info_tv.setText(Html.fromHtml("共" +calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
+                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -584,6 +584,8 @@ public class CollageDetailsAty extends BaseAty {
                             if (getItem(i).containsKey("group_buy_id")) {//拼单购
                                 bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                                 bundle.putInt("from", 1);
+                                if (getItem(i).containsKey("a_id"))
+                                    bundle.putString("a_id", getItem(i).get("a_id"));//  "a_id": "1",      //体验品活动id，非体验品拼单时此id为0
                                 startActivity(GoodLuckDetailsAty.class, bundle);
                             }
                         }

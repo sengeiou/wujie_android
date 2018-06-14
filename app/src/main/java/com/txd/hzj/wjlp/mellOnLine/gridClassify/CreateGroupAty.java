@@ -303,11 +303,9 @@ public class CreateGroupAty extends BaseAty {
                             findViewById(R.id.group_timing_state).setVisibility(View.GONE);
                         }
                     }
-
                     for (int i = 0; i < offered.size(); i++) {
-//                        buffer.append(" · ");
                         buffer.append(offered.get(i).getOneself());
-                        buffer.append("\n");
+                        buffer.append("\n\n");
                     }
                     textview.setText(buffer.toString());
 
