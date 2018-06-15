@@ -218,7 +218,7 @@ public class NoticeDetailsAty extends BaseAty {
                     .placeholder(R.drawable.ic_default)
                     .centerCrop()
                     .dontAnimate()
-//                    .override(Settings.displayWidth, Settings.displayWidth)
+                    .override(lp.width, lp.height)
                     .into(books_logo_iv);
 
             notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);
