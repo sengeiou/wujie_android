@@ -14,6 +14,7 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -23,6 +24,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
@@ -82,6 +85,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -501,6 +505,14 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private String messageStr = "当前商品已下架";
     private CommodityDetailsPranster commodityDetailsPranster;
 
+    @ViewInject(R.id.ticketGoodsDetials_refreshLayout_ssrl)
+    private SuperSwipeRefreshLayout ticketGoodsDetials_refreshLayout_ssrl; // 下拉刷新控件
+    // 刷新头部
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -520,6 +532,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
         commodityDetailsPranster = new CommodityDetailsPranster();
     }
+
 
     @Override
     @OnClick({R.id.title_goods_layout, R.id.title_details_layout, R.id.title_evaluate_layout,
@@ -870,7 +883,48 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
         });
+        ticketGoodsDetials_refreshLayout_ssrl.setHeaderView(createHeaderView());// add headerView
+        ticketGoodsDetials_refreshLayout_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
+        ticketGoodsDetials_refreshLayout_ssrl.setTargetScrollWithLayout(true);
+        ticketGoodsDetials_refreshLayout_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                page = 1;
+                if (0 == from) {
+                    ticketBuyPst.ticketBuyInfo(ticket_buy_id, page);
+                } else {
+                    goodsPst.goodsInfo(ticket_buy_id, page);
+                }
+            }
 
+            @Override
+            public void onPullDistance(int distance) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(ticketGoodsDetials_refreshLayout_ssrl.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
@@ -884,12 +938,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
+        ticketGoodsDetials_refreshLayout_ssrl.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
+
+        progressBar.setVisibility(View.GONE
+        );
+        ticketGoodsDetials_refreshLayout_ssrl.setRefreshing(false);
+
         if (requestUrl.contains("addCart")) {
             showToast("添加成功！");
             if (0 == from) {
