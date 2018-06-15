@@ -22,6 +22,7 @@ import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
+import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -41,6 +42,7 @@ import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -793,6 +795,19 @@ public class PayForAppAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("setOrder")) {
+            if(requestUrl.contains("GroupBuyOrder/setOrder")){
+                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
+                dialog.setCancelable(false);
+                dialog.setMessage(error.get("message"));
+                dialog.setTitle("活动提示");
+                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PayForAppAty.this.finish();
+                    }
+                });
+                dialog.create().show();
+            }
             return;
         }
 //        finish();

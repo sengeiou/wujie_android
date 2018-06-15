@@ -917,6 +917,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     String buyStatusStr=goodsInfo.getBuy_status();
                     if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
                         CustomDialog.Builder dialog = new CustomDialog.Builder(GoodLuckDetailsAty.this);
+                        dialog.setCancelable(false);
                         dialog.setMessage("当前商品已下架");
                         dialog.setTitle("下架提示");
                         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {

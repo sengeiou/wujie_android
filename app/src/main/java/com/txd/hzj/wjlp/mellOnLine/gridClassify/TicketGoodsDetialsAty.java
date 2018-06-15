@@ -942,6 +942,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
              * */
             if (goodsInfo.containsKey("buy_status") && goodsInfo.get("buy_status").equals("0")) {
                 CustomDialog.Builder dialog = new CustomDialog.Builder(this);
+                dialog.setCancelable(false);
                 dialog.setMessage("当前商品已下架");
                 dialog.setTitle("下架提示");
                 dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {

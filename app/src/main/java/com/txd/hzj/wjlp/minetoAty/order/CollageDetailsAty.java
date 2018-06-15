@@ -655,6 +655,8 @@ public class CollageDetailsAty extends BaseAty {
                             if (getItem(i).containsKey("group_buy_id")) {//拼单购
                                 bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                                 bundle.putInt("from", 1);
+                                if (getItem(i).containsKey("a_id"))
+                                    bundle.putString("a_id", getItem(i).get("a_id"));//  "a_id": "1",      //体验品活动id，非体验品拼单时此id为0
                                 startActivity(GoodLuckDetailsAty.class, bundle);
                             }
                         }
