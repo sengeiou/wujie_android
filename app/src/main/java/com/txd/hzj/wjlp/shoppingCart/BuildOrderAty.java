@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -899,19 +900,38 @@ public class BuildOrderAty extends BaseAty {
             }
             Glide.with(context).load(getItem(i).get("goods_img")).into(govh.goods_comment_pic);
             govh.tv_number.setText("×" + getItem(i).get("num"));
-            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
-                String return_integral = getItem(i).get("return_integral");
-                // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
-                govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
-            } catch (Exception e) {
-                // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
-                govh.jifen_tv.setText("");
-            }
+//            try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+//                String return_integral = getItem(i).get("return_integral");
+//                // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
+//                govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
+//            } catch (Exception e) {
+//                // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
+//                govh.jifen_tv.setText("");
+//            }
             L.e("wang", "====>>>>>>>>>>>getItem(i):" + getItem(i));
             govh.goods_title_for_evaluate_tv.setText(getItem(i).get("goods_name"));
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
-                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
+
+//                try { // TODO 临时解决拼单和普通商品创建订单时赠送积分显示不正确的问题
+//                    String return_integral = getItem(i).get("return_integral");
+//                    // 如果返回积分为null，则将TextView设置成空字符串，但不隐藏，否则直接设置赠送积分提示
+//                    govh.jifen_tv.setText(return_integral == null ? "" : "（赠送:" + return_integral + "积分）");
+//                } catch (Exception e) {
+//                    // 如果有异常（主要是没有回传该字段）则将TextView设置成空字符串
+//                    govh.jifen_tv.setText("");
+//                }
+                String guigeJiFenStr = ""; // 积分和规格的字符串
+                String return_integral = ""; // 积分
+                try {
+                    return_integral = getItem(i).get("return_integral") != null ? "（赠送:" + getItem(i).get("return_integral") + "积分）" : "";
+                } catch (Exception e){
+                    return_integral = "";
+                }
+                guigeJiFenStr = getItem(i).get("goods_attr_first") + "<font color='#FD8214'><small><small>" + return_integral + "</small></small></font>";
+
+//                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
+                govh.price_for_goods_tv.setText(Html.fromHtml(guigeJiFenStr));
                 if ("10".equals(type)) {
                     govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
                 } else {
@@ -1023,8 +1043,8 @@ public class BuildOrderAty extends BaseAty {
             private TextView shop_priceTv;
             @ViewInject(R.id.price_for_goods_tv)
             private TextView price_for_goods_tv;
-            @ViewInject(R.id.jifen_tv)
-            private TextView jifen_tv;
+//            @ViewInject(R.id.jifen_tv)
+//            private TextView jifen_tv;
             @ViewInject(R.id.tv_number)
             private TextView tv_number;
             @ViewInject(R.id.layout)
