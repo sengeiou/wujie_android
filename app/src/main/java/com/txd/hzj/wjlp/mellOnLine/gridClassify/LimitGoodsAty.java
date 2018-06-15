@@ -378,6 +378,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      */
     @ViewInject(R.id.promotion_layout)
     private LinearLayout promotion_layout;
+    /**
+     * 促销布局上面的线
+     */
+    @ViewInject(R.id.promotion_layoutline)
+    private LinearLayout promotion_layoutline;
 
     /**
      * 商品条数
@@ -1117,7 +1122,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                     ContextCompat.getColor(LimitGoodsAty.this, R.color.theme_color));
                         }
                     } else {
-                        layout_service.setVisibility(View.GONE);
+//                        layout_service.setVisibility(View.GONE);
 //                        layout_layout_settings.setVisibility(View.GONE);
                         layout_djq.setVisibility(View.GONE);
                         tv_kucun.setText("库存" + goodsInfo.getGoods_num());
@@ -1207,8 +1212,10 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                    show_or_hide_iv.setEnabled(false);
                         }
                         promotion_layout.setVisibility(View.VISIBLE);
+                        promotion_layoutline.setVisibility(View.VISIBLE);
                     } else {
                         promotion_layout.setVisibility(View.GONE);
+                        promotion_layoutline.setVisibility(View.GONE);
                     }
                     // 优惠券列表
                     List<TicketListBean> ticketListBeens = data.getTicketList();
