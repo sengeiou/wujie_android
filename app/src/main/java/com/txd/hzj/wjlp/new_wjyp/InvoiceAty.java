@@ -147,7 +147,7 @@ public class InvoiceAty extends BaseAty {
                                 showToast("请输入发票抬头");
                                 return;
                             }
-                            if (TextUtils.isEmpty(tv_type.getText().toString())) {
+                            if (TextUtils.isEmpty(tv_type.getText().toString()) || tv_type.getText().toString().equals("请选择")) {
                                 showToast("请选择发票明细");
                                 return;
                             }
@@ -315,7 +315,8 @@ public class InvoiceAty extends BaseAty {
             noCb.setChecked(false);
             needCb.setChecked(true);
             layout.setVisibility(View.VISIBLE);
-            tv_tax.setText("税金" + invoice1.getText6());
+//            tv_tax.setText("税金" + invoice1.getText6());
+            tv_tax.setText(invoice1.getText6());
             tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
 
             et_title.setText(invoice1.getText1());
@@ -340,8 +341,9 @@ public class InvoiceAty extends BaseAty {
 
     }
 
-//    InvoiceBean invoice1;
+    //    InvoiceBean invoice1;
     Invoice1 invoice1;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -357,8 +359,8 @@ public class InvoiceAty extends BaseAty {
                 invoice1 = (Invoice1) data.getSerializableExtra("data1");
 //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
-                if(!TextUtils.isEmpty(invoice1.getTax()))
-                L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
+                if (!TextUtils.isEmpty(invoice1.getTax()))
+                    L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
 //                L.e("wang","  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
 //                DecimalFormat df = new DecimalFormat(".##");
 //                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
