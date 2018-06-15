@@ -52,6 +52,9 @@ import java.util.Map;
  */
 public class OrderDetailsAty extends BaseAty {
     private String type;
+    /**
+     * /订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
+     */
     private String order_status = "";
     private String order_id = "";
     @ViewInject(R.id.tv_state)
@@ -930,7 +933,7 @@ public class OrderDetailsAty extends BaseAty {
                     // 如果未提醒过发货，则将提醒发货按钮设置为显示
 //                    if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time")))
 //                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
-                    if (order_status.equals("1")) { // 如果订单状态是待发货
+                    if (order_status.equals("1")) { // 如果订单状态是待发货     remind_status //0未提醒发货   1以提醒发货"
                         tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
                     }
                     tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏

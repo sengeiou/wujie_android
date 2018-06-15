@@ -670,8 +670,8 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "7", "", num, this);
                     } else if (type.equals("9")) {
                         IntegralPay.integralPay(order_id, "4", "", num, this);
-                    } else if (type.equals("10")) {
-                        IntegralPay.integralPay(order_id, "10", "", num, this);
+                    } else if (type.equals("10")) {//无界商店
+                        IntegralPay.integralPay(order_id, "5", "", num, this);
                     }
                     showProgressDialog();
 
