@@ -70,7 +70,9 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class BuildOrderAty extends BaseAty {
-    //tijiao
+    /**
+     * 提交
+     */
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 

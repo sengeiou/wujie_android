@@ -65,6 +65,7 @@ import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -687,9 +688,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             Promoters promoters = GsonUtil.GsonToBean(jsonStr, Promoters.class);
             Log.i("lanse", jsonStr);
             if (promoters.getCode().equals("1")) {
-                imaUrl = promoters.getData().getAds().get(0).getPicture();
-                give_coupon_tv.setText(promoters.getData().getAds().get(0).getDesc());
-                Log.i("textviewtoStroing", imaUrl + "===================" + promoters.getData().getAds().get(0).getDesc());
+                Promoters.DataBean data = promoters.getData();
+                if (data.getAds().size() > 0) { // List列表get的时候判断一下size，否则容易报数组下标越界异常
+                    imaUrl = data.getAds().get(0).getPicture();
+                    give_coupon_tv.setText(promoters.getData().getAds().get(0).getDesc());
+                    Log.i("textviewtoStroing", imaUrl + "===================" + promoters.getData().getAds().get(0).getDesc());
+                }
             }
         }
 
