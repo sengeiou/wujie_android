@@ -134,7 +134,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
         titlt_right_tv.setVisibility(View.VISIBLE);
         titlt_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
 
-        ProUrbAreaUtil.gainInstance().setGetData(this);
+
     }
 
     @Override
