@@ -18,6 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/goods_details_bottom_layout">
+            <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+                android:id="@+id/limit_refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
             <com.txd.hzj.wjlp.view.ObservableScrollView
                 android:id="@+id/limit_goods_details_sc"
@@ -872,7 +876,7 @@
                 </LinearLayout>
 
             </com.txd.hzj.wjlp.view.ObservableScrollView>
-
+            </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
             <ImageView
                 android:id="@+id/be_back_top_iv"
                 android:layout_width="wrap_content"

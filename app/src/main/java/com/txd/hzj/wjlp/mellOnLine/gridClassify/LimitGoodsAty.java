@@ -22,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.WeApplication;
@@ -37,6 +38,7 @@ import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.ants.theantsgo.view.taobaoprogressbar.CustomProgressBar;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -84,6 +86,7 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -658,6 +661,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private View title_evaluate_layout;
     @ViewInject(R.id.tv_date)
     private TextView tv_date;
+    //刷新
+    @ViewInject(R.id.limit_refresh)
+    private VpSwipeRefreshLayout limit_refresh;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
 
     private CommodityDetailsInter.CommodityPranster commodityPranster;
 
@@ -680,6 +689,30 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
         commodityPranster = new CommodityDetailsPranster();
         commodityPranster.setView(this);
+        limit_refresh.setHeaderViewBackgroundColor(Color.WHITE);
+        limit_refresh.setHeaderView(createHeaderView());// add headerView
+        limit_refresh.setTargetScrollWithLayout(true);
+        limit_refresh.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                getData();
+            }
+
+            @Override
+            public void onPullDistance(int i) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
     }
 
     private boolean init = false;
@@ -724,6 +757,81 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         imageViews.add(level_3_iv);
         imageViews.add(level_4_iv);
         imageViews.add(level_5_iv);
+    }
+
+    private void getData() {
+        switch (type) {
+            case WJConfig.XLG:// 限量购
+                limitBuyPst.limitBuyInfo(limit_buy_id, page);
+                tv_jrgwc.setVisibility(View.GONE);
+                break;
+            case WJConfig.WJYG:// 无界预购
+                perBuyPst.preBuyInfo(limit_buy_id, page);
+                tv_ljgm.setText("交付定金");
+                break;
+            case WJConfig.WJSD:// 无界商店
+                integralBuyPst.integralBuyInfo(limit_buy_id, page);
+                tv_jrgwc.setVisibility(View.GONE);
+                break;
+        }
+
+        ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putString("ticket_buy_id", ticket.get(position).getGoods_id());
+                bundle.putInt("from", 1);
+                startActivity(TicketGoodsDetialsAty.class, bundle);
+            }
+        });
+        tv_ljgm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (WJConfig.XLG == type) {//  (ArrayList) goodsAttrs,  (ArrayList) goods_produc
+                    if (is_C) {//限量购物
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", WJConfig.TYPE_XLG);
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, WJConfig.TYPE_XLG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getLimit_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
+                } else if (WJConfig.WJYG == type) {//      (ArrayList) goodsAttrs,    (ArrayList) goods_produc
+                    if (is_C) {    //无界预购
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", WJConfig.TYPE_WJYG);
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
+                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
+                    if (is_C) {
+                        Intent intent = new Intent();
+                        intent.putExtra("mid", mell_id);
+                        intent.putExtra("type", WJConfig.TYPE_WJSD);
+                        intent.putExtra("goods_id", goods_id);
+                        intent.putExtra("group_buy_id", limit_buy_id);
+                        intent.putExtra("num", String.valueOf(goods_number));
+                        intent.putExtra("product_id", product_id);
+                        intent.setClass(LimitGoodsAty.this, BuildOrderAty.class);
+                        startActivity(intent);
+                    } else {
+                        toAttrs(v, 0, WJConfig.TYPE_WJSD, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getUse_integral(), limit_buy_id, goods_attr_first, first_val, is_attr);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -805,6 +913,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        progressBar.setVisibility(View.GONE);
+        limit_refresh.setRefreshing(false);
         removeDialog();
         if (requestUrl.contains("limitBuyInfo") ||
                 requestUrl.contains("preBuyInfo") ||
@@ -814,15 +924,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 public void returnObj(Object t) {
                     IntegralBuyInfoBean integralBuyInfoBean = (IntegralBuyInfoBean) t;
                     IntegralBuyInfoDataBean data = integralBuyInfoBean.getData();
-
-
-
-
-
-
-
-
-
                     remarks.setText(data.getRemarks());
                     String cart_num = data.getCart_num();
                     goods_attr_first = data.getFirst_list();
@@ -861,8 +962,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     /**
                      *以下表示如果buy_status==0，表示当前商品已经下架
                      * */
-                    String buyStatusStr=goodsInfo.getBuy_status();
-                    if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
+                    String buyStatusStr = goodsInfo.getBuy_status();
+                    if (!TextUtils.isEmpty(buyStatusStr) && buyStatusStr.equals("0")) {
                         CustomDialog.Builder dialog = new CustomDialog.Builder(LimitGoodsAty.this);
                         dialog.setCancelable(false);
                         dialog.setMessage("当前商品已下架");
@@ -1904,9 +2005,9 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             bundle.putString("mid", data.getStringExtra("mid"));
             bundle.putString("type", data.getStringExtra("type"));
             bundle.putString("goods_id", data.getStringExtra("goods_id"));
-            if(WJConfig.WJSD==type){//无界商店
+            if (WJConfig.WJSD == type) {//无界商店
                 bundle.putString("group_buy_id", data.getStringExtra("integral_buy_id"));
-            }else{
+            } else {
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
             }
             String order_id = data.getStringExtra("order_id");
@@ -1919,4 +2020,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         }
     }
 
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(limit_refresh.getContext()).inflate(R.layout.layout_head, null);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
+    }
 }
