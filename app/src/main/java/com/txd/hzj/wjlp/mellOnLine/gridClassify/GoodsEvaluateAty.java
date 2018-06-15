@@ -483,10 +483,8 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             if (!android.text.TextUtils.isEmpty(commentList.getGoods_num())) {
                 gevh.tv_number.setVisibility(View.VISIBLE);
                 gevh.tv_number.setText("x" + commentList.getGoods_num());
-                gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.goods_evaluate_num.setVisibility(View.GONE);
             } else {
-                gevh.jifen_tv.setVisibility(View.GONE);
                 gevh.tv_number.setVisibility(View.GONE);
             }
 
@@ -551,13 +549,13 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
              */
             @ViewInject(R.id.tv_number)
             private TextView tv_number;
+//            /**
+//             * 积分
+//             */
+//            @ViewInject(R.id.jifen_tv)
+//            private TextView jifen_tv;
             /**
-             * 积分
-             */
-            @ViewInject(R.id.jifen_tv)
-            private TextView jifen_tv;
-            /**
-             * 积分
+             * 商品评价数量
              */
             @ViewInject(R.id.goods_evaluate_num)
             private TextView goods_evaluate_num;
