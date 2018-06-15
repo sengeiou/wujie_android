@@ -18,7 +18,7 @@ public class GroupBuyOrder {
      * @param order_type
      * @param group_buy_order_id
      * @param group_buy_id
-     * @param leave_word 用户订单留言
+     * @param leave_word         用户订单留言
      * @param baseView
      */
     public static void setOrder(String address_id, String goods_num, String goods_id, String product_id,
@@ -157,12 +157,14 @@ public class GroupBuyOrder {
      * 确认收货
      *
      * @param group_buy_order_id
+     * @param status   状态（2->放弃，1->确认）
      * @param baseView
      */
-    public static void receiving(String group_buy_order_id, BaseView baseView) {
+    public static void receiving(String group_buy_order_id, String status, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("group_buy_order_id", group_buy_order_id);
+        params.addBodyParameter("status", status);
         apiTool2.postApi(url + "receiving", params, baseView);
     }
 

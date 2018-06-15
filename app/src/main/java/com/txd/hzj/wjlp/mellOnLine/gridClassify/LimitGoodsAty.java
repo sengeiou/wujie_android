@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.WeApplication;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.L;
@@ -811,6 +814,15 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 public void returnObj(Object t) {
                     IntegralBuyInfoBean integralBuyInfoBean = (IntegralBuyInfoBean) t;
                     IntegralBuyInfoDataBean data = integralBuyInfoBean.getData();
+
+
+
+
+
+
+
+
+
                     remarks.setText(data.getRemarks());
                     String cart_num = data.getCart_num();
                     goods_attr_first = data.getFirst_list();
@@ -845,6 +857,26 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     }
                     // 商品基本信息
                     goodsInfo = data.getGoodsInfo();
+
+                    /**
+                     *以下表示如果buy_status==0，表示当前商品已经下架
+                     * */
+                    String buyStatusStr=goodsInfo.getBuy_status();
+                    if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
+                        CustomDialog.Builder dialog = new CustomDialog.Builder(LimitGoodsAty.this);
+                        dialog.setCancelable(false);
+                        dialog.setMessage("当前商品已下架");
+                        dialog.setTitle("下架提示");
+                        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                LimitGoodsAty.this.finish();
+                            }
+                        });
+                        dialog.create().show();
+                    }
+
+
                     is_attr = data.getIs_attr();
                     is_attr = is_attr + "-" + goodsInfo.getGoods_num();
                     // 商品id

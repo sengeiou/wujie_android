@@ -216,7 +216,7 @@ public class CollageDetailsAty extends BaseAty {
                         bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
-                        GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
+                        GroupBuyOrder.receiving(order_id,"", CollageDetailsAty.this);
                         showProgressDialog();
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
@@ -397,7 +397,7 @@ public class CollageDetailsAty extends BaseAty {
                     showPwdPop(clickView, 0);
                     efreshPage(); // 刷新界面
                 } else {
-                    GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
+                    GroupBuyOrder.receiving(order_id,"", CollageDetailsAty.this);
                     showProgressDialog();
                 }
             } else {
@@ -655,6 +655,8 @@ public class CollageDetailsAty extends BaseAty {
                             if (getItem(i).containsKey("group_buy_id")) {//拼单购
                                 bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                                 bundle.putInt("from", 1);
+                                if (getItem(i).containsKey("a_id"))
+                                    bundle.putString("a_id", getItem(i).get("a_id"));//  "a_id": "1",      //体验品活动id，非体验品拼单时此id为0
                                 startActivity(GoodLuckDetailsAty.class, bundle);
                             }
                         }
@@ -929,7 +931,7 @@ public class CollageDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
+                                GroupBuyOrder.receiving(order_id,"2", CollageDetailsAty.this);
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
                                 showProgressDialog();
@@ -940,7 +942,7 @@ public class CollageDetailsAty extends BaseAty {
                             @Override
                             public void onClick(View v) {
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv2 click status = 2");
-                                GroupBuyOrder.receiving(order_id, CollageDetailsAty.this);
+                                GroupBuyOrder.receiving(order_id, "1", CollageDetailsAty.this);
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
                                 efreshPage();

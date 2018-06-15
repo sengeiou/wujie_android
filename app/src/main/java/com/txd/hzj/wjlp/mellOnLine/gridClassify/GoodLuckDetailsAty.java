@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -81,6 +82,7 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -610,6 +612,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     //开团总数
     private String group_count;
 
+    @ViewInject(R.id.limitGoodsDetials_superRefesh_ssrl)
+    private SuperSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
+
+    // 刷新头部
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+    private String a_id; // 此变量虽然不知道什么意思，但是在请求接口groupBuyInfo的时候会用到
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -880,7 +892,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     protected void requestData() {
         Intent gIntent=getIntent();
-        groupBuyPst.groupBuyInfo(group_buy_id, page,gIntent.getStringExtra("a_id"));
+        a_id = gIntent.getStringExtra("a_id");
+        groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -892,15 +905,63 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         });
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
         showProgressDialog();
+
+        limitGoodsDetials_superRefesh_ssrl.setHeaderView(createHeaderView());// add headerView
+        limitGoodsDetials_superRefesh_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
+        limitGoodsDetials_superRefesh_ssrl.setTargetScrollWithLayout(true);
+        limitGoodsDetials_superRefesh_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                page = 1;
+                groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+    }
+
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(limitGoodsDetials_superRefesh_ssrl.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 
 
     private String groupType;
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        limitGoodsDetials_superRefesh_ssrl.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         removeProgressDialog();
+
+        limitGoodsDetials_superRefesh_ssrl.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
 
         if (requestUrl.contains("groupBuyInfo")) {
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
@@ -917,6 +978,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     String buyStatusStr=goodsInfo.getBuy_status();
                     if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
                         CustomDialog.Builder dialog = new CustomDialog.Builder(GoodLuckDetailsAty.this);
+                        dialog.setCancelable(false);
                         dialog.setMessage("当前商品已下架");
                         dialog.setTitle("下架提示");
                         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {

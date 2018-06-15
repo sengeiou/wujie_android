@@ -386,13 +386,13 @@ public class CartFgt extends BaseFgt {
                         }
                     }).showDialog();
                 } else {// 去结算
-                    String mId = "";
+                    String mId = ""; // 商家ID
                     StringBuffer stringBuffer = new StringBuffer();
                     for (ShopingCart shopingCart : shopingCarts) {
                         for (CartGoods cartGoods : shopingCart.getGoodsInfo()) {
                             if (cartGoods.isCheck()) {
-                                stringBuffer.append(cartGoods.getCart_id());
-                                stringBuffer.append(",");
+                                stringBuffer.append(cartGoods.getCart_id()); // 购物车ID
+                                stringBuffer.append(","); // 此处上传值字符串最后会多加一个逗号，后台已处理
 //                                if (!ListUtils.isEmpty(json_list)) {
 //                                    break;
 //                                }
@@ -400,7 +400,7 @@ public class CartFgt extends BaseFgt {
                         }
                         if (!TextUtils.isEmpty(stringBuffer.toString())) {
                             is_all = true;
-                            mId = shopingCart.getMerchant_id();
+                            mId = shopingCart.getMerchant_id(); // 获取商家ID
 //                            showToast("请选择同商店的商品");
                             break;
                         }

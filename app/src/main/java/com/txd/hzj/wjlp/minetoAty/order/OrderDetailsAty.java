@@ -52,6 +52,9 @@ import java.util.Map;
  */
 public class OrderDetailsAty extends BaseAty {
     private String type;
+    /**
+     * /订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
+     */
     private String order_status = "";
     private String order_id = "";
     @ViewInject(R.id.tv_state)
@@ -221,7 +224,7 @@ public class OrderDetailsAty extends BaseAty {
                             //                            Order.receiving(order_id, OrderDetailsAty.this);
                             //                            showProgressDialog();
                         } else {
-                            IntegralBuyOrder.Receiving(order_id, OrderDetailsAty.this);
+                            IntegralBuyOrder.Receiving(order_id, "", OrderDetailsAty.this);
                             showProgressDialog();
                         }
                     } else if (order_status.equals("3")) {
@@ -257,7 +260,7 @@ public class OrderDetailsAty extends BaseAty {
                         bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
-                        GroupBuyOrder.receiving(order_id, OrderDetailsAty.this);
+                        GroupBuyOrder.receiving(order_id, "", OrderDetailsAty.this);
                         showProgressDialog();
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
@@ -930,7 +933,7 @@ public class OrderDetailsAty extends BaseAty {
                     // 如果未提醒过发货，则将提醒发货按钮设置为显示
 //                    if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time")))
 //                        tgvh.textview.setText(map.get("auto_time")); // 设置文字为系统自动收货的时间
-                    if (order_status.equals("1")) { // 如果订单状态是待发货
+                    if (order_status.equals("1")) { // 如果订单状态是待发货     remind_status //0未提醒发货   1以提醒发货"
                         tgvh.tv_btn_remind.setVisibility(map.get("remind_status").equals("0") ? View.VISIBLE : View.GONE); // 提醒发货按钮
                     }
                     tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮隐藏
@@ -989,10 +992,21 @@ public class OrderDetailsAty extends BaseAty {
             tgvh.tv_btn_remind.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ("3".equals(type)) {
-                        GroupBuyOrder.remind(OrderDetailsAty.this, order_id);
-                    } else {
-                        Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                    switch (type) {
+                        case "0": {//普通
+                            Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
+                        }
+                        break;
+                        case "3": {//拼单
+                            GroupBuyOrder.remind(OrderDetailsAty.this, order_id);
+                        }
+                        break;
+                        case "10": {//无界商店
+                            IntegralBuyOrder.remind(order_id, OrderDetailsAty.this);
+                        }
+                        break;
+                        default:
+                            Order.remind(OrderDetailsAty.this, list.get(i).get("order_goods_id")); // 请求后台提醒发货接口
                     }
                     showProgressDialog(); // 显示加载框
                     efreshPage();
@@ -1159,7 +1173,20 @@ public class OrderDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                switch (type) {
+                                    case "0": {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "2", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                    case "3": {
+                                        GroupBuyOrder.receiving(group_buy_id, "2", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                    case "10": {
+                                        IntegralBuyOrder.Receiving(order_id, "2", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                }
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
                                 showProgressDialog();
@@ -1170,7 +1197,20 @@ public class OrderDetailsAty extends BaseAty {
                             @Override
                             public void onClick(View v) {
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv2 click status = 2");
-                                Order.receiving(order_id, list.get(position).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                switch (type) {
+                                    case "0": {
+                                        Order.receiving(order_id, list.get(clickIndex).get("order_goods_id"), "1", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                    case "3": {
+                                        GroupBuyOrder.receiving(group_buy_id, "1", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                    case "10": {
+                                        IntegralBuyOrder.Receiving(order_id, "1", OrderDetailsAty.this);
+                                    }
+                                    break;
+                                }
                                 showProgressDialog();
                                 commonPopupWindow.dismiss();
                                 efreshPage();

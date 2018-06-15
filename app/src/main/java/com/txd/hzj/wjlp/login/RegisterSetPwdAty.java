@@ -118,7 +118,7 @@ public class RegisterSetPwdAty extends BaseAty {
                 String confirmPassword = countersign_pwd_ev.getText().toString();
 
                 registerPst.register(phone, password, confirmPassword);
-                hideKeyBoard();
+                hideKeyBoard(); // 隐藏键盘
                 break;
         }
     }
@@ -186,7 +186,7 @@ public class RegisterSetPwdAty extends BaseAty {
                         // 环信登录
                         registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
 //            if (0 == skip_type) {
-                        AppManager.getInstance().killAllActivity();
+                        AppManager.getInstance().killAllActivityNoExit();
                         startActivity(MainAty.class, null);
                     }
                 });
