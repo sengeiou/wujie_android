@@ -272,6 +272,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         }
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
         super.startActivityForResult(intent, requestCode, options);

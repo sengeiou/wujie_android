@@ -417,14 +417,14 @@ public class BuildOrderAty extends BaseAty {
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
 //            if (!"10".equals(type)) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject itemJson = (JSONObject) jsonArray.get(i);
-                    countryTax += itemJson.getDouble("country_tax");
-                }
-                if (countryTax > 0) {
-                    // 刚开始如果有进口税则只显示进口税
-                    tv_youfei.append("+进口税" + countryTax);
-                }
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject itemJson = (JSONObject) jsonArray.get(i);
+                countryTax += itemJson.getDouble("country_tax");
+            }
+            if (countryTax > 0) {
+                // 刚开始如果有进口税则只显示进口税
+                tv_youfei.append("+进口税" + countryTax);
+            }
 
 //            }
         } catch (JSONException e) {
@@ -499,9 +499,9 @@ public class BuildOrderAty extends BaseAty {
             } else {
                 total_price = Double.parseDouble(map.get("sum_shop_price"));
                 //                tv_sum_discount.setVisibility(View.GONE);
-
+                DecimalFormat df = new DecimalFormat("0.00");
                 ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                        "合计：" + map.get("sum_shop_price") + "积分", "合计：".length(), Color.parseColor("#FF0000"));
+                        "合计：" + df.format(total_price) + "积分", "合计：".length(), Color.parseColor("#FF0000"));
                 //                order_price_at_last_tv.setText("合计：" + map.get("sum_shop_price") + "积分");
             }
             if (ToolKit.isList(map, "item")) { // 判断该Map是否可解析成List
@@ -678,9 +678,9 @@ public class BuildOrderAty extends BaseAty {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.append("包邮");
                                     } else {
-                                        if("10".equals(type)){
+                                        if ("10".equals(type)) {
                                             tv_youfei.append("+" + kk + "积分");
-                                        }else {
+                                        } else {
                                             tv_youfei.append("+" + kk + "元运费");
                                         }
                                     }
@@ -689,25 +689,19 @@ public class BuildOrderAty extends BaseAty {
                                         //                                    tv_youfei.setVisibility(View.GONE);
                                         tv_youfei.setText("包邮");
                                     } else {
-                                        if("10".equals(type)){
+                                        if ("10".equals(type)) {
                                             tv_youfei.setText("+" + kk + "积分");
-                                        }else {
+                                        } else {
                                             tv_youfei.setText("+" + kk + "元运费");
                                         }
                                     }
                                 }
-
-
                                 if ("10".equals(type)) {
-                                    DecimalFormat decimalFormat = new DecimalFormat("0");
-                                    String str = decimalFormat.format(total_price);
-                                    order_price_at_last_tv.setText("合计：" + str + "积分");
                                     ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
-                                            "合计：" + str+"积分", "合计：".length(), getResources().getColor(R.color.holo_red_light));
+                                            "合计：" + df.format(total_price) + "积分", "合计：".length(), getResources().getColor(R.color.holo_red_light));
                                 } else {
                                     ChangeTextViewStyle.getInstance().forTextColor(BuildOrderAty.this, order_price_at_last_tv,
                                             "合计：¥" + df.format(total_price), "合计：".length(), getResources().getColor(R.color.holo_red_light));
-                                    //                                    order_price_at_last_tv.setText("合计：¥" + total_price);
                                 }
 
                             }
@@ -918,9 +912,9 @@ public class BuildOrderAty extends BaseAty {
 
             if (!TextUtils.isEmpty(getItem(i).get("goods_attr_first"))) {
                 govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
-                if("10".equals(type)){
+                if ("10".equals(type)) {
                     govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
-                }else {
+                } else {
                     govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
                 }
             } else {
@@ -967,27 +961,32 @@ public class BuildOrderAty extends BaseAty {
             });
             govh.tv_sle_left.setText(TextUtils.isEmpty(splitNewList.get(i).getId()) ? "请选择配送方式" : "");
             if (!TextUtils.isEmpty(splitNewList.get(i).getId())) {
-                govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + " ¥" + splitNewList.get(i).getPay()));
+                if ("10".equals(type)) {
+                    govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + splitNewList.get(i).getPay() + "积分"));
+                } else {
+                    govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + " ¥" + splitNewList.get(i).getPay()));
+                }
+
             }
 
 //            if (!"10".equals(type)) {
 
-                // 正品保证
-                govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
-                govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
-                // 服务承诺
-                govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
-                govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
-                // 发货时间
-                govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
-                govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
-                // 公益宝贝
-                govh.layout_gongyi.setVisibility(getItem(i).get("is_welfare").equals("0") ? View.GONE : View.VISIBLE);
-                if (getItem(i).containsKey("welfare"))
-                    govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
-                // 售后
-                govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
-                govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
+            // 正品保证
+            govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_pinzhibaozhang.setText(getItem(i).get("integrity_a").isEmpty() ? "" : getItem(i).get("integrity_a"));
+            // 服务承诺
+            govh.layout_fuwuchengnuo.setVisibility(getItem(i).get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_fuwuchengnuo.setText(getItem(i).get("integrity_b").isEmpty() ? "" : getItem(i).get("integrity_b"));
+            // 发货时间
+            govh.layout_fahuoshijian.setVisibility(getItem(i).get("integrity_c").isEmpty() ? View.GONE : View.VISIBLE);
+            govh.tv_fahuoshijian.setText(getItem(i).get("integrity_c").isEmpty() ? "" : getItem(i).get("integrity_c"));
+            // 公益宝贝
+            govh.layout_gongyi.setVisibility(getItem(i).get("is_welfare").equals("0") ? View.GONE : View.VISIBLE);
+            if (getItem(i).containsKey("welfare"))
+                govh.tv_gongyi.setText("成交后卖家将捐赠" + getItem(i).get("welfare") + "元给公益计划");
+            // 售后
+            govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
+            govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
 //            }
 
             /**
