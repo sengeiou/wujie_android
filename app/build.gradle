@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.txd.hzj.wjlp"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 27
         versionCode 20180531
         versionName "1.0.9"
@@ -157,8 +157,8 @@ dependencies {
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
     compile 'me.grantland:autofittextview:0.2.+'
 
-    // 动态调整字体大小
-
+    // 曲线图
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     //引入
 
     //    compile 'com.noober.light:core:1.1.9'

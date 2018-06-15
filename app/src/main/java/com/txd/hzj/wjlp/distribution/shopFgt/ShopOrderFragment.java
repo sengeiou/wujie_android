@@ -1,13 +1,19 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.distribution.adapter.ShopOrderManageAdapter;
+
+import java.util.ArrayList;
 
 /**
  * 创建者：Qyl
@@ -18,9 +24,10 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 public class ShopOrderFragment extends BaseFgt {
 
 
-    private View view;
-    private TextView text;
-    private String string;
+    @ViewInject(R.id.shop_order_re_list)
+    private RecyclerView shop_order_re_list;
+    private ShopOrderManageAdapter adapter;
+    private ArrayList list;
 
     public static ShopOrderFragment newInstance(String string) {
         ShopOrderFragment fragment = new ShopOrderFragment();
@@ -29,7 +36,6 @@ public class ShopOrderFragment extends BaseFgt {
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
 
     @Override
@@ -48,6 +54,12 @@ public class ShopOrderFragment extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-
+        list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+        shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ShopOrderManageAdapter(list, getActivity());
+        shop_order_re_list.setAdapter(adapter);
     }
 }

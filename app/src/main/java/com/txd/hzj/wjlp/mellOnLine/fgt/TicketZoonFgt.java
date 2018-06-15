@@ -229,6 +229,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
         refresh_view.setHeaderView(createHeaderView());// add headerView
         refresh_view.setTargetScrollWithLayout(true);
         refresh_view.setFooterView(createFooterView());
+        refresh_view.setTouchscreenBlocksFocus(false);
         refresh_view.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
 
             @Override
@@ -257,16 +258,12 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
-                if (numall <= data.size()) {
-                    footerImageView.setVisibility(View.VISIBLE);
-                    footerProgressBar.setVisibility(View.GONE);
-                    refresh_view.setLoadMore(false); // 刷新成功
-                    return;
-                }
+
                 // 加载操作
                 p++;
                 forData();
             }
+
 
             @Override
             public void onPushDistance(int i) {

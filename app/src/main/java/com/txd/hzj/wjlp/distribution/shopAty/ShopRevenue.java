@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,12 +9,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.view.MyShopTitleView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 创建者：Zyf
@@ -42,6 +55,9 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
 
     private View view_year;
 
+    private LineChart lineChart;
+    private ArrayList<String> bottom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +84,62 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
         mytitle_tv.setVisibility(View.VISIBLE);
         titlt_conter_tv.setVisibility(View.GONE);
         time_select.setVisibility(View.VISIBLE);
+        bottom = new ArrayList<>();
+        bottom.add("6-14");
+        bottom.add("6-15");
+        bottom.add("6-16");
+        bottom.add("6-17");
+        bottom.add("6-18");
+        bottom.add("6-19");
+        bottom.add("6-20");
+        bottom.add("6-21");
 
+        lineChart = findViewById(R.id.line_chart);
+        //设置图表的描述
+        lineChart.setDrawBorders(false);
+        //设置x轴的数据
+        int numX = 6;
+        //设置y轴的数据
+        float[] datas1 = {536, 148, 769, 432, 102, 26, 94, 120};//数据
+        float[] datas2 = {736, 103, 369, 132, 82, 126, 94, 50};//数据
+
+        ArrayList<Entry> list2 = new ArrayList<>();
+        ArrayList<Entry> list1 = new ArrayList<>();
+        for (int i = 0; i < datas2.length; i++) {
+            list2.add(new Entry(i, datas2[i]));
+        }
+        for (int i = 0; i < datas1.length; i++) {
+            list1.add(new Entry(i, datas1[i]));
+        }
+        lineChart.animateY(2000);
+        Description description = new Description();
+        description.setEnabled(false);
+        lineChart.setDescription(description);
+        lineChart.setScaleEnabled(false);
+
+        LineData lineDatas = new LineData(getLineDatasets1(list2), getLineDatasets(list1));
+        lineDatas.setHighlightEnabled(false);
+        lineChart.setData(lineDatas);
+        Legend legend = lineChart.getLegend();
+        legend.setEnabled(false);
+
+        YAxis axisRight = lineChart.getAxisRight();
+        YAxis axisLeft = lineChart.getAxisLeft();
+        axisLeft.setEnabled(false);
+        axisRight.setEnabled(false);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return bottom.get((int) value);
+            }
+        });
+        xAxis.setAxisMaximum(7f);
+        xAxis.setAxisMinimum(0f);
+        xAxis.setLabelCount(numX);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(true);
 
 
 
@@ -162,5 +233,29 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
                 .isDialog(false)//是否显示为对话框样式
                 .build();
         pvTime.show();
+    }
+    //蓝线
+    private LineDataSet getLineDatasets(List list) {
+        LineDataSet lineDataSet = new LineDataSet(list, "");
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setFillAlpha(1);
+        lineDataSet.setLineWidth(2f);
+        lineDataSet.setColor(Color.rgb(12, 175, 232), 255);
+        lineDataSet.setCircleColor(Color.rgb(12, 175, 232));
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSet.setCircleSize(5f);
+        return lineDataSet;
+    }
+//红线
+    private LineDataSet getLineDatasets1(List list) {
+        LineDataSet lineDataSets = new LineDataSet(list, "");
+        lineDataSets.setDrawCircleHole(false);
+        lineDataSets.setFillAlpha(1);
+        lineDataSets.setLineWidth(2f);
+        lineDataSets.setColor(Color.rgb(253, 100, 94), 255);
+        lineDataSets.setCircleColor(Color.rgb(253, 100, 94));
+        lineDataSets.setMode(LineDataSet.Mode.CUBIC_BEZIER);
+        lineDataSets.setCircleSize(5f);
+        return lineDataSets;
     }
 }
