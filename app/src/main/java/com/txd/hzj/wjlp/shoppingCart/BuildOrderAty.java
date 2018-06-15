@@ -416,7 +416,7 @@ public class BuildOrderAty extends BaseAty {
             JSONObject jsonObject = new JSONObject(jsonStr);
             JSONObject data = jsonObject.getJSONObject("data");
             JSONArray jsonArray = data.getJSONArray("item");
-            if (!"10".equals(type)) {
+//            if (!"10".equals(type)) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject itemJson = (JSONObject) jsonArray.get(i);
                     countryTax += itemJson.getDouble("country_tax");
@@ -426,7 +426,7 @@ public class BuildOrderAty extends BaseAty {
                     tv_youfei.append("+进口税" + countryTax);
                 }
 
-            }
+//            }
         } catch (JSONException e) {
             L.e("缺少对应字段");
         }
@@ -970,7 +970,7 @@ public class BuildOrderAty extends BaseAty {
                 govh.tv_sle_right.setText("配送方式：" + (splitNewList.get(i).getPay().equals("0") ? splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + "包邮" : splitNewList.get(i).getType_name() + "(" + splitNewList.get(i).getShipping_name() + ")" + " ¥" + splitNewList.get(i).getPay()));
             }
 
-            if (!"10".equals(type)) {
+//            if (!"10".equals(type)) {
 
                 // 正品保证
                 govh.layout_pinzhibaozhang.setVisibility(getItem(i).get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
@@ -988,7 +988,7 @@ public class BuildOrderAty extends BaseAty {
                 // 售后
                 govh.layout_shouhou.setVisibility(getItem(i).get("after_sale_status").equals("1") ? View.VISIBLE : View.GONE);
                 govh.tv_shouhou.setText(getItem(i).get("after_sale_type"));
-            }
+//            }
 
             /**
              * 选择配送方式

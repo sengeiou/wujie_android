@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
@@ -425,12 +426,11 @@ public class PayForAppAty extends BaseAty {
 
         } else if (type.equals("10")) {
             //无界商店添加订单
-            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, this);
+            IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
             decimalFormat = new DecimalFormat("0");
-
             total_price = Double.parseDouble(getIntent().getStringExtra("money"));
             String format = decimalFormat.format(total_price);
-            tv_price.setText("付款金额" + format+"积分");
+            tv_price.setText("付款金额" + format + "积分");
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
@@ -441,6 +441,7 @@ public class PayForAppAty extends BaseAty {
         }
         showProgressDialog();
     }
+
     //支付弹出框
     public void showPwdPop(View view) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
@@ -471,12 +472,13 @@ public class PayForAppAty extends BaseAty {
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     //兑换成功
-    public  void showExchangePop(View view){
+    public void showExchangePop(View view) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_exc_success)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight )
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight)
                 .setBackGroundLevel(1f)
                 .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
                     @Override
@@ -795,19 +797,19 @@ public class PayForAppAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("setOrder")) {
-            if(requestUrl.contains("GroupBuyOrder/setOrder")){
-                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
-                dialog.setCancelable(false);
-                dialog.setMessage(error.get("message"));
-                dialog.setTitle("活动提示");
-                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+//            if (requestUrl.contains("GroupBuyOrder/setOrder")) {
+//                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
+//                dialog.setCancelable(false);
+//                dialog.setMessage(error.get("message"));
+//                dialog.setTitle("活动提示");
+//                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
                         PayForAppAty.this.finish();
-                    }
-                });
-                dialog.create().show();
-            }
+//                    }
+//                });
+//                dialog.create().show();
+//            }
             return;
         }
 //        finish();
@@ -902,8 +904,8 @@ public class PayForAppAty extends BaseAty {
                                 commonPopupWindow.dismiss();
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
                                 setCheck(4);
-                                String  num = decimalFormat.format(total_price);
-                                tv_price.setText("¥"+num);
+                                String num = decimalFormat.format(total_price);
+                                tv_price.setText("¥" + num);
                             }
                         });
                     }

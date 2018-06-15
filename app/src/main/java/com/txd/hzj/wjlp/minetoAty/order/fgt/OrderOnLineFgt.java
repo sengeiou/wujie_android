@@ -757,7 +757,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
-                GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), OrderOnLineFgt.this);
+                GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"),"", OrderOnLineFgt.this);
                 showProgressDialog();
             } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")) {
 
@@ -840,7 +840,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     //                    com.txd.hzj.wjlp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
-                    IntegralBuyOrder.Receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
+                    IntegralBuyOrder.Receiving(getItem(position).get("order_id"),"", OrderOnLineFgt.this);
                     showProgressDialog();
                 }
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {
