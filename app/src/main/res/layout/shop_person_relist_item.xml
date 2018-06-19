@@ -22,10 +22,10 @@
                 android:id="@+id/shop_person_item_ima"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="17dp"
-                android:paddingRight="10dp"
-                android:paddingStart="10dp"
-                android:paddingTop="15dp"
+                android:layout_marginBottom="17dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/icon_mine_head" />
 
             <TextView

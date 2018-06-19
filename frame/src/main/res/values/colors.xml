@@ -44,6 +44,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="line_color">#E8E8E8</color>
     <color name="shop_text_color">#999999</color>
+    <color name="shop_dialog_tv_color">#007AFF</color>
 
 
 </resources>
