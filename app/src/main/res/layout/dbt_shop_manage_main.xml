@@ -56,6 +56,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:text="172980.00"
+                    android:textStyle="bold"
                     android:textColor="@color/shop_main_fontcolor_red"
                     android:textSize="20sp" />
 
