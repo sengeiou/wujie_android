@@ -50,6 +50,8 @@ public class PtBaseAdapter extends BaseAdapter {
             vh.create_card_bank_name_tv = convertView.findViewById(R.id.create_card_bank_name_tv);
             vh.bank_card_owner_name = convertView.findViewById(R.id.bank_card_owner_name);
             vh.bank_card_num_tv = convertView.findViewById(R.id.bank_card_num_tv);
+            vh.bank_card_edit_tv = convertView.findViewById(R.id.bank_card_edit_tv); // 编辑银行卡
+            vh.bank_card_delete_tv = convertView.findViewById(R.id.bank_card_delete_tv); // 删除银行卡
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
@@ -57,6 +59,18 @@ public class PtBaseAdapter extends BaseAdapter {
         vh.bank_card_num_tv.setText(alist.get(position).getBank_card_code());
         vh.bank_card_owner_name.setText(alist.get(position).getName());
         vh.create_card_bank_name_tv.setText(alist.get(position).getOpen_bank());
+        vh.bank_card_edit_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO 编辑银行卡
+            }
+        });
+        vh.bank_card_delete_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO 删除银行卡
+            }
+        });
         return convertView;
     }
 
@@ -76,5 +90,15 @@ public class PtBaseAdapter extends BaseAdapter {
          * 卡号
          */
         private TextView bank_card_num_tv;
+
+        /**
+         * 编辑
+         */
+        private TextView bank_card_edit_tv;
+
+        /**
+         * 删除
+         */
+        private TextView bank_card_delete_tv;
     }
 }
