@@ -87,7 +87,8 @@ public class InvoiceAty2 extends BaseAty {
     @Override
     protected void requestData() {
         String json = getIntent().getStringExtra("data");
-        Invoice.invoice(json, this);
+        String use_integralStr= getIntent().getStringExtra("shop_price");
+        Invoice.invoice(json, use_integralStr,this);
         showProgressDialog();
         List<Map<String, String>> map = JSONUtils.parseKeyAndValueToMapList(json);
         goods_id = map.get(0).get("goods_id");
