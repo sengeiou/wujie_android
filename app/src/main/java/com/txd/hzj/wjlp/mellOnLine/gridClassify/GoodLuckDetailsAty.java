@@ -644,9 +644,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         goods_trick_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         goods_trick_rv.setHasFixedSize(true);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        goodLuckPranster = new GoodLuckDetailsPranster();
+        goodLuckPranster = new GoodLuckDetailsPranster(this);
         goodLuckPranster.setGoodLuckView(GoodLuckDetailsAty.this);
-        commodityDetailsPranster = new CommodityDetailsPranster();
+        commodityDetailsPranster = new CommodityDetailsPranster(this);
 //        List<WebView> webViewList=new ArrayList<>();
 //        webViewList.add(goods_desc_wv);
 //        webViewList.add(goods_brief_tv);
@@ -763,7 +763,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.to_chat_tv:// 进店逛逛
-                toChat(easemob_account, merchant_logo, merchant_name);
+                goodLuckPranster.chat_merchant(mell_id, GoodLuckDetailsAty.this);
+//                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.tv_tab_1:
                 goods_desc_wv.setVisibility(View.VISIBLE);
@@ -1005,10 +1006,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     is_attr = is_attr + "-999";
                     vouchers_desc = dataBean.getVouchers_desc();
                     goods_id = goodsInfo.getGoods_id();
-                    String tx = DemoApplication.getInstance().getLocInfo().get("province")
-                            + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
-                    tv_chose_ads.setText(tx);
-                    Freight.freight(goods_id, tx, GoodLuckDetailsAty.this);
+
                     showProgressDialog();
                     /**判断这块儿显示和隐藏
                      * "is_new_goods": "1",//是否是新品  0不是 1是
@@ -1100,9 +1098,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 名称
                     goods_details_name_tv.setText(goodsInfo.getGoods_name());
 
+                    String tx = DemoApplication.getInstance().getLocInfo().get("province")
+                            + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
+                    tv_chose_ads.setText(tx);
                     // 运费
-                    ChangeTextViewStyle.getInstance().forTextColor(GoodLuckDetailsAty.this, freight_tv,
-                            "运费10元", 2, getResources().getColor(R.color.red_tv_back));
+                    tv_chose_ads.setText(tx);
+                    goodLuckPranster.freight(goods_id, tx);
 //#FD8214
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
@@ -1591,6 +1592,18 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         bundle.putString("group_buy_id", group_buy_id);
         bundle.putString("id", groupList.get(position).getId());
         startActivity(CreateGroupAty.class, bundle);
+    }
+
+    @Override
+    public void getFreightPay(String payStr) {
+        removeDialog();
+        ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
+                payStr, 0, getResources().getColor(R.color.red_tv_back));
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+        super.showErrorTip(msg);
     }
 
 

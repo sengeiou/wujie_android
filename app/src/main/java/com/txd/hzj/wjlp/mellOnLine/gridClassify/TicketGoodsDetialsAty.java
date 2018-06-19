@@ -105,7 +105,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：票券区商品详情(3-2票券)
  * ===============Txunda===============
  */
-public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack {
+public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack,CommodityDetailsInter.CommodityView {
     private String is_attr = "";
 
     /**
@@ -530,7 +530,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         goods_trick_rv.setHasFixedSize(true);
         goods_trick_rv.setAdapter(theTrickAdapter);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
-        commodityDetailsPranster = new CommodityDetailsPranster();
+        commodityDetailsPranster = new CommodityDetailsPranster(this);
     }
 
 
@@ -629,7 +629,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.to_chat_tv: // 客服
-
                 Easemob.bind(mell_id, this); // 获取商铺的环信账号
 //                toChat(easemob_account, merchant_logo, merchant_name);
 
@@ -1222,6 +1221,16 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         freight_tv.setText(map.get("pay"));
         freight_tv.setTextColor(Color.parseColor("#FF0000"));
         tv_freight.setText(map.get("pay"));
+    }
+
+    @Override
+    public void getFreightPay(String payStr) {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
     }
 
     /**

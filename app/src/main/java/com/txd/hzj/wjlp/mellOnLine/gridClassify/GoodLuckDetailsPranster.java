@@ -32,6 +32,10 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
     CommodityDetailsInter.GoodLuckView goodLuckView;
     CommonPopupWindow commonPopupWindow;
 
+    public GoodLuckDetailsPranster(CommodityDetailsInter.CommodityView view) {
+        super(view);
+    }
+
     private class ExpAdapter extends RecyclerView.Adapter {
         private List<String> strList;
         private Context context;

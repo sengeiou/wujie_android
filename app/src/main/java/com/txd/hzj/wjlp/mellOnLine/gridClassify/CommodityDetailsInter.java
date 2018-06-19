@@ -54,17 +54,18 @@ public interface CommodityDetailsInter {
 
         /**
          * 拼单购、无界商店和进口馆商品详情页公共属性封装(包括国家的图片，描述和进口税，收藏)
+         *
          * @param context
          * @param url
          * @param view
          */
-        void setBitmap(Context context,String url,View view);
+        void setBitmap(Context context, String url, View view);
 
-        void setTextContent(String content,View view);
+        void setTextContent(String content, View view);
 
-        void isCollect(String is_collect,String viewContent,View view,Context context);
+        void isCollect(String is_collect, String viewContent, View view, Context context);
 
-
+        void chat_merchant(String merchant_id, Activity activity);
     }
 
     public interface CommodityView {
@@ -75,15 +76,27 @@ public interface CommodityDetailsInter {
          */
         void getFreightPay(String payStr);
 
+        /**
+         * 跳转到环信聊天界面
+         * @param easemob_account
+         * @param head_pic
+         * @param nickname
+         */
+        void toChat(String easemob_account, String head_pic, String nickname);
 
+        /**
+         * 提示错误消息
+         * @param msg
+         */
+        void showErrorTip(String msg);
     }
 
-    public interface GoodLuckView {
-        void itmeClick(View v,int position);
+    public interface GoodLuckView extends  CommodityView {
+        void itmeClick(View v, int position);
     }
 
     public interface GoodLuckPranster {
-        void showExperiencePopWindow(Context context, View view,List<String> strList);
+        void showExperiencePopWindow(Context context, View view, List<String> strList);
 
         void setGoodLuckView(GoodLuckView goodLuckView);
     }

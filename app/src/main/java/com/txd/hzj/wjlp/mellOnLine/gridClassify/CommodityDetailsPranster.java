@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -19,12 +21,17 @@ import android.widget.TextView;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.EasemobBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
+import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
@@ -43,6 +50,11 @@ import java.util.Map;
  */
 public class CommodityDetailsPranster implements CommodityDetailsInter.CommodityPranster, ObservableScrollView.ScrollViewListener, BaseView {
     protected CommodityDetailsInter.CommodityView commodityView;
+    private Activity activity;
+
+    public CommodityDetailsPranster(CommodityDetailsInter.CommodityView view) {
+        setView(view);
+    }
 
     @Override
     public void setView(CommodityDetailsInter.CommodityView view) {
@@ -252,6 +264,55 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
                 commodityView.getFreightPay(map.get("pay"));
             }
+        } else if (requestUrl.contains("Easemob/bind")) {
+            /**
+             * 获取商家环信账号
+             */
+            L.e("Easemob/bind：" + jsonStr);
+            if (jsonStr == null || jsonStr.equals("")) {
+                commodityView.showErrorTip("获取数据为空，请联系我们");
+                return;
+            }
+
+            Gson gson = new Gson();
+            final EasemobBean easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
+
+            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity); // 创建对话框构建器
+            View view2 = View.inflate(context, R.layout.popup_sel_chat, null); // 获取布局
+            builder.setView(view2); // 设置参数主要是设置获取的布局View
+            // 获取布局中的控件
+            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
+            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
+
+            // 以上判断Bean有值，但是以防万一还是先判空
+            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
+                dataLv.setVisibility(View.GONE); // 隐藏List列表
+                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
+            } else {
+                // 否则就是有在线客服
+                dataLv.setVisibility(View.VISIBLE); // 显示List列表
+                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
+            }
+
+            final AlertDialog alertDialog = builder.create();// 创建对话框
+            // 设置相应的控件操作，赋值、点击事件等等
+
+            dataLv.setAdapter(new MerchantDialogAdapter(easemobBean.getData().getEasemob_account(), context));
+
+            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
+                    // 参数说明：账号、头像、昵称
+                    commodityView.toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
+            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+
         }
     }
 
@@ -383,12 +444,11 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
 
-
     /**
      * 领券(抽)
      */
     @Override
-    public void showLQPop(View view, final String title,final Activity activity, final TheTrickAdapter theTrickAdapter) {//
+    public void showLQPop(View view, final String title, final Activity activity, final TheTrickAdapter theTrickAdapter) {//
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.popup_layout)
@@ -418,9 +478,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
 
-
-
-    public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type,final Activity activity) {
+    public void showPop(View view, final String title, final List<GoodsServerBean> list, final int type, final Activity activity) {
         if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
         commonPopupWindow = new CommonPopupWindow.Builder(activity)
                 .setView(R.layout.popup_layout)
@@ -432,7 +490,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                         TextView cancel = (TextView) view.findViewById(R.id.cancel);
                         RecyclerView recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
                         recyclerview.setLayoutManager(new LinearLayoutManager(activity, 1, false));
-                        recyclerview.setAdapter(new Service_adp(list, type,activity));
+                        recyclerview.setAdapter(new Service_adp(list, type, activity));
                         TextView tv_title = (TextView) view.findViewById(R.id.popp_title);
                         tv_title.setText(title);
                         cancel.setOnClickListener(new View.OnClickListener() {
@@ -468,12 +526,17 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
      */
     @Override
     public void isCollect(String is_collect, String viewContent, View view, Context context) {
-        if (is_collect.equals("0")){
-            ((TextView)view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collect), null, null);
-        }else {
-            ((TextView)view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collected), null, null);
+        if (is_collect.equals("0")) {
+            ((TextView) view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collect), null, null);
+        } else {
+            ((TextView) view).setCompoundDrawables(null, TextUtils.toDrawable(context, R.drawable.icon_collected), null, null);
         }
-        ((TextView)view).setText(viewContent);
+        ((TextView) view).setText(viewContent);
     }
 
+    @Override
+    public void chat_merchant(String merchant_id, Activity activity) {
+        this.activity = activity;
+        Easemob.bind(merchant_id, this); // 获取商铺的环信账号
+    }
 }

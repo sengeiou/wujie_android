@@ -626,15 +626,15 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
                     } else if (from.equals("3")) {//拼团
-                        if ("1".equals(goods_list.get(position).get("order_status"))) {
+                        if ("1".equals(goods_list.get(position).get("order_status"))) {//1待成团
                             Bundle bundle = new Bundle();
-                            if ("1".equals(goods_list.get(position).get("group_type"))){
+                            if ("1".equals(goods_list.get(position).get("group_type"))){//1试用品拼单
                                 bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                                 bundle.putString("type", from);
                                 bundle.putBoolean("isTy", map_Type.get(position));
                                 startActivity(CollageDetailsAty.class, bundle);
-                            }else {
-                                if ("2".equals(goods_list.get(position).get("order_type"))) {
+                            }else {//2常规拼单
+                                if ("2".equals(goods_list.get(position).get("order_type"))) {//1直接下单 2拼团 3参团
                                     bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                                 } else if ("3".equals(goods_list.get(position).get("order_type"))) {
                                     bundle.putString("id", goods_list.get(position).get("p_id"));

@@ -68,6 +68,7 @@ import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.ProductBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
+import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
@@ -692,8 +693,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 false));
         goods_trick_rv.setHasFixedSize(true);
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
-        commodityPranster = new CommodityDetailsPranster();
-        commodityPranster.setView(this);
+        commodityPranster = new CommodityDetailsPranster(this);
         limit_refresh.setHeaderViewBackgroundColor(Color.WHITE);
         limit_refresh.setHeaderView(createHeaderView());// add headerView
         limit_refresh.setTargetScrollWithLayout(true);
@@ -1478,7 +1478,8 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.relation_mell_tv:// 客服
-                toChat(easemob_account, merchant_logo, merchant_name);
+                commodityPranster.chat_merchant(mell_id, LimitGoodsAty.this);
+//                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.tv_tab_1:
                 goods_desc_wv.setVisibility(View.VISIBLE);
@@ -1775,6 +1776,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         removeDialog();
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
                 payStr, 2, Color.parseColor("#FF0000"));
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+        super.showErrorTip(msg);
     }
 
     @Override
