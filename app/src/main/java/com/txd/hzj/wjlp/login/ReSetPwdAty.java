@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -22,6 +23,8 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CodeCountDown;
+
+import java.util.Map;
 
 public class ReSetPwdAty extends BaseAty {
 
@@ -73,7 +76,7 @@ public class ReSetPwdAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("重置登录密码");
 
-        registerPst.getVerify(phone, "retrieve");
+//        registerPst.getVerify(phone, "retrieve");
 
     }
 
@@ -109,13 +112,13 @@ public class ReSetPwdAty extends BaseAty {
                 }
                 break;
             case R.id.get_code_tv:// 重新获取
-                registerPst.getVerify(phone, "retrieve");
+                registerPst.getVerify(phone, "retrieve"); // 重新获取验证码的时候
                 break;
             case R.id.get_pwd_success_tv:// 完成
                 String verify = reset_get_code_ev.getText().toString();
                 String newPassword = new_pwd_ev.getText().toString();
                 String confirmPassword = countersign_pwd_ev.getText().toString();
-                registerPst.resetPassword(phone,verify, newPassword, confirmPassword);
+                registerPst.resetPassword(phone, verify, newPassword, confirmPassword);
                 break;
         }
     }
@@ -129,6 +132,18 @@ public class ReSetPwdAty extends BaseAty {
     protected void initialized() {
         registerPst = new RegisterPst(this);
         phone = getIntent().getStringExtra("phone");
+        // 获取手机号之后就开始倒计时
+        startCountDown();
+    }
+
+    /**
+     * 启动倒计时
+     */
+    private void startCountDown() {
+        if (codeCountDown == null) {
+            codeCountDown = new CodeCountDown(60000, 1000, this, get_code_tv);
+        }
+        codeCountDown.start();
     }
 
     @Override
@@ -137,13 +152,19 @@ public class ReSetPwdAty extends BaseAty {
     }
 
     @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (requestUrl.contains("sendVerify")) {
+            startCountDown();
+            return;
+        }
+    }
+
+    @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("sendVerify")) {
-            if (codeCountDown == null) {
-                codeCountDown = new CodeCountDown(60000, 1000, this, get_code_tv);
-            }
-            codeCountDown.start();
+            startCountDown();
             return;
         }
         if (requestUrl.contains("resetPassword")) {
@@ -153,7 +174,7 @@ public class ReSetPwdAty extends BaseAty {
             // 收起键盘
             hideKeyBoard();
             AppManager.getInstance().killOtherActivity();
-            startActivity(LoginAty.class,null);
+            startActivity(LoginAty.class, null);
             finish();
 
 //            showRightTip("重置成功");

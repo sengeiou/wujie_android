@@ -199,7 +199,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                 }
 
                 if (area_id.equals("")) {
-                    showErrorTip("请选择省市区");
+                    showToast("请选择省市区");
                     break;
                 }
                 Bundle bundle = new Bundle();
@@ -225,6 +225,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
 //        } else {
 //            initJsonData(data);
 //        }
+        ProUrbAreaUtil.gainInstance().setGetData(this);
     }
 
     @Override
@@ -238,7 +239,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        if (requestUrl.contains("getOneAddress")) {// 获取一条地址
+        if (requestUrl.contains("getOneAddress")) { // 获取一条地址
             super.onComplete(requestUrl, jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -270,13 +271,13 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                 lat = "0";
             return;
         }
-        if (requestUrl.contains("addAddress")) {// 添加地址
+        if (requestUrl.contains("addAddress")) { // 添加地址
             super.onComplete(requestUrl, jsonStr);
             showRightTip("添加成功");
             finish();
             return;
         }
-        if (requestUrl.contains("editAddress")) {// 删除地址
+        if (requestUrl.contains("editAddress")) { // 删除地址
             super.onComplete(requestUrl, jsonStr);
             showRightTip("修改成功");
             finish();

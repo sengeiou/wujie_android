@@ -270,6 +270,9 @@ public class CartFgt extends BaseFgt {
             cart_bottom_lin_layout.setVisibility(View.VISIBLE);
             titlt_right_tv.setVisibility(View.VISIBLE);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
+            for (ShopingCart shopCard : shopingCarts) {
+                L.e("shopCard:::" + shopCard.toString());
+            }
             cartAdapter = new CartAdapter();
             cartAdapter.notifyDataSetChanged();
             list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
@@ -544,7 +547,7 @@ public class CartFgt extends BaseFgt {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("mell_id", sc.getMerchant_id());
+                    bundle.putString("mell_id", getItem(i).getMerchant_id());
                     startActivity(MellInfoAty.class, bundle);
                 }
             });

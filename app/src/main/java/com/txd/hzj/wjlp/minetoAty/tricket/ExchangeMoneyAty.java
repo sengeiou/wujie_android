@@ -188,44 +188,42 @@ public class ExchangeMoneyAty extends BaseAty {
                         val = (long) Math.floor(Double.parseDouble(moneyStr));
                     } catch (NumberFormatException e) {
                         L.e("money_ev.textView To Number Double Exception:" + e.toString());
-                        showErrorTip("输入的数字格式异常，请检查！");
+                        showToast("输入的数字格式异常，请检查！");
                     }
 
                     if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
-                        showErrorTip("请输入有效数字");
+                        showToast("请输入有效数字");
                         return;
                     } else if (val % 100 != 0 || val / 100 == 0) {
-                        showErrorTip("每次提现为100的倍数");
+                        showToast("输入数值必须为100的整数");
                         return;
-                    } else if (val > 50000) {
-                        money_ev.setText("50000");
-                        showErrorTip("最大额度为50000");
+                    } else if (val > 50000 && type == 2) { // 单次提现超额
+                        showToast("每次最大提现额度为50000");
                         return;
                     }
 
-
 //                1:积分转余额 2：提现
-                    if (type == 1) {
+                    if (type == 1) { // 积分转余额
                         if (Double.parseDouble(moneyStr) - Double.parseDouble(myChangeIntegralStr) > 0) {
                             // 如果输入数值大于总积分
-                            showErrorTip("积分不足，请检查积分剩余量");
+                            showToast("积分不足，请检查积分剩余量");
                             break;
                         } else {
                             isClick = true; // 所有设置都正确则将按钮点击标识设为true，禁止连续点击
                             User.changeIntegral(this, moneyStr); //  调用积分转余额接口进行操作
                         }
-                    } else {
+                    } else { // 否则的话是提现
                         if (TextUtils.isEmpty(bank_card_id)) {
-                            showErrorTip("请选择银行卡");
+                            showToast("请选择银行卡");
                             break;
                         }
                         if (Double.parseDouble(moneyStr) - Double.parseDouble(balanceStr) > 0) {
                             // 如果输入提现数值大于总余额
-                            showErrorTip("余额不足，请检查账户余额");
+                            showToast("余额不足，请检查账户余额");
                             break;
                         } else {
                             if (TextUtils.isEmpty(password_et.getText().toString())) {
-                                showErrorTip("请输入支付密码");
+                                showToast("请输入支付密码");
                                 break;
                             } else {
                                 isClick = true; // 所有设置都正确则将按钮点击标识设为true，禁止连续点击，在验证密码处验证失败再次设置为未点击状态
@@ -346,7 +344,7 @@ public class ExchangeMoneyAty extends BaseAty {
                 UserBalance.getCash(ExchangeMoneyAty.this, password_et.getText().toString(), money_ev.getText().toString().trim(), rate, bank_card_id);
             } else {
                 isClick = false;
-                showErrorTip(map.get("message"));
+                showToast(map.get("message"));
             }
         }
         if (urlLastStr.equals("changeIntegral")) { // 积分转余额

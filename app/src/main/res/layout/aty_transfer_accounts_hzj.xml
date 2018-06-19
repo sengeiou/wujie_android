@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:hint="请输入收款方姓名或手机号"
+            android:hint="请输入收款方会员编号或者手机号"
             android:imeOptions="actionSearch"
             android:inputType="number"
             android:maxLines="1"
@@ -135,8 +135,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
         android:padding="16dp"
+        android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:visibility="visible">
 

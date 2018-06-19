@@ -830,14 +830,14 @@ public class BuildOrderAty extends BaseAty {
                     // 界面返回的时候显示税金、发票运费等，如果先前包含进口税，则添加进口税显示
                     if (tax_pay != 0 || express_fee != 0) {
                         tv_invoice.setVisibility(View.VISIBLE);
-                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
+                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票运费");
                     } else {
                         tv_invoice.setVisibility(View.GONE);
                     }
                 } else {
                     if (tax_pay != 0 || express_fee != 0) {
                         tv_invoice.setVisibility(View.VISIBLE);
-                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票费");
+                        tv_invoice.append("+" + df.format(tax_pay) + "税费+" + df.format(express_fee) + "发票运费");
                     } else {
                         tv_invoice.setVisibility(View.GONE);
                     }

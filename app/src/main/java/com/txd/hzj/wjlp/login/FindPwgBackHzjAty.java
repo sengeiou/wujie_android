@@ -10,6 +10,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.register.RegisterPst;
 
 /**
  * ===============Txunda===============
@@ -28,6 +29,7 @@ public class FindPwgBackHzjAty extends BaseAty {
 
     @ViewInject(R.id.phone_ev)
     private EditText phone_ev;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,15 @@ public class FindPwgBackHzjAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_next_tv:// 下一步
-                String phone = phone_ev.getText().toString();
+                phone = phone_ev.getText().toString();
+
                 if (!RegexUtils.checkPhone(phone)) {
                     onErrorTip("请检查手机号");
                     break;
+                } else {
+                    new RegisterPst(this).getVerify(phone, "retrieve");
                 }
-                Bundle bundle = new Bundle();
-                bundle.putString("phone", phone);
-                startActivity(ReSetPwdAty.class, bundle);
-                finish();
+
                 break;
         }
     }
@@ -68,5 +70,16 @@ public class FindPwgBackHzjAty extends BaseAty {
     @Override
     protected void requestData() {
 
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("sendVerify")){
+            Bundle bundle = new Bundle();
+            bundle.putString("phone", phone);
+            startActivity(ReSetPwdAty.class, bundle);
+            finish();
+        }
     }
 }

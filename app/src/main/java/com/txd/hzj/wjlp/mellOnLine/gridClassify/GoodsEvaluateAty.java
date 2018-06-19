@@ -292,9 +292,9 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         if (requestUrl.contains("Merchant/commentList")) {
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
-            // evaluate_num_tv.setText("已有 " + numall + "条评价");
-            ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
-                    "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
+             evaluate_num_tv.setText(" " + numall + " ");
+//            ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
+//                    "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
             if (1 == p) {
                 data.clear();
                 data = comment.getData();

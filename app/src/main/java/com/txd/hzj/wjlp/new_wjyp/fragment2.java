@@ -121,7 +121,6 @@ public class fragment2 extends BaseFgt implements ProUrbAreaUtil.GetData {
             case R.id.ads0:
                 if (check) {
                     ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
-
                     proUrbAreaUtil.showPickerView(ads0, "", (BaseActivity) getActivity(), null);
                 }
                 break;
