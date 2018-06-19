@@ -126,6 +126,7 @@
                     android:paddingEnd="10dp"
                     android:paddingStart="10dp"
                     android:paddingTop="12dp"
+                    android:scrollbars="none"
                     android:verticalSpacing="20dp"
                     android:visibility="visible" />
 
