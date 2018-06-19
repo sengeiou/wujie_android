@@ -462,7 +462,7 @@ public class BuildOrderAty extends BaseAty {
                 showErrorTip(map.get("message"));
                 delyFinsh();
             }
-        } else {
+        } else {//  ShoppingCart
             L.e("wang", "=====>>>>>>>>>jsonStr:" + jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -932,8 +932,10 @@ public class BuildOrderAty extends BaseAty {
 
 //                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
                 govh.price_for_goods_tv.setText(Html.fromHtml(guigeJiFenStr));
-                if ("10".equals(type)) {
-                    govh.shop_priceTv.setText(getItem(i).get("shop_price") + "积分");
+                if ("10".equals(type)) {//无界商店积分处理
+                    if(getItem(i).containsKey("use_integral")){
+                        govh.shop_priceTv.setText(getItem(i).get("use_integral") + "积分");
+                    }
                 } else {
                     govh.shop_priceTv.setText("¥" + getItem(i).get("shop_price"));
                 }
