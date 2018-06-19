@@ -9,12 +9,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/gr_item_back"
-        android:paddingTop="8dp"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="7dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="7dp"
         android:gravity="center"
         android:text="食品生鲜"
-        android:textSize="13sp"
-        android:textColor="@android:color/black" />
+        android:textSize="12sp"
+        android:textColor="#ff333333" />
 </FrameLayout>

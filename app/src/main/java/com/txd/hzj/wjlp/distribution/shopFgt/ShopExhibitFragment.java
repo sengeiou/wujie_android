@@ -107,7 +107,7 @@ public class ShopExhibitFragment extends BaseFgt {
         twoSelectId = getResources().getDrawable(R.drawable.shop_red_down);
         unSelectId = getResources().getDrawable(R.drawable.shopblgjiantou);
         selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
-        twoSelectId.setBounds(0, 0, twoSelectId.getMinimumWidth(), twoSelectId.getMinimumWidth());
+        twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
     }
 
