@@ -45,14 +45,45 @@
                     android:textColor="#ffffff"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/bank_card_num_tv"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="**** **** **** 1234"
-                    android:textColor="#ffffff"
-                    android:textSize="22sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/bank_card_num_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#ffffff"
+                        android:textSize="22sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/bank_card_edit_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
+                            android:text="编辑"
+                            android:textColor="#ffffff" />
+
+                        <TextView
+                            android:id="@+id/bank_card_delete_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:padding="8dp"
+                            android:text="删除"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <ImageView
@@ -63,54 +94,5 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
-
-    <!--<TextView-->
-    <!--android:id="@+id/bank_card_num_tv"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:paddingBottom="8dp"-->
-    <!--android:paddingTop="8dp"-->
-    <!--android:text="6227 0000 6147 1881 700"-->
-    <!--android:textColor="@color/app_text_color"/>-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="户名    "/>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/bank_card_owner_name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="刘某某"-->
-    <!--android:textColor="@color/app_text_color"/>-->
-
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_marginTop="4dp"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="开户行"/>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/create_card_bank_name_tv"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="建设银行南开分行"-->
-    <!--android:textColor="@color/app_text_color"/>-->
-
-    <!--</LinearLayout>-->
 
 </LinearLayout>
