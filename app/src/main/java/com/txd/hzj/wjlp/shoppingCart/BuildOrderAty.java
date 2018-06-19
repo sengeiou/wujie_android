@@ -976,7 +976,9 @@ public class BuildOrderAty extends BaseAty {
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {
                         bundle.putString("data2", "data1 is null so intent data2.");
                     }
-
+                    if("10".equals(type)){//无界商店
+                        bundle.putString("shop_price",getItem(i).get("use_integral"));
+                    }
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
                     //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
                 }

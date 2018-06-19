@@ -274,11 +274,12 @@ public class InvoiceAty extends BaseAty {
             }
         });
     }
-
+    private String use_integral_Str;
     @Override
     protected void requestData() {
         json = getIntent().getStringExtra("json");
-        Invoice.invoice(json, this);
+        use_integral_Str=getIntent().getStringExtra("shop_price");
+        Invoice.invoice(json,use_integral_Str, this);
         showProgressDialog();
         List<Map<String, String>> map = JSONUtils.parseKeyAndValueToMapList(json);
         goods_id = map.get(0).get("goods_id");
@@ -299,6 +300,7 @@ public class InvoiceAty extends BaseAty {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("data", json);
+                bundle.putString("shop_price",use_integral_Str);
                 startActivityForResult(InvoiceAty2.class, bundle, 108);
                 needCb.setChecked(true); // 点击的时候设置自己始终未选择状态
                 noCb.setChecked(false); // 不需要发票 设置为未选中状态
