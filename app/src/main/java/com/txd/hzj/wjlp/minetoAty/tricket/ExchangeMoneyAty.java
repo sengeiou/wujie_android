@@ -194,8 +194,13 @@ public class ExchangeMoneyAty extends BaseAty {
                     if (moneyStr.equals("") || moneyStr.equals("0") || moneyStr.equals("0.0") || moneyStr.equals("0.00")) {
                         showToast("请输入有效数字");
                         return;
-                    } else if (val % 100 != 0 || val / 100 == 0) {
-                        showToast("输入数值必须为100的整数");
+                    } else if (type == 1 && (val % 10 != 0 || val / 10 == 0)) {
+                        // 如果是积分转余额 并且 数值不为10的倍数
+                        showToast("输入数值必须为10的倍数");
+                        return;
+                    } else if (type == 2 && (val % 100 != 0 || val / 100 == 0)) {
+                        // 如果是提现 并且 数值不为100的倍数
+                        showToast("提现金额必须为100的倍数");
                         return;
                     } else if (val > 50000 && type == 2) { // 单次提现超额
                         showToast("每次最大提现额度为50000");

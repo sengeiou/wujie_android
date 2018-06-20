@@ -15,6 +15,7 @@ import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnItemClick;
@@ -156,7 +157,7 @@ public class WujieTopHzjAty extends BaseAty {
             }
             tvh.top_title_tv.setText(data.get("title"));
             tvh.top_source_tv.setText(data.get("source"));
-            GlideUtils.urlCenterCrop(data.get("logo"), w, h, tvh.top_logo_iv);
+            Glide.with(WujieTopHzjAty.this).load(data.get("logo")).dontAnimate().into(tvh.top_logo_iv);
 
             return view;
         }
