@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * 退货界面
  */
-public class aty_addshipping extends BaseAty {
+public class aty_addshipping extends BaseAty implements ProUrbAreaUtil.GetData {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
     private String id;
@@ -151,9 +151,12 @@ public class aty_addshipping extends BaseAty {
                     showToast("详细地址不能为空");
                     return;
                 }
-                province_id = ProUrbAreaUtil.gainInstance().getProvince_id();
-                city_id = ProUrbAreaUtil.gainInstance().getCity_id();
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+                if (choiceAddress) {
+                    province_id = proUrbAreaUtil.getProvince_id();
+                    city_id = proUrbAreaUtil.getCity_id();
+                    area_id = proUrbAreaUtil.getArea_id();
+                }
                 AfterSale.addShipping(tv_name.getText().toString(), et_number.getText().toString(), getIntent().getStringExtra("id"), receiver, phone, province_id, city_id, area_id, street_id, address, this);
                 showProgressDialog();
                 break;
@@ -166,7 +169,9 @@ public class aty_addshipping extends BaseAty {
                 break;
             case R.id.street_layout:
                 // 选择街道
-                area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                if (choiceAddress) {
+                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+                }
                 if (area_id.equals("")) {
                     showErrorTip("请选择省市区");
                     break;
@@ -189,12 +194,14 @@ public class aty_addshipping extends BaseAty {
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
 //        addressPst = new AddressPst(this);
 //        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
-        String data = application.getCityProvienceJson();
+//        String data = application.getCityProvienceJson();
 //        if (android.text.TextUtils.isEmpty(data)) {
 //            addressPst.androidAddress();
 //        }else{
 //            initJsonData(data);
 //        }
+
+        ProUrbAreaUtil.gainInstance().setGetData(this);
     }
 
     @Override
@@ -246,5 +253,13 @@ public class aty_addshipping extends BaseAty {
             street_tv.setText(street);
             street_id = data.getStringExtra("street_id");
         }
+    }
+    private boolean choiceAddress = false;
+    @Override
+    public void getAddress() {
+        choiceAddress = true;
+        ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+        zore_tv.setText(proUrbAreaUtil.getProvince() + "," + proUrbAreaUtil.getCity() + "," + proUrbAreaUtil.getArea());
+        street_tv.setText("");
     }
 }
