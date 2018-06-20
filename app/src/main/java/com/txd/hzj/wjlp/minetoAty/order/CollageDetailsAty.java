@@ -515,7 +515,7 @@ public class CollageDetailsAty extends BaseAty {
                 tgvh = (ThisGoodsAdapter.TGVH) view.getTag();
             }
             Map<String, String> map = getItem(i);
-            tgvh.tv_btn_right.setVisibility(order_status.equals("0") ? View.VISIBLE : View.GONE); // 设置中间催发货按钮为隐藏
+            tgvh.confirmReceipt.setVisibility(order_status.equals("0") ? View.VISIBLE : View.GONE); // 设置中间催发货按钮为隐藏
             L.e("order_sta" + order_status);
 
             L.e("wang", "status = " + map.get("status") + "\tgetItem:" + map);
@@ -523,15 +523,15 @@ public class CollageDetailsAty extends BaseAty {
              * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
              */
             if (order_status.equals("0") || order_status.equals("1") || order_status.equals("6")) { // 订单为0待支付或1待成团或6已取消
-                tgvh.tv_btn_left.setVisibility(View.GONE); // 右侧按钮隐藏
-                tgvh.tv_btn_right.setVisibility(View.GONE); // 中间按钮隐藏
+                tgvh.applyAfterSaleTv.setVisibility(View.GONE); // 右侧按钮隐藏
+                tgvh.confirmReceipt.setVisibility(View.GONE); // 中间按钮隐藏
             } else {
-                if ("付款".equals(String.valueOf(tgvh.tv_btn_right.getText()))) {
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 20180519  2待发货、3待收货、4待评价、5已完成 而且按钮上显示付款时候 隐藏付款按钮
+                if ("付款".equals(String.valueOf(tgvh.confirmReceipt.getText()))) {
+                    tgvh.confirmReceipt.setVisibility(View.GONE); // 20180519  2待发货、3待收货、4待评价、5已完成 而且按钮上显示付款时候 隐藏付款按钮
                 } else {
-                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 20180519  2待发货、3待收货、4待评价、5已完成 而且按钮上显示付款时候 隐藏付款按钮
+                    tgvh.confirmReceipt.setVisibility(View.VISIBLE); // 20180519  2待发货、3待收货、4待评价、5已完成 而且按钮上显示付款时候 隐藏付款按钮
                 }
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
+                tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE); // 否则订单状态为2待发货、3待收货、4待评价、5已完成
             }
 
             if (map.containsKey("auto_time") && !TextUtils.isEmpty(map.get("auto_time"))) {
@@ -598,24 +598,24 @@ public class CollageDetailsAty extends BaseAty {
                  */
                 switch (Integer.parseInt(map.get("after_type"))) {
                     case 0:
-                        tgvh.tv_btn_left.setText("申请售后");
+                        tgvh.applyAfterSaleTv.setText("申请售后");
                         break;
                     case 1:
-                        tgvh.tv_btn_left.setText("售后中");
+                        tgvh.applyAfterSaleTv.setText("售后中");
                         break;
                     case 2:
-                        tgvh.tv_btn_left.setText("售后完成");
+                        tgvh.applyAfterSaleTv.setText("售后完成");
                         break;
                     case 3:
-                        tgvh.tv_btn_left.setText("售后拒绝");
+                        tgvh.applyAfterSaleTv.setText("售后拒绝");
                         break;
                 }
                 if (order_status.equals("2")) { // 订单状态待发货
-                    tgvh.tv_btn_left.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
-                    if ("付款".equals(String.valueOf(tgvh.tv_btn_right.getText()))) {
-                        tgvh.tv_btn_right.setVisibility(View.GONE); // 20180519  1待发货、2待收货、3待评价、4已完成 而且按钮上显示付款时候 隐藏付款按钮
+                    tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE); // 右侧按钮申请售后显示
+                    if ("付款".equals(String.valueOf(tgvh.confirmReceipt.getText()))) {
+                        tgvh.confirmReceipt.setVisibility(View.GONE); // 20180519  1待发货、2待收货、3待评价、4已完成 而且按钮上显示付款时候 隐藏付款按钮
                     } else {
-                        tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间按钮催发货显示
+                        tgvh.confirmReceipt.setVisibility(View.VISIBLE); // 中间按钮催发货显示
                     }
                     if (Integer.valueOf(map.get("remind_status")) == 0) {
                         tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
@@ -632,12 +632,12 @@ public class CollageDetailsAty extends BaseAty {
                         tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货按钮显示
                     }
                     tgvh.tv_btn_remind.setVisibility(View.GONE);
-                    tgvh.tv_btn_right.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
-                    tgvh.tv_btn_left.setVisibility(View.VISIBLE);
-                    tgvh.tv_btn_right.setVisibility(View.VISIBLE); // 中间的确认收货显示
+                    tgvh.confirmReceipt.setText("确认收货"); // 订单待收货状态下设置中间按钮为：确认收货
+                    tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE);
+                    tgvh.confirmReceipt.setVisibility(View.VISIBLE); // 中间的确认收货显示
                 } else if (order_status.equals("6")) { // 订单为已取消状态
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
-                    tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
+                    tgvh.confirmReceipt.setVisibility(View.GONE); // 隐藏付款按钮
+                    tgvh.applyAfterSaleTv.setVisibility(View.GONE); // 申请售后按钮隐藏
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                     tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
                 }
@@ -662,9 +662,9 @@ public class CollageDetailsAty extends BaseAty {
                         }
                     }
                 });
-                tgvh.tv_btn_left.setTag(i);
+                tgvh.applyAfterSaleTv.setTag(i);
                 // 右侧按钮点击事件
-                tgvh.tv_btn_left.setOnClickListener(new View.OnClickListener() {
+                tgvh.applyAfterSaleTv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Map<String, String> map = getItem((Integer) v.getTag());
@@ -697,8 +697,8 @@ public class CollageDetailsAty extends BaseAty {
                     }
                 });
                 // 中间按钮点击事件
-                tgvh.tv_btn_right.setTag(i);
-                tgvh.tv_btn_right.setOnClickListener(new View.OnClickListener() {
+                tgvh.confirmReceipt.setTag(i);
+                tgvh.confirmReceipt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         clickIndex = (int) v.getTag();
@@ -789,13 +789,13 @@ public class CollageDetailsAty extends BaseAty {
 
 
                 if (order_status.equals("0")) { // 订单为待支付状态
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 付款按钮显示
-                    tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
+                    tgvh.confirmReceipt.setVisibility(View.GONE); // 付款按钮显示
+                    tgvh.applyAfterSaleTv.setVisibility(View.GONE); // 申请售后按钮隐藏
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                     tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
                 } else if (order_status.equals("6")) { // 订单为已取消状态
-                    tgvh.tv_btn_right.setVisibility(View.GONE); // 隐藏付款按钮
-                    tgvh.tv_btn_left.setVisibility(View.GONE); // 申请售后按钮隐藏
+                    tgvh.confirmReceipt.setVisibility(View.GONE); // 隐藏付款按钮
+                    tgvh.applyAfterSaleTv.setVisibility(View.GONE); // 申请售后按钮隐藏
                     tgvh.delayReceiving.setVisibility(View.GONE); // 延长收货隐藏
                     tgvh.tv_btn_remind.setVisibility(View.GONE); // 提醒发货按钮隐藏
                 }
@@ -807,9 +807,9 @@ public class CollageDetailsAty extends BaseAty {
             //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
             String is_back_apply = map.get("is_back_apply");
             if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
-                tgvh.tv_btn_left.setVisibility(View.VISIBLE);
+                tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE);
             } else {
-                tgvh.tv_btn_left.setVisibility(View.GONE);
+                tgvh.applyAfterSaleTv.setVisibility(View.GONE);
             }
 
             return view;
@@ -832,10 +832,10 @@ public class CollageDetailsAty extends BaseAty {
 //            private TextView jifenTv;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
-            @ViewInject(R.id.tv_btn_left)
-            public TextView tv_btn_left;
-            @ViewInject(R.id.tv_btn_right)
-            public TextView tv_btn_right;
+            @ViewInject(R.id.applyAfterSaleTv)
+            public TextView applyAfterSaleTv;
+            @ViewInject(R.id.confirmReceipt)
+            public TextView confirmReceipt;
             @ViewInject(R.id.tv_btn_remind)
             public TextView tv_btn_remind;
             @ViewInject(R.id.textview)
