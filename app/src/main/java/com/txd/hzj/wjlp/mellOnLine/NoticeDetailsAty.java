@@ -206,20 +206,21 @@ public class NoticeDetailsAty extends BaseAty {
 
             books_other_info_tv.setText("创建时间：" + data.get("create_time") + "\n修改时间：" + data.get("update_time"));
 
-            ViewGroup.LayoutParams lp = books_logo_iv.getLayoutParams();
-            lp.width = Settings.displayWidth;
-            lp.height = Settings.displayWidth * 3 / 3;
-            books_logo_iv.setLayoutParams(lp);
-            books_logo_iv.setMaxWidth(lp.width);
-            books_logo_iv.setMaxHeight(lp.width  * 3 / 3);
+//            ViewGroup.LayoutParams lp = books_logo_iv.getLayoutParams();
+//            lp.width = Settings.displayWidth;
+//            lp.height = Settings.displayWidth * 3 / 3;
+//            books_logo_iv.setLayoutParams(lp);
+//            books_logo_iv.setMaxWidth(lp.width);
+//            books_logo_iv.setMaxHeight(lp.width  * 3 / 3);
 
-            Glide.with(this).load(data.get("logo")).centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+            Glide.with(this).load(data.get("logo"))
+//                    .centerCrop()
+//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-                    .centerCrop()
+//                    .centerCrop()
                     .dontAnimate()
-                    .override(lp.width, lp.height)
+//                    .override(lp.width, lp.height)
                     .into(books_logo_iv);
 
             notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);

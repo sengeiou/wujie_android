@@ -72,7 +72,7 @@
                 <ImageView
                     android:id="@+id/books_logo_iv"
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
+                    android:layout_height="300dp"
                     android:scaleType="fitCenter"
                     android:padding="1dp"/>
             </LinearLayout>

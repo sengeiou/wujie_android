@@ -34,7 +34,7 @@
         android:id="@+id/top_logo_iv"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:src="@drawable/icon_temp_top_hzj" />
 
 </LinearLayout>
