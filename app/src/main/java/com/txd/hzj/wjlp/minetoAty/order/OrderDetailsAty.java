@@ -812,9 +812,7 @@ public class OrderDetailsAty extends BaseAty {
                     }
                 }
             });
-
-
-            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).into(tgvh.image);
+            Glide.with(OrderDetailsAty.this).load(map.get("goods_img")).placeholder(R.drawable.ic_default).into(tgvh.image);
             tgvh.name.setText(map.get("goods_name")); // 设置商品名称显示
             tgvh.num.setText("x" + map.get("goods_num")); // 设置商品数量显示
             tgvh.title.setText(map.get("attr")); // 设置商品属性

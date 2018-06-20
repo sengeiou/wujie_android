@@ -109,18 +109,16 @@
             android:scrollbars="none" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="#F6F6F6" />
-
     <LinearLayout
         android:id="@+id/get_a_coupon_lin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
-
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="#F6F6F6" />
         <TextView
             android:id="@+id/tv_lingquan"
             android:layout_width="match_parent"

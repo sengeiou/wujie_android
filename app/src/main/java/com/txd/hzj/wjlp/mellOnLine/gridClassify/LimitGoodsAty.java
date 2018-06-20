@@ -383,7 +383,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      * 促销布局上面的线
      */
     @ViewInject(R.id.promotion_layoutline)
-    private LinearLayout promotion_layoutline;
+    private View promotion_layoutline;
 
     /**
      * 商品条数
