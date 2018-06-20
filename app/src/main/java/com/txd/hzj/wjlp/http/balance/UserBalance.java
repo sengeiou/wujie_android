@@ -61,7 +61,7 @@ class UserBalance {
      * @param baseView     回调
      */
     void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
-                    String pay_password,String id ,BaseView baseView) {
+                    String pay_password, String id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("bank_card_id", bank_card_id);
@@ -126,6 +126,7 @@ class UserBalance {
 //        apiTool2.postApi(url + "bankList", params, baseView);
         apiTool2.postApi(url + "platformAccount", params, baseView);
     }
+
     /**
      * 删除银行卡号
      *
@@ -239,6 +240,28 @@ class UserBalance {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("act_id", act_id);
         apiTool2.postApi(url + "getUnderInfo", params, baseView);
+    }
+
+    /**
+     * 编辑银行卡
+     *
+     * @param bank_card_id
+     * @param name
+     * @param bank_type_id
+     * @param open_bank
+     * @param card_number
+     * @param phone
+     */
+    void editBank(String bank_card_id, String name, String bank_type_id, String open_bank, String card_number, String phone, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("bank_card_id", bank_card_id);
+        params.addBodyParameter("name", name);
+        params.addBodyParameter("bank_type_id", bank_type_id);
+        params.addBodyParameter("open_bank", open_bank);
+        params.addBodyParameter("card_number", card_number);
+        params.addBodyParameter("phone", phone);
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "editBank", params, baseView);
     }
 
 }

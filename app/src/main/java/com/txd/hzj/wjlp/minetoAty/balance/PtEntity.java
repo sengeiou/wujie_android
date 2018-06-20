@@ -5,14 +5,16 @@ package com.txd.hzj.wjlp.minetoAty.balance;
  */
 
 public class PtEntity {
-    String bank_card_id, bank_card_code, bank_name, open_bank, name;
+    String bank_card_id, bank_card_code, bank_name, open_bank, name, phone, bank_type_id;
 
-    public PtEntity(String bank_card_id, String bank_card_code, String bank_name, String open_bank, String name) {
+    public PtEntity(String bank_card_id, String bank_card_code, String bank_name, String open_bank, String name, String phone, String bank_type_id) {
         this.bank_card_id = bank_card_id;
         this.bank_card_code = bank_card_code;
         this.bank_name = bank_name;
         this.open_bank = open_bank;
         this.name = name;
+        this.phone = phone;
+        this.bank_type_id = bank_type_id;
     }
 
     public void setBank_card_id(String bank_card_id) {
@@ -35,6 +37,14 @@ public class PtEntity {
         this.name = name;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setBank_type_id(String bank_type_id) {
+        this.bank_type_id = bank_type_id;
+    }
+
     public String getBank_card_id() {
         return bank_card_id;
     }
@@ -55,6 +65,14 @@ public class PtEntity {
         return name;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getBank_type_id() {
+        return bank_type_id;
+    }
+
     @Override
     public String toString() {
         return "PtEntity{" +
@@ -63,6 +81,8 @@ public class PtEntity {
                 ", bank_name='" + bank_name + '\'' +
                 ", open_bank='" + open_bank + '\'' +
                 ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", bank_type_id='" + bank_type_id + '\'' +
                 '}';
     }
 }
