@@ -1,19 +1,16 @@
 package com.txd.hzj.wjlp.distribution.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 
@@ -31,6 +28,7 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
     private CheckBox checkBox; // 调用时候全选框
     private boolean isShowCbox = false; // 是否显示复选框
     private int checkedCount = 0; // 选中记录的数量
+    private ImageClick imageClick;
 
     public ShopManageOrdinaryAdapter(Context context, List<DistributionGoodsBean> list, CheckBox checkBox) {
         this.context = context;
@@ -87,7 +85,9 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
         holder.itemShopManageOrd_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.e("分享商品：" + list.get(position).getGoodsName());
+                imageClick.onImageClick(v,position);
+                Log.e("TAG", "onClick: "+position );
+
             }
         });
         holder.itemShopManageOrd_select_cbox.setVisibility(isShowCbox ? View.VISIBLE : View.GONE);
@@ -116,5 +116,12 @@ public class ShopManageOrdinaryAdapter extends BaseAdapter {
         private TextView itemShopManageOrd_meny_tv;
         private TextView itemShopManageOrd_jifen_tv;
         private ImageView itemShopManageOrd_share_imgv;
+    }
+
+    public void setOnImageClickListener(ImageClick imageClick){
+        this.imageClick=imageClick;
+    }
+    public interface  ImageClick{
+        void onImageClick(View view,int position);
     }
 }

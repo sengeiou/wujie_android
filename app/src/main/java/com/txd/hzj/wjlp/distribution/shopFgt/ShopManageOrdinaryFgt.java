@@ -54,7 +54,7 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-        myAdapter = new MyAdapter(getActivity().getSupportFragmentManager());
+        myAdapter = new MyAdapter(getChildFragmentManager());
         shopManageOrdinary_content_vp.setAdapter(myAdapter);
         shopManageOrdinary_tab_tLayout.setupWithViewPager(shopManageOrdinary_content_vp); // 将TabLayout和ViewPager关联起来。
         shopManageOrdinary_content_vp.setOffscreenPageLimit(3);

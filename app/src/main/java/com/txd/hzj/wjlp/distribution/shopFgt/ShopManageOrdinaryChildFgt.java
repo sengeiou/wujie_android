@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.distribution.shopFgt;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
@@ -22,15 +24,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
 import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
-import com.txd.hzj.wjlp.http.AuctionOrder;
-import com.txd.hzj.wjlp.http.CarOrder;
-import com.txd.hzj.wjlp.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.http.HouseOrder;
-import com.txd.hzj.wjlp.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.http.IntegralOrder;
-import com.txd.hzj.wjlp.http.PreOrder;
-import com.txd.hzj.wjlp.http.UserBalance;
-import com.txd.hzj.wjlp.minetoAty.order.fgt.OrderOnLineFgt;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -144,6 +138,22 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             list.add(distributionGoodsBean);
         }
         adapter = new ShopManageOrdinaryAdapter(getActivity(), list, shopManageOrdinaryChild_selectAll_cbox);
+        adapter.setOnImageClickListener(new ShopManageOrdinaryAdapter.ImageClick() {
+            @Override
+            public void onImageClick(View view, int position) {
+                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
+                DistributionGoodsBean goodsBean = list.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", goodsBean.getGoodsName());
+                bundle.putString("pic", goodsBean.getImageUrl());
+                bundle.putString("url","1" );
+                bundle.putString("context", goodsBean.getGoodsName());
+                bundle.putString("id", "1");
+                bundle.putString("Shapetype", "1");
+                startActivity(ToShareAty.class, bundle);
+            }
+        });
         shopManageOrdinaryChild_data_lv.setAdapter(adapter);
 
         shopManageOrdinaryChild_sr_layout.setHeaderView(createHeaderView());// add headerView
