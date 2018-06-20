@@ -865,14 +865,12 @@ public class OrderDetailsAty extends BaseAty {
             }
 
 
-
-
             // 提醒发货按钮
-            //如果 after_type等于0时  order_status=1（待发货） 并且 remind_status=0（未提醒发货）时  显示提醒发货
-            if(map.get("after_type").equals("0")&&order_status.equals("1")&&map.get("remind_status").equals("0")){
+            //如果 after_type等于0时  order_status=1（待发货） status = 0 （待发货）并且 remind_status=0（未提醒发货）时  显示提醒发货
+            if (map.get("after_type").equals("0") && order_status.equals("1") && map.get("status").equals("0") && map.get("remind_status").equals("0")) {
                 tgvh.tv_btn_remind.setText("提醒发货");
                 tgvh.tv_btn_remind.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tgvh.tv_btn_remind.setVisibility(View.GONE);
             }
             tgvh.tv_btn_remind.setOnClickListener(new View.OnClickListener() {
@@ -901,11 +899,11 @@ public class OrderDetailsAty extends BaseAty {
 
 
             //延迟收货
-    //  //如果 after_type等于0时  order_status=2（待收货） 并且 sale_status= 0（未延迟收货）时     显示延迟收货
-            if(map.get("after_type").equals("0")&&order_status.equals("2")&&map.get("sale_status").equals("0")&&map.get("status").equals("2")){
+            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延迟收货）时  显示延迟收货
+            if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0") ) {
                 tgvh.delayReceiving.setText("延迟收货");
                 tgvh.delayReceiving.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tgvh.delayReceiving.setVisibility(View.GONE);
             }
             // 左侧延长收货按钮点击事件
@@ -923,13 +921,12 @@ public class OrderDetailsAty extends BaseAty {
             });
 
 
-
             //确认收货
-     //如果 after_type等于0时  order_status=2（待收货） 并且 status=2 （未收货）时                   显示确认收货
-            if(map.get("after_type").equals("0")&&order_status.equals("2")&&map.get("status").equals("2")){
+            //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）时  显示确认收货
+            if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2")) {
                 tgvh.confirmReceipt.setText("确认收货");
                 tgvh.confirmReceipt.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 tgvh.confirmReceipt.setVisibility(View.GONE);
             }
             // 中间按钮点击事件
