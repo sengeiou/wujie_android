@@ -800,7 +800,7 @@ public class OrderDetailsAty extends BaseAty {
                         if (data.containsKey("integralBuy_id")) {//拼单购
                             bundle.putString("limit_buy_id", data.get("integralBuy_id"));
                             bundle.putInt("from", 1);
-                            bundle.putString("type", WJConfig.TYPE_WJSD);
+                            bundle.putInt("type", WJConfig.WJSD);
                             startActivity(LimitGoodsAty.class, bundle);
                         }
                     } else {
