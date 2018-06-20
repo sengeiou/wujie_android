@@ -1249,13 +1249,22 @@ public class OrderOnLineFgt extends BaseFgt {
                         goods_attr_str+"（赠送:" + getItem(i).get("return_integral") + "积分）",goods_attr_str.length(), Color.parseColor("#F6B87A"));
 //                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
             }
-            if (TextUtils.isEmpty(getItem(i).get("shop_price"))) {
-                goVh.tv_price.setVisibility(View.GONE);
-            } else {
-                goVh.tv_price.setVisibility(View.VISIBLE);
-                goVh.tv_price.setText("10".equals(from) ? getItem(i).get("shop_price") + "积分" : "¥" + getItem(i).get("shop_price"));
-            }
 
+            if("10".equals(from)){
+                if (TextUtils.isEmpty(getItem(i).get("use_integral"))) {
+                    goVh.tv_price.setVisibility(View.GONE);
+                } else {
+                    goVh.tv_price.setVisibility(View.VISIBLE);
+                    goVh.tv_price.setText(getItem(i).get("use_integral") + "积分" );
+                }
+            }else{
+                if (TextUtils.isEmpty(getItem(i).get("shop_price"))) {
+                    goVh.tv_price.setVisibility(View.GONE);
+                } else {
+                    goVh.tv_price.setVisibility(View.VISIBLE);
+                    goVh.tv_price.setText("¥" + getItem(i).get("shop_price"));
+                }
+            }
             return view;
         }
 

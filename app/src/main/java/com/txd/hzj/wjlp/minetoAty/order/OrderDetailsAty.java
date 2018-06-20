@@ -28,6 +28,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
@@ -37,6 +38,7 @@ import com.txd.hzj.wjlp.http.GroupBuyOrder;
 import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.tool.WJConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -779,7 +781,7 @@ public class OrderDetailsAty extends BaseAty {
             } else {
                 tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
             }
-            tgvh.tv_price.setText("10".equals(type) ? map.get("shop_price") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
+            tgvh.tv_price.setText("10".equals(type) ? map.get("use_integral") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
             tgvh.itemGoods_goods_layout.setTag(i);
             // 商品点击跳转至商品详情
@@ -793,6 +795,13 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("group_buy_id", getItem(i).get("group_buy_id"));
                             bundle.putInt("from", 1);
                             startActivity(GoodLuckDetailsAty.class, bundle);
+                        }
+                    }else if("10".equals(type)){
+                        if (data.containsKey("integralBuy_id")) {//拼单购
+                            bundle.putString("limit_buy_id", data.get("integralBuy_id"));
+                            bundle.putInt("from", 1);
+                            bundle.putString("type", WJConfig.TYPE_WJSD);
+                            startActivity(LimitGoodsAty.class, bundle);
                         }
                     } else {
                         if (getItem(i).containsKey("goods_id")) {//普通商品
