@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.http;
 
+import android.text.TextUtils;
+
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
@@ -14,13 +16,20 @@ public class Freight {
      *
      * @param goods_id
      * @param address
+     * @param goods_num
+     * @param product_id
      * @param baseView
      */
-    public static void freight(String goods_id, String address, BaseView baseView) {
+    public static void freight(String goods_id, String address, String goods_num, String product_id, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("goods_id", goods_id);
         params.addBodyParameter("address", address);
+        if (!TextUtils.isEmpty(goods_id) &&("0".equals(goods_num)||TextUtils.isEmpty(goods_num))) {
+            goods_num = "1";
+        }
+        params.addBodyParameter("goods_num", goods_num);//商品数量
+        params.addBodyParameter("product_id", product_id);//价格体系ID
         apiTool2.postApi(url + "freight", params, baseView);
     }
 
@@ -28,10 +37,9 @@ public class Freight {
     /***
      *订单运费
      * @param address_id
-     * @param goods
      * @param baseView
      */
-    public static void split(String goods_id,String address_id, String product_id,String goods_num ,String goods_info,BaseView baseView) {
+    public static void split(String goods_id, String address_id, String product_id, String goods_num, String goods_info, BaseView baseView) {
         ApiTool2 apiTool2 = new ApiTool2();
         RequestParams params = new RequestParams();
         params.addBodyParameter("now_goods_id", goods_id);

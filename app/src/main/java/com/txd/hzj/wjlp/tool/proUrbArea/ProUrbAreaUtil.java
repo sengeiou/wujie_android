@@ -150,20 +150,34 @@ public class ProUrbAreaUtil implements BaseView {
     private boolean getWrong = false;
     private TextView tv_chose_ads;
     private String goods_id;
+    private String product_id;
+    private String goods_num;
 
-    public void showPickerView(final TextView tv_chose_ads, final String goods_id, BaseActivity activity, CallBack callback) {// 弹出选择器
+    /**
+     *
+     * @param tv_chose_ads
+     * @param goods_id
+     * @param goods_num
+     * @param product_id
+     * @param activity
+     * @param callback
+     */
+    public void showPickerView(final TextView tv_chose_ads, final String goods_id,String goods_num,String product_id, BaseActivity activity, CallBack callback) {// 弹出选择器
         this.baseActivity = activity;
+
         showDialog();
-        if(null==application){
-            application= (WeApplication) activity.getApplication();
+        if (null == application) {
+            application = (WeApplication) activity.getApplication();
         }
         String data = application.getCityProvienceJson();
         this.tv_chose_ads = tv_chose_ads;
         this.goods_id = goods_id;
+        this.product_id=product_id;
+        this.goods_num=goods_num;
         this.callBack = callback;
         if (!TextUtils.isEmpty(data)) {
             getWrong = false;
-            dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id));
+            dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id,goods_num,product_id));
         } else {
             getWrong = true;
             checkData(application);
@@ -180,11 +194,23 @@ public class ProUrbAreaUtil implements BaseView {
         private BaseActivity activity;
         private TextView tv_chose_ads;
         private String goods_id;
+        private String goods_num;
+        private String product_id;
 
-        AreaHandler(BaseActivity activity, TextView tv_chose_ads, String goods_id) {
+        /**
+         *
+         * @param activity
+         * @param tv_chose_ads
+         * @param goods_id
+         * @param goods_num
+         * @param product_id
+         */
+        AreaHandler(BaseActivity activity, TextView tv_chose_ads,  String goods_id,String goods_num, String product_id) {
             this.activity = activity;
             this.tv_chose_ads = tv_chose_ads;
             this.goods_id = goods_id;
+            this.goods_num=goods_num;
+            this.product_id=product_id;
         }
 
         @Override
@@ -221,7 +247,7 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
                             if (!TextUtils.isEmpty(goods_id))
-                                Freight.freight(goods_id, tx.toString(), ProUrbAreaUtil.this);
+                                Freight.freight(goods_id, tx.toString(),goods_num,product_id, ProUrbAreaUtil.this);
                             if (null != getData) {
                                 getData.getAddress();
                             }
@@ -421,8 +447,8 @@ public class ProUrbAreaUtil implements BaseView {
                 jsonObject = new JSONObject(jsonStr);
                 String data = jsonObject.getString("data");
                 application.setCityProvience(data);
-                if (getWrong&&null!=baseActivity&&null!=tv_chose_ads) {
-                    dealJsonData(data, new AreaHandler(baseActivity, tv_chose_ads, goods_id) );
+                if (getWrong && null != baseActivity && null != tv_chose_ads) {
+                    dealJsonData(data, new AreaHandler(baseActivity, tv_chose_ads, goods_id,goods_num,product_id));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

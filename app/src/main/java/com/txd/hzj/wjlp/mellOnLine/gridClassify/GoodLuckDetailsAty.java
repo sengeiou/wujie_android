@@ -689,7 +689,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, GoodLuckDetailsAty.this, GoodLuckDetailsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) v, goods_id, String.valueOf(goods_number), product_id, GoodLuckDetailsAty.this, GoodLuckDetailsAty.this);
 
                 break;
             case R.id.tv_showClassify://查看分类
@@ -892,7 +892,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @Override
     protected void requestData() {
-        Intent gIntent=getIntent();
+        Intent gIntent = getIntent();
         a_id = gIntent.getStringExtra("a_id");
         groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -976,8 +976,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     /**
                      *以下表示如果buy_status==0，表示当前商品已经下架
                      * */
-                    String buyStatusStr=goodsInfo.getBuy_status();
-                    if (!TextUtils.isEmpty(buyStatusStr)&&buyStatusStr.equals("0")) {
+                    String buyStatusStr = goodsInfo.getBuy_status();
+                    if (!TextUtils.isEmpty(buyStatusStr) && buyStatusStr.equals("0")) {
                         CustomDialog.Builder dialog = new CustomDialog.Builder(GoodLuckDetailsAty.this);
                         dialog.setCancelable(false);
                         dialog.setMessage("当前商品已下架");
@@ -1103,7 +1103,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     tv_chose_ads.setText(tx);
                     // 运费
                     tv_chose_ads.setText(tx);
-                    goodLuckPranster.freight(goods_id, tx);
+                    goodLuckPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
 //#FD8214
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
@@ -1569,7 +1569,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     public void onBottom() {
         if (is_f) {
             page++;
-            groupBuyPst.groupBuyInfo(group_buy_id, page,null);
+            groupBuyPst.groupBuyInfo(group_buy_id, page, null);
         }
     }
 

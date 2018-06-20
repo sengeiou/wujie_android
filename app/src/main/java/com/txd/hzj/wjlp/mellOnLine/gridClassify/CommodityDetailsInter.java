@@ -44,7 +44,13 @@ public interface CommodityDetailsInter {
          */
         void getHeight(CarouselView online_carvouse_view, LinearLayout top_lin_layout, LinearLayout second_lin_layout, ObservableScrollView limit_goods_details_sc, ImageView be_back_top_iv);
 
-        void freight(String goods_id, String tx);
+        /**
+         * @param goods_id   商品id
+         * @param tx         地址(','分隔)
+         * @param goods_num  商品数量
+         * @param product_id 价格体系ID
+         */
+        void freight(String goods_id, String tx, String goods_num, String product_id);
 
         void showDjqPop(View view, List<DjTicketBean> list, Activity activity, String vouchers_desc);
 
@@ -78,6 +84,7 @@ public interface CommodityDetailsInter {
 
         /**
          * 跳转到环信聊天界面
+         *
          * @param easemob_account
          * @param head_pic
          * @param nickname
@@ -86,12 +93,13 @@ public interface CommodityDetailsInter {
 
         /**
          * 提示错误消息
+         *
          * @param msg
          */
         void showErrorTip(String msg);
     }
 
-    public interface GoodLuckView extends  CommodityView {
+    public interface GoodLuckView extends CommodityView {
         void itmeClick(View v, int position);
     }
 

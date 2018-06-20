@@ -358,7 +358,8 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this,this);
+
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,"","", this,this);
                 break;
             case R.id.tv_tochar:
                 toChat(easemob_account, merchant_logo, merchant_name);
@@ -544,7 +545,7 @@ public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollV
             String tx = DemoApplication.getInstance().getLocInfo().get("province")
                     + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
             tv_chose_ads.setText(tx);
-            Freight.freight(goods_id, tx, AuctionGoodsDetailsAty.this);
+            Freight.freight(goods_id, tx,"",auctionInfo.get("product_id"), AuctionGoodsDetailsAty.this);
             showProgressDialog();
             if (auctionInfo.get("is_new_goods").equals("0") && auctionInfo.get("is_end").equals("1")) {
                 tv_expirationdate.setText(auctionInfo.get("is_new_goods_desc") + "\n" + auctionInfo.get("is_end_desc"));

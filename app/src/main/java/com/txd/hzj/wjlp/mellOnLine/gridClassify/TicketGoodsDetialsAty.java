@@ -555,7 +555,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             }
             case R.id.tv_chose_ads: // 弹出地址选择器
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, this, this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,String.valueOf(goods_number),product_id, this, this);
                 break;
             case R.id.title_goods_layout:// 商品
                 clickType = 1;
@@ -1393,7 +1393,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_chose_ads.setText(tx);
         L.e("==========商品详情获取的定位信息===========" + tx);
         // 定位好之后获取运费信息
-        Freight.freight(goods_id, tx, TicketGoodsDetialsAty.this);
+        Freight.freight(goods_id, tx,String.valueOf(goods_number),product_id, TicketGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格
         // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));

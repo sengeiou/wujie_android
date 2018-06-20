@@ -389,7 +389,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_select_zoon_layout:// 区域选择
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "", EditProfileAty.this, null);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "","","", EditProfileAty.this, null);
                 // 添加省市区的文字变化监听
                 ((TextView) findViewById(R.id.user_select_zoon_tv)).addTextChangedListener(new TextWatcher() {
                     @Override

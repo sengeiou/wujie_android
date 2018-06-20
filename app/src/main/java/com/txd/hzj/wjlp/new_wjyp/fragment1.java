@@ -228,7 +228,7 @@ public class fragment1 extends BaseFgt {
                 break;
             case R.id.ads0:
                 if (check) {
-                    ProUrbAreaUtil.gainInstance().showPickerView(ads0, "", (BaseActivity) getActivity(), null);
+                    ProUrbAreaUtil.gainInstance().showPickerView(ads0, "","","", (BaseActivity) getActivity(), null);
                 }
                 break;
             case R.id.ads1:

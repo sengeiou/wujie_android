@@ -108,7 +108,7 @@ public class UnionMerchartFgt extends BaseFgt {
                     startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), 105);
                     break;
                 case R.id.layout_city:
-                    ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "", (BaseActivity) getActivity(),null);
+                    ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "","","", (BaseActivity) getActivity(),null);
                     break;
                 case R.id.layout_street:
                     area_id = ProUrbAreaUtil.gainInstance().getArea_id();

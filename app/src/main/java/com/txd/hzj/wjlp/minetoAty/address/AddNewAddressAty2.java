@@ -191,7 +191,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "", AddNewAddressAty2.this,null);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.zore_tv), "","","", AddNewAddressAty2.this,null);
                 break;
             case R.id.street_layout:// 解析数据，跳转至街道选择页面
                 if (choiceAddress) {

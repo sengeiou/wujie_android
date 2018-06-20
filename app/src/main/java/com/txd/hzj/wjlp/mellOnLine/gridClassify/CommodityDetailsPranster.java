@@ -207,9 +207,9 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     @Override
-    public void freight(String goods_id, String tx) {
+    public void freight(String goods_id, String tx, String goods_num, String product_id) {
 
-        Freight.freight(goods_id, tx, this);
+        Freight.freight(goods_id, tx, goods_num, product_id, this);
     }
 
     @Override
