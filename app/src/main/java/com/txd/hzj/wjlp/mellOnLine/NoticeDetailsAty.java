@@ -24,6 +24,7 @@ import com.txd.hzj.wjlp.http.article.Article;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
+import com.txd.hzj.wjlp.view.NoScrollWebView;
 
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class NoticeDetailsAty extends BaseAty {
 
 
     @ViewInject(R.id.notice_details_wv)
-    public WebView notice_details_wv;
+    public NoScrollWebView notice_details_wv;
 
     /**
      * 0.消息详情

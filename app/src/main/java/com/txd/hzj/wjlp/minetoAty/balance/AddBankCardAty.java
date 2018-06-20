@@ -36,8 +36,6 @@ public class AddBankCardAty extends BaseAty {
     @ViewInject(R.id.card_type_tv)
     private TextView card_type_tv;
 
-    private BalancePst balancePst;
-
     @ViewInject(R.id.card_name_tv)
     private TextView card_name_tv;
     @ViewInject(R.id.open_card_ev)
@@ -46,6 +44,9 @@ public class AddBankCardAty extends BaseAty {
     private EditText card_num_ev;
     @ViewInject(R.id.phone_ev)
     private EditText phone_ev;
+    @ViewInject(R.id.add_bank_tv)
+    private TextView add_bank_tv;
+
     private String bank_type_id = "";
     private UserPst userPst;
     private String auth_status; // 个人认证状态 0 未认证 1认证中 2 已认证 3被拒绝
@@ -53,11 +54,52 @@ public class AddBankCardAty extends BaseAty {
     private String authName;
     private String compAuthName;
 
+    private BalancePst balancePst;
+
+    private boolean isEdit; // 是否是编辑
+    private String bank_card_id; // 获取银行卡ID
+    private String bank_card_code; // 获取银行卡账号
+    private String bank_name; // 获取银行卡别名
+    private String open_bank; // 获取银行卡开户行
+    private String name; // 获取用户名
+    private String phone; // 获取银行卡绑定的手机号
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        titlt_conter_tv.setText("添加银行卡");
+
+        Intent intent = getIntent();
+        try {
+            isEdit = intent.getBooleanExtra("isEdit", false);
+            L.e("isEdit:" + isEdit);
+        } catch (Exception e) {
+            L.e("AddBankCardAty Exception:" + e.toString());
+        }
+        titlt_conter_tv.setText(isEdit ? "编辑银行卡" : "添加银行卡");
+        if (isEdit) {
+            bank_card_id = intent.getStringExtra("bank_card_id");
+            bank_card_code = intent.getStringExtra("bank_card_code");
+            bank_name = intent.getStringExtra("bank_name");
+            open_bank = intent.getStringExtra("open_bank");
+            name = intent.getStringExtra("name");
+            phone = intent.getStringExtra("phone");
+            bank_type_id = intent.getStringExtra("bank_type_id");
+            L.e("bank_card_id:" + bank_card_id + "\n" +
+                    "bank_card_code:" + bank_card_code + "\n" +
+                    "bank_name:" + bank_name + "\n" +
+                    "open_bank:" + open_bank + "\n" +
+                    "bank_type_id:" + bank_type_id + "\n" +
+                    "name:" + name);
+            // 获取完之后设置控件的值
+            card_num_ev.setText(bank_card_code);
+            card_name_tv.setText(open_bank);
+            card_type_tv.setText(bank_name);
+            open_card_ev.setText(open_bank);
+            phone_ev.setText(phone);
+
+            add_bank_tv.setText("修改银行卡");
+        }
     }
 
     @Override
@@ -75,12 +117,21 @@ public class AddBankCardAty extends BaseAty {
                     showSelectWindow(authName, compAuthName);
                 }
                 break;
-            case R.id.add_bank_tv:// 添加银行卡
-                String name = card_name_tv.getText().toString();
-                String open_bank = open_card_ev.getText().toString();
-                String card_number = card_num_ev.getText().toString();
-                String phone = phone_ev.getText().toString();
-                balancePst.addBank(name, bank_type_id, open_bank, card_number, phone);
+            case R.id.add_bank_tv:// 添加/修改银行卡
+                if (isEdit) { // 修改银行卡
+                    String name = card_name_tv.getText().toString();
+                    String open_bank = open_card_ev.getText().toString();
+                    String card_number = card_num_ev.getText().toString();
+                    String phone = phone_ev.getText().toString();
+//                    String bank_card_id, String name, String bank_type_id, String open_bank, String card_number, String phone
+                    balancePst.editBank(bank_card_id, name, bank_type_id, open_bank, card_number, phone);
+                } else { // 添加银行卡
+                    String name = card_name_tv.getText().toString();
+                    String open_bank = open_card_ev.getText().toString();
+                    String card_number = card_num_ev.getText().toString();
+                    String phone = phone_ev.getText().toString();
+                    balancePst.addBank(name, bank_type_id, open_bank, card_number, phone);
+                }
                 break;
         }
     }
@@ -140,6 +191,10 @@ public class AddBankCardAty extends BaseAty {
         }
         if (requestUrl.contains("addBank")) {
             showRightTip("添加成功");
+            finish();
+        }
+        if (requestUrl.contains("editBank")) {
+            showRightTip("修改成功");
             finish();
         }
     }

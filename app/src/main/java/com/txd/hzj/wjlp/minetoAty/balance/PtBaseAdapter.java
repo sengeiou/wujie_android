@@ -1,14 +1,20 @@
 package com.txd.hzj.wjlp.minetoAty.balance;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.http.balance.BalancePst;
+import com.txd.hzj.wjlp.login.FindPwgBackHzjAty;
 
 import java.util.ArrayList;
 
@@ -20,10 +26,22 @@ public class PtBaseAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<PtEntity> alist;
+    private final BalancePst balancePst;
+    boolean isPlatform;
 
-    public PtBaseAdapter(Context context, ArrayList<PtEntity> list) {
+    /**
+     * 适配器构造函数
+     *
+     * @param context    上下文
+     * @param list       适配的列表
+     * @param baseView   BaseView
+     * @param isPlatform 是否是平台银行卡
+     */
+    public PtBaseAdapter(Context context, ArrayList<PtEntity> list, BaseView baseView, boolean isPlatform) {
         this.alist = list;
         this.context = context;
+        balancePst = new BalancePst(baseView);
+        this.isPlatform = isPlatform;
     }
 
     @Override
@@ -42,7 +60,7 @@ public class PtBaseAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder vh;
         if (convertView == null) {
             vh = new ViewHolder();
@@ -59,18 +77,37 @@ public class PtBaseAdapter extends BaseAdapter {
         vh.bank_card_num_tv.setText(alist.get(position).getBank_card_code());
         vh.bank_card_owner_name.setText(alist.get(position).getName());
         vh.create_card_bank_name_tv.setText(alist.get(position).getOpen_bank());
-        vh.bank_card_edit_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO 编辑银行卡
-            }
-        });
-        vh.bank_card_delete_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO 删除银行卡
-            }
-        });
+
+        if (isPlatform) { // 如果是平台银行卡列表，则隐藏编辑和删除按钮
+            vh.bank_card_edit_tv.setVisibility(View.GONE);
+            vh.bank_card_delete_tv.setVisibility(View.GONE);
+        } else { // 否则的话是加载的个人银行卡，显示这俩按钮并添加点击事件
+            vh.bank_card_edit_tv.setVisibility(View.VISIBLE);
+            vh.bank_card_delete_tv.setVisibility(View.VISIBLE);
+            vh.bank_card_edit_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(context, AddBankCardAty.class);
+                    intent.putExtra("isEdit", true); // 是否是编辑状态
+                    intent.putExtra("bank_card_id", alist.get(position).getBank_card_id());
+                    intent.putExtra("bank_card_code", alist.get(position).getBank_card_code());
+                    intent.putExtra("bank_name", alist.get(position).getBank_name());
+                    intent.putExtra("open_bank", alist.get(position).getOpen_bank());
+                    intent.putExtra("name", alist.get(position).getName());
+                    intent.putExtra("phone", alist.get(position).getPhone());
+                    intent.putExtra("bank_type_id", alist.get(position).getBank_type_id());
+                    context.startActivity(intent);
+                }
+            });
+            vh.bank_card_delete_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    balancePst.delBank(alist.get(position).getBank_card_id());
+                }
+            });
+        }
+
         return convertView;
     }
 

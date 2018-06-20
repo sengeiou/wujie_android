@@ -69,12 +69,16 @@
             android:textColor="@color/hint_text_color"
             android:textSize="13sp" />
 
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_toRightOf="@+id/shop_name"
-            android:text="水晶家纺"
+            android:text="水晶家坊"
+            android:lines="1"
+            android:hint="请输入店铺名称"
+            android:maxLength="6"
+            android:background="@null"
             android:textColor="@color/black"
             android:textSize="17sp" />
     </RelativeLayout>
@@ -97,16 +101,17 @@
             android:textColor="@color/hint_text_color"
             android:textSize="13sp" />
 
-        <TextView
+        <EditText
             android:id="@+id/shop_introduces"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="33dp"
+            android:background="@null"
+            android:text="请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介"
             android:layout_toRightOf="@+id/shop_introduce"
             android:textColor="@color/shop_text_color"
-            android:lines="2"
-            android:ellipsize="end"
+            android:hint="请输入店铺简介"
             android:textSize="17sp" />
 
     </RelativeLayout>

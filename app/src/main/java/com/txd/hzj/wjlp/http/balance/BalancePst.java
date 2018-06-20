@@ -38,7 +38,7 @@ public class BalancePst extends BasePresenter {
 
     // 线下充值
     public void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
-                           String pay_password,String id) {
+                           String pay_password, String id) {
 
         if (bank_card_id.isEmpty() || bank_card_id.equals("")) {
             baseView.onErrorTip("请选择银行");
@@ -66,7 +66,7 @@ public class BalancePst extends BasePresenter {
         }
 
         baseView.showDialog();
-        userBalance.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_password,id, baseView);
+        userBalance.underMoney(bank_card_id, act_time, money, name, pic, desc, pay_password, id, baseView);
 
     }
 
@@ -106,6 +106,7 @@ public class BalancePst extends BasePresenter {
         baseView.showDialog();
         userBalance.bankList(baseView);
     }
+
     public void platformAccount() {
         baseView.showDialog();
         userBalance.platformAccount(baseView);
@@ -140,11 +141,13 @@ public class BalancePst extends BasePresenter {
         baseView.showDialog();
         userBalance.balanceLog(p, baseView);
     }
+
     // 线下充值明细列表
     public void underMoneys(int p) {
         baseView.showDialog();
         userBalance.underMoneys(p, baseView);
     }
+
     // 根据ID或者手机获取真实姓名
     public void getUserName(String code) {
         baseView.showDialog();
@@ -155,6 +158,45 @@ public class BalancePst extends BasePresenter {
     public void getUnderInfo(String act_id) {
         baseView.showDialog();
         userBalance.getUnderInfo(act_id, baseView);
+    }
+
+    /**
+     * 编辑银行卡
+     *
+     * @param bank_card_id
+     * @param name
+     * @param bank_type_id
+     * @param open_bank
+     * @param card_number
+     * @param phone
+     */
+    public void editBank(String bank_card_id, String name, String bank_type_id, String open_bank, String card_number, String phone) {
+        if (bank_card_id.isEmpty() || bank_card_id.equals("")) {
+            baseView.onErrorTip("银行卡ID为空");
+            return;
+        }
+        if (name.isEmpty() || name.equals("")) {
+            baseView.onErrorTip("请检查用户名");
+            return;
+        }
+        if (bank_type_id.isEmpty() || bank_type_id.equals("")) {
+            baseView.onErrorTip("请选择卡类型");
+            return;
+        }
+        if (open_bank.isEmpty() || open_bank.equals("")) {
+            baseView.onErrorTip("请输入开户行");
+            return;
+        }
+        if (card_number.isEmpty() || card_number.equals("")) {
+            baseView.onErrorTip("请检查卡号");
+            return;
+        }
+        if (phone.isEmpty() || phone.equals("")) {
+            baseView.onErrorTip("请核对手机号");
+            return;
+        }
+        baseView.showDialog();
+        userBalance.editBank(bank_card_id, name, bank_type_id, open_bank, card_number, phone, baseView);
     }
 
 }

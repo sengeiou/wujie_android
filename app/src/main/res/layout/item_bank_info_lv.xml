@@ -72,7 +72,8 @@
                             android:layout_height="wrap_content"
                             android:padding="8dp"
                             android:text="编辑"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/bank_card_delete_tv"
@@ -81,7 +82,8 @@
                             android:layout_marginLeft="8dp"
                             android:padding="8dp"
                             android:text="删除"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:visibility="gone" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

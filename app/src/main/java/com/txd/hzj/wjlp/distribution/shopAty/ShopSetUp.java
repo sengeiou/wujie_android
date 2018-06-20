@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
@@ -42,6 +44,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private TextView setAlbum;
     private File file1;
     private ShapedImageView shopImage;
+    private TextView titleRight;
 
 
     @Override
@@ -53,6 +56,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     protected void initialized() {
 
         setIma = findViewById(R.id.shop_set_ima);
+        titleRight = findViewById(R.id.titlt_right_tv);
         shopImage = findViewById(R.id.img_head);
         titleName = findViewById(R.id.titlt_conter_tv);
         shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
@@ -60,12 +64,15 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleName.setText("店铺设置");
         //注册点击事件
         setIma.setOnClickListener(this);
+        titleRight.setOnClickListener(this);
         forImagePacker();
     }
 
     @Override
     protected void requestData() {
-
+        titleRight.setVisibility(View.VISIBLE);
+        titleRight.setText("保存");
+        titleRight.setTextColor(Color.rgb(255,0,0));
     }
 /**
  * 设置拍照数据
@@ -90,7 +97,11 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
             case R.id.shop_set_ima:
                 showDialogs();
                 break;
+            case R.id.titlt_right_tv:
 
+                Toast.makeText(this,"已保存修改",Toast.LENGTH_SHORT).show();
+                this.finish();
+                break;
         }
     }
 

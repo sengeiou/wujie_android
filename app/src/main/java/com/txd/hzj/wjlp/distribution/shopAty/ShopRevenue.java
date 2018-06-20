@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -100,7 +103,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
         //设置x轴的数据
         int numX = 6;
         //设置y轴的数据
-        float[] datas1 = {536, 148, 769, 432, 102, 26, 94, 120};//数据
+        float[] datas1 = {536, 148, 569, 432, 102, 26, 233, 120};//数据
         float[] datas2 = {736, 103, 369, 132, 82, 126, 94, 50};//数据
 
         ArrayList<Entry> list2 = new ArrayList<>();
