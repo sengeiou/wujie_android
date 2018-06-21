@@ -925,15 +925,16 @@ public class BuildOrderAty extends BaseAty {
                 String return_integral = ""; // 积分
                 try {
                     return_integral = getItem(i).get("return_integral") != null ? "（赠送:" + getItem(i).get("return_integral") + "积分）" : "";
-                } catch (Exception e){
+                } catch (Exception e) {
                     return_integral = "";
                 }
                 guigeJiFenStr = getItem(i).get("goods_attr_first") + "<font color='#FD8214'><small><small>" + return_integral + "</small></small></font>";
 
 //                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
                 govh.price_for_goods_tv.setText(Html.fromHtml(guigeJiFenStr));
+                govh.price_for_goods_tv.setTextSize(12);
                 if ("10".equals(type)) {//无界商店积分处理
-                    if(getItem(i).containsKey("use_integral")){
+                    if (getItem(i).containsKey("use_integral")) {
                         govh.shop_priceTv.setText(getItem(i).get("use_integral") + "积分");
                     }
                 } else {
@@ -976,8 +977,8 @@ public class BuildOrderAty extends BaseAty {
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {
                         bundle.putString("data2", "data1 is null so intent data2.");
                     }
-                    if("10".equals(type)){//无界商店
-                        bundle.putString("shop_price",getItem(i).get("use_integral"));
+                    if ("10".equals(type)) {//无界商店
+                        bundle.putString("shop_price", getItem(i).get("use_integral"));
                     }
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
                     //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
@@ -1047,7 +1048,7 @@ public class BuildOrderAty extends BaseAty {
             private TextView shop_priceTv;
             @ViewInject(R.id.price_for_goods_tv)
             private TextView price_for_goods_tv;
-//            @ViewInject(R.id.jifen_tv)
+            //            @ViewInject(R.id.jifen_tv)
 //            private TextView jifen_tv;
             @ViewInject(R.id.tv_number)
             private TextView tv_number;

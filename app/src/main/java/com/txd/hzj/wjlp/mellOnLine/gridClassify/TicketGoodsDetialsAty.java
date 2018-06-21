@@ -946,8 +946,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
-        progressBar.setVisibility(View.GONE
-        );
+        progressBar.setVisibility(View.GONE);
         ticketGoodsDetials_refreshLayout_ssrl.setRefreshing(false);
 
         if (requestUrl.contains("addCart")) {
@@ -966,6 +965,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 JSONObject data = jsonObject.getJSONObject("data");
                 tv_freight.setText(data.getString("pay"));
+                freight_tv.setText(data.getString("pay"));
             } catch (JSONException e) {
                 showErrorTip("回传运费格式出错");
                 L.e("回传Json字符串格式异常");
