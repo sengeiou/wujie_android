@@ -453,4 +453,9 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
         return resources;
     }
 
+    @Override
+    public void onException(Exception exception) {
+        showProgressContent();
+        super.onException(exception);
+    }
 }
