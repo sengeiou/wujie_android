@@ -175,6 +175,7 @@ public class ShopManageOpenShopFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
+
     }
 
     /**
