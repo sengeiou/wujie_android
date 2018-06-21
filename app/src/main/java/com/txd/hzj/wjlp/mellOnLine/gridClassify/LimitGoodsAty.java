@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
@@ -1152,6 +1153,16 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                    "运费10元", 2, Color.parseColor("#FF0000"));
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
+
+
+                    WebSettings webSettings=goods_desc_wv.getSettings();
+                    webSettings.setJavaScriptEnabled(true);
+                    webSettings.setAllowContentAccess(true);
+                    webSettings.setAppCacheEnabled(false);
+                    webSettings.setBuiltInZoomControls(false);
+                    webSettings.setUseWideViewPort(true);
+                    webSettings.setLoadWithOverviewMode(true);
+                    webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
 
                     // 商家信息

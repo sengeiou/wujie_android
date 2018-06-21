@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -1106,6 +1107,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     goodLuckPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
 //#FD8214
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
+
+
+                    WebSettings webSettings=goods_desc_wv.getSettings();
+                    webSettings.setJavaScriptEnabled(true);
+                    webSettings.setAllowContentAccess(true);
+                    webSettings.setAppCacheEnabled(false);
+                    webSettings.setBuiltInZoomControls(false);
+                    webSettings.setUseWideViewPort(true);
+                    webSettings.setLoadWithOverviewMode(true);
+                    webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
                     commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
                     commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
