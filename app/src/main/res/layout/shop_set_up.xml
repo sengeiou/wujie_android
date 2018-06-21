@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:text="店铺简介"
             android:textColor="@color/hint_text_color"
-            android:textSize="13sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/shop_introduces"
@@ -108,11 +108,10 @@
             android:layout_marginEnd="40dp"
             android:layout_marginStart="33dp"
             android:background="@null"
-            android:text="请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介请输入店铺简介"
             android:layout_toRightOf="@+id/shop_introduce"
-            android:textColor="@color/shop_text_color"
+            android:textColor="@color/black"
             android:hint="请输入店铺简介"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
 
     </RelativeLayout>
 </LinearLayout>
