@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.distribution.shopAty.ShopGoodsManage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +74,23 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
 
             @Override
             public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+        final ShopGoodsManage shopGoodsManage= (ShopGoodsManage) getActivity();
+        shopManageOrdinary_tab_tLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                shopGoodsManage.setTitltRightVisibility(false);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });

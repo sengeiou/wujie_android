@@ -57,12 +57,11 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
                 }else{
                     Toast.makeText(ShopGoodsManage.this, "开店" + string, Toast.LENGTH_SHORT).show();
                 }
-
+                titlt_right_tv.setVisibility(View.GONE);
             }
         });
 
         titlt_conter_tv.setVisibility(View.GONE);
-
 
     }
 
