@@ -38,5 +38,5 @@
         android:layout_height="wrap_content"
          />
     </LinearLayout>
-    <include layout="@layout/shop_empty_layout" />
+    <include layout="@layout/shop_order_empty_layout" />
 </LinearLayout>

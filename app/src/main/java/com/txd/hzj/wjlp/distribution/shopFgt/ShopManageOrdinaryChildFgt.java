@@ -49,6 +49,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     private List<DistributionGoodsBean> list;
     private ShopManageOrdinaryAdapter adapter;
 
+    @ViewInject(R.id.emptyView)
+    private View emptyView;
     @ViewInject(R.id.shopManageOrdinaryChild_data_lv)
     private ListView shopManageOrdinaryChild_data_lv;
     @ViewInject(R.id.shopManageOrdinaryChild_batchManagement_tv)
@@ -94,7 +96,10 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
     protected int getLayoutResId() {
         return R.layout.fgt_shopmanage_ordinary_child;
     }
-
+    @Override
+    protected void immersionInit() {
+        shopManageOrdinaryChild_data_lv.setEmptyView(emptyView);
+    }
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {
         super.onMultiWindowModeChanged(isInMultiWindowMode);
@@ -103,7 +108,9 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
 
     @Override
     protected void initialized() {
+
     }
+
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
@@ -287,9 +294,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         }
     }
 
-    @Override
-    protected void immersionInit() {
-    }
+
 
     /**
      * 上下架产品及删除产品对话框
@@ -317,6 +322,15 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
                                     case 2: // 下架商品
                                         break;
                                     case 3: // 删除商品
+                                        List<DistributionGoodsBean> deleteList=new ArrayList<>();
+                                        for (int i = 0; i < list.size(); i++) {
+                                            if (list.get(i).isChecked()){
+                                                deleteList.add(list.get(i));
+                                            }
+                                        }
+                                        list.removeAll(deleteList);
+                                        emptyView.setVisibility(list.size()==0?View.VISIBLE:View.GONE);
+                                        adapter.notifyDataSetChanged();
                                         break;
                                 }
                             }
