@@ -38,6 +38,7 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+
     }
 
     @Override

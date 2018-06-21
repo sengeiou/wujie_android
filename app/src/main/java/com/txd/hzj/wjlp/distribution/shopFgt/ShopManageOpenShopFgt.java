@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.GridView;
@@ -8,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopManageOpenAdapter;
-import com.txd.hzj.wjlp.distribution.adapter.ShopManageOrdinaryAdapter;
 import com.txd.hzj.wjlp.distribution.bean.DistributionGoodsBean;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -99,6 +101,22 @@ public class ShopManageOpenShopFgt extends BaseFgt {
             list.add(distributionGoodsBean);
         }
         adapter = new ShopManageOpenAdapter(getActivity(), list);
+        adapter.setOnImageClickListener(new ShopManageOpenAdapter.ImageClick() {
+            @Override
+            public void onImageClick(View view, int position) {
+                //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
+                DistributionGoodsBean goodsBean = list.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", goodsBean.getGoodsName());
+                bundle.putString("pic", goodsBean.getImageUrl());
+                bundle.putString("url","1" );
+                bundle.putString("context", goodsBean.getGoodsName());
+                bundle.putString("id", "1");
+                bundle.putString("Shapetype", "1");
+                startActivity(ToShareAty.class, bundle);
+            }
+        });
         shopManageOpen_data_gv.setAdapter(adapter);
 
         shopManageOpen_super_ssrl.setHeaderView(createHeaderView());// add headerView

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +24,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
 
     private Context context;
     private List<DistributionGoodsBean> list;
+    private ImageClick imageClick;
 
     public ShopManageOpenAdapter(Context context, List<DistributionGoodsBean> list) {
         this.context = context;
@@ -67,6 +67,7 @@ public class ShopManageOpenAdapter extends BaseAdapter {
         holder.itemShopManageOpen_share_imgv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                imageClick.onImageClick(v,position);
                 L.e("分享商品：" + list.get(position).getGoodsName());
             }
         });
@@ -79,5 +80,11 @@ public class ShopManageOpenAdapter extends BaseAdapter {
         private TextView itemShopManageOpen_name_tv;
         private TextView itemShopManageOpen_meny_tv;
         private ImageView itemShopManageOpen_share_imgv;
+    }
+    public void setOnImageClickListener(ImageClick imageClick){
+        this.imageClick=imageClick;
+    }
+    public interface  ImageClick{
+        void onImageClick(View view,int position);
     }
 }
