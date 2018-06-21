@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
@@ -31,6 +32,8 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
 
     private MyAdapter myAdapter;
 
+    private int pageSelected = -1;
+
     @Override
     protected int getLayoutResId() {
         return R.layout.fgt_shopmanage_ordinary;
@@ -55,10 +58,37 @@ public class ShopManageOrdinaryFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
+        shopManageOrdinary_tab_tLayout.setupWithViewPager(shopManageOrdinary_content_vp); // 将TabLayout和ViewPager关联起来。
+        shopManageOrdinary_content_vp.setOffscreenPageLimit(3); // 设置预定加载的页面个数
+        shopManageOrdinary_content_vp.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                // 获取当前显示页面的索引，在重新加载的时候进行设置
+                pageSelected = shopManageOrdinary_content_vp.getCurrentItem();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
         myAdapter = new MyAdapter(getChildFragmentManager());
         shopManageOrdinary_content_vp.setAdapter(myAdapter);
-        shopManageOrdinary_tab_tLayout.setupWithViewPager(shopManageOrdinary_content_vp); // 将TabLayout和ViewPager关联起来。
-        shopManageOrdinary_content_vp.setOffscreenPageLimit(3);
+        // 页面启动的时候进行判断是否滑动或选择了某个界面，滑动界面之后索引值一定不为负数
+        if (pageSelected >= 0) {
+            // 设置显示的界面
+            shopManageOrdinary_content_vp.setCurrentItem(pageSelected);
+        }
+        super.onStart();
     }
 
     class MyAdapter extends FragmentPagerAdapter {

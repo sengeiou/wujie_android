@@ -71,7 +71,6 @@ public class ShopGoodsManage extends BaseAty implements View.OnClickListener {
         fragments = new ArrayList<>();
         fragments.add(new ShopManageOrdinaryFgt()); // 普通商品管理界面
         fragments.add(new ShopManageOpenShopFgt()); // 开店商品管理界面
-
         fragmentChangeManager = new FragmentChangeManager(getSupportFragmentManager(), R.id.commodityManage_content_fLayout, fragments);
     }
 

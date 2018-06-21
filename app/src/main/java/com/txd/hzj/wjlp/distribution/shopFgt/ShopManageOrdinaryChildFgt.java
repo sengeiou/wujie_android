@@ -130,7 +130,7 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             distributionGoodsBean = new DistributionGoodsBean();
             distributionGoodsBean.set_id(i);
             distributionGoodsBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
-            distributionGoodsBean.setGoodsName("测试商品" + i);
+            distributionGoodsBean.setGoodsName((from == 0 ? "出售中" : from == 1 ? "已下架" : "已售罄") + i);
             distributionGoodsBean.setDaijinquan("最多可用50%代金券");
             distributionGoodsBean.setMeny("1380.00");
             distributionGoodsBean.setJifen("10.00");
@@ -142,12 +142,12 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
             @Override
             public void onImageClick(View view, int position) {
                 //分享功能，可以使用ToShareAty  toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                Toast.makeText(getActivity(), ""+position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "" + position, Toast.LENGTH_SHORT).show();
                 DistributionGoodsBean goodsBean = list.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("title", goodsBean.getGoodsName());
                 bundle.putString("pic", goodsBean.getImageUrl());
-                bundle.putString("url","1" );
+                bundle.putString("url", "1");
                 bundle.putString("context", goodsBean.getGoodsName());
                 bundle.putString("id", "1");
                 bundle.putString("Shapetype", "1");
