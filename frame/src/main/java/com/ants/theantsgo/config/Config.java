@@ -32,7 +32,6 @@ public class Config {
 //    官方网址
     public final static String OFFICIAL_WEB="http://test.wujiemall.com/";
 
-
     public static List<Activity> list = new ArrayList<>();
 
     /**
