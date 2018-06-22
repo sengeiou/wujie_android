@@ -99,8 +99,8 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
             } else {
                 // 已登录
                 try {
-                    if ("1".equals("type")) {
-                        JSONObject jsonObject = new JSONObject(result);
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getInt("type") == 1) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         String sid = data.getString("sid");
 

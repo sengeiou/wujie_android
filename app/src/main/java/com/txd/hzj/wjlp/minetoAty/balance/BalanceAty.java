@@ -107,23 +107,36 @@ public class BalanceAty extends BaseAty {
                 .build()
                 .rxPost("User/userCenter", parameters, new RxStringCallback() {
 
-
                     @Override
                     public void onNext(Object tag, String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
-                            int user_card_type = Integer.parseInt(data.getString("user_card_type"));
-                            switch (user_card_type) {
-                                case 1:
-                                    // 提现、转账隐藏
-                                    withdraw_tv.setVisibility(View.GONE);
-                                    transfer_accounts_tv.setVisibility(View.GONE);
-                                    break;
-                                case 2:
-                                    // 转账隐藏
-                                    transfer_accounts_tv.setVisibility(View.GONE);
-                                    break;
+                            int user_card_type = Integer.parseInt(data.isNull("user_card_type") ? "0" : data.getString("user_card_type"));
+                            int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
+                            if (complete_status == 1) { // 如果存在该字段，执行if中的判断逻辑
+                                transfer_accounts_tv.setVisibility(View.VISIBLE); // 转账
+                                withdraw_tv.setVisibility(View.VISIBLE); // 提现
+                            } else { // 否则的话
+                                if (complete_status == 0) { // 如果没有该字段，执行原先代码判断
+                                    switch (complete_status) {
+                                        case 1:
+                                            // 提现、转账隐藏
+                                            withdraw_tv.setVisibility(View.GONE);
+                                            transfer_accounts_tv.setVisibility(View.GONE);
+                                            break;
+                                        case 2:
+                                            // 转账隐藏
+                                            transfer_accounts_tv.setVisibility(View.GONE);
+                                            break;
+                                    }
+                                } else { // 否则如果有字段，则执行新代码
+                                    transfer_accounts_tv.setVisibility(View.GONE); // 转账
+                                    withdraw_tv.setVisibility(View.GONE); // 提现
+                                    if (user_card_type >= 2) {
+                                        withdraw_tv.setVisibility(View.VISIBLE); // 提现
+                                    }
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -230,7 +243,7 @@ public class BalanceAty extends BaseAty {
                 }
                 if (auth_status.equals("2")) {
 
-                    if (clickIndex == R.id.transfer_accounts_tv){ // 转账
+                    if (clickIndex == R.id.transfer_accounts_tv) { // 转账
                         // 转账
 
 //                        Intent intent = new Intent(this, TransferAccountsAty.class);
@@ -245,7 +258,7 @@ public class BalanceAty extends BaseAty {
                         L.e("wang", "layout_bottom_tv.getText().toString():" + balance);
                         startActivity(TransferAccountsAty.class, bundle);
 //                        startActivity(TransferAccountsAty.class, bundle);
-                    } else if (clickIndex == R.id.withdraw_tv){ // 提现
+                    } else if (clickIndex == R.id.withdraw_tv) { // 提现
                         // 提现
                         bundle = new Bundle();
                         bundle.putInt("to", 2);
