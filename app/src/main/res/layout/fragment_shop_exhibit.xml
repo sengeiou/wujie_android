@@ -95,12 +95,15 @@
             android:textColor="#ffe71f19"
             android:textSize="14sp" />
     </LinearLayout>
-
+<com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+    android:id="@+id/super_refreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/exhibit_recyclerView"
         tools:listitem="@layout/exhibit_fgt_item"
         android:layout_marginTop="9dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
+        android:layout_height="wrap_content"/>
+</com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
 </LinearLayout>
