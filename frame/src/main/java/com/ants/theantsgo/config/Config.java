@@ -26,16 +26,11 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-    //    官方网址
 //    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
-    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/"; // 测试服务器
-//    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的  测试库
+//    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/"; // 测试服务器
+    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的  测试库
 
-    public final static String BASE_URL = OFFICIAL_WEB + "index.php/Api/"; // 正式服务器
-
-//    public final static String BASE_URL = "http://api.wujiemall.com/index.php/Api/"; // 正式服务器
-//    public final static String BASE_URL = "http://test.wujiemall.com/index.php/Api/"; // 测试服务器
-//    public final static String BASE_URL = "http://fztest.wujiemall.com/index.php/Api/"; // 正式数据库的  测试库
+    public final static String BASE_URL = OFFICIAL_WEB + "index.php/Api/";
 
     public static List<Activity> list = new ArrayList<>();
 
