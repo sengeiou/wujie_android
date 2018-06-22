@@ -1,14 +1,21 @@
 package com.txd.hzj.wjlp.distribution.shopFgt;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopPersonAdapter;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -25,6 +32,20 @@ public class ShopPersonShopFreagment extends BaseFgt {
     private ArrayList list;
     @ViewInject(R.id.shop_person_relist)
     private RecyclerView reList;
+    @ViewInject(R.id.shopPerson_super_ssrl)
+    private SuperSwipeRefreshLayout shopPerson_super_ssrl;
+
+    private int p = 1; // 请求的分页
+    // Header View
+    private RelativeLayout head_container;
+    private ProgressBar progressBar;
+    private TextView textView;
+    private ImageView imageView;
+
+    // Footer View
+    private ProgressBar footerProgressBar;
+    private TextView footerTextView;
+    private ImageView footerImageView;
 
     public static ShopPersonShopFreagment newInstance(int prage) {
         ShopPersonShopFreagment freagment = new ShopPersonShopFreagment();
@@ -51,6 +72,13 @@ public class ShopPersonShopFreagment extends BaseFgt {
 
     @Override
     protected void immersionInit() {
+        getData();
+    }
+
+    /**
+     * 获取数据
+     */
+    private void getData() {
         list = new ArrayList<>();
         reList.setLayoutManager(new LinearLayoutManager(getActivity()));
         for (int i = 0; i < 3; i++) {
@@ -58,5 +86,93 @@ public class ShopPersonShopFreagment extends BaseFgt {
         }
         adapter = new ShopPersonAdapter(list, getActivity());
         reList.setAdapter(adapter);
+
+        shopPerson_super_ssrl.setHeaderView(createHeaderView());// add headerView
+        shopPerson_super_ssrl.setFooterView(createFooterView());
+        shopPerson_super_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
+        shopPerson_super_ssrl.setTargetScrollWithLayout(true);
+        shopPerson_super_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+            @Override
+            public void onRefresh() {
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                p = 1;
+                // TODO 请求接口
+//                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
+//                progressBar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onPullDistance(int distance) {
+
+            }
+
+            @Override
+            public void onPullEnable(boolean enable) {
+                textView.setText(enable ? "松开刷新" : "下拉刷新");
+                imageView.setVisibility(View.VISIBLE);
+                imageView.setRotation(enable ? 180 : 0);
+            }
+        });
+        shopPerson_super_ssrl.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                footerTextView.setText("正在加载...");
+                footerImageView.setVisibility(View.GONE);
+                footerProgressBar.setVisibility(View.VISIBLE);
+                p++;
+                // TODO 请求接口
+//                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
+//                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPushDistance(int distance) {
+            }
+
+            @Override
+            public void onPushEnable(boolean enable) {
+                footerTextView.setText(enable ? "松开加载" : "上拉加载");
+                footerImageView.setVisibility(View.VISIBLE);
+                footerImageView.setRotation(enable ? 0 : 180);
+            }
+        });
+    }
+
+    /**
+     * 创建底部加载布局
+     *
+     * @return
+     */
+    private View createFooterView() {
+        View footerView = LayoutInflater.from(shopPerson_super_ssrl.getContext()).inflate(R.layout.layout_footer, null);
+        footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
+        footerImageView = footerView.findViewById(R.id.footer_image_view);
+        footerTextView = footerView.findViewById(R.id.footer_text_view);
+        footerProgressBar.setVisibility(View.GONE);
+        footerImageView.setVisibility(View.VISIBLE);
+        footerImageView.setImageResource(R.drawable.down_arrow);
+        footerTextView.setText("上拉加载更多...");
+        return footerView;
+    }
+
+    /**
+     * 创建头部加载布局
+     *
+     * @return
+     */
+    private View createHeaderView() {
+        View headerView = LayoutInflater.from(shopPerson_super_ssrl.getContext()).inflate(R.layout.layout_head, null);
+        head_container = headerView.findViewById(R.id.head_container);
+        progressBar = headerView.findViewById(R.id.pb_view);
+        textView = headerView.findViewById(R.id.text_view);
+        textView.setText("下拉刷新");
+        imageView = headerView.findViewById(R.id.image_view);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(R.drawable.down_arrow);
+        progressBar.setVisibility(View.GONE);
+        return headerView;
     }
 }
