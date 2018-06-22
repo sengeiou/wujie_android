@@ -1,10 +1,14 @@
 package com.txd.hzj.wjlp.minetoAty.help;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -16,6 +20,9 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.HelpCenter;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
+import com.txd.hzj.wjlp.tool.ImageTextUtil;
+import com.txd.hzj.wjlp.tool.URLImageParser;
+import com.txd.hzj.wjlp.view.NoScrollWebView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +34,7 @@ import java.util.Map;
  * 日期：2017/8/18 0018
  * 时间：15:00
  * 描述：
+ * https://www.cnblogs.com/lyh1299259684/p/7126431.html
  * ===============Txunda===============
  */
 
@@ -34,7 +42,6 @@ public class HelpFgt extends BaseFgt {
 
     @ViewInject(R.id.expandableListView)
     private ExpandableListView expandableListView;
-
     private String type;
 
     private List<HelpCenter> helpCenters;
@@ -181,11 +188,29 @@ public class HelpFgt extends BaseFgt {
                 convertView = LayoutInflater.from(getActivity()).inflate(R.layout.help_item_child, null);
             }
 
-            TextView tv_child = (TextView) convertView.findViewById(R.id.tv_child);
+            NoScrollWebView tv_child = (NoScrollWebView) convertView.findViewById(R.id.tv_child);
 
             //iv_child.setImageResource(resId);
-            tv_child.setText(helpCenters.get(groupPosition).getContent().get(childPosition));
+            String source=helpCenters.get(groupPosition).getContent().get(childPosition);
+            WebSettings settings=tv_child.getSettings();
+            settings.setDefaultTextEncodingName("UTF -8") ;
+            settings.setJavaScriptEnabled(true);
+            settings.setSupportZoom(true);
+            settings.setBuiltInZoomControls(true);
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+            settings.setUseWideViewPort(true);
+            tv_child.loadData(source, "text/html; charset=UTF-8", null);//这种写法可以正确解码
 
+            tv_child.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
+//            tv_child.setText(Html.fromHtml(source, new URLImageParser(getActivity().getApplicationContext(),tv_child ), null));\
+//            ImageTextUtil.setImageText(tv_child,source);
             return convertView;
         }
 

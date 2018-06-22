@@ -178,17 +178,31 @@ public class IntegralAty extends BaseAty {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject data = jsonObject.getJSONObject("data");
-                            int user_card_type = Integer.parseInt(data.getString("user_card_type"));
-                            switch (user_card_type) {
-                                case 1:
-                                    layout_show_down.setVisibility(View.GONE);
-                                    break;
-                                case 2:
+                            int complete_status = Integer.parseInt(data.isNull("complete_status") ? "0" : data.getString("complete_status"));
+                            int user_card_type = Integer.parseInt(data.isNull("user_card_type") ? "0" : data.getString("user_card_type"));
+
+                            if (complete_status != 0) { // 如果字段存在，执行if中的语句
+                                if (complete_status == 1 || user_card_type == 3) {
+                                    layout_show_down.setVisibility(View.VISIBLE);
+                                    layout_zidongduihuan.setVisibility(View.VISIBLE);
+                                } else if (user_card_type == 2) {
+                                    layout_show_down.setVisibility(View.VISIBLE);
                                     layout_zidongduihuan.setVisibility(View.GONE);
-                                    break;
-                                case 3:
-                                    isYouXiang = true;
-                                    break;
+                                } else {
+                                    layout_show_down.setVisibility(View.GONE);
+                                }
+                            } else { // 否则不存在该字段的时候，执行原先的判断逻辑
+                                switch (user_card_type) {
+                                    case 1:
+                                        layout_show_down.setVisibility(View.GONE);
+                                        break;
+                                    case 2:
+                                        layout_zidongduihuan.setVisibility(View.GONE);
+                                        break;
+                                    case 3:
+                                        isYouXiang = true;
+                                        break;
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -101,8 +101,8 @@ public class ShopManageOrdinaryChildFgt extends BaseFgt implements View.OnClickL
         shopManageOrdinaryChild_data_lv.setEmptyView(emptyView);
         if (isVisible()){
             shopManageOrdinaryChild_batchManagement_tv.setVisibility(View.VISIBLE);
+            shopManageOrdinaryChild_selectAll_cbox.setChecked(false);
         }
-
     }
     @Override
     public void onMultiWindowModeChanged(boolean isInMultiWindowMode) {

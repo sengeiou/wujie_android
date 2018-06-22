@@ -3,10 +3,12 @@ package com.txd.hzj.wjlp.huanxin.ui;
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ants.theantsgo.systemBarUtil.ImmersionBar;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMCmdMessageBody;
@@ -47,6 +49,7 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
+
 if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_AUDIO)){
     AndPermission.with(ChatActivity.this)
             .requestCode(100)
@@ -133,6 +136,30 @@ if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_A
         };
 
         EMClient.getInstance().chatManager().addMessageListener(messageListener);
+//        showStatusBar(R.id.container);
+    }
+
+
+    /**
+     * 修改StatusBar颜色
+     *
+     * @param vid 标题栏
+     */
+    public void showStatusBar(int vid) {
+        String name = android.os.Build.BRAND;
+
+        if (name.equals("Huawei")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+            } else {
+                ImmersionBar.with(this).titleBar(vid).init();
+            }
+        } else {
+            if (ImmersionBar.isSupportStatusBarDarkFont())
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true).init();
+            else
+                ImmersionBar.with(this).titleBar(vid).statusBarDarkFont(true, 0.2f).init();
+        }
     }
 
 

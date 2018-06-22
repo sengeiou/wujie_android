@@ -25,6 +25,16 @@ public class NoScrollWebView extends WebView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return false;
+        boolean touchEnable = super.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                touchEnable = super.onTouchEvent(event);
+            }
+            break;
+            default:
+                touchEnable = false;
+        }
+
+        return touchEnable;
     }
 }

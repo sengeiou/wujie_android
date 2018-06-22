@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -946,8 +947,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
-        progressBar.setVisibility(View.GONE
-        );
+        progressBar.setVisibility(View.GONE);
         ticketGoodsDetials_refreshLayout_ssrl.setRefreshing(false);
 
         if (requestUrl.contains("addCart")) {
@@ -966,6 +966,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 JSONObject data = jsonObject.getJSONObject("data");
                 tv_freight.setText(data.getString("pay"));
+                freight_tv.setText(data.getString("pay"));
             } catch (JSONException e) {
                 showErrorTip("回传运费格式出错");
                 L.e("回传Json字符串格式异常");
@@ -1408,6 +1409,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         // 文字描述
         // goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
         // 图文详情
+
+
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));
         // 长按标题进行复制标题文字

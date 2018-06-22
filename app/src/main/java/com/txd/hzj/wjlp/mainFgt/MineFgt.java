@@ -51,7 +51,7 @@ import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty;
-import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
+import com.txd.hzj.wjlp.minetoAty.help.NewHelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellSettingAty;
 import com.txd.hzj.wjlp.minetoAty.mell.StockRecordAty;
@@ -65,7 +65,6 @@ import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
-import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -337,7 +336,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(AboutOursAty.class, null);
                 break;
             case R.id.tv_help_center:// 帮助中心
-                startActivity(HelpCenterAty.class, null);
+                startActivity(NewHelpCenterAty.class, null);
                 break;
             case R.id.tv_order_center:// 订单中心
                 startActivity(OrderCenterAty.class, null);

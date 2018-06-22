@@ -30,6 +30,7 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
         this.datas = datas;
     }
 
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
