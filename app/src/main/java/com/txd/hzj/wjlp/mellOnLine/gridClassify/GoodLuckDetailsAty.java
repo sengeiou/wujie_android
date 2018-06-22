@@ -1113,28 +1113,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 运费
                     tv_chose_ads.setText(tx);
                     goodLuckPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
-//#FD8214
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
-
-
-                    WebSettings webSettings=goods_desc_wv.getSettings();
-                    webSettings.setJavaScriptEnabled(true);
-//                    webSettings.setAllowContentAccess(true);
-//                    webSettings.setAppCacheEnabled(false);
-                    webSettings.setBuiltInZoomControls(false);
-                    webSettings.setUseWideViewPort(true);
-                    webSettings.setLoadWithOverviewMode(true);
-                    webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-                    goods_desc_wv.setWebViewClient(new WebViewClient() {
-                        @Override
-                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                            // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                            view.loadUrl(url);
-                            return true;
-                        }
-                    });
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
-                    goods_desc_wv.setBackgroundColor(getResources().getColor(R.color.red_tv_back));
 
                     commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
                     commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);

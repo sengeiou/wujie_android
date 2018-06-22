@@ -1410,15 +1410,6 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         // goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.get("goods_brief"), "text/html", "utf-8", null);
         // 图文详情
 
-        WebSettings webSettings=goods_desc_wv.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setAppCacheEnabled(false);
-        webSettings.setBuiltInZoomControls(false);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-
 
         goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.get("goods_desc"), "text/html", "utf-8", null);
         goods_details_name_tv.setText(goodsInfo.get("goods_name"));

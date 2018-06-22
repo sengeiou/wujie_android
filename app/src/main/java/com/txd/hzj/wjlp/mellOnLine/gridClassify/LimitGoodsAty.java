@@ -1154,15 +1154,6 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 
                     goods_brief_tv.loadDataWithBaseURL(null, goodsInfo.getGoods_brief(), "text/html", "utf-8", null);
 
-
-                    WebSettings webSettings=goods_desc_wv.getSettings();
-                    webSettings.setJavaScriptEnabled(true);
-                    webSettings.setAllowContentAccess(true);
-                    webSettings.setAppCacheEnabled(false);
-                    webSettings.setBuiltInZoomControls(false);
-                    webSettings.setUseWideViewPort(true);
-                    webSettings.setLoadWithOverviewMode(true);
-                    webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
 
                     // 商家信息
