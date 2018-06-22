@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -892,10 +893,18 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(!TextUtils.isEmpty(group_buy_id)){
+            showProgressDialog();
+            groupBuyPst.groupBuyInfo(group_buy_id, 1, a_id);
+        }
+    }
+    @Override
     protected void requestData() {
         Intent gIntent = getIntent();
         a_id = gIntent.getStringExtra("a_id");
-        groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
+//        groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
         ticket_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -906,8 +915,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             }
         });
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getApplication());
-        showProgressDialog();
-
         limitGoodsDetials_superRefesh_ssrl.setHeaderView(createHeaderView());// add headerView
         limitGoodsDetials_superRefesh_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
         limitGoodsDetials_superRefesh_ssrl.setTargetScrollWithLayout(true);
@@ -916,9 +923,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             public void onRefresh() {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
+                textView.setText("正在刷新");
+                imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                page = 1;
-                groupBuyPst.groupBuyInfo(group_buy_id, page, a_id);
+                groupBuyPst.groupBuyInfo(group_buy_id, 1, a_id);
             }
 
             @Override
@@ -1111,13 +1119,23 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     WebSettings webSettings=goods_desc_wv.getSettings();
                     webSettings.setJavaScriptEnabled(true);
-                    webSettings.setAllowContentAccess(true);
-                    webSettings.setAppCacheEnabled(false);
+//                    webSettings.setAllowContentAccess(true);
+//                    webSettings.setAppCacheEnabled(false);
                     webSettings.setBuiltInZoomControls(false);
                     webSettings.setUseWideViewPort(true);
                     webSettings.setLoadWithOverviewMode(true);
                     webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+                    goods_desc_wv.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                            view.loadUrl(url);
+                            return true;
+                        }
+                    });
                     goods_desc_wv.loadDataWithBaseURL(null, goodsInfo.getGoods_desc(), "text/html", "utf-8", null);
+                    goods_desc_wv.setBackgroundColor(getResources().getColor(R.color.red_tv_back));
+
                     commodityDetailsPranster.setBitmap(GoodLuckDetailsAty.this, goodsInfo.getCountry_logo(), im_country_logo);
                     commodityDetailsPranster.setTextContent(goodsInfo.getCountry_desc(), tv_country_desc);
                     commodityDetailsPranster.setTextContent(goodsInfo.getCountry_tax() + "元", tv_country_tax);

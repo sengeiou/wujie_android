@@ -7,6 +7,8 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.DemoHelper;
 import com.txd.hzj.wjlp.MainAty;
+import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
@@ -455,7 +458,22 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
     @Override
     public void onException(Exception exception) {
-        showProgressContent();
+//        showProgressContent();
+        showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
+        final Handler handler=new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                finish();
+            }
+        };
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(0);
+            }
+        },2000);
+
         super.onException(exception);
     }
 }
