@@ -695,11 +695,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 break;
             case R.id.tv_showClassify://查看分类
-                Intent intent = new Intent();
-                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
-                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
-                intent.setClass(this, SubclassificationAty.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
+//                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
+//                intent.setClass(this, SubclassificationAty.class);
+//                startActivity(intent);
+                toClassify(v);
                 break;
             case R.id.goods_title_collect_layout://收藏
 
@@ -895,11 +896,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @Override
     protected void onResume() {
         super.onResume();
-        if(!TextUtils.isEmpty(group_buy_id)){
+        if (!TextUtils.isEmpty(group_buy_id)) {
             showProgressDialog();
             groupBuyPst.groupBuyInfo(group_buy_id, 1, a_id);
         }
     }
+
     @Override
     protected void requestData() {
         Intent gIntent = getIntent();
@@ -1015,6 +1017,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     is_attr = is_attr + "-999";
                     vouchers_desc = dataBean.getVouchers_desc();
                     goods_id = goodsInfo.getGoods_id();
+                    max_num_tv.setVisibility(View.VISIBLE);
                     max_num_tv.setText("成单所需" + goodsInfo.getGroup_num() + "人");
                     showProgressDialog();
                     /**判断这块儿显示和隐藏

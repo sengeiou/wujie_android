@@ -1399,11 +1399,12 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,String.valueOf(goods_number),product_id, LimitGoodsAty.this, LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
-                Intent intent = new Intent();
-                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
-                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
-                intent.setClass(this, SubclassificationAty.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("appBarTitle", goodsInfo.getTwo_cate_name());
+//                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
+//                intent.setClass(this, SubclassificationAty.class);
+//                startActivity(intent);
+                toClassify(v);
                 break;
             case R.id.title_goods_layout://商品
                 clickType = 1;

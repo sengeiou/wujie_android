@@ -727,11 +727,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 commodityDetailsPranster.showDjqPop(v, dj_ticket, TicketGoodsDetialsAty.this, vouchers_desc);
                 break;
             case R.id.tv_showClassify:
-                cate_id = goodsInfo.get("cate_id");
-                pcate_id = goodsInfo.get("pcate_id");
-                GoodsCategory.cateIndexs(cate_id, this);
-                showProgressDialog();
-
+//                cate_id = goodsInfo.get("cate_id");
+//                pcate_id = goodsInfo.get("pcate_id");
+//                GoodsCategory.cateIndexs(cate_id, this);
+//                showProgressDialog();
+                toClassify(v);
                 break;
             case R.id.tv_quxiao://促销弹框
                 commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);
@@ -1153,12 +1153,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     }
                 }
                 //查看分类
-                Intent intent = new Intent();
-                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
-                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
-                intent.putExtra("page", mm);
-                intent.setClass(this, SubclassificationAty.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("appBarTitle", goodsInfo.get("two_cate_name"));
+//                intent.putExtra("two_cate_id", goodsInfo.get("cate_id"));
+//                intent.putExtra("page", mm);
+//                intent.setClass(this, SubclassificationAty.class);
+//                startActivity(intent);
             }
         }
 
