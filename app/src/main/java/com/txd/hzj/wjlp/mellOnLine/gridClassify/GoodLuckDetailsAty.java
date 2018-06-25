@@ -563,7 +563,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.remarks)
     private TextView remarks;
     @ViewInject(R.id.max_num_tv)
-    private TextView max_num_tv;//成团所需x人
+    private TextView max_num_tv;//成单所需x人
     private List<AllGoodsBean> ticket = new ArrayList<>();
     private List<AllGoodsBean> more = new ArrayList<>();
 
@@ -1015,7 +1015,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     is_attr = is_attr + "-999";
                     vouchers_desc = dataBean.getVouchers_desc();
                     goods_id = goodsInfo.getGoods_id();
-
+                    max_num_tv.setText("成单所需" + goodsInfo.getGroup_num() + "人");
                     showProgressDialog();
                     /**判断这块儿显示和隐藏
                      * "is_new_goods": "1",//是否是新品  0不是 1是
@@ -1026,13 +1026,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      */
                     groupType = dataBean.getGroup_type();
                     if ("1".equals(groupType)) {  //体验拼单
-
                         layout_pt.setVisibility(View.GONE); // 隐藏开团列表
-
                         online_carvouse_view.setPageColor(0);//设置banner圆点非可见
                         online_carvouse_view.setFillColor(0);
                         online_carvouse_view.setStrokeColor(0);
-
                         groupList = (List<GroupBean>) dataBean.getGroup();//设置上面的倒计时
                         if (null != groupList && groupList.size() == 1) {
                             GroupBean groupBean = groupList.get(0);
@@ -1047,8 +1044,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                             tyLayout.setVisibility(View.VISIBLE);
                             tyLayout.getBackground().setAlpha(180);
-                            max_num_tv.setVisibility(View.VISIBLE);
-                            max_num_tv.setText("成团所需" + groupBean.getMax_num() + "人");
+
                             Calendar calendar = Calendar.getInstance();
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
                             long sysTime = Long.parseLong(groupBean.getSys_time());

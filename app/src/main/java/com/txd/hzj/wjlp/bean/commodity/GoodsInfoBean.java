@@ -69,7 +69,7 @@ public class GoodsInfoBean implements Serializable {
     private String balance_num;//
     private String product_id;// //属性id
     private String cate_id;//"商品二级分类id",
-
+    private String group_num;//"成单所需人数"
 
     public String getCate_id() {
         return cate_id;
@@ -542,5 +542,13 @@ public class GoodsInfoBean implements Serializable {
 
     public void setP_integral(String p_integral) {
         this.p_integral = p_integral;
+    }
+
+    public String getGroup_num() {
+        return group_num;
+    }
+
+    public void setGroup_num(String group_num) {
+        this.group_num = group_num;
     }
 }
