@@ -442,39 +442,45 @@
                         android:layout_height="8dp"
                         android:background="@color/bg_color" />
 
-
-                    <TextView
-                        android:id="@+id/apply_for_shop"
-                        style="@style/mine_text_list"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/icon_turn_right_gray"
-                        android:drawablePadding="10dp"
-                        android:drawableStart="@drawable/shenqingkaidian"
-                        android:padding="12dp"
-                        android:gravity="center_vertical"
-                        android:text="申请开店"
-                        android:textColor="@color/app_text_color" />
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/bg_color" />
+                        <TextView
+                            android:id="@+id/apply_for_shop"
+                            style="@style/mine_text_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/icon_turn_right_gray"
+                            android:drawablePadding="10dp"
+                            android:drawableStart="@drawable/shenqingkaidian"
+                            android:gravity="center_vertical"
+                            android:padding="12dp"
+                            android:text="申请开店"
+                            android:textColor="@color/app_text_color" />
 
-                    <TextView
-                        android:id="@+id/personalStores"
-                        style="@style/mine_text_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableEnd="@drawable/icon_turn_right_gray"
-                        android:drawablePadding="10dp"
-                        android:drawableStart="@drawable/dianpuguanli"
-                        android:padding="12dp"
-                        android:text="店铺管理"
-                        android:gravity="center_vertical"
-                        android:textColor="@color/app_text_color" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:background="@color/bg_color" />
+
+                        <TextView
+                            android:id="@+id/personalStores"
+                            style="@style/mine_text_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableEnd="@drawable/icon_turn_right_gray"
+                            android:drawablePadding="10dp"
+                            android:drawableStart="@drawable/dianpuguanli"
+                            android:gravity="center_vertical"
+                            android:padding="12dp"
+                            android:text="店铺管理"
+                            android:textColor="@color/app_text_color" />
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"

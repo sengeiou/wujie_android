@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20180531
-        versionName "1.0.9"
+        versionCode 20180625
+        versionName "1.0.10"
         multiDexEnabled true
 //        flavorDimensions "versionCode" // 友盟Studio3.0版本名后面添加一句话，意思就是flavor dimension 它的维度就是该版本号，这样维度就是都是统一的了
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
