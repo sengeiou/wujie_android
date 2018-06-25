@@ -40,6 +40,8 @@ import com.txd.hzj.wjlp.mellOnLine.ScanAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BankCardHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
@@ -459,21 +461,22 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     public void onException(Exception exception) {
 //        showProgressContent();
-        showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
-        final Handler handler=new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                finish();
-            }
-        };
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(0);
-            }
-        },2000);
-
+        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
+            showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    finish();
+                }
+            };
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handler.sendEmptyMessage(0);
+                }
+            }, 2000);
+        }
         super.onException(exception);
     }
 }
