@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,6 +172,10 @@ public class AllClassifyAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        cate_id =getIntent().getStringExtra("cate_id");
+        if(TextUtils.isEmpty(cate_id)){
+            cate_id="";
+        }
         categoryPst.cateIndex(cate_id);
     }
 
@@ -198,6 +203,7 @@ public class AllClassifyAty extends BaseAty {
                 if (!ListUtils.isEmpty(left)) {
                     leftAdapter = new LeftAdapter();
                     classify_left_lv.setAdapter(leftAdapter);
+                    leftAdapter.dealSelect(cate_id);
                 }
             }
             right = cateIndex.getData().getTwo_cate();
@@ -223,6 +229,23 @@ public class AllClassifyAty extends BaseAty {
     private class LeftAdapter extends BaseAdapter {
         private LeftViewHolder lvh;
         private int selected = 0;
+
+        /**
+         * 处理默认选中项
+         * @param cate_id
+         */
+        public void dealSelect(String cate_id) {
+            if (null != left&& !TextUtils.isEmpty(cate_id)){
+                for (int i = 0; i < left.size(); i++) {
+                    if (cate_id.equals(left.get(i).getCate_id())) {
+                        selected = i;
+                        break;
+                    }
+                }
+            }
+            setSelected(selected);
+            classify_left_lv.smoothScrollToPosition(selected);
+        }
 
         @Override
         public int getCount() {

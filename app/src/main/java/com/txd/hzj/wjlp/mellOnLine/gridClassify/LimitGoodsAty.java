@@ -1404,7 +1404,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
 //                intent.setClass(this, SubclassificationAty.class);
 //                startActivity(intent);
-                toClassify(v);
+                toClassify(v,goodsInfo.getTop_cate_id());
                 break;
             case R.id.title_goods_layout://商品
                 clickType = 1;

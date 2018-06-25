@@ -144,7 +144,6 @@
         <activity android:name=".startPage.GuidanceAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -156,7 +155,14 @@
             </intent-filter>
         </activity>
         <!-- APP主页 -->
-        <activity android:name=".MainAty" />
+        <activity android:name=".MainAty">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="wujie"/>
+            </intent-filter>
+        </activity>
         <!-- 引导页 -->
         <activity android:name=".startPage.GuidePageAty" />
         <!-- 线上商城分类(1-1-1 首页 2) -->
@@ -171,17 +177,21 @@
         <activity android:name=".mellOnLine.GoodsListAty" />
         <!--分销店铺管理首页-->
         <!-- 店铺管理首页 -->
-        <activity android:name=".distribution.shopAty.ShopMain"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".distribution.shopAty.ShopMain"
+            android:launchMode="singleTop" />
         <!--分销店铺设置-->
-        <activity android:name=".distribution.shopAty.ShopSetUp"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".distribution.shopAty.ShopSetUp"
+            android:launchMode="singleTop" />
         <!--分销店铺顾客管理-->
-        <activity android:name=".distribution.shopAty.ShopPersonManage"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".distribution.shopAty.ShopPersonManage"
+            android:launchMode="singleTop" />
         <!--分销店铺订单管理-->
-        <activity android:name=".distribution.shopAty.ShopOrderManage"
-            android:launchMode="singleTop"/>
+        <activity
+            android:name=".distribution.shopAty.ShopOrderManage"
+            android:launchMode="singleTop" />
         <!-- 商家列表 -->
         <activity
             android:name=".mellOnLine.MellListAty"

@@ -700,7 +700,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
 //                intent.setClass(this, SubclassificationAty.class);
 //                startActivity(intent);
-                toClassify(v);
+                toClassify(v,goodsInfo.getTop_cate_id());
                 break;
             case R.id.goods_title_collect_layout://收藏
 

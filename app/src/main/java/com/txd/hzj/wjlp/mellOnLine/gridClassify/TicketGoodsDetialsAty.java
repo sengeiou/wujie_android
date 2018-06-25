@@ -731,7 +731,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //                pcate_id = goodsInfo.get("pcate_id");
 //                GoodsCategory.cateIndexs(cate_id, this);
 //                showProgressDialog();
-                toClassify(v);
+                toClassify(v,goodsInfo.get("top_cate_id"));
                 break;
             case R.id.tv_quxiao://促销弹框
                 commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);

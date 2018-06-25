@@ -261,6 +261,11 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public void toClassify(View v) {
         startActivity(AllClassifyAty.class, null);
     }
+    public void toClassify(View v, String cate_id){
+        Bundle bundle=new Bundle();
+        bundle.putString("cate_id",cate_id);
+        startActivity(AllClassifyAty.class, bundle);
+    }
 
     /**
      * 搜索
@@ -461,7 +466,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     public void onException(Exception exception) {
 //        showProgressContent();
-        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
+//        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
             showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
             final Handler handler = new Handler() {
                 @Override
@@ -476,7 +481,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
                     handler.sendEmptyMessage(0);
                 }
             }, 2000);
-        }
+//        }
         super.onException(exception);
     }
 }
