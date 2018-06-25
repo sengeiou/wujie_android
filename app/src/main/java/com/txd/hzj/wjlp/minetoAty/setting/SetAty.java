@@ -204,7 +204,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 if (wx.isAuthValid()) {
                                     wx.removeAccount(true);
                                 }
-                                if(null!=sl){
+                                if (null != sl) {
                                     if (sl.isAuthValid()) {
                                         sl.removeAccount(true);
                                     }
@@ -433,35 +433,38 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             return;
 
         }
-        Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
-        Map<String, String> data = (Map<String, String>) map.get("data");
-        // 认证状态 0 未认证 1认证中 2 已认证 3被拒绝 "
-        auth_status = data.get("auth_status");
-        comp_auth_status = data.get("comp_auth_status");
-        phone = data.get("phone");
-        user_bind_phone_tv.setText(phone);
-        is_password = data.get("is_password");
+        // 请求更新时不返回下面这些字段，防止其报空指针异常，所以直接除去更新对这块的调用
+        if (!requestUrl.contains("Upgrade")) {
+            Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            Map<String, String> data = (Map<String, String>) map.get("data");
+            // 认证状态 0 未认证 1认证中 2 已认证 3被拒绝 "
+            auth_status = data.get("auth_status");
+            comp_auth_status = data.get("comp_auth_status");
+            phone = data.get("phone");
+            user_bind_phone_tv.setText(phone);
+            is_password = data.get("is_password");
 
-        if (is_password.equals("0")) {
-            rel_editpassword.setText("设置登录密码");
-        } else {
-            rel_editpassword.setText("修改登录密码");
-        }
+            if (is_password.equals("0")) {
+                rel_editpassword.setText("设置登录密码");
+            } else {
+                rel_editpassword.setText("修改登录密码");
+            }
 
-        is_pay_password = data.get("is_pay_password");
-        if (is_pay_password.equals("0")) {
-            rel_editpaypassword.setText("设置支付密码");
-        } else {
-            rel_editpaypassword.setText("修改支付密码");
+            is_pay_password = data.get("is_pay_password");
+            if (is_pay_password.equals("0")) {
+                rel_editpaypassword.setText("设置支付密码");
+            } else {
+                rel_editpaypassword.setText("修改支付密码");
+            }
+            Map<String, String> m = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            m = JSONUtils.parseKeyAndValueToMap(m.get("data"));
+            qq_bind = JSONUtils.parseKeyAndValueToMap(m.get("qq_bind"));
+            setBindText(tv_qq_bind, qq_bind);
+            wx_bind = JSONUtils.parseKeyAndValueToMap(m.get("wx_bind"));
+            setBindText(tv_wx_bind, wx_bind);
+            weibo_bind = JSONUtils.parseKeyAndValueToMap(m.get("weibo_bind"));
+            setBindText(tv_wb_bind, weibo_bind);
         }
-        Map<String, String> m = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        m = JSONUtils.parseKeyAndValueToMap(m.get("data"));
-        qq_bind = JSONUtils.parseKeyAndValueToMap(m.get("qq_bind"));
-        setBindText(tv_qq_bind, qq_bind);
-        wx_bind = JSONUtils.parseKeyAndValueToMap(m.get("wx_bind"));
-        setBindText(tv_wx_bind, wx_bind);
-        weibo_bind = JSONUtils.parseKeyAndValueToMap(m.get("weibo_bind"));
-        setBindText(tv_wb_bind, weibo_bind);
 
     }
 
