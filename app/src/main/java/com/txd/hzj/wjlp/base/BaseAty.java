@@ -261,9 +261,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public void toClassify(View v) {
         startActivity(AllClassifyAty.class, null);
     }
-    public void toClassify(View v, String cate_id){
-        Bundle bundle=new Bundle();
-        bundle.putString("cate_id",cate_id);
+
+    public void toClassify(View v, String cate_id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("cate_id", cate_id);
         startActivity(AllClassifyAty.class, bundle);
     }
 
@@ -467,20 +468,20 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     public void onException(Exception exception) {
 //        showProgressContent();
 //        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
-            showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
-            final Handler handler = new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    super.handleMessage(msg);
-                    finish();
-                }
-            };
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    handler.sendEmptyMessage(0);
-                }
-            }, 2000);
+        showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                finish();
+            }
+        };
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                handler.sendEmptyMessage(0);
+            }
+        }, 10 * 1000);
 //        }
         super.onException(exception);
     }

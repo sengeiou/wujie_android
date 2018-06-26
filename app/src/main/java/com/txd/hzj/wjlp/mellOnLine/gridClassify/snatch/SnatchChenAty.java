@@ -538,14 +538,16 @@ public class SnatchChenAty extends BaseAty {
                     good_luck_sr.setRefreshing(false);
                     progressBar.setVisibility(View.GONE);
                 }
-                goodsByOrderAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("one_buy_id", dataForRv.get(position).getOne_buy_id());
-                        startActivity(SnatchGoodsDetailsAty.class, bundle);
-                    }
-                });
+                if (goodsByOrderAdapter != null) {
+                    goodsByOrderAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("one_buy_id", dataForRv.get(position).getOne_buy_id());
+                            startActivity(SnatchGoodsDetailsAty.class, bundle);
+                        }
+                    });
+                }
             } else {
                 // 商品
                 dataForRv2 = oneBuyBean.getData().getOneBuyList();
