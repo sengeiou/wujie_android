@@ -42,7 +42,7 @@ public class NewHelpCenterAty extends BaseAty {
 
     @Override
     protected int getLayoutResId() {
-        return R.layout.aty_help_center_li;
+        return R.layout.new_aty_help_center_li;
     }
 
     @Override

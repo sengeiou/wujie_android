@@ -272,7 +272,7 @@
         <!-- 关于我们 -->
         <activity android:name=".minetoAty.AboutOursAty" />
         <!-- 帮助中心 -->
-        <activity android:name=".minetoAty.help.NewHelpCenterAty" />
+        <activity android:name=".minetoAty.help.HelpCenterAty" />
         <!-- 注册设置密码 -->
         <activity android:name=".login.RegisterSetPwdAty" />
         <!-- 位置 -->

@@ -51,6 +51,7 @@ import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty;
+import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.help.NewHelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellSettingAty;
@@ -336,7 +337,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(AboutOursAty.class, null);
                 break;
             case R.id.tv_help_center:// 帮助中心
-                startActivity(NewHelpCenterAty.class, null);
+                startActivity(HelpCenterAty.class, null);
                 break;
             case R.id.tv_order_center:// 订单中心
                 startActivity(OrderCenterAty.class, null);
