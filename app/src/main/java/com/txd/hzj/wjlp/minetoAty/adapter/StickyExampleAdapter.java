@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
@@ -19,7 +21,9 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
+import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
@@ -93,7 +97,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
             // 描述
             recyclerViewHolder.itemView.setContentDescription(stickyExampleModel.sticky);
             // 查看详情
-            if (type == 4 || type == 3 || type == 1||type == 7){ // 4:线下充值明细，3:余额明细，1:代金券使用明细
+            if (type == 4 || type == 3 || type == 1 || type == 7) { // 4:线下充值明细，3:余额明细，1:代金券使用明细
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.VISIBLE);
             } else {
                 recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
@@ -107,7 +111,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Intent intent = new Intent(context, RechargeOffLineAty.class);
                         intent.putExtra("act_id", stickyExampleModel.log_id);
                         context.startActivity(intent);
-                    } else if (type == 3){
+                    } else if (type == 3) {
                         L.e("========stickyExampleModel.act_type==type == 3=========" + stickyExampleModel.act_type);
                         if (stickyExampleModel.act_type.equals("10")) { // 会员卡
                             Intent intent = new Intent(context, VipCardDetailsAty.class);
@@ -117,7 +121,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             L.e("10101010order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        } else if (stickyExampleModel.act_type.equals("3")){ // 订单详情界面
+                        } else if (stickyExampleModel.act_type.equals("3")) { // 订单详情界面
                             Intent intent = new Intent(context, OrderDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.log_id);
@@ -125,7 +129,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }
-                    } else if (type == 1){
+                    } else if (type == 1) {
                         L.e("========stickyExampleModel.act_type==type == 1=========" + stickyExampleModel.act_type);
                         if (stickyExampleModel.act_type.equals("1")) { // 会员卡
                             Intent intent = new Intent(context, VipCardDetailsAty.class);
@@ -135,15 +139,39 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             L.e("1111order_id:" + stickyExampleModel.log_id + "\tmember_coding:" + stickyExampleModel.getMemberCoding());
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        } else if (stickyExampleModel.act_type.equals("2")){ // 订单详情界面
+                        } else if (stickyExampleModel.act_type.equals("2")) { // 普通订单详情界面
                             Intent intent = new Intent(context, OrderDetailsAty.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("id", stickyExampleModel.getOrderId());
                             bundle.putString("type", "0");
                             intent.putExtras(bundle);
                             context.startActivity(intent);
+                        } else if (stickyExampleModel.act_type.equals("9")) { // 拼单购详情
+                            // TODO 拼单购订单详情有两个，一个是待成团，一个是成团后代发货。待成团跳转至拼单详情页面，成团以后跳转至订单详情界面
+                            L.e("agsdadfasdfasfadf" + stickyExampleModel.toString());
+//                            if ("1".equals(goods_list.get(i).get("order_status"))) {
+//                                Bundle bundle = new Bundle();
+//                                if ("1".equals(goods_list.get(i).get("group_type"))){
+//                                    bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
+//                                    bundle.putString("type", from);
+//                                    bundle.putBoolean("isTy", map_Type.get(i));
+//                                    startActivity(CollageDetailsAty.class, bundle); // 订单详情
+//                                }else {
+//                                    if ("2".equals(goods_list.get(i).get("order_type"))) {
+//                                        bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
+//                                    } else if ("3".equals(goods_list.get(i).get("order_type"))) {
+//                                        bundle.putString("id", goods_list.get(i).get("p_id"));
+//                                    }
+//                                    String order_goods = goods_list.get(i).get("order_goods");
+//                                    JSONArray jsonArray = JSONArray.parseArray(order_goods);
+//                                    bundle.putString("integral", ((JSONObject) jsonArray.get(0)).getString("return_integral"));
+//                                    bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
+//                                    bundle.putInt("status", 0);
+//                                    startActivity(CreateGroupAty.class, bundle); // 待成团
+//                                }
+
                         }
-                    }else if (type==7){
+                    } else if (type == 7) {
                         Intent intent = new Intent(context, ParticularsUserCouponAty.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("id", stickyExampleModel.log_id);
@@ -191,10 +219,10 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                recyclerViewHolder.t_details_logo_tv.setImageResource(R.drawable.icon_bal_log_1);
             } else if (5 == type) { // 成长值明细
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
-            }else if(7 == type){ // 蓝色代金券赠送明细
+            } else if (7 == type) { // 蓝色代金券赠送明细
                 recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
-            }else if(8 == type){ // 蓝色代金券使用明细
+            } else if (8 == type) { // 蓝色代金券使用明细
                 recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 Glide.with(context).load(stickyExampleModel.imgStr).into(recyclerViewHolder.t_details_logo_tv);
             }
@@ -205,23 +233,20 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return stickyExampleModels == null ? 0 : stickyExampleModels.size();
     }
-    public String transport(String inputStr)
-    {
+
+    public String transport(String inputStr) {
         char arr[] = inputStr.toCharArray();
-        for(int i=0;i<arr.length;i++)
-        {
-            if(arr[i] == ' ')
-            {
-                arr[i]='\u3000';
-            }
-            else if (arr[i] < '\177')
-            {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == ' ') {
+                arr[i] = '\u3000';
+            } else if (arr[i] < '\177') {
                 arr[i] = (char) (arr[i] + 65248);
             }
 
         }
         return new String(arr);
     }
+
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
         @ViewInject(R.id.tv_sticky_header_view)
         TextView tvStickyHeader;
@@ -235,6 +260,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView t_details_logo_tv;
         @ViewInject(R.id.t_details_price_tv)
         TextView t_details_price_tv;
+
         RecyclerViewHolder(View itemView) {
             super(itemView);
         }
