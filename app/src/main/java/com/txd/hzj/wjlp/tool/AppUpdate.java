@@ -63,13 +63,14 @@ public class AppUpdate {
             if (!systemChecked) { // 如果不是系统检测的（手动检查更新）要弹窗提示一下用户
                 showNoUpdate(activity);
             }
-        } else if (serverCode < BuildConfig.VERSION_CODE && updataApp.getData().getUpdate().equals("0")) {
-            showBack(updataApp, activity);
-        } else if (serverCode < BuildConfig.VERSION_CODE && !updataApp.getData().getUpdate().equals("0")) {
-            if (!systemChecked) {
-                showNoUpdate(activity);
-            }
         }
+//        else if (serverCode < BuildConfig.VERSION_CODE && updataApp.getData().getUpdate().equals("0")) {
+//            showBack(updataApp, activity);
+//        } else if (serverCode < BuildConfig.VERSION_CODE && !updataApp.getData().getUpdate().equals("0")) {
+//            if (!systemChecked) {
+//                showNoUpdate(activity);
+//            }
+//        }
     }
 
     /**
