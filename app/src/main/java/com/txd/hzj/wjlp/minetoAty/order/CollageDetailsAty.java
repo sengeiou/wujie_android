@@ -216,7 +216,7 @@ public class CollageDetailsAty extends BaseAty {
                         bundle.putString("is_pay_password", is_pay_password);
                         startActivity(PayForAppAty.class, bundle);
                     } else if (order_status.equals("3")) {
-                        GroupBuyOrder.receiving(order_id,"", CollageDetailsAty.this);
+                        GroupBuyOrder.receiving(order_id, "", CollageDetailsAty.this);
                         showProgressDialog();
                     } else if (order_status.equals("4")) {
                         Bundle bundle = new Bundle();
@@ -305,8 +305,9 @@ public class CollageDetailsAty extends BaseAty {
                 isCJ = true;
                 if (order_status.equals("8")) {
                     tv_state.setText("未成团");
-                } else
+                } else {
                     tv_state.setText("7".equals(order_status) ? "待抽奖" : "未中奖");
+                }
                 lin_logistics.setVisibility(View.GONE);
                 space_address.setVisibility(View.GONE);
                 lyLayout.setVisibility(View.GONE);
@@ -397,7 +398,7 @@ public class CollageDetailsAty extends BaseAty {
                     showPwdPop(clickView, 0);
                     efreshPage(); // 刷新界面
                 } else {
-                    GroupBuyOrder.receiving(order_id,"", CollageDetailsAty.this);
+                    GroupBuyOrder.receiving(order_id, "", CollageDetailsAty.this);
                     showProgressDialog();
                 }
             } else {
@@ -931,7 +932,7 @@ public class CollageDetailsAty extends BaseAty {
                         tv1.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                GroupBuyOrder.receiving(order_id,"2", CollageDetailsAty.this);
+                                GroupBuyOrder.receiving(order_id, "2", CollageDetailsAty.this);
                                 L.e("wang", "===============>>>>>>>>>>>>>>> tv1 click status = 1");
                                 // 确定放弃七天售后
                                 showProgressDialog();

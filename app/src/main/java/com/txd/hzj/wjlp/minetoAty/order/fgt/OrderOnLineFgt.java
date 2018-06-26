@@ -66,6 +66,18 @@ import java.util.Map;
  * ===============Txunda===============
  */
 public class OrderOnLineFgt extends BaseFgt {
+    /**
+     * 跳转过来的类型
+     * 0：普通订单列表
+     * 1：汽车购订单列表
+     * 2：房产订单列表
+     * 3：拼单购订单列表
+     * 4：预购订单列表
+     * 5：积分订单列表
+     * 6：拍品订单列表
+     * 8：充值订单列表
+     * 10：无界商店订单列表
+     */
     private String from = "";
     /**
      * 订单分类

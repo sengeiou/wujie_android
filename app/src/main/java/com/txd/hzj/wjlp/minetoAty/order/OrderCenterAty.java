@@ -144,6 +144,7 @@ public class OrderCenterAty extends BaseAty {
                 list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
                 list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
+//                list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购")); // 生成包时移除该选项
             }
             itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
         }

@@ -55,7 +55,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
     private StickyExampleAdapter stickyExampleAdapter;
 
     /**
-     * 1.购物券使用明细
+     * 1.代金券使用明细
      * 2.积分明细
      * 3.余额明细
      * 4.线下充值明细
@@ -248,7 +248,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
 
     private void getData() {
         switch (from) {
-            case 1:// 优惠券使用明细
+            case 1:// 代金券使用明细
                 userPst.vouchersLog(p);
                 break;
             case 2:// 积分明细
@@ -351,7 +351,7 @@ public class ParticularsUsedByTricketAty extends BaseAty {
             return;
         }
 
-        if (requestUrl.contains("vouchersLog")) { // 会员模块，购物券明细
+        if (requestUrl.contains("vouchersLog")) { // 代金券使用明细
             if (1 == p) { // 分页第一页
                 if (ToolKit.isList(map, "data")) {
                     list.clear();
