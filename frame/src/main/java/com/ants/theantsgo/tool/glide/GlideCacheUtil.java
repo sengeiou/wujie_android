@@ -3,6 +3,7 @@ package com.ants.theantsgo.tool.glide;
 import java.io.File;
 import java.math.BigDecimal;
 
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.cache.ExternalCacheDiskCacheFactory;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
@@ -154,10 +155,10 @@ public class GlideCacheUtil {
      */
     private static String getFormatSize(double size) {
 
-        double kiloByte = size / 1024;
-
-        BigDecimal result1 = new BigDecimal(Double.toString(kiloByte / 1024 / 1024));
-        return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "M";
+        double kiloByte = size / 1024; // KB
+        double megaByte = kiloByte / 1024; // MB
+        BigDecimal bigDecimal = new BigDecimal(Double.toString(megaByte));
+        return bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "M";
 
 //        if (kiloByte < 1) {
 //            return size + "Byte";
