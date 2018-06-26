@@ -147,29 +147,12 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         } else if (stickyExampleModel.act_type.equals("9")) { // 拼单购详情
-                            // TODO 拼单购订单详情有两个，一个是待成团，一个是成团后代发货。待成团跳转至拼单详情页面，成团以后跳转至订单详情界面
-                            L.e("agsdadfasdfasfadf" + stickyExampleModel.toString());
-//                            if ("1".equals(goods_list.get(i).get("order_status"))) {
-//                                Bundle bundle = new Bundle();
-//                                if ("1".equals(goods_list.get(i).get("group_type"))){
-//                                    bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
-//                                    bundle.putString("type", from);
-//                                    bundle.putBoolean("isTy", map_Type.get(i));
-//                                    startActivity(CollageDetailsAty.class, bundle); // 订单详情
-//                                }else {
-//                                    if ("2".equals(goods_list.get(i).get("order_type"))) {
-//                                        bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
-//                                    } else if ("3".equals(goods_list.get(i).get("order_type"))) {
-//                                        bundle.putString("id", goods_list.get(i).get("p_id"));
-//                                    }
-//                                    String order_goods = goods_list.get(i).get("order_goods");
-//                                    JSONArray jsonArray = JSONArray.parseArray(order_goods);
-//                                    bundle.putString("integral", ((JSONObject) jsonArray.get(0)).getString("return_integral"));
-//                                    bundle.putString("group_buy_id", goods_list.get(i).get("group_buy_id"));
-//                                    bundle.putInt("status", 0);
-//                                    startActivity(CreateGroupAty.class, bundle); // 待成团
-//                                }
-
+                            Intent intent = new Intent(context, CollageDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", stickyExampleModel.getOrderId());
+                            bundle.putString("type",  "3");
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                         }
                     } else if (type == 7) {
                         Intent intent = new Intent(context, ParticularsUserCouponAty.class);

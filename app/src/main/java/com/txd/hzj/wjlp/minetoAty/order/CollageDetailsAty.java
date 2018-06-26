@@ -141,13 +141,11 @@ public class CollageDetailsAty extends BaseAty {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.title_re_layout);
-        isTy = getIntent().getBooleanExtra("isTy", false);
+//        isTy = getIntent().getBooleanExtra("isTy", false);
         titlt_conter_tv.setText(" ");
         details_order_sc.smoothScrollTo(0, 0);
         bot_for_order.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
-        if (isTy) {
-            lin_logistics.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -301,6 +299,22 @@ public class CollageDetailsAty extends BaseAty {
              * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
              */
             order_status = data.get("order_status");
+            if (data.containsKey("order_type")) {
+                switch (data.get("order_type")) {///"1" //订单类型 1体验品拼单 2开团 3参团
+                    case "1": {
+                        isTy = true;
+                    }
+                    break;
+                    default: {
+                        isTy = false;
+                    }
+                }
+            }
+
+            if (isTy) {
+                lin_logistics.setVisibility(View.GONE);
+            }
+
             if ("7".equals(order_status) || "10".equals(order_status) || "8".equals(order_status)) {//7:待抽奖 10:未中奖   8:未成团
                 isCJ = true;
                 if (order_status.equals("8")) {
