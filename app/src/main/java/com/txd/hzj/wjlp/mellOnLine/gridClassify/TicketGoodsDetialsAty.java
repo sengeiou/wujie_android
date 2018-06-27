@@ -578,9 +578,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv: // 分享
-                //todo
+                //todo 暂时跳转到注册页，以后需要修改
 //                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
-                toShare(goodsName, share_img, "1", share_content, goods_id, "1");
+//                toShare(goodsName, share_img, "1", share_content, goods_id, "1");
+                toShare("", "", "1", "", "", "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
