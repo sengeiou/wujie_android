@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -31,7 +28,6 @@ import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -67,11 +63,9 @@ import com.txd.hzj.wjlp.bean.commodity.MInfoBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
-import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
-import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodLuckAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
@@ -716,6 +710,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.goods_title_share_tv://分享
 //                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                //todo
                 toShare(goods_name, share_img, "1", share_content, group_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
@@ -1001,11 +996,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         });
                         dialog.create().show();
                     }
-
                     image = dataBean.getGoods_banner();
                     share_url = dataBean.getShare_url();
                     share_img = dataBean.getShare_img();
-                    share_content = dataBean.getShare_content();
+                    share_content = dataBean.getGoodsInfo().getGoods_brief();
                     goods_name = dataBean.getGoodsInfo().getGoods_name();
                     // 团购商品轮播图
                     if (!ListUtils.isEmpty(image)) {
@@ -1052,7 +1046,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             long endTrueTime = Long.parseLong(groupBean.getEnd_true_time());
                             long sysTime = Long.parseLong(groupBean.getSys_time());
                             long endTime = Long.parseLong(groupBean.getEnd_time());
-                            if (!android.text.TextUtils.isEmpty(groupBean.getSys_time()))
+                            if (!TextUtils.isEmpty(groupBean.getSys_time()))
                                 calendar.setTimeInMillis(sysTime);
 
                             // 当前时间
@@ -1323,11 +1317,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     comm_user_name_tv.setText(bodyBean.getNickname());
                                     comm_content_tv.setText(bodyBean.getContent());
 
-                                    if (!android.text.TextUtils.isEmpty(bodyBean.getAll_star())) {
+                                    if (!TextUtils.isEmpty(bodyBean.getAll_star())) {
                                         int allStar = Integer.parseInt(bodyBean.getAll_star());
                                         rb.setRating(allStar);
                                     }
-                                    if (!android.text.TextUtils.isEmpty(bodyBean.getCreate_time())) {
+                                    if (!TextUtils.isEmpty(bodyBean.getCreate_time())) {
                                         tv_date.setText(bodyBean.getCreate_time());
                                     }
                                     List<PicturesBean> pictures = bodyBean.getPictures();
@@ -1402,7 +1396,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     intent.putExtra("num", String.valueOf(goods_number));
                                     intent.putExtra("product_id", product_id);
                                     intent.putExtra("group_type", groupType);
-                                    if (!android.text.TextUtils.isEmpty(order_id)) {
+                                    if (!TextUtils.isEmpty(order_id)) {
                                         bundle.putString("order_id", order_id);
                                     }
                                     intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
@@ -1435,7 +1429,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                                 intent.putExtra("num", String.valueOf(goods_number));
                                                 intent.putExtra("product_id", product_id);
                                                 intent.putExtra("group_type", groupType);
-                                                if (!android.text.TextUtils.isEmpty(order_id)) {
+                                                if (!TextUtils.isEmpty(order_id)) {
                                                     bundle.putString("order_id", order_id);
                                                 }
                                                 intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
@@ -1624,12 +1618,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
 
         @Override
-        public cg_adp.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new cg_adp.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_dpg, null));
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_dpg, null));
         }
 
         @Override
-        public void onBindViewHolder(cg_adp.ViewHolder holder, int position) {
+        public void onBindViewHolder(ViewHolder holder, int position) {
             Glide.with(GoodLuckDetailsAty.this).load(list.get(position).getGoods_img()).into(holder.imageview);
             holder.tv_price.setText("¥" + list.get(position).getShop_price());
             if (position == list.size() - 1) {
@@ -1710,7 +1704,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 if (data.hasExtra("group_type")) {
                     groupType = data.getStringExtra("group_type");
                 }
-                if (!android.text.TextUtils.isEmpty(data.getStringExtra("p_integral"))) {
+                if (!TextUtils.isEmpty(data.getStringExtra("p_integral"))) {
 //                    one_price_tv.setText("￥" + data.getStringExtra("p_shop_price") + "\n独立购买");
                     one_price_tv.setText("送" + data.getStringExtra("p_integral") + "积分\n独立购买");
                 }
@@ -1801,7 +1795,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));
                 String order_id = data.getStringExtra("order_id");
-                if (!android.text.TextUtils.isEmpty(order_id)) {
+                if (!TextUtils.isEmpty(order_id)) {
                     bundle.putString("order_id", order_id);
                 }
                 bundle.putString("num", data.getStringExtra("num"));
