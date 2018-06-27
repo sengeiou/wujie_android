@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.minetoAty.order;
 
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -462,7 +463,8 @@ public class OrderDetailsAty extends BaseAty {
                         ticket_color = "蓝券";
                         break;
                 }
-                order_price_info_tv.setText("共" + list.size() + "件商品 合计：¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") : (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")));
+                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
+                        (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
             }
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
             is_pay_password = data.get("is_pay_password");
@@ -796,7 +798,7 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putInt("from", 1);
                             startActivity(GoodLuckDetailsAty.class, bundle);
                         }
-                    }else if("10".equals(type)){
+                    } else if ("10".equals(type)) {
                         if (data.containsKey("integralBuy_id")) {//拼单购
                             bundle.putString("limit_buy_id", data.get("integralBuy_id"));
                             bundle.putInt("from", 1);
@@ -907,7 +909,7 @@ public class OrderDetailsAty extends BaseAty {
 
             //延迟收货
             //如果 after_type等于0时  order_status=2（待收货） status = 2 （待收货）并且 sale_status= 0（未延迟收货）时  显示延迟收货
-            if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0") ) {
+            if (map.get("after_type").equals("0") && order_status.equals("2") && map.get("status").equals("2") && map.get("sale_status").equals("0")) {
                 tgvh.delayReceiving.setText("延迟收货");
                 tgvh.delayReceiving.setVisibility(View.VISIBLE);
             } else {
