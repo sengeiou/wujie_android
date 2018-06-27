@@ -463,7 +463,7 @@ public class OrderDetailsAty extends BaseAty {
                         ticket_color = "蓝券";
                         break;
                 }
-                order_price_info_tv.setText(Html.fromHtml("共" + list.size() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
+                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
                         (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
             }
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
@@ -541,6 +541,19 @@ public class OrderDetailsAty extends BaseAty {
                 showToast(data.get("message"));
             }
         }
+    }
+
+    private int calcGoodsNum() {
+        int numSum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            String numStr = list.get(i).get("goods_num");
+            if (TextUtils.isEmpty(numStr)) {
+                continue;
+            } else {
+                numSum += Integer.parseInt(numStr);
+            }
+        }
+        return numSum;
     }
 
     private void setOrderStatus() {
