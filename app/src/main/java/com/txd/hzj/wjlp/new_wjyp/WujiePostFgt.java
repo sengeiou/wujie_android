@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class WujiePostFgt extends BaseFgt {
+public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData  {
 
     private int size = 0;
     @ViewInject(R.id.im1)
@@ -75,7 +75,6 @@ public class WujiePostFgt extends BaseFgt {
     private File f2;
     private File f3;
     private File f4;
-    private String tx;
     private String street;
     private boolean isC = true;
 
@@ -112,11 +111,16 @@ public class WujiePostFgt extends BaseFgt {
                     forImagePicker(1);
                     startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), 107);
                     break;
-                case R.id.layout_city:
+                case R.id.layout_city:{
+                    ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
+                    ProUrbAreaUtil.gainInstance().setGetData(this);
                     ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "","","", (BaseActivity) getActivity(), null);
+                }
                     break;
                 case R.id.layout_street:
-                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+//                    if (choiceAddress) {
+                        area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+//                    }
                     if (TextUtils.isEmpty(area_id)) {
                         showToast("请选择省市区");
                         return;
@@ -136,6 +140,10 @@ public class WujiePostFgt extends BaseFgt {
                         showToast("请上传LOGO");
                         return;
                     }
+                    if (TextUtils.isEmpty(tv_type.getText().toString())) {
+                        showToast("请选择类别");
+                        return;
+                    }
                     if (TextUtils.isEmpty(user_name.getText().toString())) {
                         showToast("请输入联系人");
                         return;
@@ -148,16 +156,16 @@ public class WujiePostFgt extends BaseFgt {
                         showToast("请输入联系电话");
                         return;
                     }
-                    if (TextUtils.isEmpty(tx)) {
+                    if (TextUtils.isEmpty(tv_city.getText().toString())) {
                         showToast("请选择城市");
                         return;
                     }
-                    if (TextUtils.isEmpty(street)) {
+                    if (TextUtils.isEmpty(street)||TextUtils.isEmpty(tv_street.getText().toString())) {
                         showToast("请选择街道");
                         return;
                     }
                     if (TextUtils.isEmpty(desc.getText().toString())) {
-                        showToast("请选择街道");
+                        showToast("请填写申请店铺的情况");
                         return;
                     }
                     if (f1 == null) {
@@ -190,7 +198,6 @@ public class WujiePostFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-
     }
 
     private void forImagePicker(int num) {
@@ -214,6 +221,8 @@ public class WujiePostFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
+
+
     }
 
 
@@ -361,5 +370,8 @@ public class WujiePostFgt extends BaseFgt {
      * 街道id
      */
     private String street_id = "";
-
+    @Override
+    public void getAddress() {
+        tv_street.setText("");
+    }
 }
