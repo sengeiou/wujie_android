@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.tips.ToastTip;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -139,19 +141,24 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                 startActivityForResult(GiveCouponAccounts.class, bundle, 1000);
                 break;
             case R.id.iv_vip:
-                /**
-                 * 跳转到优享会员页面
-                 * */
-                bundle = new Bundle();
-                bundle.putString("sale_status", list.get(2).get("sale_status"));
-                bundle.putString("rank_name", list.get(2).get("rank_name"));
-                bundle.putString("money", list.get(2).get("money"));
-                bundle.putString("prescription", list.get(2).get("prescription"));
-                bundle.putString("big_gift", list.get(2).get("big_gift"));
-                bundle.putString("score_status", list.get(2).get("score_status"));
-                bundle.putString("abs_url", list.get(2).get("abs_url"));
-                bundle.putString("member_coding", list.get(2).get("member_coding"));
-                startActivity(VipDetailsAty.class, bundle);
+                try {
+                    /**
+                     * 跳转到购买优享会员页面
+                     */
+                    bundle = new Bundle();
+                    bundle.putString("sale_status", list.get(2).get("sale_status"));
+                    bundle.putString("rank_name", list.get(2).get("rank_name"));
+                    bundle.putString("money", list.get(2).get("money"));
+                    bundle.putString("prescription", list.get(2).get("prescription"));
+                    bundle.putString("big_gift", list.get(2).get("big_gift"));
+                    bundle.putString("score_status", list.get(2).get("score_status"));
+                    bundle.putString("abs_url", list.get(2).get("abs_url"));
+                    bundle.putString("member_coding", list.get(2).get("member_coding"));
+                    startActivity(VipDetailsAty.class, bundle);
+                } catch (IndexOutOfBoundsException e) {
+                    showToast("该会员卡信息存在异常");
+                    L.e("会员卡获取异常，数组下标越界");
+                }
                 break;
         }
     }
@@ -159,9 +166,11 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));
+        if (requestUrl.contains("userCard")) {
+            map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
+            list = JSONUtils.parseKeyAndValueToMapList(map.get("list"));
+        }
 
     }
 
