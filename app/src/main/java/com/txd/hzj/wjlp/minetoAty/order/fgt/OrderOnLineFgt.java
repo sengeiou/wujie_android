@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.EvaluationReleaseAty;
+import com.txd.hzj.wjlp.minetoAty.order.OnlineChongDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.CarOrderInfo;
 import com.txd.hzj.wjlp.popAty.LovingAdapter;
@@ -175,12 +177,12 @@ public class OrderOnLineFgt extends BaseFgt {
                 } else if (from.equals("3")) {
                     if ("1".equals(goods_list.get(i).get("order_status"))) {
                         Bundle bundle = new Bundle();
-                        if ("1".equals(goods_list.get(i).get("group_type"))){
+                        if ("1".equals(goods_list.get(i).get("group_type"))) {
                             bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                             bundle.putString("type", from);
                             bundle.putBoolean("isTy", map_Type.get(i));
                             startActivity(CollageDetailsAty.class, bundle);
-                        }else {
+                        } else {
                             if ("2".equals(goods_list.get(i).get("order_type"))) {
                                 bundle.putString("id", goods_list.get(i).get("group_buy_order_id"));
                             } else if ("3".equals(goods_list.get(i).get("order_type"))) {
@@ -426,9 +428,28 @@ public class OrderOnLineFgt extends BaseFgt {
 
             Gson gson = new Gson();
             userBalanceHjs = gson.fromJson(jsonStr, UserBalanceHjs.class);
-            if (userBalanceHjs.getData() != null && userBalanceHjs.getData().size() > 0) {
-                order_on_line_lv.setAdapter(new OnlineChongAdapter(getActivity(), userBalanceHjs.getData(), this));
+
+            OnlineChongAdapter onlineChongAdapter = null;
+            if (null == order_on_line_lv.getAdapter()) {
+                onlineChongAdapter = new OnlineChongAdapter(getActivity(), this);
+                order_on_line_lv.setAdapter(onlineChongAdapter);
+            } else {
+                onlineChongAdapter = (OnlineChongAdapter) order_on_line_lv.getAdapter();
             }
+            onlineChongAdapter.getList().clear();
+            if (null != userBalanceHjs.getData())
+                onlineChongAdapter.getList().addAll(userBalanceHjs.getData());
+            onlineChongAdapter.notifyDataSetChanged();
+
+            order_on_line_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {//线上充值明细
+                    Intent intent = new Intent(getActivity(), OnlineChongDetailsAty.class);
+                    intent.putExtra("status", userBalanceHjs.getData().get(position).getStatus());
+                    intent.putExtra("order_id", userBalanceHjs.getData().get(position).getId());
+                    startActivity(intent);
+                }
+            });
             if (!frist) {
                 swipe_refresh.setRefreshing(false);
                 progressBar.setVisibility(View.GONE);
@@ -582,20 +603,20 @@ public class OrderOnLineFgt extends BaseFgt {
                     map_Type.put(position, false);
                 }
             }
-           final List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
+            final List<Map<String, String>> list_data = JSONUtils.parseKeyAndValueToMapList(getItem(position).get("order_goods"));
             holder.title.setText(getItem(position).get("merchant_name"));
             String freight = getItem(position).get("freight");
-            int num=0;
-            if (list_data.size()>0){
+            int num = 0;
+            if (list_data.size() > 0) {
                 for (int i = 0; i < list_data.size(); i++) {
                     String goods_num = list_data.get(i).get("goods_num");
-                    num+=Integer.parseInt(goods_num);
+                    num += Integer.parseInt(goods_num);
                 }
             }
             if ("10".equals(from)) {// 无界商店
-                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：" + getItem(position).get("order_price") + "积分"+" 运费："+("0.00".equals(freight)?"包邮":freight+"积分"));
+                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：" + getItem(position).get("order_price") + "积分" + " 运费：" + ("0.00".equals(freight) ? "包邮" : freight + "积分"));
             } else {
-                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：¥" + getItem(position).get("order_price")+" 运费："+("0.00".equals(freight)?"包邮":freight+"元"));
+                holder.goods_price_info_tv.setText("共" + num + "件商品 合计：¥" + getItem(position).get("order_price") + " 运费：" + ("0.00".equals(freight) ? "包邮" : freight + "元"));
             }
             holder.tv_btn_right.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -640,12 +661,12 @@ public class OrderOnLineFgt extends BaseFgt {
                     } else if (from.equals("3")) {//拼团
                         if ("1".equals(goods_list.get(position).get("order_status"))) {//1待成团
                             Bundle bundle = new Bundle();
-                            if ("1".equals(goods_list.get(position).get("group_type"))){//1试用品拼单
+                            if ("1".equals(goods_list.get(position).get("group_type"))) {//1试用品拼单
                                 bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                                 bundle.putString("type", from);
                                 bundle.putBoolean("isTy", map_Type.get(position));
                                 startActivity(CollageDetailsAty.class, bundle);
-                            }else {//2常规拼单
+                            } else {//2常规拼单
                                 if ("2".equals(goods_list.get(position).get("order_type"))) {//1直接下单 2拼团 3参团
                                     bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
                                 } else if ("3".equals(goods_list.get(position).get("order_type"))) {
@@ -769,7 +790,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 bundle.putString("type", from);
                 startActivity(EvaluationReleaseAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("3")) {
-                GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"),"", OrderOnLineFgt.this);
+                GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), "", OrderOnLineFgt.this);
                 showProgressDialog();
             } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")) {
 
@@ -852,7 +873,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     //                    com.txd.hzj.wjlp.http.Order.receiving(getItem(position).get("order_id"), OrderOnLineFgt.this);
                     showProgressDialog();
                 } else {
-                    IntegralBuyOrder.Receiving(getItem(position).get("order_id"),"", OrderOnLineFgt.this);
+                    IntegralBuyOrder.Receiving(getItem(position).get("order_id"), "", OrderOnLineFgt.this);
                     showProgressDialog();
                 }
             } else if (getItem(position).get("order_status").equals("4") || getItem(position).get("order_status").equals("5")) {
@@ -1251,25 +1272,24 @@ public class OrderOnLineFgt extends BaseFgt {
             // TODO ============================================时间、积分设置=========================================================
 
 
-
             if (TextUtils.isEmpty(getItem(i).get("goods_attr"))) {
                 goVh.title.setVisibility(View.GONE);
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
-                String goods_attr_str="规格" +getItem(i).get("goods_attr");
-                ChangeTextViewStyle.getInstance().forTextColor(getActivity(),goVh.title,
-                        goods_attr_str+"（赠送:" + getItem(i).get("return_integral") + "积分）",goods_attr_str.length(), Color.parseColor("#F6B87A"));
+                String goods_attr_str = "规格" + getItem(i).get("goods_attr");
+                ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
+                        goods_attr_str + "（赠送:" + getItem(i).get("return_integral") + "积分）", goods_attr_str.length(), Color.parseColor("#F6B87A"));
 //                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
             }
 
-            if("10".equals(from)){
+            if ("10".equals(from)) {
                 if (TextUtils.isEmpty(getItem(i).get("use_integral"))) {
                     goVh.tv_price.setVisibility(View.GONE);
                 } else {
                     goVh.tv_price.setVisibility(View.VISIBLE);
-                    goVh.tv_price.setText(getItem(i).get("use_integral") + "积分" );
+                    goVh.tv_price.setText(getItem(i).get("use_integral") + "积分");
                 }
-            }else{
+            } else {
                 if (TextUtils.isEmpty(getItem(i).get("shop_price"))) {
                     goVh.tv_price.setVisibility(View.GONE);
                 } else {
@@ -1291,7 +1311,7 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView title;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
-//            @ViewInject(R.id.jifenTv)
+            //            @ViewInject(R.id.jifenTv)
 //            private TextView jifenTv;
 //            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
 //            private TextView textview;

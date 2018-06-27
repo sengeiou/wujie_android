@@ -1082,6 +1082,9 @@
         <activity android:name=".minetoAty.order.VipCardAty" />
         <!-- 会员卡详情页 -->
         <activity android:name=".minetoAty.order.VipCardDetailsAty" />
+        <!--线上充值明细-->
+        <activity android:name=".minetoAty.order.OnlineChongDetailsAty" />
+
         <!-- 快递物流详情 -->
         <activity android:name=".minetoAty.ExpressAtv" />
         <!-- 拼单购订单详情 -->
@@ -1090,6 +1093,7 @@
         <activity android:name=".distribution.shopAty.ShopExhibit" />
         <activity android:name=".distribution.shopAty.ShopGoodsManage" />
         <activity android:name=".distribution.shopAty.ShopRevenue"></activity>
+
     </application>
 
 </manifest>

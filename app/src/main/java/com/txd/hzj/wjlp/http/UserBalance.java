@@ -48,6 +48,17 @@ public class UserBalance {
     }
 
     /**
+     * 充值订单详情
+     * @param baseView
+     * @param order_id  订单ID
+     */
+    public static void hjsInfo(BaseView baseView,String order_id){
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("order_id",order_id);
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "hjsInfo", params, baseView);
+    }
+    /**
      * 获取充值订单列表
      *
      * @param type     订单类型
