@@ -137,12 +137,12 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             intent.putExtras(bundle);
                             context.startActivity(intent);
                         }else if(stickyExampleModel.act_type.equals("1")){//充值订单详情
-                            //todo 等待杨若晨改type
-//                           Intent intent = new Intent(context, OnlineChongDetailsAty.class);
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("id", stickyExampleModel.getOrderId());
-//                            intent.putExtras(bundle);
-//                            context.startActivity(intent);
+                           Intent intent = new Intent(context, OnlineChongDetailsAty.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("order_id", stickyExampleModel.getOrderId());
+                            bundle.putString("status", stickyExampleModel.order_status);
+                            intent.putExtras(bundle);
+                            context.startActivity(intent);
                         }
                     } else if (type == 1) {//代金券明细
                         L.e("========stickyExampleModel.act_type==type == 1=========" + stickyExampleModel.act_type);
@@ -206,7 +206,7 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                 // 获得，消费积分(转出，消费) add_sub：1加 2减
                 if (stickyExampleModel.getAdd_sub().equals("1")) {
                     recyclerViewHolder.t_details_price_tv.setText("+" + stickyExampleModel.profession);
-                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
+//                    recyclerViewHolder.check_details_for_balance_tv.setVisibility(View.GONE);
                 } else {
                     recyclerViewHolder.t_details_price_tv.setText("-" + stickyExampleModel.profession);
                 }

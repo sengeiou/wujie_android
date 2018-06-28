@@ -67,12 +67,16 @@ public class TricketDetailks {
      * 订单ID，购物券使用明细使用
      */
     public String orderId;
+    /**
+     * "act_type = 1(线上充值) 10->会员卡订单状态"
+     */
+    public String order_status;
 
-    public TricketDetailks(){
+    public TricketDetailks() {
     }
 
     public TricketDetailks(String sticky, String name, String gender, String profession, String reason, String
-            log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding) {
+            log_id, String act_type, String act_id, String add_sub, String imgStr, String memberCoding, String order_status) {
         this.sticky = sticky;
         this.name = name;
         this.gender = gender;
@@ -84,6 +88,7 @@ public class TricketDetailks {
         this.add_sub = add_sub;
         this.imgStr = imgStr;
         this.memberCoding = memberCoding;
+        this.order_status = order_status;
     }
 
     public String getSticky() {
