@@ -99,8 +99,9 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="60dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
@@ -123,8 +124,9 @@
 
         <TextView
             android:id="@+id/tv_tel"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
 
