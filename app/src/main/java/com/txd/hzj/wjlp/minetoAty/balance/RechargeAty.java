@@ -255,7 +255,7 @@ public class RechargeAty extends BaseAty {
             on_line_recharge_layout.setVisibility(View.GONE);
             off_line_recharge_layout.setVisibility(View.VISIBLE);
             initCustomTimePicker();
-            titlt_right_tv.setVisibility(View.VISIBLE);
+            titlt_right_tv.setVisibility(View.GONE);
         }
 
     }

@@ -89,6 +89,11 @@ public class Comment {
         private String goods_name;
         private String user_id;
         private String nickname;
+        //reply_pictures    reply    replay_id   reply_pictures_list     四个新字段 用来做商家回复的展示
+        private String  reply_pictures; //"23662,23663,23668,23669,23670,23671",
+        private String reply;// "不过，在 CSS3 中为了区别伪元素和伪类为伪元素使用了双冒号，因此如果使用了 display 或者 width 等属性时使得显示脱离了原本元素后，建议按照标准双写。过于老的浏览器可能会存在支持问题，不过伪元素大多是配合 CSS3 使用，就无所谓向下兼容了：",
+        private String replay_id;//"4",
+        private List<Reply_picturesBean> reply_pictures_list;
         private String content;
         private String all_star;
         private String product_id;

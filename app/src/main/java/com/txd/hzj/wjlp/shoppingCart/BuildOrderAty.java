@@ -806,7 +806,13 @@ public class BuildOrderAty extends BaseAty {
         if (requestCode == 1000) {
             if (data != null) {
                 invoice1 = (Invoice1) data.getSerializableExtra("data1");
-                invoice1s.set(index, invoice1);
+                // 如果下标小于集合长度，则直接指定下标添加
+                if (index < invoice1s.size()) {
+                    invoice1s.set(index, invoice1);
+                } else {
+                    // 否则下标等于或大于集合长度（多一个或多个）直接添加到集合
+                    invoice1s.add(invoice1);
+                }
 
                 Bean b = data.getParcelableExtra("data");
                 bean = b; // 将回传的Bean赋值给成员变量
