@@ -36,7 +36,7 @@ android {
     productFlavors {
         wjyp {} // 自测 测试版直接生成该版本的，无需加固
 //        Service {} // 官网投放 正式版日常生成该版本，加固
-//        Baidu {} // 百度投放 // 以下就是投放市场的时候生成的版本，加上Service版本
+//        Baidu {} // 百度投放
 //        Xiaomi {} // 小米投放
 //        Vivo {} // VIVO投放
 //        Yingyongbao {} // 应用宝投放

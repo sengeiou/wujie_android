@@ -52,6 +52,7 @@ public class ToShareAty extends BaseAty {
 
     private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
     private boolean isResume;  //Activity是否处于前台。
+    private ShareForApp.StatusForShare mStatusForShare;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,7 @@ public class ToShareAty extends BaseAty {
         ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
             @Override
             public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
+                mStatusForShare=statusForShare;
                 switch (statusForShare) {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
@@ -190,9 +192,22 @@ public class ToShareAty extends BaseAty {
                         if (userPst == null) { // 判断对象是否为空，防止空指针报错
                             userPst = new UserPst(ToShareAty.this);
                         }
-                        userPst.shareBack(shareType, context, id, type, link);
-                        showRightTip("分享成功");
-                        finish();
+                        if (mStatusForShare!=null) {
+                            switch (mStatusForShare) {
+                                case Error:
+                                    showErrorTip("分享失败");
+                                    break;
+                                case Cancel:
+                                    showErrorTip("分享取消");
+                                    break;
+                                case Success:
+                                    userPst.shareBack(shareType, context, id, type, link);
+                                    showRightTip("分享成功");
+                                    finish();
+                                    break;
+                            }
+                        }
+
                     }
                 }
             }, 200);

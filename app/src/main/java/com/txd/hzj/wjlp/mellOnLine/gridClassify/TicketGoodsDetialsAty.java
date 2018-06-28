@@ -14,11 +14,9 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -68,12 +66,10 @@ import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.address.AddressPst;
-import com.txd.hzj.wjlp.http.category.GoodsCategory;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mainFgt.adapter.AllGvLvAdapter;
-import com.txd.hzj.wjlp.mellOnLine.SubclassificationAty;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsCommentAttrAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
@@ -582,7 +578,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv: // 分享
-                toShare(goodsName, share_img, share_url, share_url, goods_id, "1");
+                //todo 暂时跳转到注册页，以后需要修改
+//                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
+                toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
                 getHeight();// 重新计算高度
@@ -985,7 +983,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             share_url = data.get("share_url");
             share_img = data.get("share_img");
 
-            share_content = data.get("share_content"); // TODO 此处为null
+
             // 轮播图
             if (ToolKit.isList(data, "goods_banner")) {
                 image = JSONUtils.parseKeyAndValueToMapList(data.get("goods_banner"));
@@ -998,6 +996,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             vouchers_desc = data.get("vouchers_desc");
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
+            share_content = goodsInfo.get("goods_brief");
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */

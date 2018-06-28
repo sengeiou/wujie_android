@@ -70,18 +70,18 @@ public class ProUrbAreaUtil implements BaseView {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-   /*
-         * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
-         * 关键逻辑在于循环体
-         */
+                /*
+                 * 注意：assets 目录下的Json文件仅供参考，实际使用可自行替换文件
+                 * 关键逻辑在于循环体
+                 */
 //        String JsonData = new GetJsonDataUtil().getJson(this, "provinceFotTxd.json");//获取assets目录下的json文件数据
                 ArrayList<ProvinceForTxd> jsonBean = parseData(jsonData);//用Gson 转成实体
-        /*
-         * 添加省份数据
-         *
-         * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
-         * PickerView会通过getPickerViewText方法获取字符串显示出来。
-         */
+                /*
+                 * 添加省份数据
+                 *
+                 * 注意：如果是添加的JavaBean实体，则实体类需要实现 IPickerViewData 接口，
+                 * PickerView会通过getPickerViewText方法获取字符串显示出来。
+                 */
                 if (null != options1Items && options1Items.size() > 0 && null != options2Items && options2Items.size() > 0 && null != options3Items && options3Items.size() > 0) {
                     if (null != handler)
                         handler.sendEmptyMessage(MSG_LOAD_SUCCESS);
@@ -108,13 +108,13 @@ public class ProUrbAreaUtil implements BaseView {
                             }
                             Province_AreaList.add(City_AreaList);//添加该省所有地区数据
                         }
-            /*
-             * 添加城市数据
-             */
+                        /*
+                         * 添加城市数据
+                         */
                         options2Items.add(CityList);
-            /*
-             * 添加地区数据
-             */
+                        /*
+                         * 添加地区数据
+                         */
                         options3Items.add(Province_AreaList);
 
                     }
@@ -128,6 +128,12 @@ public class ProUrbAreaUtil implements BaseView {
     }
 
 
+    /**
+     * 解析回传的数据
+     *
+     * @param result
+     * @return
+     */
     private ArrayList<ProvinceForTxd> parseData(String result) { // Gson 解析
         ArrayList<ProvinceForTxd> detail = new ArrayList<>();
         JSONArray data = null;
@@ -154,6 +160,7 @@ public class ProUrbAreaUtil implements BaseView {
     private String goods_num;
 
     /**
+     * 显示选择视图，也就是弹出选择器
      *
      * @param tv_chose_ads
      * @param goods_id
@@ -162,7 +169,7 @@ public class ProUrbAreaUtil implements BaseView {
      * @param activity
      * @param callback
      */
-    public void showPickerView(final TextView tv_chose_ads, final String goods_id,String goods_num,String product_id, BaseActivity activity, CallBack callback) {// 弹出选择器
+    public void showPickerView(final TextView tv_chose_ads, final String goods_id, String goods_num, String product_id, BaseActivity activity, CallBack callback) { // 弹出选择器
         this.baseActivity = activity;
 
         showDialog();
@@ -172,12 +179,12 @@ public class ProUrbAreaUtil implements BaseView {
         String data = application.getCityProvienceJson();
         this.tv_chose_ads = tv_chose_ads;
         this.goods_id = goods_id;
-        this.product_id=product_id;
-        this.goods_num=goods_num;
+        this.product_id = product_id;
+        this.goods_num = goods_num;
         this.callBack = callback;
         if (!TextUtils.isEmpty(data)) {
             getWrong = false;
-            dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id,goods_num,product_id));
+            dealJsonData(data, new AreaHandler(activity, tv_chose_ads, goods_id, goods_num, product_id));
         } else {
             getWrong = true;
             checkData(application);
@@ -198,19 +205,18 @@ public class ProUrbAreaUtil implements BaseView {
         private String product_id;
 
         /**
-         *
          * @param activity
          * @param tv_chose_ads
          * @param goods_id
          * @param goods_num
          * @param product_id
          */
-        AreaHandler(BaseActivity activity, TextView tv_chose_ads,  String goods_id,String goods_num, String product_id) {
+        AreaHandler(BaseActivity activity, TextView tv_chose_ads, String goods_id, String goods_num, String product_id) {
             this.activity = activity;
             this.tv_chose_ads = tv_chose_ads;
             this.goods_id = goods_id;
-            this.goods_num=goods_num;
-            this.product_id=product_id;
+            this.goods_num = goods_num;
+            this.product_id = product_id;
         }
 
         @Override
@@ -247,7 +253,7 @@ public class ProUrbAreaUtil implements BaseView {
                             record_option3 = options3;
                             //选好城市区域之后,从服务器获取运费
                             if (!TextUtils.isEmpty(goods_id))
-                                Freight.freight(goods_id, tx.toString(),goods_num,product_id, ProUrbAreaUtil.this);
+                                Freight.freight(goods_id, tx.toString(), goods_num, product_id, ProUrbAreaUtil.this);
                             if (null != getData) {
                                 getData.getAddress();
                             }
@@ -448,7 +454,7 @@ public class ProUrbAreaUtil implements BaseView {
                 String data = jsonObject.getString("data");
                 application.setCityProvience(data);
                 if (getWrong && null != baseActivity && null != tv_chose_ads) {
-                    dealJsonData(data, new AreaHandler(baseActivity, tv_chose_ads, goods_id,goods_num,product_id));
+                    dealJsonData(data, new AreaHandler(baseActivity, tv_chose_ads, goods_id, goods_num, product_id));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
