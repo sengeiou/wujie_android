@@ -28,7 +28,7 @@ public class Config {
 
 //    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
 //    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/"; // 测试服务器
-    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的  测试库
+    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的 测试库
 
     public final static String BASE_URL = OFFICIAL_WEB + "index.php/Api/";
 

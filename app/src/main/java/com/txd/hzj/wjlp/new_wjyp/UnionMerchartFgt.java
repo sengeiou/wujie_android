@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -32,7 +33,7 @@ import java.util.Map;
 /**
  * 联盟商家界面
  */
-public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
+public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
     private int size = 0;
     @ViewInject(R.id.im1)
     private ImageView im1;
@@ -76,9 +77,25 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
 
-
     private boolean isC = true;
 
+    /**
+     * 省
+     */
+    private String province = "";
+    /**
+     * 市
+     */
+    private String city = "";
+    /**
+     * 区
+     */
+    private String area = "";
+    /**
+     * 区id
+     */
+    private String area_id = "";
+    private String street_id = "";
 
     @OnClick({R.id.tv_type, R.id.layout_logo, R.id.image1, R.id.image2, R.id.image3, R.id.layout_city, R.id.layout_street, R.id.tv_submit})
     public void OnClick(View view) {
@@ -106,16 +123,15 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
                     forImagePicker(1);
                     startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), 105);
                     break;
-                case R.id.layout_city:{
+                case R.id.layout_city:
                     ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
                     ProUrbAreaUtil.gainInstance().setGetData(this);
-                    ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "","","", (BaseActivity) getActivity(),null);
-                }
+                    ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "", "", "", (BaseActivity) getActivity(), null);
                     break;
                 case R.id.layout_street:
-//                    if (choiceAddress) {
+                    if (choiceAddress && area_id.equals("")) {
                         area_id = ProUrbAreaUtil.gainInstance().getArea_id();
-//                    }
+                    }
                     if (TextUtils.isEmpty(area_id)) {
                         showToast("请选择省市区");
                         return;
@@ -155,7 +171,7 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
                         showToast("请选择城市");
                         return;
                     }
-                    if (TextUtils.isEmpty(street)||TextUtils.isEmpty(tv_street.getText().toString())) {
+                    if (TextUtils.isEmpty(street) || TextUtils.isEmpty(tv_street.getText().toString())) {
                         showToast("请选择街道");
                         return;
                     }
@@ -175,9 +191,12 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
                         showToast("请上传身份证反面");
                         return;
                     }
-                    province = ProUrbAreaUtil.gainInstance().getProvince();
-                    city = ProUrbAreaUtil.gainInstance().getCity();
-                    area = ProUrbAreaUtil.gainInstance().getArea();
+                    ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+                    if (choiceAddress) {
+                        province = proUrbAreaUtil.getProvince();
+                        city = proUrbAreaUtil.getCity();
+                        area = proUrbAreaUtil.getArea();
+                    }
                     Recommending.addBusiness(mechant_name.getText().toString(), user_name.getText().toString(), user_position.getText().toString(),
                             user_phone.getText().toString(), province + city + area, street, desc.getText().toString(), f1, f2, f3, "1", null, logo, rec_type_id, this);
                     showProgressDialog();
@@ -283,6 +302,11 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
 
     @Override
     protected void requestData() {
+        province = ""; // 省
+        city = ""; // 市
+        area = ""; // 区
+        area_id = ""; // 区ID
+        street_id = ""; // 街道ID
         ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
         isC = (getArguments() == null ? true : false);
         if (!isC) {
@@ -308,37 +332,6 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
 
     }
 
-    /**
-     * 省
-     */
-    private String province = "";
-    /**
-     * 市
-     */
-    private String city = "";
-    /**
-     * 区
-     */
-    private String area = "";
-
-    /**
-     * 省id
-     */
-    private String province_id = "";
-    /**
-     * 市id
-     */
-    private String city_id = "";
-    /**
-     * 区id
-     */
-    private String area_id = "";
-
-    /**
-     * 街道id
-     */
-    private String street_id = "";
-
     private void forImagePicker(int num) {
         ImagePicker imagePacker = ImagePicker.getInstance();
         imagePacker.setImageLoader(new GlideImageLoader());// 使用Glide加载
@@ -351,8 +344,30 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
             imagePacker.setMultiMode(true);
         }
     }
+
+    boolean choiceAddress = false;
+
     @Override
     public void getAddress() {
+        // 如果选择了地址
+        choiceAddress = true;
+        ProUrbAreaUtil proUrbAreaUtil = ProUrbAreaUtil.gainInstance();
+        province = proUrbAreaUtil.getProvince();
+        city = proUrbAreaUtil.getCity();
+        area = proUrbAreaUtil.getArea();
+        area_id = proUrbAreaUtil.getArea_id();
+        tv_city.setText(proUrbAreaUtil.getProvince() + "," + proUrbAreaUtil.getCity() + "," + proUrbAreaUtil.getArea());
         tv_street.setText("");
+        street_id = "";
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        province = province.equals("") ? "" : province;
+        city = city.equals("") ? "" : city;
+        area = area.equals("") ? "" : area;
+        area_id = area_id.equals("") ? "" : area_id;
+        street_id = street_id.equals("") ? "" : street_id;
     }
 }
