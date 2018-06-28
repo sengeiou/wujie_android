@@ -1005,7 +1005,7 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("after_type", map.get("after_type"));
                             bundle.putString("back_apply_id", map.get("back_apply_id"));
                             // 继续申请售后需要传的参数
-                            bundle.putString("price", String.valueOf(Double.parseDouble(map.get("shop_price")) * Integer.parseInt(map.get("goods_num"))));
+                            bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);
