@@ -9,40 +9,40 @@ import java.io.Serializable;
  * 联系方式：常用邮箱或电话
  */
 public class Reply_picturesBean implements Serializable {
-    private String path;//"http://www.wjyp.com/Uploads/2018-06-28/5b345b38a4c0f.jpg
-    private String name;//"9341950_123944651000_2.jpg",
-    private String id;//"23662",
-    private String status;//"1"
+    private String review_path;//"http://www.wjyp.com/Uploads/2018-06-28/5b345b38a4c0f.jpg
+    private String review_name;//"9341950_123944651000_2.jpg",
+    private String review_id;//"23662",
+    private String review_status;//"1"
 
-    public String getPath() {
-        return path;
+    public String getReview_path() {
+        return review_path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setReview_path(String review_path) {
+        this.review_path = review_path;
     }
 
-    public String getName() {
-        return name;
+    public String getReview_name() {
+        return review_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setReview_name(String review_name) {
+        this.review_name = review_name;
     }
 
-    public String getId() {
-        return id;
+    public String getReview_id() {
+        return review_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setReview_id(String review_id) {
+        this.review_id = review_id;
     }
 
-    public String getStatus() {
-        return status;
+    public String getReview_status() {
+        return review_status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setReview_status(String review_status) {
+        this.review_status = review_status;
     }
 }
