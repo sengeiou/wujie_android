@@ -466,7 +466,9 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (tipsToast == null) {
             tipsToast = ToastTip.makeText(this, tips, Toast.LENGTH_SHORT);
         }
-        tipsToast.show();
+        if (!isFinishing()){
+            tipsToast.show();
+        }
         tipsToast.setIcon(iconResId);
         tipsToast.setText(tips);
     }
