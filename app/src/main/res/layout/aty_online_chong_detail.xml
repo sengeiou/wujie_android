@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--线上充值明细-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:clipToPadding="true"
+    tools:context=".minetoAty.order.OnlineChongDetailsAty"
+    android:fitsSystemWindows="true">
+    <include
+        layout="@layout/aty_title"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/lin_bottom">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.ants.theantsgo.view.inScroll.ListViewForScrollView
+                    android:id="@+id/lv_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="#ffffffff"></com.ants.theantsgo.view.inScroll.ListViewForScrollView>
+            </LinearLayout>
+        </ScrollView>
+        <LinearLayout
+            android:id="@+id/lin_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_margin="10dp">
+            <TextView
+                android:id="@+id/ItemChong_cancel_tv"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_gray_btn_li"
+                android:gravity="center"
+                android:text="取消订单"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ItemChong_pay_tv"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_red_btn_01_li"
+                android:gravity="center"
+                android:text="付款"
+                android:textColor="@color/colorRed"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/ItemChong_delete_tv"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_red_btn_01_li"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/colorRed"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>

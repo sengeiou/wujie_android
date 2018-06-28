@@ -15,12 +15,13 @@ import com.txd.hzj.wjlp.bean.UserBalanceHjs;
 import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
 import com.txd.hzj.wjlp.http.UserBalance;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 开发者： Txd_WangJJ
  * 创建时间： 2018/4/6 006 12:53:31.
- * 功能描述：
+ * 功能描述：线上充值明细
  * 联系方式： jingjie.office@qq.com
  */
 
@@ -28,12 +29,15 @@ public class OnlineChongAdapter extends BaseAdapter {
 
     private BaseView baseView;
     private Context context;
-    private List<UserBalanceHjs.DataBean> list;
+    private List<UserBalanceHjs.DataBean> list = new ArrayList<>();
 
-    public OnlineChongAdapter(Context context, List<UserBalanceHjs.DataBean> list, BaseView baseView) {
+    public List<UserBalanceHjs.DataBean> getList() {
+        return list;
+    }
+
+    public OnlineChongAdapter(Context context, BaseView baseView) {
         this.baseView = baseView;
         this.context = context;
-        this.list = list;
     }
 
     @Override
@@ -79,12 +83,16 @@ public class OnlineChongAdapter extends BaseAdapter {
         viewHolder.itemChong_meny_tv.setText(dataBean.getMoney());
         viewHolder.itemChong_orderNum_tv.setText(dataBean.getOrder_sn());
 
-        if (dataBean.getStatus().equals("0")) { // 未支付
+        viewHolder.itemChong_cancel_tv.setVisibility(View.GONE);
+        viewHolder.itemChong_pay_tv.setVisibility(View.GONE);
+        viewHolder.itemChong_delete_tv.setVisibility(View.GONE);
+
+        if (dataBean.getStatus().equals("0")) { // //        "0"//未支付（取消订单  （灰色） 立即支付（红色））
             viewHolder.itemChong_cancel_tv.setVisibility(View.VISIBLE); // 取消显示
             viewHolder.itemChong_pay_tv.setVisibility(View.VISIBLE); // 付款显示
-        } else if (dataBean.getStatus().equals("1")) { // 已支付
+        } else if (dataBean.getStatus().equals("1")) { //  1已支付（删除订单（红色））
             viewHolder.itemChong_delete_tv.setVisibility(View.VISIBLE); // 显示删除订单
-        } else if (dataBean.getStatus().equals("5")) { // 取消
+        } else if (dataBean.getStatus().equals("5")) { // 5取消 （删除订单（红色））
             viewHolder.itemChong_cancel_tv.setVisibility(View.VISIBLE); // 取消按钮显示
             viewHolder.itemChong_cancel_tv.setText("已取消"); // 设置为取消状态
             viewHolder.itemChong_delete_tv.setVisibility(View.VISIBLE); // 删除订单显示

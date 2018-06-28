@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * 联盟商家界面
  */
-public class UnionMerchartFgt extends BaseFgt {
+public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData{
     private int size = 0;
     @ViewInject(R.id.im1)
     private ImageView im1;
@@ -71,7 +71,6 @@ public class UnionMerchartFgt extends BaseFgt {
     private File f1;
     private File f2;
     private File f3;
-    private String tx;
     private String street;
 
     @ViewInject(R.id.tv_submit)
@@ -107,11 +106,16 @@ public class UnionMerchartFgt extends BaseFgt {
                     forImagePicker(1);
                     startActivityForResult(new Intent(getActivity(), ImageGridActivity.class), 105);
                     break;
-                case R.id.layout_city:
+                case R.id.layout_city:{
+                    ProUrbAreaUtil.gainInstance().checkData((WeApplication) getActivity().getApplication());
+                    ProUrbAreaUtil.gainInstance().setGetData(this);
                     ProUrbAreaUtil.gainInstance().showPickerView(tv_city, "","","", (BaseActivity) getActivity(),null);
+                }
                     break;
                 case R.id.layout_street:
-                    area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+//                    if (choiceAddress) {
+                        area_id = ProUrbAreaUtil.gainInstance().getArea_id();
+//                    }
                     if (TextUtils.isEmpty(area_id)) {
                         showToast("请选择省市区");
                         return;
@@ -131,6 +135,10 @@ public class UnionMerchartFgt extends BaseFgt {
                         showToast("请上传LOGO");
                         return;
                     }
+                    if (TextUtils.isEmpty(tv_type.getText().toString())) {
+                        showToast("请选择类别");
+                        return;
+                    }
                     if (TextUtils.isEmpty(user_name.getText().toString())) {
                         showToast("请输入联系人");
                         return;
@@ -143,16 +151,16 @@ public class UnionMerchartFgt extends BaseFgt {
                         showToast("请输入联系电话");
                         return;
                     }
-                    if (TextUtils.isEmpty(tx)) {
+                    if (TextUtils.isEmpty(tv_city.getText().toString())) {
                         showToast("请选择城市");
                         return;
                     }
-                    if (TextUtils.isEmpty(street)) {
+                    if (TextUtils.isEmpty(street)||TextUtils.isEmpty(tv_street.getText().toString())) {
                         showToast("请选择街道");
                         return;
                     }
                     if (TextUtils.isEmpty(desc.getText().toString())) {
-                        showToast("请选择街道");
+                        showToast("请填写申请店铺的情况");
                         return;
                     }
                     if (f1 == null) {
@@ -180,7 +188,6 @@ public class UnionMerchartFgt extends BaseFgt {
 
     @Override
     protected void immersionInit() {
-
     }
 
     Map<String, String> map;
@@ -272,7 +279,6 @@ public class UnionMerchartFgt extends BaseFgt {
 
     @Override
     protected void initialized() {
-
     }
 
     @Override
@@ -344,5 +350,9 @@ public class UnionMerchartFgt extends BaseFgt {
             imagePacker.setSelectLimit(9);
             imagePacker.setMultiMode(true);
         }
+    }
+    @Override
+    public void getAddress() {
+        tv_street.setText("");
     }
 }

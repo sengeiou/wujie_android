@@ -38,6 +38,7 @@ import com.txd.hzj.wjlp.new_wjyp.aty_after;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -333,7 +334,8 @@ public class CollageDetailsAty extends BaseAty {
                 tv_tel.setText(data.get("phone"));
                 tv_address.setText(data.get("address"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
-                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
+                setSumTxt();
+
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -356,8 +358,7 @@ public class CollageDetailsAty extends BaseAty {
                 tv_merchant_name.setText(data.get("merchant_name"));
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
-
-                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计：" + "<font color='#DF3031'>" + "¥" + data.get("order_price") + "</font>"));
+                setSumTxt();
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
                 is_pay_password = data.get("is_pay_password");
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
@@ -420,6 +421,31 @@ public class CollageDetailsAty extends BaseAty {
             }
         }
 
+    }
+
+    private void setSumTxt(){
+        double total_price = 0.00f;//总价格
+        BigDecimal bd = null;
+        total_price = Double.parseDouble(data.get("order_price"));
+        String ticket_color = null;
+        if (data.containsKey("ticket_color")) {
+            switch (data.get("ticket_color")) {
+                case "1":
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "红券";
+                    break;
+                case "2":
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "黄券";
+                    break;
+                case "3":
+                    bd = new BigDecimal(total_price - Double.parseDouble(data.get("pay_tickets")));
+                    ticket_color = "蓝券";
+                    break;
+            }
+            order_price_info_tv.setText(Html.fromHtml("共" +  calcGoodsNum()+ "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
+                    (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
+        }
     }
 
     private void setGroupBuyOrderStatus() {
