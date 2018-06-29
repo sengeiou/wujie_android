@@ -3,15 +3,12 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +19,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
@@ -46,10 +41,10 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
 import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.tool.GlideUtil;
 import com.txd.hzj.wjlp.tool.MallRecyclerViewDivider;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.tool.UnitHelper;
+import com.txd.hzj.wjlp.view.NoScrollLinearLayoutManager;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
@@ -559,15 +554,14 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                 }
 
                 // 设置布局方式
-                gevh.replyRv.setLayoutManager(new LinearLayoutManager(GoodsEvaluateAty.this, LinearLayoutManager.HORIZONTAL, false));
+                gevh.replyRv.setLayoutManager(new NoScrollLinearLayoutManager(GoodsEvaluateAty.this, LinearLayoutManager.HORIZONTAL, false));//不让recycleview横向滑动
                 // 默认分割线
-//                gevh.replyRv.addItemDecoration(new MallRecyclerViewDivider(GoodsEvaluateAty.this, LinearLayoutManager.VERTICAL, 10, R.color.white, -1));
-                int dip=UnitHelper.dip2px(getApplicationContext(),10);
-                gevh.replyRv.addItemDecoration(new MallRecyclerViewDivider(getApplicationContext(),MallRecyclerViewDivider.HORIZONTAL_LIST,0,dip));
-                int dipbian=UnitHelper.dip2px(getApplicationContext(),4);
+                int dip=UnitHelper.dip2px(getApplicationContext(),10);//转换dip的工具类
+                gevh.replyRv.addItemDecoration(new MallRecyclerViewDivider(getApplicationContext(),MallRecyclerViewDivider.HORIZONTAL_LIST,0,dip));//自定义分割线使得纵向分割不至于撑开布局
+                int dipbian=UnitHelper.dip2px(getApplicationContext(),4);//转换之前是4转换成dip之后乘以2倍，外层布局8dip所以这里写4
                 DisplayMetrics metrics = new DisplayMetrics();
                 getWindowManager().getDefaultDisplay().getMetrics(metrics);
-                final int itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;
+                final int itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
                 gevh.replyRv.setAdapter(new RecyclerView.Adapter() {
                     @Override
                     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -585,9 +579,6 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                                 .override(itemWidth, itemWidth)
                                 .into(picHolder.imageView);
                         picHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, itemWidth));
-//                        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(itemWidth, itemWidth);
-//                        params.setMargins(0, 0, 0, 0);
-//                        picHolder.imageView.setLayoutParams(params);
                     }
 
                     @Override
