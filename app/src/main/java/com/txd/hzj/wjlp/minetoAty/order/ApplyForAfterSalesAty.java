@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
+import com.ants.theantsgo.tips.CustomDialog;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -24,8 +27,12 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AfterSale;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -270,6 +277,27 @@ public class ApplyForAfterSalesAty extends BaseAty {
             if (moneyStatus == 0) {
                 layouttuikuan.setVisibility(View.GONE);
             }
+
+            //拼单购商品在确认收货之后（放弃7天无理由退货），申请售后问题。
+            try {
+                JSONArray jsonArray=new JSONArray(String.valueOf(data.get("list")));
+                if(null==jsonArray||jsonArray.length()==0){
+                    CustomDialog.Builder dialog = new CustomDialog.Builder(ApplyForAfterSalesAty.this);
+                    dialog.setCancelable(false);
+                    dialog.setMessage("没有可发起的售后类型");
+                    dialog.setTitle("提示");
+                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ApplyForAfterSalesAty.this.finish();
+                        }
+                    });
+                    dialog.create().show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
         if (split[split.length - 1].equals("backApply")) {
             showToast(map.get("message"));
