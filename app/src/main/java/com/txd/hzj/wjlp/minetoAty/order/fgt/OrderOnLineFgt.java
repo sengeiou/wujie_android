@@ -659,7 +659,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
                     } else if (from.equals("3")) {//拼团
-                        if ("1".equals(goods_list.get(position).get("order_status"))) {//1待成团
+                        if ("1".equals(goods_list.get(position).get("order_status"))) {//1拼单中
                             Bundle bundle = new Bundle();
                             if ("1".equals(goods_list.get(position).get("group_type"))) {//1试用品拼单
                                 bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
@@ -961,7 +961,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 break;
                 case "1": {
-                    holder.state.setText("待成团");
+                    holder.state.setText("拼单中");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
@@ -1017,7 +1017,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 break;
                 case "8": {
-                    holder.state.setText("未成团");
+                    holder.state.setText("未拼成");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);

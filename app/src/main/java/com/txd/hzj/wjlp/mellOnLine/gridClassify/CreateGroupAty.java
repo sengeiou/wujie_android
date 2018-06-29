@@ -75,7 +75,7 @@ public class CreateGroupAty extends BaseAty {
     //    private TextView group_status_tv;
 
     /**
-     * 一键开团，参团，团长不能操作
+     * 一键开团，参团，拼主不能操作
      */
     @ViewInject(R.id.group_operation_tv)
     private TextView group_operation_tv;
@@ -167,7 +167,7 @@ public class CreateGroupAty extends BaseAty {
             public void onClick(View v) {
                 if (Integer.parseInt(offeredDataBean.getData().getIs_colonel()) > 0) {
 //                    "is_colonel": "1",
-                    Toast.makeText(CreateGroupAty.this, "团长不能重复拼单", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateGroupAty.this, "拼主不能重复拼单", Toast.LENGTH_LONG).show();
                 } else if (Integer.parseInt(offeredDataBean.getData().getIs_member()) > 0) {
 //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
@@ -313,7 +313,7 @@ public class CreateGroupAty extends BaseAty {
                     HeadPicBean head1 = new HeadPicBean();
                     head1.setType("1");
                     head1.setPic(data.getColonel_head_pic());
-                    list_pic.add(0, head1);//团长
+                    list_pic.add(0, head1);//拼主
 
 
                     //分享按钮·····∂▪•●•
@@ -335,12 +335,12 @@ public class CreateGroupAty extends BaseAty {
                     group_goods_name_tv.setText(data.getGoods_name());
                     group_other_info_tv.setText("已拼" + data.getAlready() + "件( " + data.getNumber() + " )");
                     group_goods_price_tv.setText("￥" + data.getShop_price());
-                    if (data.getIs_colonel().equals("1")) {// 我是团长
-                        group_operation_tv.setText("我是团长");
+                    if (data.getIs_colonel().equals("1")) {// 我是拼主
+                        group_operation_tv.setText("我是拼主");
                         group_operation_tv.setEnabled(false);
                         group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
                         //                group_status_tv.setText(groupPager.getData().getDiff());
-                    } else {// 我不是团长，参团
+                    } else {// 我不是拼主，参团
                         group_operation_tv.setText("一键拼单");
                         group_operation_tv.setEnabled(true);
                         //                group_status_tv.setText(groupPager.getData().getDiff());

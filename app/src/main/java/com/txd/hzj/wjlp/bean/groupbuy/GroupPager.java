@@ -17,9 +17,9 @@ public class GroupPager {
     /**
      * code : 1
      * message : 获取成功
-     * data : {"info":{"log_id":"开团id","user_id":"团长id","group_num":"团购所需人数","group_price":"团购价","total":"已经被团的数量",
+     * data : {"info":{"log_id":"开团id","user_id":"拼主id","group_num":"团购所需人数","group_price":"团购价","total":"已经被团的数量",
      * "goods_id":"商品id","goods_img":"商品图片","goods_name":"商品名称"},"person":[{"head_pic":"头像","nickname":"昵称",
-     * "is_first":"是否是团长"},{"head_pic":"头像","nickname":"昵称","is_first":"0"}],"diff":"还差3人","log_id":"1","rule":"拼团须知"}
+     * "is_first":"是否是拼主"},{"head_pic":"头像","nickname":"昵称","is_first":"0"}],"diff":"还差3人","log_id":"1","rule":"拼团须知"}
      * nums : 0
      */
 
@@ -62,9 +62,9 @@ public class GroupPager {
 
     public static class Data {
         /**
-         * info : {"log_id":"开团id","user_id":"团长id","group_num":"团购所需人数","group_price":"团购价","total":"已经被团的数量",
+         * info : {"log_id":"开团id","user_id":"拼主id","group_num":"团购所需人数","group_price":"团购价","total":"已经被团的数量",
          * "goods_id":"商品id","goods_img":"商品图片","goods_name":"商品名称"}
-         * person : [{"head_pic":"头像","nickname":"昵称","is_first":"是否是团长"},{"head_pic":"头像","nickname":"昵称",
+         * person : [{"head_pic":"头像","nickname":"昵称","is_first":"是否是拼主"},{"head_pic":"头像","nickname":"昵称",
          * "is_first":"0"}]
          * diff : 还差3人
          * log_id : 1
@@ -120,7 +120,7 @@ public class GroupPager {
         public static class GroupInfo {
             /**
              * log_id : 开团id
-             * user_id : 团长id
+             * user_id : 拼主id
              * group_num : 团购所需人数
              * group_price : 团购价
              * total : 已经被团的数量
@@ -221,7 +221,7 @@ public class GroupPager {
             /**
              * head_pic : 头像
              * nickname : 昵称
-             * is_first : 是否是团长
+             * is_first : 是否是拼主
              */
 
             private String head_pic;

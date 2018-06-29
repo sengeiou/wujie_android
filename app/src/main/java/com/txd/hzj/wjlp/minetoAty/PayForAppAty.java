@@ -586,7 +586,7 @@ public class PayForAppAty extends BaseAty {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) { // 拼单单独购买    拼单购 开团    一键开团，参团，团长不能操作
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) { // 拼单单独购买    拼单购 开团    一键开团，参团，拼主不能操作
                         if (!TextUtils.isEmpty(order_id)) {
                             BalancePay.BalancePay(order_id, "2", getType(), num, this);
                         } else {

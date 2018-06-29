@@ -279,24 +279,19 @@ public class ApplyForAfterSalesAty extends BaseAty {
             }
 
             //拼单购商品在确认收货之后（放弃7天无理由退货），申请售后问题。
-            try {
-                JSONArray jsonArray=new JSONArray(String.valueOf(data.get("list")));
-                if(null==jsonArray||jsonArray.length()==0){
-                    CustomDialog.Builder dialog = new CustomDialog.Builder(ApplyForAfterSalesAty.this);
-                    dialog.setCancelable(false);
-                    dialog.setMessage("没有可发起的售后类型");
-                    dialog.setTitle("提示");
-                    dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ApplyForAfterSalesAty.this.finish();
-                        }
-                    });
-                    dialog.create().show();
+            if(data.containsKey("list")){
+                try {
+                    JSONArray jsonArray=new JSONArray(String.valueOf(data.get("list")));
+                    if(null==jsonArray||jsonArray.length()==0){
+                        showNothingDialog();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }else{
+                showNothingDialog();
             }
+
 
         }
         if (split[split.length - 1].equals("backApply")) {
@@ -305,6 +300,22 @@ public class ApplyForAfterSalesAty extends BaseAty {
         }
     }
 
+    /**
+     * 没有可发起的售后类型
+     */
+    private   void showNothingDialog(){
+        CustomDialog.Builder dialog = new CustomDialog.Builder(ApplyForAfterSalesAty.this);
+        dialog.setCancelable(false);
+        dialog.setMessage("没有可发起的售后类型");
+        dialog.setTitle("提示");
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ApplyForAfterSalesAty.this.finish();
+            }
+        });
+        dialog.create().show();
+    }
     private GridImageAdapter.onAddPicClickListener onAddPicClickListener =
             new GridImageAdapter.onAddPicClickListener() {
                 @Override
