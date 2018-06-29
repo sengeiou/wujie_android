@@ -105,7 +105,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String type;
     private List<FirstListBean> list;
     private List<FirstValBean> list_val;
-    private int maxNumber; // 库存件数
+    private long maxNumber; // 库存件数
     @ViewInject(R.id.tv_kucun)
     private TextView tv_kucun;
     @ViewInject(R.id.lite)
@@ -140,11 +140,11 @@ public class GoodsAttributeAty extends BaseAty {
                         return;
                     }
                     num = Integer.parseInt(et_num.getText().toString().trim());
-                    if (tv_xg.getVisibility() == View.VISIBLE && num >= Integer.parseInt(val.getMax_num())) {
+                    if (tv_xg.getVisibility() == View.VISIBLE && num >= Long.parseLong(val.getMax_num())) {
                         num = Integer.parseInt(val.getMax_num());
                     }
                     if (num >= maxNumber) {
-                        num = maxNumber;
+                        num =(int) maxNumber;
                     }
                     et_num.setText(String.valueOf(num));
                     // 获取输入框的输入件数
@@ -237,7 +237,7 @@ public class GoodsAttributeAty extends BaseAty {
                 goodAttChange();
                 break;
             case R.id.im_jia:
-                if (tv_xg.getVisibility() == View.VISIBLE && num >= Integer.parseInt(val.getMax_num())) {
+                if (tv_xg.getVisibility() == View.VISIBLE && num >= Long.parseLong(val.getMax_num())) {
                     return;
                 }
                 if (num >= maxNumber) {
@@ -395,7 +395,7 @@ public class GoodsAttributeAty extends BaseAty {
             goodsAttrsAdapter = new GoodsAttrsAdapter();
             goods_attr_lv.setAdapter(goodsAttrsAdapter);
         } else {
-            maxNumber = Integer.parseInt(string[1]);
+            maxNumber = Long.parseLong(string[1]);
             tv_kucun.setText("（库存：" + string[1] + "）");
             et_num.setText(String.valueOf(num));
             list.clear();
@@ -425,7 +425,7 @@ public class GoodsAttributeAty extends BaseAty {
                     }
 
                     tv_kucun.setText("（库存：" + goods_val.getGoods_num() + "）");
-                    maxNumber = Integer.parseInt(goods_val.getGoods_num());
+                    maxNumber = Long.parseLong(goods_val.getGoods_num());
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     if ("10".equals(type)) {
 //                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
@@ -868,7 +868,7 @@ public class GoodsAttributeAty extends BaseAty {
                             tv_xg.setText("限购（" + val.getMax_num() + "）");
                         }
                         tv_kucun.setText("（库存：" + val.getGoods_num() + "）");
-                        maxNumber = Integer.parseInt(val.getGoods_num());
+                        maxNumber = Long.parseLong(val.getGoods_num());
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                         if ("10".equals(type)) {
 //                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");

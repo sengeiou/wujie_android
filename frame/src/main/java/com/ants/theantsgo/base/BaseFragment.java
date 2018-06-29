@@ -292,7 +292,7 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
     }
 
     protected void removeProgressDialog() {
-        if (progressDialog.isShowing()) {
+        if (progressDialog.isShowing()&&null!=getActivity()&&!getActivity().isFinishing()) {
             progressDialog.dismiss();
         }
     }
