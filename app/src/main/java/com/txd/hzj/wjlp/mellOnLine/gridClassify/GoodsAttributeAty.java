@@ -221,11 +221,13 @@ public class GoodsAttributeAty extends BaseAty {
                             group_buy_id = string[0];
                             order_id = string[1];
                         }
-                        if (!TextUtils.isEmpty(order_id))
+                        if (!TextUtils.isEmpty(order_id)) {
                             intent.putExtra("order_id", order_id);
+                        }
                         intent.putExtra("group_buy_id", val.getGroup_buy_id());
-                        if (getIntent().hasExtra("group_type"))//体验拼单
+                        if (getIntent().hasExtra("group_type")) {//体验拼单
                             intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
+                        }
 ////////////////////后加的
                         setResult(0x0002, intent);
                         finish();
@@ -425,11 +427,15 @@ public class GoodsAttributeAty extends BaseAty {
                     }
 
                     tv_kucun.setText("（库存：" + goods_val.getGoods_num() + "）");
-                    maxNumber = Long.parseLong(goods_val.getGoods_num());
+                    try {
+                        maxNumber = Long.parseLong(goods_val.getGoods_num());
+                    } catch (Exception e){
+                        L.e("商品属性库存数量转换异常：" + e.toString());
+                    }
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     if ("10".equals(type)) {
 //                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv,  "积分"+goods_val.getUse_integral() );
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "积分" + goods_val.getUse_integral());
                     } else {
 //                        if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {
 //                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
@@ -872,7 +878,7 @@ public class GoodsAttributeAty extends BaseAty {
                         Glide.with(GoodsAttributeAty.this).load(val.getGoods_img()).into(imageview);
                         if ("10".equals(type)) {
 //                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
-                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv,  "积分"+val.getUse_integral());
+                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "积分" + val.getUse_integral());
                         } else {
 //                            if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {// "group_type": "类型 1试用品拼单 2常规拼单",
 //                                ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());
