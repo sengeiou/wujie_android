@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
@@ -435,6 +434,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                 vh.goods_name_tv.setText(allGoodsBean.getGoods_name());
                 vh.goods_price_tv.setText(allGoodsBean.getGroup_price());
                 vh.group_integral_tv.setText(allGoodsBean.getIntegral());
+                vh.tv_shop_price.setVisibility(View.GONE);
                 vh.tv_shop_price.setText("单买价：¥" + allGoodsBean.getShop_price());
                 vh.group_num.setText("(" + allGoodsBean.getGroup_num() + "人拼单价)");
                 // 商品图片重置大小
