@@ -792,7 +792,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), "", OrderOnLineFgt.this);
                 showProgressDialog();
-            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")) {
+            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")||getItem(position).get("order_status").equals("10")) {
 
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
@@ -1011,7 +1011,9 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("未中奖");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setVisibility(View.GONE);
+//                    holder.tv_btn_right.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除订单");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
                 case "8": {
