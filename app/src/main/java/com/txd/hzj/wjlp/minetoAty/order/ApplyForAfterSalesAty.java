@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -181,8 +182,8 @@ public class ApplyForAfterSalesAty extends BaseAty {
                 }
                 priceStr = money_be_back_ev.getText().toString();
                 if (moneyStatus == 1 && !priceStr.equals("")) { // 如果显示退款金额
-
                     double parseDouble = Double.parseDouble(priceStr.equals("") ? "0.0" : priceStr);
+
                     if (parseDouble > maxPrice) {
                         showErrorTip("当前商品最多只能退" + df.format(maxPrice));
                         return;
