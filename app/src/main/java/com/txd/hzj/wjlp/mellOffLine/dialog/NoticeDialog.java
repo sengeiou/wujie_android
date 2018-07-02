@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.ViewUtils;
@@ -30,6 +31,7 @@ public class NoticeDialog extends Dialog {
     private TextView dialog_titlt_tv;
     private ListView coup_lv;
     private TextView notice_content_tv;
+    private ScrollView notice_content_sv;
     private Context context;
     private NoticeAdapter noticeAdapter;
 
@@ -55,8 +57,10 @@ public class NoticeDialog extends Dialog {
             }
         });
         notice_content_tv = findViewById(R.id.notice_content_tv);
+        notice_content_sv = findViewById(R.id.notice_content_sv);
 
-        notice_content_tv.setVisibility(View.VISIBLE);
+//        notice_content_tv.setVisibility(View.VISIBLE);
+        notice_content_sv.setVisibility(View.VISIBLE);
     }
 
     private class NoticeAdapter extends BaseAdapter {
