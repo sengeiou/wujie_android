@@ -519,6 +519,8 @@ public class DemoHelper {
                 } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) { // 用户登录另一个设备
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_CONFLICT); // 账户冲突
+                    // 清除掉本地的token
+                    PreferencesUtils.putString(DemoApplication.applicationContext, "token", "");
                 } else if (error == EMError.SERVER_SERVICE_RESTRICTED) { // 服务器服务限制
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_FORBIDDEN); // 账号被禁止的
@@ -529,8 +531,6 @@ public class DemoHelper {
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE);
                 }
-                // 清除掉本地的token
-                PreferencesUtils.putString(DemoApplication.applicationContext, "token", "");
             }
 
             @Override

@@ -106,7 +106,6 @@ public class VipCardDetailsAty extends BaseAty {
                                     //立即支付
                                     MemberOrder.settlement(member_coding, VipCardDetailsAty.this);
                                     showProgressDialog();
-
                                 }
                             });
                             break;
@@ -189,6 +188,15 @@ public class VipCardDetailsAty extends BaseAty {
             Bundle bundle = new Bundle();
             bundle.putString("data", String.valueOf(data));
             bundle.putString("order_id", order_id);
+            bundle.putString("sale_status", data.containsKey("sale_status") ? data.get("sale_status") : "");
+            bundle.putString("rank_name", data.containsKey("rank_name") ? data.get("rank_name") : "");
+            bundle.putString("money", data.containsKey("pay_money") ? data.get("pay_money") : "0");
+            bundle.putString("prescription", data.containsKey("prescription") ? data.get("prescription") : "");
+            bundle.putString("big_gift", data.containsKey("big_gift") ? data.get("big_gift") : "");
+            bundle.putString("score_status", data.containsKey("score_status") ? data.get("score_status") : "");
+            bundle.putString("abs_url", data.containsKey("abs_url") ? data.get("abs_url") : "");
+            bundle.putString("member_coding", data.containsKey("member_coding") ? data.get("member_coding") : "");
+
             startActivity(VipPayAty.class, bundle);
         }
     }
