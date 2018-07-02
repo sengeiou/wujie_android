@@ -44,4 +44,10 @@ public class GroupBuyPst extends BasePresenter {
         baseView.showDialog();
         groupBuy.threeList(two_cate_id, p, three_cate_id, baseView);
     }
+
+    // 活动商品——拼团购
+    public void merchantGroupBuyList(String merchant_id, int p) {
+        baseView.showDialog();
+        groupBuy.merchantGroupBuyList(merchant_id, p, baseView);
+    }
 }

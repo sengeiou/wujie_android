@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.listenerForAdapter.AdapterTextViewClickListener;
 import com.txd.hzj.wjlp.R;
@@ -107,6 +108,11 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
                 .setAnimationStyle(R.style.animbottom)
                 .create();
         commonPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        int screenHeight =Config.getScreenHeight((Activity) context);
+        if(contentView.getMeasuredHeight()> screenHeight/2){
+            contentView.getLayoutParams().height=screenHeight/2;
+        }
+
         contentView.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
