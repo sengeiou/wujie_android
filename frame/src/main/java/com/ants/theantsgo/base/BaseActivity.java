@@ -168,7 +168,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         content.addView(main);
         rootText = new TextView(this);
         rootText.setTextSize(20);
-        rootText.setTextColor(getResources().getColor(R.color.holo_red_light));
+        rootText.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
         content.addView(rootText);
     }
 
