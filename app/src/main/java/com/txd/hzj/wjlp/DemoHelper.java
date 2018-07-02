@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.ants.theantsgo.AppManager;
+import com.ants.theantsgo.util.PreferencesUtils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
@@ -68,7 +69,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- *  环信helper类
+ * 环信helper类
  */
 public class DemoHelper {
     /**
@@ -528,6 +529,8 @@ public class DemoHelper {
                     EMLog.d("global listener", "onDisconnect====>>>>>>>>>" + error);
                     onUserException(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE);
                 }
+                // 清除掉本地的token
+                PreferencesUtils.putString(DemoApplication.applicationContext, "token", "");
             }
 
             @Override
@@ -1260,6 +1263,7 @@ public class DemoHelper {
                     }
                 }
             }
+
             /**
              * 收到透传消息
              * 透传消息能做什么：头像、昵称的更新等。可以把透传消息理解为一条指令，通过发送这条指令给对方，
@@ -1284,18 +1288,21 @@ public class DemoHelper {
                     EMLog.d(TAG, String.format("Command：action:%s,message:%s", action, message.toString()));
                 }
             }
+
             /**
              * 收到已读回执
              * */
             @Override
             public void onMessageRead(List<EMMessage> messages) {
             }
+
             /**
              * 收到已送达消息回执
              * */
             @Override
             public void onMessageDelivered(List<EMMessage> message) {
             }
+
             /**
              * 消息状态变动
              * */
