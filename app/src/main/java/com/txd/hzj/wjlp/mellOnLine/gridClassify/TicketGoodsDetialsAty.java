@@ -1587,7 +1587,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("=========mInfo===============", mInfo.toString());
 
         mell_id = mInfo.get("merchant_id");
-        merchant_phone = mInfo.get("merchant_phone");
+        if (mInfo.containsKey("merchant_phone"))
+            merchant_phone = mInfo.get("merchant_phone");
 //        Easemob.bind(mell_id, this);
         showProgressDialog();
         easemob_account = mInfo.get("merchant_easemob_account");
