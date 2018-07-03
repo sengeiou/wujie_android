@@ -141,7 +141,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     userPst.myfooter(p, "1");
                 else
                     collectPst.collectList(p, "1");
-                if (collect_goods_select_all_cb.isChecked()){
+                if (collect_goods_select_all_cb.isChecked()) {
                     collect_goods_select_all_cb.setChecked(false);
                 }
             }
@@ -200,7 +200,11 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                 for (CFGoodsList cg : data) {
                     cg.setIsSelect(select);
                 }
-                if (racycleAllAdapter != null) {
+                if (null != racycleAllAdapter) {
+//                if (racycleAllAdapter != null) {
+                    racycleAllAdapter.notifyDataSetChanged();
+                } else {
+                    racycleAllAdapter = new RacycleAllAdapter(getActivity(), data);
                     racycleAllAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -374,7 +378,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
                     progressBar.setVisibility(View.GONE);
                 }
             } else {
-                data2 =goods.getData();
+                data2 = goods.getData();
                 if (!ListUtils.isEmpty(data2)) {
                     data.addAll(data2);
                     racycleAllAdapter.notifyDataSetChanged();
