@@ -213,14 +213,14 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                     .into(holder.sec_head_iv);
                         } else {
-                            holder.frist_head_iv.setVisibility(View.GONE);
+                            holder.sec_head_iv.setVisibility(View.GONE);
                             Glide.with(context).load(append_person.get(0).get("head_pic"))
                                     .override(group_size, group_size)
                                     .placeholder(R.drawable.ic_default)
                                     .error(R.drawable.ic_default)
                                     .centerCrop()
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                    .into(holder.sec_head_iv);
+                                    .into(holder.frist_head_iv);
                         }
 
                     } else {

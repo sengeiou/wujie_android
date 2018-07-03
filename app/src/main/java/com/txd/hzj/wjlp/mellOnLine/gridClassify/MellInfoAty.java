@@ -430,7 +430,7 @@ public class MellInfoAty extends BaseAty {
         views = new ArrayList<>();
         merchantPst = new MerchantPst(this);
         collectPst = new UserCollectPst(this);
-        groupBuyPst=new GroupBuyPst(this);
+        groupBuyPst = new GroupBuyPst(this);
         aty_type = new ArrayList<>();
         ads_list = new ArrayList<>();
         aty_type.add("限量购");
@@ -448,10 +448,23 @@ public class MellInfoAty extends BaseAty {
         mell_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
-                bundle.putInt("from", 1);
-                startActivity(TicketGoodsDetialsAty.class, bundle);
+                switch (data_type) {
+                    case 3: {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("group_buy_id",ads_list.get(position).get("group_buy_id"));
+                        bundle.putInt("from", 1);
+                        if (ads_list.get(position).containsKey("a_id"))
+                            bundle.putString("a_id", ads_list.get(position).get("a_id"));//  "a_id": "1"
+                        startActivity(GoodLuckDetailsAty.class, bundle);
+                    }break;
+                    default: {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    }
+                }
+
             }
         });
         mell_ads_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
