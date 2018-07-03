@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -79,6 +80,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
+import com.yanzhenjie.permission.AndPermission;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -453,6 +455,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private UserCollectPst collectPst;
     private String goods_id = "";
     private String mell_id = "";
+    private String merchant_phone = "";
     private String share_url = "";
     private String share_content = "";
     private String share_img = "";
@@ -694,7 +697,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
 //                intent.setClass(this, SubclassificationAty.class);
 //                startActivity(intent);
-                toClassify(v,goodsInfo.getTop_cate_id());
+                toClassify(v, goodsInfo.getTop_cate_id());
                 break;
             case R.id.goods_title_collect_layout://收藏
 
@@ -761,7 +764,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.to_chat_tv:// 进店逛逛
-                goodLuckPranster.chat_merchant(mell_id, GoodLuckDetailsAty.this);
+                goodLuckPranster.chat_merchant(mell_id, GoodLuckDetailsAty.this, merchant_phone);
 //                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.tv_tab_1:
@@ -1238,6 +1241,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     merchant_logo = mellInfoBean.getLogo();
                     merchant_name = mellInfoBean.getMerchant_name();
                     mell_id = mellInfoBean.getMerchant_id();
+                    merchant_phone = mellInfoBean.getMerchant_phone();
                     Glide.with(GoodLuckDetailsAty.this).load(mellInfoBean.getLogo())
                             .override(size, size)
                             .placeholder(R.drawable.ic_default)
@@ -1822,4 +1826,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         ChangeTextViewStyle.getInstance().forTextColor(this, freight_tv,
                 map.get("pay"), 0, getResources().getColor(R.color.red_tv_back));
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, goodLuckPranster.requestPhoneListener(merchant_phone, GoodLuckDetailsAty.this));
+    }
+
 }

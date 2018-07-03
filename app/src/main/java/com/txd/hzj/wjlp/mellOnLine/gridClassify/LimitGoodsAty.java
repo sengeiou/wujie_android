@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,6 +90,7 @@ import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.yanzhenjie.permission.AndPermission;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -524,6 +526,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     @ViewInject(R.id.goods_pro_layout)
     private FrameLayout goods_pro_layout;
     private String mell_id = "";
+    private String merchant_phone = "";
     private String share_content = "";
     private String share_img = "";
     private String share_url = "";
@@ -992,7 +995,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
                     tv_chose_ads.setText(tx);
-                    commodityPranster.freight(goods_id, tx,String.valueOf(goods_number),product_id);
+                    commodityPranster.freight(goods_id, tx, String.valueOf(goods_number), product_id);
 
                     if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
@@ -1159,7 +1162,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     // 商家信息
                     mInfo = data.getmInfo();
                     mell_id = mInfo.getMerchant_id();
-
+                    merchant_phone = mInfo.getMerchant_phone();
                     easemob_account = mInfo.getEasemob_account();
                     merchant_name = mInfo.getMerchant_name();
                     merchant_logo = mInfo.getLogo();
@@ -1396,7 +1399,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                if (isLoaded) {
 //                    ShowPickerView();
 //                }
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,String.valueOf(goods_number),product_id, LimitGoodsAty.this, LimitGoodsAty.this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, LimitGoodsAty.this, LimitGoodsAty.this);
                 break;
             case R.id.tv_showClassify:
 //                Intent intent = new Intent();
@@ -1404,7 +1407,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
 //                intent.putExtra("two_cate_id", goodsInfo.getCate_id());
 //                intent.setClass(this, SubclassificationAty.class);
 //                startActivity(intent);
-                toClassify(v,goodsInfo.getTop_cate_id());
+                toClassify(v, goodsInfo.getTop_cate_id());
                 break;
             case R.id.title_goods_layout://商品
                 clickType = 1;
@@ -1481,7 +1484,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.relation_mell_tv:// 客服
-                commodityPranster.chat_merchant(mell_id, LimitGoodsAty.this);
+                commodityPranster.chat_merchant(mell_id, LimitGoodsAty.this, merchant_phone);
 //                toChat(easemob_account, merchant_logo, merchant_name);
                 break;
             case R.id.tv_tab_1:
@@ -2046,5 +2049,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
         return headerView;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityPranster.requestPhoneListener(merchant_phone, LimitGoodsAty.this));
     }
 }
