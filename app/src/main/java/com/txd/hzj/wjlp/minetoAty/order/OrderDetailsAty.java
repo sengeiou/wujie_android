@@ -415,7 +415,7 @@ public class OrderDetailsAty extends BaseAty {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             /**
              * order_status": "0",  //订单状态（0待支付 1待发货  2待收货3 待评价4 已完成 5已取消   普通商品
-             * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
+             * "order_status": "4",//订单状态 （0待支付 1拼单中 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未拼成 9删除  拼单购
              */
             order_status = data.get("order_status");
             if (order_status.equals("0") || order_status.equals("1")) {
@@ -605,7 +605,7 @@ public class OrderDetailsAty extends BaseAty {
                 layout_choose_address.setVisibility(View.GONE);
                 break;
             case "1":
-                tv_state.setText("待成团");
+                tv_state.setText("拼单中");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
                 break;

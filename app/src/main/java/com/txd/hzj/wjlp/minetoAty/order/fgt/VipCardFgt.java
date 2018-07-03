@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.order.fgt;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -45,6 +47,7 @@ import java.util.Map;
  * 立项结项，不如吃瓜。
  */
 
+@SuppressLint("ValidFragment")
 public class VipCardFgt extends BaseFgt {
     @ViewInject(R.id.super_sr_layout)
     private SuperSwipeRefreshLayout swipe_refresh;
@@ -67,6 +70,7 @@ public class VipCardFgt extends BaseFgt {
     private ImageView footerImageView;
     private String order_id = "";
 
+    @SuppressLint("ValidFragment")
     public VipCardFgt(String pay_status) {
         this.pay_status = pay_status;
     }
@@ -198,6 +202,8 @@ public class VipCardFgt extends BaseFgt {
 
             bundle.putString("order_id", order_id); // 改参数传入下一页有用
             bundle.putString("money", data.get("pay_money")); // 改参数传入下一页有用
+            L.e("akhfkajhlfkajsd=========" + data.get("pay_money"));
+            L.e("akhfkajhlfkajsd=========" + jsonStr);
             bundle.putString("rank_name", data.get("rank_name")); // 改参数传入下一页有用
             bundle.putString("prescription", data.get("prescription")); // 后面这些其实没有一点用处
             bundle.putString("member_coding", data.get("member_coding")); // 但是为了防止下一界面加载的时候
@@ -330,9 +336,9 @@ public class VipCardFgt extends BaseFgt {
                         public void onClick(View view) {
                             //立即支付
                             order_id = list.get(i).getId();
+                            L.e("akhfkajhlfkajsd=====getMember_coding:" + list.get(i).getMember_coding());
                             MemberOrder.settlement(list.get(i).getMember_coding(), VipCardFgt.this);
                             showProgressDialog();
-
                         }
                     });
                     break;

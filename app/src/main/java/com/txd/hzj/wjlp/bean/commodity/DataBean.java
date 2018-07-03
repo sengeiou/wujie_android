@@ -48,7 +48,7 @@ public class DataBean implements Serializable {
     private List<TicketListBean> ticketList;// //优惠券列表
     private String group_type;//类型 1试用品拼单 2常规拼单",
 
-    private String group_count;// //待成团数大于10  弹窗最下面的字显示
+    private String group_count;// //拼单中数大于10  弹窗最下面的字显示
 
 
     public String getGroup_type() {

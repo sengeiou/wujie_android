@@ -106,7 +106,7 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                     view = mInflayer.inflate(R.layout.item_purchase_gv, parent, false);
                     break;
                 case 3:// 拼团购
-                    view = mInflayer.inflate(R.layout.item_group_shaopping_lv2, parent, false);
+                    view = mInflayer.inflate(R.layout.item_group_shopping_lv, parent, false);
                     break;
                 case 5:// 竞拍汇
                     view = mInflayer.inflate(R.layout.item_auction_gv, parent, false);
@@ -176,8 +176,12 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 holder.goods_price_tv.setText(map.get("group_price"));
                 // 商品积分
                 holder.group_integral_tv.setText(map.get("integral"));
+
+                holder.group_num.setText("(" + map.get("group_num")+ "人拼单价)");
                 // 已团。。。。。件
                 holder.group_already_tv.setText("已拼" + map.get("total") + "件");
+
+
                 // 商品图片
                 Glide.with(context).load(map.get("goods_img"))
                         .override(pic_size, pic_size)
@@ -209,14 +213,14 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                     .into(holder.sec_head_iv);
                         } else {
-                            holder.frist_head_iv.setVisibility(View.GONE);
+                            holder.sec_head_iv.setVisibility(View.GONE);
                             Glide.with(context).load(append_person.get(0).get("head_pic"))
                                     .override(group_size, group_size)
                                     .placeholder(R.drawable.ic_default)
                                     .error(R.drawable.ic_default)
                                     .centerCrop()
                                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                    .into(holder.sec_head_iv);
+                                    .into(holder.frist_head_iv);
                         }
 
                     } else {
@@ -229,6 +233,12 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                 }
                 holder.group_already_tv.setText("已拼" + map.get("total") + "件");
 
+
+//                1试用品拼单 2常规拼单",
+                holder.showTyImg.setVisibility("1".equals(map.get("group_type")) ? View.VISIBLE : View.GONE);
+
+                LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(logo_size1, logo_size2);
+                holder.logo_for_country_iv.setLayoutParams(params1);
                 Glide.with(context).load(map.get("country_logo"))
                         .override(logo_size1, logo_size2)
                         .placeholder(R.drawable.ic_default)
@@ -237,6 +247,30 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
                         .fitCenter()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(holder.logo_for_country_iv);
+
+   /*
+                 * 是否可以使用代金券
+                 * 使用多少优惠
+                 */
+                String logStr = "";
+                try {
+                    if (map.get("ticket_buy_discount").equals("0")) {
+                        holder.use_coupon_tv.setText("不可使用代金券");
+                        holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_no_coupon_tv);
+                        logStr = "不可使用代金券";
+                    } else {
+                        holder.use_coupon_tv.setText("最多可使用" + map.get("ticket_buy_discount") + "%代金券");
+                        holder.use_coupon_tv.setBackgroundResource(R.drawable.shape_tv_bg_by_orange);
+                        logStr = "最多可使用" + map.get("ticket_buy_discount") + "%代金券";
+                    }
+                } catch (Exception e) {
+                    logStr = "首页代金券Catch.Exception:" + e.toString();
+                } finally {
+                    L.e(logStr);
+                }
+
+
+
                 break;
             case 2:// TODO==========限量购，无界预购
             case 4:
@@ -551,6 +585,14 @@ public class MellGoodsAndAdsAdapter extends BaseAdapter {
         @ViewInject(R.id.goods_integral_tv)
         private TextView goods_integral_tv;
 
+        /**
+         * 一元夺宝 积分
+         */
+        @ViewInject(R.id.group_num)
+        private TextView group_num;
+
+        @ViewInject(R.id.showTyImg)
+        private ImageView showTyImg;
     }
 
 }

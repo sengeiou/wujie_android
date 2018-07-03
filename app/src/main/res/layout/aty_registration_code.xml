@@ -5,7 +5,10 @@
     android:layout_height="match_parent"
     android:background="#7f000000"
     tools:context="com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty">
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:onClick="beBack" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,12 +58,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="12dp"
-            android:text="扫描二维码注册新用户"
+            android:text="扫描二维码注册无界会员"
             android:textColor="@color/app_text_color" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="beBack" />
+
 </FrameLayout>

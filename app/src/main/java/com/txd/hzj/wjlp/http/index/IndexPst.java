@@ -21,15 +21,18 @@ public class IndexPst extends BasePresenter {
     }
 
     // 首页
-    public void index(String lng ,String lat) {
-        baseView.showDialog();
-        indexPage.index(lng,lat,baseView);
+    public void index(String lng, String lat) {
+        if (baseView == null) {
+            baseView.showDialog();
+        }
+        indexPage.index(lng, lat, baseView);
     }
 
     // 头条列表
     public void headLineList(int p, boolean show) {
-        if (show)
+        if (show) {
             baseView.showDialog();
+        }
         indexPage.headLineList(p, baseView);
     }
 

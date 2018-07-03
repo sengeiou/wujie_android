@@ -475,7 +475,7 @@ public class AllGvLvAdapter extends BaseAdapter {
                     vh.sec_head_iv.setVisibility(View.GONE);
                 }
 
-                vh.group_totla_tv.setText("已拼：" + allGoodsBean.getTotal() + "件");
+                vh.group_already_tv.setText("已拼：" + allGoodsBean.getTotal() + "件");
 
                 LinearLayout.LayoutParams params1 = new LinearLayout.LayoutParams(size1, size2);
 //                1试用品拼单 2常规拼单",
@@ -610,8 +610,8 @@ public class AllGvLvAdapter extends BaseAdapter {
         /**
          * 已团件数
          */
-        @ViewInject(R.id.group_totla_tv)
-        private TextView group_totla_tv;
+        @ViewInject(R.id.group_already_tv)
+        private TextView group_already_tv;
         /**
          * 积分
          */

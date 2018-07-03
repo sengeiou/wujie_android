@@ -261,6 +261,7 @@ public class CartFgt extends BaseFgt {
         }
         if (requestUrl.contains("Cart/cartList")) {
             L.e("cccccccgengxin");
+            L.e("shopCard123:" + jsonStr);
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");

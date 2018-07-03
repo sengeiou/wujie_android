@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.L;
 import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.BuildConfig;
 import com.txd.hzj.wjlp.MainAty;
@@ -53,13 +54,16 @@ public class AppUpdate {
             return;
         }
 
+        L.e("检查更新", "服务器返回值：versionCode==>" + updataApp.getData().getCode() + "\tversionName:==>" + updataApp.getData().getName());
+        L.e("检查更新", "本地版本：versionCode==>" + BuildConfig.VERSION_CODE + "\tversionName:==>" + BuildConfig.VERSION_NAME);
+
         // 获取服务器回传的Code值
         Long serverCode = Long.parseLong(updataApp.getData().getCode());
 
         // 如果服务器的Code值大于本地的Code值则执行更新
         if (serverCode > BuildConfig.VERSION_CODE) {
             showUpdate(updataApp, activity);
-        } else if (serverCode == BuildConfig.VERSION_CODE) { // 没有新版本
+        } else if (serverCode <= BuildConfig.VERSION_CODE) { // 没有新版本
             if (!systemChecked) { // 如果不是系统检测的（手动检查更新）要弹窗提示一下用户
                 showNoUpdate(activity);
             }
@@ -86,35 +90,6 @@ public class AppUpdate {
                         switch (btnType) {
                             case MikyouCommonDialog.OK: {
                                 // 直接关闭该对话框
-                            }
-                            break;
-                        }
-                    }
-                }).showDialog();
-    }
-
-    /**
-     * 提示不需要更新，在手动检查更新时调用
-     *
-     * @param activity
-     */
-    private void showBack(final UpdataApp updataApp, final Activity activity) {
-        // 如果服务器版本号小于当前版本号，并且开启强制更新了
-        String messageStr = "诚邀您恢复到之前版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
-        String exitBtnStr = "退出";
-
-        new MikyouCommonDialog(activity, messageStr, "APP更新", "马上退回", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
-                .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
-
-                    @Override
-                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
-                        switch (btnType) {
-                            case MikyouCommonDialog.OK: { // 马上退回
-                                showDownloadDialog(updataApp, activity);
-                            }
-                            break;
-                            case MikyouCommonDialog.NO: { // 退出
-                                System.exit(0);
                             }
                             break;
                         }

@@ -40,7 +40,7 @@ public class GoodLuckAdapter extends BaseAdapter {
     private GoodLuckVH goodLuckVH;
     private String groupType;
     /**
-     * 团长头像大小
+     * 拼主头像大小
      */
     private int size = 0;
 
@@ -151,13 +151,13 @@ public class GoodLuckAdapter extends BaseAdapter {
 
     private class GoodLuckVH {
         /**
-         * 团长头像
+         * 拼主头像
          */
         @ViewInject(R.id.group_head_pic_iv)
         private ShapedImageView group_head_pic_iv;
 
         /**
-         * 团长昵称
+         * 拼主昵称
          */
         @ViewInject(R.id.group_name_tv)
         private TextView group_name_tv;

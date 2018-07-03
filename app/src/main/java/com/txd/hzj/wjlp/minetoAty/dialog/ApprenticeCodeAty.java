@@ -84,6 +84,13 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
             }
         }
         user_code_iv.setOnClickListener(this);
+
+        findViewById(R.id.rootLayout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setTxt(String txtStr, TextView tv, String type, String invite_code) {

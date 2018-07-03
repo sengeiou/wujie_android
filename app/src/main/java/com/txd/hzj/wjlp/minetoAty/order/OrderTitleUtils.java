@@ -31,7 +31,7 @@ public class OrderTitleUtils {
     }
 
     private String title1[] = {"全部", "待付款", "待发货", "待收货", "待评价"};
-    private String title2[] = {"全部", "待抽奖", "未中奖", "待付款", "待成团", "待发货", "待收货", "待评价","未成团"};
+    private String title2[] = {"全部", "待抽奖", "未中奖", "待付款", "拼单中", "待发货", "待收货", "待评价","未拼成"};
     private String type_pt[] = {"0", "7", "10", "1", "2", "3", "4", "5","8"};
     private String title3[] = {"全部", "预购中", "待付尾款", "待发货", "待收货", "待评价"};
     private String title4[] = {"全部", "进行中", "未中奖", "已中奖"};

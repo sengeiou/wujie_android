@@ -68,18 +68,20 @@ public class UpdataApp {
 
     public static class DataBean {
         /**
-         * code : 1
-         * uri : http://ysw.txunda.com/index.php/Api/Upgrade/memberUpgrade
-         * message : 用户端正式版
-         * name : V1.0
+         * code: "1"
+         * uri: "http://ysw.txunda.com/index.php/Api/Upgrade/memberUpgrade"
+         * message: "用户端正式版"
+         * update:"1"
+         * name: "V1.0"
+         * desc:"强制更新描述"
          */
 
-        private String code;
-        private String url;
-        private String message;
-        private String name;
-        private String update;
-        private String desc;
+        private String code; // 回传版本号
+        private String url; // 更新链接地址
+        private String message; // 版本更新提示信息
+        private String name; // 版本名称
+        private String update; // 是否开启强制更新
+        private String desc; // 强制更新描述
 
         public String getCode() {
             return code;

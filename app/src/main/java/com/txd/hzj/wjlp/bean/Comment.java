@@ -243,6 +243,38 @@ public class Comment {
             this.pictures = pictures;
         }
 
+        public String getReply_pictures() {
+            return reply_pictures;
+        }
+
+        public void setReply_pictures(String reply_pictures) {
+            this.reply_pictures = reply_pictures;
+        }
+
+        public String getReply() {
+            return reply;
+        }
+
+        public void setReply(String reply) {
+            this.reply = reply;
+        }
+
+        public String getReplay_id() {
+            return replay_id;
+        }
+
+        public void setReplay_id(String replay_id) {
+            this.replay_id = replay_id;
+        }
+
+        public List<Reply_picturesBean> getReply_pictures_list() {
+            return reply_pictures_list;
+        }
+
+        public void setReply_pictures_list(List<Reply_picturesBean> reply_pictures_list) {
+            this.reply_pictures_list = reply_pictures_list;
+        }
+
         public static class Pictures {
             /**
              * path : 评论图片

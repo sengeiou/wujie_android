@@ -2,14 +2,18 @@ package com.txd.hzj.wjlp.minetoAty.dialog;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.tool.BitmapUtils;
 
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
@@ -46,7 +50,7 @@ public class RegistrationCodeAty extends BaseAty {
     private int head_size = 0;
 
     private int code_size = 0;
-
+    private Bitmap recordBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +96,7 @@ public class RegistrationCodeAty extends BaseAty {
             @Override
             public void onEncodeQRCodeSuccess(Bitmap bitmap) {
                 user_code_iv.setImageBitmap(bitmap);
+                recordBitmap=bitmap;
                 removeDialog();
             }
 
@@ -104,5 +109,21 @@ public class RegistrationCodeAty extends BaseAty {
                 showErrorTip("生成二维码失败");
             }
         });
+    }
+
+
+    @Override
+    @OnClick({R.id.user_code_iv})
+    public void onClick(View v) {
+        super.onClick(v);
+        if(null!=recordBitmap){
+            BitmapUtils.gainInstance().saveBmp2Gallery(RegistrationCodeAty.this, recordBitmap,  "zhucema" , new BitmapUtils.Listener() {
+                @Override
+                public void saveSuccess() {
+                    Toast.makeText(RegistrationCodeAty.this, "已成功保存到相册！", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+
     }
 }

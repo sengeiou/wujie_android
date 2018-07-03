@@ -467,22 +467,24 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     @Override
     public void onException(Exception exception) {
 //        showProgressContent();
-//        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
-        showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                finish();
-            }
-        };
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handler.sendEmptyMessage(0);
-            }
-        }, 10 * 1000);
-//        }
+        // TODO 此处尽量不要统统的在Exception中关闭，否则有点页面正常关闭了也会造成闪退回桌面的感觉，
+        // TODO Android系统在启动的时候也会打印出错误日志，所以有点无关紧要的错也不一定影响正常运行
+        if (this instanceof TicketGoodsDetialsAty || this instanceof GoodLuckOrderDetailsAty || this instanceof LimitGoodsAty) {
+            showTip(R.mipmap.icon_error_tip, "数据请求有误,暂不能预览!");
+            final Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    finish();
+                }
+            };
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handler.sendEmptyMessage(0);
+                }
+            }, 3 * 1000);
+        }
         super.onException(exception);
     }
 }

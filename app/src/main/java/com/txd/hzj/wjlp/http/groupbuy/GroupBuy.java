@@ -85,6 +85,19 @@ public class GroupBuy {
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 
+    /**
+     * 进店逛逛拼单购专用
+     * @param merchant_id
+     * @param p
+     * @param baseView
+     */
+    void merchantGroupBuyList(String merchant_id, int p, BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("merchant_id", merchant_id);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "merchantGroupBuyList", params, baseView);
+    }
 
 //    /**
 //     *
