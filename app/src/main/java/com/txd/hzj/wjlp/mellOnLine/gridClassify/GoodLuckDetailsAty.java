@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -620,6 +621,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView textView;
     private ImageView imageView;
     private String a_id; // 此变量虽然不知道什么意思，但是在请求接口groupBuyInfo的时候会用到
+    private String onePrice;//单买价
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1071,12 +1073,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             for (int i = 0; i < memoList.size(); i++) {
                                 String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
-                                ex_stringBuffer.append("\n");
+                                ex_stringBuffer.append("<br>");
                                 if (i > 0) {
                                     expStrList.add(str);
                                 }
                             }
-                            tv_expirationdate.setText(ex_stringBuffer);
+                            tv_expirationdate.setText(Html.fromHtml(String.valueOf(ex_stringBuffer)));
                         }
                     } else if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
@@ -1414,7 +1416,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                         });
                     } else if ("1".equals(groupType)) {//1试用品拼单
-                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n体验拼单");
+                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n体验" + goodsInfo.getShop_price() + "元");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
@@ -1451,11 +1453,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         });
                     }
 
-                    //creat_group_tv.setText("￥" + groupBuyInfo.getData().getOne_price() + "\n一键拼单");
                     // 单独购买
 //                    one_price_tv.setText("￥" + dataBean.getOne_price() + "\n独立购买");
+
                     if (null != goodsInfo.getP_integral()) {
-                        one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
+                        if ("1".equals(groupType)) {
+                            onePrice=dataBean.getOne_price();
+                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice+ "元");
+                        } else {
+                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
+                        }
                     }
                     one_price_tv.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -1709,8 +1716,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     groupType = data.getStringExtra("group_type");
                 }
                 if (!TextUtils.isEmpty(data.getStringExtra("p_integral"))) {
-//                    one_price_tv.setText("￥" + data.getStringExtra("p_shop_price") + "\n独立购买");
-                    one_price_tv.setText("送" + data.getStringExtra("p_integral") + "积分\n独立购买");
+//
+                    if ("1".equals(groupType)) {
+                        one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
+                    } else {
+                        one_price_tv.setText("送" + data.getStringExtra("p_integral") + "积分\n独立购买");
+                    }
                 }
 
                 String pro_valStr = data.getStringExtra("pro_value");
@@ -1722,11 +1733,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
 //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if ("1".equals(groupType)) {
-//                    creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n体验拼单");
-                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n体验拼单");
+                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n体验" + goodsInfo.getShop_price() + "元");
                 } else {
                     creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n发起拼单");
-//                    creat_group_tv.setText("￥" + data.getStringExtra("shop_price") + "\n发起拼单");
                 }
                 ChangeTextViewStyle.getInstance().forTextColor(this, goods_profit_num_tv,
                         "积分" + data.getStringExtra("red_return_integral"), 2, getResources().getColor(R.color.red_tv_back));

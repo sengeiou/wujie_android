@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -60,7 +61,7 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             ExpHolder expHolder = (ExpHolder) holder;
-            expHolder.item_expTv.setText(strList.get(position));
+            expHolder.item_expTv.setText(Html.fromHtml(strList.get(position)));
         }
 
         @Override

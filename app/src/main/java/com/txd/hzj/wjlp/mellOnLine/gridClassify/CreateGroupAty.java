@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -305,11 +306,10 @@ public class CreateGroupAty extends BaseAty {
                     }
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(offered.get(i).getOneself());
-                        buffer.append("\n\n");
+                        buffer.append("<br><br>");
                     }
-                    textview.setText(buffer.toString());
-
-
+                    String bufferStr = String.valueOf(buffer);
+                    textview.setText(Html.fromHtml(bufferStr));
                     HeadPicBean head1 = new HeadPicBean();
                     head1.setType("1");
                     head1.setPic(data.getColonel_head_pic());
