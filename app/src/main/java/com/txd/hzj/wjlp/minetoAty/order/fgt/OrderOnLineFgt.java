@@ -781,7 +781,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
                 bundle.putString("group_buy_id", group_buy_id);
-                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
+                bundle.putString("type", from );
+//                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("4")) {
