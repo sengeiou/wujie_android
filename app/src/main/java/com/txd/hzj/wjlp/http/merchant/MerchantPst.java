@@ -3,6 +3,9 @@ package com.txd.hzj.wjlp.http.merchant;
 import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -82,9 +85,9 @@ public class MerchantPst extends BasePresenter {
     }
 
     // 举报商家
-    public void report(String report_type_id, String report_content, String merchant_id) {
+    public void report(String report_type_id, String report_content, String merchant_id, List<File> list) {
         baseView.showDialog();
-        merchant.report(report_type_id, report_content, merchant_id, baseView);
+        merchant.report(report_type_id, report_content, merchant_id,list, baseView);
     }
 
     public void reportType(){
