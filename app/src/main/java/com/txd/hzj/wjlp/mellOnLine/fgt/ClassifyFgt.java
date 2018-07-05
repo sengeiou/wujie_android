@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
@@ -323,7 +324,9 @@ public class ClassifyFgt extends BaseFgt {
                     if (ToolKit.isList(data, "list")) {
                         goodsLists = GsonUtil.getObjectList(data.get("list"), CFGoodsList.class);
                         racycleAllAdapter = new RacycleAllAdapter(getActivity(), goodsLists);
+
                         classify_goods_rv.setAdapter(racycleAllAdapter);
+                        classify_goods_rv.setLayoutManager(new GridLayoutManager(getActivity(),2));
                         racycleAllAdapter.setListener(new HorizontalAdapter.OnItemClickLitener() {
                             @Override
                             public void onItemClick(View view, int position) {
