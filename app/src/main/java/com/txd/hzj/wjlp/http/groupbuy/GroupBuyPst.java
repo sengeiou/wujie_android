@@ -50,4 +50,16 @@ public class GroupBuyPst extends BasePresenter {
         baseView.showDialog();
         groupBuy.merchantGroupBuyList(merchant_id, p, baseView);
     }
+
+    /**
+     * 拼单商品属性【/Goods/attrApi】
+     * @param goods_id
+     * @param product_id
+     * @param group_type
+     */
+    public void attrApi(String goods_id, String product_id,int group_type){
+        baseView.showDialog();
+        groupBuy.attrApi(goods_id,product_id,group_type,baseView);
+    }
+
 }

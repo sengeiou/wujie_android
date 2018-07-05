@@ -24,6 +24,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.bean.commodity.AttrBean;
+import com.txd.hzj.wjlp.bean.commodity.AttrDataBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.HeadPicBean;
@@ -143,6 +145,8 @@ public class CreateGroupAty extends BaseAty {
      */
     @ViewInject(R.id.goods_profit_num_tv)
     private TextView goods_profit_num_tv;
+    private List<FirstListBean> goods_attr;
+    private List<FirstValBean> goods_val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,8 +179,7 @@ public class CreateGroupAty extends BaseAty {
                 } else {
                     if (!TextUtils.isEmpty(goods_id)) {
                         Intent intent = getIntent();
-                        List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
-                        List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
+
                         toAttrs(v,
                                 0,
                                 "4",
@@ -244,7 +247,16 @@ public class CreateGroupAty extends BaseAty {
                     "积分" + integralStr, 2, Color.parseColor("#E02F25"));
 
         GroupBuyOrder.offered(log_id, this);
+        String tempGoodsId = "";
+        if (goods_id.contains("-")) {
+            tempGoodsId = goods_id.split("-")[0];
+        } else {
+            tempGoodsId = goods_id;
+        }
+        groupBuyPst.attrApi(tempGoodsId, null, 2);
         showProgressDialog();
+
+
     }
 
     List<HeadPicBean> list_pic;
@@ -367,6 +379,16 @@ public class CreateGroupAty extends BaseAty {
             //            }
             //            // =====参团页======
             //        }
+        } else if (requestUrl.contains("attrApi")) {//拼单商品属性【/Goods/attrApi】
+            ObserTool.gainInstance().jsonToBean(jsonStr, AttrBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    AttrBean attrBean = (AttrBean) t;
+                    AttrDataBean attrDataBean = attrBean.getData();
+                    goods_attr = attrDataBean.getFirst_list();
+                    goods_val = attrDataBean.getFirst_val();
+                }
+            });
         }
     }
 }
