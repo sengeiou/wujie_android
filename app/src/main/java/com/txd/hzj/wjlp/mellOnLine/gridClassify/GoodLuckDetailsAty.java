@@ -715,7 +715,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 break;
             case R.id.goods_title_share_tv://分享
 //                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
-                //todo
                 toShare(goods_name, share_img, "1", share_content, group_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
@@ -1167,54 +1166,54 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     } else {
                         layout_djq.setVisibility(View.GONE);
                     }
-
-                    if (null != goodsInfo.getGoods_active() && goodsInfo.getGoods_active().size() > 0) {
-                        final ArrayList<GoodsActiveBean> qkk_list = (ArrayList<GoodsActiveBean>) goodsInfo.getGoods_active();
-                        lv_qkk.setAdapter(new qkk_adapter(qkk_list));
-                        lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                switch (qkk_list.get(i).getAct_type()) {
-                                    case "1": {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("one_buy_id", qkk_list.get(i).getAct_id());
-                                        startActivity(SnatchGoodsDetailsAty.class, bundle);
-                                    }
-                                    break;
-                                    case "2": {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
-                                        bundle.putInt("type", 2);//无界预购
-                                        startActivity(LimitGoodsAty.class, bundle);
-                                    }
-                                    break;
-                                    case "3": {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("auction_id", qkk_list.get(i).getAct_id());
-                                        startActivity(AuctionGoodsDetailsAty.class, bundle);
-                                    }
-                                    break;
-                                    case "4": {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
-                                        bundle.putInt("type", 0);//限量购
-                                        startActivity(LimitGoodsAty.class, bundle);
-                                    }
-
-                                    break;
-                                    case "5": {
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("group_buy_id", qkk_list.get(i).getAct_id());
-                                        startActivity(GoodLuckDetailsAty.class, bundle);
-                                    }
-
-                                    break;
-
-
-                                }
-                            }
-                        });
-                    }
+                    lv_qkk.setVisibility(View.GONE);
+//                    if (null != goodsInfo.getGoods_active() && goodsInfo.getGoods_active().size() > 0) {
+//                        final ArrayList<GoodsActiveBean> qkk_list = (ArrayList<GoodsActiveBean>) goodsInfo.getGoods_active();
+//                        lv_qkk.setAdapter(new qkk_adapter(qkk_list));
+//                        lv_qkk.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                                switch (qkk_list.get(i).getAct_type()) {
+//                                    case "1": {
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("one_buy_id", qkk_list.get(i).getAct_id());
+//                                        startActivity(SnatchGoodsDetailsAty.class, bundle);
+//                                    }
+//                                    break;
+//                                    case "2": {
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
+//                                        bundle.putInt("type", 2);//无界预购
+//                                        startActivity(LimitGoodsAty.class, bundle);
+//                                    }
+//                                    break;
+//                                    case "3": {
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("auction_id", qkk_list.get(i).getAct_id());
+//                                        startActivity(AuctionGoodsDetailsAty.class, bundle);
+//                                    }
+//                                    break;
+//                                    case "4": {
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("limit_buy_id", qkk_list.get(i).getAct_id());
+//                                        bundle.putInt("type", 0);//限量购
+//                                        startActivity(LimitGoodsAty.class, bundle);
+//                                    }
+//
+//                                    break;
+//                                    case "5": {
+//                                        Bundle bundle = new Bundle();
+//                                        bundle.putString("group_buy_id", qkk_list.get(i).getAct_id());
+//                                        startActivity(GoodLuckDetailsAty.class, bundle);
+//                                    }
+//
+//                                    break;
+//
+//
+//                                }
+//                            }
+//                        });
+//                    }
 
                     // 代金券列表
                     if (null != dataBean.getTicketList() && dataBean.getTicketList().size() > 0) {
@@ -1458,8 +1457,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                     if (null != goodsInfo.getP_integral()) {
                         if ("1".equals(groupType)) {
-                            onePrice=dataBean.getOne_price();
-                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice+ "元");
+                            onePrice = dataBean.getOne_price();
+                            one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n单买" + onePrice + "元");
                         } else {
                             one_price_tv.setText("送" + goodsInfo.getP_integral() + "积分\n独立购买");
                         }
@@ -1664,36 +1663,36 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         }
     }
 
-    class qkk_adapter extends BaseAdapter {
-        ArrayList<GoodsActiveBean> list;
-
-        public qkk_adapter(ArrayList<GoodsActiveBean> list) {
-            this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            view = View.inflate(GoodLuckDetailsAty.this, R.layout.item_lh_qkk, null);
-            TextView act_desc = (TextView) view.findViewById(R.id.tv_qkk);
-            act_desc.setText(list.get(i).getAct_desc());
-            return view;
-        }
-    }
+//    class qkk_adapter extends BaseAdapter {
+//        ArrayList<GoodsActiveBean> list;
+//
+//        public qkk_adapter(ArrayList<GoodsActiveBean> list) {
+//            this.list = list;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return list.size();
+//        }
+//
+//        @Override
+//        public Object getItem(int i) {
+//            return null;
+//        }
+//
+//        @Override
+//        public long getItemId(int i) {
+//            return 0;
+//        }
+//
+//        @Override
+//        public View getView(int i, View view, ViewGroup viewGroup) {
+//            view = View.inflate(GoodLuckDetailsAty.this, R.layout.item_lh_qkk, null);
+//            TextView act_desc = (TextView) view.findViewById(R.id.tv_qkk);
+//            act_desc.setText(list.get(i).getAct_desc());
+//            return view;
+//        }
+//    }
 
 
     @ViewInject(R.id.tv_chose_ads)

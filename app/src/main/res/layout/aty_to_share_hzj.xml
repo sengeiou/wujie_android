@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +7,16 @@
     android:gravity="bottom"
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty">
+
+
+    <TextView
+        android:id="@+id/shreUrlTv"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="15dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -17,13 +26,13 @@
         android:padding="16dp"
         android:text="分享"
         android:textColor="@color/app_text_color"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
-    <include layout="@layout/aty_third_for_login_share_hzj"/>
+    <include layout="@layout/aty_third_for_login_share_hzj" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -33,5 +42,5 @@
         android:onClick="beBack"
         android:padding="16dp"
         android:text="取消"
-        android:textColor="@color/app_text_color"/>
+        android:textColor="@color/app_text_color" />
 </LinearLayout>
