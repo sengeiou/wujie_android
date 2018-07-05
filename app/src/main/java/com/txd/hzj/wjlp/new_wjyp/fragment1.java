@@ -210,8 +210,9 @@ public class fragment1 extends BaseFgt {
 
                 if (file1 != null && file2 != null) { // 请求接口
                     try {
+//                        TimeStampUtil.getTimeFour(start_time)
                         User.personalAuth(this, name.getText().toString().trim(), sex, idcard.getText().toString().trim(),
-                                TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
+                                start_time , end_time, province_id, city_id, area_id,
                                 street_id, file1, file2);
                     } catch (Exception e) {
                         L.e("User.personalAuth is Exception:" + e.toString());
