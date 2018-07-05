@@ -145,11 +145,11 @@ public class OrderCenterAty extends BaseAty {
                 list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
                 list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
                 list.add(new ShowItem(R.drawable.icon_chong, "线上充值"));
-                if (L.isDebug && Config.OFFICIAL_WEB.contains("http://test.wujiemall.com/")) {
-                    // 测试版
-                    list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购")); // 生成包时移除该选项
-                    list.add(new ShowItem(R.mipmap.icon_order_vipcard, "会员卡"));
-                } // 否则就是正式版或者是fztest包
+                list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购")); // 生成包时移除该选项
+//                if (L.isDebug && Config.OFFICIAL_WEB.contains("http://test.wujiemall.com/")) {
+//                    // 测试版
+//
+//                } // 否则就是正式版或者是fztest包
             }
             itemAdapter.notifyDataSetChanged(); // 通知Adapter刷新
         }
