@@ -247,16 +247,17 @@ public class CreateGroupAty extends BaseAty {
                     "积分" + integralStr, 2, Color.parseColor("#E02F25"));
 
         GroupBuyOrder.offered(log_id, this);
-        String tempGoodsId = "";
-        if (goods_id.contains("-")) {
-            tempGoodsId = goods_id.split("-")[0];
-        } else {
-            tempGoodsId = goods_id;
+
+        if (!TextUtils.isEmpty(goods_id)) {//拼单够订单列表跳转到这里时候这个id是获取不到的，不用调用多属性，多属性只有下单时候调用
+            String tempGoodsId = "";
+            if (goods_id.contains("-")) {
+                tempGoodsId = goods_id.split("-")[0];
+            } else {
+                tempGoodsId = goods_id;
+            }
+            groupBuyPst.attrApi(tempGoodsId, null, 2);
+            showProgressDialog();
         }
-        groupBuyPst.attrApi(tempGoodsId, null, 2);
-        showProgressDialog();
-
-
     }
 
     List<HeadPicBean> list_pic;
