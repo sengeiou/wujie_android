@@ -14,6 +14,7 @@ public class Invoice1 implements Serializable {
     String express_fee;
     String tax_pay;
     String invoice_type;
+    String t_id; // 发票类型
     String text1, text2, text3, text4, text5, text6;
 
     public Invoice1() {
@@ -100,6 +101,14 @@ public class Invoice1 implements Serializable {
         this.text6 = text6;
     }
 
+    public String getT_id() {
+        return t_id;
+    }
+
+    public void setT_id(String t_id) {
+        this.t_id = t_id;
+    }
+
     protected Invoice1(Parcel in) {
         tax = in.readString();
         express_fee = in.readString();
@@ -154,6 +163,7 @@ public class Invoice1 implements Serializable {
                 ", text4='" + text4 + '\'' +
                 ", text5='" + text5 + '\'' +
                 ", text6='" + text6 + '\'' +
+                ", t_id='" + t_id + '\'' +
                 '}';
     }
 }

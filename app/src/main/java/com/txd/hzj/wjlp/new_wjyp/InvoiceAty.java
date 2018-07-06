@@ -126,7 +126,7 @@ public class InvoiceAty extends BaseAty {
                 Bundle bundle = new Bundle();
                 bundle.putString("title", "发票明细");
                 bundle.putString("goods_id", goods_id);
-                bundle.putString("invoice_type", list.get(touch).get("t_id"));
+                bundle.putString("invoice_type", invoice1.getT_id());
                 startActivityForResult(TextListAty.class, bundle, 100);
             }
         });
@@ -363,9 +363,6 @@ public class InvoiceAty extends BaseAty {
                 needCb.setText(invoice1.getInvoice_type());
                 if (!TextUtils.isEmpty(invoice1.getTax()))
                     L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
-//                L.e("wang","  价格：" + Double.parseDouble(getIntent().getStringExtra("wj_price")));
-//                DecimalFormat df = new DecimalFormat(".##");
-//                tv_tax.setText("税金" + df.format(Double.parseDouble(invoice1.getTax()) * Double.parseDouble(getIntent().getStringExtra("wj_price")) / 100));
                 tv_tax.setText("税金" + invoice1.getTax_pay());
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
                 layout.setVisibility(View.VISIBLE);
