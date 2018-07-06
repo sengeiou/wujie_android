@@ -582,7 +582,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.goods_title_share_tv: // 分享
                 //todo 暂时跳转到注册页，以后需要修改
 //                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
-                share_url=Config.OFFICIAL_WEB+"Wap/Goods/goodsInfo/"+"goods_id/"+goods_id+".html";
+                share_url = Config.OFFICIAL_WEB + "Wap/Goods/goodsInfo/" + "goods_id/" + goods_id + ".html";
                 toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
@@ -930,7 +930,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
-    private List<AllGoodsBean> more = new ArrayList<>();
+//    private List<AllGoodsBean> more = new ArrayList<>();
     Map<String, String> goodsInfo;
 
 
@@ -946,7 +946,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
+        L.e("=========wang====json======", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
         progressBar.setVisibility(View.GONE);
@@ -1022,16 +1022,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             forGoodsInfo(goodsInfo);
 
             tv_jgsm.setText(data.get("price_desc")); // 价格说明
-            if (ToolKit.isList(data, "guess_goods_list")) {
+            if (ToolKit.isList(data, "guess_goods_list")) { // 猜你喜欢
+                L.e("猜你喜欢", "page:" + page + ", data:" + data);
                 if (page == 1) {
+                    ticket.removeAll(ticket);
                     ticket = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
                     allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
                     ticket_gv.setAdapter(allGvLvAdapter1);
-                } else {
-                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
-                    ticket.addAll(more);
-                    allGvLvAdapter1.notifyDataSetChanged();
                 }
+//                else {
+//                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+//                    ticket.addAll(more);
+//                    allGvLvAdapter1.notifyDataSetChanged();
+//                }
             } else {
                 is_f = false;
             }
