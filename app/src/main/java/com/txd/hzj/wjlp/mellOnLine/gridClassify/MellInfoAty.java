@@ -339,8 +339,13 @@ public class MellInfoAty extends BaseAty {
         switch (v.getId()) {
             case R.id.off_line_mell_share_tv:
 
-                toShare("无界优品", share_img, share_url, share_content, mell_id, "1");
-
+//                Wap/Merchant/merIndex/merchant_id/4.html
+//                    店铺首页
+                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merIndex/merchant_id/"+mell_id+ ".html";
+                /**
+                 * 1 商品 2商家 3书院 4红包 5其他(个人中心)
+                 */
+                toShare("无界优品", share_img, share_url, share_content, mell_id, "2");
                 break;
             case R.id.popularity_tv:// 店铺首页
                 soft_type = 0;
@@ -451,12 +456,13 @@ public class MellInfoAty extends BaseAty {
                 switch (data_type) {
                     case 3: {
                         Bundle bundle = new Bundle();
-                        bundle.putString("group_buy_id",ads_list.get(position).get("group_buy_id"));
+                        bundle.putString("group_buy_id", ads_list.get(position).get("group_buy_id"));
                         bundle.putInt("from", 1);
                         if (ads_list.get(position).containsKey("a_id"))
                             bundle.putString("a_id", ads_list.get(position).get("a_id"));//  "a_id": "1"
                         startActivity(GoodLuckDetailsAty.class, bundle);
-                    }break;
+                    }
+                    break;
                     default: {
                         Bundle bundle = new Bundle();
                         bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
@@ -752,7 +758,6 @@ public class MellInfoAty extends BaseAty {
     private void getData(int type) {
         switch (type) {
             case 0:// 首页
-
                 merchantPst.merIndex(mell_id, p);
                 break;
             case 1:// 全部商品

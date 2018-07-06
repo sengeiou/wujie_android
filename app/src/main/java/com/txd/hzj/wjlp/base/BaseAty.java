@@ -13,7 +13,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
@@ -278,12 +280,19 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     }
 
     /**
-     * 分享
+     *  分享
+     * @param title
+     * @param pic
+     * @param url
+     * @param context
+     * @param id
+     * @param Shapetype
      */
     public void toShare(String title, String pic, String url, String context, String id, String Shapetype) {
         if (!Config.isLogin()) {
-            toLogin();
-            return;
+//            toLogin();
+//            return;
+            Toast.makeText(BaseAty.this, "您未登陆，这会导致无法获得分享收益!", Toast.LENGTH_LONG).show();
         }
         Bundle bundle = new Bundle();
         bundle.putString("title", title);

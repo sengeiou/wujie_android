@@ -170,7 +170,7 @@ public class fragment1 extends BaseFgt {
                     return;
                 }
 
-                start_time = id_card_start_time.getText().toString().trim();
+//                start_time = id_card_start_time.getText().toString().trim();
                 if (name.getText().toString().trim() == null || TextUtils.isEmpty(name.getText().toString().trim())) {
                     showToast("请输入真实姓名!");
                     return;
@@ -210,8 +210,9 @@ public class fragment1 extends BaseFgt {
 
                 if (file1 != null && file2 != null) { // 请求接口
                     try {
+//  TimeStampUtil.getTimeFour(start_time)
                         User.personalAuth(this, name.getText().toString().trim(), sex, idcard.getText().toString().trim(),
-                                TimeStampUtil.getTimeFour(start_time), end_time, province_id, city_id, area_id,
+                                start_time , end_time, province_id, city_id, area_id,
                                 street_id, file1, file2);
                     } catch (Exception e) {
                         L.e("User.personalAuth is Exception:" + e.toString());

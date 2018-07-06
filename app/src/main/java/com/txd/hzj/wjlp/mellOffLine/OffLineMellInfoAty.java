@@ -81,6 +81,11 @@ public class OffLineMellInfoAty extends BaseAty {
     private Bundle bundle;
     private String goods_id;
 
+    private String share_img;
+    private String share_url;
+    private String share_content;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,7 +137,14 @@ public class OffLineMellInfoAty extends BaseAty {
                 collectPst.delOneCollect("2", merchant_id);
                 break;
             case R.id.off_line_mell_share_tv:
-                showToast("功能研发中");
+
+//                http://www.wujiemall.com/Wap/Merchant/merInfo/merchant_id/4.html
+//                店铺详情
+                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merInfo/merchant_id/"+merchant_id+ ".html";
+                /**
+                 * 1 商品 2商家 3书院 4红包 5其他(个人中心)
+                 */
+                toShare("无界优品", share_img, share_url, share_content, merchant_id, "2");
                 break;
         }
     }
@@ -169,6 +181,11 @@ public class OffLineMellInfoAty extends BaseAty {
         if (requestUrl.contains("merInfo")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             is_collect = data.get("is_collect");
+
+            share_img = data.get("share_img");
+            share_url = data.get("share_url");
+            share_content = data.get("share_content");
+
 
             if ("0".equals(is_collect)) {
                 goods_title_collect_tv.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);

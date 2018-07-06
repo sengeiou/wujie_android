@@ -318,6 +318,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
+            if (data.containsKey("invite_code"))
+                PreferencesUtils.putString(this, "invite_code", data.get("invite_code"));
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
@@ -361,6 +363,8 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 }
                 application.setUserInfo(data);
                 Config.setLoginState(true);
+                if (data.containsKey("invite_code"))
+                    PreferencesUtils.putString(this, "invite_code", data.get("invite_code"));
                 PreferencesUtils.putString(this, "token", data.get("token"));
                 // 友盟统计
                 MobclickAgent.onProfileSignIn(data.get("user_id"));

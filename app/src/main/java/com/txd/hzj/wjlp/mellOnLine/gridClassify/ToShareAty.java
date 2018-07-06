@@ -2,16 +2,23 @@ package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.share.ShareBeBackListener;
 import com.ants.theantsgo.share.ShareForApp;
 import com.ants.theantsgo.tools.CheckAppExist;
 import com.ants.theantsgo.util.L;
 
+import com.ants.theantsgo.util.PreferencesUtils;
+import com.lidroid.xutils.util.LogUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
@@ -52,7 +59,9 @@ public class ToShareAty extends BaseAty {
 
     private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
     private boolean isResume;  //Activity是否处于前台。
-    private ShareForApp.StatusForShare mStatusForShare;
+//    private ShareForApp.StatusForShare mStatusForShare;
+    @ViewInject(R.id.shreUrlTv)
+    private TextView shreUrlTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,14 +105,19 @@ public class ToShareAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        if (L.isDebug) {
+            shreUrlTv.setVisibility(View.VISIBLE);
+        } else {
+            shreUrlTv.setVisibility(View.GONE);
+        }
         title = getIntent().getStringExtra("title");
         pic = getIntent().getStringExtra("pic");
         link = getIntent().getStringExtra("url");
         context = getIntent().getStringExtra("context");
         type = getIntent().getStringExtra("Shapetype");
         id = getIntent().getStringExtra("id");
+        userPst = new UserPst(this);
         if (!link.contains("://")) {
-            userPst = new UserPst(this);
             GroupBuyOrder.shareurl(link, id, this);
         } else {
             shareUrl = link;
@@ -141,11 +155,29 @@ public class ToShareAty extends BaseAty {
      */
     private void shareForApp(String name) {
 //        if (isComplete) {
-
+        String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
+        if (!TextUtils.isEmpty(invite_code)&&!shareUrl.contains("invite_code")) {
+            if (shareUrl.contains(".html")) {
+                shareUrl = shareUrl.replace(".html", "");
+            } else if (shareUrl.contains(".htm")) {
+                shareUrl = shareUrl.replace(".htm", "");
+            }
+            shareUrl = shareUrl + "/invite_code/" + invite_code + ".html";
+        }
+        LogUtils.e("shareUrl" + shareUrl);
+        if(shreUrlTv.getVisibility() == View.VISIBLE){
+             shreUrlTv.setText(shareUrl);
+        }else{
+            shreUrlTv.setText("");
+        }
         ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
             @Override
             public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
-                mStatusForShare=statusForShare;
+//                mStatusForShare = statusForShare;
+
+                if(L.isDebug){
+                    showErrorTip("~~~~~~~从微信返回到应用~~~~~~~~~~``" );
+                }
                 switch (statusForShare) {
                     case Success:
                         userPst.shareBack(shareType, context, id, type, shareUrl);
@@ -192,21 +224,24 @@ public class ToShareAty extends BaseAty {
                         if (userPst == null) { // 判断对象是否为空，防止空指针报错
                             userPst = new UserPst(ToShareAty.this);
                         }
-                        if (mStatusForShare!=null) {
-                            switch (mStatusForShare) {
-                                case Error:
-                                    showErrorTip("分享失败");
-                                    break;
-                                case Cancel:
-                                    showErrorTip("分享取消");
-                                    break;
-                                case Success:
+//                        if (mStatusForShare != null) {
+//                            switch (mStatusForShare) {
+//                                case Error:
+//                                    showErrorTip("分享失败");
+//                                    break;
+//                                case Cancel:
+//                                    showErrorTip("分享取消");
+//                                    break;
+//                                case Success:
+                                    if(L.isDebug){
+                                        showErrorTip("0.2s分享成功" );
+                                    }
                                     userPst.shareBack(shareType, context, id, type, link);
                                     showRightTip("分享成功");
                                     finish();
-                                    break;
-                            }
-                        }
+//                                    break;
+//                            }
+//                        }
 
                     }
                 }
