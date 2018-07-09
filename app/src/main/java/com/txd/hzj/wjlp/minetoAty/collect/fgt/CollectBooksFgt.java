@@ -246,10 +246,9 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     }
 
     public void setStatus(boolean status) {
-
-        if (allNum <= 0) {
-            return;
-        }
+//        if (allNum <= 0) {
+//            return;
+//        }
         this.status = status;
         if (!status) {
             operation_book_collect_layout.setVisibility(View.GONE);

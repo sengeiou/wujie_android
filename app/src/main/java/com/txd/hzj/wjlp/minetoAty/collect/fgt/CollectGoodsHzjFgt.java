@@ -428,10 +428,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     public void setStatus(boolean show) {
-
-        if (allNum <= 0) {
-            return;
-        }
+//        if (allNum <= 0) {
+//            return;
+//        }
         this.status = show;
         if (!show) {
             collect_operation_layout.setVisibility(View.GONE);
