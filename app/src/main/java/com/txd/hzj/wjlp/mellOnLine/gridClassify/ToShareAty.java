@@ -18,7 +18,6 @@ import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
