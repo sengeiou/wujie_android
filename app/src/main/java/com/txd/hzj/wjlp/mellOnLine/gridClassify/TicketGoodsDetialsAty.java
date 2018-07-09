@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -83,6 +84,7 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
+import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -102,7 +104,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
  * 描述：票券区商品详情(3-2票券)
  * ===============Txunda===============
  */
-public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack,CommodityDetailsInter.CommodityView {
+public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
     private String is_attr = "";
 
     /**
@@ -437,7 +439,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private ListViewForScrollView goods_common_attr_lv;
     private UserCollectPst collectPst;
     private String mell_id = ""; // 店铺id
-
+    private String merchant_phone = "";
     private int from = 0;
     private boolean is_f = true;//判断刷新
     private GoodsPst goodsPst;
@@ -552,7 +554,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 break;
             }
             case R.id.tv_chose_ads: // 弹出地址选择器
-                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id,String.valueOf(goods_number),product_id, this, this);
+                ProUrbAreaUtil.gainInstance().showPickerView(tv_chose_ads, goods_id, String.valueOf(goods_number), product_id, this, this);
                 break;
             case R.id.title_goods_layout:// 商品
                 clickType = 1;
@@ -580,6 +582,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.goods_title_share_tv: // 分享
                 //todo 暂时跳转到注册页，以后需要修改
 //                toShare(goodsName, share_img, "1", share_url, goods_id, "1");
+                share_url = Config.OFFICIAL_WEB + "Wap/Goods/goodsInfo/" + "goods_id/" + goods_id + ".html";
                 toShare(goodsName, share_img, share_url, share_content, ticket_buy_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
@@ -628,7 +631,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 startActivity(MellInfoAty.class, bundle);
                 break;
             case R.id.to_chat_tv: // 客服
-                Easemob.bind(mell_id, this); // 获取商铺的环信账号
+                commodityDetailsPranster.chat_merchant(mell_id, TicketGoodsDetialsAty.this, merchant_phone);
+//                Easemob.bind(mell_id, this); // 获取商铺的环信账号
 //                toChat(easemob_account, merchant_logo, merchant_name);
 
                 break;
@@ -729,7 +733,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 //                pcate_id = goodsInfo.get("pcate_id");
 //                GoodsCategory.cateIndexs(cate_id, this);
 //                showProgressDialog();
-                toClassify(v,goodsInfo.get("top_cate_id"));
+                toClassify(v, goodsInfo.get("top_cate_id"));
                 break;
             case R.id.tv_quxiao://促销弹框
                 commodityDetailsPranster.showCXPop(v, TicketGoodsDetialsAty.this, promotionBeen);
@@ -926,7 +930,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
-    private List<AllGoodsBean> more = new ArrayList<>();
+//    private List<AllGoodsBean> more = new ArrayList<>();
     Map<String, String> goodsInfo;
 
 
@@ -942,7 +946,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("=========wang==========", requestUrl + "  jsonstr:" + jsonStr);
+        L.e("=========wang====json======", requestUrl + "  jsonstr:" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
         progressBar.setVisibility(View.GONE);
@@ -1018,16 +1022,19 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             forGoodsInfo(goodsInfo);
 
             tv_jgsm.setText(data.get("price_desc")); // 价格说明
-            if (ToolKit.isList(data, "guess_goods_list")) {
+            if (ToolKit.isList(data, "guess_goods_list")) { // 猜你喜欢
+                L.e("猜你喜欢", "page:" + page + ", data:" + data);
                 if (page == 1) {
+                    ticket.removeAll(ticket);
                     ticket = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
                     allGvLvAdapter1 = new AllGvLvAdapter(this, ticket, 1);
                     ticket_gv.setAdapter(allGvLvAdapter1);
-                } else {
-                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
-                    ticket.addAll(more);
-                    allGvLvAdapter1.notifyDataSetChanged();
                 }
+//                else {
+//                    more = GsonUtil.getObjectList(data.get("guess_goods_list"), AllGoodsBean.class);
+//                    ticket.addAll(more);
+//                    allGvLvAdapter1.notifyDataSetChanged();
+//                }
             } else {
                 is_f = false;
             }
@@ -1164,54 +1171,54 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         /**
          * 获取商家环信账号
          */
-        if (requestUrl.contains("Easemob/bind")) {
-            L.e("Easemob/bind：" + jsonStr);
-            if (jsonStr == null || jsonStr.equals("")) {
-                showErrorTip("获取数据为空，请联系我们");
-                return;
-            }
-
-            Gson gson = new Gson();
-            easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
-
-            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-            AlertDialog.Builder builder = new AlertDialog.Builder(this); // 创建对话框构建器
-            View view2 = View.inflate(TicketGoodsDetialsAty.this, R.layout.popup_sel_chat, null); // 获取布局
-            builder.setView(view2); // 设置参数主要是设置获取的布局View
-            // 获取布局中的控件
-            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
-            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
-
-            // 以上判断Bean有值，但是以防万一还是先判空
-            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
-                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
-                dataLv.setVisibility(View.GONE); // 隐藏List列表
-                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
-            } else {
-                // 否则就是有在线客服
-                dataLv.setVisibility(View.VISIBLE); // 显示List列表
-                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
-            }
-
-            final AlertDialog alertDialog = builder.create();// 创建对话框
-            // 设置相应的控件操作，赋值、点击事件等等
-
-            dataLv.setAdapter(new DialogAdapter(easemobBean.getData().getEasemob_account()));
-
-            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
-                    // 参数说明：账号、头像、昵称
-                    toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
-                    alertDialog.dismiss();
-                }
-            });
-            alertDialog.show();
-
-            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
-        }
+//        if (requestUrl.contains("Easemob/bind")) {
+//            L.e("Easemob/bind：" + jsonStr);
+//            if (jsonStr == null || jsonStr.equals("")) {
+//                showErrorTip("获取数据为空，请联系我们");
+//                return;
+//            }
+//
+//            Gson gson = new Gson();
+//            easemobBean = gson.fromJson(jsonStr, EasemobBean.class); // 如果Json有值 bean 对象必定有值
+//
+//            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this); // 创建对话框构建器
+//            View view2 = View.inflate(TicketGoodsDetialsAty.this, R.layout.popup_sel_chat, null); // 获取布局
+//            builder.setView(view2); // 设置参数主要是设置获取的布局View
+//            // 获取布局中的控件
+//            ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
+//            LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
+//
+//            // 以上判断Bean有值，但是以防万一还是先判空
+//            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+//                // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
+//                dataLv.setVisibility(View.GONE); // 隐藏List列表
+//                nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
+//            } else {
+//                // 否则就是有在线客服
+//                dataLv.setVisibility(View.VISIBLE); // 显示List列表
+//                nodataLayout.setVisibility(View.GONE); // 隐藏空数据提示
+//            }
+//
+//            final AlertDialog alertDialog = builder.create();// 创建对话框
+//            // 设置相应的控件操作，赋值、点击事件等等
+//
+//            dataLv.setAdapter(new DialogAdapter(easemobBean.getData().getEasemob_account()));
+//
+//            dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    EasemobBean.DataBean.EasemobAccountBean easemobAccountBean = easemobBean.getData().getEasemob_account().get(position);
+//                    // 参数说明：账号、头像、昵称
+//                    toChat(easemobAccountBean.getHx(), easemobAccountBean.getHead_pic(), easemobAccountBean.getNickname());
+//                    alertDialog.dismiss();
+//                }
+//            });
+//            alertDialog.show();
+//
+//            // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+//
+//        }
 
     }
 
@@ -1393,7 +1400,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         tv_chose_ads.setText(tx);
         L.e("==========商品详情获取的定位信息===========" + tx);
         // 定位好之后获取运费信息
-        Freight.freight(goods_id, tx,String.valueOf(goods_number),product_id, TicketGoodsDetialsAty.this);
+        Freight.freight(goods_id, tx, String.valueOf(goods_number), product_id, TicketGoodsDetialsAty.this);
         showProgressDialog();
         // 商品价格
         // ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.get("shop_price"));
@@ -1584,6 +1591,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("=========mInfo===============", mInfo.toString());
 
         mell_id = mInfo.get("merchant_id");
+        if (mInfo.containsKey("merchant_phone"))
+            merchant_phone = mInfo.get("merchant_phone");
 //        Easemob.bind(mell_id, this);
         showProgressDialog();
         easemob_account = mInfo.get("merchant_easemob_account");
@@ -2122,5 +2131,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     protected void onRestart() {
         super.onRestart();
 //        goodsPst.goodsInfo(ticket_buy_id, page);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, TicketGoodsDetialsAty.this));
     }
 }

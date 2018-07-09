@@ -119,7 +119,7 @@ public class BalanceAty extends BaseAty {
                                 withdraw_tv.setVisibility(View.VISIBLE); // 提现
                             } else { // 否则的话
                                 if (complete_status == 0) { // 如果没有该字段，执行原先代码判断
-                                    switch (complete_status) {
+                                    switch (user_card_type) {
                                         case 1:
                                             // 提现、转账隐藏
                                             withdraw_tv.setVisibility(View.GONE);

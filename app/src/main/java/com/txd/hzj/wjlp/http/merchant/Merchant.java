@@ -5,6 +5,9 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -178,12 +181,15 @@ class Merchant {
      * @param merchant_id    商家id
      * @param baseView       回调
      */
-    void report(String report_type_id, String report_content, String merchant_id, BaseView baseView) {
+    void report(String report_type_id, String report_content, String merchant_id, List<File> list, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("report_type_id", report_type_id);
         params.addBodyParameter("report_content", report_content);
         params.addBodyParameter("merchant_id", merchant_id);
+        for (int i = 0; i < list.size(); i++) {
+            params.addBodyParameter("report_pic" + i, list.get(i));
+        }
         apiTool2.postApi(url + "report", params, baseView);
     }
 

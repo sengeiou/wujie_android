@@ -75,6 +75,7 @@ public class InvoiceAty2 extends BaseAty {
                 invoice1.setText2("");
                 invoice1.setText3("");
                 invoice1.setText4("");
+                invoice1.setT_id(invoiceBean.getT_id());
                 invoice1.setTax_pay(invoiceBean.getTax_pay());
                 intent.putExtra("data1", invoice1);
                 setResult(RESULT_OK, intent);

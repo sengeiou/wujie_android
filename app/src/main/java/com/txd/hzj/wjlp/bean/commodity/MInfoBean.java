@@ -35,6 +35,7 @@ public class MInfoBean implements Serializable {
     private String send_score;//
     private String merchant_head_pic;//商家头像
     private String merchant_nickname;//商家昵称
+    private String merchant_phone;//客服电话
 
     public String getMerchant_id() {
         return merchant_id;
@@ -146,5 +147,13 @@ public class MInfoBean implements Serializable {
 
     public void setMerchant_nickname(String merchant_nickname) {
         this.merchant_nickname = merchant_nickname;
+    }
+
+    public String getMerchant_phone() {
+        return merchant_phone;
+    }
+
+    public void setMerchant_phone(String merchant_phone) {
+        this.merchant_phone = merchant_phone;
     }
 }

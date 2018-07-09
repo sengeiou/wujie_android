@@ -586,7 +586,7 @@ public class PayForAppAty extends BaseAty {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) { // 拼单单独购买    拼单购 开团    一键开团，参团，团长不能操作
+                    } else if (type.equals("2") || type.equals("3") || type.equals("4")) { // 拼单单独购买    拼单购 开团    一键开团，参团，拼主不能操作
                         if (!TextUtils.isEmpty(order_id)) {
                             BalancePay.BalancePay(order_id, "2", getType(), num, this);
                         } else {
@@ -630,7 +630,7 @@ public class PayForAppAty extends BaseAty {
                 if (pay_by_wechat_cb.isChecked()) { // 微信支付
                     if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5") || type.equals("0")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
+                    } else if (type.equals("2") || type.equals("3")|| type.equals("4")) {
                         Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
                     } else if (type.equals("6")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "5", this);
@@ -643,7 +643,7 @@ public class PayForAppAty extends BaseAty {
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付
                     if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1") || type.equals("5")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
-                    } else if (type.equals("2") || type.equals("3")) {
+                    } else if (type.equals("2") || type.equals("3")|| type.equals("4")) {
                         Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
                     } else if (type.equals("6")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
@@ -736,7 +736,7 @@ public class PayForAppAty extends BaseAty {
                 public void onComplete() {
                     if (type.equals("0") || type.equals("1") || type.equals("5")) {
                         Pay.findPayResult(order_id, "4", PayForAppAty.this);
-                    } else if (type.equals("2") || type.equals("3")) {
+                    } else if (type.equals("2") || type.equals("3")||type.equals("4")) {
                         Pay.findPayResult(group_buy_id, "6", PayForAppAty.this);
                     } else if (type.equals("6")) {
                         Pay.findPayResult(order_id, "5", PayForAppAty.this);

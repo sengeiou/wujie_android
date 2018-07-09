@@ -11,5 +11,7 @@
     <include layout="@layout/layout_evaluate_comment"></include>
 
     <include layout="@layout/aty_order_goods_info_hzj" />
+    <!--商家回复-->
+    <include layout="@layout/aty_reply_business" ></include>
 
 </LinearLayout>

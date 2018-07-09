@@ -268,12 +268,12 @@ public class TextListAty extends BaseAty {
             all_text_lv.setAdapter(tAdapter);
             return;
         }
-        if (requestUrl.contains("businessType")) {
+        if (requestUrl.contains("businessType")) { // 业务类型
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
         }
-        if (requestUrl.contains("getRange")) {
+        if (requestUrl.contains("getRange")) { // 经营范围
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
@@ -285,14 +285,14 @@ public class TextListAty extends BaseAty {
             }
             return;
         }
-        if (requestUrl.contains("reportType")) {
+        if (requestUrl.contains("reportType")) { // 举报类型
             dataList = (List<Map<String, String>>) map.get("data");
             L.e(dataList.toString());
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
             return;
         }
-        if (requestUrl.contains("getBankType") || requestUrl.contains("searchBank")) {
+        if (requestUrl.contains("getBankType") || requestUrl.contains("searchBank")) { // 银行类型 搜索银行
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter();
             all_text_lv.setAdapter(tAdapter);
@@ -300,17 +300,17 @@ public class TextListAty extends BaseAty {
                 balancePst.getBankType();
             }
         }
-        if (requestUrl.contains("cause")) {
+        if (requestUrl.contains("cause")) { // 售后原因
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
         }
-        if (requestUrl.contains("AfterSale/get_company_name")) {
+        if (requestUrl.contains("AfterSale/get_company_name")) { // 选择快递（公司名称）
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);
         }
-        if (requestUrl.contains("type")) {
+        if (requestUrl.contains("type")) { // 发票类型
             dataList = (List<Map<String, String>>) map.get("data");
             tAdapter = new TextAdapter(dataList);
             all_text_lv.setAdapter(tAdapter);

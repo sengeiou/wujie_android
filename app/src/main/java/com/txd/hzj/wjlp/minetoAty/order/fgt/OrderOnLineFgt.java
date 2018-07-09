@@ -659,7 +659,7 @@ public class OrderOnLineFgt extends BaseFgt {
                         bundle.putString("type", from);
                         startActivity(OrderDetailsAty.class, bundle);
                     } else if (from.equals("3")) {//拼团
-                        if ("1".equals(goods_list.get(position).get("order_status"))) {//1待成团
+                        if ("1".equals(goods_list.get(position).get("order_status"))) {//1拼单中
                             Bundle bundle = new Bundle();
                             if ("1".equals(goods_list.get(position).get("group_type"))) {//1试用品拼单
                                 bundle.putString("id", goods_list.get(position).get("group_buy_order_id"));
@@ -781,7 +781,8 @@ public class OrderOnLineFgt extends BaseFgt {
                 Bundle bundle = new Bundle();
                 bundle.putString("order_id", getItem(position).get("group_buy_order_id"));
                 bundle.putString("group_buy_id", group_buy_id);
-                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
+                bundle.putString("type", from );
+//                bundle.putString("type", String.valueOf(Integer.parseInt(getItem(position).get("order_type")) + 1));
                 bundle.putString("is_pay_password", is_pay_password);
                 startActivity(PayForAppAty.class, bundle);
             } else if (getItem(position).get("order_status").equals("4")) {
@@ -792,7 +793,7 @@ public class OrderOnLineFgt extends BaseFgt {
             } else if (getItem(position).get("order_status").equals("3")) {
                 GroupBuyOrder.receiving(getItem(position).get("group_buy_order_id"), "", OrderOnLineFgt.this);
                 showProgressDialog();
-            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")) {
+            } else if (getItem(position).get("order_status").equals("6") || getItem(position).get("order_status").equals("5")||getItem(position).get("order_status").equals("10")) {
 
                 new AlertDialog(getActivity()).builder().setTitle("提示").setMsg("删除订单").setPositiveButton("确定", new View.OnClickListener() {
                     @Override
@@ -961,7 +962,7 @@ public class OrderOnLineFgt extends BaseFgt {
                 }
                 break;
                 case "1": {
-                    holder.state.setText("待成团");
+                    holder.state.setText("拼单中");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);
@@ -1011,11 +1012,13 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("未中奖");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
-                    holder.tv_btn_right.setVisibility(View.GONE);
+//                    holder.tv_btn_right.setVisibility(View.GONE);
+                    holder.tv_btn_right.setText("删除订单");
+                    holder.tv_btn_right.setVisibility(View.VISIBLE);
                 }
                 break;
                 case "8": {
-                    holder.state.setText("未成团");
+                    holder.state.setText("未拼成");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setVisibility(View.GONE);

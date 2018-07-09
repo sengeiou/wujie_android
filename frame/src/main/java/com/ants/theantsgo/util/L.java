@@ -2,6 +2,8 @@ package com.ants.theantsgo.util;
 
 import android.util.Log;
 
+import com.ants.theantsgo.config.Config;
+
 /**
  * ===============Txunda===============
  * 作者：DUKE_HwangZj
@@ -11,7 +13,7 @@ import android.util.Log;
  * ===============Txunda===============
  */
 public class L {
-    public static boolean isDebug = true;// 是否需要打印bug，可以在application的onCreate函数里面初始化
+    public static boolean isDebug = Config.OFFICIAL_WEB.contains("api.") ? false : true;// 是否需要打印bug，可以在application的onCreate函数里面初始化
     private static final String TAG = "=====Txunda_Log=====";
 
     // 下面四个是默认tag的函数

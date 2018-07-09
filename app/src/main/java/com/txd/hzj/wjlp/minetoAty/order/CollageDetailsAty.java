@@ -297,7 +297,7 @@ public class CollageDetailsAty extends BaseAty {
         if (requestUrlSplit.equals("details") || requestUrlSplit.equals("preDetails")) {
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             /**
-             * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
+             * "order_status": "4",//订单状态 （0待支付 1拼单中 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未拼成 9删除  拼单购
              */
             order_status = data.get("order_status");
             if (data.containsKey("order_type")) {
@@ -316,10 +316,10 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.GONE);
             }
 
-            if ("7".equals(order_status) || "10".equals(order_status) || "8".equals(order_status)) {//7:待抽奖 10:未中奖   8:未成团
+            if ("7".equals(order_status) || "10".equals(order_status) || "8".equals(order_status)) {//7:待抽奖 10:未中奖   8:未拼成
                 isCJ = true;
                 if (order_status.equals("8")) {
-                    tv_state.setText("未成团");
+                    tv_state.setText("未拼成");
                 } else {
                     tv_state.setText("7".equals(order_status) ? "待抽奖" : "未中奖");
                 }
@@ -337,6 +337,7 @@ public class CollageDetailsAty extends BaseAty {
                 setSumTxt();
 
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
+                L.e("订单编号：" + data.get("order_sn"));
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
             } else {
@@ -360,6 +361,7 @@ public class CollageDetailsAty extends BaseAty {
                 list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
                 setSumTxt();
                 tv_order_sn.setText("订单编号：" + data.get("order_sn"));
+                L.e("订单编号：" + data.get("order_sn"));
                 is_pay_password = data.get("is_pay_password");
                 tv_create_time.setText("创建时间：" + data.get("create_time"));
                 tv_pay_time.setText("付款时间：" + data.get("pay_time"));
@@ -423,7 +425,7 @@ public class CollageDetailsAty extends BaseAty {
 
     }
 
-    private void setSumTxt(){
+    private void setSumTxt() {
         double total_price = 0.00f;//总价格
         BigDecimal bd = null;
         total_price = Double.parseDouble(data.get("order_price"));
@@ -443,7 +445,7 @@ public class CollageDetailsAty extends BaseAty {
                     ticket_color = "蓝券";
                     break;
             }
-            order_price_info_tv.setText(Html.fromHtml("共" +  calcGoodsNum()+ "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
+            order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
                     (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
         }
     }
@@ -460,9 +462,9 @@ public class CollageDetailsAty extends BaseAty {
                 lin_logistics.setVisibility(View.GONE);
                 break;
             case "1":
-//                titlt_conter_tv.setText("待成团订单");
+//                titlt_conter_tv.setText("拼单中订单");
                 titlt_conter_tv.setText("订单详情");
-                tv_state.setText("待成团");
+                tv_state.setText("拼单中");
                 tv_btn_left.setVisibility(View.GONE);
                 tv_btn_right.setVisibility(View.GONE);
                 bot_for_order.setVisibility(View.GONE);
@@ -561,9 +563,9 @@ public class CollageDetailsAty extends BaseAty {
 
             L.e("wang", "status = " + map.get("status") + "\tgetItem:" + map);
             /**
-             * "order_status": "4",//订单状态 （0待支付 1待成团 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未成团 9删除  拼单购
+             * "order_status": "4",//订单状态 （0待支付 1拼单中 2待发货 3 待收货 4 待评价 5 已完成  6已取消 8未拼成 9删除  拼单购
              */
-            if (order_status.equals("0") || order_status.equals("1") || order_status.equals("6")) { // 订单为0待支付或1待成团或6已取消
+            if (order_status.equals("0") || order_status.equals("1") || order_status.equals("6")) { // 订单为0待支付或1拼单中或6已取消
                 tgvh.applyAfterSaleTv.setVisibility(View.GONE); // 右侧按钮隐藏
                 tgvh.confirmReceipt.setVisibility(View.GONE); // 中间按钮隐藏
             } else {
@@ -727,7 +729,7 @@ public class CollageDetailsAty extends BaseAty {
                             bundle.putString("back_apply_id", map.get("back_apply_id"));
 
                             // 继续申请售后需要传的参数
-                            bundle.putString("price", String.valueOf(Double.parseDouble(map.get("shop_price")) * Integer.parseInt(map.get("goods_num"))));
+                            bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);

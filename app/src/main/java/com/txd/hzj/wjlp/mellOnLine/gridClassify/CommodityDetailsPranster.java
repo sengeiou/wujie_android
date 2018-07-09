@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -35,9 +36,12 @@ import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
+import com.txd.hzj.wjlp.minetoAty.ExpressAtv;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
 import java.util.Map;
@@ -51,6 +55,7 @@ import java.util.Map;
 public class CommodityDetailsPranster implements CommodityDetailsInter.CommodityPranster, ObservableScrollView.ScrollViewListener, BaseView {
     protected CommodityDetailsInter.CommodityView commodityView;
     private Activity activity;
+    private String phoneNo;
 
     public CommodityDetailsPranster(CommodityDetailsInter.CommodityView view) {
         setView(view);
@@ -279,12 +284,25 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
             // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓创建Dialog弹窗显示列表项↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             AlertDialog.Builder builder = new AlertDialog.Builder(activity); // 创建对话框构建器
-            View view2 = View.inflate(context, R.layout.popup_sel_chat, null); // 获取布局
+            View view2 = View.inflate(activity, R.layout.popup_sel_chat, null); // 获取布局
             builder.setView(view2); // 设置参数主要是设置获取的布局View
             // 获取布局中的控件
+            View serverPhoneLayout = view2.findViewById(R.id.serverPhoneLayout);
+            if (android.text.TextUtils.isEmpty(phoneNo)) {
+                serverPhoneLayout.setVisibility(View.GONE);
+            } else {
+                serverPhoneLayout.setVisibility(View.VISIBLE);
+                TextView serPhoneTv = view2.findViewById(R.id.serPhoneTv);
+                serPhoneTv.setText("客服电话： " + phoneNo);
+                serverPhoneLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callMerchantPhone(phoneNo,activity);
+                    }
+                });
+            }
             ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
             LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
-
             // 以上判断Bean有值，但是以防万一还是先判空
             if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
                 // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
@@ -299,7 +317,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             final AlertDialog alertDialog = builder.create();// 创建对话框
             // 设置相应的控件操作，赋值、点击事件等等
 
-            dataLv.setAdapter(new MerchantDialogAdapter(easemobBean.getData().getEasemob_account(), context));
+            dataLv.setAdapter(new MerchantDialogAdapter(easemobBean.getData().getEasemob_account(), activity));
 
             dataLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -535,8 +553,57 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     @Override
-    public void chat_merchant(String merchant_id, Activity activity) {
+    public void chat_merchant(String merchant_id, Activity activity, String phoneNo) {
         this.activity = activity;
+        this.phoneNo = phoneNo;
         Easemob.bind(merchant_id, this); // 获取商铺的环信账号
     }
+
+    @Override
+    public void callMerchantPhone(String phoneNo,Activity activity) {
+        /**
+         * 暂时不需要的权限，维护用户体验
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||电话
+         * !AndPermission.hasPermission(MainAty.this, Manifest.permission.RECORD_AUDIO)录音
+         *
+         * Manifest.permission.RECORD_AUDIO, // 启用录音权限
+         * Manifest.permission.CALL_PHONE,
+         * */
+        // 先判断是否有权限。
+        if (!AndPermission.hasPermission(activity, Manifest.permission.CALL_PHONE)) {
+            // 申请权限。
+            AndPermission.with(activity)
+                    .requestCode(100)
+                    .permission(Manifest.permission.CALL_PHONE)
+                    .send();
+        }else{
+            commodityView.call(phoneNo);
+        }
+    }
+    @Override
+    public PermissionListener requestPhoneListener(final String phoneNo,final  Activity activity){
+        PermissionListener listener = new PermissionListener() {
+            @Override
+            public void onSucceed(int requestCode, List<String> grantedPermissions) {
+                commodityView.call(phoneNo);
+            }
+
+            @Override
+            public void onFailed(int requestCode, List<String> deniedPermissions) {
+                // 权限申请失败回调。
+                // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+                if (AndPermission.hasAlwaysDeniedPermission(activity, deniedPermissions)) {
+                    // 第二种：用自定义的提示语。
+                    AndPermission.defaultSettingDialog(activity, 300)
+                            .setTitle("权限申请失败")
+                            .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                            .setPositiveButton("好，去设置")
+                            .show();
+                }
+            }
+        };
+        return listener;
+    }
+
+
 }

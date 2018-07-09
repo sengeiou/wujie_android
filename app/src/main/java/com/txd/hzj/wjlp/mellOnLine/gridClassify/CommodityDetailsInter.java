@@ -11,6 +11,7 @@ import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
 
@@ -71,7 +72,22 @@ public interface CommodityDetailsInter {
 
         void isCollect(String is_collect, String viewContent, View view, Context context);
 
-        void chat_merchant(String merchant_id, Activity activity);
+        void chat_merchant(String merchant_id, Activity activity, String phoneNo);
+
+        /**
+         *拨打电话
+         * @param phoneNom
+         * @param activity
+         * 需要activity调用 onRequestPermissionsResult 方法
+         */
+        void callMerchantPhone(String phoneNom, Activity activity);
+
+        /**
+         * 调用打电话权限
+         * @param phoneNo
+         * @param activity
+         */
+        PermissionListener requestPhoneListener(String phoneNo, Activity activity);
     }
 
     public interface CommodityView {
@@ -97,6 +113,13 @@ public interface CommodityDetailsInter {
          * @param msg
          */
         void showErrorTip(String msg);
+
+        /**
+         * 拨打客服电话
+         *
+         * @param phoneNo
+         */
+        void call(String phoneNo);
     }
 
     public interface GoodLuckView extends CommodityView {

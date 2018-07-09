@@ -85,20 +85,37 @@ public class GroupBuy {
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 
+    /**
+     * 进店逛逛拼单购专用
+     *
+     * @param merchant_id
+     * @param p
+     * @param baseView
+     */
+    void merchantGroupBuyList(String merchant_id, int p, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("merchant_id", merchant_id);
+        params.addBodyParameter("p", String.valueOf(p));
+        apiTool2.postApi(url + "merchantGroupBuyList", params, baseView);
+    }
 
-//    /**
-//     *
-//     *  拼单购属性api
-//     * @param goods_id
-//     * @param product_id
-//     * @param baseView
-//     */
-//    public static void attrApi(String goods_id, String product_id, BaseView baseView) {
-//        RequestParams requestParams = new RequestParams();
-//        ApiTool2 apiTool2 = new ApiTool2();
-//        requestParams.addBodyParameter("goods_id", goods_id);
-//        requestParams.addBodyParameter("product_id", product_id);
-//        apiTool2.postApi(url + "attrApi", requestParams, baseView);
-//    }
+    /**
+     * 拼单购属性api
+     *
+     * @param goods_id
+     * @param product_id
+     * @param group_type 拼单类型(1:试验品拼单 2：普通拼单）
+     * @param baseView
+     */
+    public void attrApi(String goods_id, String product_id, int group_type, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("goods_id", goods_id);
+        if (!android.text.TextUtils.isEmpty(product_id))
+            requestParams.addBodyParameter("product_id", product_id);
+        requestParams.addBodyParameter("group_type", String.valueOf(group_type));
+        apiTool2.postApi(url + "attrApi", requestParams, baseView);
+    }
 
 }

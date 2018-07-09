@@ -4,6 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +34,17 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.Comment;
+import com.txd.hzj.wjlp.bean.Reply_picturesBean;
 import com.txd.hzj.wjlp.http.carbuy.CarBuy;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.GoodsEvalusteAdapter;
 import com.txd.hzj.wjlp.new_wjyp.BeanCommentList;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
+import com.txd.hzj.wjlp.tool.MallRecyclerViewDivider;
 import com.txd.hzj.wjlp.tool.TextUtils;
+import com.txd.hzj.wjlp.tool.UnitHelper;
+import com.txd.hzj.wjlp.view.NoScrollLinearLayoutManager;
 import com.txd.hzj.wjlp.view.flowlayout.FlowLayout;
 import com.txd.hzj.wjlp.view.flowlayout.TagAdapter;
 import com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout;
@@ -292,7 +300,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         if (requestUrl.contains("Merchant/commentList")) {
             Comment comment = GsonUtil.GsonToBean(jsonStr, Comment.class);
             numall = comment.getNums();
-             evaluate_num_tv.setText(" " + numall + " ");
+            evaluate_num_tv.setText(" " + numall + " ");
 //            ChangeTextViewStyle.getInstance().forTextColor(GoodsEvaluateAty.this, evaluate_num_tv,
 //                    "已有" + numall + "条评价", 2, evaluate_num_tv.getText().length() - 3, getResources().getColor(R.color.red_tv_back));
             if (1 == p) {
@@ -521,7 +529,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     type = "夺宝";
                     break;
             }
-            type="";
+            type = "";
             gevh.goods_for_my_evaluste_layout.setVisibility(View.VISIBLE);
             TextUtils.titleTipUtils(context, gevh.goods_title_for_evaluate_tv, type, commentList.getGoods_name(),
                     Color.parseColor("#47CEF7"), r);
@@ -529,6 +537,67 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
                     "￥" + commentList.getShop_price());
             Log.i("商品内容+s", commentList.getGoods_name() + "HHHHHHHHH" + commentList.getShop_price());
             // }
+
+            //商家回复
+
+            String replyStr = commentList.getReply();
+            final List<Reply_picturesBean> beans = commentList.getReply_pictures_list();
+
+            if ((null == beans||beans.size()==0) && android.text.TextUtils.isEmpty(replyStr)) {
+                gevh.replayLayout.setVisibility(View.GONE);
+            } else {
+                gevh.replayLayout.setVisibility(View.VISIBLE);
+                if (android.text.TextUtils.isEmpty(replyStr)) {
+                    gevh.replyTv.setText(Html.fromHtml("<font color='#DF3031'>商家回复:</font>"));
+                } else {
+                    gevh.replyTv.setText(Html.fromHtml("<font color='#DF3031'>商家回复:</font>" + replyStr));
+                }
+
+                // 设置布局方式
+                gevh.replyRv.setLayoutManager(new NoScrollLinearLayoutManager(GoodsEvaluateAty.this, LinearLayoutManager.HORIZONTAL, false));//不让recycleview横向滑动
+                // 默认分割线
+                int dip=UnitHelper.dip2px(getApplicationContext(),10);//转换dip的工具类
+                gevh.replyRv.addItemDecoration(new MallRecyclerViewDivider(getApplicationContext(),MallRecyclerViewDivider.HORIZONTAL_LIST,0,dip));//自定义分割线使得纵向分割不至于撑开布局
+                int dipbian=UnitHelper.dip2px(getApplicationContext(),4);//转换之前是4转换成dip之后乘以2倍，外层布局8dip所以这里写4
+                DisplayMetrics metrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                final int itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
+                gevh.replyRv.setAdapter(new RecyclerView.Adapter() {
+                    @Override
+                    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        View view = LayoutInflater.from(GoodsEvaluateAty.this).inflate(R.layout.item_shop_pic, parent, false);
+                        return new PicHolder(view);
+                    }
+
+                    @Override
+                    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                        PicHolder picHolder = (PicHolder) holder;
+                        Glide.with(context)
+                                .load(beans.get(position).getReview_path())
+                                .error(R.drawable.ic_default)
+                                .placeholder(R.drawable.ic_default)
+                                .override(itemWidth, itemWidth)
+                                .into(picHolder.imageView);
+                        picHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, itemWidth));
+                    }
+
+                    @Override
+                    public int getItemCount() {
+                        return null != beans ? beans.size() : 0;
+                    }
+
+                    class PicHolder extends RecyclerView.ViewHolder {
+                        ImageView imageView;
+
+                        public PicHolder(View itemView) {
+                            super(itemView);
+                            imageView = itemView.findViewById(R.id.shop_pic);
+                        }
+                    }
+                });
+
+            }
+
 
             return view;
         }
@@ -592,6 +661,14 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
             @ViewInject(R.id.shop_priceTv)
             private TextView shop_priceTv;
 
+
+            //////////////商家回复////////////////////////
+            @ViewInject(R.id.replyTv)
+            private TextView replyTv;
+            @ViewInject(R.id.replyRv)
+            private RecyclerView replyRv;
+            @ViewInject(R.id.replayLayout)
+            private View replayLayout;
         }
 
         private class PICAdapter extends BaseAdapter {

@@ -550,19 +550,19 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     TYPE = "1";
                     userPst.proMoters();
                 }
-            } /*else { // 如果没有该字段的情况下
-                // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
-                if (data.get("member_coding").equals("3")) { // 判断是否是优享会员
-                    // 如果是优享会员则设置状态和传到下一界面的属性值
-                    blue_voucher = data.get("blue_voucher");
-                    give_coupon_tv.setText("赠送蓝色代金券");
-                    TYPE = "0";
-                } else { // 否则不是优享会员
-                    // 设置其不可转的属性
-                    TYPE = "1";
-                    userPst.proMoters();
-                }
-            }*/
+            } /**else { // 如果没有该字段的情况下
+             // 该if..else和上方的if..else逻辑相同，只是没有complete_status进行这一步的判断
+             if (data.get("member_coding").equals("3")) { // 判断是否是优享会员
+             // 如果是优享会员则设置状态和传到下一界面的属性值
+             blue_voucher = data.get("blue_voucher");
+             give_coupon_tv.setText("赠送蓝色代金券");
+             TYPE = "0";
+             } else { // 否则不是优享会员
+             // 设置其不可转的属性
+             TYPE = "1";
+             userPst.proMoters();
+             }
+             }*/
             /***********************拜师码*************************************/
             /************************************************************/
             // 昵称

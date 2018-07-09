@@ -24,7 +24,7 @@
         android:paddingEnd="4dp"
         android:paddingStart="4dp"
         android:paddingTop="2dp"
-        android:text="团长"
+        android:text="拼主"
         android:textSize="10sp"
         android:textColor="@color/gray_text_color"/>
 

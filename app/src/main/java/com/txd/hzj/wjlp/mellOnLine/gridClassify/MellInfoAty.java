@@ -38,6 +38,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
+import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 import com.txd.hzj.wjlp.mellOffLine.OffLineMellInfoAty;
 import com.txd.hzj.wjlp.mellOffLine.dialog.MellCouponDialog;
@@ -154,6 +155,7 @@ public class MellInfoAty extends BaseAty {
     private MellGoodsAndAdsAdapter mellGoodsAndAdsAdapter;
 
     private MerchantPst merchantPst;
+    private GroupBuyPst groupBuyPst;
     private String mell_id = "";
     private int p = 1;
     /**
@@ -337,8 +339,13 @@ public class MellInfoAty extends BaseAty {
         switch (v.getId()) {
             case R.id.off_line_mell_share_tv:
 
-                toShare("无界优品", share_img, share_url, share_content, mell_id, "1");
-
+//                Wap/Merchant/merIndex/merchant_id/4.html
+//                    店铺首页
+                share_url = Config.OFFICIAL_WEB + "Wap/Merchant/merIndex/merchant_id/"+mell_id+ ".html";
+                /**
+                 * 1 商品 2商家 3书院 4红包 5其他(个人中心)
+                 */
+                toShare("无界优品", share_img, share_url, share_content, mell_id, "2");
                 break;
             case R.id.popularity_tv:// 店铺首页
                 soft_type = 0;
@@ -428,6 +435,7 @@ public class MellInfoAty extends BaseAty {
         views = new ArrayList<>();
         merchantPst = new MerchantPst(this);
         collectPst = new UserCollectPst(this);
+        groupBuyPst = new GroupBuyPst(this);
         aty_type = new ArrayList<>();
         ads_list = new ArrayList<>();
         aty_type.add("限量购");
@@ -445,10 +453,24 @@ public class MellInfoAty extends BaseAty {
         mell_goods_gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
-                bundle.putInt("from", 1);
-                startActivity(TicketGoodsDetialsAty.class, bundle);
+                switch (data_type) {
+                    case 3: {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("group_buy_id", ads_list.get(position).get("group_buy_id"));
+                        bundle.putInt("from", 1);
+                        if (ads_list.get(position).containsKey("a_id"))
+                            bundle.putString("a_id", ads_list.get(position).get("a_id"));//  "a_id": "1"
+                        startActivity(GoodLuckDetailsAty.class, bundle);
+                    }
+                    break;
+                    default: {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("ticket_buy_id", ads_list.get(position).get("goods_id"));
+                        bundle.putInt("from", 1);
+                        startActivity(TicketGoodsDetialsAty.class, bundle);
+                    }
+                }
+
             }
         });
         mell_ads_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -564,7 +586,7 @@ public class MellInfoAty extends BaseAty {
             }
             return;
         }
-        if (requestUrl.contains("limitList") || requestUrl.contains("groupList") || requestUrl.contains("preList")
+        if (requestUrl.contains("limitList") || requestUrl.contains("merchantGroupBuyList") || requestUrl.contains("preList")
                 || requestUrl.contains("auctionList") || requestUrl.contains("oneBuyList")) {
             mell_ads_lv.setVisibility(View.GONE);
             mell_goods_gv.setVisibility(View.VISIBLE);
@@ -736,7 +758,6 @@ public class MellInfoAty extends BaseAty {
     private void getData(int type) {
         switch (type) {
             case 0:// 首页
-
                 merchantPst.merIndex(mell_id, p);
                 break;
             case 1:// 全部商品
@@ -754,7 +775,8 @@ public class MellInfoAty extends BaseAty {
                         merchantPst.limitList(mell_id, p);
                         break;
                     case 3:// 拼团购
-                        merchantPst.groupList(mell_id, p);
+//                        merchantPst.groupList(mell_id, p);
+                        groupBuyPst.merchantGroupBuyList(mell_id, p);
                         break;
                     case 4:// 无界预购
                         merchantPst.preList(mell_id, p);

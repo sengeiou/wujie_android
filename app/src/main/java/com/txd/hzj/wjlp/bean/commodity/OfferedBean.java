@@ -20,11 +20,11 @@ public class OfferedBean implements Serializable {
     private String end_true_time;//延迟后截止时间（若无延迟，此时间等于截止时间）",
     private String integral;//新增赠送积分数
     private String sys_time;//系统参照时间",
-    private String colonel_head_pic;//http://www.tocolor.cn/Uploads/Goods/2016-12-01/583f0aa6dbe8f.jpg",//团长头像
+    private String colonel_head_pic;//http://www.tocolor.cn/Uploads/Goods/2016-12-01/583f0aa6dbe8f.jpg",//拼主头像
     private String status;//1", //0团未满 1团已满
     private String m_short;//还差1人",//还差几人
     private List<HeadPicBean> head_pic;
-    private String is_colonel;//1是团长0不是团长
+    private String is_colonel;//1是拼主0不是拼主
     private String is_member;// 1是团员 0不是团员
     private List<OfferedOfferBean> offered;//"参团说明"
     private List<GroupBuyIdsBean> group_buy_ids;//商品团购订单表（相同商品的不同制品）

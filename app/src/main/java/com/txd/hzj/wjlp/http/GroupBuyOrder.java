@@ -92,7 +92,7 @@ public class GroupBuyOrder {
     }
 
     /**
-     * 0待付款1待成团2待发货3待收货4待评价 5 已完成 6取消 9全部
+     * 0待付款1拼单中2待发货3待收货4待评价 5 已完成 6取消 9全部
      *
      * @param order_status
      * @param p

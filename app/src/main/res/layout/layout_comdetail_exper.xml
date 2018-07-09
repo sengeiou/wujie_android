@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="免费试用规则"
+        android:text="体验拼单规则"
         android:textColor="@android:color/black" />
 
     <View

@@ -410,6 +410,7 @@
             android:layout_margin="20dp"
             android:text="提示:认证企业资质后，此账号个人信息认证不做唯一性认证限制"
             android:textColor="#F45A58"
+            android:visibility="gone"
             android:textSize="14sp" />
 
         <TextView

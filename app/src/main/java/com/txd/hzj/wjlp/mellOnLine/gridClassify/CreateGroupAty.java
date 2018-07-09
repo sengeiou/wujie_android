@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.GoodsAttrs;
+import com.txd.hzj.wjlp.bean.commodity.AttrBean;
+import com.txd.hzj.wjlp.bean.commodity.AttrDataBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.HeadPicBean;
@@ -75,7 +78,7 @@ public class CreateGroupAty extends BaseAty {
     //    private TextView group_status_tv;
 
     /**
-     * 一键开团，参团，团长不能操作
+     * 一键开团，参团，拼主不能操作
      */
     @ViewInject(R.id.group_operation_tv)
     private TextView group_operation_tv;
@@ -142,6 +145,8 @@ public class CreateGroupAty extends BaseAty {
      */
     @ViewInject(R.id.goods_profit_num_tv)
     private TextView goods_profit_num_tv;
+    private List<FirstListBean> goods_attr;
+    private List<FirstValBean> goods_val;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,15 +172,14 @@ public class CreateGroupAty extends BaseAty {
             public void onClick(View v) {
                 if (Integer.parseInt(offeredDataBean.getData().getIs_colonel()) > 0) {
 //                    "is_colonel": "1",
-                    Toast.makeText(CreateGroupAty.this, "团长不能重复拼单", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateGroupAty.this, "拼主不能重复拼单", Toast.LENGTH_LONG).show();
                 } else if (Integer.parseInt(offeredDataBean.getData().getIs_member()) > 0) {
 //                    "0"//1是团员 0不是团员
                     Toast.makeText(CreateGroupAty.this, "您已经在团里了", Toast.LENGTH_LONG).show();
                 } else {
                     if (!TextUtils.isEmpty(goods_id)) {
                         Intent intent = getIntent();
-                        List<FirstListBean> goods_attr = (List<FirstListBean>) intent.getSerializableExtra("goods_attr_first");
-                        List<FirstValBean> goods_val = (List<FirstValBean>) intent.getSerializableExtra("first_val");
+
                         toAttrs(v,
                                 0,
                                 "4",
@@ -243,7 +247,17 @@ public class CreateGroupAty extends BaseAty {
                     "积分" + integralStr, 2, Color.parseColor("#E02F25"));
 
         GroupBuyOrder.offered(log_id, this);
-        showProgressDialog();
+
+        if (!TextUtils.isEmpty(goods_id)) {//拼单够订单列表跳转到这里时候这个id是获取不到的，不用调用多属性，多属性只有下单时候调用
+            String tempGoodsId = "";
+            if (goods_id.contains("-")) {
+                tempGoodsId = goods_id.split("-")[0];
+            } else {
+                tempGoodsId = goods_id;
+            }
+            groupBuyPst.attrApi(tempGoodsId, null, 2);
+            showProgressDialog();
+        }
     }
 
     List<HeadPicBean> list_pic;
@@ -305,15 +319,14 @@ public class CreateGroupAty extends BaseAty {
                     }
                     for (int i = 0; i < offered.size(); i++) {
                         buffer.append(offered.get(i).getOneself());
-                        buffer.append("\n\n");
+                        buffer.append("<br><br>");
                     }
-                    textview.setText(buffer.toString());
-
-
+                    String bufferStr = String.valueOf(buffer);
+                    textview.setText(Html.fromHtml(bufferStr));
                     HeadPicBean head1 = new HeadPicBean();
                     head1.setType("1");
                     head1.setPic(data.getColonel_head_pic());
-                    list_pic.add(0, head1);//团长
+                    list_pic.add(0, head1);//拼主
 
 
                     //分享按钮·····∂▪•●•
@@ -335,12 +348,12 @@ public class CreateGroupAty extends BaseAty {
                     group_goods_name_tv.setText(data.getGoods_name());
                     group_other_info_tv.setText("已拼" + data.getAlready() + "件( " + data.getNumber() + " )");
                     group_goods_price_tv.setText("￥" + data.getShop_price());
-                    if (data.getIs_colonel().equals("1")) {// 我是团长
-                        group_operation_tv.setText("我是团长");
+                    if (data.getIs_colonel().equals("1")) {// 我是拼主
+                        group_operation_tv.setText("我是拼主");
                         group_operation_tv.setEnabled(false);
                         group_operation_tv.setBackgroundResource(R.drawable.shape_un_operation);
                         //                group_status_tv.setText(groupPager.getData().getDiff());
-                    } else {// 我不是团长，参团
+                    } else {// 我不是拼主，参团
                         group_operation_tv.setText("一键拼单");
                         group_operation_tv.setEnabled(true);
                         //                group_status_tv.setText(groupPager.getData().getDiff());
@@ -367,6 +380,16 @@ public class CreateGroupAty extends BaseAty {
             //            }
             //            // =====参团页======
             //        }
+        } else if (requestUrl.contains("attrApi")) {//拼单商品属性【/Goods/attrApi】
+            ObserTool.gainInstance().jsonToBean(jsonStr, AttrBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    AttrBean attrBean = (AttrBean) t;
+                    AttrDataBean attrDataBean = attrBean.getData();
+                    goods_attr = attrDataBean.getFirst_list();
+                    goods_val = attrDataBean.getFirst_val();
+                }
+            });
         }
     }
 }

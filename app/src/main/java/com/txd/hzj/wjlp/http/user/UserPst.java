@@ -4,11 +4,14 @@ import android.widget.EditText;
 
 import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tools.RegexUtils;
 import com.ants.theantsgo.util.L;
+import com.txd.hzj.wjlp.DemoApplication;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ===============Txunda===============
@@ -315,8 +318,11 @@ public class UserPst extends BasePresenter {
 
     // 分享回调
     public void shareBack(String type, String content, String id_val, String share_type, String share_url) {
-        baseView.showDialog();
-        user.shareBack(type, content, id_val, share_type, share_url, baseView);
+        if (Config.isLogin()) {
+            baseView.showDialog();
+            user.shareBack(type, content, id_val, share_type, share_url, baseView);
+        }
+
     }
 
     public void delFooter(String footer_ids) {

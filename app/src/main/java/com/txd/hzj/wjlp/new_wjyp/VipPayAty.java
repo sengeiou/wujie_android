@@ -438,9 +438,7 @@ public class VipPayAty extends BaseAty {
         score_status = getIntent().getStringExtra("score_status");
         abs_url = getIntent().getStringExtra("abs_url");
         member_coding = getIntent().getStringExtra("member_coding");
-//                    bundle.putString("data", data);
 
-//        map = JSONUtils.parseKeyAndValueToMap(data);
         titlt_conter_tv.setText("购买" + rank_name);
         tv_type.setText(rank_name);
         tv_prescription.setText(prescription.equals("0") ? "永久" : "按年付费");
