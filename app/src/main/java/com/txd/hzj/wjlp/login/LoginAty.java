@@ -148,10 +148,20 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
      */
     private String invite_code = "";
 
+    // 注册登录的时候不显示微信朋友圈和QQ空间
+    @ViewInject(R.id.share_to_WechatMoments)
+    private LinearLayout share_to_WechatMoments;
+    @ViewInject(R.id.share_to_QZone)
+    private LinearLayout share_to_QZone;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showStatusBar(R.id.longin_title_layout);
+
+        // 注册登录的时候不显示微信朋友圈和QQ空间
+        share_to_WechatMoments.setVisibility(View.GONE);
+        share_to_QZone.setVisibility(View.GONE);
 
         if (DemoApplication.LOGIN_ACTIVITY_IS_RUN) {
             finish();

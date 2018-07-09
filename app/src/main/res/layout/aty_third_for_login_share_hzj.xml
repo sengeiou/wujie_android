@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     android:id="@+id/for_third_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -9,24 +9,119 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <ImageView
+    <LinearLayout
         android:id="@+id/share_to_wachar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:src="@drawable/icon_share_wachar"/>
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <ImageView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share_wachar" />
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:text="微信"
+            autofit:minTextSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_to_WechatMoments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share_wachar_moments" />
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:text="朋友圈"
+            autofit:minTextSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/share_to_qq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:src="@drawable/icon_share_qq"/>
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <ImageView
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share_qq" />
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:text="腾讯QQ"
+            autofit:minTextSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/share_to_QZone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share_qzone" />
+
+        <me.grantland.widget.AutofitTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:text="QQ空间"
+            autofit:minTextSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/share_to_sine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:src="@drawable/icon_share_sine"/>
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share_sine" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/share_to_sine_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:paddingTop="5dp"
+            android:text="新浪微博"
+            autofit:minTextSize="8sp" />
+    </LinearLayout>
 </LinearLayout>

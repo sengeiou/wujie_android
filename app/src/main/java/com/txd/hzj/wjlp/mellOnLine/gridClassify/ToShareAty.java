@@ -18,7 +18,6 @@ import com.ants.theantsgo.util.PreferencesUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.UserPst;
@@ -28,7 +27,9 @@ import java.util.Map;
 
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
  * ===============Txunda===============
@@ -46,7 +47,7 @@ public class ToShareAty extends BaseAty {
     private String context = "无界优品";
     private String id = "";
 
-    private String shareType = "";
+    private String shareType = ""; // 分享类别：1微信 2微博 3qq 4微信朋友圈 5QQ空间
     private String shareUrl = "";
     private UserPst userPst;
     private boolean isComplete;
@@ -59,9 +60,12 @@ public class ToShareAty extends BaseAty {
 
     private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
     private boolean isResume;  //Activity是否处于前台。
-//    private ShareForApp.StatusForShare mStatusForShare;
+    //    private ShareForApp.StatusForShare mStatusForShare;
     @ViewInject(R.id.shreUrlTv)
     private TextView shreUrlTv;
+
+    @ViewInject(R.id.share_to_sine_tv)
+    private TextView share_to_sine_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +73,7 @@ public class ToShareAty extends BaseAty {
     }
 
     @Override
-    @OnClick({R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine})
+    @OnClick({R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.share_to_WechatMoments, R.id.share_to_QZone})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -83,6 +87,16 @@ public class ToShareAty extends BaseAty {
                 }
                 shareForApp(Wechat.NAME);
                 break;
+            case R.id.share_to_WechatMoments: // 微信朋友圈
+                L.e("微信朋友圈");
+                shareType = "4";
+                isSharing = true;
+                if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
+                    showErrorTip("请安装微信");
+                    break;
+                }
+                shareForApp(WechatMoments.NAME);
+                break;
             case R.id.share_to_qq:// QQ
                 shareType = "3";
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mobileqq")) {
@@ -90,6 +104,14 @@ public class ToShareAty extends BaseAty {
                     break;
                 }
                 shareForApp(QQ.NAME);
+                break;
+            case R.id.share_to_QZone:// QQ空间
+                shareType = "5";
+                if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mobileqq")) {
+                    showErrorTip("请安装QQ");
+                    break;
+                }
+                shareForApp(QZone.NAME);
                 break;
             case R.id.share_to_sine:// 新浪
                 shareType = "2";
@@ -156,6 +178,7 @@ public class ToShareAty extends BaseAty {
     private void shareForApp(String name) {
 //        if (isComplete) {
         String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
+        if (!TextUtils.isEmpty(invite_code) && !shareUrl.contains("invite_code")) {
         if(shareUrl.contains("http://api")){
             shareUrl=shareUrl.replace("api","www");
         }
@@ -168,9 +191,9 @@ public class ToShareAty extends BaseAty {
             shareUrl = shareUrl + "/invite_code/" + invite_code + ".html";
         }
         LogUtils.e("shareUrl" + shareUrl);
-        if(shreUrlTv.getVisibility() == View.VISIBLE){
-             shreUrlTv.setText(shareUrl);
-        }else{
+        if (shreUrlTv.getVisibility() == View.VISIBLE) {
+            shreUrlTv.setText(shareUrl);
+        } else {
             shreUrlTv.setText("");
         }
         ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
@@ -178,8 +201,8 @@ public class ToShareAty extends BaseAty {
             public void beBack(ShareForApp.PlatformForShare platformForShare, ShareForApp.StatusForShare statusForShare, int code) {
 //                mStatusForShare = statusForShare;
 
-                if(L.isDebug){
-                    showErrorTip("~~~~~~~从微信返回到应用~~~~~~~~~~``" );
+                if (L.isDebug) {
+                    showErrorTip("~~~~~~~从微信返回到应用~~~~~~~~~~``");
                 }
                 switch (statusForShare) {
                     case Success:
@@ -236,12 +259,12 @@ public class ToShareAty extends BaseAty {
 //                                    showErrorTip("分享取消");
 //                                    break;
 //                                case Success:
-                                    if(L.isDebug){
-                                        showErrorTip("0.2s分享成功" );
-                                    }
-                                    userPst.shareBack(shareType, context, id, type, link);
-                                    showRightTip("分享成功");
-                                    finish();
+                        if (L.isDebug) {
+                            showErrorTip("0.2s分享成功");
+                        }
+                        userPst.shareBack(shareType, context, id, type, link);
+                        showRightTip("分享成功");
+                        finish();
 //                                    break;
 //                            }
 //                        }
