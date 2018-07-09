@@ -864,7 +864,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode== AppUpdate.INSTALL_APK_REQUESTCODE){
+        if (requestCode == AppUpdate.INSTALL_APK_REQUESTCODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 AppUpdate.getInstance().install(MainAty.this);
             } else {
@@ -872,13 +872,23 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
 //                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
 
-                Uri packageURI = Uri.parse("package:"+getPackageName());
-                Intent intent =new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageURI);
-                startActivityForResult(intent,1000);
+                Uri packageURI = Uri.parse("package:" + getPackageName());
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+                startActivityForResult(intent, 1000);
             }
-        }else{
+        } else {
             // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
             AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1000: // App更新
+                AppUpdate.getInstance().install(MainAty.this);
+                break;
         }
     }
 
@@ -1091,8 +1101,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.finish();
         isExit = true;
     }
-
-
 
 
 }

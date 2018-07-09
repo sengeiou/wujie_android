@@ -660,13 +660,24 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 //                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
 //                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
 
-                    Uri packageURI = Uri.parse("package:"+getPackageName());
-                    Intent intent =new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageURI);
-                    startActivityForResult(intent,1000);
+                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+                    startActivityForResult(intent, 1000);
 
                 }
                 break;
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1000: // App更新
+                AppUpdate.getInstance().install(SetAty.this);
+                break;
+        }
+    }
+
 }
