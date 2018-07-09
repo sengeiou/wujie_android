@@ -177,11 +177,11 @@ public class ToShareAty extends BaseAty {
      */
     private void shareForApp(String name) {
 //        if (isComplete) {
-        String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
-        if (!TextUtils.isEmpty(invite_code) && !shareUrl.contains("invite_code")) {
+
         if(shareUrl.contains("http://api")){
             shareUrl=shareUrl.replace("api","www");
         }
+        String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
         if (!TextUtils.isEmpty(invite_code)&&!shareUrl.contains("invite_code")) {
             if (shareUrl.contains(".html")) {
                 shareUrl = shareUrl.replace(".html", "");
@@ -220,7 +220,6 @@ public class ToShareAty extends BaseAty {
             }
         });
         shareForApp.toShareWithPicUrl();
-//        }
     }
 
     @Override
