@@ -156,6 +156,7 @@
             android:background="@color/view_color"/>
     </LinearLayout>
 
+    <!--此处导入的和分享是同一个布局，在代码中将微信朋友圈和QQ空间隐藏-->
     <include layout="@layout/aty_third_for_login_share_hzj"/>
 
 </LinearLayout>
