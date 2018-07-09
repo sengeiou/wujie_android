@@ -1,9 +1,13 @@
 package com.txd.hzj.wjlp.tool;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +19,7 @@ import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.BuildConfig;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
 
 import io.reactivex.annotations.NonNull;
@@ -25,9 +30,10 @@ import io.reactivex.annotations.NonNull;
  * 功能描述： App更新工具类
  */
 public class AppUpdate {
-
+    public static final int INSTALL_APK_REQUESTCODE = 0x0003;
     private MaterialDialog dialogUpdate;
     private NotifyUtil notifyUtils;
+    private String path;
 
     public AppUpdate() {
     }
@@ -161,31 +167,23 @@ public class AppUpdate {
 
             @Override
             public void onComplete(String path) {
-                /**
-                 * 安装APK工具类
-                 * @param context       上下文
-                 * @param filePath      文件路径
-                 * @param authorities   ---------Manifest中配置provider的authorities字段---------
-                 * @param callBack      安装界面成功调起的回调
-                 */
-                InstallUtils.installAPK(activity, path, activity.getPackageName() + ".fileProvider", new InstallUtils.InstallCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        Toast.makeText(activity, "正在安装程序", Toast.LENGTH_SHORT).show();
+                AppUpdate.this.path = path;
+                if (Build.VERSION.SDK_INT >= 26) {
+                    //来判断应用是否有权限安装apk
+                    boolean installAllowed = activity.getPackageManager().canRequestPackageInstalls();
+                    //有权限
+                    if (installAllowed) {
+                        //安装apk
+                        install(activity);
+                    } else {
+                        //无权限 申请权限
+                        ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, INSTALL_APK_REQUESTCODE);
                     }
+                } else {
+                    install(activity);
+                }
 
-                    @Override
-                    public void onFail(Exception e) {
-                        Toast.makeText(activity, "安装失败:" + e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                if (dialogUpdate != null && dialogUpdate.isShowing()) {
-                    dialogUpdate.dismiss();
-                }
-                if (notifyUtils != null) {
-                    notifyUtils.setNotifyProgressComplete();
-                    notifyUtils.clear();
-                }
+
             }
 
             @Override
@@ -210,6 +208,35 @@ public class AppUpdate {
             }
         }).downloadAPK();
 
+    }
+
+    public void install(final Context context) {
+
+        /**
+         * 安装APK工具类
+         * @param context       上下文
+         * @param filePath      文件路径
+         * @param authorities   ---------Manifest中配置provider的authorities字段---------
+         * @param callBack      安装界面成功调起的回调
+         */
+        InstallUtils.installAPK(context, path, context.getPackageName() + ".fileProvider", new InstallUtils.InstallCallBack() {
+            @Override
+            public void onSuccess() {
+                Toast.makeText(context, "正在安装程序", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                Toast.makeText(context, "安装失败:" + e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        if (dialogUpdate != null && dialogUpdate.isShowing()) {
+            dialogUpdate.dismiss();
+        }
+        if (notifyUtils != null) {
+            notifyUtils.setNotifyProgressComplete();
+            notifyUtils.clear();
+        }
     }
 
     /**

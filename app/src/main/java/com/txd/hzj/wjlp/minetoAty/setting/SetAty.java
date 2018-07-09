@@ -1,10 +1,14 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,6 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.mob.tools.utils.UIHandler;
 import com.txd.hzj.wjlp.DemoHelper;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
@@ -51,6 +56,7 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import io.reactivex.annotations.NonNull;
 
 /**
  * ===============Txunda===============
@@ -639,5 +645,28 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             break;
         }
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case AppUpdate.INSTALL_APK_REQUESTCODE:
+                //有注册权限且用户允许安装
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    AppUpdate.getInstance().install(SetAty.this);
+                } else {
+                    //将用户引导至安装未知应用界面。
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+//                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
+
+                    Uri packageURI = Uri.parse("package:"+getPackageName());
+                    Intent intent =new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,packageURI);
+                    startActivityForResult(intent,1000);
+
+                }
+                break;
+
+        }
     }
 }
