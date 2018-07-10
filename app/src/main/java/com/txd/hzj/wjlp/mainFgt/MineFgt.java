@@ -656,9 +656,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .centerCrop()
                     .into(user_head_iv);
 
-            integral_tv.setText(data.get("integral"));
-            balance_tv.setText(data.get("balance"));
-            ticket_num_tv.setText(data.get("ticket_num"));
+            integral_tv.setText((String) data.get("integral"));
+            balance_tv.setText((String) data.get("balance"));
+            ticket_num_tv.setText((String) data.get("ticket_num"));
 
             server_line = data.get("server_line");
             // 消息

@@ -125,7 +125,7 @@ public class MellAptitudeAty extends BaseAty {
                 apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
                         R.color.gray_text_color));
             }
-            apVH.apt_type_name_tv.setText(map.get("name"));
+            apVH.apt_type_name_tv.setText((String)map.get("name"));
             return view;
         }
 

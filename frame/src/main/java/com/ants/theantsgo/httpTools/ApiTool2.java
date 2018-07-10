@@ -84,7 +84,7 @@ public class ApiTool2 {
         // 如果jsonObject有flag属性则返回flag对应的值，否则返回""
         String flag = jsonObject.optString("code");
         // code的值是null或者不为1的时候，返回map,否则返回null
-        if (flag != null && (flag.equals("1")||"200".equals(flag)))
+        if (flag != null && (flag.equals("1") || "200".equals(flag)))
             return null;
 
         return JSONUtils.parseKeyAndValueToMap(json);
@@ -129,6 +129,7 @@ public class ApiTool2 {
                     baseView.onError(getRequestUrl(), map);
                 }
             } catch (Exception e) {
+                L.e("AllActivityException", "ApiTool2 onSuccess exception:" + e.toString());
                 baseView.onException(e);
             }
         }
