@@ -157,7 +157,6 @@ public class UserPst extends BasePresenter {
 
     // 个人中心
     public void userCenter() {
-        baseView.showDialog();
         user.userCenter(baseView);
     }
 

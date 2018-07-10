@@ -475,6 +475,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onResume() {
         super.onResume();
+        showDialog(); // 显示Dialog
         userPst.userCenter();
     }
 
@@ -496,6 +497,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 indexPst.index(lng, lat);
+                showDialog(); // 显示Dialog
                 userPst.userCenter();
             }
 
@@ -536,7 +538,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         super.onComplete(requestUrl, jsonStr);
         L.e("jsonStrALIANG" + jsonStr);
         if (requestUrl.contains("userCenter")) {
-
+            removeProgressDialog(); // 关闭userCenter打开的Dialog
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
             if (data.containsKey("complete_status")) { // 如果存在指定key
