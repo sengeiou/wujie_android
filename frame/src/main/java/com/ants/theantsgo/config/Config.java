@@ -13,10 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Config {
-//    /**
-//     *  是否检查过更新
-//     */
-//    public static final String IS_CHECK_UPDATE="IS_CHECK_UPDATE";
+
     /**
      * 登录状态
      */
@@ -26,9 +23,9 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
+//    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
 //    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/"; // 测试服务器
-//    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的 测试库
+    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 正式数据库的 测试库
 
     public final static String BASE_URL = OFFICIAL_WEB + "index.php/Api/";
 
@@ -148,19 +145,4 @@ public class Config {
         return PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
     }
 
-    /**
-     * 设置标签和别名
-     *
-     * @param context 上下文
-     * @param set     Tag集合
-     * @param alias   别名
-     */
-//    public static void setTagAndAlias(Context context, Set<String> set, String alias) {
-//        JPushInterface.setAliasAndTags(context, alias, set,
-//                new TagAliasCallback() {
-//                    @Override
-//                    public void gotResult(int i, String s, Set<String> set) {
-//                    }
-//                });
-//    }
 }
