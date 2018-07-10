@@ -181,13 +181,13 @@ public class ToShareAty extends BaseAty {
         if(shareUrl.contains("http://api")){
             shareUrl=shareUrl.replace("api","www");
         }
-        String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
-        if (!TextUtils.isEmpty(invite_code)&&!shareUrl.contains("invite_code")) {
+        if (Config.isLogin()&&!shareUrl.contains("invite_code")) {
             if (shareUrl.contains(".html")) {
                 shareUrl = shareUrl.replace(".html", "");
             } else if (shareUrl.contains(".htm")) {
                 shareUrl = shareUrl.replace(".htm", "");
             }
+            String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
             shareUrl = shareUrl + "/invite_code/" + invite_code + ".html";
         }
         LogUtils.e("shareUrl" + shareUrl);
