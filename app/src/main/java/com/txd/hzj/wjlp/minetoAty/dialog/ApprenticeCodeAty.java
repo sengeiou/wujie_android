@@ -97,7 +97,11 @@ public class ApprenticeCodeAty extends BaseAty implements View.OnClickListener {
         if (!TextUtils.isEmpty(txtStr)) {
             tv.setVisibility(View.VISIBLE);
             tv.setText(txtStr);
-            StringBuffer memberCodeUrl = new StringBuffer(Config.BASE_URL + "User/mentorship/invite_code/" + invite_code + "/type/" + type);
+            String baseUrl=Config.BASE_URL;
+            if(baseUrl.contains("http://api")){
+                baseUrl=baseUrl.replace("api","www");
+            }
+            StringBuffer memberCodeUrl = new StringBuffer(baseUrl+ "User/mentorship/invite_code/" + invite_code + "/type/" + type);
             stringBuffers.put(type, memberCodeUrl);
         } else {
             tv.setVisibility(View.GONE);
