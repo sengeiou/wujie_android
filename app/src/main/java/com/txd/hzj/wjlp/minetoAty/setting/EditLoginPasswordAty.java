@@ -126,6 +126,8 @@ public class EditLoginPasswordAty extends BaseAty {
             showRightTip("修改成功");
             Config.setLoginState(false);
             PreferencesUtils.putString(this, "pwd", "");
+            PreferencesUtils.putString(this, "token", "");
+            PreferencesUtils.putString(this, "invite_code", "");
             // 收起键盘
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

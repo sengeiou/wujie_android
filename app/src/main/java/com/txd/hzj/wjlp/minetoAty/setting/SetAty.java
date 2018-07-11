@@ -180,7 +180,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 isMyBankCardClick = true;
                 User.userInfo(this); // 获取用户信息
                 L.e("wang", "rel_myBankCard  isMyBankCardClick = " + isMyBankCardClick);
-//                showDialog("我的银行卡"); // TODO ===============================================================
                 break;
             case R.id.rel_bind_phone: // 绑定手机号
                 if (phone.equals("")) {
@@ -217,6 +216,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
+                                PreferencesUtils.putString(SetAty.this, "invite_code", "");
                                 // 友盟统计signout统计
                                 MobclickAgent.onProfileSignOff();
                                 // 删除极光推送之前设置好的Tag或Alias

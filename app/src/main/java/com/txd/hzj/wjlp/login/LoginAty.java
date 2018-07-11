@@ -154,6 +154,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @ViewInject(R.id.share_to_QZone)
     private LinearLayout share_to_QZone;
 
+    @ViewInject(R.id.login_go_back_tv)
+    private TextView login_go_back_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +190,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @Override
     @OnClick({R.id.to_login_tv, R.id.to_register_tv, R.id.forget_pwd_tv, R.id.to_login_or_register_tv,
-            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.terms_of_service_tv})
+            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.terms_of_service_tv, R.id.login_go_back_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -246,6 +249,12 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 bundle.putInt("from", 3);
                 startActivity(NoticeDetailsAty.class, bundle);
                 break;
+            case R.id.login_go_back_tv: // 点击X按钮退出登录界面
+                if (MainAty.isExit) {
+                    startActivity(MainAty.class, null);
+                }
+                finish();
+                break;
         }
     }
 
@@ -269,9 +278,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
-    public void beBack(View view) {
-        startActivity(MainAty.class, null);
-    }
+//    public void beBack(View view) {
+//        startActivity(MainAty.class, null);
+//    }
 
     @Override
     protected int getLayoutResId() {
@@ -328,8 +337,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
-            if (data.containsKey("invite_code"))
+            if (data.containsKey("invite_code")) {
                 PreferencesUtils.putString(this, "invite_code", data.get("invite_code"));
+            }
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));

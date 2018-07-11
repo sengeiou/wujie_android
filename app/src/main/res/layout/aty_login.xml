@@ -15,10 +15,11 @@
         android:layout_height="48dp"
         android:background="@color/white">
 
+            <!--android:onClick="beBack"-->
         <ImageView
+            android:id="@+id/login_go_back_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="beBack"
             android:padding="12dp"
             android:src="@drawable/icon_title_close_hzj"/>
 

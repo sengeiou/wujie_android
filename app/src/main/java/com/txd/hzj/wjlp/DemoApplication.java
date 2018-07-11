@@ -85,7 +85,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     public void onCreate() {
         super.onCreate();
 
-        // 该处只在正式版需要打印Log日志的时候打开，其他地方非特殊情况不要添加
+        // 该处只在正式版需要打印Log日志的时候打开，调完之后及时关闭，其他地方非特殊情况不要添加
 //        L.isDebug = false; // 正式版头部信息
 
         if (!L.isDebug) { // 如果是正式版则开启异常上报，意在防止在测试过程中上报的异常影响正常用户上报的真实数据
