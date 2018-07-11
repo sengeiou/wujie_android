@@ -17,7 +17,7 @@ public class Config {
     /**
      * 登录状态
      */
-    private static final String PREF_KEY_LOGIN_STATE = "PREF_KEY_LOGIN_STATE";
+    public static final String PREF_KEY_LOGIN_STATE = "PREF_KEY_LOGIN_STATE";
 
     private static final String PREF_KEY_CHECK_STATE = "PREF_KEY_CHECK_STATE";
 

@@ -125,9 +125,10 @@ public class EditLoginPasswordAty extends BaseAty {
         if (requestUrl.contains("changePassword")) {
             showRightTip("修改成功");
             Config.setLoginState(false);
-            PreferencesUtils.putString(this, "pwd", "");
-            PreferencesUtils.putString(this, "token", "");
-            PreferencesUtils.putString(this, "invite_code", "");
+            PreferencesUtils.putString(this, "pwd", ""); // 清除密码记录
+            PreferencesUtils.putString(this, "token", ""); // 清除前一次保存的token
+            PreferencesUtils.putString(this, "invite_code", ""); // 清除保存的邀请码
+            PreferencesUtils.putBoolean(this, Config.PREF_KEY_LOGIN_STATE, false); // 将登录状态设置为未登录
             // 收起键盘
             InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(new_pwd_tv.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

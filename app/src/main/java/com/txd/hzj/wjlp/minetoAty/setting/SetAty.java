@@ -217,6 +217,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
                                 PreferencesUtils.putString(SetAty.this, "invite_code", "");
+                                PreferencesUtils.putBoolean(SetAty.this, Config.PREF_KEY_LOGIN_STATE, false); // 将登录状态设置为未登录
                                 // 友盟统计signout统计
                                 MobclickAgent.onProfileSignOff();
                                 // 删除极光推送之前设置好的Tag或Alias

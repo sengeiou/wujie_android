@@ -343,6 +343,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
+            PreferencesUtils.putBoolean(this, Config.PREF_KEY_LOGIN_STATE, true); // 将登录状态设置为未登录
             // 友盟统计
             MobclickAgent.onProfileSignIn(data.get("user_id"));
 
