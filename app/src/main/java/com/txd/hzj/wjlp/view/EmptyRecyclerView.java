@@ -6,12 +6,10 @@ import android.util.AttributeSet;
 import android.view.View;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/25 0025
  * 时间：10:11
  * 描述：
- * ===============Txunda===============
  */
 
 public class EmptyRecyclerView extends RecyclerView {

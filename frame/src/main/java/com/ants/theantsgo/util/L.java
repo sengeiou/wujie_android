@@ -5,16 +5,14 @@ import android.util.Log;
 import com.ants.theantsgo.config.Config;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:27
  * 描述：Log统一管理类
- * ===============Txunda===============
  */
 public class L {
     public static boolean isDebug = Config.OFFICIAL_WEB.contains("api.") ? false : true;// 是否需要打印bug，可以在application的onCreate函数里面初始化
-    private static final String TAG = "=====Txunda_Log=====";
+    private static final String TAG = "=====WJ_Mall_Log=====";
 
     // 下面四个是默认tag的函数
     public static void i(String msg) {

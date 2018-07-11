@@ -16,12 +16,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：下午 8:11
  * 描述：企业介绍
- * ===============Txunda===============
  */
 public class HatchLeftFgt extends BaseFgt {
     @ViewInject(R.id.notice_details_wv)

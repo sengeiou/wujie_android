@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：下午 2:07
  * 描述：竞拍记录适配器
- * ===============Txunda===============
  */
 public class AuctionRecordAdapter extends BaseAdapter {
     private LayoutInflater mInflater;

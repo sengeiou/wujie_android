@@ -3,12 +3,10 @@ package com.ants.theantsgo.base;
 import java.io.Serializable;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/5 0005
  * 时间：09:12
  * 描述：所有Mode的基类
- * ===============Txunda===============
  */
 
 public class BaseMode implements Serializable {

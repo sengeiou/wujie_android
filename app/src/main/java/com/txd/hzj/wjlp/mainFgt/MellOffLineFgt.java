@@ -42,12 +42,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:52
  * 描述：线下商铺
- * ===============Txunda===============
  */
 public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 

@@ -53,12 +53,10 @@ import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：下午 7:10
  * 描述：登录，注册(50-1 登录，50-5 注册)
- * ===============Txunda===============
  */
 public class LoginAty extends BaseAty implements Handler.Callback, PlatformActionListener {
     /**

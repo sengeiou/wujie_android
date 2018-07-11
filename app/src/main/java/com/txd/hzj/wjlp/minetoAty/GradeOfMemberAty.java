@@ -31,12 +31,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：上午 10:19
  * 描述：会员
- * ===============Txunda===============
  */
 public class GradeOfMemberAty extends BaseAty {
 

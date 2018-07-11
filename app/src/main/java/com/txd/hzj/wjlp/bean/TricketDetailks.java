@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean;
 import java.io.Serializable;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：15:53
  * 描述：购物券使用详情
- * ===============Txunda===============
  */
 
 public class TricketDetailks {

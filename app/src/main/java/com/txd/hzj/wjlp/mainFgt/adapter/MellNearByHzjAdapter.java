@@ -24,12 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：11:42
  * 描述：线上商城附近店铺列表适配器
- * ===============Txunda===============
  */
 
 public class MellNearByHzjAdapter extends BaseAdapter {

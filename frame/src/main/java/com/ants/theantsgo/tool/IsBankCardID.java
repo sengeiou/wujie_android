@@ -1,12 +1,10 @@
 package com.ants.theantsgo.tool;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:34
  * 描述：校验银行卡(IsBankCardID.checkBankCard("卡号"))
- * ===============Txunda===============
  */
 public class IsBankCardID {
     // public static void main(String[] args) {

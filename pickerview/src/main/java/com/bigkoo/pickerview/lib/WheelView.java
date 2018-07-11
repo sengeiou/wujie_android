@@ -457,8 +457,6 @@ public class WheelView extends View {
         counter = 0;
         while (counter < itemsVisible) {
 
-            Log.e("=====可见=====", "可见");
-
             canvas.save();
             // 弧长 L = itemHeight * counter - itemHeightOffset
             // 求弧度 α = L / r  (弧长/半径) [0,π]
@@ -481,8 +479,6 @@ public class WheelView extends View {
                 } else {
                     contentText = getContentText(visibles[counter]);
                 }
-
-                Log.e("=====contentText=====", contentText);
 
                 reMeasureTextSize(contentText);
                 //计算开始绘制的位置
@@ -589,7 +585,6 @@ public class WheelView extends View {
         if (item == null) {
             return "";
         } else if (item instanceof IPickerViewData) {
-            Log.e("=====item=====", ((IPickerViewData) item).getPickerViewText());
             return ((IPickerViewData) item).getPickerViewText();
         } else if (item instanceof Integer) {
             //如果为整形则最少保留两位数.

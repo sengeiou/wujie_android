@@ -21,12 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：下午 8:13
  * 描述：企业店铺
- * ===============Txunda===============
  */
 public class HatchRightFgt extends BaseFgt {
 

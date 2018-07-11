@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean;
 import com.ants.theantsgo.base.BaseMode;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：09:12
  * 描述：
- * ===============Txunda===============
  */
 
 public class UpdataApp {

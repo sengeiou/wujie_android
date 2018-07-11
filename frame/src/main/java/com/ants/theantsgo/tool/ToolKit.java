@@ -243,7 +243,6 @@ public class ToolKit {
             Class localClass = Class.forName(str + ".R$drawable");
             return getResId(localClass, resName);
         } catch (Throwable localThrowable) {
-            L.e(ToolKit.class, "出错了");
         }
         return 0;
     }

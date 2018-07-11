@@ -5,12 +5,10 @@ import android.util.AttributeSet;
 import android.widget.ScrollView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：11:46
  * 描述：滚动监听的ScrollView
- * ===============Txunda===============
  */
 
 public class ObservableScrollView extends ScrollView {

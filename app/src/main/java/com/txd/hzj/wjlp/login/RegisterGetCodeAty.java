@@ -16,12 +16,10 @@ import com.txd.hzj.wjlp.tool.CodeCountDown;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：下午 1:20
  * 描述：注册获取验证码
- * ===============Txunda===============
  */
 public class RegisterGetCodeAty extends BaseAty {
 
@@ -91,7 +89,6 @@ public class RegisterGetCodeAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("==============json==============" + jsonStr);
         if (requestUrl.contains("sendVerify")) {// 获取验证码
             if (codeCountDown == null) {// 倒计时
                 codeCountDown = new CodeCountDown(60000, 1000, this, register_get_code_tv);
@@ -111,6 +108,5 @@ public class RegisterGetCodeAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("eeeeee"+error.get("message"));
     }
 }

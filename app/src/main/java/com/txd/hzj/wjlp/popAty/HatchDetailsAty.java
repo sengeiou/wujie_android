@@ -22,12 +22,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：下午 8:10
  * 描述：上市孵化
- * ===============Txunda===============
  */
 public class HatchDetailsAty extends BaseAty {
 

@@ -32,12 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/12 0012
  * 时间：上午 9:41
  * 描述：举报商家得红包
- * ===============Txunda===============
  */
 public class MellReportedAty extends BaseAty {
 

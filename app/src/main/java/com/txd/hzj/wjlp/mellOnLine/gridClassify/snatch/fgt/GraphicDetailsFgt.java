@@ -16,12 +16,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：下午 2:35
  * 描述：图文详情
- * ===============Txunda===============
  */
 public class GraphicDetailsFgt extends BaseFgt {
 

@@ -93,12 +93,10 @@ import java.util.Map;
 import io.reactivex.annotations.NonNull;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：下午 1:16
  * 描述：无界优品主页
- * ===============Txunda===============
  */
 public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
     private Bundle bundle;
@@ -169,8 +167,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        L.e(ToolKit.sHA1(this, "MD5"));
-//        L.e(ToolKit.sHA1(this, "SHA1"));
 
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content, fragments);
@@ -574,7 +570,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     intent.setData(Uri.parse("package:" + packageName));
                     startActivity(intent);
                 } catch (Exception e) {
-                    L.e("=====", "电量管理");
                 }
             }
         }
@@ -590,10 +585,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
             DemoHelper.getInstance().logout(false, null);
-            L.e("======voodoo========", "keepActivity getIntent = null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
-            L.e("======voodoo========", "keepActivity getIntent != null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -1032,7 +1025,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
-                L.i("地图定位数据" + location.getCity() + "chengshi" + location.getDistrict() + "quyu" + location.getStreet());
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
             }

@@ -19,12 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：下午 2:37
  * 描述：往期揭晓
- * ===============Txunda===============
  */
 public class PastFgt extends BaseFgt {
 

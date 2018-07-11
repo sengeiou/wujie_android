@@ -35,12 +35,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/5/29 0029
  * 时间：15:41
  * 描述：所有Activity的父类
- * ===============Txunda===============
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 

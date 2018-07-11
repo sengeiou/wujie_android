@@ -20,12 +20,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：15:36
  * 描述：
- * ===============Txunda===============
  */
 
 public class PastAdapter extends RecyclerView.Adapter<PastAdapter.PathViewHolder> {

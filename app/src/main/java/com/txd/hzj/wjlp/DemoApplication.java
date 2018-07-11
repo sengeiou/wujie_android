@@ -43,12 +43,10 @@ import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：下午 1:58
  * 描述：环信Demo的Application
- * ===============Txunda===============
  */
 public class DemoApplication extends WeApplication implements EMMessageListener {
 

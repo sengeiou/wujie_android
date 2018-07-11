@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.bean.auction;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：13:50
  * 描述：竞拍汇首页商品
- * ===============Txunda===============
  */
 
 public class AuctionList {
@@ -63,7 +61,6 @@ public class AuctionList {
      */
     private String is_remind;
 
-    // TODO==========限量购属性==========
     /**
      * 限量购id
      */

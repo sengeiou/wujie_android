@@ -14,12 +14,10 @@ import com.bumptech.glide.load.engine.cache.MemorySizeCalculator;
 import com.bumptech.glide.module.GlideModule;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 2:52
  * 描述：Glide缓存管理
- * ===============Txunda===============
  */
 public class GlideCache implements GlideModule {
 

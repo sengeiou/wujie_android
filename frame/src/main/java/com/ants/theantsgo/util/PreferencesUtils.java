@@ -7,12 +7,10 @@ import com.ants.theantsgo.config.Config;
 import com.google.gson.Gson;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 2:43
  * 描述：SharedPreferences工具类
- * ===============Txunda===============
  */
 public class PreferencesUtils {
 

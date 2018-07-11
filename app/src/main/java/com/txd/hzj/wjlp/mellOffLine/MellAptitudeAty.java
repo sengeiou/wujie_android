@@ -23,12 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/12 0012
  * 时间：下午 5:09
  * 描述：商家资质
- * ===============Txunda===============
  */
 public class MellAptitudeAty extends BaseAty {
 

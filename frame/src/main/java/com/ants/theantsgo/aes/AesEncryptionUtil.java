@@ -9,7 +9,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * ===============Txunda===============<br>
  * 作者：DUKE_HwangZj<br>
  * 日期：2017/5/17 0017<br>
  * 时间：09:09<br>
@@ -22,7 +21,6 @@ import javax.crypto.spec.SecretKeySpec;
  * <font color="#ff0000">byte[]</font>转成
  * <font color="#ff0000">Base64</font>的
  * <font color="#00ff00">加密方式</font><br></p>
- * ===============Txunda===============
  */
 
 public class AesEncryptionUtil {

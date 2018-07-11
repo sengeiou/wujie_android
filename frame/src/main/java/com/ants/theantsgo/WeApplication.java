@@ -18,12 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 2:30
  * 描述：Application
- * ===============Txunda===============
  */
 public class WeApplication extends Application {
 

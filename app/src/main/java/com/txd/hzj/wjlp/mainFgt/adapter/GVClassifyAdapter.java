@@ -15,12 +15,10 @@ import com.txd.hzj.wjlp.R;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：14:40
  * 描述：
- * ===============Txunda===============
  */
 
 public class GVClassifyAdapter extends BaseAdapter {

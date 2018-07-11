@@ -11,12 +11,10 @@ import android.view.View;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
  * 作者：chen
  * 日期：2017/7/13 0007
  * 时间：下午17:55
  * 描述： 文字跑马灯
- * ===============Txunda===============
  */
 
 public class TextChenView extends View {

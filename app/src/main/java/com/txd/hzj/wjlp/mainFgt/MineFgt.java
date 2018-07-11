@@ -71,12 +71,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:54
  * 描述：我的
- * ===============Txunda===============
  */
 public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 

@@ -18,12 +18,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：14:06
  * 描述：横向的RecyclerView的适配器
- * ===============Txunda===============
  */
 
 public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.MyViewHolder> {
@@ -99,8 +97,6 @@ public class HorizontalAdapter extends RecyclerView.Adapter<HorizontalAdapter.My
     /**
      * 点击事件接口
      *
-     * @author Txunda_HZj
-     *         <p>
      *         2017年3月22日下午5:05:26
      */
     public interface OnItemClickLitener {

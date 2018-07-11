@@ -22,12 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：19:52
  * 描述：福利社领券
- * ===============Txunda===============
  */
 
 public class CouponAdapter extends BaseAdapter {

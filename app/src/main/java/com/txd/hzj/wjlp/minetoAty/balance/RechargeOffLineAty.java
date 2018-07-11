@@ -16,12 +16,10 @@ import com.txd.hzj.wjlp.http.balance.BalancePst;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 9:08
  * 描述：线下充值明细
- * ===============Txunda===============
  */
 public class RechargeOffLineAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

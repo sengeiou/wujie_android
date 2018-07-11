@@ -10,12 +10,10 @@ import java.io.File;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/22 0022
  * 时间：14:58
  * 描述：会员模块
- * ===============Txunda===============
  */
 
 public class User {

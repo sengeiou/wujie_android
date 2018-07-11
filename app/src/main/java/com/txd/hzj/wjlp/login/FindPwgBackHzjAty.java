@@ -13,12 +13,10 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：上午 9:20
  * 描述：找回密码
- * ===============Txunda===============
  */
 public class FindPwgBackHzjAty extends BaseAty {
     /**

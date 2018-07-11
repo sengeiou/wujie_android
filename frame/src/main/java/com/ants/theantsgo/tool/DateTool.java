@@ -15,12 +15,10 @@ import java.util.Locale;
 import java.util.Random;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:58
  * 描述：日期操作类
- * ===============Txunda===============
  */
 public class DateTool {
 

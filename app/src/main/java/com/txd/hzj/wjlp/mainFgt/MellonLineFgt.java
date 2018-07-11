@@ -78,13 +78,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * <p>
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:05
  * 描述：线上商城
- * ===============Txunda===============
  */
 public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 

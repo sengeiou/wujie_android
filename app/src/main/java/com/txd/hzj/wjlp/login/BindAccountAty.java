@@ -25,12 +25,10 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：上午 11:07
  * 描述：50-4绑定
- * ===============Txunda===============
  */
 public class BindAccountAty extends BaseAty {
 

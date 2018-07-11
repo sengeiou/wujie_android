@@ -7,12 +7,10 @@ import com.lidroid.xutils.http.RequestParams;
 import com.txd.hzj.wjlp.tool.TextUtils;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：11:12
  * 描述：拼团购
- * ===============Txunda===============
  */
 
 public class GroupBuy {

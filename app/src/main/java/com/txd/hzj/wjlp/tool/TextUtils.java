@@ -12,12 +12,10 @@ import com.ants.theantsgo.tools.RadiusBackgroundSpan;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：14:20
  * 描述：设置文本样式
- * ===============Txunda===============
  */
 
 public class TextUtils {

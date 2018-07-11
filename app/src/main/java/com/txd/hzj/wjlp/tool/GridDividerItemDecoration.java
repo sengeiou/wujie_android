@@ -10,12 +10,10 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/5 0005
  * 时间：15:18
  * 描述：RecyclerView瀑布流分割线
- * ===============Txunda===============
  */
 
 public class GridDividerItemDecoration extends RecyclerView.ItemDecoration {

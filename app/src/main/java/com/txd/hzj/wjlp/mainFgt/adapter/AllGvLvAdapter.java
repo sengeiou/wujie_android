@@ -30,12 +30,10 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：17:17
  * 描述：线上商城页面的GridView和ListView的适配器
- * ===============Txunda===============
  */
 
 public class AllGvLvAdapter extends BaseAdapter {

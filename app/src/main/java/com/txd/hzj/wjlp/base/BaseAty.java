@@ -59,12 +59,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：15:08
  * 描述：所有Activity的基类
- * ===============Txunda===============
  */
 
 public abstract class BaseAty extends BaseActivity implements ChatListener {
