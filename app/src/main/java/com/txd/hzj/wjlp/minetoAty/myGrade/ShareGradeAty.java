@@ -454,6 +454,7 @@ public class ShareGradeAty extends BaseAty {
                 rlvh.top_from_four_to_five_tv.setText((i + 1) + "");
             } else if (i < 3) { // 前三名
                 rlvh.top_from_four_to_five_iv.setVisibility(View.GONE); // 前三名勋章隐藏
+                rlvh.top_from_four_to_five_tv.setVisibility(View.GONE); // 同时将显示的名次隐藏
                 rlvh.top_three_iv.setVisibility(View.VISIBLE); // 头饰显示
                 imageId = getResources().getIdentifier("icon_ranking_" + i, "drawable", getPackageName());
                 rlvh.top_three_iv.setImageResource(imageId);

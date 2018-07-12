@@ -26,7 +26,6 @@
                 android:layout_height="8dp" />
 
             <LinearLayout
-                android:id="@+id/for_member_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -91,7 +90,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/for_order_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"

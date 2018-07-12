@@ -45,7 +45,6 @@
                     android:layout_marginStart="8dp"
                     android:src="@drawable/icon_get_coupon_hzj_1"/>
                 <ImageView
-                    android:id="@+id/mell_type_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

@@ -3,19 +3,11 @@
     <string name="check_details"><u>查看详情</u></string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <!--环信-->
     <string name="at_your_in_group">%s @ you in group chat</string>
-    <string name="call_version_inconsistent">通话协议版本不一致</string>
     <string name="connect_conflict">同一帐号已在其他设备登录</string>
     <string name="em_user_remove">此用户已被移除</string>
     <string name="user_forbidden">用户被服务器限制连接</string>
     <!--环信-->
-    <string name="jitsStr">
-    免费试用规则\t\t活动时间：11月6日00：00 - 11月13日18:00\t\t1.选择心仪商品\t\t2.分享专属二维码给好友\t\t3.好友扫码下载无界优品APP并登录参加试用申请\t\t4.申请试用好友人数达到要求\t\t5.系统随机抽取三名使用者可以领取试用商品\t\t6.没被系统抽取到的参与者可获得1元黄色代金券\t\t7.如果在指定时间范围未达到人数要求。即免费试用申请失败，所有参与者都可以获得1元黄色代金券。
-</string>
-    <string name="jitsPopStr">
-    活动时间：11月6日00：00 - 11月13日18:00\n\n1.选择心仪商品\n\n2.分享专属二维码给好友\n\n3.好友扫码下载无界优品APP并登录参加试用申请\n\n4.申请试用好友人数达到要求\n\n5.系统随机抽取三名使用者可以领取试用商品\n\n6.没被系统抽取到的参与者可获得1元黄色代金券\n\n7.如果在指定时间范围未达到人数要求。即免费试用申请失败，所有参与者都可以获得1元黄色代金券。
-</string>
 
 </resources>

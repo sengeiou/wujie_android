@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/city_name_tv"
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:background="@drawable/shape_city_tv"

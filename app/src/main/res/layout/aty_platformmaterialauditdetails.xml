@@ -9,7 +9,6 @@
     <include layout="@layout/tz_title_layout" />
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nscv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
