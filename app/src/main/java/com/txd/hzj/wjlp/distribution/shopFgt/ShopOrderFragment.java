@@ -6,10 +6,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -75,7 +73,7 @@ public class ShopOrderFragment extends BaseFgt {
             list.add(i);
         }
         shop_order_re_list.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ShopOrderManageAdapter(list, getActivity());
+        adapter = new ShopOrderManageAdapter(list, getActivity(),getArguments().getString("String"));
         shop_order_re_list.setAdapter(adapter);
 
         refreshLayout.setHeaderView(createHeaderView());// add headerView
