@@ -32,12 +32,10 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：上午 10:12
  * 描述：分享(5-4商品详情分享)
- * ===============Txunda===============
  */
 public class ToShareAty extends BaseAty {
 

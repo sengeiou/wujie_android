@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.bean.groupbuy;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：11:30
  * 描述：属性图片
- * ===============Txunda===============
+ *
  */
 
 public class AttrImagesBean {

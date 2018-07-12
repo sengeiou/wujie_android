@@ -63,12 +63,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：上午 9:00
  * 描述：确认订单
- * ===============Txunda===============
+ *
  */
 public class BuildOrderAty extends BaseAty {
     /**

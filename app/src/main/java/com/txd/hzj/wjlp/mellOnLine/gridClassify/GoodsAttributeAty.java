@@ -44,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 7:45
@@ -54,7 +53,6 @@ import java.util.Map;
  * 直接购买0
  * 购物车1
  * 设置 4
- * ===============Txunda===============
  */
 public class GoodsAttributeAty extends BaseAty {
     public final String SELECTED = "1", UNSELECT = "2", CANNOT_SELECT = "3";

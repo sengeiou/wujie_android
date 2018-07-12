@@ -28,12 +28,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：上午 10:07
  * 描述：线下商家详情
- * ===============Txunda===============
+ *
  */
 public class OffLineMellInfoAty extends BaseAty {
 

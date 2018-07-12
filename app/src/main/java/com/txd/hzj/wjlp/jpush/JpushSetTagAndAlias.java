@@ -10,12 +10,12 @@ import java.util.Set;
 import static com.txd.hzj.wjlp.jpush.TagAliasOperatorHelper.sequence;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/28 0028
  * 时间：11:38
  * 描述：极光推送设置别名和Tag
- * ===============Txunda===============
+ *
  */
 
 public class JpushSetTagAndAlias {

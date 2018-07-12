@@ -13,12 +13,12 @@ import android.os.Looper;
 import android.text.TextUtils;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:34
  * 描述：Glide清除缓存工具类
- * ===============Txunda===============
+ *
  */
 public class GlideCacheUtil {
 

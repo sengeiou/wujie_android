@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：15:11
  * 描述： //商品团购订单表（相同商品的不同制品）
- * ===============Txunda===============
+ *
  */
 
 public class    AllGoodsBean implements Serializable {

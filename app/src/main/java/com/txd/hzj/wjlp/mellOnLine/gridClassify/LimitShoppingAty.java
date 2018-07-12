@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：下午 2:09
  * 描述：限量购(2-2限量购2)
- * ===============Txunda===============
+ *
  */
 public class LimitShoppingAty extends BaseAty {
 

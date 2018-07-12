@@ -10,12 +10,10 @@ import android.widget.EditText;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：19:17
  * 描述：
- * ===============Txunda===============
  */
 
 public class AuctionSingUpDialog extends Dialog implements View.OnClickListener {

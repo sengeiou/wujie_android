@@ -26,12 +26,12 @@ import com.txd.hzj.wjlp.view.MyEditText;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/14 0014
  * 时间：上午 11:33
  * 描述：转账给用户
- * ===============Txunda===============
+ *
  */
 public class TransferAccountsAty extends BaseAty {
 

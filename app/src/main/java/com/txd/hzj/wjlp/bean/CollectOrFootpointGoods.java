@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/25 0025
  * 时间：09:16
  * 描述：收藏，足迹商品
- * ===============Txunda===============
+ *
  */
 
 public class CollectOrFootpointGoods implements Serializable{

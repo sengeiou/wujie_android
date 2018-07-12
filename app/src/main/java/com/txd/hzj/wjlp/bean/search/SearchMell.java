@@ -5,12 +5,12 @@ import com.txd.hzj.wjlp.bean.footPoint.FootMellsBan;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/22 0022
  * 时间：11:15
  * 描述：商家搜索
- * ===============Txunda===============
+ *
  */
 
 public class SearchMell {

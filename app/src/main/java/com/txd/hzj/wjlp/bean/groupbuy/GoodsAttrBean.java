@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.bean.groupbuy;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：11:29
  * 描述：商品属性
- * ===============Txunda===============
+ *
  */
 
 public class GoodsAttrBean {

@@ -18,12 +18,10 @@ import com.txd.hzj.wjlp.tool.BitmapUtils;
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：上午 9:46
  * 描述：注册码
- * ===============Txunda===============
  */
 public class RegistrationCodeAty extends BaseAty {
 

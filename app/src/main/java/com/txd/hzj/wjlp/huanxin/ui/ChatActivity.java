@@ -29,12 +29,12 @@ import com.yanzhenjie.permission.AndPermission;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/26 0026
  * 时间：下午 3:02
  * 描述：环信聊天
- * ===============Txunda===============
+ *
  */
 public class ChatActivity extends BaseActivity {
     protected static final String TAG = "ChatActivity";

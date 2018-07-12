@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean.groupbuy;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：11:04
  * 描述：参团页
- * ===============Txunda===============
  */
 
 public class GroupPager {

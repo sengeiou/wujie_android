@@ -44,12 +44,12 @@ import java.util.Map;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：下午 2:33
  * 描述：抢购碎片
- * ===============Txunda===============
+ *
  */
 public class LimitFgt extends BaseFgt implements NestedScrollView.OnScrollChangeListener {
 

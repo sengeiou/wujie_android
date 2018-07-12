@@ -5,12 +5,12 @@ import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：11:55
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class GroupBuyBean {

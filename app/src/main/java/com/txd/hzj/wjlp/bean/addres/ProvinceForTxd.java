@@ -9,12 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/25 0025
  * 时间：10:23
  * 描述：
- * ===============Txunda===============
  */
 
 public class ProvinceForTxd implements IPickerViewData, Parcelable {

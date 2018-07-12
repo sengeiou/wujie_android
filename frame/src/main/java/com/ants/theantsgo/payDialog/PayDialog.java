@@ -10,12 +10,10 @@ import android.widget.TextView;
 import com.ants.theantsgo.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:46
  * 描述：支付方式选择的Dialog
- * ===============Txunda===============
  */
 public class PayDialog extends Dialog implements View.OnClickListener {
 

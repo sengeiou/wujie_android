@@ -24,13 +24,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 11:48
  * 描述：订单列表
  * 本类用来配置我的--》订单中心--》每一个按钮中页面的tablayout与viewpager
- * ===============Txunda===============
  */
 public class OnlineShopAty extends BaseAty implements View.OnClickListener {
     /**

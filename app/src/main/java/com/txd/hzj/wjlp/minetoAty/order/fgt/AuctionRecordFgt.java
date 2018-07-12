@@ -23,12 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：13:34
  * 描述：竞拍碎片
- * ===============Txunda===============
  */
 
 public class AuctionRecordFgt extends BaseFgt {

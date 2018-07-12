@@ -32,12 +32,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：下午 7:55
  * 描述：收货地址
- * ===============Txunda===============
  */
 public class AddressListAty extends BaseAty {
 

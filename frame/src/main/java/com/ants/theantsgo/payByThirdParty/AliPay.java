@@ -15,12 +15,10 @@ import com.ants.theantsgo.util.L;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:38
  * 描述：支付宝支付(此类适用于支付签名在服务器段完成的情况)
- * ===============Txunda===============
  */
 public class AliPay implements Runnable {
 

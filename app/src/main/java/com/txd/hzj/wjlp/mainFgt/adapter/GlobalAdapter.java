@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/13 0013
  * 时间：14:02
  * 描述：全球馆适配器
- * ===============Txunda===============
+ *
  */
 
 public class GlobalAdapter extends BaseAdapter {

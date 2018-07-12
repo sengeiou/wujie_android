@@ -6,12 +6,10 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/20 0020
  * 时间：17:02
  * 描述：上市孵化(企业孵化)
- * ===============Txunda===============
  */
 
 public class CompanyDevelop {

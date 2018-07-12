@@ -22,12 +22,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：下午 2:21
  * 描述：购物券(15-3购物券)
- * ===============Txunda===============
  */
 public class MyCouponAty extends BaseAty {
 

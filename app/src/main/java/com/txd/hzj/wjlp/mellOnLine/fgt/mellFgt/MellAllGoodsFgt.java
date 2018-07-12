@@ -17,12 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：下午 5:43
  * 描述：全部商品
- * ===============Txunda===============
  */
 public class MellAllGoodsFgt extends BaseFgt {
     private String title;

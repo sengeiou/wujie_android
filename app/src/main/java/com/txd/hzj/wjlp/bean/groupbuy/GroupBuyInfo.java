@@ -13,12 +13,10 @@ import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：09:34
  * 描述：
- * ===============Txunda===============
  */
 
 public class GroupBuyInfo {

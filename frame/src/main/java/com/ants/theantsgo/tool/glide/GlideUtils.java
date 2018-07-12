@@ -10,12 +10,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import java.io.File;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/6/5 0005
  * 时间：10:03
  * 描述：Glide加载图片工具类(可以加载网络图片和本地图片，圆形图片或者圆角图片)
- * ===============Txunda===============
+ *
  */
 
 public class GlideUtils {

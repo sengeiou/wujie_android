@@ -20,12 +20,12 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：下午 4:02
  * 描述：位置(10-6位置)
- * ===============Txunda===============
+ *
  */
 public class FindHouseByMapAty extends BaseAty {
 

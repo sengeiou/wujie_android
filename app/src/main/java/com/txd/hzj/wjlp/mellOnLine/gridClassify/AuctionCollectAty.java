@@ -44,12 +44,12 @@ import java.util.Set;
 import static com.txd.hzj.wjlp.R.id.ads;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：下午 1:41
  * 描述：竞拍汇(8-1竞拍汇)
- * ===============Txunda===============
+ *
  */
 public class AuctionCollectAty extends BaseAty {
 

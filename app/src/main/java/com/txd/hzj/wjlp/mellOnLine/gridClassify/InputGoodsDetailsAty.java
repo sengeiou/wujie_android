@@ -53,12 +53,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：下午 1:02
  * 描述：进口馆商品详情(7-2)进口详情
- * ===============Txunda===============
  */
 public class InputGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
     /**

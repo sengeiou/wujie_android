@@ -6,12 +6,12 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/19 0019
  * 时间：09:57
  * 描述：房产购
- * ===============Txunda===============
+ *
  */
 
 public class HouseBuy {

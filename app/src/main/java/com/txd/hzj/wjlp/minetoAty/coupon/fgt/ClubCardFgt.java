@@ -17,12 +17,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 9:52
  * 描述：会员卡碎片
- * ===============Txunda===============
  */
 public class ClubCardFgt extends BaseFgt {
 

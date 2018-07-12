@@ -15,12 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/1 0001
  * 时间：09:06
  * 描述：
- * ===============Txunda===============
  */
 
 public class MellGuideFgt extends BaseFgt {

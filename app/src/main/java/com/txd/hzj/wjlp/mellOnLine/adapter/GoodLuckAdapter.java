@@ -24,12 +24,10 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：11:22
  * 描述：拼团列表适配器
- * ===============Txunda===============
  */
 
 public class GoodLuckAdapter extends BaseAdapter {

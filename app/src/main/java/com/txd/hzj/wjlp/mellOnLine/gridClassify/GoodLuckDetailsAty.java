@@ -94,12 +94,12 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 11:00
  * 描述：拼团详情
- * ===============Txunda===============
+ *
  */
 public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView, ProUrbAreaUtil.CallBack {
     private String order_id;

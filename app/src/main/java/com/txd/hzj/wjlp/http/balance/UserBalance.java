@@ -8,12 +8,10 @@ import com.lidroid.xutils.http.RequestParams;
 import java.io.File;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/23 0023
  * 时间：13:24
  * 描述：余额模块
- * ===============Txunda===============
  */
 
 class UserBalance {

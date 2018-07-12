@@ -30,12 +30,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：下午 5:19
  * 描述：银行卡
- * ===============Txunda===============
  */
 public class BankCardHzjAty extends BaseAty {
 

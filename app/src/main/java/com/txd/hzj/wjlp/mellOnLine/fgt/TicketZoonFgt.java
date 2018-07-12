@@ -57,12 +57,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 9:42
  * 描述：票券区 无界预购 进口馆 拼团购 无界商店
- * ===============Txunda===============
  */
 public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollChangeListener {
     /**

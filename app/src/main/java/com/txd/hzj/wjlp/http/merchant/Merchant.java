@@ -9,12 +9,12 @@ import java.io.File;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/11 0011
  * 时间：17:07
  * 描述：店铺首页
- * ===============Txunda===============
+ *
  */
 
 class Merchant {

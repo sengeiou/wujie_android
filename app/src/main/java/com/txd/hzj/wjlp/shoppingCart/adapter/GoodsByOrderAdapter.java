@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：09:26
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class GoodsByOrderAdapter extends BaseAdapter {

@@ -37,12 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/5 0005
  * 时间：下午 5:05
  * 描述：全部分类(1-2分类)
- * ===============Txunda===============
  */
 public class AllClassifyAty extends BaseAty {
 
@@ -305,12 +303,10 @@ public class AllClassifyAty extends BaseAty {
     }
 
     /**
-     * ===============Txunda===============
      * 作者：DUKE_HwangZj
      * 日期：2017/7/5 0005
      * 时间：下午 5:56
      * 描述：右侧的适配器
-     * ===============Txunda===============
      */
     private class RightAdapter extends BaseAdapter {
 

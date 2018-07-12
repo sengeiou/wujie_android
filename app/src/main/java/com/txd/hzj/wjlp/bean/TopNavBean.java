@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.bean;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：13:09
  * 描述：一级分类(拼团购等)
- * ===============Txunda===============
+ *
  */
 
 public class TopNavBean {

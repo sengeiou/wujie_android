@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/23 0023
  * 时间：14:30
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class Comment {

@@ -37,12 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：下午 3:57
  * 描述：商铺列表页(1-5搜索结果2)
- * ===============Txunda===============
  */
 public class MellListAty extends BaseAty {
 

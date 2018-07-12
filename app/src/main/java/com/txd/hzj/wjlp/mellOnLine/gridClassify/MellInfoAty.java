@@ -51,12 +51,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/14 0014
  * 时间：下午 2:30
  * 描述：线上店铺详情
- * ===============Txunda===============
  */
 public class MellInfoAty extends BaseAty {
 

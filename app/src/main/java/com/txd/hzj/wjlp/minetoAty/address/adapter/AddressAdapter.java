@@ -19,12 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：20:26
  * 描述：地址适配器
- * ===============Txunda===============
  */
 
 public class AddressAdapter extends BaseAdapter {

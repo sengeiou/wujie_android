@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/28 0028
  * 时间：下午 2:46
  * 描述：无界驿站
- * ===============Txunda===============
+ *
  */
 public class PointWjAty extends BaseAty {
 

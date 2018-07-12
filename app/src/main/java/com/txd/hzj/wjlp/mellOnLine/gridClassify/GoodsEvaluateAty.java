@@ -56,12 +56,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 5:49
  * 描述：商品评价
- * ===============Txunda===============
+ *
  */
 public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScrollChangeListener {
 

@@ -15,12 +15,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/1 0001
  * 时间：下午 1:40
  * 描述：进货记录
- * ===============Txunda===============
  */
 public class StockRecordAty extends BaseAty {
 

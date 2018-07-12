@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：cehne
  * 日期：2017/7/8 0007
  * 时间：上午 11:06
  * 描述：汽车购(9-1汽车购)
- * ===============Txunda===============
+ *
  */
 public class CarChenAty extends BaseAty {
 

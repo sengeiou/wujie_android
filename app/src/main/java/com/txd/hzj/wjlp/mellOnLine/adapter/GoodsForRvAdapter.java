@@ -27,12 +27,10 @@ import java.util.List;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：11:54
  * 描述：
- * ===============Txunda===============
  */
 
 public class GoodsForRvAdapter extends RecyclerView.Adapter<GoodsForRvAdapter.ItemView> {

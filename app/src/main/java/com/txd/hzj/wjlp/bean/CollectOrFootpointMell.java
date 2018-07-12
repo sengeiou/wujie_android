@@ -5,12 +5,12 @@ import com.txd.hzj.wjlp.minetoAty.mellInto.MellIntoListAty;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/25 0025
  * 时间：11:26
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class CollectOrFootpointMell {

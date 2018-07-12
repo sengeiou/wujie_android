@@ -29,12 +29,10 @@ import com.txd.hzj.wjlp.view.NoScrollWebView;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：上午 10:47
  * 描述：公告详情(无界头条详情)
- * ===============Txunda===============
  */
 public class NoticeDetailsAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

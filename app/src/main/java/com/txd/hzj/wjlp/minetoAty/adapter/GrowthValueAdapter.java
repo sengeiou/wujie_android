@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：10:20
  * 描述：成长值适配器
- * ===============Txunda===============
  */
 
 public class GrowthValueAdapter extends RecyclerView.Adapter<GrowthValueAdapter.GVViewHolder> {

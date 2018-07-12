@@ -16,12 +16,12 @@ import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/31 0031
  * 时间：11:22
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class PromotionAdapter extends BaseAdapter {

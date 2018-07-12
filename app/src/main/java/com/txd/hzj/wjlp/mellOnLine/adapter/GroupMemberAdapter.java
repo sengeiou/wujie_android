@@ -22,12 +22,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：14:17
  * 描述：团员适配器
- * ===============Txunda===============
  */
 
 public class GroupMemberAdapter extends RecyclerView.Adapter<GroupMemberAdapter.GMViewHolder> {

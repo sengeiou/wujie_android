@@ -4,12 +4,10 @@ import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：09:29
  * 描述：
- * ===============Txunda===============
  */
 
 public class AcademyPst extends BasePresenter {

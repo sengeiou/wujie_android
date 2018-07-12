@@ -59,12 +59,12 @@ import cn.sharesdk.wechat.friends.Wechat;
 import io.reactivex.annotations.NonNull;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：下午 3:40
  * 描述：设置
- * ===============Txunda===============
+ *
  */
 public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener {
     private Handler handler = new Handler(new Handler.Callback() {
