@@ -25,12 +25,10 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：11:17
  * 描述：
- * ===============Txunda===============
  */
 
 public class MellListAdapter extends BaseAdapter {

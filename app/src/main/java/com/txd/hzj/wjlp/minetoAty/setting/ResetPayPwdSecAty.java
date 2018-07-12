@@ -17,12 +17,12 @@ import com.txd.hzj.wjlp.tool.CodeCountDown;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/17 0017
  * 时间：下午 3:39
  * 描述：第二步充值支付密码
- * ===============Txunda===============
+ *
  */
 public class ResetPayPwdSecAty extends BaseAty {
 

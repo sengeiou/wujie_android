@@ -6,12 +6,12 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/15 0015
  * 时间：14:11
  * 描述：福利社
- * ===============Txunda===============
+ *
  */
 
 class Welfare {

@@ -20,12 +20,12 @@ import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/10 0010
  * 时间：下午 3:48
  * 描述：意见反馈
- * ===============Txunda===============
+ *
  */
 public class FeedbackFgt extends BaseFgt {
     /**

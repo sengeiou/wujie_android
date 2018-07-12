@@ -39,12 +39,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：13:56
  * 描述：无界预购三积分了商品列表碎片
- * ===============Txunda===============
+ *
  */
 
 public class PreBuyThirdFgt extends BaseFgt {

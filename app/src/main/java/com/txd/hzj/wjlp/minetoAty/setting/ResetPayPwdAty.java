@@ -10,12 +10,12 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/17 0017
  * 时间：下午 3:26
  * 描述：重置支付密码
- * ===============Txunda===============
+ *
  */
 public class ResetPayPwdAty extends BaseAty {
 

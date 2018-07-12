@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.bean.auction;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：13:51
  * 描述：竞拍汇首页广告
- * ===============Txunda===============
  */
 
 public class AdsBean {

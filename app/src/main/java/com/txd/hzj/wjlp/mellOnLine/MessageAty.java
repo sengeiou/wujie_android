@@ -41,12 +41,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 12:02
  * 描述：消息
- * ===============Txunda===============
  */
 public class MessageAty extends BaseAty {
 

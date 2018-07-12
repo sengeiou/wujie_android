@@ -39,12 +39,12 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/25 0025
  * 时间：10:29
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData {

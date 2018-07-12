@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.minetoAty.coupon.fgt.ShareOptionFgt;
 import java.util.ArrayList;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 9:33
  * 描述：17-1我的卡券包
- * ===============Txunda===============
  */
 public class CouponHzjAty extends BaseAty {
 

@@ -9,12 +9,10 @@ import android.view.View;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：19:31
  * 描述：
- * ===============Txunda===============
  */
 
 public class DeteleBankDialog extends Dialog implements View.OnClickListener {

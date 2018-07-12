@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：17:43
  * 描述：产品规格列表
- * ===============Txunda===============
+ *
  */
 
 public class GoodsCommonAttr {

@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：chen
  * 日期：2017/7/8 0007
  * 时间：上午 12:06
  * 描述：房产购详情页_户型(10-2房产购)
- * ===============Txunda===============
+ *
  */
 
 public class HousDetailsTypeChenFgt extends BaseFgt {

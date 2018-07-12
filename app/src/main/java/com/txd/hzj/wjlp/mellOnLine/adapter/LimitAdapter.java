@@ -28,12 +28,10 @@ import java.util.List;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：15:15
  * 描述：限量购适配器
- * ===============Txunda===============
  */
 
 public class LimitAdapter extends BaseAdapter {

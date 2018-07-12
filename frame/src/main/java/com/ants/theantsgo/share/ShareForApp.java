@@ -16,12 +16,10 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:49
  * 描述：分享
- * ===============Txunda===============
  */
 public class ShareForApp implements PlatformActionListener {
 

@@ -21,12 +21,10 @@ import org.json.JSONObject;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：上午 9:39
  * 描述：扫一扫
- * ===============Txunda===============
  */
 public class ScanAty extends BaseAty implements QRCodeView.Delegate {
 

@@ -37,12 +37,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：chen
  * 日期：2017/7/8 0007
  * 时间：上午 17.27
  * 描述：汽车购(9-2汽车购)
- * ===============Txunda===============
+ *
  */
 public class CarCommodityChenAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)//标题

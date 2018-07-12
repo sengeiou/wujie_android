@@ -64,12 +64,10 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：下午 1:39
  * 描述：余额充值(16-2-1充值)
- * ===============Txunda===============
  */
 public class RechargeAty extends BaseAty {
 

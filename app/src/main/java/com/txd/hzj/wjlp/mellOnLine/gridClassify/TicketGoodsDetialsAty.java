@@ -97,12 +97,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 10:13
  * 描述：票券区商品详情(3-2票券)
- * ===============Txunda===============
+ *
  */
 public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
     private String is_attr = "";

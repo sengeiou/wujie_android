@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean;
 import java.io.Serializable;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/25 0025
  * 时间：09:21
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class CFGoodsList implements Serializable {

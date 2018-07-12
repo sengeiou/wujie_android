@@ -11,12 +11,12 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj整理，原作者刘座山
  * 日期：2017/9/28 0028
  * 时间：下午 4:05
  * 描述：361186482@qq.com(原作者邮箱)
- * ===============Txunda===============
+ *
  */
 public class Bazi {
     public static final String tg[] = {"甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"};

@@ -322,7 +322,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     protected void showProgressDialog() {
         isShowContent = false;
-        if (!progressDialog.isShowing()&&!isFinishing()) {
+        if (!progressDialog.isShowing() && !isFinishing()) {
             progressDialog.show();
             progressDialog.setContentView(R.layout.loading_dialog);
         }
@@ -335,7 +335,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     protected void showProgressDialog(String title) {
         isShowContent = false;
-        if (!progressDialog.isShowing()&&!isFinishing()) {
+        if (!progressDialog.isShowing() && !isFinishing()) {
             progressDialog.show();
             View views = LayoutInflater.from(this).inflate(R.layout.loading_dialog, null);
             TextView loading_tv_content = (TextView) views.findViewById(R.id.loading_tv_content);
@@ -348,7 +348,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 移除掉上面那个dialog
      */
     public void removeProgressDialog() {
-        if (progressDialog.isShowing()&&!isFinishing()) {
+        if (progressDialog.isShowing() && !isFinishing()) {
             progressDialog.dismiss();
         }
     }
@@ -464,7 +464,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (tipsToast == null) {
             tipsToast = ToastTip.makeText(this, tips, Toast.LENGTH_SHORT);
         }
-        if (!isFinishing()){
+        if (!isFinishing()) {
             tipsToast.show();
         }
         tipsToast.setIcon(iconResId);
@@ -599,7 +599,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     protected void configWebView(List<WebView> webViews) {
         for (WebView webView : webViews) {
             webView.getSettings().setDomStorageEnabled(true);
-            final String dbPath = getApplicationContext().getDir("db",Context.MODE_PRIVATE).getPath();
+            final String dbPath = getApplicationContext().getDir("db", Context.MODE_PRIVATE).getPath();
             webView.getSettings().setDatabasePath(dbPath);
         }
 

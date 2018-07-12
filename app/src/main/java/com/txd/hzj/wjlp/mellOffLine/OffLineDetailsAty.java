@@ -30,12 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：下午 2:58
  * 描述：线下店铺详情
- * ===============Txunda===============
+ *
  */
 public class OffLineDetailsAty extends BaseAty {
 

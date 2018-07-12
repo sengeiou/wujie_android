@@ -41,12 +41,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：下午 4:07
  * 描述：s申请售后
- * ===============Txunda===============
  */
 public class ApplyForAfterSalesAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

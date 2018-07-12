@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean.footPoint;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/22 0022
  * 时间：09:07
  * 描述：我的足迹商家
- * ===============Txunda===============
  */
 
 public class FootPointBean {

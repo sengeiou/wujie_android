@@ -62,12 +62,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：下午 4:19
  * 描述：个人信息
- * ===============Txunda===============
+ *
  */
 public class EditProfileAty extends BaseAty implements View.OnClickListener {
     /**

@@ -14,12 +14,10 @@ import com.txd.hzj.wjlp.http.article.ArticlePst;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/18 0018
  * 时间：下午 1:32
  * 描述：过于我们
- * ===============Txunda===============
  */
 public class AboutOursAty extends BaseAty {
     /**

@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：16:07
  * 描述：
- * ===============Txunda===============
  */
 
 public class WjMellAdapter extends BaseAdapter {

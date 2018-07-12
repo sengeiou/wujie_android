@@ -35,12 +35,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/21 0021
  * 时间：17:00
  * 描述：我的推荐
- * ===============Txunda===============
  */
 public class RecommendSuccessAty extends BaseAty {
 

@@ -18,12 +18,12 @@ import com.txd.hzj.wjlp.huanxin.db.DemoDBManager;
 import java.io.File;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/17 0017
  * 时间：10:27
  * 描述：注册
- * ===============Txunda===============
+ *
  */
 
 public class RegisterPst extends BasePresenter {

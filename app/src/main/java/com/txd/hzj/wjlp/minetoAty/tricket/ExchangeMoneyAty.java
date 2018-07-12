@@ -38,12 +38,10 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：上午 9:18
  * 描述：积分转余额
- * ===============Txunda===============
  */
 public class ExchangeMoneyAty extends BaseAty {
 

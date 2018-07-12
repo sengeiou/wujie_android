@@ -5,12 +5,12 @@ import com.txd.hzj.wjlp.bean.CFGoodsList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/22 0022
  * 时间：10:55
  * 描述：商品搜索
- * ===============Txunda===============
+ *
  */
 
 public class SeaechBean {

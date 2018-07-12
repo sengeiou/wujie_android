@@ -6,12 +6,10 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：10:46
  * 描述：无界预购
- * ===============Txunda===============
  */
 class PreBuy {
     private String url = Config.BASE_URL + "PreBuy/";

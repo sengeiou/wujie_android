@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/18 0018
  * 时间：下午 2:52
  * 描述：帮助中心
- * ===============Txunda===============
+ *
  */
 public class HelpCenterAty extends BaseAty {
     /**

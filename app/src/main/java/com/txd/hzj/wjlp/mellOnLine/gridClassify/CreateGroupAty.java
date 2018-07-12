@@ -46,12 +46,12 @@ import java.util.Map;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 1:21
  * 描述：4-3参团
- * ===============Txunda===============
+ *
  */
 public class CreateGroupAty extends BaseAty {
     private OfferedDataBean offeredDataBean;

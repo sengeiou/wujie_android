@@ -17,12 +17,12 @@ import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：17:28
  * 描述：评论图片适配器
- * ===============Txunda===============
+ *
  */
 
 public class CommentPicAdapter extends BaseAdapter {

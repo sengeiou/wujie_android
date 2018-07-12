@@ -6,12 +6,10 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/4 0004
  * 时间：10:34
  * 描述：一元购
- * ===============Txunda===============
  */
 
 public class OneBuy {

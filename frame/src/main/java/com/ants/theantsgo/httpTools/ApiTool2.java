@@ -19,12 +19,10 @@ import org.json.JSONObject;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：09:52
  * 描述：
- * ===============Txunda===============
  */
 
 public class ApiTool2 {

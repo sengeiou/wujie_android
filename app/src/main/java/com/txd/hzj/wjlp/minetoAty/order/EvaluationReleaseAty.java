@@ -44,12 +44,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：上午 11:55
  * 描述：商品评价
- * ===============Txunda===============
  */
 public class EvaluationReleaseAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

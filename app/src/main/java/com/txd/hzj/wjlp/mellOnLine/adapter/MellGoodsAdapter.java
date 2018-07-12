@@ -16,12 +16,10 @@ import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：17:03
  * 描述：商家详情商品列表
- * ===============Txunda===============
  */
 
 public class MellGoodsAdapter extends RecyclerView.Adapter<MellGoodsAdapter.MellGoodsViewHolder> {

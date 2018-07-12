@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.listener.ItemClickForRecyclerView;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：11:01
  * 描述：三级分类热门品牌适配器
- * ===============Txunda===============
  */
 
 public class HotBrandAdapter extends RecyclerView.Adapter<HotBrandAdapter.HotAdapter> {

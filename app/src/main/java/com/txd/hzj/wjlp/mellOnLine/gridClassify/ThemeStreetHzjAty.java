@@ -34,12 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：下午 3:24
  * 描述：5-1主题街
- * ===============Txunda===============
  */
 public class ThemeStreetHzjAty extends BaseAty implements NestedScrollView.OnScrollChangeListener {
 

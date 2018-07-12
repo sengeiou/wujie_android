@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/18 0018
  * 时间：15:14
  * 描述：帮助中心
- * ===============Txunda===============
+ *
  */
 
 public class HelpCenter {

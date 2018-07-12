@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/19 0019
  * 时间：14:04
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class HouseArrtAdapter extends BaseAdapter {

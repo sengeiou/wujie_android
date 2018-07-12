@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.bean;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：13:10
  * 描述：二级分类(拼团购等)
- * ===============Txunda===============
+ *
  */
 
 public class TwoCateListBean {

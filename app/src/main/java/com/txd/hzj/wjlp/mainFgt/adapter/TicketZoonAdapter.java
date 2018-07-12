@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：13:48
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class TicketZoonAdapter extends BaseAdapter {

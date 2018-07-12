@@ -30,12 +30,12 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/13 0013
  * 时间：09:10
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class MellGoodsAndAdsAdapter extends BaseAdapter {

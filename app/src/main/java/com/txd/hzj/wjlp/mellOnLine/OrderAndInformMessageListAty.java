@@ -27,12 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：上午 10:07
  * 描述：订单消息和通知消息列表
- * ===============Txunda===============
  */
 public class OrderAndInformMessageListAty extends BaseAty {
 

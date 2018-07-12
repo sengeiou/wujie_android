@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：下午 4:41
  * 描述：自营商品
- * ===============Txunda===============
+ *
  */
 public class GoodsByMySelfFgt extends BaseFgt implements CheckListener {
     public static GoodsByMySelfFgt newInstance(int page) {

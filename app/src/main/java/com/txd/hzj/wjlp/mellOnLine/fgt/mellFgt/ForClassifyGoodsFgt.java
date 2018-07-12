@@ -13,12 +13,10 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.MellGoodsAdapter;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：下午 5:58
  * 描述：分类商品
- * ===============Txunda===============
  */
 public class ForClassifyGoodsFgt extends BaseFgt {
     private String title;

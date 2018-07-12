@@ -6,12 +6,10 @@ import android.content.pm.PackageManager;
 
 import java.util.List;
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 9:38
  * 描述：检测指定的app知否存在
- * ===============Txunda===============
  */
 public class CheckAppExist {
 

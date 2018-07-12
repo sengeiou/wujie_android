@@ -33,12 +33,10 @@ import cc.solart.turbo.OnItemClickListener;
 import cc.solart.wave.WaveSideBarView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/1 0001
  * 时间：下午 4:29
  * 描述：商家选择地址
- * ===============Txunda===============
  */
 public class MellCitySelectAty extends BaseAty {
 

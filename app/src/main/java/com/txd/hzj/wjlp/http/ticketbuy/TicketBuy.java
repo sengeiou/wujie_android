@@ -6,12 +6,12 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/9 0009
  * 时间：16:50
  * 描述：票券区模块
- * ===============Txunda===============
+ *
  */
 class TicketBuy {
 
