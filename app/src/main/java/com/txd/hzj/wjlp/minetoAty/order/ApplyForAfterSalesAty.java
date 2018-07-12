@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tips.CustomDialog;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -27,7 +25,6 @@ import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AfterSale;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
 import com.txd.hzj.wjlp.minetoAty.order.adapter.GridImageAdapter;
 import com.txd.hzj.wjlp.minetoAty.order.utils.FullyGridLayoutManager;
 
@@ -231,7 +228,7 @@ public class ApplyForAfterSalesAty extends BaseAty {
             // 获取到order_goods_id，先请求一下商品状态=============================================
             AfterSale.backApplyType(order_goods_id, "2", this);
         } else {
-            AfterSale.backNormalApplyType(this, order_goods_id);
+            AfterSale.backNormalApplyType(this, order_goods_id,type);
         }
         String maxPriceStr = getIntent().getStringExtra("maxPrice");
         if (!TextUtils.isEmpty(maxPriceStr)) {

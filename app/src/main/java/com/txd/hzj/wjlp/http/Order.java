@@ -175,6 +175,22 @@ public class Order {
     }
 
     /**
+     * 无界商店确认收货
+     *
+     * @param order_id
+     * @param baseView
+     */
+    public static void shopReceiving(String order_id, String order_goods_id, String status, BaseView baseView) {
+        L.e("wang", "========>>>>>>>>>order_id:" + order_id + "\torder_goods_id:" + order_goods_id + "\tstatus:" + status);
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        requestParams.addBodyParameter("status", status);
+        apiTool2.postApi(Config.BASE_URL+"IntegralBuyOrder/receiving", requestParams, baseView);
+    }
+
+    /**
      * 评论主页
      *
      * @param order_id
@@ -193,7 +209,7 @@ public class Order {
             requestParams.addBodyParameter("order_type", "3");
         }else if ("6".equals(type)){
             requestParams.addBodyParameter("order_type", "4");
-        }else if ("7".equals(type)){
+        }else if ("10".equals(type)){
             requestParams.addBodyParameter("order_type", "5");
         }
 
@@ -231,14 +247,21 @@ public class Order {
             requestParams.addBodyParameter("order_type", "4");
         }else if ("5".equals(order_type)){
             requestParams.addBodyParameter("order_type", "6");
+        }else if ("10".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "5");
         }
         //todo 限量购的类型需要确定
         //        else if("5".equals(order_type)){
         //            requestParams.addBodyParameter("order_type", "5");
         //        }
-        for (int i = 0; i < list.size(); i++) {
-            requestParams.addBodyParameter("pictures" + i, list.get(i));
+        if (list.size()>0){
+            for (int i = 0; i < list.size(); i++) {
+                requestParams.addBodyParameter("pictures" + i, list.get(i));
+            }
+        }else {
+            requestParams.addBodyParameter("pictures" , (File) null);
         }
+
         apiTool2.postApi(url + "CommentGoods", requestParams, baseView);
     }
 
@@ -268,6 +291,8 @@ public class Order {
             requestParams.addBodyParameter("order_type", "4");
         }else if ("5".equals(order_type)){
             requestParams.addBodyParameter("order_type", "6");
+        }else if ("10".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "5");
         }
         //todo 限量购的类型需要确定
 //        else if("5".equals(order_type)){
@@ -317,7 +342,20 @@ public class Order {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
-        apiTool2.postApi(url + "delayReceiving", requestParams, baseView);
+        apiTool2.postApi(  url+"delayReceiving", requestParams, baseView);
+
+    }
+
+    /**
+     * 无界商店延长收货(接口不一样)
+     * @param order_goods_id
+     * @param baseView
+     */
+    public static void delayShopReceiving(String order_goods_id, BaseView baseView) {
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("order_goods_id", order_goods_id);
+        apiTool2.postApi(  Config.BASE_URL+"IntegralBuyOrder/delayReceiving", requestParams, baseView);
 
     }
 

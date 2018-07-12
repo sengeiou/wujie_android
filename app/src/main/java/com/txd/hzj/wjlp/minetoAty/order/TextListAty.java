@@ -223,7 +223,7 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
             }
 
             showProgressDialog();
@@ -231,7 +231,7 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
             }
             showProgressDialog();
 //            map = new HashMap<>();

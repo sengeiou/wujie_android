@@ -534,7 +534,11 @@ public class OrderDetailsAty extends BaseAty {
                 if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
                 } else {
-                    Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    if (!"10".equals(type)) {
+                        Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    }else {
+                        Order.shopReceiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    }
                     showProgressDialog();
                 }
             } else {
@@ -934,7 +938,9 @@ public class OrderDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     if ("3".equals(type)) {//拼单购，无用代码
                         GroupBuyOrder.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    } else {
+                    }if ("10".equals(type)){
+                        Order.delayShopReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
+                    }else {
                         Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     }
                     showProgressDialog(); // 显示加载框

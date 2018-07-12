@@ -164,10 +164,16 @@ public class AfterSale {
      * @param baseView
      * @param order_goods_id 订单物品Id
      */
-    public static void backNormalApplyType(BaseView baseView, String order_goods_id) {
+    public static void backNormalApplyType(BaseView baseView, String order_goods_id,String type) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_goods_id", order_goods_id);
-        params.addBodyParameter("order_type", "1");
+        //type为10代表无界商店
+        if ("10".equals(type)){
+            params.addBodyParameter("order_type", "5");
+        }else {
+            params.addBodyParameter("order_type", "1");
+        }
+
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "backApplyType", params, baseView);
     }
