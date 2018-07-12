@@ -17,7 +17,6 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/off_line_search_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"

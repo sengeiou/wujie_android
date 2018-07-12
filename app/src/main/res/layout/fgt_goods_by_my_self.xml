@@ -57,7 +57,6 @@
                     android:padding="8dp"
                     android:src="@drawable/icon_mell_off_line_cart_hzj"/>
                 <TextView
-                    android:id="@+id/mell_off_line_cart_num_tv"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="end"

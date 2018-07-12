@@ -25,7 +25,6 @@
         app:tl_textUnselectColor="#ff333333"
         app:tl_textsize="12sp"/>
     <LinearLayout
-        android:id="@+id/data_llt"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

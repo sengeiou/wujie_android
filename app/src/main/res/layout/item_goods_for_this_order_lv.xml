@@ -74,7 +74,6 @@
                 android:textSize="14sp" />
 
             <View
-                android:id="@+id/lin_shouhou_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_shfw"
@@ -111,7 +110,6 @@
                 android:textSize="14sp" />
 
             <View
-                android:id="@+id/layout_gongyi_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/tv_gybb"
@@ -156,7 +154,6 @@
                     android:textSize="14sp" />
 
                 <View
-                    android:id="@+id/layout_zhengpinbaozheng_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_zpbz"
@@ -194,7 +191,6 @@
                     android:textSize="14sp" />
 
                 <View
-                    android:id="@+id/layout_fuwuchengnuo_line"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_fwcn"

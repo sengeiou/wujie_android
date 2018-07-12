@@ -73,14 +73,12 @@
                 android:visibility="gone">
 
                 <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
-                    android:id="@+id/goods_attr_tfl1"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
                     app:max_select="1" />
 
                 <com.txd.hzj.wjlp.view.flowlayout.TagFlowLayout
-                    android:id="@+id/goods_attr_tfl2"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
@@ -161,7 +159,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/goods_details_bottom_layouts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
