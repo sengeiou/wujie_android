@@ -152,6 +152,6 @@ public class IntegralBuyOrder {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
-        apiTool2.postApi(url + "Receiving", requestParams, baseView);
+        apiTool2.postApi(url + "remind", requestParams, baseView);
     }
 }

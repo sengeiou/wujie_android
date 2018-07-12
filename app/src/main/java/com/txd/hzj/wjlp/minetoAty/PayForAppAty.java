@@ -19,11 +19,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.AppManager;
-import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.payByThirdParty.AliPay;
 import com.ants.theantsgo.payByThirdParty.aliPay.AliPayCallBack;
-import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -43,7 +41,6 @@ import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -428,9 +425,9 @@ public class PayForAppAty extends BaseAty {
             //无界商店添加订单
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
             decimalFormat = new DecimalFormat("0");
-            total_price = Double.parseDouble(getIntent().getStringExtra("money"));
-            String format = decimalFormat.format(total_price);
-            tv_price.setText("付款金额" + format + "积分");
+//            total_price = Double.parseDouble(getIntent().getStringExtra("money"));
+//            String format = decimalFormat.format(total_price);
+//            tv_price.setText("付款金额" + format + "积分");
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
