@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
@@ -54,7 +53,12 @@ public class AfterSale {
         requestParams.addBodyParameter("cause", cause);
         requestParams.addBodyParameter("goods_status", goods_status);
         requestParams.addBodyParameter("order_id", order_id);
-        requestParams.addBodyParameter("order_type", order_type);
+        if ("10".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "5");
+        }else {
+            requestParams.addBodyParameter("order_type", order_type);
+        }
+
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
         for (int i = 0; i < list.size(); i++) {
             requestParams.addBodyParameter("back_img" + i, list.get(i));
