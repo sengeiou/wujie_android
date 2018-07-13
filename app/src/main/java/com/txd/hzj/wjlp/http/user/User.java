@@ -173,9 +173,6 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("type", type);
-        L.e("==========", String.valueOf(p));
-        L.e("==========", type);
-        L.e("============================================111111111111111");
         apiTool2.postApi(url + "myfooter", params, baseView);
     }
 

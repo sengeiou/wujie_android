@@ -57,7 +57,6 @@ public class Order {
     public static void setOrder(String address_id, String order_type, String order_id,
                                 String limit_buy_id, String collocation, String invoice, String leave_message, String goods,
                                 BaseView baseView) {
-        L.e("address_id=" + address_id + "\norder_type=" + order_type + "\norder_id=" + order_id + "\nlimit_buy_id=" + limit_buy_id + "\ncollocation=" + collocation + "\ninvoice=" + invoice + "\nleave_message=" + leave_message + "\ngoods=" + goods);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("address_id", address_id);
@@ -165,7 +164,6 @@ public class Order {
      * @param baseView
      */
     public static void receiving(String order_id, String order_goods_id, String status, BaseView baseView) {
-        L.e("wang", "========>>>>>>>>>order_id:" + order_id + "\torder_goods_id:" + order_goods_id + "\tstatus:" + status);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
@@ -181,7 +179,6 @@ public class Order {
      * @param baseView
      */
     public static void shopReceiving(String order_id, String order_goods_id, String status, BaseView baseView) {
-        L.e("wang", "========>>>>>>>>>order_id:" + order_id + "\torder_goods_id:" + order_goods_id + "\tstatus:" + status);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
@@ -326,7 +323,6 @@ public class Order {
      * @param order_goods_id 订单商品id
      */
     public static void remind(BaseView baseView, String order_goods_id) {
-        L.e("wang", "remind ========== order_goods_id:" + order_goods_id);
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_goods_id", order_goods_id);

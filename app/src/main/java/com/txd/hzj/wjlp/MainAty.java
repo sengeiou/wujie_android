@@ -607,7 +607,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                 intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
             this.finish();
-            L.e("======voodoo========", "showExceptionDialogFromIntent Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -641,7 +640,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             Intent intent = new Intent(MainAty.this, LoginAty.class);
                             intent.putExtra("type", 0);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            L.e("======voodoo========", "exceptionBuilder == null Start Login Activity");
                             startActivity(intent);
                             finish();
                         }
@@ -907,20 +905,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     };
 
     // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            L.e(location.getLongitude() + "=============jj============" + location.getLongitude() + "");
-            L.e("=============jj============" + location.toString());
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                Log.i("地图定位数据", location.getLongitude() + "kkkkkk" + location.getLatitude());
                 Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
@@ -1020,8 +1009,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 }
                 DemoApplication.getInstance().setLocInfo(locMap);
                 locationService.stop();
-                L.e("======定位结果=====", sb.toString());
-                L.e("======定位信息=====", DemoApplication.getInstance().getLocInfo().toString());
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
@@ -1045,7 +1032,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             public void run() {
                 // 刷新未读消息数量
                 updateUnreadLabel();
-                L.e("=====主页=====", "回调");
                 if (0 == page_index) {
                     ((MellonLineFgt) fragments.get(0)).showOrHindNum(getUnreadMsgCountTotal());
                     return;

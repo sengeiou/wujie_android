@@ -15,7 +15,6 @@ public class MemberOrder {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("member_coding", rank_id);
-        L.e("cccc"+rank_id);
         apiTool2.postApi(url + "settlement", params, baseView);
     }
 

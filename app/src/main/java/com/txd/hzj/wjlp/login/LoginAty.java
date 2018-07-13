@@ -305,8 +305,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 
-        L.e("login jsonStr:" + jsonStr);
-
         if (requestUrl.contains("registerOne")) {// 注册第一步
 //            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 //            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
@@ -376,7 +374,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             } else {
                 showRightTip("登录成功");
                 boolean existMainActivity = isExistMainActivity(MainAty.class);
-                L.e("wang", "existMainActivity:" + existMainActivity);
                 if (existMainActivity) {
                     startActivity(MainAty.class, null);
                 }
@@ -460,9 +457,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             head_pic = platform.getDb().getUserIcon();
             getHeadPicAndLogin(head_pic);
             // 三方登陆
-            L.e("=====openid=====", openid);
-            L.e("=====nick=====", nick);
-            L.e("=====pic=====", head_pic);
         }
     }
 
@@ -471,8 +465,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         removeDialog();
         if (i == Platform.ACTION_USER_INFOR) {
             UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
-            L.e("=====授权失败=====", throwable.toString());
-            L.e("=====授权失败=====", String.valueOf(i));
         }
         throwable.printStackTrace();
     }
@@ -480,7 +472,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @Override
     public void onCancel(Platform platform, int i) {
         removeDialog();
-        L.e(platform.getName(), "=====取消=====");
     }
 
     /**

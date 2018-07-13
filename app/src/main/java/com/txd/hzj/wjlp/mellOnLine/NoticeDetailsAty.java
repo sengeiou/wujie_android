@@ -194,8 +194,6 @@ public class NoticeDetailsAty extends BaseAty {
         }
         if (requestUrl.contains("headInfo")) {
 
-            L.e("wang", "toutiao=======" + jsonStr);
-
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
 
             books_title_tv.setText(data.get("title"));

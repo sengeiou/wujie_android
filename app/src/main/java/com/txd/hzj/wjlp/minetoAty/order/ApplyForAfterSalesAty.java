@@ -254,7 +254,6 @@ public class ApplyForAfterSalesAty extends BaseAty {
 
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 
-        L.e("wang", "=======ApplyForAfterSalesAty>>>>>>>jsonStr:" + jsonStr + "\trequestUrl:" + requestUrl);
         String[] split = requestUrl.split("/");
 
         if (split[split.length - 1].equals("backApplyType")) {

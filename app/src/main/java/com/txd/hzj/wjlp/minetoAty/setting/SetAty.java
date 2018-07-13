@@ -179,7 +179,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             case R.id.rel_myBankCard:
                 isMyBankCardClick = true;
                 User.userInfo(this); // 获取用户信息
-                L.e("wang", "rel_myBankCard  isMyBankCardClick = " + isMyBankCardClick);
                 break;
             case R.id.rel_bind_phone: // 绑定手机号
                 if (phone.equals("")) {
@@ -379,13 +378,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("cccccc" + error);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("类型" + jsonStr);
         if (requestUrl.contains("Upgrade")) {
             UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
             AppUpdate.getInstance().showAppUpdateDialog(updataApp, this, false);
@@ -476,7 +473,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     }
 
     private void setBindText(TextView textView, Map<String, String> map) {
-        L.e("map" + map.toString());
         if (map.get("is_bind").equals("0")) {
             textView.setText("未绑定");
             return;
@@ -541,7 +537,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
             @Override
             public void onSuccess() {
-                L.e("=====退出登录=====", "成功");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -553,7 +548,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
             @Override
             public void onProgress(int progress, String status) {
-                L.e("=====退出登录=====", "退出中");
             }
 
             @Override
@@ -564,7 +558,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                         showErrorTip("退出失败，请重新操作");
                     }
                 });
-                L.e("=====退出登录=====", "失败：" + code + "-----" + message);
             }
         });
     }
@@ -585,15 +578,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             } else {
                 openid = platform.getDb().getUserId();
             }
-            L.e("授权成功" + platform.getDb().getUserName());
             nick = platform.getDb().getUserName();
             head_pic = platform.getDb().getUserIcon();
 //            userPst.bindOther(openid, loginType, nick);
             getHeadPicAndLogin(head_pic);
             // 三方登陆
-            L.e("=====openid=====", openid);
-            L.e("=====nick=====", nick);
-            L.e("=====pic=====", head_pic);
         }
     }
 
@@ -602,8 +591,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
         removeDialog();
         if (i == Platform.ACTION_USER_INFOR) {
             UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
-            L.e("=====授权失败=====", throwable.toString());
-            L.e("=====授权失败=====", String.valueOf(i));
         }
         throwable.printStackTrace();
     }

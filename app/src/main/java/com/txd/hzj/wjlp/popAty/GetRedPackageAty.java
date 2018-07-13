@@ -160,7 +160,6 @@ public class GetRedPackageAty extends BaseAty {
                 bonus_id = data.get("bonus_id");
                 if (ToolKit.isList(data, "ads_list")) {
 
-                    L.e("======数据长度=====", data.toString());
 
                     pics = JSONUtils.parseKeyAndValueToMapList(data.get("ads_list"));
                     if (!ListUtils.isEmpty(pics)) {
@@ -247,7 +246,6 @@ public class GetRedPackageAty extends BaseAty {
             next_pic_tv.setEnabled(true);
             next_pic_tv.setBackgroundResource(R.drawable.shape_rp_click_next_tv);
             count_down_tv.setText("00:00");
-            L.e("=====下标=====", String.valueOf(pos));
             if (pos >= pics.size() - 1) {
                 to_share_rp_layout.setVisibility(View.VISIBLE);
                 pic_lin_layout.setVisibility(View.GONE);

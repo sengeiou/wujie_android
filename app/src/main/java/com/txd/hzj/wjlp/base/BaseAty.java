@@ -326,7 +326,6 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
                 @Override
                 public void onSuccess() {
-                    L.e("=====退出登录=====", "成功");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -337,12 +336,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
                 @Override
                 public void onProgress(int progress, String status) {
-                    L.e("=====退出登录=====", "退出中");
                 }
 
                 @Override
                 public void onError(int code, String message) {
-                    L.e("=====退出登录=====", "失败：" + code + "-----" + message);
                 }
             });
         }

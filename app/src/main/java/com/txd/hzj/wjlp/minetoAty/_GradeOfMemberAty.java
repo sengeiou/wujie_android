@@ -134,8 +134,6 @@ public class _GradeOfMemberAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
 
-        L.e("wang", requestUrl + "\t============>>>>>>>>>>>>>>>>>>>>>>>>会员卡：" + jsonStr);
-
         super.onComplete(requestUrl, jsonStr);
 
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -175,7 +173,6 @@ public class _GradeOfMemberAty extends BaseAty {
 
             holder.tv_ms.setText(getItem(position).get("this_description"));
             String is_discount = getItem(position).get("is_discount");
-            L.e("wang", "getItem(position).get(\"is_discount\") = " + is_discount);
             if (is_discount.equals("0")){ // 没有活动
                 holder.im.setVisibility(View.GONE);
             }

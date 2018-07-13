@@ -48,9 +48,6 @@ public class AfterSale {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
 
-        L.e("wang", "=====reason=" + reason + ", back_money=" + back_money + ", back_desc=" + back_desc + ", list=" + list
-                + ", cause=" + cause + ", goods_status=" + goods_status + ", order_id=" + order_id + ", order_type=" + order_type + ", order_goods_id=" + order_goods_id);
-
         requestParams.addBodyParameter("reason", reason);
         requestParams.addBodyParameter("back_money", back_money);
         requestParams.addBodyParameter("back_desc", back_desc);

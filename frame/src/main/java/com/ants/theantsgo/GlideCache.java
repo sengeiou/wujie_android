@@ -63,7 +63,6 @@ public class GlideCache implements GlideModule {
 //            }
 //        });
 
-        L.e("=====设置的缓存路径=====", downloadDirectoryPath);
 //        builder.setDiskCache(new InternalCacheDiskCacheFactory(context, downloadDirectoryPath, cacheSize));
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, downloadDirectoryPath, DiskCache.Factory.DEFAULT_DISK_CACHE_SIZE));
 

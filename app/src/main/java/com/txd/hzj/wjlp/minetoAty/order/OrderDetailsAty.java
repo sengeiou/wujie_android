@@ -402,7 +402,6 @@ public class OrderDetailsAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("wang", requestUrl + "=======>>>>>>>>>" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
         // 返回的Url中有好多字段包含在其他返回值中，所以字段截取进行精确匹配
@@ -787,10 +786,6 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh = (TGVH) view.getTag();
             }
             Map<String, String> map = getItem(i);
-            L.e("order_sta" + order_status);
-
-            L.e("wang", "status = " + map.get("status") + "\tgetItem:" + map);
-
 
             if (map.containsKey("after_sale_status") && map.get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示

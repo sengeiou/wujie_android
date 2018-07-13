@@ -66,7 +66,6 @@ public class ShareToFriendsAty extends BaseAty {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_share_friends_tv:// 分享
-                L.e("ccc"+share_url);
                 String context = share_context_ev.getText().toString().trim();
                 toShare(share_title, share_img, share_url, context, share_id, "1");
 //                toShare(share_title, share_img, share_url, context, share_id, "5");

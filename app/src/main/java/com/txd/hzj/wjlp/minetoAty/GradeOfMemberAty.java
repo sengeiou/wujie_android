@@ -185,7 +185,6 @@ public class GradeOfMemberAty extends BaseAty {
         }
         if (requestUrl.contains("userRank")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            L.e("=====22222=====",data.get("rank_list"));
 
             member_growth_value_tv.setText(data.get("end_time") + "到期");
             grade_of_member_tv.setText(data.get("my_rank"));

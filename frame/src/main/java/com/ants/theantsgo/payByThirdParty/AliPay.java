@@ -51,7 +51,6 @@ public class AliPay implements Runnable {
     public void run() {
         PayTask alipay = new PayTask(AppManager.getInstance().getTopActivity());
         Map<String, String> result = alipay.payV2(orderInfo, true);
-        L.e("=====msp=====", result.toString());
         Message msg = new Message();
         msg.what = SDK_PAY_FLAG;
         msg.obj = result;

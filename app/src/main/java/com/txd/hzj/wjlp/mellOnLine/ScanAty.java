@@ -102,11 +102,13 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                         JSONObject data = jsonObject.getJSONObject("data");
                         String sid = data.getString("sid");
 
+                        showToast("扫码成功，正在登陆网站端。。。");
                         // 实例化网络请求接口并添加请求参数
                         RegisterPst registerPst = new RegisterPst(this);
                         registerPst.qr_login(sid);
                     }
                 } catch (JSONException e) {
+                    showToast("二维码异常，请刷新网站端界面。");
                     L.e("扫码Json字符串异常：" + e.toString());
                 }
             }
@@ -123,7 +125,6 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         herf = herf.contains("User/mentorship/invite_code") ? herf + "/token/" + token : herf; // 如果是拜师码，则添加当前登录人的Token
-        L.e("===============herf==================" + herf);
         bundle.putString("href", herf);
         startActivity(NoticeDetailsAty.class, bundle);
     }

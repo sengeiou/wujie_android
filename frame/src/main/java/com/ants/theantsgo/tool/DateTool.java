@@ -302,7 +302,6 @@ public class DateTool {
             date1.setTime(Time * 1000);
             mydate1 = format.format(date1);
         } catch (Exception e) {
-            L.e(DateTool.class, "=====异常=====");
         }
         return mydate1;
     }
@@ -534,7 +533,6 @@ public class DateTool {
             date = myFormatter.parse(date1);
             mydate = myFormatter.parse(date2);
         } catch (Exception e) {
-            L.e("=====DateTool.getDays=====", "异常");
         }
         // 判断date是否为空
         long day1 = (date != null ? date.getTime() : 0);

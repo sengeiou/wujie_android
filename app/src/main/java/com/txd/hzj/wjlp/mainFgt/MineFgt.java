@@ -612,8 +612,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
              "is_iron": "0",//铁，0不点亮 1点亮,
              */
 
-            L.e("wang", "data:" + data);
-
 //            SOURCE：缓存原始数据，RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
 //            NONE：什么都不缓存，  ALL：缓存SOURC和RESULT。
 //            默认采用RESULT策略，对于Download Only操作要使用SOURCE。
@@ -636,12 +634,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             Glide.with(getActivity()).load(data.get("is_iron_a"))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .into(im_tie);
-
-            L.e("wang", "data.get(\"is_gold_a\") = " + data.get("is_gold_a")
-                    + "\ndata.get(\"is_silver_a\") = " + data.get("is_silver_a")
-                    + "\ndata.get(\"is_copper_a\") = " + data.get("is_copper_a")
-                    + "\ndata.get(\"is_masonry_a\") = " + data.get("is_masonry_a")
-                    + "\ndata.get(\"is_iron_a\") = " + data.get("is_iron_a"));
 
             Glide.with(getActivity()).load(head_pic)
                     .override(size, size)

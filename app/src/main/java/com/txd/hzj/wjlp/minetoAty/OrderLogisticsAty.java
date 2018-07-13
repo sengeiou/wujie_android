@@ -57,7 +57,6 @@ public class OrderLogisticsAty extends BaseAty {
         Bundle bundle=this.getIntent().getExtras();
         String order_id=bundle.getString("order_id");
         type=bundle.getString("type");//0 普通商品  1 拼单购商品
-        L.e("ddddd"+order_id);
         Order.orderLogistics(order_id,type,this);
         showProgressDialog();
     }
@@ -107,7 +106,6 @@ public class OrderLogisticsAty extends BaseAty {
             if (view == null) {
                 view = LayoutInflater.from(OrderLogisticsAty.this).inflate(R.layout.item_goods, null);
                 viewHolder = new ViewHolder();
-                L.e("wang", "======>>>>>>>>>>>>view=" + view + "\tviewHolder=" + viewHolder);
                 view.setTag(viewHolder);
                 ViewUtils.inject(viewHolder, view);
 

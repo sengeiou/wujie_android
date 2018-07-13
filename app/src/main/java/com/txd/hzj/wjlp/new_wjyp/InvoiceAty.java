@@ -310,8 +310,6 @@ public class InvoiceAty extends BaseAty {
 //        invoice1 = getIntent().getParcelableExtra("data1");
         invoice1 = (Invoice1) getIntent().getSerializableExtra("data1");
         String data2Str = getIntent().getStringExtra("data2");
-        L.e("wang", "=========>>>>>>>>invoice1:" + invoice1);
-        L.e("wang", "=========>>>>>>>>data2Str:" + data2Str);
         if (invoice1 != null) {
             // 如果不为空肯定需要发票，所以将不需要发票选中状态设置为false
             noCb.setChecked(false);
@@ -362,7 +360,6 @@ public class InvoiceAty extends BaseAty {
 //                bt2.setText(invoice1.getInvoice_type());
                 needCb.setText(invoice1.getInvoice_type());
                 if (!TextUtils.isEmpty(invoice1.getTax()))
-                    L.e("wang", "===================>>>>>>>>>>>>税率：" + Double.parseDouble(invoice1.getTax()));
                 tv_tax.setText("税金" + invoice1.getTax_pay());
                 tv_tax_pay.setText("您需要支付发票快递费" + invoice1.getExpress_fee() + "元");
                 layout.setVisibility(View.VISIBLE);
@@ -377,8 +374,6 @@ public class InvoiceAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
-        L.e("wang", "=============>>>>>>>>>>>" + jsonStr);
 
         super.onComplete(requestUrl, jsonStr);
         map = JSONUtils.parseKeyAndValueToMap(jsonStr);

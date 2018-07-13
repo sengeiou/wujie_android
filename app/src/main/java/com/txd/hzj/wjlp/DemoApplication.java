@@ -111,7 +111,6 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         try {
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
-            L.e("=====Application=====" + e.toString());
         }
 //        if (L.isDebug) {
 //            if (LeakCanary.isInAnalyzerProcess(this)) {

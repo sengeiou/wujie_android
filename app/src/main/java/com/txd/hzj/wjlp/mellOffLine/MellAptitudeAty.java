@@ -58,7 +58,6 @@ public class MellAptitudeAty extends BaseAty {
     @Override
     protected void initialized() {
         merchant_id = getIntent().getStringExtra("merchant_id");
-        L.e(merchant_id);
         merchantPst = new MerchantPst(this);
         list = new ArrayList<>();
         merchantPst.license(merchant_id);
@@ -70,8 +69,6 @@ public class MellAptitudeAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
-        L.e(jsonStr);
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
