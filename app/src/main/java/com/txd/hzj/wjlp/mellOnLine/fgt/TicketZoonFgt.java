@@ -51,6 +51,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.prebuy.PreBuyThirdAty;
 import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.TouchViewpager;
+import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -136,6 +137,9 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
 
     @ViewInject(R.id.group_ad_pic_iv)
     private ImageView group_ad_pic_iv;
+
+    @ViewInject(R.id.collageUpMarqueeView)
+    private UPMarqueeView collageUpMarqueeView;
 
     private LinearLayout.LayoutParams params;
     private String desc = "";
@@ -404,6 +408,9 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     href = adsBean.getHref();
 
                 }
+//                collageUpMarqueeView.setVisibility(View.VISIBLE);
+//                collageUpMarqueeView.setViews();
+
                 progressBar.setVisibility(View.GONE);
                 refresh_view.setRefreshing(false); // 刷新成功
             } else {
@@ -435,6 +442,30 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
             forOtherData(jsonStr);
         }
     }
+
+    /**
+     * 拼单购中奖信息列表
+     */
+//    private List<View> views;
+    /**
+     * 初始化需要循环的View
+     * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
+     * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
+     */
+//    private void setView() {
+//        views=new ArrayList<>();
+//        for (int i = 0; i < updata.size(); i = i + 2) {
+//            //设置滚动的单个布局
+//            LinearLayout winingView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.winingmsg, null);
+//            //中奖时间
+//            TextView timeTv = winingView.findViewById(R.id.timeTv);
+//            //中奖人姓名
+//            TextView nameTv = winingView.findViewById(R.id.nameTv);
+//            //中奖商品名称
+//            TextView winTitleTv = winingView.findViewById(R.id.winTitleTv);
+//            views.add(winingView);
+//        }
+//    }
 
     /**
      * 非 拼团购数据

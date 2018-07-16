@@ -14,15 +14,19 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
+import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopExhibitFragment;
 
@@ -74,6 +78,9 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     private View viewBack;
     private RelativeLayout rlLayout;
     private float pivotY;
+    private List<ExhibitGoodsBean.DataBean.TwoCateListBean> mTwo_cate_list;
+    private SuperSwipeRefreshLayout mSuperSwipeRefreshLayout;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +95,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     protected void initialized() {
         titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
-        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
         shop_person_title_manage.setVisibility(View.GONE);
 
         exhibit_tab_layout = findViewById(R.id.exhibit_tab_layout);
@@ -115,6 +122,20 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         viewBack.setOnClickListener(this);
         back.setOnClickListener(this);
         grView.setOnItemClickListener(this);
+        exhibit_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+//                pos=position;
+//                cate_id=mTwo_cate_list.get(position).getId();
+//                mExhibitPst.goodsList("1",cate_id,1);
+                Toast.makeText(ShopExhibit.this, ""+position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
     }
 
     @Override
@@ -138,17 +159,17 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        if (ToolKit.isList(data, "top_nav")) {
-            horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
+        if (mSuperSwipeRefreshLayout!=null&&mProgressBar!=null){
+            mSuperSwipeRefreshLayout.setRefreshing(false);
+            mProgressBar.setVisibility(View.GONE);
+        }
+        ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
+        if (200 == exhibitGoodsBean.getCode()) {
+            mTwo_cate_list = exhibitGoodsBean.getData().getTwo_cate_list();
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            for (Map<String, String> title : horizontal_classify) {
-                //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
-                fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
-            }
-            for (int i = 0; i < horizontal_classify.size(); i++) {
-                lists.add(horizontal_classify.get(i).get("short_name"));
+            for (ExhibitGoodsBean.DataBean.TwoCateListBean twoCateListBean : mTwo_cate_list) {
+                fragments.add(ShopExhibitFragment.newInstance(exhibitGoodsBean));
+                lists.add(twoCateListBean.getShort_name());
             }
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
@@ -156,6 +177,15 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
             exhibit_tab_layout.setViewPager(vp_for_exhibit);
             // 设置选中第pos个Tab
             exhibit_tab_layout.setCurrentTab(pos);
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        if (mSuperSwipeRefreshLayout!=null&&mProgressBar!=null){
+            mSuperSwipeRefreshLayout.setRefreshing(false);
+            mProgressBar.setVisibility(View.GONE);
         }
     }
 
@@ -199,7 +229,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return horizontal_classify.get(position).get("short_name");
+            return lists.get(position);
         }
 
         @Override
@@ -226,6 +256,14 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
         mHiddenAction.setDuration(400);
         return mHiddenAction;
+    }
+
+
+
+    public void refreshOrLoadMore(int p, SuperSwipeRefreshLayout superSwipeRefreshLayout, ProgressBar progressBar){
+        mExhibitPst.goodsList(String.valueOf(p),cate_id,0);
+        mSuperSwipeRefreshLayout = superSwipeRefreshLayout;
+        mProgressBar = progressBar;
     }
 
 

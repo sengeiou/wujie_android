@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <!--时间|收货人姓名|中奖商品标题-->
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:layout_marginStart="10dp"
+        android:text="2018-7-16 10：10"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <view
+        android:layout_width="1dip"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:background="@color/gray"></view>
+
+    <TextView
+        android:id="@+id/nameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:gravity="center"
+        android:text="战歌XX二恶烷"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+
+    <view
+        android:layout_width="1dip"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:background="@color/gray"></view>
+
+    <TextView
+        android:id="@+id/winTitleTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:text="红星二锅头红星二锅头红星二锅头红星二锅头红星二锅头红星二锅头红星二锅头红星二锅头"
+        android:textColor="#ff333333"
+        android:textSize="12sp" />
+</LinearLayout>
