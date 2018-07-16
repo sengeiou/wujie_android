@@ -3,7 +3,7 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -91,6 +91,8 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     protected int getLayoutResId() {
         return R.layout.activity_goods_for_store;
     }
+
+
 
     @Override
     protected void initialized() {
@@ -217,7 +219,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     }
 
 
-    private class MyPagerAdapter extends FragmentPagerAdapter {
+    private class MyPagerAdapter extends FragmentStatePagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
