@@ -94,12 +94,10 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 11:00
  * 描述：拼团详情
- *
  */
 public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener, CommodityDetailsInter.GoodLuckView, ProUrbAreaUtil.CallBack {
     private String order_id;
@@ -258,6 +256,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
      */
     @ViewInject(R.id.be_back_top_iv)
     private ImageView be_back_top_iv;
+//    体验拼单进度条
+    @ViewInject(R.id.experiencePb)
+    private ProgressBar experiencePb;
 
     /**
      * 轮播的高度
@@ -1027,6 +1028,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      */
                     groupType = dataBean.getGroup_type();
                     if ("1".equals(groupType)) {  //体验拼单
+                        experiencePb.setVisibility(View.VISIBLE);
+                        experiencePb.setMax(Integer.parseInt(goodsInfo.getGroup_num()));
+                        experiencePb.setProgress(Integer.parseInt(dataBean.getTotal()));
                         layout_pt.setVisibility(View.GONE); // 隐藏开团列表
                         online_carvouse_view.setPageColor(0);//设置banner圆点非可见
                         online_carvouse_view.setFillColor(0);
@@ -1091,7 +1095,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     // 售价
                     //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
                     now_price_tv.setText(goodsInfo.getShop_price());
-                    old_price_tv.setText("已拼" + dataBean.getTotal() + "件");
+                    if ("1".equals(groupType)) {//体验拼单
+                        old_price_tv.setText("已参与" + dataBean.getTotal() + "人");
+                    } else
+                        old_price_tv.setText("已拼" + dataBean.getTotal() + "件");
 //            // 市场价
 //            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
 //            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

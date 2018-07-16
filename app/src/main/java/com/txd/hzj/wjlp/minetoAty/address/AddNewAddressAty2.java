@@ -168,7 +168,7 @@ public class AddNewAddressAty2 extends BaseAty implements ProUrbAreaUtil.GetData
                         province = proUrbAreaUtil.getProvince();
 
                         city_id = proUrbAreaUtil.getCity_id();
-                        city = proUrbAreaUtil.getProvince();
+                        city = proUrbAreaUtil.getCity();
 
                         area_id = proUrbAreaUtil.getArea_id();
                         area = proUrbAreaUtil.getArea();
