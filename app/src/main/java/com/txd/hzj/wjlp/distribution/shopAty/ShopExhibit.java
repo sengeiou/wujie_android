@@ -23,8 +23,8 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopExhibitFragment;
-import com.txd.hzj.wjlp.http.goods.GoodsPst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     private ArrayList<Fragment> fragments;
 
-    private GoodsPst goodsPst;
+    private ShopExhibitPst mExhibitPst;
 
     /**
      * 分类列表
@@ -104,7 +104,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         lists = new ArrayList<>();
 
         titlt_conter_tv.setText("小店上货");
-        goodsPst = new GoodsPst(this);
+        mExhibitPst = new ShopExhibitPst(this);
         fragments = new ArrayList<>();
 
         myAdapter = new ShopUpGoodsAdapet(this, lists);
@@ -130,7 +130,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void requestData() {
-        goodsPst.goodsList(1, cate_id, 0);
+        mExhibitPst.goodsList("1", cate_id, 0);
         pivotY = rlLayout.getPivotY();
         Log.i("Y轴距离", pivotY + "=========");
     }

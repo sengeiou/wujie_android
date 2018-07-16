@@ -19,7 +19,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopExhibitAdapter;
-import com.txd.hzj.wjlp.distribution.bean.ExhibitGoosBean;
+import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +64,7 @@ public class ShopExhibitFragment extends BaseFgt {
     private int salesVolumeNum = 0;
     private int priceNum = 0;
     private ShopExhibitAdapter shopExhibitAdapter;
-    private List<ExhibitGoosBean> datas;
+    private List<ExhibitGoodsBean> datas;
 
     private int p = 1; // 请求的分页
     // Header View
@@ -139,13 +139,13 @@ public class ShopExhibitFragment extends BaseFgt {
     protected void requestData() {
         datas=new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ExhibitGoosBean exhibitGoosBean=new ExhibitGoosBean();
-            exhibitGoosBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
-            exhibitGoosBean.setGoodsTitle("康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人");
-            exhibitGoosBean.setDaijinquan("最多可使用50%代金券");
-            exhibitGoosBean.setJifen("10");
-            exhibitGoosBean.setPrice("1380.00");
-            datas.add(exhibitGoosBean);
+//            ExhibitGoodsBean exhibitGoodsBean =new ExhibitGoodsBean();
+//            exhibitGoodsBean.setImageUrl("https://gd1.alicdn.com/imgextra/i1/646527539/TB2goIfbiMnBKNjSZFCXXX0KFXa_!!646527539.jpg_400x400.jpg");
+//            exhibitGoodsBean.setGoodsTitle("康尔馨五星级酒店毛巾纯棉加大加厚面巾洗脸全棉吸水男女成人");
+//            exhibitGoodsBean.setDaijinquan("最多可使用50%代金券");
+//            exhibitGoodsBean.setJifen("10");
+//            exhibitGoodsBean.setPrice("1380.00");
+//            datas.add(exhibitGoodsBean);
         }
         shopExhibitAdapter=new ShopExhibitAdapter(datas);
         exhibit_recyclerView.setAdapter(shopExhibitAdapter);
