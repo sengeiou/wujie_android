@@ -2,10 +2,12 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -16,14 +18,18 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.distribution.bean.ShopGetDetailsBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -45,6 +51,14 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private File file1;
     private ShapedImageView shopImage;
     private TextView titleRight;
+    private ShopExhibitPst pst;
+    private String shopName;
+    private String shopDesc;
+    private String shopUrl;
+    private EditText inPutName;
+    private EditText shopDetails;
+    private String uri;
+    private boolean isUpdata = false;
 
 
     @Override
@@ -59,6 +73,8 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleRight = findViewById(R.id.titlt_right_tv);
         shopImage = findViewById(R.id.img_head);
         titleName = findViewById(R.id.titlt_conter_tv);
+        inPutName = findViewById(R.id.shop_imput_name);
+        shopDetails = findViewById(R.id.shop_details);
         shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
         shop_person_title_manage.setVisibility(View.GONE);
         titleName.setText("店铺设置");
@@ -72,11 +88,14 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     protected void requestData() {
         titleRight.setVisibility(View.VISIBLE);
         titleRight.setText("保存");
-        titleRight.setTextColor(Color.rgb(255,0,0));
+        titleRight.setTextColor(Color.rgb(255, 0, 0));
+        pst = new ShopExhibitPst(this);
+        pst.shops("1");
     }
-/**
- * 设置拍照数据
- * */
+
+    /**
+     * 设置拍照数据
+     */
     private void forImagePacker() {
         ImagePicker imagePicker = ImagePicker.getInstance();
         imagePicker.setImageLoader(new GlideImageLoader());// 图片加载
@@ -98,11 +117,61 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                 showDialogs();
                 break;
             case R.id.titlt_right_tv:
-
-                Toast.makeText(this,"已保存修改",Toast.LENGTH_SHORT).show();
-                this.finish();
+                String tvName = inPutName.getText().toString().trim();
+                String tvDetails = shopDetails.getText().toString().trim();
+                long l = System.currentTimeMillis();
+                if (file1 != null && !file1.equals("")) {
+                    uri = file1.toString();
+                } else {
+                    uri = shopUrl;
+                }
+                isUpdata = true;
+                pst.shopsetData("1", tvName, "23869", tvDetails, "2", "1", "0", "0", "0", "0", l + "");
                 break;
         }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("shops")) {
+            Log.i("获取信息", jsonStr.toString());
+            Gson gson = new Gson();
+            ShopGetDetailsBean detailsBean = gson.fromJson(jsonStr, ShopGetDetailsBean.class);
+
+            if (isUpdata){
+                if (detailsBean.getCode() == 200) {
+                    Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+                    ShopSetUp.this.finish();
+                }
+            }
+            List<ShopGetDetailsBean.DataBean> data = detailsBean.getData();
+            //店铺名字
+            shopName = data.get(1).getShop_name();
+            //店铺描述
+            shopDesc = data.get(1).getShop_desc();
+            //店铺头像
+            shopUrl = data.get(1).getShop_url();
+            if (shopUrl != null && !shopUrl.equals("")) {
+                Glide.with(ShopSetUp.this).load(shopUrl).error(R.mipmap.icon_idcard_front)
+                        .placeholder(R.mipmap.icon_idcard_front).centerCrop().into(shopImage);
+            }
+            if (shopName != null && !shopName.equals("")) {
+                inPutName.setText(shopName);
+            }
+            if (!shopDesc.equals("") && shopDesc != null) {
+                shopDetails.setText(shopDesc);
+            }
+
+        }
+      /*  if (isUpdata&&requestUrl.contains("shops")) {
+            Gson gson = new Gson();
+            ShopSetUpmsg setUpmsg = gson.fromJson(jsonStr, ShopSetUpmsg.class);
+            if (setUpmsg.getCode() == 200) {
+                Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+                ShopSetUp.this.finish();
+            }
+        }*/
     }
 
     private void showDialogs() {

@@ -69,11 +69,11 @@
             android:textSize="13sp" />
 
         <EditText
+            android:id="@+id/shop_imput_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_toRightOf="@+id/shop_name"
-            android:text="水晶家坊"
             android:lines="1"
             android:hint="请输入店铺名称"
             android:maxLength="6"
@@ -101,6 +101,7 @@
             android:textSize="14sp" />
 
         <EditText
+            android:id="@+id/shop_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"

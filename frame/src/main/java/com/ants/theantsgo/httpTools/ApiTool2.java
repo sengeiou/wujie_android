@@ -62,6 +62,15 @@ public class ApiTool2 {
         L.i("token", "========token=========" + token);
         httpUtils.send(HttpRequest.HttpMethod.POST, url, params, new DefaultRequestCallBack(apiListener));
     }
+    public void postApis(String url, RequestParams params, final BaseView apiListener) {
+        HttpUtils httpUtils = new HttpUtils();
+        // 设置缓存超时时间
+        httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
+        String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
+        params.addHeader("token", token);
+        L.i("token", "========token=========" + token);
+        httpUtils.send(HttpRequest.HttpMethod.PUT, url, params, new DefaultRequestCallBack(apiListener));
+    }
 
     /**
      * 解析返回的error串

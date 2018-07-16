@@ -13,9 +13,10 @@ import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
 public class ShopExhibitPst extends BasePresenter {
 
     private ExhibitModel mModel;
+
     public ShopExhibitPst(BaseView baseView) {
         super(baseView);
-        mModel=new ExhibitModel();
+        mModel = new ExhibitModel();
     }
 
     public void goodsList(String p, String cate_id, int type) {
@@ -23,5 +24,23 @@ public class ShopExhibitPst extends BasePresenter {
             baseView.showDialog();
         }
         mModel.postExhibitData(p, cate_id, baseView);
+    }
+
+    /**
+     * 小店信息获取接口
+     */
+    public void shops(String cate_id) {
+
+        baseView.showDialog();
+
+        mModel.postShopsData(cate_id, baseView);
+    }
+
+    /**
+     * 小店信息更新接口
+     */
+    public void shopsetData(String id, String shop_name, String shop_pic, String shop_desc, String user_id, String set_id, String shop_status, String pay_money, String pay_orders, String visit_nums, String update_time) {
+        baseView.showDialog();
+        mModel.postShopsSetData(id, shop_name, shop_pic, shop_desc, user_id, set_id, shop_status, pay_money, pay_orders, visit_nums, update_time, baseView);
     }
 }
