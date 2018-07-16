@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.distribution.bean;
 
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +10,7 @@ import java.util.List;
  * 功能描述：小店上货商品信息列表bean类
  * 联系方式：
  */
-public class ExhibitGoodsBean {
+public class ExhibitGoodsBean implements Serializable{
 
     /**
      * code : 200
@@ -53,6 +55,7 @@ public class ExhibitGoodsBean {
     public void setNums(String nums) {
         this.nums = nums;
     }
+
 
     public static class DataBean {
         /**
