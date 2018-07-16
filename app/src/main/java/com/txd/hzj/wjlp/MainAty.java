@@ -153,11 +153,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     //========== 环信相关 ==========
     private InviteMessgeDao inviteMessgeDao;
 //    //========== apk更新 ==========
-//    private MaterialDialog dialogUpdate;
-//    private NotifyUtil notifyUtils;
 
-    // TODO========== 百度地图定位服务 ==========
-    // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
     public static LocationService locationService;
     public static Map<String, String> GDLOC_MAP; // 高德定位信息Map
@@ -180,13 +176,16 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         showExceptionDialogFromIntent(getIntent());
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
-        // 注册DemoHelper的广播接收器
+        // 注册环信DemoHelper的广播接收器
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
         locationService = DemoApplication.getInstance().locationService;
         // 获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
+        if (mListener != null && locationService != null) {
+            // 此处在Bugly上报空指针异常
+            locationService.registerListener(mListener);
+        }
         // 注册监听
         int type = getIntent().getIntExtra("from", 0);
         if (type == 0) {
@@ -226,9 +225,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         updataPst = new UpdataPst(this);
 
         IndexPst indexPst = new IndexPst(this);
-        String lng = DemoApplication.getInstance().getLocInfo().get("lon");
-        String lat = DemoApplication.getInstance().getLocInfo().get("lat");
-        indexPst.index(lng, lat);
+        Map<String, String> locInfoMap = DemoApplication.getInstance().getLocInfo();
+        if (locInfoMap != null) {
+            String lng = locInfoMap.containsKey("lon") ? locInfoMap.get("lon") : "";
+            String lat = locInfoMap.containsKey("lat") ? locInfoMap.get("lat") : "";
+            indexPst.index(lng, lat);
+        }
 
     }
 

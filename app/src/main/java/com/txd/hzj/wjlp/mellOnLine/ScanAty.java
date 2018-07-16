@@ -41,7 +41,12 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("扫一扫");
         mQR.setResultHandler(this);
-        mQR.startSpot();
+        try {
+            mQR.startSpot();
+        } catch (Exception e) {
+            showToast("相机启动失败，请退出后重新打开扫描");
+            L.e("ScanAty Exception:" + e.toString());
+        }
     }
 
     @Override
