@@ -304,7 +304,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
             LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
             // 以上判断Bean有值，但是以防万一还是先判空
-            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+            if (easemobBean == null || easemobBean.getData().getEasemob_account().size() < 1) {
                 // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
                 dataLv.setVisibility(View.GONE); // 隐藏List列表
                 nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
