@@ -297,7 +297,7 @@ public class CreateGroupAty extends BaseAty {
                     // 剩余时间
                     long last_endTime = endTrueTime - now_time;
                     long end_last = endTime - now_time;
-                    times.setConvertDaysToHours(true);
+//                    times.setConvertDaysToHours(true);
                     if (last_endTime < 0) {
                         count_down_layout.setVisibility(View.GONE);
                         wctTv.setVisibility(View.VISIBLE);
