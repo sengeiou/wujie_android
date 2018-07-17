@@ -172,7 +172,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private TextView old_price_tv;
 
     /**
-     * 原价 （价格下面画线的那个字段）
+     * 单买价格 （价格下面画线的那个字段）
      */
     @ViewInject(R.id.old_money_tv)
     private TextView old_money_tv;
