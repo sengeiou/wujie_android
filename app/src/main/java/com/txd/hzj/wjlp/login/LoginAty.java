@@ -217,9 +217,13 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 } else {// 注册下一步
                     registerPst.checkPhone(phone);
                 }
-                hideKeyBoard();
+                try {
+                    hideKeyBoard();
+                } catch (Exception e) {
+                    L.e("隐藏软键盘报空指针异常，可能是已经隐藏掉了。");
+                }
                 break;
-            case R.id.share_to_wachar:// 微信
+            case R.id.share_to_wachar: // 微信
                 loginType = "1";
                 if (!LoginAty.this.isDestroyed()) {
                     showDialog();
