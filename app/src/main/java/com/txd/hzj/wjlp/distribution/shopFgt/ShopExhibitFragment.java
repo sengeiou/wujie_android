@@ -137,8 +137,10 @@ public class ShopExhibitFragment extends BaseFgt {
     protected void requestData() {
         datas = new ArrayList<>();
         datas = mGoodsBean.getData().getList();
-        shopExhibitAdapter = new ShopExhibitAdapter(datas);
-        exhibit_recyclerView.setAdapter(shopExhibitAdapter);
+        if (datas!=null){
+            shopExhibitAdapter = new ShopExhibitAdapter(datas);
+            exhibit_recyclerView.setAdapter(shopExhibitAdapter);
+        }
         mSuperSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {

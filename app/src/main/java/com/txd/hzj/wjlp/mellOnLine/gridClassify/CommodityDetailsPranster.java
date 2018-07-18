@@ -297,14 +297,14 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 serverPhoneLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callMerchantPhone(phoneNo,activity);
+                        callMerchantPhone(phoneNo, activity);
                     }
                 });
             }
             ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
             LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
             // 以上判断Bean有值，但是以防万一还是先判空
-            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+            if (easemobBean == null || easemobBean.getData().getEasemob_account().size() < 1) {
                 // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
                 dataLv.setVisibility(View.GONE); // 隐藏List列表
                 nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
@@ -391,28 +391,30 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 }
             });
             tv_desc.setText(vouchers_desc);
-            for (int i = 0; i < list.size(); i++) {
-                switch (i) {
-                    case 0:
-                        setStates(layout_djq0, tv_djq_desc0, list.get(i).getDiscount_desc());
-                        break;
-                    case 1:
-                        setStates(layout_djq1, tv_djq_desc1, list.get(i).getDiscount_desc());
-                        break;
-                    case 2:
-                        setStates(layout_djq2, tv_djq_desc2, list.get(i).getDiscount_desc());
-                        break;
-                }
-                switch (list.get(i).getType()) {
-                    case "0":
-                        setTypeStates(tv_djq_color0, R.drawable.shape_red_bg);
-                        break;
-                    case "1":
-                        setTypeStates(tv_djq_color1, R.drawable.shape_yellow_bg);
-                        break;
-                    case "2":
-                        setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
-                        break;
+            if (list != null) {
+                for (int i = 0; i < list.size(); i++) {
+                    switch (i) {
+                        case 0:
+                            setStates(layout_djq0, tv_djq_desc0, list.get(i).getDiscount_desc());
+                            break;
+                        case 1:
+                            setStates(layout_djq1, tv_djq_desc1, list.get(i).getDiscount_desc());
+                            break;
+                        case 2:
+                            setStates(layout_djq2, tv_djq_desc2, list.get(i).getDiscount_desc());
+                            break;
+                    }
+                    switch (list.get(i).getType()) {
+                        case "0":
+                            setTypeStates(tv_djq_color0, R.drawable.shape_red_bg);
+                            break;
+                        case "1":
+                            setTypeStates(tv_djq_color1, R.drawable.shape_yellow_bg);
+                            break;
+                        case "2":
+                            setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
+                            break;
+                    }
                 }
             }
         }
@@ -560,7 +562,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     @Override
-    public void callMerchantPhone(String phoneNo,Activity activity) {
+    public void callMerchantPhone(String phoneNo, Activity activity) {
         /**
          * 暂时不需要的权限，维护用户体验
          * !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||电话
@@ -576,12 +578,13 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                     .requestCode(100)
                     .permission(Manifest.permission.CALL_PHONE)
                     .send();
-        }else{
+        } else {
             commodityView.call(phoneNo);
         }
     }
+
     @Override
-    public PermissionListener requestPhoneListener(final String phoneNo,final  Activity activity){
+    public PermissionListener requestPhoneListener(final String phoneNo, final Activity activity) {
         PermissionListener listener = new PermissionListener() {
             @Override
             public void onSucceed(int requestCode, List<String> grantedPermissions) {

@@ -1,16 +1,15 @@
 package com.txd.hzj.wjlp.bean;
 
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.WinBean;
 
 import java.util.List;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：11:55
  * 描述：
- *
  */
 
 public class GroupBuyBean {
@@ -95,6 +94,10 @@ public class GroupBuyBean {
         private List<AllGoodsBean> integral_buy_list;
         // ==========进口馆==========
         private List<AllGoodsBean> list;
+        /**
+         * 中奖信息列表
+         */
+        private List<WinBean> group_buy_msg;
 
 
         public AdsBean getAds() {
@@ -151,6 +154,14 @@ public class GroupBuyBean {
 
         public void setIntegral_buy_list(List<AllGoodsBean> integral_buy_list) {
             this.integral_buy_list = integral_buy_list;
+        }
+
+        public List<WinBean> getGroup_buy_msg() {
+            return group_buy_msg;
+        }
+
+        public void setGroup_buy_msg(List<WinBean> group_buy_msg) {
+            this.group_buy_msg = group_buy_msg;
         }
 
         public List<AllGoodsBean> getList() {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -82,6 +83,9 @@ import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -162,10 +166,16 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     @ViewInject(R.id.now_price_tv)
     private TextView now_price_tv;
     /**
-     * 原价
+     * 原价 （已修改为已参与多少人）
      */
     @ViewInject(R.id.old_price_tv)
     private TextView old_price_tv;
+
+    /**
+     * 单买价格 （价格下面画线的那个字段）
+     */
+    @ViewInject(R.id.old_money_tv)
+    private TextView old_money_tv;
 
     /**
      * 分红权
@@ -969,7 +979,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     }
 
     @Override
-    public void onComplete(String requestUrl, String jsonStr) {
+    public void onComplete(String requestUrl, final String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         removeProgressDialog();
 
@@ -977,6 +987,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         progressBar.setVisibility(View.GONE);
 
         if (requestUrl.contains("groupBuyInfo")) {
+            L.e("groupBuyInfo:" + jsonStr);
             ObserTool.gainInstance().jsonToBean(jsonStr, GoodLuckBean.class, new ObserTool.BeanListener() {
                 @Override
                 public void returnObj(Object t) {
@@ -1064,7 +1075,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             long last_time = endTime - now_time;
                             long last_endTime = endTrueTime - now_time;
                             // 开始倒计时
-                            good_count_down_view.setConvertDaysToHours(true);
+//                            good_count_down_view.setConvertDaysToHours(true);
                             if (last_time < 0) {
                                 last_time = 0;
                             }
@@ -1098,8 +1109,19 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     now_price_tv.setText(goodsInfo.getShop_price());
                     if ("1".equals(groupType)) {//体验拼单
                         old_price_tv.setText("已参与" + dataBean.getTotal() + "人");
-                    } else
+                    } else {
                         old_price_tv.setText("已拼" + dataBean.getTotal() + "件");
+                    }
+                    // TODO =============================================设置值===============================================================
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonStr);
+                        JSONObject dataObject = jsonObject.getJSONObject("data");
+                        String oldMoneyStr = dataObject.has("one_price") ? dataObject.getString("one_price") : "";
+                        old_money_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        old_money_tv.setText(oldMoneyStr.equals("") ? "" : "￥" + oldMoneyStr);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 //            // 市场价
 //            old_price_tv.setText("￥" + goodsInfo.getMarket_price());
 //            old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
