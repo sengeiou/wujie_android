@@ -6,7 +6,7 @@
     android:backgroundTint="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellOffLineFgt">
 
-     <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+     <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
     android:id="@+id/super_offline_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -148,7 +148,7 @@
         </LinearLayout>
 
     </com.txd.hzj.wjlp.view.ObservableScrollView>
-     </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+     </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
     <include layout="@layout/off_line_title" />
 </FrameLayout>

@@ -19,7 +19,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -29,13 +28,14 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
+import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
      * 刷新 ---加载
      * */
     @ViewInject(R.id.super_offline_layout)
-    private SuperSwipeRefreshLayout swipeRefreshLayout;
+    private VpSwipeRefreshLayout swipeRefreshLayout;
     // Footer View
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
@@ -151,7 +151,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         swipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         swipeRefreshLayout.setTargetScrollWithLayout(true);
         swipeRefreshLayout.setFooterView(createFooterView());
-        swipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        swipeRefreshLayout.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
                 textView.setText("正在刷新");
@@ -171,7 +171,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        swipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+        swipeRefreshLayout.setOnPushLoadMoreListener(new VpSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 footerTextView.setText("正在加载...");
