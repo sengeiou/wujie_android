@@ -39,8 +39,8 @@ public class ToastView extends LinearLayout {
                 break;
                 case 2: {
                     currentPos++;
-                    if(currentPos>event_msgBeans.size()-1){
-                        currentPos=0;
+                    if (currentPos > event_msgBeans.size() - 1) {
+                        currentPos = 0;
                     }
                     view.setVisibility(GONE);
                 }
@@ -52,17 +52,22 @@ public class ToastView extends LinearLayout {
     int end = 20;
     private int currentPos;
     private List<Event_msgBean> event_msgBeans;
-    public void setDatas(List<Event_msgBean> event_msgBeans){
-        this.event_msgBeans=event_msgBeans;
-        currentPos=0;
+
+    public void setDatas(List<Event_msgBean> event_msgBeans) {
+        if (null != msgRunable) {
+            cancle();
+        }
+        this.event_msgBeans = event_msgBeans;
+        currentPos = 0;
         msgRunable = new MsgRunable();
         handler.post(msgRunable);
     }
+
     private class MsgRunable implements Runnable {
         @Override
         public void run() {
             int s = start + (int) (Math.random() * (end - start));
-            handler.sendEmptyMessageDelayed(1, s* 1000);
+            handler.sendEmptyMessageDelayed(1, s * 1000);
         }
     }
 
@@ -76,13 +81,13 @@ public class ToastView extends LinearLayout {
      */
     private void show() {
         view.setVisibility(VISIBLE);
-        view.measure(0,0);
-        ImageView imageView=view.findViewById(R.id.userImg);
-        TextView usernickNameTv=view.findViewById(R.id.usernickNameTv);
-        TextView userdoTv=view.findViewById(R.id.userdoTv);
-        Event_msgBean event_msgBean=  event_msgBeans.get(currentPos);
-        String headPic=event_msgBean.getHead_pic();
-        GlideUtils.urlCirclePic(headPic,imageView.getMeasuredWidth(),imageView.getMeasuredHeight(),imageView);
+        view.measure(0, 0);
+        ImageView imageView = view.findViewById(R.id.userImg);
+        TextView usernickNameTv = view.findViewById(R.id.usernickNameTv);
+        TextView userdoTv = view.findViewById(R.id.userdoTv);
+        Event_msgBean event_msgBean = event_msgBeans.get(currentPos);
+        String headPic = event_msgBean.getHead_pic();
+        GlideUtils.urlCirclePic(headPic, imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), imageView);
         usernickNameTv.setText(event_msgBean.getNick_name());
         userdoTv.setText(event_msgBean.getMsg());
 
