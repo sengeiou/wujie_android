@@ -21,6 +21,7 @@ import com.txd.hzj.wjlp.http.prebuy.PerBuyPst;
 import com.txd.hzj.wjlp.http.ticketbuy.TicketBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.fgt.TicketZoonFgt;
 import com.txd.hzj.wjlp.tool.WJConfig;
+import com.txd.hzj.wjlp.view.TicketDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,6 +107,12 @@ public class TicketZoonAty extends BaseAty {
         }
         //初始化上面的标题栏数组
         mTitles = new ArrayList<>();
+        showTickDialog();
+    }
+
+    private void showTickDialog() {
+        TicketDialog ticketDialog=new TicketDialog(this);
+        ticketDialog.show();
     }
 
     @Override
