@@ -7,9 +7,6 @@ import java.io.Serializable;
  */
 
 public class GoodLuckBean implements Serializable {
-
-
-
     private String code;//"1"请求数据成功
     private String message;//请求消息返回
     private DataBean data;//请求主体内容

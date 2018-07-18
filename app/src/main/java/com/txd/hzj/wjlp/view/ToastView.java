@@ -6,9 +6,16 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
+import com.txd.hzj.wjlp.tool.GlideUtil;
+
+import java.util.List;
 
 /**
  * 创建者：TJDragon(LiuGang)
@@ -31,6 +38,7 @@ public class ToastView extends LinearLayout {
                 }
                 break;
                 case 2: {
+                    currentPos++;
                     view.setVisibility(GONE);
                 }
                 break;
@@ -39,7 +47,14 @@ public class ToastView extends LinearLayout {
     };
     int start = 5;
     int end = 20;
-
+    private int currentPos;
+    private List<Event_msgBean> event_msgBeans;
+    public void setDatas(List<Event_msgBean> event_msgBeans){
+        this.event_msgBeans=event_msgBeans;
+        currentPos=0;
+        msgRunable = new MsgRunable();
+        handler.post(msgRunable);
+    }
     private class MsgRunable implements Runnable {
         @Override
         public void run() {
@@ -58,6 +73,16 @@ public class ToastView extends LinearLayout {
      */
     private void show() {
         view.setVisibility(VISIBLE);
+        view.measure(0,0);
+        ImageView imageView=view.findViewById(R.id.userImg);
+        TextView usernickNameTv=view.findViewById(R.id.usernickNameTv);
+        TextView userdoTv=view.findViewById(R.id.userdoTv);
+        Event_msgBean event_msgBean=  event_msgBeans.get(currentPos);
+        String headPic=event_msgBean.getHead_pic();
+        GlideUtils.urlCirclePic(headPic,imageView.getMeasuredWidth(),imageView.getMeasuredHeight(),imageView);
+        usernickNameTv.setText(event_msgBean.getNick_name());
+        userdoTv.setText(event_msgBean.getMsg());
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -76,10 +101,8 @@ public class ToastView extends LinearLayout {
         //自定义布局
         if (null == view) {
             view = inflater.inflate(R.layout.layout_pd_toast, null);
-            view.setAlpha(0.5f);
+            view.setAlpha(0.7f);
         }
-        msgRunable = new MsgRunable();
-        handler.post(msgRunable);
         view.setVisibility(GONE);
         addView(view);
     }

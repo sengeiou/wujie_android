@@ -53,6 +53,7 @@ import com.txd.hzj.wjlp.bean.commodity.CheapGroupBean;
 import com.txd.hzj.wjlp.bean.commodity.CommentBean;
 import com.txd.hzj.wjlp.bean.commodity.DataBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
+import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
@@ -81,6 +82,7 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.ToastView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 
@@ -625,7 +627,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
     @ViewInject(R.id.limitGoodsDetials_superRefesh_ssrl)
     private VpSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
-
+    @ViewInject(R.id.toastView)
+    private ToastView toastView;
     // 刷新头部
     private RelativeLayout head_container;
     private ProgressBar progressBar;
@@ -1450,7 +1453,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                             toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
                                                     goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
                                         }
-                                    dialog.dismiss();
+                                        dialog.dismiss();
 
                                     }
                                 });
@@ -1595,6 +1598,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         goods_common_attr_lv.setAdapter(gcaAdapter);
                     }
                     // ==========团购详情End===========
+                    List<Event_msgBean> event_msgBeans = dataBean.getEvent_msg();
+                    if (null != event_msgBeans) {
+                        toastView.setVisibility(View.VISIBLE);
+                        toastView.setDatas(event_msgBeans);
+                    }
                     return;
                 }
             });
@@ -1899,4 +1907,11 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, goodLuckPranster.requestPhoneListener(merchant_phone, GoodLuckDetailsAty.this));
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != toastView) {
+            toastView.cancle();
+        }
+    }
 }
