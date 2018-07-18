@@ -19,7 +19,7 @@
             android:layout_above="@+id/goods_details_bottom_layout"
             android:orientation="vertical">
 
-            <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+            <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
                 android:id="@+id/ticketGoodsDetials_refreshLayout_ssrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -787,7 +787,7 @@
                     </LinearLayout>
 
                 </com.txd.hzj.wjlp.view.ObservableScrollView>
-            </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+            </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
             <ImageView
                 android:id="@+id/be_back_top_iv"

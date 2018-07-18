@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/goods_details_bottom_layout">
 
-            <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+            <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
                 android:id="@+id/limitGoodsDetials_superRefesh_ssrl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -754,7 +754,7 @@
                     </LinearLayout>
 
                 </com.txd.hzj.wjlp.view.ObservableScrollView>
-            </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+            </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
             <ImageView
                 android:id="@+id/be_back_top_iv"

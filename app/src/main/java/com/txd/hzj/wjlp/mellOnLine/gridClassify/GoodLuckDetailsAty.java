@@ -81,7 +81,7 @@ import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
-import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONException;
@@ -624,7 +624,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String group_count;
 
     @ViewInject(R.id.limitGoodsDetials_superRefesh_ssrl)
-    private SuperSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
+    private VpSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
 
     // 刷新头部
     private RelativeLayout head_container;
@@ -931,7 +931,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         limitGoodsDetials_superRefesh_ssrl.setHeaderView(createHeaderView());// add headerView
         limitGoodsDetials_superRefesh_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
         limitGoodsDetials_superRefesh_ssrl.setTargetScrollWithLayout(true);
-        limitGoodsDetials_superRefesh_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        limitGoodsDetials_superRefesh_ssrl.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
                 textView.setText("正在刷新");
