@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -50,7 +52,7 @@
                                 android:orientation="vertical">
 
                                 <include layout="@layout/aty_banner" />
-
+                                <!-- app:pageTransformer="flow" -->
                                 <TextView
                                     android:id="@+id/tv_expirationdate"
                                     android:layout_width="match_parent"
@@ -898,6 +900,12 @@
                 android:text="立即购买"
                 android:textColor="@color/white" />
         </LinearLayout>
+        <com.txd.hzj.wjlp.view.ToastView
+            android:id="@+id/toastView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="70dp"></com.txd.hzj.wjlp.view.ToastView>
     </RelativeLayout>
 
 
