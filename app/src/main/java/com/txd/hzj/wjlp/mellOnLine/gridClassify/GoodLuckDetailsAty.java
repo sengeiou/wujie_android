@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,12 +11,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -54,7 +56,6 @@ import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
-import com.txd.hzj.wjlp.bean.commodity.GoodsActiveBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBannerBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
@@ -75,13 +76,12 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
-import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONException;
@@ -624,7 +624,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String group_count;
 
     @ViewInject(R.id.limitGoodsDetials_superRefesh_ssrl)
-    private SuperSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
+    private VpSwipeRefreshLayout limitGoodsDetials_superRefesh_ssrl;
 
     // 刷新头部
     private RelativeLayout head_container;
@@ -633,6 +633,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private ImageView imageView;
     private String a_id; // 此变量虽然不知道什么意思，但是在请求接口groupBuyInfo的时候会用到
     private String onePrice;//单买价
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -930,7 +931,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         limitGoodsDetials_superRefesh_ssrl.setHeaderView(createHeaderView());// add headerView
         limitGoodsDetials_superRefesh_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
         limitGoodsDetials_superRefesh_ssrl.setTargetScrollWithLayout(true);
-        limitGoodsDetials_superRefesh_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        limitGoodsDetials_superRefesh_ssrl.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
                 textView.setText("正在刷新");
@@ -1414,32 +1415,46 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     } else {
                         is_f = false;
                     }
-
+//TODO 在此设置需要添加的dialog
                     if ("2".equals(groupType)) {
                         // 一键开团
                         creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n发起拼单");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-                                if (is_C) {
-                                    Intent intent = new Intent();
-                                    intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                    intent.putExtra("type", "3");
-                                    intent.putExtra("goods_id", goods_id);
-                                    intent.putExtra("group_buy_id", group_buy_id);
-                                    intent.putExtra("num", String.valueOf(goods_number));
-                                    intent.putExtra("product_id", product_id);
-                                    intent.putExtra("group_type", groupType);
-                                    if (!TextUtils.isEmpty(order_id)) {
-                                        bundle.putString("order_id", order_id);
+                                showDialogs(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        dialog.dismiss();
+                                        goodLuckPranster.showCollagePop(v, "正在拼单", groupList, groupType, GoodLuckDetailsAty.this, group_count);
                                     }
-                                    intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                    startActivity(intent);
-                                } else {
-                                    //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                                    toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                            goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
-                                }
+                                }, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (is_C) {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("mid", mellInfoBean.getMerchant_id());
+                                            intent.putExtra("type", "3");
+                                            intent.putExtra("goods_id", goods_id);
+                                            intent.putExtra("group_buy_id", group_buy_id);
+                                            intent.putExtra("num", String.valueOf(goods_number));
+                                            intent.putExtra("product_id", product_id);
+                                            intent.putExtra("group_type", groupType);
+                                            if (!TextUtils.isEmpty(order_id)) {
+                                                bundle.putString("order_id", order_id);
+                                            }
+                                            intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+                                            startActivity(intent);
+                                        } else {
+                                            //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
+                                            toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                                                    goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
+                                        }
+                                    dialog.dismiss();
+
+                                    }
+                                });
+
 
                             }
                         });
@@ -1723,6 +1738,20 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //        }
 //    }
 
+
+    public void showDialogs(View.OnClickListener yesListener, View.OnClickListener noListener) {
+        dialog = new Dialog(GoodLuckDetailsAty.this, R.style.share_styles);
+        View view = View.inflate(this, R.layout.goodluck_collage_dialog_view, null);
+        dialog.setContentView(view);
+        view.findViewById(R.id.goodluck_yes).setOnClickListener(yesListener);
+        view.findViewById(R.id.goodluck_no).setOnClickListener(noListener);
+
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        dialog.setCancelable(false);
+        dialog.show();
+
+    }
 
     @ViewInject(R.id.tv_chose_ads)
     private TextView tv_chose_ads;
