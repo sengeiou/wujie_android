@@ -39,6 +39,9 @@ public class ToastView extends LinearLayout {
                 break;
                 case 2: {
                     currentPos++;
+                    if(currentPos>event_msgBeans.size()-1){
+                        currentPos=0;
+                    }
                     view.setVisibility(GONE);
                 }
                 break;
