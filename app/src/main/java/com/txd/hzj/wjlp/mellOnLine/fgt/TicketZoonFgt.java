@@ -33,6 +33,7 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.GroupBuyBean;
 import com.txd.hzj.wjlp.bean.TwoCateListBean;
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.WinBean;
 import com.txd.hzj.wjlp.http.country.CountryPst;
 import com.txd.hzj.wjlp.http.groupbuy.GroupBuyPst;
 import com.txd.hzj.wjlp.http.integral.IntegralBuyPst;
@@ -408,9 +409,13 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                     href = adsBean.getHref();
 
                 }
-//                collageUpMarqueeView.setVisibility(View.VISIBLE);
-//                collageUpMarqueeView.setViews();
-
+                //中奖信息
+                List<WinBean> winBeans=groupBuyBean.getData().getGroup_buy_msg();
+                if(null!=winBeans&&winBeans.size()>0){
+                    setView(winBeans);
+                    collageUpMarqueeView.setViews(views);
+                    collageUpMarqueeView.setVisibility(View.VISIBLE);
+                }
                 progressBar.setVisibility(View.GONE);
                 refresh_view.setRefreshing(false); // 刷新成功
             } else {
@@ -446,26 +451,23 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
     /**
      * 拼单购中奖信息列表
      */
-//    private List<View> views;
+    private List<View> views;
     /**
      * 初始化需要循环的View
      * 为了灵活的使用滚动的View，所以把滚动的内容让用户自定义
      * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
      */
-//    private void setView() {
-//        views=new ArrayList<>();
-//        for (int i = 0; i < updata.size(); i = i + 2) {
-//            //设置滚动的单个布局
-//            LinearLayout winingView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.winingmsg, null);
-//            //中奖时间
-//            TextView timeTv = winingView.findViewById(R.id.timeTv);
-//            //中奖人姓名
-//            TextView nameTv = winingView.findViewById(R.id.nameTv);
-//            //中奖商品名称
-//            TextView winTitleTv = winingView.findViewById(R.id.winTitleTv);
-//            views.add(winingView);
-//        }
-//    }
+    private void setView( List<WinBean> winBeans) {
+        views=new ArrayList<>();
+        for (int i = 0; i < winBeans.size(); i = i + 2) {
+            //设置滚动的单个布局
+            LinearLayout winingView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.winingmsg, null);
+            //中奖商品名称
+            TextView winTitleTv = winingView.findViewById(R.id.winTitleTv);
+            winTitleTv.setText(winBeans.get(i).getMsg());
+            views.add(winingView);
+        }
+    }
 
     /**
      * 非 拼团购数据
