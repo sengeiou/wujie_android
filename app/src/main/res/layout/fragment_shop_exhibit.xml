@@ -90,9 +90,9 @@
             android:layout_weight="1"
             android:text="价格"
             android:drawablePadding="6dp"
-            android:drawableRight="@drawable/shopjiantou"
+            android:drawableRight="@drawable/shopblgjiantou"
             android:gravity="right"
-            android:textColor="#ffe71f19"
+            android:textColor="#ff333333"
             android:textSize="14sp" />
     </LinearLayout>
 <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout

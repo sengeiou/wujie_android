@@ -13,11 +13,13 @@ import com.lidroid.xutils.http.RequestParams;
 public class ExhibitModel {
     //分销的base_url
     public static final String DISTRIBUTION_URL="http://test2.wujiemall.com/Api/Distribution/";
-    public void postExhibitData(String p, String cate_id, BaseView baseView){
+    public void postExhibitData(String p, String cate_id, String name,String flag,BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", p);
         params.addBodyParameter("cate_id", cate_id);
+        params.addBodyParameter("name", name);
+        params.addBodyParameter("flag", flag);
         apiTool2.postApi(DISTRIBUTION_URL+"goodsList", params, baseView);
     }
     public void postShopsData(String cate_id, BaseView baseView){

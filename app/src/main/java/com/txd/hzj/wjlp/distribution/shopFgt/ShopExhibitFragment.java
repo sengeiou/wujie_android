@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,19 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopExhibitAdapter;
 import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
-import com.txd.hzj.wjlp.distribution.shopAty.ShopExhibit;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：Zyf
@@ -61,9 +61,10 @@ public class ShopExhibitFragment extends BaseFgt {
     private ShopExhibitAdapter shopExhibitAdapter;
     private List<ExhibitGoodsBean.DataBean.ListBean> datas;
 
+
+    private ShopExhibitPst mExhibitPst;
     private int p = 1; // 请求的分页
     // Header View
-    private RelativeLayout head_container;
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;
@@ -73,14 +74,19 @@ public class ShopExhibitFragment extends BaseFgt {
     private TextView footerTextView;
     private ImageView footerImageView;
 
-    private ExhibitGoodsBean mGoodsBean;
 
-    private ShopExhibit mShopExhibit;
 
-    public static ShopExhibitFragment newInstance(ExhibitGoodsBean data) {
+    private int mCate_id;
+    //排序字段名
+    private String name="red_return_integral";
+    //
+    private String flag="asc";
+
+
+    public static ShopExhibitFragment newInstance(int cate_id) {
         ShopExhibitFragment fragment = new ShopExhibitFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_PARAM1, data);
+        args.putSerializable(ARG_PARAM1, cate_id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,14 +95,13 @@ public class ShopExhibitFragment extends BaseFgt {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        mShopExhibit = (ShopExhibit) context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mGoodsBean = (ExhibitGoodsBean) getArguments().getSerializable(ARG_PARAM1);
+            mCate_id = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -121,26 +126,8 @@ public class ShopExhibitFragment extends BaseFgt {
         exhibit_recyclerView = view.findViewById(R.id.exhibit_recyclerView);
         exhibit_recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         exhibit_recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
-    }
-
-    @Override
-    protected void initialized() {
-        selectId = getResources().getDrawable(R.drawable.shopjiantou);
-        twoSelectId = getResources().getDrawable(R.drawable.shop_red_down);
-        unSelectId = getResources().getDrawable(R.drawable.shopblgjiantou);
-        selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
-        twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
-        unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
-    }
-
-    @Override
-    protected void requestData() {
-        datas = new ArrayList<>();
-        datas = mGoodsBean.getData().getList();
-        if (datas!=null){
-            shopExhibitAdapter = new ShopExhibitAdapter(datas);
-            exhibit_recyclerView.setAdapter(shopExhibitAdapter);
-        }
+        mExhibitPst = new ShopExhibitPst(this);
+        setChioceItem(0);
         mSuperSwipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
@@ -148,8 +135,7 @@ public class ShopExhibitFragment extends BaseFgt {
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
-                mShopExhibit.refreshOrLoadMore(p,mSuperSwipeRefreshLayout,progressBar);
-
+                mExhibitPst.goodsList(String.valueOf(p), String.valueOf(mCate_id),name,flag,0);
             }
 
             @Override
@@ -171,18 +157,18 @@ public class ShopExhibitFragment extends BaseFgt {
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
-                mShopExhibit.refreshOrLoadMore(p,mSuperSwipeRefreshLayout,progressBar);
+                mExhibitPst.goodsList(String.valueOf(p), String.valueOf(mCate_id),name,flag,0);
 
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        //set false when finished
-                        showErrorTip("无更多数据了");
-                        mSuperSwipeRefreshLayout.setLoadMore(false);
-                        progressBar.setVisibility(View.GONE);
-                    }
-                }, 5000);
+//                new Handler().postDelayed(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
+//                        //set false when finished
+//                        showErrorTip("无更多数据了");
+//                        mSuperSwipeRefreshLayout.setLoadMore(false);
+//                        progressBar.setVisibility(View.GONE);
+//                    }
+//                }, 5000);
             }
 
             @Override
@@ -196,8 +182,53 @@ public class ShopExhibitFragment extends BaseFgt {
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
+    }
 
+    @Override
+    protected void initialized() {
+        selectId = getResources().getDrawable(R.drawable.shopjiantou);
+        twoSelectId = getResources().getDrawable(R.drawable.shop_red_down);
+        unSelectId = getResources().getDrawable(R.drawable.shopblgjiantou);
+        selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
+        twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
+        unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
+    }
 
+    @Override
+    protected void requestData() {
+        mExhibitPst.goodsList(String.valueOf(p),String.valueOf(mCate_id),"red_return_integral","asc",0);
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
+        if (200 == exhibitGoodsBean.getCode()) {
+            datas = new ArrayList<>();
+            datas = exhibitGoodsBean.getData().getList();
+            if (datas != null) {
+                shopExhibitAdapter = new ShopExhibitAdapter(datas);
+                exhibit_recyclerView.setAdapter(shopExhibitAdapter);
+            }
+        }
+        refreshVisibleState();
+    }
+
+    private void refreshVisibleState() {
+        if (progressBar.getVisibility()== View.VISIBLE){
+            mSuperSwipeRefreshLayout.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility()==View.VISIBLE) {
+            mSuperSwipeRefreshLayout.setLoadMore(false);
+            footerProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+        refreshVisibleState();
     }
 
     /**
@@ -224,7 +255,6 @@ public class ShopExhibitFragment extends BaseFgt {
      */
     private View createHeaderView() {
         View headerView = LayoutInflater.from(mSuperSwipeRefreshLayout.getContext()).inflate(R.layout.layout_head, null);
-        head_container = headerView.findViewById(R.id.head_container);
         progressBar = headerView.findViewById(R.id.pb_view);
         textView = headerView.findViewById(R.id.text_view);
         textView.setText("下拉刷新");
@@ -244,57 +274,73 @@ public class ShopExhibitFragment extends BaseFgt {
     @OnClick({R.id.internal_tv, R.id.cash_coupon_tv, R.id.sales_volume_tv, R.id.price_tv})
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()) {
-            case R.id.internal_tv:
-                setChioceItem(0);
-                break;
-            case R.id.cash_coupon_tv:
-                setChioceItem(1);
-                break;
-            case R.id.sales_volume_tv:
-                setChioceItem(2);
-                break;
-            case R.id.price_tv:
-                setChioceItem(3);
-                break;
+        int id = v.getId();
+        if (id == R.id.internal_tv) {
+            sort(0);
+            setChioceItem(0);
+        } else if (id == R.id.cash_coupon_tv) {
+            sort(1);
+            setChioceItem(1);
+        } else if (id == R.id.sales_volume_tv) {
+            sort(2);
+            setChioceItem(2);
+        } else if (id == R.id.price_tv) {
+            sort(3);
+            setChioceItem(3);
+        }
+    }
+
+    private void sort(int index){
+        if (index==0){
+            name="red_return_integral";
+            flag=internalNum%2==0?"asc":"desc";
+            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"red_return_integral",internalNum%2==0?"asc":"desc",0);
+        }else  if (index==1){
+            name="discount";
+            flag=cashCouponNum%2==0?"asc":"desc";
+            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"discount",cashCouponNum%2==0?"asc":"desc",0);
+        } else  if (index==2){
+            name="new_sell_num";
+            flag=salesVolumeNum%2==0?"asc":"desc";
+            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"new_sell_num",salesVolumeNum%2==0?"asc":"desc",0);
+        }else  if (index==3){
+            name="shop_price";
+            flag=priceNum%2==0?"asc":"desc";
+            mExhibitPst.goodsList("1",String.valueOf(mCate_id),"shop_price",priceNum%2==0?"asc":"desc",0);
         }
     }
 
     private void setChioceItem(int index) {
         clearChioce();
-        switch (index) {
-            case 0:
-                internal_tv.setTextColor(Color.parseColor(redColor));
-                internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
-                internalNum++;
-                cashCouponNum = 0;
-                salesVolumeNum = 0;
-                priceNum = 0;
-                break;
-            case 1:
-                cash_coupon_tv.setTextColor(Color.parseColor(redColor));
-                cash_coupon_tv.setCompoundDrawables(null, null, cashCouponNum % 2 == 0 ? selectId : twoSelectId, null);
-                internalNum = 0;
-                cashCouponNum++;
-                salesVolumeNum = 0;
-                priceNum = 0;
-                break;
-            case 2:
-                sales_volume_tv.setTextColor(Color.parseColor(redColor));
-                sales_volume_tv.setCompoundDrawables(null, null, salesVolumeNum % 2 == 0 ? selectId : twoSelectId, null);
-                internalNum = 0;
-                cashCouponNum = 0;
-                salesVolumeNum++;
-                priceNum = 0;
-                break;
-            case 3:
-                price_tv.setTextColor(Color.parseColor(redColor));
-                price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
-                internalNum = 0;
-                cashCouponNum = 0;
-                salesVolumeNum = 0;
-                priceNum++;
-                break;
+        if (index == 0) {
+            internal_tv.setTextColor(Color.parseColor(redColor));
+            internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
+            internalNum++;
+            cashCouponNum = 0;
+            salesVolumeNum = 0;
+            priceNum = 0;
+        } else if (index == 1) {
+            cash_coupon_tv.setTextColor(Color.parseColor(redColor));
+            cash_coupon_tv.setCompoundDrawables(null, null, cashCouponNum % 2 == 0 ? selectId : twoSelectId, null);
+
+            internalNum = 0;
+            cashCouponNum++;
+            salesVolumeNum = 0;
+            priceNum = 0;
+        } else if (index == 2) {
+            sales_volume_tv.setTextColor(Color.parseColor(redColor));
+            sales_volume_tv.setCompoundDrawables(null, null, salesVolumeNum % 2 == 0 ? selectId : twoSelectId, null);
+            internalNum = 0;
+            cashCouponNum = 0;
+            salesVolumeNum++;
+            priceNum = 0;
+        } else if (index == 3) {
+            price_tv.setTextColor(Color.parseColor(redColor));
+            price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
+            internalNum = 0;
+            cashCouponNum = 0;
+            salesVolumeNum = 0;
+            priceNum++;
         }
     }
 

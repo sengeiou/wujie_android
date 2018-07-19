@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONObject;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
@@ -59,11 +57,6 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     private ShopExhibitPst mExhibitPst;
 
-    /**
-     * 分类列表
-     */
-    private List<Map<String, String>> horizontal_classify;
-
     private String cate_id = "";
 
     private MyPagerAdapter myPagerAdapter;
@@ -78,9 +71,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     private View viewBack;
     private RelativeLayout rlLayout;
     private float pivotY;
-    private List<ExhibitGoodsBean.DataBean.TwoCateListBean> mTwo_cate_list;
-    private SuperSwipeRefreshLayout mSuperSwipeRefreshLayout;
-    private ProgressBar mProgressBar;
+    private List<ExhibitGoodsBean.DataBean.TopNavBean> mTop_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,7 +144,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void requestData() {
-        mExhibitPst.goodsList("1", cate_id, 0);
+        mExhibitPst.goodsList("1", cate_id,"","",0);
         pivotY = rlLayout.getPivotY();
         Log.i("Y轴距离", pivotY + "=========");
     }
@@ -161,17 +152,13 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if (mSuperSwipeRefreshLayout!=null&&mProgressBar!=null){
-            mSuperSwipeRefreshLayout.setRefreshing(false);
-            mProgressBar.setVisibility(View.GONE);
-        }
         ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
         if (200 == exhibitGoodsBean.getCode()) {
-            mTwo_cate_list = exhibitGoodsBean.getData().getTwo_cate_list();
+            mTop_nav = exhibitGoodsBean.getData().getTop_nav();
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            for (ExhibitGoodsBean.DataBean.TwoCateListBean twoCateListBean : mTwo_cate_list) {
-                fragments.add(ShopExhibitFragment.newInstance(exhibitGoodsBean));
-                lists.add(twoCateListBean.getShort_name());
+            for (ExhibitGoodsBean.DataBean.TopNavBean topNavBean : mTop_nav) {
+                fragments.add(ShopExhibitFragment.newInstance(topNavBean.getCate_id()));
+                lists.add(topNavBean.getShort_name());
             }
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
@@ -185,10 +172,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        if (mSuperSwipeRefreshLayout!=null&&mProgressBar!=null){
-            mSuperSwipeRefreshLayout.setRefreshing(false);
-            mProgressBar.setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -217,6 +201,8 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         }
 
     }
+
+
 
 
     private class MyPagerAdapter extends FragmentStatePagerAdapter {
@@ -258,14 +244,6 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
         mHiddenAction.setDuration(400);
         return mHiddenAction;
-    }
-
-
-
-    public void refreshOrLoadMore(int p, SuperSwipeRefreshLayout superSwipeRefreshLayout, ProgressBar progressBar){
-        mExhibitPst.goodsList(String.valueOf(p),cate_id,0);
-        mSuperSwipeRefreshLayout = superSwipeRefreshLayout;
-        mProgressBar = progressBar;
     }
 
 

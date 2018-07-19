@@ -19,11 +19,11 @@ public class ShopExhibitPst extends BasePresenter {
         mModel = new ExhibitModel();
     }
 
-    public void goodsList(String p, String cate_id, int type) {
+    public void goodsList(String p, String cate_id,String name,String flag, int type) {
         if (1 == type) {
             baseView.showDialog();
         }
-        mModel.postExhibitData(p, cate_id, baseView);
+        mModel.postExhibitData(p, cate_id,name,flag, baseView);
     }
 
     /**
