@@ -83,23 +83,21 @@
 
     <!--自定义textview配置文件-->
 
-        <attr name="textwidth" format="integer"/>
-        <attr name="typeface">
-            <enum name="normal" value="0"/>
-            <enum name="sans" value="1"/>
-            <enum name="serif" value="2"/>
-            <enum name="monospace" value="3"/>
-        </attr>
+    <attr name="textwidth" format="integer" />
+    <attr name="typeface">
+        <enum name="normal" value="0" />
+        <enum name="sans" value="1" />
+        <enum name="serif" value="2" />
+        <enum name="monospace" value="3" />
+    </attr>
 
-        <declare-styleable name="CYTextView">
-            <attr name="textwidth" />
-            <attr name="textSize" format="dimension"/>
-            <attr name="textColor" format="reference|color"/>
-            <attr name="lineSpacingExtra" format="dimension"/>
-            <attr name="typeface" />
-        </declare-styleable>
-
-
+    <declare-styleable name="CYTextView">
+        <attr name="textwidth" />
+        <attr name="textSize" format="dimension" />
+        <attr name="textColor" format="reference|color" />
+        <attr name="lineSpacingExtra" format="dimension" />
+        <attr name="typeface" />
+    </declare-styleable>
 
 
     <style name="Ticket_Dialog" parent="@android:style/Theme.Dialog">
@@ -116,6 +114,12 @@
         <item name="android:backgroundDimAmount">0.6</item>
         <!-- 设置点击空白不消失 -->
         <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
+    <!-- 防止APP启动时白页，添加此style用一张背景图展示给用户 -->
+    <style name="styleSplashImage" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/icon_temp_banner</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

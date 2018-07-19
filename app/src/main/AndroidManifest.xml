@@ -102,10 +102,11 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
         tools:ignore="HardcodedDebugMode"
+        android:theme="@style/AppTheme"
         tools:replace="icon,theme,allowBackup">
-        <!--tools:replace="  icon,label,theme,allowBackup"-->
+        <!--android:theme="@style/styleSplashImage"-->
+        <!--tools:replace="icon,label,theme,allowBackup"-->
         <!-- Glide缓存 -->
         <meta-data
             android:name="com.ants.theantsgo.GlideCache"
