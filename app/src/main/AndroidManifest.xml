@@ -103,9 +103,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         tools:ignore="HardcodedDebugMode"
-        android:theme="@style/AppTheme"
+        android:theme="@style/styleSplashImage"
         tools:replace="icon,theme,allowBackup">
-        <!--android:theme="@style/styleSplashImage"-->
+        <!--android:theme="@style/AppTheme"-->
         <!--tools:replace="icon,label,theme,allowBackup"-->
         <!-- Glide缓存 -->
         <meta-data

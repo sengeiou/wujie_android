@@ -694,8 +694,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * @param limit_href 链接
      */
     private void forShowAds(String limit_desc, String limit_href) {
-        if (limit_href.isEmpty() || limit_href.equals(""))
+        if (limit_href.isEmpty() || limit_href.equals("")) {
             return;
+        }
         bundle = new Bundle();
         bundle.putString("desc", limit_desc);
         bundle.putString("href", limit_href);

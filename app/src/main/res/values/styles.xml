@@ -118,7 +118,7 @@
 
     <!-- 防止APP启动时白页，添加此style用一张背景图展示给用户 -->
     <style name="styleSplashImage" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/icon_temp_banner</item>
+        <item name="android:windowBackground">@mipmap/start_page_1242_2208</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
