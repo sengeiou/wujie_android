@@ -1,7 +1,5 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -86,7 +83,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
         view_year=findViewById(R.id.view_year);
         mytitle_tv.setVisibility(View.VISIBLE);
         titlt_conter_tv.setVisibility(View.GONE);
-        time_select.setVisibility(View.VISIBLE);
+//        time_select.setVisibility(View.VISIBLE);
         bottom = new ArrayList<>();
         bottom.add("6-14");
         bottom.add("6-15");

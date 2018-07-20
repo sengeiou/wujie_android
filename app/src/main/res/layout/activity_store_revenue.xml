@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="14dp"
-                android:text="周"
+                android:text="日"
                 android:textColor="#ff666666"
                 android:textSize="13sp" />
 
