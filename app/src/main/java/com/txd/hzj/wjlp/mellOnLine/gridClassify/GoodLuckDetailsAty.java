@@ -523,6 +523,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private LinearLayout layout_service;//服务布局
     @ViewInject(R.id.rv_service)
     private RecyclerView rv_service;
+    @ViewInject(R.id.tv_brief)
+    private TextView tv_brief;
 
     ArrayList<GoodsServerBean> ser_list;//服务的列表
     ArrayList<GoodsPriceDescBean> goods_price_desc;//价格的列表
@@ -995,10 +997,17 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 @Override
                 public void returnObj(Object t) {
                     GoodLuckBean goodLuckBean = (GoodLuckBean) t;
+
+
                     final DataBean dataBean = goodLuckBean.getData();
                     remarks.setText(dataBean.getRemarks());
                     goodsInfo = dataBean.getGoodsInfo();
-
+                    if (TextUtils.isEmpty(goodsInfo.getGoods_brief())) {
+                        tv_brief.setVisibility(View.GONE);
+                    } else{
+                        tv_brief.setVisibility(View.VISIBLE);
+                        tv_brief.setText(goodsInfo.getGoods_brief());
+                    }
                     /**
                      *以下表示如果buy_status==0，表示当前商品已经下架
                      * */

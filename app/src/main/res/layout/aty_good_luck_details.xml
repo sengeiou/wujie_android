@@ -118,7 +118,16 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="5dp" />
                                 </LinearLayout>
-
+                                <TextView
+                                    android:id="@+id/tv_brief"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@android:color/white"
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
+                                    android:padding="10dp"
+                                    android:textColor="#999999"
+                                    android:textSize="13sp" />
                                 <LinearLayout
                                     android:id="@+id/layout_djq"
                                     android:layout_width="match_parent"
