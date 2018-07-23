@@ -140,7 +140,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         im_ads.setLayoutParams(adsParam);
 
         off_line_to_change_sc.setScrollViewListener(MellOffLineFgt.this);
-//        mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
+        mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
         mell_near_by_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
