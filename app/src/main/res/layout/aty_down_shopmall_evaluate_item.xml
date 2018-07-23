@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/shop_division" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
+            android:id="@+id/shopmall_item_img_head"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:src="@mipmap/ic_launcher"
+            app:shape_mode="circle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_alignTop="@+id/shopmall_item_img_head"
+            android:layout_toRightOf="@+id/shopmall_item_img_head"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="影***桑"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:paddingEnd="14dp"
+                android:layout_height="wrap_content"
+                android:text="2017-06-23 10:11:58"
+                android:textColor="@color/black"
+                android:textSize="10sp" />
+        </LinearLayout>
+      <!--<com.txd.hzj.wjlp.view.RatingBar
+          android:layout_width="wrap_content"
+          android:layout_height="14dp"
+          android:numStars="5"
+          app:starFill="@mipmap/star_ful"
+          app:starHalf="@mipmap/half_star"
+          app:starImageSize="12dp"
+          app:starStep="3"
+          app:starcount="5"
+          app:starempty="@mipmap/unstar_ful"
+          app:starpadding="5dp"
+          app:stepSize="Half"/>-->
+    </RelativeLayout>
+
+
+</LinearLayout>
