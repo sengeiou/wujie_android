@@ -1063,6 +1063,8 @@
         <activity android:name=".wjyp.PlatformMaterialAuditAty" />
         <!-- 审核详情 -->
         <activity android:name=".wjyp.PlatformMaterialAuditDetailsAty" />
+        <!--线下店铺详情-->
+        <activity android:name=".mellOffLine.ShopMallDetailsAty"/>
         <!-- 下级物料审核 -->
         <activity android:name=".wjyp.LowerMaterialAuditAty" />
         <activity android:name=".wjyp.ExpandTheMemberAty" />

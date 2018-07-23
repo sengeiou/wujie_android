@@ -10,17 +10,17 @@
     </item>
     <!--&lt;!&ndash; 第二条进度条颜色 &ndash;&gt;-->
     <!--<item android:id="@android:id/secondaryProgress">-->
-        <!--<clip>-->
-            <!--<shape>-->
-                <!--<corners android:radius="10dip" />-->
-                <!--<gradient-->
-                    <!--android:angle="90.0"-->
-                    <!--android:centerColor="#ac6"-->
-                    <!--android:centerY="0.45"-->
-                    <!--android:endColor="#6c2"-->
-                    <!--android:startColor="#e71a" />-->
-            <!--</shape>-->
-        <!--</clip>-->
+    <!--<clip>-->
+    <!--<shape>-->
+    <!--<corners android:radius="10dip" />-->
+    <!--<gradient-->
+    <!--android:angle="90.0"-->
+    <!--android:centerColor="#ac6"-->
+    <!--android:centerY="0.45"-->
+    <!--android:endColor="#6c2"-->
+    <!--android:startColor="#e71a" />-->
+    <!--</shape>-->
+    <!--</clip>-->
     <!--</item>-->
     <!-- 进度条 -->
     <item android:id="@android:id/progress">

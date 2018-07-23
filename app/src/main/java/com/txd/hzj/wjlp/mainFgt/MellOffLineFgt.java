@@ -31,6 +31,7 @@ import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
@@ -330,23 +331,24 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 .placeholder(R.mipmap.icon_200)
                 .into(im_ads);
         // TODO 暂时取消点击事件
-//        im_ads.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
-//                    startActivity(MellInfoAty.class, bundle);
-//                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
-//                    bundle.putInt("from", 1);
-//                    startActivity(TicketGoodsDetialsAty.class, bundle);
-//                } else {
-//                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
-//                }
-//            }
-//        });
+        im_ads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(ShopMallDetailsAty.class,null);
+               /* if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
+                }*/
+            }
+        });
         list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
         Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)

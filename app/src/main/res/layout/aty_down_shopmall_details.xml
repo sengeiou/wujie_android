@@ -9,6 +9,7 @@
     <include layout="@layout/aty_title_down_shopmall_details" />
 
     <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+        android:id="@+id/shop_mall_refrsh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -79,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/banner"
                         android:layout_centerHorizontal="true"
+                        android:visibility="gone"
                         android:layout_marginBottom="16dp"
                         app:pointDrawable="@drawable/round_nine_w"
                         app:pointerLMargin="@dimen/twelve"
@@ -165,6 +167,7 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
+                        tools:listitem="@layout/aty_down_shopmall_evaluate_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
