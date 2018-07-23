@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -164,7 +163,6 @@ public class TicketZoonAty extends BaseAty {
         if (requestUrl.contains("changeShowStatus")){
             JSONObject jsonObject= JSON.parseObject(jsonStr);
             Log.e("TAG", "onComplete: "+jsonObject.getString("message") );
-            Toast.makeText(this, jsonObject.getString("message") , Toast.LENGTH_SHORT).show();
         }else {
             GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
             mTitles = groupBuyBean.getData().getTop_nav();
