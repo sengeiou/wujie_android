@@ -5,8 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -24,6 +28,7 @@ import com.txd.hzj.wjlp.tool.WJConfig;
 import com.txd.hzj.wjlp.view.TicketDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,6 +65,12 @@ public class TicketZoonAty extends BaseAty {
     private CountryPst countryPst;
 
     private String country_id = "";
+
+    //拼单规则
+    private String[] mGroup_buy_rule;
+
+    //拼单规则显示状态" ,// 0:不显示；1：显示；
+    private String mIs_show_group_buy_rule;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,13 +118,10 @@ public class TicketZoonAty extends BaseAty {
         }
         //初始化上面的标题栏数组
         mTitles = new ArrayList<>();
-        showTickDialog();
+
     }
 
-    private void showTickDialog() {
-        TicketDialog ticketDialog=new TicketDialog(this);
-        ticketDialog.show();
-    }
+
 
     @Override
     protected void requestData() {
@@ -137,17 +145,41 @@ public class TicketZoonAty extends BaseAty {
         }
     }
 
+    private void showTickDialog() {
+        TicketDialog ticketDialog=new TicketDialog(this);
+        List<String> group_rules_list= Arrays.asList(mGroup_buy_rule);
+        ticketDialog.setData(group_rules_list);
+        ticketDialog.setChangeShowStatus(new TicketDialog.ChangeShowStatus() {
+            @Override
+            public void changeStatus() {
+                groupBuyPst.changeShowStatus(TicketZoonAty.this);
+            }
+        });
+        ticketDialog.show();
+    }
+
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
-        mTitles = groupBuyBean.getData().getTop_nav();
-        for (TopNavBean title : mTitles) {
-            mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type, country_id));
+        if (requestUrl.contains("changeShowStatus")){
+            JSONObject jsonObject= JSON.parseObject(jsonStr);
+            Log.e("TAG", "onComplete: "+jsonObject.getString("message") );
+            Toast.makeText(this, jsonObject.getString("message") , Toast.LENGTH_SHORT).show();
+        }else {
+            GroupBuyBean groupBuyBean = GsonUtil.GsonToBean(jsonStr, GroupBuyBean.class);
+            mTitles = groupBuyBean.getData().getTop_nav();
+            mGroup_buy_rule = groupBuyBean.getData().getGroup_buy_rule();
+            mIs_show_group_buy_rule = groupBuyBean.getData().getIs_show_group_buy_rule();
+            for (TopNavBean title : mTitles) {
+                mFragments.add(TicketZoonFgt.getFgt(title.getCate_id(), type, country_id));
+            }
+            myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+            vp_for_title.setAdapter(myPagerAdapter);
+            title_s_tab_layout.setViewPager(vp_for_title);
+            if (type == WJConfig.PTG && mIs_show_group_buy_rule.equals("1")) {
+                showTickDialog();
+            }
         }
-        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        vp_for_title.setAdapter(myPagerAdapter);
-        title_s_tab_layout.setViewPager(vp_for_title);
     }
 
     private class MyPagerAdapter extends FragmentPagerAdapter {

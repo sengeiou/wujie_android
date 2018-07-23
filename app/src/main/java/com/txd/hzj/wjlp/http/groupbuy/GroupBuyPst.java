@@ -62,4 +62,12 @@ public class GroupBuyPst extends BasePresenter {
         groupBuy.attrApi(goods_id,product_id,group_type,baseView);
     }
 
+    /**
+     * 拼单购规则显示
+     */
+    public void changeShowStatus(BaseView baseView){
+        baseView.showDialog();
+        groupBuy.changeShowStatus( baseView);
+    }
+
 }

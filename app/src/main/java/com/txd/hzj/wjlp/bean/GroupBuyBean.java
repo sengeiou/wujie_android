@@ -94,10 +94,31 @@ public class GroupBuyBean {
         private List<AllGoodsBean> integral_buy_list;
         // ==========进口馆==========
         private List<AllGoodsBean> list;
+
+        private String is_show_group_buy_rule;
+
+        public String[] getGroup_buy_rule() {
+            return group_buy_rule;
+        }
+
+        public void setGroup_buy_rule(String[] group_buy_rule) {
+            this.group_buy_rule = group_buy_rule;
+        }
+
+        private String[] group_buy_rule;
         /**
          * 中奖信息列表
          */
         private List<WinBean> group_buy_msg;
+
+        public String getIs_show_group_buy_rule() {
+            return is_show_group_buy_rule;
+        }
+
+        public void setIs_show_group_buy_rule(String is_show_group_buy_rule) {
+            this.is_show_group_buy_rule = is_show_group_buy_rule;
+        }
+
 
 
         public AdsBean getAds() {

@@ -4,7 +4,6 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
-import com.txd.hzj.wjlp.tool.TextUtils;
 
 /**
  * 作者：DUKE_HwangZj
@@ -114,6 +113,16 @@ public class GroupBuy {
             requestParams.addBodyParameter("product_id", product_id);
         requestParams.addBodyParameter("group_type", String.valueOf(group_type));
         apiTool2.postApi(url + "attrApi", requestParams, baseView);
+    }
+
+
+    /**
+     * 拼单购规则显示
+     */
+    public void changeShowStatus(BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "changeShowStatus", requestParams, baseView);
     }
 
 }
