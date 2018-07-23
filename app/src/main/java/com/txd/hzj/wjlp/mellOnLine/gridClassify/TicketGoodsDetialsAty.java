@@ -80,6 +80,7 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.ToastView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 
@@ -485,6 +486,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView tv_date;
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+    @ViewInject(R.id.toastView)
+    private ToastView toastView;
     private int goods_number = 0;
     private String product_id = "";
     private boolean is_C = false;
@@ -897,6 +900,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 } else {
                     goodsPst.goodsInfo(ticket_buy_id, page);
                 }
+                commodityDetailsPranster.goodsMsg(toastView);
             }
 
             @Override
@@ -911,6 +915,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
+        if(null==commodityDetailsPranster){
+            commodityDetailsPranster=new CommodityDetailsPranster(this);
+        }
+        commodityDetailsPranster.goodsMsg(toastView);
     }
 
     private View createHeaderView() {
@@ -2134,5 +2142,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, TicketGoodsDetialsAty.this));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != toastView) {
+            toastView.cancle();
+        }
     }
 }

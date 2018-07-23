@@ -981,6 +981,13 @@
                 android:text="立即购买"
                 android:textColor="@color/white" />
         </LinearLayout>
+        <com.txd.hzj.wjlp.view.ToastView
+            android:id="@+id/toastView"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"></com.txd.hzj.wjlp.view.ToastView>
     </RelativeLayout>
 
 
