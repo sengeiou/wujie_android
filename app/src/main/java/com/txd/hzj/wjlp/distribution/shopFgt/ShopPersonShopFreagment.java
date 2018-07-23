@@ -11,13 +11,16 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.distribution.adapter.ShopPersonAdapter;
+import com.txd.hzj.wjlp.distribution.bean.ShopPersonBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 创建者：Qyl
@@ -29,7 +32,6 @@ public class ShopPersonShopFreagment extends BaseFgt {
 
 
     private ShopPersonAdapter adapter;
-    private ArrayList list;
     @ViewInject(R.id.shop_person_relist)
     private RecyclerView reList;
     @ViewInject(R.id.shopPerson_super_ssrl)
@@ -47,6 +49,9 @@ public class ShopPersonShopFreagment extends BaseFgt {
     private TextView footerTextView;
     private ImageView footerImageView;
 
+    private ShopExhibitPst mExhibitPst;
+    private List<ShopPersonBean.DataBean.ShopBean> mShop;
+
     public static ShopPersonShopFreagment newInstance(int prage) {
         ShopPersonShopFreagment freagment = new ShopPersonShopFreagment();
         Bundle bundle = new Bundle();
@@ -62,30 +67,13 @@ public class ShopPersonShopFreagment extends BaseFgt {
 
     @Override
     protected void initialized() {
-
+        mExhibitPst=new ShopExhibitPst(this);
     }
 
     @Override
     protected void requestData() {
+        mExhibitPst.getShopPerson("18","1");
 
-    }
-
-    @Override
-    protected void immersionInit() {
-        getData();
-    }
-
-    /**
-     * 获取数据
-     */
-    private void getData() {
-        list = new ArrayList<>();
-        reList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        for (int i = 0; i < 3; i++) {
-            list.add(i);
-        }
-        adapter = new ShopPersonAdapter(list, getActivity());
-        reList.setAdapter(adapter);
 
         shopPerson_super_ssrl.setHeaderView(createHeaderView());// add headerView
         shopPerson_super_ssrl.setFooterView(createFooterView());
@@ -99,9 +87,8 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 // TODO 请求接口
-//                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
-//                progressBar.setVisibility(View.GONE);
-
+                //                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
+                //                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -124,8 +111,8 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
                 // TODO 请求接口
-//                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
-//                progressBar.setVisibility(View.GONE);
+                //                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
+                //                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -139,6 +126,23 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        ShopPersonBean shopPersonBean = JSON.parseObject(jsonStr, ShopPersonBean.class);
+        if (200==shopPersonBean.getCode()){
+            mShop = shopPersonBean.getData().getShop();
+            adapter = new ShopPersonAdapter( shopPersonBean,  getActivity(),0);
+            reList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            reList.setAdapter(adapter);
+        }
+
+    }
+
+    @Override
+    protected void immersionInit() {
     }
 
     /**

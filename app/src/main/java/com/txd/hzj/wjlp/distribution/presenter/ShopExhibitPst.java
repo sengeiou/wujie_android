@@ -7,7 +7,7 @@ import com.txd.hzj.wjlp.distribution.model.ExhibitModel;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/7/16 8:37
- * 功能描述：小店上货presenter
+ * 功能描述：分销presenter
  * 联系方式：
  */
 public class ShopExhibitPst extends BasePresenter {
@@ -19,11 +19,24 @@ public class ShopExhibitPst extends BasePresenter {
         mModel = new ExhibitModel();
     }
 
+    /**
+     * 小店上货
+     */
     public void goodsList(String p, String cate_id,String name,String flag, int type) {
         if (1 == type) {
             baseView.showDialog();
         }
         mModel.postExhibitData(p, cate_id,name,flag, baseView);
+    }
+
+    /**
+     * 顾客管理
+     */
+    public void getShopPerson(String  id, String type) {
+//        if (1 == type) {
+            baseView.showDialog();
+//        }
+        mModel.getShopPersonData(id, type, baseView);
     }
 
     /**
