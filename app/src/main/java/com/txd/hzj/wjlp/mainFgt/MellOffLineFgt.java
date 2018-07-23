@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mainFgt;
 
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -114,7 +115,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private int ads_h = 0;
     private Bundle bundle;
 
-
+    private int page=1;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -159,6 +160,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 OfflineStore.Index(MellOffLineFgt.this);
+
+                page=1;
+                Map<String,String> locMap=DemoApplication.getInstance().getLocInfo();
+               if(null!=locMap&&!TextUtils.isEmpty(locMap.get("lon"))){
+               }else{
+
+               }
             }
 
             @Override
@@ -178,7 +186,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
-                OfflineStore.Index(MellOffLineFgt.this);
             }
 
             @Override
@@ -194,6 +201,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
         });
     }
+
 
     /**
      * 轮播图
