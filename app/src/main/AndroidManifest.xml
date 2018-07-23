@@ -102,8 +102,8 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        tools:ignore="HardcodedDebugMode"
         android:theme="@style/AppTheme"
+        tools:ignore="HardcodedDebugMode"
         tools:replace="icon,theme,allowBackup">
         <!--android:theme="@style/styleSplashImage"-->
         <!--tools:replace="icon,label,theme,allowBackup"-->
@@ -448,6 +448,11 @@
 
         <!-- 无界预购三级分类商品列表 -->
         <activity android:name=".mellOnLine.gridClassify.prebuy.PreBuyThirdAty" />
+
+        <!--线下店铺支付界面-->
+        <activity android:name=".mellOffLine.PaymentAty" />
+        <!--线下店铺支付结果界面-->
+        <activity android:name=".mellOffLine.PaymentResultsAty" />
 
         <!-- 环信相关服务等 ↓ BEGIN -->
         <!-- 开机自启动服务 -->

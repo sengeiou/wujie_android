@@ -8,6 +8,7 @@ import com.ants.theantsgo.util.PreferencesUtils;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOffLine.PaymentAty;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -75,6 +76,7 @@ public class GuidanceAty extends BaseAty {
             startActivity(GuidePageAty.class, null);
             PreferencesUtils.putBoolean(GuidanceAty.this, "is_first_time", false);
         } else {
+//            startActivity(PaymentAty.class, null);
             startActivity(MainAty.class, null);
         }
         finish();

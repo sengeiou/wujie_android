@@ -96,21 +96,50 @@
                 android:padding="8dp"
                 android:text="金额" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="right|center_vertical"
-                android:inputType="number"
-                android:lines="1"
-                android:paddingRight="8dp"
-                android:text="¥ 123.00" />
+            <LinearLayout
+                android:id="@+id/dfsf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="8dp"
+                    android:text="¥"
+                    android:textColor="@color/app_text_color" />
+
+                <EditText
+                    android:id="@+id/offlinePay_meny_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:gravity="right|center_vertical"
+                    android:hint="0.00"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:maxLength="13"
+                    android:paddingRight="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
 
-    <!--自定义数字键盘-->
-    <!--https://blog.csdn.net/ilove027/article/details/49794545-->
+    <com.txd.hzj.wjlp.view.keyboard.MyKeyboardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/keyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="#EF7F2B"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:keyPreviewOffset="0dp"
+        android:keyTextColor="#000000"
+        android:paddingTop="0dp"
+        android:shadowColor="#000000"
+        android:shadowRadius="1.0" />
 
 </FrameLayout>
