@@ -303,7 +303,7 @@
         <!-- 订单中心 -->
         <activity android:name=".minetoAty.order.OrderCenterAty" />
         <!-- 线下商城店铺详情 -->
-        <activity android:name=".mellOffLine.OffLineDetailsAty" />
+        <activity android:name=".mellOffLine.OffLineDetailsAty"  android:launchMode="singleTop"/>
         <!-- 竞拍纪录 -->
         <activity android:name=".minetoAty.AuctionRecordAty" />
         <!-- 会员成长，会员等级 -->
