@@ -900,6 +900,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 } else {
                     goodsPst.goodsInfo(ticket_buy_id, page);
                 }
+                commodityDetailsPranster.goodsMsg(toastView);
             }
 
             @Override
@@ -2141,5 +2142,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, TicketGoodsDetialsAty.this));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != toastView) {
+            toastView.cancle();
+        }
     }
 }

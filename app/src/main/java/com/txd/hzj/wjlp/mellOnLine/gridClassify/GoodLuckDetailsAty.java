@@ -53,7 +53,6 @@ import com.txd.hzj.wjlp.bean.commodity.CheapGroupBean;
 import com.txd.hzj.wjlp.bean.commodity.CommentBean;
 import com.txd.hzj.wjlp.bean.commodity.DataBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
-import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstListBean;
 import com.txd.hzj.wjlp.bean.commodity.FirstValBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
@@ -946,6 +945,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 groupBuyPst.groupBuyInfo(group_buy_id, 1, a_id);
+                goodLuckPranster.goodsMsg(toastView);
             }
 
             @Override

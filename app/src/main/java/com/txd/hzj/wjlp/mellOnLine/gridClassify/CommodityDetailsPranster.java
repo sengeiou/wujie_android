@@ -343,7 +343,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 @Override
                 public void returnObj(Object t) {
                     GoodsMsgBean  dataBean= (GoodsMsgBean) t;
-                    List<Event_msgBean> event_msgBeans = dataBean.getData();
+                    List<Event_msgBean> event_msgBeans = dataBean.getData().getEvent_msg();
                     if (null != event_msgBeans) {
                         toastView.setVisibility(View.VISIBLE);
                         toastView.setDatas(event_msgBeans);

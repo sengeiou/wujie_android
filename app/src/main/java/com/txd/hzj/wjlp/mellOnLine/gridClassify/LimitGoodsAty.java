@@ -103,12 +103,10 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 import cn.iwgang.countdownview.CountdownView;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：下午 5:07
  * 描述：限量详情(2-3)
- *
  */
 public class LimitGoodsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, CommodityDetailsInter.CommodityView, ProUrbAreaUtil.CallBack {
 
@@ -847,6 +845,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 }
             }
         });
+        commodityPranster.goodsMsg(toastView);
     }
 
     @Override
@@ -2061,5 +2060,13 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityPranster.requestPhoneListener(merchant_phone, LimitGoodsAty.this));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != toastView) {
+            toastView.cancle();
+        }
     }
 }

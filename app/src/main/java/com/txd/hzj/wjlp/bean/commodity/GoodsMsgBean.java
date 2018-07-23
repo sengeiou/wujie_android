@@ -8,14 +8,14 @@ import java.util.List;
  * 功能描述：
  * 联系方式：常用邮箱或电话
  */
-public class GoodsMsgBean extends DataBaseBean{
-    private List<Event_msgBean> data;
+public class GoodsMsgBean extends DataBaseBean {
+    GoodsMsgDataBean data;
 
-    public List<Event_msgBean> getData() {
+    public GoodsMsgDataBean getData() {
         return data;
     }
 
-    public void setData(List<Event_msgBean> data) {
+    public void setData(GoodsMsgDataBean data) {
         this.data = data;
     }
 }
