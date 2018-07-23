@@ -638,7 +638,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String a_id; // 此变量虽然不知道什么意思，但是在请求接口groupBuyInfo的时候会用到
     private String onePrice;//单买价
     private Dialog dialog;
-
+    private String title;//体验拼单规则
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -838,7 +838,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(aty_collocations.class, bundle1);
                 break;
             case R.id.tv_expirationdateLayout: {
-                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, expStrList);
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, expStrList,title);
             }
             break;
             case R.id.pdMoreLLayout: {
@@ -1102,6 +1102,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             List<String> memoList = groupBean.getMemo();//设置提示信息
                             expStrList = new ArrayList<>();
                             StringBuffer ex_stringBuffer = new StringBuffer();
+                            title=memoList.get(0);
                             for (int i = 0; i < memoList.size(); i++) {
                                 String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
