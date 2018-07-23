@@ -108,16 +108,26 @@
                                     <!--android:progressDrawable="@drawable/hor_progressbar"-->
                                     <!--android:secondaryProgress="50"-->
                                     <!--体验拼单进度条-->
-                                <ProgressBar
-                                    android:id="@+id/experiencePb"
-                                    android:progress="50"
-                                    android:layout_margin="10dp"
-                                    android:visibility="gone"
-                                    android:progressDrawable="@drawable/hor_progressbar"
-                                    style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="5dp" />
+                                    <TextView
+                                        android:id="@+id/progress_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0%"
+                                        android:visibility="gone"
+                                        android:textColor="@color/colorRed"
+                                        android:textSize="12sp" />
+
+                                    <ProgressBar
+                                        android:id="@+id/experiencePb"
+                                        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="5dp"
+                                        android:layout_margin="10dp"
+                                        android:progress="50"
+                                        android:progressDrawable="@drawable/hor_progressbar"
+                                        android:visibility="gone" />
                                 </LinearLayout>
+
                                 <TextView
                                     android:id="@+id/tv_brief"
                                     android:layout_width="match_parent"
@@ -128,6 +138,7 @@
                                     android:padding="10dp"
                                     android:textColor="#999999"
                                     android:textSize="13sp" />
+
                                 <LinearLayout
                                     android:id="@+id/layout_djq"
                                     android:layout_width="match_parent"
@@ -871,13 +882,14 @@
                 android:text="￥14.50\n一键拼单"
                 android:textColor="@color/white" />
         </LinearLayout>
+
         <com.txd.hzj.wjlp.view.ToastView
             android:id="@+id/toastView"
-            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"></com.txd.hzj.wjlp.view.ToastView>
+            android:layout_marginTop="10dp"
+            android:visibility="gone"></com.txd.hzj.wjlp.view.ToastView>
     </RelativeLayout>
 
 

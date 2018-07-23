@@ -270,6 +270,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     //    体验拼单进度条
     @ViewInject(R.id.experiencePb)
     private ProgressBar experiencePb;
+    @ViewInject(R.id.progress_tv)
+    private TextView progress_tv;
 
     /**
      * 轮播的高度
@@ -639,6 +641,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String onePrice;//单买价
     private Dialog dialog;
     private String title;//体验拼单规则
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -680,6 +683,13 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
             goodLuckPranster.setTabViews(title_goods_layout, title_details_layout, title_evaluate_layout);
             init = true;
         }
+        if (hasFocus && progress_tv.getVisibility() == View.VISIBLE) {
+            ViewGroup.MarginLayoutParams margin =new ViewGroup.MarginLayoutParams(progress_tv.getLayoutParams());
+            margin.leftMargin= (int) (experiencePb.getWidth()*current/max)+ experiencePb.getLeft()-progress_tv.getWidth()/2;
+            LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(margin);
+            progress_tv.setLayoutParams(layoutParams);
+        }
+
     }
 
     @Override
@@ -838,7 +848,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 startActivity(aty_collocations.class, bundle1);
                 break;
             case R.id.tv_expirationdateLayout: {
-                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, expStrList,title);
+                goodLuckPranster.showExperiencePopWindow(GoodLuckDetailsAty.this, v, expStrList, title);
             }
             break;
             case R.id.pdMoreLLayout: {
@@ -959,8 +969,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        if(null==goodLuckPranster){
-            goodLuckPranster=new GoodLuckDetailsPranster(this);
+        if (null == goodLuckPranster) {
+            goodLuckPranster = new GoodLuckDetailsPranster(this);
         }
         goodLuckPranster.goodsMsg(toastView);
     }
@@ -987,6 +997,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         limitGoodsDetials_superRefesh_ssrl.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
+
+    private int current, max;
 
     @Override
     public void onComplete(String requestUrl, final String jsonStr) {
@@ -1058,8 +1070,12 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     groupType = dataBean.getGroup_type();
                     if ("1".equals(groupType)) {  //体验拼单
                         experiencePb.setVisibility(View.VISIBLE);
-                        experiencePb.setMax(Integer.parseInt(goodsInfo.getGroup_num()));
-                        experiencePb.setProgress(Integer.parseInt(dataBean.getTotal()));
+                        max = Integer.parseInt(goodsInfo.getGroup_num());
+                        current = Integer.parseInt(dataBean.getTotal());
+                        experiencePb.setMax(max);
+                        experiencePb.setProgress(current);
+                        progress_tv.setVisibility(View.VISIBLE);
+                        progress_tv.setText((100.0f * current) / max + "%");
                         layout_pt.setVisibility(View.GONE); // 隐藏开团列表
                         online_carvouse_view.setPageColor(0);//设置banner圆点非可见
                         online_carvouse_view.setFillColor(0);
@@ -1102,7 +1118,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             List<String> memoList = groupBean.getMemo();//设置提示信息
                             expStrList = new ArrayList<>();
                             StringBuffer ex_stringBuffer = new StringBuffer();
-                            title=memoList.get(0);
+                            title = memoList.get(0);
                             for (int i = 0; i < memoList.size(); i++) {
                                 String str = memoList.get(i);
                                 ex_stringBuffer.append(str);
@@ -1444,7 +1460,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                     toLogin();
                                     return;
                                 }
-                                if(null!=groupList&&groupList.size()>0){//如果已经有拼单
+                                if (null != groupList && groupList.size() > 0) {//如果已经有拼单
                                     showDialogs(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -1461,7 +1477,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                                         }
                                     });
-                                }else{
+                                } else {
                                     buy(v);
                                 }
                             }
