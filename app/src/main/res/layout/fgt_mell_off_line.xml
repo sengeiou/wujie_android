@@ -5,8 +5,7 @@
     android:background="@color/bg_color"
     android:backgroundTint="@color/bg_color"
     tools:context="com.txd.hzj.wjlp.mainFgt.MellOffLineFgt">
-
-     <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
+    <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
     android:id="@+id/super_offline_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

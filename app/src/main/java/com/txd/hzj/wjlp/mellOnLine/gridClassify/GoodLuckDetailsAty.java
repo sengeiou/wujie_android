@@ -1004,7 +1004,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     goodsInfo = dataBean.getGoodsInfo();
                     if (TextUtils.isEmpty(goodsInfo.getGoods_brief())) {
                         tv_brief.setVisibility(View.GONE);
-                    } else{
+                    } else {
                         tv_brief.setVisibility(View.VISIBLE);
                         tv_brief.setText(goodsInfo.getGoods_brief());
                     }
@@ -1427,47 +1427,33 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                     } else {
                         is_f = false;
                     }
-//TODO 在此设置需要添加的dialog
                     if ("2".equals(groupType)) {
                         // 一键开团
                         creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n发起拼单");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
-                                showDialogs(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        dialog.dismiss();
-                                        goodLuckPranster.showCollagePop(v, "正在拼单", groupList, groupType, GoodLuckDetailsAty.this, group_count);
-                                    }
-                                }, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (is_C) {
-                                            Intent intent = new Intent();
-                                            intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                            intent.putExtra("type", "3");
-                                            intent.putExtra("goods_id", goods_id);
-                                            intent.putExtra("group_buy_id", group_buy_id);
-                                            intent.putExtra("num", String.valueOf(goods_number));
-                                            intent.putExtra("product_id", product_id);
-                                            intent.putExtra("group_type", groupType);
-                                            if (!TextUtils.isEmpty(order_id)) {
-                                                bundle.putString("order_id", order_id);
-                                            }
-                                            intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                            startActivity(intent);
-                                        } else {
-                                            //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
-                                            toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                                    goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
+                            public void onClick(View v) {
+                                //, (ArrayList) goodsAttrs, (ArrayList) goods_produc
+                                if(null!=groupList&&groupList.size()>0){//如果已经有拼单
+                                    showDialogs(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
+                                            //参加别人的团
+                                            goodLuckPranster.showCollagePop(v, "正在拼单", groupList, groupType, GoodLuckDetailsAty.this, group_count);
                                         }
-                                        dialog.dismiss();
+                                    }, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            //发起拼单
+                                            buy(v);
+                                            dialog.dismiss();
 
-                                    }
-                                });
-
-
+                                        }
+                                    });
+                                }else{
+                                    buy(v);
+                                }
                             }
                         });
                     } else if ("1".equals(groupType)) {//1试用品拼单
@@ -1755,9 +1741,41 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //        }
 //    }
 
+    /**
+     * 拼单购发起拼单
+     *
+     * @param v
+     */
+    private void buy(View v) {
+        if (is_C) {
+            Intent intent = new Intent();
+            intent.putExtra("mid", mellInfoBean.getMerchant_id());
+            intent.putExtra("type", "3");
+            intent.putExtra("goods_id", goods_id);
+            intent.putExtra("group_buy_id", group_buy_id);
+            intent.putExtra("num", String.valueOf(goods_number));
+            intent.putExtra("product_id", product_id);
+            intent.putExtra("group_type", groupType);
+            if (!TextUtils.isEmpty(order_id)) {
+                bundle.putString("order_id", order_id);
+            }
+            intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+            startActivity(intent);
+        } else {
+            //直接购买, (ArrayList) goodsAttrs, (ArrayList) goods_product
+            toAttrs(v, 0, "3", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                    goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
+        }
+    }
 
-    public void showDialogs(View.OnClickListener yesListener, View.OnClickListener noListener) {
-        dialog = new Dialog(GoodLuckDetailsAty.this, R.style.share_styles);
+    /**
+     * 点击发起拼单按钮弹出的弹窗
+     *
+     * @param yesListener
+     * @param noListener
+     */
+    private void showDialogs(View.OnClickListener yesListener, View.OnClickListener noListener) {
+        dialog = new Dialog(GoodLuckDetailsAty.this, R.style.Ticket_Dialog);
         View view = View.inflate(this, R.layout.goodluck_collage_dialog_view, null);
         dialog.setContentView(view);
         view.findViewById(R.id.goodluck_yes).setOnClickListener(yesListener);
