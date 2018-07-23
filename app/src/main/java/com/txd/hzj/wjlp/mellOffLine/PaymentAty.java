@@ -63,8 +63,22 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
     @Override
     public void onOkClick() {
         // 软键盘上确定按钮点击
-        Toast.makeText(this, offlinePay_meny_et.getText().toString(), Toast.LENGTH_SHORT).show();
-        showPop(getWindow().getDecorView());
+        String meny = offlinePay_meny_et.getText().toString();
+        if (!meny.equals("")) { // 获取输入的字符串，如果字符串不为空
+            try { // 将输入的字符串转换为Float类型
+                Float menyF = Float.parseFloat(meny);
+                if (menyF > 0.00) { // 如果输入金额正确且大于0
+                    Toast.makeText(this, offlinePay_meny_et.getText().toString(), Toast.LENGTH_SHORT).show();
+                    showPop(getWindow().getDecorView());
+                } else { // 否则输入的金额小于0或等于0
+                    Toast.makeText(this, "输入有效金额", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) { // 类型转换异常，说明有其他字符，提示其自行检查重新输入
+                Toast.makeText(this, "输入有误，请检查", Toast.LENGTH_SHORT).show();
+            }
+        } else { // 否则字符串为空，直接提示
+            Toast.makeText(this, "请输入金额", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
