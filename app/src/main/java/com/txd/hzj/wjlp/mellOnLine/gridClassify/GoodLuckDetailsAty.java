@@ -686,6 +686,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         if (hasFocus && progress_tv.getVisibility() == View.VISIBLE) {
             ViewGroup.MarginLayoutParams margin =new ViewGroup.MarginLayoutParams(progress_tv.getLayoutParams());
             margin.leftMargin= (int) (experiencePb.getWidth()*current/max)+ experiencePb.getLeft()-progress_tv.getWidth()/2;
+            if(margin.leftMargin<0){
+                margin.leftMargin= experiencePb.getLeft();
+            }
             LinearLayout.LayoutParams layoutParams =new LinearLayout.LayoutParams(margin);
             progress_tv.setLayoutParams(layoutParams);
         }
