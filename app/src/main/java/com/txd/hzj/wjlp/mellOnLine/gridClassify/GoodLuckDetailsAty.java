@@ -959,6 +959,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
+        if(null==goodLuckPranster){
+            goodLuckPranster=new GoodLuckDetailsPranster(this);
+        }
+        goodLuckPranster.goodsMsg(toastView);
     }
 
     private View createHeaderView() {
@@ -1600,12 +1604,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                         GoodsCommentAttrAdapter gcaAdapter = new GoodsCommentAttrAdapter(GoodLuckDetailsAty.this, gca);
                         goods_common_attr_lv.setAdapter(gcaAdapter);
-                    }
-                    // ==========团购详情End===========
-                    List<Event_msgBean> event_msgBeans = dataBean.getEvent_msg();
-                    if (null != event_msgBeans) {
-                        toastView.setVisibility(View.VISIBLE);
-                        toastView.setDatas(event_msgBeans);
                     }
                     return;
                 }

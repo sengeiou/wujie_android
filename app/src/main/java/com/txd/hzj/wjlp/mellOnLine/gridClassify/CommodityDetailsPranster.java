@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
@@ -28,18 +29,24 @@ import com.google.gson.Gson;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.bean.EasemobBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
+import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsMsgBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
+import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.minetoAty.ExpressAtv;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.ToastView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -331,6 +338,18 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             alertDialog.show();
             // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
+        }else if(requestUrl.contains("Goods/goodsMsg")){
+            ObserTool.gainInstance().jsonToBean(jsonStr, GoodsMsgBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    GoodsMsgBean  dataBean= (GoodsMsgBean) t;
+                    List<Event_msgBean> event_msgBeans = dataBean.getData();
+                    if (null != event_msgBeans) {
+                        toastView.setVisibility(View.VISIBLE);
+                        toastView.setDatas(event_msgBeans);
+                    }
+                }
+            });
         }
     }
 
@@ -607,6 +626,10 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
         };
         return listener;
     }
-
-
+    private ToastView toastView;
+    @Override
+    public void goodsMsg(ToastView toastView) {
+        this.toastView=toastView;
+        Goods.goodsMsg(this);
+    }
 }

@@ -49,18 +49,6 @@ public class DataBean implements Serializable {
     private String group_type;//类型 1试用品拼单 2常规拼单",
 
     private String group_count;// //拼单中数大于10  弹窗最下面的字显示
-    /**
-     * 用户行为
-     */
-    private List<Event_msgBean> event_msg;
-
-    public List<Event_msgBean> getEvent_msg() {
-        return event_msg;
-    }
-
-    public void setEvent_msg(List<Event_msgBean> event_msg) {
-        this.event_msg = event_msg;
-    }
 
     public String getGroup_type() {
         return group_type;

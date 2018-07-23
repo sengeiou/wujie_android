@@ -38,4 +38,14 @@ public class Goods {
         requestParams.addBodyParameter("cate_id", cate_id);
         apiTool2.postApi(url + "goodsList", requestParams, baseView);
     }
+
+    /**
+     *
+     * @param baseView
+     */
+    public static void goodsMsg(BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "goodsMsg", requestParams, baseView);
+    }
 }

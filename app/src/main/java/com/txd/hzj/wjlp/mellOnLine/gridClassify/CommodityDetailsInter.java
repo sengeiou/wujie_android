@@ -11,6 +11,7 @@ import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.ToastView;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
@@ -88,6 +89,8 @@ public interface CommodityDetailsInter {
          * @param activity
          */
         PermissionListener requestPhoneListener(String phoneNo, Activity activity);
+
+        void goodsMsg(ToastView toastView);
     }
 
     public interface CommodityView {
