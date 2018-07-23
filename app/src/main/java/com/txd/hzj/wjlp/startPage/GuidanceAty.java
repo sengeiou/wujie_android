@@ -76,7 +76,7 @@ public class GuidanceAty extends BaseAty {
             startActivity(GuidePageAty.class, null);
             PreferencesUtils.putBoolean(GuidanceAty.this, "is_first_time", false);
         } else {
-//            startActivity(PaymentAty.class, null);
+//            startActivity(PaymentAty.class, null); // 测试付款界面搭建的情况是用的，页面跳转添加完成之后可以删除
             startActivity(MainAty.class, null);
         }
         finish();
