@@ -722,6 +722,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 
                 if (!Config.isLogin()) {
                     toLogin();
+                    return;
                 }
                 if ("0".equals(is_collect)) {
                     collectPst.addCollect("1", goods_id);
@@ -1434,6 +1435,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             @Override
                             public void onClick(View v) {
                                 //, (ArrayList) goodsAttrs, (ArrayList) goods_produc
+                                if (!Config.isLogin()) {
+                                    toLogin();
+                                    return;
+                                }
                                 if(null!=groupList&&groupList.size()>0){//如果已经有拼单
                                     showDialogs(new View.OnClickListener() {
                                         @Override
@@ -1525,6 +1530,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
 //                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr);
 //                            }
                             //直接跳转普通商品界面 暂定
+                            if (!Config.isLogin()) {
+                                toLogin();
+                                return;
+                            }
                             Bundle bundle = new Bundle();
                             bundle.putString("ticket_buy_id", goods_id);
                             bundle.putInt("from", 1);
