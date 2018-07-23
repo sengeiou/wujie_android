@@ -42,24 +42,27 @@ public class MyKeyboardView extends KeyboardView {
         if (keys != null) {
             for (Keyboard.Key key : keys) {
                 // 数字键盘的处理
-                if (key.codes[0] == -4) {
-                    drawKeyBackground(R.color.colorOrange, canvas, key);
+                if (key.codes[0] == -4) { // 确定按钮
+                    drawKeyBackground(R.color.colorOrange, R.color.colorOrange, canvas, key);
                     drawText(canvas, key);
-                } else {
-                    drawKeyBackground(R.color.E2E2E2, canvas, key);
+                } else { // 其他按钮
+                    drawKeyBackground(R.color.E2E2E2, R.color.colorOrange, canvas, key);
                     drawText(canvas, key);
                 }
             }
         }
     }
 
-    private void drawKeyBackground(int drawableId, Canvas canvas, Keyboard.Key key) {
-        Drawable npd = context.getResources().getDrawable(drawableId);
+    private void drawKeyBackground(int drawableId, int lineColor, Canvas canvas, Keyboard.Key key) {
+        Drawable keyLine = context.getResources().getDrawable(lineColor); // 背景（主要突出分割线）
+        Drawable npd = context.getResources().getDrawable(drawableId); // 按钮背景
         int[] drawableState = key.getCurrentDrawableState();
         if (key.codes[0] != 0) {
             npd.setState(drawableState);
         }
-        npd.setBounds(key.x, key.y, key.x + key.width, key.y + key.height);
+        keyLine.setBounds(key.x, key.y, key.x + key.width, key.y + key.height); // 先画背景（分割线）
+        npd.setBounds(key.x + 1, key.y + 1, key.x + key.width - 1, key.y + key.height - 1); // 再画出按钮背景
+        keyLine.draw(canvas);
         npd.draw(canvas);
     }
 
