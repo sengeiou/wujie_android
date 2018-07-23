@@ -18,6 +18,6 @@
         android:maxLines="2"
         android:layout_gravity="center_vertical"
         android:text="eeeee"
-        android:textColor="@color/colorRed"
-        android:textSize="12sp" />
+        android:textColor="@color/shop_main_fontcolor_black"
+        android:textSize="11sp" />
 </LinearLayout>
