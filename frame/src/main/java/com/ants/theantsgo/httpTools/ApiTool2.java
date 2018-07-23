@@ -43,6 +43,8 @@ public class ApiTool2 {
         HttpUtils httpUtils = new HttpUtils();
         // 设置缓存超时时间
         httpUtils.configCurrentHttpCacheExpiry(DEFULT_CURRENT_HTTP_CACHE_EXPIRY);
+        String token = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "token", "");
+        params.addHeader("token", token);
         httpUtils.send(HttpRequest.HttpMethod.GET, url, params, new DefaultRequestCallBack(apiListener));
     }
 
