@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.distribution.shopFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -87,6 +88,7 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 // TODO 请求接口
+                mExhibitPst.getShopPerson("18", "1");
                 //                shopManageOrdinaryChild_sr_layout.setRefreshing(false);
                 //                progressBar.setVisibility(View.GONE);
             }
@@ -113,6 +115,16 @@ public class ShopPersonShopFreagment extends BaseFgt {
                 // TODO 请求接口
                 //                shopManageOrdinaryChild_sr_layout.setLoadMore(false);
                 //                progressBar.setVisibility(View.GONE);
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        //set false when finished
+                        showErrorTip("无更多数据了");
+                        shopPerson_super_ssrl.setLoadMore(false);
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }, 5000);
             }
 
             @Override
@@ -131,6 +143,7 @@ public class ShopPersonShopFreagment extends BaseFgt {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        refreshVisibleState();
         ShopPersonBean shopPersonBean = JSON.parseObject(jsonStr, ShopPersonBean.class);
         if (200==shopPersonBean.getCode()){
             mShop = shopPersonBean.getData().getShop();
@@ -139,6 +152,17 @@ public class ShopPersonShopFreagment extends BaseFgt {
             reList.setAdapter(adapter);
         }
 
+    }
+
+    private void refreshVisibleState() {
+        if (progressBar.getVisibility() == View.VISIBLE) {
+            shopPerson_super_ssrl.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+        }
+        if (footerProgressBar.getVisibility() == View.VISIBLE) {
+            shopPerson_super_ssrl.setLoadMore(false);
+            footerProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
