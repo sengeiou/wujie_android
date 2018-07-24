@@ -99,12 +99,12 @@ public class MyKeyboard {
                     }
                 }
             } else if (primaryCode == Keyboard.KEYCODE_CANCEL){ // 取消键 codes = -3
-                hideKeyBoard();
+//                hideKeyBoard();
                 if (mCancelClick != null) {
                     mCancelClick.onCancelClick();
                 }
             } else if (primaryCode == Keyboard.KEYCODE_DONE){ // 完成键 codes = -4
-                hideKeyBoard();
+//                hideKeyBoard();
                 if (mOkClick != null) {
                     mOkClick.onOkClick();
                 }
