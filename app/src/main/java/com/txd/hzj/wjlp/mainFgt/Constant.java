@@ -17,5 +17,10 @@ public interface Constant {
     public interface View {
         void onItemClickListener(OffLineDataBean offLineDataBean,int position);
         void loadComplate();
+
+        /**
+         * 数据加载到最后了,没有更多的数据了
+         */
+        void loadMoreOver();
     }
 }

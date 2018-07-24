@@ -21,7 +21,7 @@ public class OffLineDataBean implements Serializable {
     private String months_order;//月销量
     private String distance;//距离
     private List<TicketBean> ticket;
-    private boolean isShow;
+    private boolean isShow=false;
 
     public String getS_id() {
         return s_id;

@@ -2,13 +2,11 @@ package com.txd.hzj.wjlp.mainFgt;
 
 
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,11 +25,9 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.Mell;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
-import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
@@ -50,7 +46,7 @@ import java.util.Map;
  * 时间：上午 11:52
  * 描述：线下商铺
  */
-public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener,Constant.View {
+public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener, Constant.View {
 
     /**
      * 标题栏
@@ -90,7 +86,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private ListViewForScrollView mell_near_by_lv;
 
 
-
     @ViewInject(R.id.to_location_tv)
     private TextView to_location_tv;
 
@@ -113,8 +108,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private int ads_w = 0;
     private int ads_h = 0;
     private Bundle bundle;
-    private  Pranster pranster;
-    private int page=1;
+    private Pranster pranster;
+    private int page = 1;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -154,13 +150,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 OfflineStore.Index(MellOffLineFgt.this);
-                page=1;
-                Map<String,String> locMap=DemoApplication.getInstance().getLocInfo();
-               if(null!=locMap&&!TextUtils.isEmpty(locMap.get("lon"))){
-                   pranster.requestStoreData(page,locMap.get("lon"),locMap.get("lat"),"-1",getContext(),mell_near_by_lv);
-               }else{
-                   pranster.requestStoreData(page,"-1","-1","-1",getContext(),mell_near_by_lv);
-               }
+                page = 1;
+                Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+                if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+                } else {
+                    pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
+                }
             }
 
             @Override
@@ -180,12 +176,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
-                page++;
-                Map<String,String> locMap=DemoApplication.getInstance().getLocInfo();
-                if(null!=locMap&&!TextUtils.isEmpty(locMap.get("lon"))){
-                    pranster.requestStoreData(page,locMap.get("lon"),locMap.get("lat"),"-1",getContext(),mell_near_by_lv);
-                }else{
-                    pranster.requestStoreData(page,"-1","-1","-1",getContext(),mell_near_by_lv);
+                page += 1;
+                Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+                if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+                } else {
+                    pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
                 }
             }
 
@@ -289,23 +285,22 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     protected void initialized() {
 
 
-
     }
 
     @Override
     protected void requestData() {
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
-        Map<String,String> locMap=DemoApplication.getInstance().getLocInfo();
-        if(null==pranster){
-            pranster=new Pranster();
+        Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+        if (null == pranster) {
+            pranster = new Pranster();
             pranster.setView(this);
         }
-        page=1;
-        if(null!=locMap&&!TextUtils.isEmpty(locMap.get("lon"))){
-            pranster.requestStoreData(page,locMap.get("lon"),locMap.get("lat"),"-1",getContext(),mell_near_by_lv);
-        }else{
-            pranster.requestStoreData(page,"-1","-1","-1",getContext(),mell_near_by_lv);
+        page = 1;
+        if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+        } else {
+            pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
         }
     }
 
@@ -322,7 +317,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        if(requestUrl.contains("OfflineStore/Index")){
+        if (requestUrl.contains("OfflineStore/Index")) {
             data = JSONUtils.parseKeyAndValueToMap(jsonStr);
             data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
             list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
@@ -347,7 +342,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             im_ads.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(ShopMallDetailsAty.class,null);
+                    startActivity(ShopMallDetailsAty.class, null);
                /* if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
@@ -484,8 +479,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     public void onItemClickListener(OffLineDataBean offLineDataBean, int position) {
-        Bundle options=new Bundle();
-        options.putSerializable("mellInfo",offLineDataBean);
+        Bundle options = new Bundle();
+        options.putSerializable("mellInfo", offLineDataBean);
         startActivity(OffLineDetailsAty.class, options);
     }
 
@@ -495,5 +490,11 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         footerImageView.setVisibility(View.VISIBLE);
         footerProgressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setLoadMore(false);
+    }
+
+    @Override
+    public void loadMoreOver() {
+        if (page > 1)
+            page -= 1;
     }
 }

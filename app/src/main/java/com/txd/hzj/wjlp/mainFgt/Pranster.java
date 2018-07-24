@@ -25,13 +25,18 @@ public class Pranster implements Constant.Pranster, BaseView {
     private Constant.View constantView;
     private Context context;
     private ListView listView;
+    private int currentPage;
+
     @Override
     public void setView(Constant.View view) {
         this.constantView = view;
     }
 
+    private MellNearByHzjAdapter mellNearByHzjAdapter;
+
     /**
-     *  获取线下店铺信息数据
+     * 获取线下店铺信息数据
+     *
      * @param p
      * @param lng
      * @param lat
@@ -40,9 +45,21 @@ public class Pranster implements Constant.Pranster, BaseView {
      * @param listView
      */
     public void requestStoreData(int p, String lng, String lat, String merchant_id, Context context, ListView listView) {
+        currentPage = p;
         OfflineStore.offlineStoreList(lng, lat, p, merchant_id, this);
         this.context = context;
-        this.listView=listView;
+        this.listView = listView;
+        if (null == mellNearByHzjAdapter){
+            mellNearByHzjAdapter = new MellNearByHzjAdapter(context);
+            listView.setAdapter(mellNearByHzjAdapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    OffLineDataBean offLineDataBea = mellNearByHzjAdapter.getItem(position);
+                    constantView.onItemClickListener(offLineDataBea, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -98,17 +115,22 @@ public class Pranster implements Constant.Pranster, BaseView {
                 @Override
                 public void returnObj(Object t) {
                     OffLineBean offLineBean = (OffLineBean) t;
-                    final MellNearByHzjAdapter mellNearByHzjAdapter = new MellNearByHzjAdapter(context, offLineBean.getData());
-                    listView.setAdapter(mellNearByHzjAdapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            OffLineDataBean offLineDataBea=mellNearByHzjAdapter.getItem(position);
-                            constantView.onItemClickListener(offLineDataBea,position);
+                    if (currentPage == 1) {
+                        mellNearByHzjAdapter.getList().clear();
+                    }
+                    if (offLineBean.getData().size() > 0) {
+                        mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
+                        mellNearByHzjAdapter.notifyDataSetChanged();
+                        if (offLineBean.getData().size() < 10) {
+                            constantView.loadMoreOver();
                         }
-                    });
+                        listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size() - offLineBean.getData().size());
+                    } else {
+                        listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size());
+                    }
                 }
             });
+
             constantView.loadComplate();
         }
     }

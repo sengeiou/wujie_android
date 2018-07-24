@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,10 +47,14 @@ public class MellNearByHzjAdapter extends BaseAdapter {
 
     private NYVH nyvh;
 
-    public MellNearByHzjAdapter(Context context, List<OffLineDataBean> list) {
+    public MellNearByHzjAdapter(Context context) {
         this.context = context;
-        this.list = list;
         mInflater = LayoutInflater.from(context);
+        list=new ArrayList<>();
+    }
+
+    public List<OffLineDataBean> getList() {
+        return list;
     }
 
     @Override
@@ -79,7 +84,6 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             nyvh = (NYVH) view.getTag();
         }
         int width = (int) (Resources.getSystem().getDisplayMetrics().density * 67);
-        ;
         GlideUtils.urlRoundPic(offLineDataBean.getLogo(), width, width, nyvh.mell_img, 2);
         nyvh.mell_intro.setText(offLineDataBean.getMerchant_desc());
         nyvh.mell_name.setText(offLineDataBean.getMerchant_name());
@@ -91,41 +95,43 @@ public class MellNearByHzjAdapter extends BaseAdapter {
 //        nyvh.mell_goods_gv.setAdapter(new GoodsAdapter(list2));
         // 是否有更多优惠
         List<TicketBean> ticketBeans = offLineDataBean.getTicket();
+        if (null == nyvh.djpLayout.getTag()) {
+            nyvh.djpLayout.setTag(position);
+            nyvh.other_zk_layout.setTag(position);
+            if (null != ticketBeans) {
+                if (ticketBeans.size() > 1) {//都可见
+                    nyvh.djpLayout.setVisibility(View.VISIBLE);
+                    nyvh.show_or_hind_layout_iv.setVisibility(View.VISIBLE);
 
-        if (null != ticketBeans) {
-            nyvh.djpLayout.setVisibility(View.VISIBLE);
-            nyvh.show_or_hind_layout_iv.setVisibility(View.VISIBLE);
-            nyvh.other_zk_layout.setVisibility(View.VISIBLE);
-            if (ticketBeans.size() > 1) {//都可见
-                nyvh.djpLayout.setVisibility(View.VISIBLE);
-                nyvh.show_or_hind_layout_iv.setVisibility(View.VISIBLE);
-                if (offLineDataBean.isShow()) {
-                    nyvh.other_zk_layout.setVisibility(View.VISIBLE);
-                    nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_show_other_layout);
-                } else {
-                    nyvh.other_zk_layout.setVisibility(View.GONE);
-                    nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_hide_other_layout);
-                }
-                for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
-                    TicketBean ticketBean = offLineDataBean.getTicket().get(i);
-                    if (i < 1) {
-                        addView(nyvh.djpLayout, ticketBean);
-                    } else {
-                        addView(nyvh.other_zk_layout, ticketBean);
+                    for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
+                        TicketBean ticketBean = offLineDataBean.getTicket().get(i);
+                        if (i < 1) {
+                            addView(nyvh.djpLayout, ticketBean,false);
+                        } else {
+                            addView(nyvh.other_zk_layout, ticketBean,true);
+                        }
                     }
+                } else if (ticketBeans.size() == 1) {//只有第一行可见
+                    nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
+                    nyvh.other_zk_layout.setVisibility(View.GONE);
+                    TicketBean ticketBean = offLineDataBean.getTicket().get(0);
+                    addView(nyvh.djpLayout, ticketBean,false);
                 }
-            } else if (ticketBeans.size() == 1) {//只有第一行可见
+            } else {// 都不可见
+                nyvh.djpLayout.setVisibility(View.GONE);
                 nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
                 nyvh.other_zk_layout.setVisibility(View.GONE);
-                TicketBean ticketBean = offLineDataBean.getTicket().get(0);
-                addView(nyvh.djpLayout, ticketBean);
             }
-        } else {// 都不可见
-            nyvh.djpLayout.setVisibility(View.GONE);
-            nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
-            nyvh.other_zk_layout.setVisibility(View.GONE);
         }
-
+        if (null != ticketBeans && ticketBeans.size() > 1) {
+            if (offLineDataBean.isShow()) {
+                nyvh.other_zk_layout.setVisibility(View.VISIBLE);
+                nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_show_other_layout);
+            } else {
+                nyvh.other_zk_layout.setVisibility(View.GONE);
+                nyvh.show_or_hind_layout_iv.setImageResource(R.drawable.icon_hide_other_layout);
+            }
+        }
         // 点击事件
         nyvh.show_or_hind_layout_iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +163,14 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         return view;
     }
 
-    private void addView(LinearLayout linearLayout, TicketBean ticketBean) {
+    private void addView(LinearLayout linearLayout, TicketBean ticketBean,boolean addLine) {
+        if(addLine){
+            View view=new View(context);
+            int line = (int) (Resources.getSystem().getDisplayMetrics().density * 7);
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,line);
+            view.setLayoutParams(params);
+            linearLayout.addView(view);
+        }
         View djqItem = LayoutInflater.from(context).inflate(R.layout.item_djq, null);
         TextView yhTv = djqItem.findViewById(R.id.yhTv);
         yhTv.setText(ticketBean.getDiscount_desc());
