@@ -18,14 +18,13 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginLeft="8dp"
-                android:padding="10dp"
+                android:padding="15dp"
                 android:src="@mipmap/icon_back" />
 
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:padding="13dp"
+                android:padding="15dp"
                 android:src="@drawable/icon_title_close_hzj" />
 
             <View
@@ -93,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
-                android:padding="8dp"
+                android:padding="10dp"
                 android:text="金额" />
 
             <LinearLayout
@@ -116,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@null"
-                    android:gravity="right|center_vertical"
+                    android:gravity="center"
                     android:hint="0.00"
                     android:inputType="number"
                     android:lines="1"
