@@ -45,7 +45,7 @@ public class MyKeyboard {
      */
     public void attachTo(EditText editText, boolean isRandom) {
 
-        // 切换键盘需要重新new Keyboard对象，否则键盘不变，MyKeyboardView放到构造函数中，避免每次点击都会
+        // 切换键盘需要重新new Keyboard对象，否则键盘不变，MyKeyboardView放到构造函数中，避免每次点击都会创建
         keyboard = new Keyboard(activity, R.xml.number_keyboard);
         this.isRandom = isRandom;
         this.editText = editText;
