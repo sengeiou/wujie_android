@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -73,21 +71,6 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true" />
 
-
-                    <com.txd.hzj.wjlp.view.BannerPointLayout
-                        android:id="@+id/bannerPointLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/banner"
-                        android:layout_centerHorizontal="true"
-                        android:visibility="gone"
-                        android:layout_marginBottom="16dp"
-                        app:pointDrawable="@drawable/round_nine_w"
-                        app:pointerLMargin="@dimen/twelve"
-                        app:pointerSize="@dimen/nine"
-                        app:styleBannerPointLayout="@string/pointer_style_no_move_point"
-                        app:unPointDrawable="@drawable/round_nine_grey" />
-
                 </RelativeLayout>
 
                 <View
@@ -120,14 +103,16 @@
                                 android:background="@color/red_tv_back" />
 
                             <TextView
+                                android:id="@+id/shop_evaluate_numbers"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingBottom="16dp"
                                 android:paddingStart="6dp"
                                 android:paddingTop="16dp"
-                                android:text="店铺评价(400条)"
+                                android:text="店铺评价"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
+
 
                         </LinearLayout>
 
@@ -150,15 +135,14 @@
                                 android:textColor="@color/black" />
 
                             <TextView
-                                android:layout_width="0dp"
+                                android:id="@+id/shop_evaluate_branch"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_weight="0.8"
+                                android:layout_marginStart="3dp"
                                 android:drawableEnd="@drawable/icon_turn_right_gray"
-                                android:drawablePadding="9dp"
                                 android:paddingBottom="16dp"
+                                android:drawablePadding="6dp"
                                 android:paddingEnd="14dp"
-                                android:paddingStart="6dp"
                                 android:paddingTop="16dp"
                                 android:text="4.9分"
                                 android:textColor="@color/red_tv_back"
@@ -167,11 +151,13 @@
                     </LinearLayout>
 
                     <android.support.v7.widget.RecyclerView
-                        tools:listitem="@layout/aty_down_shopmall_evaluate_item"
+                        android:id="@+id/shop_mall_evaluate_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="120dp" />
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -226,10 +212,10 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_goods_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="100件"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -251,10 +237,10 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_month_order_number"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="100件"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -276,10 +262,10 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_follow_persons"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="100件"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -301,10 +287,10 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_business_hours"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="09:00-20:00"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -326,10 +312,12 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:lines="1"
+                            android:ellipsize="end"
                             android:layout_weight="1"
-                            android:text="天津市天津市天津市(距您4.5km)"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -351,10 +339,10 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/shop_tele_phone"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="02200000"
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -365,6 +353,7 @@
                         android:background="@color/shop_division" />
 
                     <RelativeLayout
+                        android:id="@+id/shop_business_aptitude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -393,6 +382,7 @@
                         android:background="@color/shop_division" />
 
                     <RelativeLayout
+                        android:id="@+id/shop_Report_business"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -455,7 +445,8 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.RecyclerView
+                    <ListView
+                        android:id="@+id/shop_nearby_business_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -463,6 +454,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp"/>
                 <TextView
+                    android:id="@+id/shop_my_settle_accounts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="我要结账"

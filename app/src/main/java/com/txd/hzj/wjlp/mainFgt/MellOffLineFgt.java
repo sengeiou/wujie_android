@@ -28,7 +28,6 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
-import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
@@ -481,7 +480,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     public void onItemClickListener(OffLineDataBean offLineDataBean, int position) {
         Bundle options = new Bundle();
         options.putSerializable("mellInfo", offLineDataBean);
-        startActivity(OffLineDetailsAty.class, options);
+        startActivity(ShopMallDetailsAty.class, options);
     }
 
     @Override
