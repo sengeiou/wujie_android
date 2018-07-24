@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
@@ -31,6 +33,7 @@ public class TicketDialog extends Dialog {
     private CountDownTimer mCountDownTimer;
     private List<String> mGroup_buy_rule;
     private  ChangeShowStatus mChangeShowStatus;
+
     public TicketDialog(@NonNull Context context) {
         this(context, R.style.Ticket_Dialog);
 //        mGroup_buy_rule=group_buy_rule;
@@ -39,6 +42,7 @@ public class TicketDialog extends Dialog {
     public TicketDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
         mContext = context;
+
         init();
     }
 
@@ -48,11 +52,11 @@ public class TicketDialog extends Dialog {
             StringBuilder builder=new StringBuilder();
             for (int i = 0; i < mGroup_buy_rule.size(); i++) {
                 if (i!=0 && i!=mGroup_buy_rule.size()-1){
-                    builder.append("<p>");
+//                    builder.append("<p>");
                     builder.append(mGroup_buy_rule.get(i));
-                    builder.append("</p>");
-//                    builder.append("<br>");
-//                    builder.append("<br>");
+//                    builder.append("</p>");
+                    builder.append("<br>");
+                    builder.append("<br>");
                 }
             }
             mRules_tv.setText(Html.fromHtml(builder.toString()));
@@ -74,6 +78,13 @@ public class TicketDialog extends Dialog {
         setContentView(view);
         mTextView = view.findViewById(R.id.sure_tv);
         mRules_tv=view.findViewById(R.id.rules_tv);
+        FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) mRules_tv.getLayoutParams();
+        int left=Settings.displayWidth/10;
+        int top=Settings.displayHeight/10;
+        layoutParams.setMargins(left,top,left, (int) (top*1.5));
+        mRules_tv.setPadding(left/2,0,left/2,0);
+
+        mRules_tv.setMovementMethod(ScrollingMovementMethod.getInstance());
         countDownTimer();
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +93,7 @@ public class TicketDialog extends Dialog {
                 dismiss();
             }
         });
+
     }
 
     private void countDownTimer() {
@@ -119,8 +131,8 @@ public class TicketDialog extends Dialog {
             return;
         }
         WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.width = (int) (Settings.displayWidth*0.8);
-        attributes.height= (int) (Settings.displayHeight*0.6);
+        attributes.width = WindowManager.LayoutParams.MATCH_PARENT;
+        attributes.height= (int) (Settings.displayHeight*0.9);
         attributes.gravity = Gravity.CENTER;
         window.setAttributes(attributes);
     }

@@ -29,6 +29,13 @@ public class ShopExhibitPst extends BasePresenter {
         mModel.postExhibitData(p, cate_id,name,flag, baseView);
     }
 
+    public void getRevenue(String  id, String type,String  c_type, String c_base_type){
+        //        if (1 == type) {
+        baseView.showDialog();
+        //        }
+        mModel.getRevenueData(id, type,c_type,c_base_type, baseView);
+    }
+
     /**
      * 顾客管理
      */

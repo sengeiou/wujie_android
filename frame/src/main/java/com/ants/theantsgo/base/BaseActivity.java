@@ -1,14 +1,19 @@
 package com.ants.theantsgo.base;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentCallbacks;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -73,10 +78,50 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      */
     public TextView rootText;
 
+    private static float sNoncompatDensity;
+    private static float sNoncompatScaledDensity;
+
+    private static void setCustomDensity(Activity activity, final Application application) {
+        final DisplayMetrics appDisplayMetrics = application.getResources().getDisplayMetrics();
+
+        if (sNoncompatDensity == 0) {
+            sNoncompatDensity = appDisplayMetrics.density;
+            sNoncompatScaledDensity = appDisplayMetrics.scaledDensity;
+            application.registerComponentCallbacks(new ComponentCallbacks() {
+                @Override
+                public void onConfigurationChanged(Configuration newConfig) {
+                    if (newConfig != null && newConfig.fontScale > 0) {
+                        sNoncompatScaledDensity = application.getResources().getDisplayMetrics().scaledDensity;
+                    }
+                }
+
+                @Override
+                public void onLowMemory() {
+
+                }
+            });
+        }
+
+        final float targetDensity = appDisplayMetrics.widthPixels / (float)360;
+        final float targetScaleDensity = targetDensity * (sNoncompatScaledDensity / sNoncompatDensity);
+        final int targetDensityDpi = (int) (160 * targetDensity);
+
+        appDisplayMetrics.density = targetDensity;
+        appDisplayMetrics.scaledDensity = targetScaleDensity;
+        appDisplayMetrics.densityDpi = targetDensityDpi;
+
+        final DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();
+        activityDisplayMetrics.density = targetDensity;
+        activityDisplayMetrics.scaledDensity = targetScaleDensity;
+        activityDisplayMetrics.densityDpi = targetDensityDpi;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_base);
+        application = (WeApplication) getApplication();
+        setCustomDensity(this,application);
         //添加该activity到栈中(管理activity)
         AppManager.getInstance().addActivity(this);
         //初始化控件
@@ -174,7 +219,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
      * 向用户展示信息前的准备工作在这个方法里处理
      */
     private void preliminary() {
-        application = (WeApplication) getApplication();
+
         // 初始化数据
         initialized();
         // 请求数据

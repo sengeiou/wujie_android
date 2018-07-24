@@ -111,7 +111,7 @@
         <!-- 设置是否显示背景 -->
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 设置背景透明度 -->
-        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:backgroundDimAmount">0.5</item>
         <!-- 设置点击空白不消失 -->
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>

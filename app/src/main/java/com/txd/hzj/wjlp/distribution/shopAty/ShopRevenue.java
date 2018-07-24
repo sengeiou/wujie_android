@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.pickerview.TimePickerView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -21,6 +22,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.distribution.bean.RevenueBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.view.MyShopTitleView;
 
 import java.util.ArrayList;
@@ -57,6 +60,11 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
 
     private LineChart lineChart;
     private ArrayList<String> bottom;
+    private ShopExhibitPst mExhibitPst;
+    //普通商品数据
+    private RevenueBean.DataBeanXX.NormalBean.DataBean mNormalData;
+    //分销商品数据
+    private RevenueBean.DataBeanXX.DisBean.DataBeanX mDisData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +91,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
         view_year=findViewById(R.id.view_year);
         mytitle_tv.setVisibility(View.VISIBLE);
         titlt_conter_tv.setVisibility(View.GONE);
+        mExhibitPst=new ShopExhibitPst(this);
 //        time_select.setVisibility(View.VISIBLE);
         bottom = new ArrayList<>();
         bottom.add("6-14");
@@ -163,7 +172,17 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener{
 
     @Override
     protected void requestData() {
+        mExhibitPst.getRevenue("18","1","1","1");
+    }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        RevenueBean revenueBean = JSONObject.parseObject(jsonStr, RevenueBean.class);
+        if (200==revenueBean.getCode()){
+            mNormalData = revenueBean.getData().getNormal().getData();
+            mDisData = revenueBean.getData().getDis().getData();
+        }
     }
 
     @Override

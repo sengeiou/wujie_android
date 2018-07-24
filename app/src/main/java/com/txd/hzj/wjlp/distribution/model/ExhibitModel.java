@@ -31,6 +31,24 @@ public class ExhibitModel {
         apiTool2.postApi(DISTRIBUTION_URL+"goodsList", params, baseView);
     }
 
+
+    /**
+     * 小店营收接口
+     * @param id  小店id
+     * @param type 必须传1才是统计信息
+     * @param c_type  1：销售额 0：净收益
+     * @param c_base_type  1: 日 2：月 0 ：年
+     */
+    public void getRevenueData(String  id, String type,String  c_type, String c_base_type,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addQueryStringParameter("id", id);
+        params.addQueryStringParameter("type", type);
+        params.addQueryStringParameter("c_type", c_type);
+        params.addQueryStringParameter("c_base_type", c_base_type);
+        apiTool2.getApi(DISTRIBUTION_URL+"shops", params, baseView);
+    }
+
     /**
      *  顾客管理接口
      * @param id shop_id小店id
