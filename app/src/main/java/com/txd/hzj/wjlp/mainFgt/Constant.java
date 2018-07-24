@@ -1,5 +1,8 @@
 package com.txd.hzj.wjlp.mainFgt;
 
+import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
+import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+
 /**
  * 创建者：TJDragon(LiuGang)
  * 创建时间：2018/7/23 14:23
@@ -12,5 +15,7 @@ public interface Constant {
     }
 
     public interface View {
+        void onItemClickListener(OffLineDataBean offLineDataBean,int position);
+        void loadComplate();
     }
 }

@@ -178,11 +178,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void urlRoundPic(String url, int w, int h, ImageView iv) {
+    public static void urlRoundPic(String url, int w, int h, ImageView iv,int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext()))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -197,11 +197,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void fileRoundPic(File url, int w, int h, ImageView iv) {
+    public static void fileRoundPic(File url, int w, int h, ImageView iv,int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext()))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)

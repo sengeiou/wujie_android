@@ -29,6 +29,7 @@ public class OfflineStore {
         requestParams.addBodyParameter("lng", lng);
         requestParams.addBodyParameter("lat", lat);
         requestParams.addBodyParameter("p", String.valueOf(p));
-        apiTool2.postApi(url + "offlineStoreList",new RequestParams() , baseView);
+        requestParams.addBodyParameter("merchant_id",merchant_id);
+        apiTool2.postApi(url + "offlineStoreList",requestParams , baseView);
     }
 }

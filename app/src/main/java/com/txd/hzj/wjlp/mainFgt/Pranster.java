@@ -1,8 +1,17 @@
 package com.txd.hzj.wjlp.mainFgt;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+
 import com.ants.theantsgo.base.BaseView;
+import com.ants.theantsgo.tools.ObserTool;
 import com.txd.hzj.wjlp.*;
+import com.txd.hzj.wjlp.bean.offline.OffLineBean;
+import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 
 import java.util.Map;
 
@@ -12,20 +21,28 @@ import java.util.Map;
  * 功能描述：
  * 联系方式：常用邮箱或电话
  */
-public class Pranster implements Constant.Pranster,BaseView{
-    Constant.View view;
-
+public class Pranster implements Constant.Pranster, BaseView {
+    private Constant.View constantView;
+    private Context context;
+    private ListView listView;
     @Override
     public void setView(Constant.View view) {
-        this.view = view;
+        this.constantView = view;
     }
 
     /**
      *  获取线下店铺信息数据
      * @param p
+     * @param lng
+     * @param lat
+     * @param merchant_id
+     * @param context
+     * @param listView
      */
-    private void requestStoreData(int p,String lng,String lat,String merchant_id){
-        OfflineStore.offlineStoreList(lng,lat,p,merchant_id,this);
+    public void requestStoreData(int p, String lng, String lat, String merchant_id, Context context, ListView listView) {
+        OfflineStore.offlineStoreList(lng, lat, p, merchant_id, this);
+        this.context = context;
+        this.listView=listView;
     }
 
     @Override
@@ -70,14 +87,30 @@ public class Pranster implements Constant.Pranster,BaseView{
 
     @Override
     public void onException(Exception exception) {
-
+        constantView.loadComplate();
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-            if(requestUrl.contains("offlineStoreList")){
+        if (requestUrl.contains("offlineStoreList")) {
 
-            }
+            ObserTool.gainInstance().jsonToBean(jsonStr, OffLineBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    OffLineBean offLineBean = (OffLineBean) t;
+                    final MellNearByHzjAdapter mellNearByHzjAdapter = new MellNearByHzjAdapter(context, offLineBean.getData());
+                    listView.setAdapter(mellNearByHzjAdapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            OffLineDataBean offLineDataBea=mellNearByHzjAdapter.getItem(position);
+                            constantView.onItemClickListener(offLineDataBea,position);
+                        }
+                    });
+                }
+            });
+            constantView.loadComplate();
+        }
     }
 
     @Override
