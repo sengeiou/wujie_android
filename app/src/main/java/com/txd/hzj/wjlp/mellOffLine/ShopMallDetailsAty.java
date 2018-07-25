@@ -224,9 +224,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
+                ShopOffLineBean shopOffLineBean = new ShopOffLineBean(); // TODO 测试新建的类，传入下一页的时候直接传对应的Bean
                 Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("ShopOffLineBean", ShopOffLineBean.class);
+                bundle.putSerializable("ShopOffLineBean", shopOffLineBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;

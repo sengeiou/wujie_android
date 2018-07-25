@@ -1,21 +1,19 @@
 package com.txd.hzj.wjlp.mellOffLine;
 
-import android.graphics.Color;
-import android.text.Html;
-import android.view.Gravity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.bean.ShopOffLineBean;
 import com.txd.hzj.wjlp.view.keyboard.MyKeyboard;
+
+import java.io.Serializable;
 
 /**
  * 创建者：voodoo_jie
@@ -40,16 +38,12 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
         myKeyboard = new MyKeyboard(this);
         myKeyboard.setOnOkClick(this); // 确定按钮点击
         myKeyboard.attachTo(offlinePay_meny_et, false); // eiditext绑定keyboard，false表示普通数字键盘
-//        offlinePay_meny_et.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                myKeyboard.attachTo(offlinePay_meny_et, false); // eiditext绑定keyboard，false表示普通数字键盘
-//            }
-//        });
         offlinePay_meny_et.setFocusable(true);
         offlinePay_meny_et.setFocusableInTouchMode(true);
-//        editText.requestFocus();
         offlinePay_meny_et.setSelection(offlinePay_meny_et.getText().toString().length());
+
+        ShopOffLineBean shopOffLineBean = (ShopOffLineBean) getIntent().getExtras().getSerializable("ShopOffLineBean");
+        L.e("qweqwe", shopOffLineBean.toString());
     }
 
     @Override
@@ -67,6 +61,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
                     Toast.makeText(this, offlinePay_meny_et.getText().toString(), Toast.LENGTH_SHORT).show();
 
                     // TODO 此处请求接口，然后跳转界面到商品付款界面
+//                    startActivity();
 
                 } else { // 否则输入的金额小于0或等于0
                     Toast.makeText(this, "输入有效金额", Toast.LENGTH_SHORT).show();
