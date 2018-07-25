@@ -88,7 +88,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         nyvh.mell_intro.setText(offLineDataBean.getMerchant_desc());
         nyvh.mell_name.setText(offLineDataBean.getMerchant_name());
         nyvh.mell_score_rating_bar.setStar(Float.parseFloat(offLineDataBean.getScore()));
-        nyvh.mell_sell_num.setText(offLineDataBean.getMonths_order());
+        nyvh.mell_sell_num.setText("月售"+offLineDataBean.getMonths_order()+"单");
         ChangeTextViewStyle.getInstance().forTextColor(context, nyvh.distance_for_mell_tv,
                 "距您" + offLineDataBean.getDistance() + "km", 2, offLineDataBean.getDistance().length() + 2,
                 ContextCompat.getColor(context, R.color.colorAccent));
