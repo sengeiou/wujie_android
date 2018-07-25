@@ -424,6 +424,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             // 判断指定平台是否已经完成授权
             if (plat.isAuthValid()) {
                 if (loginType.equals("1")) {
+                    //TODO  授权三方登录的时候需要传uid
                     openid = plat.getDb().get("unionid");
                 } else {
                     openid = plat.getDb().getUserId();
