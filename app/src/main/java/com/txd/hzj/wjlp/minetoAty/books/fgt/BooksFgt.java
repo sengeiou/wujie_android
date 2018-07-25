@@ -8,15 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.view.PullToRefreshLayout;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -28,8 +24,6 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.AcademyIndex;
 import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.http.academy.AcademyPst;
-import com.txd.hzj.wjlp.http.collect.UserCollectPst;
-import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
@@ -38,7 +32,6 @@ import com.txd.hzj.wjlp.minetoAty.books.BooksDetailsAty;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者：DUKE_HwangZj

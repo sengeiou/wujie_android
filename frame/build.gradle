@@ -68,6 +68,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     // Gson
     compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'
+    compile 'com.youth.banner:banner:1.4.10'
     // 圆形头像
     //compile 'com.github.iwgang:countdownview:2.1.3'
     // 倒计时控件

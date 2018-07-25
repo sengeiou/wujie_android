@@ -112,7 +112,7 @@ public class PointWjAty extends BaseAty {
                 mells.add(new Mell(false, false));
             }
         }
-        mellNearByHzjAdapter = new MellNearByHzjAdapter(this, mells);
+//        mellNearByHzjAdapter = new MellNearByHzjAdapter(this, mells);
     }
 
     @Override

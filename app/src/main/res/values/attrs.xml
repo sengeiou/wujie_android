@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!--双向水平筛选价格chen-->
     <declare-styleable name="ATDragView">
@@ -10,7 +10,13 @@
         <attr name="seek_text_color" format="color"/>
         <attr name="seek_text_size" format="dimension"/>
     </declare-styleable>
-
+    <declare-styleable name="BannerPointLayout">
+        <attr name="styleBannerPointLayout" format="string" />
+        <attr name="pointerSize" format="dimension" />
+        <attr name="pointerLMargin" format="dimension" />
+        <attr name="unPointDrawable" format="reference" />
+        <attr name="pointDrawable" format="reference" />
+    </declare-styleable>
     <!--双向水平筛选价格，默认颜色chen-->
     <style name="def_dragview">
         <item name="seek_bg_color">#e6e6e6</item>
@@ -42,7 +48,6 @@
         <!--文字内容-->
         <attr name="scrollText" format="string"/>
     </declare-styleable>
-
 
     <declare-styleable name="ArcProgress">
 
@@ -83,5 +88,30 @@
         <!--最底部的文字-->
         <attr name="arc_bottom_text" format="string"/>
         <attr name="arc_bottom_text_size" format="dimension"/>
+    </declare-styleable>
+
+
+    <declare-styleable name="RatingBar">
+        <!--尺寸值-->
+        <attr name="starImageSize" format="dimension" />
+        <!--星星间距-->
+        <attr name="starpadding" format="dimension" />
+        <!--星星总数-->
+        <attr name="starcount" format="integer" />
+        <!--空白的星星资源文件值-->
+        <attr name="starempty" format="reference" />
+        <!--满星资源文件值-->
+        <attr name="starFill" format="reference" />
+        <!--半星资源文件值-->
+        <attr name="starHalf" format="reference" />
+        <!--是否可点击boolean值-->
+        <attr name="clickable" format="boolean" />
+        <!--当前进度float值-->
+        <attr name="starStep" format="float" />
+        <!--每次进度方式的值，整星还是半星-->
+        <attr name="stepSize">
+            <enum name="Half" value="0" />
+            <enum name="Full" value="1" />
+        </attr>
     </declare-styleable>
 </resources>
