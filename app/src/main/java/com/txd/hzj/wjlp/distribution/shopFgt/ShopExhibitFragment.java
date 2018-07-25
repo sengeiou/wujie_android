@@ -214,6 +214,7 @@ public class ShopExhibitFragment extends BaseFgt {
         refreshVisibleState();
     }
 
+
     private void refreshVisibleState() {
         if (progressBar.getVisibility()== View.VISIBLE){
             mSuperSwipeRefreshLayout.setRefreshing(false);

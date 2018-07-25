@@ -139,8 +139,14 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
     @ViewInject(R.id.group_ad_pic_iv)
     private ImageView group_ad_pic_iv;
 
+
+
+    @ViewInject(R.id.wujie_top_lin_layout)
+    private LinearLayout wujie_top_lin_layout;
+
     @ViewInject(R.id.collageUpMarqueeView)
     private UPMarqueeView collageUpMarqueeView;
+
 
     private LinearLayout.LayoutParams params;
     private String desc = "";
@@ -322,6 +328,8 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
 
     @Override
     protected void requestData() {
+        ticket_zoon_goods_gv.setFocusable(false);
+        ticket_zoon_goods_lv.setFocusable(false);
         forData();
     }
 
@@ -414,7 +422,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                 if(null!=winBeans&&winBeans.size()>0){
                     setView(winBeans);
                     collageUpMarqueeView.setViews(views);
-                    collageUpMarqueeView.setVisibility(View.VISIBLE);
+                    wujie_top_lin_layout.setVisibility(View.VISIBLE);
                 }
                 progressBar.setVisibility(View.GONE);
                 refresh_view.setRefreshing(false); // 刷新成功

@@ -59,6 +59,7 @@ public class TicketDialog extends Dialog {
                     builder.append("<br>");
                 }
             }
+
             mRules_tv.setText(Html.fromHtml(builder.toString()));
         }
     }
@@ -97,22 +98,20 @@ public class TicketDialog extends Dialog {
     }
 
     private void countDownTimer() {
-        mCountDownTimer = new CountDownTimer(5000, 1000) {
+        mCountDownTimer = new CountDownTimer(6000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (millisUntilFinished/1000!=0) {
-                    mTextView.setText("确定" + millisUntilFinished / 1000 + "s");
+                    mTextView.setText( millisUntilFinished / 1000 + "s");
                     mTextView.setClickable(false);
-                }else {
-                    mTextView.setText("确定");
-                    mTextView.setClickable(true);
                 }
 
             }
 
             @Override
             public void onFinish() {
-                mTextView.setText("确定");
+                mTextView.setText("");
+                mTextView.setBackgroundResource(R.drawable.wrong);
                 mTextView.setClickable(true);
             }
         };
