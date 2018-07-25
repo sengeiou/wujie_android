@@ -9,9 +9,14 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
+import android.text.Layout;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 
 import com.txd.hzj.wjlp.R;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -79,7 +84,7 @@ public class MyKeyboardView extends KeyboardView {
 
             Field field;
 
-            if (label.length() > 1 && key.codes.length < 2) {
+            if (label.length() > 1 && key.codes.length < 2) { // 回车键
                 int labelTextSize = 0;
                 try {
                     field = KeyboardView.class.getDeclaredField("mLabelTextSize");
@@ -92,13 +97,13 @@ public class MyKeyboardView extends KeyboardView {
                 }
                 paint.setTextSize(labelTextSize);
                 paint.setTypeface(Typeface.DEFAULT_BOLD);
-            } else {
+            } else { // 数字键
                 int keyTextSize = 0;
                 try {
                     field = KeyboardView.class.getDeclaredField("mLabelTextSize");
                     field.setAccessible(true);
 //                    keyTextSize = (int) field.get(this);
-                    keyTextSize = 50;
+                    keyTextSize = 80;
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();
                 }

@@ -18,12 +18,14 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/offLinePay_goback_imgv"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="15dp"
                 android:src="@mipmap/icon_back" />
 
             <ImageView
+                android:id="@+id/offLinePay_closePage_imgv"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="15dp"
@@ -67,11 +69,13 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/offLinePay_head_imgv"
                 android:layout_width="53dp"
                 android:layout_height="53dp"
                 android:src="@mipmap/icon_business_header_img" />
 
             <TextView
+                android:id="@+id/offLinePay_merchantName_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
@@ -97,9 +101,8 @@
                 android:text="金额" />
 
             <LinearLayout
-                android:id="@+id/dfsf"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="right"
                 android:orientation="horizontal">
 
