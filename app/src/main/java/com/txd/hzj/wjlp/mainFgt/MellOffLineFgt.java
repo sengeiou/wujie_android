@@ -152,9 +152,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page = 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
                 }
             }
 
@@ -178,9 +178,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page += 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
                 }
             }
 
@@ -297,9 +297,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         }
         page = 1;
         if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "-1", getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
         } else {
-            pranster.requestStoreData(page, "-1", "-1", "-1", getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
         }
     }
 

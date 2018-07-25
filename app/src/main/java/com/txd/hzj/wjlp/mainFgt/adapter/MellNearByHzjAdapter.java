@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
     public MellNearByHzjAdapter(Context context) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
-        list=new ArrayList<>();
+        list = new ArrayList<>();
     }
 
     public List<OffLineDataBean> getList() {
@@ -88,10 +89,14 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         nyvh.mell_intro.setText(offLineDataBean.getMerchant_desc());
         nyvh.mell_name.setText(offLineDataBean.getMerchant_name());
         nyvh.mell_score_rating_bar.setStar(Float.parseFloat(offLineDataBean.getScore()));
-        nyvh.mell_sell_num.setText("月售"+offLineDataBean.getMonths_order()+"单");
-        ChangeTextViewStyle.getInstance().forTextColor(context, nyvh.distance_for_mell_tv,
-                "距您" + offLineDataBean.getDistance() + "km", 2, offLineDataBean.getDistance().length() + 2,
-                ContextCompat.getColor(context, R.color.colorAccent));
+        nyvh.mell_sell_num.setText("月售" + offLineDataBean.getMonths_order() + "单");
+        if (!TextUtils.isEmpty(offLineDataBean.getDistance()) && !"-1".equals(offLineDataBean.getDistance())) {
+            nyvh.delivery_status_tv.setVisibility(View.GONE);
+            ChangeTextViewStyle.getInstance().forTextColor(context, nyvh.distance_for_mell_tv,
+                    "距您" + offLineDataBean.getDistance() + "km", 2, offLineDataBean.getDistance().length() + 2, ContextCompat.getColor(context, R.color.colorAccent));
+        } else {
+            nyvh.delivery_status_tv.setVisibility(View.VISIBLE);
+        }
 //        nyvh.mell_goods_gv.setAdapter(new GoodsAdapter(list2));
         // 是否有更多优惠
         List<TicketBean> ticketBeans = offLineDataBean.getTicket();
@@ -106,16 +111,16 @@ public class MellNearByHzjAdapter extends BaseAdapter {
                     for (int i = 0; i < offLineDataBean.getTicket().size(); i++) {
                         TicketBean ticketBean = offLineDataBean.getTicket().get(i);
                         if (i < 1) {
-                            addView(nyvh.djpLayout, ticketBean,false);
+                            addView(nyvh.djpLayout, ticketBean, false);
                         } else {
-                            addView(nyvh.other_zk_layout, ticketBean,true);
+                            addView(nyvh.other_zk_layout, ticketBean, true);
                         }
                     }
                 } else if (ticketBeans.size() == 1) {//只有第一行可见
                     nyvh.show_or_hind_layout_iv.setVisibility(View.GONE);
                     nyvh.other_zk_layout.setVisibility(View.GONE);
                     TicketBean ticketBean = offLineDataBean.getTicket().get(0);
-                    addView(nyvh.djpLayout, ticketBean,false);
+                    addView(nyvh.djpLayout, ticketBean, false);
                 }
             } else {// 都不可见
                 nyvh.djpLayout.setVisibility(View.GONE);
@@ -163,11 +168,11 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         return view;
     }
 
-    private void addView(LinearLayout linearLayout, TicketBean ticketBean,boolean addLine) {
-        if(addLine){
-            View view=new View(context);
+    private void addView(LinearLayout linearLayout, TicketBean ticketBean, boolean addLine) {
+        if (addLine) {
+            View view = new View(context);
             int line = (int) (Resources.getSystem().getDisplayMetrics().density * 7);
-            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,line);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, line);
             view.setLayoutParams(params);
             linearLayout.addView(view);
         }

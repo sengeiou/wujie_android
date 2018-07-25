@@ -308,7 +308,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if (mellInfo.getLng() != null & mellInfo.getLat() != null) {
                 pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, ShopMallDetailsAty.this, nearbyBusinessList);
             } else {
-                pranster.requestStoreData(page, "-1", "-1", "-1", ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, "", "", s_id, ShopMallDetailsAty.this, nearbyBusinessList);
             }
         }
     }
