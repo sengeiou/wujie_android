@@ -197,4 +197,14 @@ public class User {
         apiTool2.postApi(url + "removeBind", params, baseView);
     }
 
+    /**
+     * 三方账户绑定
+     *
+     * @param baseView
+     */
+    public static void payeeBind(BaseView baseView) {
+        ApiTool2 apiTool2 = new ApiTool2();
+        apiTool2.postApi(url + "payee_bind", new RequestParams(), baseView);
+    }
+
 }
