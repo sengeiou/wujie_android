@@ -572,6 +572,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private RecyclerView rv_cheap_group;
     @ViewInject(R.id.tv_expirationdateLayout)
     private LinearLayout tv_expirationdateLayout;
+    @ViewInject(R.id.seeMore)
+    private View seeMore;
     @ViewInject(R.id.layout_pt)
     private LinearLayout layout_pt;//活动倒计时|别人在开团
     @ViewInject(R.id.remarks)
@@ -1071,6 +1073,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                      1试用品拼单 2常规拼单",
                      */
                     groupType = dataBean.getGroup_type();
+                    tv_expirationdateLayout.setEnabled(false);
+                    seeMore.setVisibility(View.GONE);
                     if ("1".equals(groupType)) {  //体验拼单
                         experiencePb.setVisibility(View.VISIBLE);
                         max = Integer.parseInt(goodsInfo.getGroup_num());
@@ -1132,6 +1136,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                             tv_expirationdate.setText(Html.fromHtml(String.valueOf(ex_stringBuffer)));
                         }
+                        tv_expirationdateLayout.setEnabled(true);
+                        seeMore.setVisibility(View.VISIBLE);
                     } else if (goodsInfo.getIs_new_goods().equals("0") && goodsInfo.getIs_end().equals("1")) {
                         tv_expirationdate.setText(goodsInfo.getIs_new_goods_desc() + "\n" + goodsInfo.getIs_end_desc());
                     } else if (goodsInfo.getIs_new_goods_desc().equals("0")) {

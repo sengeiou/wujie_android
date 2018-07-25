@@ -37,12 +37,35 @@
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"/>
 
-                <com.txd.hzj.wjlp.view.UPMarqueeView
-                    android:visibility="gone"
-                    android:id="@+id/collageUpMarqueeView"
+
+                <LinearLayout
+                    android:id="@+id/wujie_top_lin_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="4dp" />
+                    android:layout_height="50dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/icon_message_for_inform" />
+
+                    <com.txd.hzj.wjlp.view.UPMarqueeView
+                        android:id="@+id/collageUpMarqueeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/ticket_zoon_goods_gv"

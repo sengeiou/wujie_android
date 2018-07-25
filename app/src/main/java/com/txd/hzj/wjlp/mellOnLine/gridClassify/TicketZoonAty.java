@@ -147,14 +147,17 @@ public class TicketZoonAty extends BaseAty {
     private void showTickDialog() {
         TicketDialog ticketDialog=new TicketDialog(this);
         List<String> group_rules_list= Arrays.asList(mGroup_buy_rule);
-        ticketDialog.setData(group_rules_list);
+        if (group_rules_list.size()>0) {
+            ticketDialog.setData(group_rules_list);
+            ticketDialog.show();
+        }
         ticketDialog.setChangeShowStatus(new TicketDialog.ChangeShowStatus() {
             @Override
             public void changeStatus() {
                 groupBuyPst.changeShowStatus(TicketZoonAty.this);
             }
         });
-        ticketDialog.show();
+
     }
 
     @Override

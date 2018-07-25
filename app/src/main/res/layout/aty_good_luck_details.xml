@@ -93,6 +93,7 @@
                                         android:background="#FFF9E7"
                                         android:gravity="center"
                                         android:paddingEnd="15dp"
+                                        android:id="@+id/seeMore"
                                         android:text="查看更多"
                                         android:textColor="#666666"
                                         android:textSize="14sp" />

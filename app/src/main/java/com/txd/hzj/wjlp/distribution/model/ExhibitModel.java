@@ -12,7 +12,7 @@ import com.lidroid.xutils.http.RequestParams;
  */
 public class ExhibitModel {
     //分销的base_url
-    public static final String DISTRIBUTION_URL="http://test2.wujiemall.com/Api/Distribution/";
+    public static final String DISTRIBUTION_URL="http://test3.wujiemall.com/Api/Distribution/";
 
     /**
      * 小店上货接口
