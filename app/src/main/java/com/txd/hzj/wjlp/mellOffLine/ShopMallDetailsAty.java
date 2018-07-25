@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOffLine;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,7 +42,7 @@ import java.util.Map;
  * 功能描述：线下店铺详情页面
  * 联系方式：无
  */
-public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,Constant.View {
+public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener, Constant.View {
     /**
      * 刷新加载控件
      */
@@ -223,7 +224,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
-
+                Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("ShopOffLineBean", ShopOffLineBean.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             //收藏
             case R.id.goods_title_collect_tv:
