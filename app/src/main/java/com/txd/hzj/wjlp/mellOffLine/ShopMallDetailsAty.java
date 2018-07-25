@@ -20,6 +20,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
+import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.offlineStoreInfo.StoreInfoPst;
 import com.txd.hzj.wjlp.mainFgt.Constant;
 import com.txd.hzj.wjlp.mainFgt.Pranster;
@@ -104,6 +105,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private int page;
     private Pranster pranster;
     private OffLineDataBean mellInfo;
+    //是否收藏标识
+    private boolean isCollection;
+    private UserCollectPst collectPst;
+    private ShopOffLineBean offLineBean;
 
 
     @Override
@@ -232,7 +237,13 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //收藏
             case R.id.goods_title_collect_tv:
+                if (isCollection==false) {
 
+                    collectPst.addCollect("5",s_id);
+                }else{
+
+                    collectPst.delOneCollect("5",s_id);
+                }
                 break;
             //分享
             case R.id.goods_title_share_tv:
@@ -244,6 +255,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     @Override
     protected void requestData() {
         pst = new StoreInfoPst(this);
+        collectPst = new UserCollectPst(this);
         pst.offlineStoreInfo(s_id);
     }
 
@@ -263,7 +275,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         if (requestUrl.contains("offlineStoreInfo")) {
             Log.i("线下店铺详情页数据", jsonStr.toString());
             Gson gson = new Gson();
-            ShopOffLineBean offLineBean = gson.fromJson(jsonStr, ShopOffLineBean.class);
+            offLineBean = gson.fromJson(jsonStr, ShopOffLineBean.class);
             //设置评价列表数据
             listBeanList = offLineBean.getData().getComment().getList();
             if (listBeanList != null) {
@@ -298,11 +310,13 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             //综合星级
             evaluateBranch.setText(offLineBean.getData().getComment().getStar_cate() + "分");
             //设置是否收藏
-            if ("1".equals(offLineBean.getData().getIs_collect())) {
+            if (0==offLineBean.getData().getIs_collect()) {
                 titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
+                isCollection = false;
                 titleCollect.setText("收藏");
-            } else {
+            } else{
                 titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
+                isCollection = true;
                 titleCollect.setText("已收藏");
             }
             if (mellInfo.getLng() != null & mellInfo.getLat() != null) {
@@ -310,6 +324,18 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             } else {
                 pranster.requestStoreData(page, "-1", "-1", "-1", ShopMallDetailsAty.this, nearbyBusinessList);
             }
+        }
+        if (requestUrl.contains("addCollect")){
+            showRightTip("收藏成功");
+            titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
+            isCollection = true;
+            titleCollect.setText("已收藏");
+        }
+        if (requestUrl.contains("delOneCollect")){
+            showRightTip("取消成功");
+            titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
+            isCollection = false;
+            titleCollect.setText("收藏");
         }
     }
 
