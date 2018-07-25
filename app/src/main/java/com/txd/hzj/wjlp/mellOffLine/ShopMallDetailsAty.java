@@ -299,17 +299,17 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             //设置门店电话
             shopTelephone.setText(offLineBean.getData().getMerchant_phone());
             //设置关注人数
-            shopFollowPersons.setText(offLineBean.getData().getFocus_num());
+            shopFollowPersons.setText(offLineBean.getData().getFocus_num()+"人");
             //设置商品数量
-            shopGoddsNumber.setText(offLineBean.getData().getGoods_num());
+            shopGoddsNumber.setText(offLineBean.getData().getGoods_num()+"件");
             //设置月单量
-            monthOrderNumber.setText(offLineBean.getData().getMonths_orders());
+            monthOrderNumber.setText(offLineBean.getData().getMonths_orders()+"件");
             //设置地址
             shopAddress.setText(offLineBean.getData().getFinal_address());
             //评价数量
             evaluateNumbers.setText("店铺评价(" + offLineBean.getData().getComment().getCount() + ")");
             //综合星级
-            evaluateBranch.setText(offLineBean.getData().getComment().getStar_cate() + "分");
+            evaluateBranch.setText(offLineBean.getData().getComment().getStar_cate());
             //设置是否收藏
             if (0==offLineBean.getData().getIs_collect()) {
                 titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
