@@ -167,4 +167,5 @@ dependencies {
     compile 'com.umeng.sdk:analytics:latest.integration'
     compile 'com.android.support:gridlayout-v7:26.+'
     compile 'com.android.support:appcompat-v7:26.1.0'
+
 }

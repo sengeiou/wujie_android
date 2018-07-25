@@ -4,6 +4,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <!--环信-->
+    <string name="pointer_style_has_move_point">pointer_style_has_move_point</string>
+    <string name="pointer_style_no_move_point">pointer_style_no_move_point</string>
     <string name="at_your_in_group">%s @ you in group chat</string>
     <string name="connect_conflict">同一帐号已在其他设备登录</string>
     <string name="em_user_remove">此用户已被移除</string>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/goods_details_title"
+    android:layout_width="match_parent"
+    android:layout_height="66dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/title_be_back_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:onClick="beBack"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:src="@drawable/icon_be_back_b" />
+
+    <TextView
+        android:id="@+id/aty_down_title_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="达令商城"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:paddingEnd="8dp">
+
+        <!--  <LinearLayout
+              android:id="@+id/goods_title_collect_layout"
+              android:layout_width="70dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:paddingBottom="4dp"
+              android:paddingLeft="6dp"
+              android:paddingRight="6dp"
+              >-->
+        <!--<ImageView
+            android:id="@+id/goods_title_collect_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_collect" />
+-->
+        <TextView
+            android:id="@+id/goods_title_collect_tv"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/icon_collect"
+            android:gravity="center"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:layout_marginTop="20dp"
+            android:text="收藏"
+            android:textSize="12sp" />
+        <!--</LinearLayout>-->
+
+        <TextView
+            android:id="@+id/goods_title_share_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_toRightOf="@+id/goods_title_collect_tv"
+            android:drawablePadding="4dp"
+            android:drawableTop="@drawable/icon_goods_title_share"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:paddingEnd="4dp"
+            android:paddingStart="4dp"
+            android:text="分享"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

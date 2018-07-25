@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="horizontal"
-    android:padding="6dp">
+    android:orientation="horizontal">
 
-    <cn.gavinliu.android.lib.shapedimageview.ShapedImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="6dp"
-        android:src="@drawable/icon_temp_goods_banner"
-        app:shape_mode="round_rect"/>
+    <ImageView
+        android:id="@+id/mell_img"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dp">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="17dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,13 +33,14 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/mell_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="好收成保山道店"
                     android:textColor="@color/app_text_color"
-                    android:textSize="14sp"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/delivery_status_tv"
@@ -56,19 +56,20 @@
                     android:paddingTop="2dp"
                     android:text="达达专送-39分钟"
                     android:textColor="#37A5FA"
-                    android:textSize="8sp"
-                    />
+                    android:textSize="10sp"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/distance_for_mell_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="距您4.5KM"
                 android:textColor="#777777"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -80,54 +81,75 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <RatingBar
+            <!--<RatingBar-->
+            <!--android:id="@+id/mell_score_rating_bar"-->
+            <!--style="@style/foodRatingBar"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="14dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:isIndicator="true"-->
+            <!--android:numStars="5"-->
+            <!--android:rating="4.0"-->
+            <!--/>-->
+            <com.txd.hzj.wjlp.view.RatingBar
                 android:id="@+id/mell_score_rating_bar"
-                style="@style/foodRatingBar"
+                style="@style/fiveRatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="14dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/eat_mywant_evaluate_food_name"
                 android:layout_gravity="center_vertical"
-                android:isIndicator="true"
+                android:layout_toRightOf="@+id/eat_mywant_evaluate_ima"
+                android:clickable="false"
+                android:gravity="center"
                 android:numStars="5"
-                android:rating="4.0"
-                />
+                app:starFill="@mipmap/star_ful"
+                app:starHalf="@mipmap/unstar_ful"
+                app:starImageSize="12dp"
+                app:starStep="4"
+                app:starcount="5"
+                app:starempty="@mipmap/unstar_ful"
+                app:starpadding="5dp"
+                app:stepSize="Full"></com.txd.hzj.wjlp.view.RatingBar>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="4dp"
                 android:layout_marginStart="4dp"
-                android:background="@color/view_color"/>
+                android:background="@color/view_color" />
 
             <TextView
+                android:id="@+id/mell_sell_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="月销3000单"
-                android:textColor="@color/gray_text_color"
-                android:textSize="12sp"/>
+                android:textColor="#777777"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/mell_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介"
-            android:textColor="@color/gray_text_color"
-            android:textSize="12sp"/>
+            android:textColor="#777777"
+            android:textSize="12sp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/view_color"/>
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="#ffdddddd" />
 
         <LinearLayout
+            android:layout_marginBottom="14dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -136,116 +158,40 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/djpLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/icon_mj"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="满100减50，满一百减50"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/icon_mz"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="满100减50，满一百减50"
-                        android:textColor="@color/gray_text_color"
-                        android:textSize="12sp"/>
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/other_zk_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/icon_mj"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="满100减50，满一百减50"
-                            android:textColor="@color/gray_text_color"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="4dp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/icon_mz"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="满100减50，满一百减50"
-                            android:textColor="@color/gray_text_color"
-                            android:textSize="12sp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/show_or_hind_layout_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:src="@drawable/icon_hide_other_layout"/>
+                android:paddingBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="5dp"
+                android:src="@drawable/icon_hide_other_layout" />
 
         </LinearLayout>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="8dp"/>
 
-        <com.ants.theantsgo.view.inScroll.GridViewForScrollView
-            android:id="@+id/mell_goods_gv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="4"
-            android:scrollbars="none"/>
+        <!--<Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="8dp" />-->
+
+        <!--<com.ants.theantsgo.view.inScroll.GridViewForScrollView-->
+        <!--android:id="@+id/mell_goods_gv"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:numColumns="4"-->
+        <!--android:scrollbars="none" />-->
 
     </LinearLayout>
 
