@@ -229,9 +229,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
+                ShopOffLineBean shopOffLineBean = new ShopOffLineBean(); // TODO 测试新建的类，传入下一页的时候直接传对应的Bean
                 Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("ShopOffLineBean", ShopOffLineBean.class);
+                bundle.putSerializable("ShopOffLineBean", shopOffLineBean);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -322,7 +323,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if (mellInfo.getLng() != null & mellInfo.getLat() != null) {
                 pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, ShopMallDetailsAty.this, nearbyBusinessList);
             } else {
-                pranster.requestStoreData(page, "-1", "-1", "-1", ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, "", "", s_id, ShopMallDetailsAty.this, nearbyBusinessList);
             }
         }
         if (requestUrl.contains("addCollect")){

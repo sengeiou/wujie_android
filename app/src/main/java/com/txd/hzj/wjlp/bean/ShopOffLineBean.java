@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * 功能描述：
  * 联系方式：无
  */
-public class ShopOffLineBean {
+public class ShopOffLineBean implements Serializable {
 
     /**
      * code : 1
