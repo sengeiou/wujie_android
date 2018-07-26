@@ -34,7 +34,6 @@ import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
@@ -741,7 +740,11 @@ public class BuildOrderAty extends BaseAty {
             View view = View.inflate(BuildOrderAty.this, R.layout.item_sle_address, null);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
-            tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")\n" + data.get(position).get("desc"));
+            if (data.get(position).get("desc").equals("")||data.get(position).get("desc")==null){
+                tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")" );
+            }else {
+                tv_name.setText(data.get(position).get("type_name") + "(" + data.get(position).get("shipping_name") + ")\n" + data.get(position).get("desc"));
+            }
             tv_price.setText(data.get(position).get("pay").equals("0") ? "包邮" : data.get(position).get("pay") + "元");
             return view;
         }
