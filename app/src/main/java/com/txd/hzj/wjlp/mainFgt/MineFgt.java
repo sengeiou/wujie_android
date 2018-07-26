@@ -42,6 +42,7 @@ import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.GiveCouponAty;
 import com.txd.hzj.wjlp.minetoAty.GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.ShareToFriendsAty;
+import com.txd.hzj.wjlp.minetoAty.ThirdPartAccountAty;
 import com.txd.hzj.wjlp.minetoAty._GradeOfMemberAty;
 import com.txd.hzj.wjlp.minetoAty.address.AddressListAty;
 import com.txd.hzj.wjlp.minetoAty.balance.BalanceAty;
@@ -66,6 +67,9 @@ import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -87,6 +91,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private IndexPst indexPst;
     @ViewInject(R.id.super_mine_layout)
     private SuperSwipeRefreshLayout superSwipeRefreshLayout;
+    @ViewInject(R.id.bandOtherAccount_tv)
+    private TextView bandOtherAccount_tv; // 绑定第三方账户
 
     /**
      * 标题栏
@@ -304,7 +310,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv, R.id.apply_for_shop,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv
+            , R.id.bandOtherAccount_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -452,9 +459,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(ApprenticeCodeAty.class, bundle);
             }
             break;
+            case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
+                startActivity(ThirdPartAccountAty.class, null);
+                break;
         }
     }
-
 
     @Override
     protected int getLayoutResId() {
@@ -475,6 +484,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         super.onResume();
         showDialog(); // 显示Dialog
         userPst.userCenter();
+        userPst.userInfo();
     }
 
 
@@ -497,6 +507,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 indexPst.index(lng, lat);
                 showDialog(); // 显示Dialog
                 userPst.userCenter();
+                userPst.userInfo();
             }
 
             @Override
@@ -534,7 +545,20 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("jsonStrALIANG" + jsonStr);
+        L.e("jsonStrALIANG:requestUrl:" + requestUrl + "  " + jsonStr);
+        if (requestUrl.contains("userInfo")) { // 获取个人资料，控制三方收款账户绑定的显隐
+            try {
+                JSONObject jsonObject = new JSONObject(jsonStr);
+                JSONObject jsonData = jsonObject.getJSONObject("data");
+                String alliance_merchant = jsonData.has("alliance_merchant") ? jsonData.getString("alliance_merchant") : "";
+                String change_account_status = jsonData.has("change_account_status") ? jsonData.getString("change_account_status") : "";
+                if (change_account_status.equals("1") && !alliance_merchant.equals("0")) {
+                    // 支持账户切换 并且 是联盟商家 则显示该按钮
+                    bandOtherAccount_tv.setVisibility(View.VISIBLE);
+                }
+            } catch (JSONException e) {
+            }
+        }
         if (requestUrl.contains("userCenter")) {
             removeProgressDialog(); // 关闭userCenter打开的Dialog
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);

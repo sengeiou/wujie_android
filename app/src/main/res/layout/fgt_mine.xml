@@ -348,7 +348,6 @@
                         android:layout_marginRight="20dp"
                         android:background="@color/bg_color" />
 
-
                     <TextView
                         android:id="@+id/tv_order_center"
                         style="@style/mine_text_list"
@@ -626,6 +625,26 @@
                         android:drawableStart="@drawable/icon_mine_ruzhu"
                         android:padding="12dp"
                         android:text="商家推荐"
+                        android:textColor="@color/app_text_color"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/bg_color" />
+
+                    <TextView
+                        android:id="@+id/bandOtherAccount_tv"
+                        style="@style/mine_text_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/icon_turn_right_gray"
+                        android:drawablePadding="10dp"
+                        android:drawableStart="@drawable/give_coupon"
+                        android:padding="12dp"
+                        android:text="三方收款账户绑定"
                         android:textColor="@color/app_text_color"
                         android:visibility="gone" />
 

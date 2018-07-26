@@ -4,7 +4,6 @@ import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
-import com.txd.hzj.wjlp.tool.TimeStampUtil;
 
 import java.io.File;
 
@@ -207,4 +206,39 @@ public class User {
         apiTool2.postApi(url + "payee_bind", new RequestParams(), baseView);
     }
 
+    /**
+     * 提交三方账户信息进行转账
+     *
+     * @param pay_type 提交类型 wx:设置微信，ali:设置支付宝
+     * @param account 绑定账户，支付宝格式手机号或者邮箱，微信的是openid
+     * @param baseView
+     */
+    public static void pay_money_bind(String pay_type, String account, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("pay_type", pay_type);
+        params.addBodyParameter("account", account);
+        apiTool2.postApi(url + "pay_money_bind", params, baseView);
+    }
+
+    /**
+     * 收款账户绑定和设置默认收款账户
+     *
+     * @param default_account 默认账户 1无界会员 2微信账户 3支付宝账户
+     * @param pay_type        提交是微信还是支付宝的参数，wx:设置微信，ali:设置支付宝
+     * @param pay_money       输入的三方账户到款金额
+     * @param account         绑定账户，支付宝格式手机号或者邮箱，微信的是openid
+     * @param wxpay_name      微信昵称，只有在pay_type=wx的时候这个参数是必填
+     * @param baseView        BaseView
+     */
+    public static void pay_account_bind(String default_account, String pay_type, String pay_money, String account, String wxpay_name, BaseView baseView) {
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("default_account", default_account);
+        params.addBodyParameter("pay_type", pay_type);
+        params.addBodyParameter("pay_money", pay_money);
+        params.addBodyParameter("account", account);
+        params.addBodyParameter("wxpay_name", wxpay_name);
+        apiTool2.postApi(url + "pay_account_bind", params, baseView);
+    }
 }
