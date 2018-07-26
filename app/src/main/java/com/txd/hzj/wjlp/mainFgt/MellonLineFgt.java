@@ -27,7 +27,6 @@ import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -49,24 +48,17 @@ import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOnLine.MellOnLineClassifyAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.WujieTopHzjAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionCollectAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.AuctionGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeStreetHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.car.CarChenAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.hous.HousDetailsChenAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchChenAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.snatch.SnatchGoodsDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditProfileAty;
-import com.txd.hzj.wjlp.tool.TouchStopListener4ScrollView;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
@@ -420,13 +412,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     int pos = i + curIndex * pageSize;
                     switch (pos) {
                         case 0:// 限量购
-                            startActivity(LimitShoppingAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(LimitShoppingAty.class, null);
                             break;
                         case 1:// 票券区
-                            bundle = new Bundle();
-                            bundle.putInt("type", 1);
-                            bundle.putString("title", "票券区");
-                            startActivity(TicketZoonAty.class, bundle);
+                            showToast("开发中，敬请期待");
+//                            bundle = new Bundle();
+//                            bundle.putInt("type", 1);
+//                            bundle.putString("title", "票券区");
+//                            startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 2:// 拼团购
                             bundle = new Bundle();
@@ -435,13 +429,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 3:// 主题街
-                            startActivity(ThemeStreetHzjAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(ThemeStreetHzjAty.class, null);
                             break;
                         case 4:// 无界预购
-                            bundle = new Bundle();
-                            bundle.putInt("type", 2);
-                            bundle.putString("title", "无界预购");
-                            startActivity(TicketZoonAty.class, bundle);
+                            showToast("开发中，敬请期待");
+//                            bundle = new Bundle();
+//                            bundle.putInt("type", 2);
+//                            bundle.putString("title", "无界预购");
+//                            startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 5:// 进口馆
                             bundle = new Bundle();
@@ -450,19 +446,23 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             startActivity(GoodsInputHzjAty.class, bundle);
                             break;
                         case 6:// 竞拍汇
-                            bundle = new Bundle();
-                            bundle.putInt("type", 3);
-                            bundle.putString("title", "比价购");
-                            startActivity(AuctionCollectAty.class, bundle);
+                            showToast("开发中，敬请期待");
+//                            bundle = new Bundle();
+//                            bundle.putInt("type", 3);
+//                            bundle.putString("title", "比价购");
+//                            startActivity(AuctionCollectAty.class, bundle);
                             break;
                         case 7://汽车购
-                            startActivity(CarChenAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(CarChenAty.class, null);
                             break;
                         case 8://房产购
-                            startActivity(HousChenAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
-                            startActivity(SnatchChenAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(SnatchChenAty.class, null);
                             break;
                     }
                 }

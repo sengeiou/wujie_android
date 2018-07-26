@@ -845,7 +845,7 @@ public class GoodsAttributeAty extends BaseAty {
                 changeTopImage(position);
             }
             TextView textView = (TextView) view;
-            String valStr = textView.getText().toString();
+            String valStr = textView.getText().toString().trim();
             recordMutilMap.put(tag, valStr);
             list = dealData(list, list_val, tag);
 
@@ -987,7 +987,7 @@ public class GoodsAttributeAty extends BaseAty {
             String[] strings = compareStr.split("\\+");//将比较字符串用+分割
             //            String[] strings = compareStr.split("@");//将比较字符串用+分割
             for (int i = 0; i < strings.length; i++) {
-                recordMap.put(i, strings[i]);
+                recordMap.put(i, strings[i].trim());
             }
             recordMutilMapList.add(recordMap);//循环记录可选值列表
             //            if (null == recordMutilMap) {
