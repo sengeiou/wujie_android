@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -43,11 +44,11 @@ import com.tamic.novate.Throwable;
 import com.tamic.novate.callback.RxStringCallback;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.Pay;
+import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.http.balance.BalancePst;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
-import com.txd.hzj.wjlp.http.Pay;
-import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
@@ -208,6 +209,12 @@ public class RechargeAty extends BaseAty {
     private String money; // 金额
     private String order_id1; // 订单id
 
+    /**
+     * 滚动列表
+     * */
+    @ViewInject(R.id.balance_scr)
+    private NestedScrollView balance_scr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -225,6 +232,7 @@ public class RechargeAty extends BaseAty {
         PreferencesUtils.remove(RechargeAty.this, "band_id");
 //        PreferencesUtils.remove(RechargeAty.this,"band_id1");
         PreferencesUtils.remove(RechargeAty.this, "band_code");
+        balance_scr.smoothScrollTo(0,0);
     }
 
     /**
