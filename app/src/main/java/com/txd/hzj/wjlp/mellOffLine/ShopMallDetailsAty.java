@@ -2,16 +2,12 @@ package com.txd.hzj.wjlp.mellOffLine;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -27,7 +23,6 @@ import com.txd.hzj.wjlp.mainFgt.Pranster;
 import com.txd.hzj.wjlp.mellOffLine.adapter.ShopEvaluateAdapter;
 import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.tool.TextUtils;
-import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -47,13 +42,13 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     /**
      * 刷新加载控件
      */
-    private VpSwipeRefreshLayout mallRefrsh;
+    /*private VpSwipeRefreshLayout mallRefrsh;*/
     /**
      * 轮播图控件
      */
     private Banner bannerIma;
 
-    // Header View
+    /*// Header View
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;
@@ -61,7 +56,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     // Footer View
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
-    private ImageView footerImageView;
+    private ImageView footerImageView;*/
     //图片集合
     private ArrayList urls;
     //评价列表
@@ -124,7 +119,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
         urls = new ArrayList();
 
-        mallRefrsh = findViewById(R.id.shop_mall_refrsh);
+        //mallRefrsh = findViewById(R.id.shop_mall_refrsh);
         bannerIma = findViewById(R.id.banner);
         shopEvaluate = findViewById(R.id.shop_mall_evaluate_list);
         shopGoddsNumber = findViewById(R.id.shop_goods_number);
@@ -158,7 +153,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
 
         //设置下拉刷新上拉加载
-        mallRefrsh.setHeaderViewBackgroundColor(Color.WHITE);
+        /*mallRefrsh.setHeaderViewBackgroundColor(Color.WHITE);
         mallRefrsh.setHeaderView(createHeaderView());// add headerView
         mallRefrsh.setFooterView(createFooterView());
         mallRefrsh.setTargetScrollWithLayout(true); // 跟随手指滑动
@@ -203,7 +198,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 footerImageView.setVisibility(View.VISIBLE);
                 footerImageView.setRotation(enable ? 0 : 180);
             }
-        });
+        });*/
 
         /**
          * 注册点击事件
@@ -238,12 +233,12 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //收藏
             case R.id.goods_title_collect_tv:
-                if (isCollection==false) {
+                if (isCollection == false) {
 
-                    collectPst.addCollect("5",s_id);
-                }else{
+                    collectPst.addCollect("5", s_id);
+                } else {
 
-                    collectPst.delOneCollect("5",s_id);
+                    collectPst.delOneCollect("5", s_id);
                 }
                 break;
             //分享
@@ -268,11 +263,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        mallRefrsh.setRefreshing(false);
+       /* mallRefrsh.setRefreshing(false);
         mallRefrsh.setLoadMore(false);
         progressBar.setVisibility(View.GONE);
         footerImageView.setVisibility(View.VISIBLE);
-        footerProgressBar.setVisibility(View.GONE);
+        footerProgressBar.setVisibility(View.GONE);*/
         if (requestUrl.contains("offlineStoreInfo")) {
             Log.i("线下店铺详情页数据", jsonStr.toString());
             Gson gson = new Gson();
@@ -299,11 +294,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             //设置门店电话
             shopTelephone.setText(offLineBean.getData().getMerchant_phone());
             //设置关注人数
-            shopFollowPersons.setText(offLineBean.getData().getFocus_num()+"人");
+            shopFollowPersons.setText(offLineBean.getData().getFocus_num() + "人");
             //设置商品数量
-            shopGoddsNumber.setText(offLineBean.getData().getGoods_num()+"件");
+            shopGoddsNumber.setText(offLineBean.getData().getGoods_num() + "件");
             //设置月单量
-            monthOrderNumber.setText(offLineBean.getData().getMonths_orders()+"件");
+            monthOrderNumber.setText(offLineBean.getData().getMonths_orders() + "件");
             //设置地址
             shopAddress.setText(offLineBean.getData().getFinal_address());
             //评价数量
@@ -311,11 +306,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             //综合星级
             evaluateBranch.setText(offLineBean.getData().getComment().getStar_cate());
             //设置是否收藏
-            if (0==offLineBean.getData().getIs_collect()) {
+            if (0 == offLineBean.getData().getIs_collect()) {
                 titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
                 isCollection = false;
                 titleCollect.setText("收藏");
-            } else{
+            } else {
                 titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
                 isCollection = true;
                 titleCollect.setText("已收藏");
@@ -326,13 +321,13 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 pranster.requestStoreData(page, "", "", s_id, ShopMallDetailsAty.this, nearbyBusinessList);
             }
         }
-        if (requestUrl.contains("addCollect")){
+        if (requestUrl.contains("addCollect")) {
             showRightTip("收藏成功");
             titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collected), null, null);
             isCollection = true;
             titleCollect.setText("已收藏");
         }
-        if (requestUrl.contains("delOneCollect")){
+        if (requestUrl.contains("delOneCollect")) {
             showRightTip("取消成功");
             titleCollect.setCompoundDrawables(null, TextUtils.toDrawable(this, R.drawable.icon_collect), null, null);
             isCollection = false;
@@ -341,7 +336,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     }
 
 
-    private View createFooterView() {
+    /*private View createFooterView() {
         View footerView = LayoutInflater.from(mallRefrsh.getContext()).inflate(R.layout.layout_footer, null);
         footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
         footerImageView = footerView.findViewById(R.id.footer_image_view);
@@ -363,7 +358,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         imageView.setImageResource(R.drawable.down_arrow);
         progressBar.setVisibility(View.GONE);
         return headerView;
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -387,10 +382,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
     @Override
     public void loadComplate() {
-        mallRefrsh.setRefreshing(false); // 刷新成功
+       /* mallRefrsh.setRefreshing(false); // 刷新成功
         footerImageView.setVisibility(View.VISIBLE);
         footerProgressBar.setVisibility(View.GONE);
-        mallRefrsh.setLoadMore(false);
+        mallRefrsh.setLoadMore(false);*/
     }
 
     @Override
