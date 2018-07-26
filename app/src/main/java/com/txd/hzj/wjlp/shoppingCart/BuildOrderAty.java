@@ -34,7 +34,6 @@ import com.google.gson.Gson;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.AuctionOrder;
@@ -986,6 +985,7 @@ public class BuildOrderAty extends BaseAty {
                     if ("10".equals(type)) {//无界商店
                         bundle.putString("shop_price", getItem(i).get("use_integral"));
                     }
+                    //跳转选择发票
                     startActivityForResult(InvoiceAty.class, bundle, 1000);
                     //                    startActivityForResult(InvoiceAty2.class, bundle, 1000);
                 }
