@@ -42,12 +42,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/24 0024
  * 时间：下午 5:07
  * 描述：收藏、足迹，商品碎片
- * ===============Txunda===============
  */
 public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.SelectNum {
 
@@ -428,10 +426,9 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     public void setStatus(boolean show) {
-
-        if (allNum <= 0) {
-            return;
-        }
+//        if (allNum <= 0) {
+//            return;
+//        }
         this.status = show;
         if (!show) {
             collect_operation_layout.setVisibility(View.GONE);

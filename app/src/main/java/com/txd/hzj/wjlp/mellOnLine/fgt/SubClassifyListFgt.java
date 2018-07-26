@@ -33,12 +33,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/5 0005
  * 时间：下午 4:09
  * 描述：1-1-2二级分类
- * ===============Txunda===============
  */
 public class SubClassifyListFgt extends BaseFgt {
 

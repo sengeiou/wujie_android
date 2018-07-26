@@ -5,12 +5,10 @@ import com.ants.theantsgo.base.BaseView;
 import com.txd.hzj.wjlp.http.Upgrade;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：09:11
  * 描述：
- * ===============Txunda===============
  */
 
 public class UpdataPst extends BasePresenter {

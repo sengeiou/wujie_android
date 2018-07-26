@@ -22,12 +22,10 @@ import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：下午 7:49
  * 描述：添加银行卡
- * ===============Txunda===============
  */
 public class AddBankCardAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

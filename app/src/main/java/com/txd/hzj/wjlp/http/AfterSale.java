@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
@@ -48,16 +47,18 @@ public class AfterSale {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
 
-        L.e("wang", "=====reason=" + reason + ", back_money=" + back_money + ", back_desc=" + back_desc + ", list=" + list
-                + ", cause=" + cause + ", goods_status=" + goods_status + ", order_id=" + order_id + ", order_type=" + order_type + ", order_goods_id=" + order_goods_id);
-
         requestParams.addBodyParameter("reason", reason);
         requestParams.addBodyParameter("back_money", back_money);
         requestParams.addBodyParameter("back_desc", back_desc);
         requestParams.addBodyParameter("cause", cause);
         requestParams.addBodyParameter("goods_status", goods_status);
         requestParams.addBodyParameter("order_id", order_id);
-        requestParams.addBodyParameter("order_type", order_type);
+        if ("10".equals(order_type)){
+            requestParams.addBodyParameter("order_type", "5");
+        }else {
+            requestParams.addBodyParameter("order_type", order_type);
+        }
+
         requestParams.addBodyParameter("order_goods_id", order_goods_id);
         for (int i = 0; i < list.size(); i++) {
             requestParams.addBodyParameter("back_img" + i, list.get(i));
@@ -164,10 +165,16 @@ public class AfterSale {
      * @param baseView
      * @param order_goods_id 订单物品Id
      */
-    public static void backNormalApplyType(BaseView baseView, String order_goods_id) {
+    public static void backNormalApplyType(BaseView baseView, String order_goods_id,String type) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_goods_id", order_goods_id);
-        params.addBodyParameter("order_type", "1");
+        //type为10代表无界商店
+        if ("10".equals(type)){
+            params.addBodyParameter("order_type", "5");
+        }else {
+            params.addBodyParameter("order_type", "1");
+        }
+
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "backApplyType", params, baseView);
     }

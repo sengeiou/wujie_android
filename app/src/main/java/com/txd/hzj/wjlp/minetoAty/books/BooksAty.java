@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：上午 9:26
  * 描述：无界书院
- * ===============Txunda===============
  */
 public class BooksAty extends BaseAty {
 

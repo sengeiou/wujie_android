@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.distribution.bean.ExhibitGoosBean;
+import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
 
 import java.util.List;
 
@@ -23,10 +23,10 @@ import java.util.List;
  * 联系方式：
  */
 public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.ViewHolder> {
-    private List<ExhibitGoosBean> datas;
+    private List<ExhibitGoodsBean.DataBean.ListBean> datas;
     private Context mContext;
 
-    public ShopExhibitAdapter(List<ExhibitGoosBean> datas) {
+    public ShopExhibitAdapter(List<ExhibitGoodsBean.DataBean.ListBean> datas) {
         this.datas = datas;
     }
 
@@ -34,20 +34,21 @@ public class ShopExhibitAdapter extends RecyclerView.Adapter<ShopExhibitAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
-        ViewHolder viewHolder=new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.exhibit_fgt_item,null));
+        ViewHolder viewHolder=new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.exhibit_fgt_item,parent,false));
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        ExhibitGoosBean exhibitGoosBean = datas.get(position);
-        Glide.with(mContext)
-                .load(exhibitGoosBean.getImageUrl())
+        ExhibitGoodsBean.DataBean.ListBean listBean = datas.get(position);
+                Glide.with(mContext)
+                .load(listBean.getGoods_img())
                 .into(holder.img_product);
-        holder.tv_title.setText(exhibitGoosBean.getGoodsTitle());
-        holder.tv_daijinquan.setText(exhibitGoosBean.getDaijinquan());
-        holder.tv_price.setText("¥"+exhibitGoosBean.getPrice());
-        holder.tv_jifen.setText(Html.fromHtml("<font color=\"#fffd8214\">" + exhibitGoosBean.getJifen() + "</font>积分"));
+        holder.tv_title.setText(listBean.getGoods_name());
+        holder.tv_daijinquan.setText("最多可使用"+listBean.getDiscount()+"%代金券");
+        holder.tv_price.setText("¥"+listBean.getShop_price());
+
+        holder.tv_jifen.setText(Html.fromHtml("<font color=\"#FD8315\">" + listBean.getIntegral() + "</font>积分"));
         holder.img_shangjia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

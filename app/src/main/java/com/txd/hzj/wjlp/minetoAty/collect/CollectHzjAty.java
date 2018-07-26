@@ -24,12 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：上午 9:12
  * 描述：我的收藏
- * ===============Txunda===============
  */
 public class CollectHzjAty extends BaseAty {
     /**

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.distribution.shopFgt.ShopOrderFragment;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.List;
@@ -24,10 +23,12 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
     private List list;
     private Context context;
     private ChangeTextViewStyle instance;
+    private String type;
 
-    public ShopOrderManageAdapter(List list, Context context) {
+    public ShopOrderManageAdapter(List list, Context context, String type) {
         this.list = list;
         this.context = context;
+        this.type = type;
     }
 
     @Override
@@ -46,8 +47,24 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
         instance.forTextColor(context, holders.supplier, "供货商：123456", 4, Color.parseColor("#777777"));
         instance.forTextColor(context, holders.priFit, "收益：156.00积分", 3, Color.parseColor("#777777"));
         instance.forTextColor(context, holders.vouvherType, "用卷类型：红券", 5, Color.parseColor("#777777"));
-        instance.forTextColor(context, holders.proportion, "用卷比例：50%", 5,Color.parseColor("#777777"));
-
+        instance.forTextColor(context, holders.proportion, "用卷比例：50%", 5, Color.parseColor("#777777"));
+        switch (type){
+            case "全部":
+                holders.orderType.setText("全部");
+                break;
+            case "待付款":
+                holders.orderType.setText("待付款");
+                break;
+            case "待发货":
+                holders.orderType.setText("待发货");
+                break;
+            case "待收货":
+                holders.orderType.setText("待收货");
+                break;
+            case "已完成":
+                holders.orderType.setText("已完成");
+                break;
+        }
     }
 
     @Override
@@ -57,11 +74,8 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
 
     private class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView buyer;
-        private final TextView supplier;
-        private final TextView priFit;
-        private final TextView vouvherType;
-        private final TextView proportion;
+        private TextView buyer, supplier, priFit, vouvherType, proportion, orderType;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -75,6 +89,9 @@ public class ShopOrderManageAdapter extends RecyclerView.Adapter {
             vouvherType = itemView.findViewById(R.id.shop_order_voucher_type);
             //用卷比例
             proportion = itemView.findViewById(R.id.shop_order_item_voucher_proportion);
+            //订单状态
+            orderType = itemView.findViewById(R.id.shop_order_type);
+
         }
     }
 }

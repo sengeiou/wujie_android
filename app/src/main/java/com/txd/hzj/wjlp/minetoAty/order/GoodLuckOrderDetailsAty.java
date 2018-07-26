@@ -19,12 +19,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：下午 5:44
  * 描述：一元夺宝订单详情
- * ===============Txunda===============
  */
 public class GoodLuckOrderDetailsAty extends BaseAty {
 

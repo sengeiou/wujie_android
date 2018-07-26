@@ -13,12 +13,10 @@ import android.media.ExifInterface;
 import android.os.Environment;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:31
  * 描述：三星手机图片旋转90°，用此类可以修正
- * ===============Txunda===============
  */
 public class PicForSamSung {
     /**

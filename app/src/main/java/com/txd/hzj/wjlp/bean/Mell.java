@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.bean;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/28 0028
  * 时间：15:37
  * 描述：线下商家
- * ===============Txunda===============
  */
 
 public class Mell {

@@ -59,12 +59,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/12 0012
  * 时间：上午 10:44
  * 描述：购物车
- * ===============Txunda===============
  */
 public class CartFgt extends BaseFgt {
     @ViewInject(R.id.cart_bottom_lin_layout)
@@ -208,7 +206,6 @@ public class CartFgt extends BaseFgt {
         removeDialog();
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Cart/cartList")) {
-            L.e("ccccc");
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             titlt_right_tv.setVisibility(View.GONE);
@@ -227,7 +224,6 @@ public class CartFgt extends BaseFgt {
 
 //        swipe_layout.setRefreshing(false);
         if (requestUrl.contains("Goods/attrApi")) {
-            L.e("cart" + jsonStr);
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             map = JSONUtils.parseKeyAndValueToMap(map.get("data"));
 
@@ -260,8 +256,6 @@ public class CartFgt extends BaseFgt {
 ////                    intent.putParcelableArrayListExtra("list_p", (ArrayList) getItem(i).getProduct());
         }
         if (requestUrl.contains("Cart/cartList")) {
-            L.e("cccccccgengxin");
-            L.e("shopCard123:" + jsonStr);
             EventBus.getDefault().post(new MessageEvent("更新购物车"));
             cart_lv.onRefreshComplete();
             all_price = new BigDecimal("0.00");
@@ -272,7 +266,6 @@ public class CartFgt extends BaseFgt {
             titlt_right_tv.setVisibility(View.VISIBLE);
             shopingCarts = GsonUtil.getObjectList(map.get("data"), ShopingCart.class);
             for (ShopingCart shopCard : shopingCarts) {
-                L.e("shopCard:::" + shopCard.toString());
             }
             cartAdapter = new CartAdapter();
             cartAdapter.notifyDataSetChanged();
@@ -409,7 +402,6 @@ public class CartFgt extends BaseFgt {
                             break;
                         }
                     }
-                    L.e("stringBuffer.toString():" + stringBuffer.toString());
                     if (is_all) {
                         is_all = false;
                         Bundle bundle = new Bundle();
@@ -478,7 +470,6 @@ public class CartFgt extends BaseFgt {
     }
 
     private void toJson(int type, String json) {
-        L.e("type=" + type + "\njson=" + json);
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("cart_id_json", json);
@@ -711,7 +702,6 @@ public class CartFgt extends BaseFgt {
             // 当前选择物品数量
             cgvh.cart_goods_num_tv.setText("x" + String.valueOf(cg.getNum()));
             cgvh.operation_goods_num_tv.setText(String.valueOf(cg.getNum()));
-            L.e("canEdit" + canEdit);
             if (canEdit) {
                 cgvh.cart_num_attrs_layout.setVisibility(View.VISIBLE);
                 cgvh.cart_goods_info_layout.setVisibility(View.GONE);

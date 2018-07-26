@@ -31,12 +31,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：上午 10:19
  * 描述：会员
- * ===============Txunda===============
  */
 public class GradeOfMemberAty extends BaseAty {
 
@@ -187,7 +185,6 @@ public class GradeOfMemberAty extends BaseAty {
         }
         if (requestUrl.contains("userRank")) {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-            L.e("=====22222=====",data.get("rank_list"));
 
             member_growth_value_tv.setText(data.get("end_time") + "到期");
             grade_of_member_tv.setText(data.get("my_rank"));

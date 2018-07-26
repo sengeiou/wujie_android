@@ -1,16 +1,15 @@
 package com.txd.hzj.wjlp.bean;
 
 import com.txd.hzj.wjlp.bean.commodity.AllGoodsBean;
+import com.txd.hzj.wjlp.bean.commodity.WinBean;
 
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：11:55
  * 描述：
- * ===============Txunda===============
  */
 
 public class GroupBuyBean {
@@ -96,6 +95,31 @@ public class GroupBuyBean {
         // ==========进口馆==========
         private List<AllGoodsBean> list;
 
+        private String is_show_group_buy_rule;
+
+        public String[] getGroup_buy_rule() {
+            return group_buy_rule;
+        }
+
+        public void setGroup_buy_rule(String[] group_buy_rule) {
+            this.group_buy_rule = group_buy_rule;
+        }
+
+        private String[] group_buy_rule;
+        /**
+         * 中奖信息列表
+         */
+        private List<WinBean> group_buy_msg;
+
+        public String getIs_show_group_buy_rule() {
+            return is_show_group_buy_rule;
+        }
+
+        public void setIs_show_group_buy_rule(String is_show_group_buy_rule) {
+            this.is_show_group_buy_rule = is_show_group_buy_rule;
+        }
+
+
 
         public AdsBean getAds() {
             return ads;
@@ -151,6 +175,14 @@ public class GroupBuyBean {
 
         public void setIntegral_buy_list(List<AllGoodsBean> integral_buy_list) {
             this.integral_buy_list = integral_buy_list;
+        }
+
+        public List<WinBean> getGroup_buy_msg() {
+            return group_buy_msg;
+        }
+
+        public void setGroup_buy_msg(List<WinBean> group_buy_msg) {
+            this.group_buy_msg = group_buy_msg;
         }
 
         public List<AllGoodsBean> getList() {

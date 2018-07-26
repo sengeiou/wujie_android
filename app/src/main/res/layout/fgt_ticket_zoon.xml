@@ -1,7 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fgt_ticket_zoon_sc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
@@ -37,6 +36,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"/>
+
+
+                <LinearLayout
+                    android:id="@+id/wujie_top_lin_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/icon_message_for_inform" />
+
+                    <com.txd.hzj.wjlp.view.UPMarqueeView
+                        android:id="@+id/collageUpMarqueeView"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"/>
+                </LinearLayout>
 
                 <com.ants.theantsgo.view.inScroll.GridViewForScrollView
                     android:id="@+id/ticket_zoon_goods_gv"

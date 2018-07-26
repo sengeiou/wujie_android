@@ -21,6 +21,10 @@ public class FirstListValBean implements Serializable{
     }
 
     public String getVal() {
+        val=val.trim();
+        if(val.contains("\t")){
+            val=val.replace("\t","");
+        }
         return val;
     }
 

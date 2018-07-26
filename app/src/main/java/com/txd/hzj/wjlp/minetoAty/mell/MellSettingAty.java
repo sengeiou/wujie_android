@@ -9,12 +9,10 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：上午 11:50
  * 描述：商家设置
- * ===============Txunda===============
  */
 public class MellSettingAty extends BaseAty {
 

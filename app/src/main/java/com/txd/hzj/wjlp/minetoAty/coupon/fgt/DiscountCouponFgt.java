@@ -20,12 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 9:55
  * 描述：优惠券(卡券包)
- * ===============Txunda===============
  */
 public class DiscountCouponFgt extends BaseFgt {
 

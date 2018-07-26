@@ -6,13 +6,11 @@ import android.content.Context;
 import android.os.Environment;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:22
  * 描述：主要功能有清除内/外缓存，清除数据库，清除sharedPreference，清除files和清除自定义目录
  * 本应用数据清除管理器
- * ===============Txunda===============
  */
 public class DataCleanManager {
     /**

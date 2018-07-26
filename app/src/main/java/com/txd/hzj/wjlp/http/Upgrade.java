@@ -6,12 +6,10 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/8 0008
  * 时间：09:44
  * 描述：APP更新模块
- * ===============Txunda===============
  */
 public class Upgrade {
 

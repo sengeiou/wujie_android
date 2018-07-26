@@ -3,7 +3,6 @@ package com.ants.theantsgo.util;
 import java.util.Random;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 9:59
@@ -34,7 +33,6 @@ import java.util.Random;
  * <li>{@link #getRandom(String, int)} get a fixed-length random string, its a mixture of chars in source</li>
  * <li>{@link #getRandom(char[], int)} get a fixed-length random string, its a mixture of chars in sourceChar</li>
  * </ul>
- * ===============Txunda===============
  */
 public class RandomUtils {
 

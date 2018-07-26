@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：16:45
  * 描述： 拼团购
- * ===============Txunda===============
+ *
  */
 
 public class GroupBuyThirdAty extends BaseAty {

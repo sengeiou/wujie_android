@@ -5,12 +5,10 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 10:06
  * 描述：文件管理
- * ===============Txunda===============
  */
 public class FileManager {
 

@@ -31,12 +31,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：下午 2:33
  * 描述：参与记录
- * ===============Txunda===============
  */
 public class RecordFgt extends BaseFgt {
 

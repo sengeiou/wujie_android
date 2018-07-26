@@ -16,12 +16,12 @@ import com.txd.hzj.wjlp.http.register.RegisterPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/23 0023
  * 时间：上午 11:53
  * 描述：绑定手机，换绑手机
- * ===============Txunda===============
+ *
  */
 public class BindNewPhoneAty extends BaseAty {
     /**

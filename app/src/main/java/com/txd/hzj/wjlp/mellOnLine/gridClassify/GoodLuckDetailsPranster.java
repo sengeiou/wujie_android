@@ -80,7 +80,7 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
     }
 
     @Override
-    public void showExperiencePopWindow(Context context, View view, List<String> strList) {
+    public void showExperiencePopWindow(Context context, View view, List<String> strList,String titleStr) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.layout_comdetail_exper, null);
         if (null != strList && strList.size() > 0) {
             RecyclerView recyclerView = contentView.findViewById(R.id.experRecyclerView);
@@ -120,6 +120,8 @@ public class GoodLuckDetailsPranster extends CommodityDetailsPranster implements
                 commonPopupWindow.dismiss();
             }
         });
+        TextView textView=contentView.findViewById(R.id.title);
+        textView.setText(titleStr);
     }
 
     @Override

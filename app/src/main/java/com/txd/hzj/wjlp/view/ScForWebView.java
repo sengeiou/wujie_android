@@ -7,12 +7,10 @@ import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：13:29
  * 描述：
- * ===============Txunda===============
  */
 
 public class ScForWebView extends ScrollView {

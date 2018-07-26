@@ -27,7 +27,6 @@ import java.util.Map;
 
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/5/29 0029
  * 时间：15:41
@@ -35,7 +34,6 @@ import java.util.Map;
  * immersionInit方法是初始化沉浸式的方法，
  * 如果不需要使用沉浸式，设置immersionEnabled方法返回值为flase即可
  * 此外还需注意，如果在碎片中使用沉浸式，需在Activity中先初始化，否则报错
- * ===============Txunda===============
  */
 public abstract class BaseFragment extends ImmersionFragment implements BaseView {
 

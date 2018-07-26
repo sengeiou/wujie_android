@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/1 0001
  * 时间：09:36
  * 描述：商品分类---分类页面
- * ===============Txunda===============
+ *
  */
 
 public class CateIndex {

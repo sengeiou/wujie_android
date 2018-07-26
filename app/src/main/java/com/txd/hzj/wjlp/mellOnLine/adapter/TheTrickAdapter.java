@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/31 0031
  * 时间：10:11
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class TheTrickAdapter extends RecyclerView.Adapter<TheTrickAdapter.TrickViewHolder> {

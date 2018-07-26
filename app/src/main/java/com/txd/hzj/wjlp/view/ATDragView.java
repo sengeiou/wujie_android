@@ -19,12 +19,10 @@ import com.txd.hzj.wjlp.R;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：cehne
  * 日期：2017/7/8 0007
  * 时间：上午 16:06
  * 描述：汽车购车型筛选价格自定义View
- * ===============Txunda===============
  */
 
 public class ATDragView extends View {

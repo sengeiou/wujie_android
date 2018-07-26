@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Settings;
+import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
@@ -28,18 +29,24 @@ import com.google.gson.Gson;
 import com.synnapps.carouselview.CarouselView;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.CateIndex;
 import com.txd.hzj.wjlp.bean.EasemobBean;
 import com.txd.hzj.wjlp.bean.commodity.DjTicketBean;
+import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodLuckBean;
+import com.txd.hzj.wjlp.bean.commodity.GoodsMsgBean;
 import com.txd.hzj.wjlp.bean.commodity.GoodsServerBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
+import com.txd.hzj.wjlp.http.Goods;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.minetoAty.ExpressAtv;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.TextUtils;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.ToastView;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -297,14 +304,14 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 serverPhoneLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        callMerchantPhone(phoneNo,activity);
+                        callMerchantPhone(phoneNo, activity);
                     }
                 });
             }
             ListView dataLv = (ListView) view2.findViewById(R.id.popSelChat_data_lv);
             LinearLayout nodataLayout = (LinearLayout) view2.findViewById(R.id.popSelChat_nodata_layout);
             // 以上判断Bean有值，但是以防万一还是先判空
-            if (easemobBean == null || easemobBean.getData().getEasemob_account_num() < 1) {
+            if (easemobBean == null || easemobBean.getData().getEasemob_account().size() < 1) {
                 // 如果Bean为空或者获取的在线客服账号数小于1，也就是没有在线客服
                 dataLv.setVisibility(View.GONE); // 隐藏List列表
                 nodataLayout.setVisibility(View.VISIBLE); // 显示空数据提示
@@ -331,6 +338,18 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
             alertDialog.show();
             // ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑创建Dialog弹窗显示列表项↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 
+        }else if(requestUrl.contains("Goods/goodsMsg")){
+            ObserTool.gainInstance().jsonToBean(jsonStr, GoodsMsgBean.class, new ObserTool.BeanListener() {
+                @Override
+                public void returnObj(Object t) {
+                    GoodsMsgBean  dataBean= (GoodsMsgBean) t;
+                    List<Event_msgBean> event_msgBeans = dataBean.getData().getEvent_msg();
+                    if (null != event_msgBeans) {
+                        toastView.setVisibility(View.VISIBLE);
+                        toastView.setDatas(event_msgBeans);
+                    }
+                }
+            });
         }
     }
 
@@ -391,28 +410,30 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                 }
             });
             tv_desc.setText(vouchers_desc);
-            for (int i = 0; i < list.size(); i++) {
-                switch (i) {
-                    case 0:
-                        setStates(layout_djq0, tv_djq_desc0, list.get(i).getDiscount_desc());
-                        break;
-                    case 1:
-                        setStates(layout_djq1, tv_djq_desc1, list.get(i).getDiscount_desc());
-                        break;
-                    case 2:
-                        setStates(layout_djq2, tv_djq_desc2, list.get(i).getDiscount_desc());
-                        break;
-                }
-                switch (list.get(i).getType()) {
-                    case "0":
-                        setTypeStates(tv_djq_color0, R.drawable.shape_red_bg);
-                        break;
-                    case "1":
-                        setTypeStates(tv_djq_color1, R.drawable.shape_yellow_bg);
-                        break;
-                    case "2":
-                        setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
-                        break;
+            if (list != null) {
+                for (int i = 0; i < list.size(); i++) {
+                    switch (i) {
+                        case 0:
+                            setStates(layout_djq0, tv_djq_desc0, list.get(i).getDiscount_desc());
+                            break;
+                        case 1:
+                            setStates(layout_djq1, tv_djq_desc1, list.get(i).getDiscount_desc());
+                            break;
+                        case 2:
+                            setStates(layout_djq2, tv_djq_desc2, list.get(i).getDiscount_desc());
+                            break;
+                    }
+                    switch (list.get(i).getType()) {
+                        case "0":
+                            setTypeStates(tv_djq_color0, R.drawable.shape_red_bg);
+                            break;
+                        case "1":
+                            setTypeStates(tv_djq_color1, R.drawable.shape_yellow_bg);
+                            break;
+                        case "2":
+                            setTypeStates(tv_djq_color2, R.drawable.shape_blue_bg);
+                            break;
+                    }
                 }
             }
         }
@@ -560,7 +581,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     @Override
-    public void callMerchantPhone(String phoneNo,Activity activity) {
+    public void callMerchantPhone(String phoneNo, Activity activity) {
         /**
          * 暂时不需要的权限，维护用户体验
          * !AndPermission.hasPermission(MainAty.this, Manifest.permission.CALL_PHONE) ||电话
@@ -576,12 +597,13 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
                     .requestCode(100)
                     .permission(Manifest.permission.CALL_PHONE)
                     .send();
-        }else{
+        } else {
             commodityView.call(phoneNo);
         }
     }
+
     @Override
-    public PermissionListener requestPhoneListener(final String phoneNo,final  Activity activity){
+    public PermissionListener requestPhoneListener(final String phoneNo, final Activity activity) {
         PermissionListener listener = new PermissionListener() {
             @Override
             public void onSucceed(int requestCode, List<String> grantedPermissions) {
@@ -604,6 +626,10 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
         };
         return listener;
     }
-
-
+    private ToastView toastView;
+    @Override
+    public void goodsMsg(ToastView toastView) {
+        this.toastView=toastView;
+        Goods.goodsMsg(this);
+    }
 }

@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/12 0012
  * 时间：13:22
  * 描述：购物车实体类
- * ===============Txunda===============
  */
 
 public class ShopingCart {

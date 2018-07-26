@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean.auction;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：13:48
  * 描述：竞拍汇首页实体类
- * ===============Txunda===============
  */
 
 public class AuctonIndex {

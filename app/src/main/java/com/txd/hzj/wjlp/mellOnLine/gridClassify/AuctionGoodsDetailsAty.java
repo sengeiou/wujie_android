@@ -57,12 +57,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：下午 4:17
  * 描述：8-3拍品详情
- * ===============Txunda===============
+ *
  */
 public class AuctionGoodsDetailsAty extends BaseAty implements ObservableScrollView.onBottomListener,ProUrbAreaUtil.CallBack {
 

@@ -18,12 +18,12 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrItemBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/7 0007
  * 时间：10:10
  * 描述：产品属性列表适配器
- * ===============Txunda===============
+ *
  */
 
 public class GoodsCommentAttrAdapter extends BaseAdapter {

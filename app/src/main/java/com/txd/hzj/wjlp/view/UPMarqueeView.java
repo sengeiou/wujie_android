@@ -12,12 +12,10 @@ import com.txd.hzj.wjlp.R;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：15:10
  * 描述：仿淘宝头条
- * ===============Txunda===============
  */
 
 public class UPMarqueeView extends ViewFlipper {

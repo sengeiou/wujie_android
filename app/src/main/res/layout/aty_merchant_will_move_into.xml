@@ -342,7 +342,6 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:id="@+id/top_left_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/icon_top_left" />
@@ -352,7 +351,6 @@
                             android:layout_height="match_parent" />
 
                         <ImageView
-                            android:id="@+id/top_right_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/icon_top_right" />
@@ -367,7 +365,6 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:id="@+id/bottom_left_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/icon_bottom_left" />

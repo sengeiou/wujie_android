@@ -5,12 +5,10 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsAttributeAty;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/12 0012
  * 时间：13:40
  * 描述：
- * ===============Txunda===============
  */
 
 public class CartGoods {

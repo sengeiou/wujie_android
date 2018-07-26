@@ -9,12 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:20
  * 描述：图片压缩
- * ===============Txunda===============
  */
 public class CompressionUtil {
 

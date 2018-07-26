@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -92,12 +93,10 @@ import java.util.Map;
 import io.reactivex.annotations.NonNull;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：下午 1:16
  * 描述：无界优品主页
- * ===============Txunda===============
  */
 public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListener {
     private Bundle bundle;
@@ -154,11 +153,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     //========== 环信相关 ==========
     private InviteMessgeDao inviteMessgeDao;
 //    //========== apk更新 ==========
-//    private MaterialDialog dialogUpdate;
-//    private NotifyUtil notifyUtils;
 
-    // TODO========== 百度地图定位服务 ==========
-    // TODO========== 百度地图定位服务 ==========
     // TODO========== 百度地图定位服务 ==========
     public static LocationService locationService;
     public static Map<String, String> GDLOC_MAP; // 高德定位信息Map
@@ -168,8 +163,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        L.e(ToolKit.sHA1(this, "MD5"));
-//        L.e(ToolKit.sHA1(this, "SHA1"));
 
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content, fragments);
@@ -183,13 +176,16 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         showExceptionDialogFromIntent(getIntent());
         inviteMessgeDao = new InviteMessgeDao(this);
         UserDao userDao = new UserDao(this);
-        // 注册DemoHelper的广播接收器
+        // 注册环信DemoHelper的广播接收器
         registerBroadcastReceiver();
         EMClient.getInstance().contactManager().setContactListener(new MyContactListener());
         EMClient.getInstance().addMultiDeviceListener(new MyMultiDeviceListener());
         locationService = DemoApplication.getInstance().locationService;
         // 获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
+        if (mListener != null && locationService != null) {
+            // 此处在Bugly上报空指针异常
+            locationService.registerListener(mListener);
+        }
         // 注册监听
         int type = getIntent().getIntExtra("from", 0);
         if (type == 0) {
@@ -229,9 +225,12 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         updataPst = new UpdataPst(this);
 
         IndexPst indexPst = new IndexPst(this);
-        String lng = DemoApplication.getInstance().getLocInfo().get("lon");
-        String lat = DemoApplication.getInstance().getLocInfo().get("lat");
-        indexPst.index(lng, lat);
+        Map<String, String> locInfoMap = DemoApplication.getInstance().getLocInfo();
+        if (locInfoMap != null) {
+            String lng = locInfoMap.containsKey("lon") ? locInfoMap.get("lon") : "";
+            String lat = locInfoMap.containsKey("lat") ? locInfoMap.get("lat") : "";
+            indexPst.index(lng, lat);
+        }
 
     }
 
@@ -573,7 +572,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                     intent.setData(Uri.parse("package:" + packageName));
                     startActivity(intent);
                 } catch (Exception e) {
-                    L.e("=====", "电量管理");
                 }
             }
         }
@@ -589,10 +587,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                         getIntent().getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false))) {
             DemoHelper.getInstance().logout(false, null);
-            L.e("======voodoo========", "keepActivity getIntent = null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         } else if (getIntent() != null && getIntent().getBooleanExtra("isConflict", false)) {
-            L.e("======voodoo========", "keepActivity getIntent != null Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -613,7 +609,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         } else if (intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_CHANGE_PASSWORD, false) ||
                 intent.getBooleanExtra(Constant.ACCOUNT_KICKED_BY_OTHER_DEVICE, false)) {
             this.finish();
-            L.e("======voodoo========", "showExceptionDialogFromIntent Start Login Activity");
             startActivity(new Intent(this, LoginAty.class));
         }
     }
@@ -647,7 +642,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             Intent intent = new Intent(MainAty.this, LoginAty.class);
                             intent.putExtra("type", 0);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            L.e("======voodoo========", "exceptionBuilder == null Start Login Activity");
                             startActivity(intent);
                             finish();
                         }
@@ -863,8 +857,32 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
-        AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+        if (requestCode == AppUpdate.INSTALL_APK_REQUESTCODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                AppUpdate.getInstance().install(MainAty.this);
+            } else {
+                //将用户引导至安装未知应用界面。
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+//                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
+
+                Uri packageURI = Uri.parse("package:" + getPackageName());
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+                startActivityForResult(intent, 1000);
+            }
+        } else {
+            // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
+            AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, listener);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1000: // App更新
+                AppUpdate.getInstance().install(MainAty.this);
+                break;
+        }
     }
 
     private PermissionListener listener = new PermissionListener() {
@@ -889,20 +907,11 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
     };
 
     // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-    // TODO==========定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
     private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            L.e(location.getLongitude() + "=============jj============" + location.getLongitude() + "");
-            L.e("=============jj============" + location.toString());
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                Log.i("地图定位数据", location.getLongitude() + "kkkkkk" + location.getLatitude());
                 Map<String, String> locMap = new HashMap<>();
                 StringBuilder sb = new StringBuilder(256);
                 sb.append("time : ");
@@ -1002,12 +1011,9 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 }
                 DemoApplication.getInstance().setLocInfo(locMap);
                 locationService.stop();
-                L.e("======定位结果=====", sb.toString());
-                L.e("======定位信息=====", DemoApplication.getInstance().getLocInfo().toString());
                 locMap.put("city", location.getCity());// 城市
                 locMap.put("district", location.getDistrict());//
                 locMap.put("street", location.getStreet());// 街道
-                L.i("地图定位数据" + location.getCity() + "chengshi" + location.getDistrict() + "quyu" + location.getStreet());
                 // 将定位信息赋值给全局变量
                 GDLOC_MAP = locMap;
             }
@@ -1028,7 +1034,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             public void run() {
                 // 刷新未读消息数量
                 updateUnreadLabel();
-                L.e("=====主页=====", "回调");
                 if (0 == page_index) {
                     ((MellonLineFgt) fragments.get(0)).showOrHindNum(getUnreadMsgCountTotal());
                     return;
@@ -1076,4 +1081,6 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.finish();
         isExit = true;
     }
+
+
 }

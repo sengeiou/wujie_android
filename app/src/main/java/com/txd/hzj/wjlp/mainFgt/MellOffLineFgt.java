@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -19,7 +18,6 @@ import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.synnapps.carouselview.CarouselView;
@@ -27,29 +25,27 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.Mell;
+import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
-import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
-import com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty;
+import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:52
  * 描述：线下商铺
- * ===============Txunda===============
  */
-public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
+public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener, Constant.View {
 
     /**
      * 标题栏
@@ -68,7 +64,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
      * 刷新 ---加载
      * */
     @ViewInject(R.id.super_offline_layout)
-    private SuperSwipeRefreshLayout swipeRefreshLayout;
+    private VpSwipeRefreshLayout swipeRefreshLayout;
     // Footer View
     private ProgressBar footerProgressBar;
     private TextView footerTextView;
@@ -88,9 +84,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @ViewInject(R.id.mell_near_by_lv)
     private ListViewForScrollView mell_near_by_lv;
 
-    private List<Mell> mells;
-
-    private MellNearByHzjAdapter mellNearByHzjAdapter;
 
     @ViewInject(R.id.to_location_tv)
     private TextView to_location_tv;
@@ -114,11 +107,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private int ads_w = 0;
     private int ads_h = 0;
     private Bundle bundle;
-
+    private Pranster pranster;
+    private int page = 1;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         off_line_title_layout.setBackgroundColor(Color.TRANSPARENT);
         allHeight = Settings.displayWidth * 3 / 5;
         // 设置轮播图高度
@@ -142,24 +137,25 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         im_ads.setLayoutParams(adsParam);
 
         off_line_to_change_sc.setScrollViewListener(MellOffLineFgt.this);
-//        mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
-        mell_near_by_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(OffLineDetailsAty.class, null);
-            }
-        });
         swipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         swipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         swipeRefreshLayout.setTargetScrollWithLayout(true);
         swipeRefreshLayout.setFooterView(createFooterView());
-        swipeRefreshLayout.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        swipeRefreshLayout.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
+
             @Override
             public void onRefresh() {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 OfflineStore.Index(MellOffLineFgt.this);
+                page = 1;
+                Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+                if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+                } else {
+                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+                }
             }
 
             @Override
@@ -173,13 +169,19 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        swipeRefreshLayout.setOnPushLoadMoreListener(new SuperSwipeRefreshLayout.OnPushLoadMoreListener() {
+        swipeRefreshLayout.setOnPushLoadMoreListener(new VpSwipeRefreshLayout.OnPushLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 footerTextView.setText("正在加载...");
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
-                OfflineStore.Index(MellOffLineFgt.this);
+                page += 1;
+                Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+                if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+                } else {
+                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+                }
             }
 
             @Override
@@ -195,6 +197,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
         });
     }
+
 
     /**
      * 轮播图
@@ -279,15 +282,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
-        mells = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            if (i % 2 == 0) {
-                mells.add(new Mell(true, false));
-            } else {
-                mells.add(new Mell(false, false));
-            }
-        }
-        mellNearByHzjAdapter = new MellNearByHzjAdapter(getActivity(), mells);
+
 
     }
 
@@ -295,7 +290,17 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     protected void requestData() {
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
-
+        Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
+        if (null == pranster) {
+            pranster = new Pranster();
+            pranster.setView(this);
+        }
+        page = 1;
+        if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
+            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+        } else {
+            pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+        }
     }
 
     @Override
@@ -311,51 +316,53 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
-        list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
-        forBanner();
-        list_ads = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
+        if (requestUrl.contains("OfflineStore/Index")) {
+            data = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            data = JSONUtils.parseKeyAndValueToMap(data.get("data"));
+            list_pic = JSONUtils.parseKeyAndValueToMapList(data.get("banner"));
+            forBanner();
+            list_ads = JSONUtils.parseKeyAndValueToMapList(data.get("ads"));
 
-        // 设置图片控件的宽高比
-        ViewGroup.LayoutParams lp = im_ads.getLayoutParams();
-        lp.width = Settings.displayWidth;
-        lp.height = Settings.displayWidth * 400 / 1242;
-        im_ads.setLayoutParams(lp);
-        im_ads.setMaxWidth(lp.width);
-        im_ads.setMaxHeight(lp.width * 400 / 1242);
+            // 设置图片控件的宽高比
+            ViewGroup.LayoutParams lp = im_ads.getLayoutParams();
+            lp.width = Settings.displayWidth;
+            lp.height = Settings.displayWidth * 400 / 1242;
+            im_ads.setLayoutParams(lp);
+            im_ads.setMaxWidth(lp.width);
+            im_ads.setMaxHeight(lp.width * 400 / 1242);
 
-        Glide.with(getActivity()).load(list_ads.get(0).get("picture"))
-                .override(lp.width, lp.height)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.mipmap.icon_200)
-                .placeholder(R.mipmap.icon_200)
-                .into(im_ads);
-        // TODO 暂时取消点击事件
-//        im_ads.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
-//                    startActivity(MellInfoAty.class, bundle);
-//                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
-//                    bundle.putInt("from", 1);
-//                    startActivity(TicketGoodsDetialsAty.class, bundle);
-//                } else {
-//                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
-//                }
-//            }
-//        });
-        list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
-        Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.mipmap.icon_200)
-                .placeholder(R.mipmap.icon_200)
-                .centerCrop().into(three_image_left_iv);
-        // TODO 暂时取消点击事件
+            Glide.with(getActivity()).load(list_ads.get(0).get("picture"))
+                    .override(lp.width, lp.height)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .into(im_ads);
+            // TODO 暂时取消点击事件
+            im_ads.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(ShopMallDetailsAty.class, null);
+               /* if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
+                    startActivity(MellInfoAty.class, bundle);
+                } else if (!TextUtils.isEmpty(list_ads.get(0).get("goods_id")) && !list_ads.get(0).get("goods_id").equals("0")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
+                    bundle.putInt("from", 1);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                } else {
+                    forShowAds(list_ads.get(0).get("desc"), list_ads.get(0).get("href"));
+                }*/
+                }
+            });
+            list_brand = JSONUtils.parseKeyAndValueToMapList(data.get("brand"));
+            Glide.with(getActivity()).load(list_brand.get(0).get("picture")).override(img_w, img_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop().into(three_image_left_iv);
+            // TODO 暂时取消点击事件
 //        three_image_left_iv.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -373,12 +380,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 //                }
 //            }
 //        });
-        Glide.with(getActivity()).load(list_brand.get(1).get("picture")).override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.mipmap.icon_200)
-                .placeholder(R.mipmap.icon_200)
-                .centerCrop().into(three_image_center_iv);
-        // TODO 暂时取消点击事件
+            Glide.with(getActivity()).load(list_brand.get(1).get("picture")).override(img_w, img_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop().into(three_image_center_iv);
+            // TODO 暂时取消点击事件
 //        three_image_center_iv.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -396,12 +403,12 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 //                }
 //            }
 //        });
-        Glide.with(getActivity()).load(list_brand.get(2).get("picture")).override(img_w, img_h)
-                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .error(R.mipmap.icon_200)
-                .placeholder(R.mipmap.icon_200)
-                .centerCrop().into(three_image_right_iv);
-        // TODO 暂时取消点击事件
+            Glide.with(getActivity()).load(list_brand.get(2).get("picture")).override(img_w, img_h)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .error(R.mipmap.icon_200)
+                    .placeholder(R.mipmap.icon_200)
+                    .centerCrop().into(three_image_right_iv);
+            // TODO 暂时取消点击事件
 //        three_image_right_iv.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -419,11 +426,10 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 //                }
 //            }
 //        });
-        progressBar.setVisibility(View.GONE);
-        swipeRefreshLayout.setRefreshing(false); // 刷新成功
-        footerImageView.setVisibility(View.VISIBLE);
-        footerProgressBar.setVisibility(View.GONE);
-        swipeRefreshLayout.setLoadMore(false);
+            progressBar.setVisibility(View.GONE);
+
+        }
+
     }
 
     @Override
@@ -470,4 +476,24 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         return footerView;
     }
 
+    @Override
+    public void onItemClickListener(OffLineDataBean offLineDataBean, int position) {
+        Bundle options = new Bundle();
+        options.putSerializable("mellInfo", offLineDataBean);
+        startActivity(ShopMallDetailsAty.class, options);
+    }
+
+    @Override
+    public void loadComplate() {
+        swipeRefreshLayout.setRefreshing(false); // 刷新成功
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setLoadMore(false);
+    }
+
+    @Override
+    public void loadMoreOver() {
+        if (page > 1)
+            page -= 1;
+    }
 }

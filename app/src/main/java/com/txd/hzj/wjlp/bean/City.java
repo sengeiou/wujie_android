@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.bean;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/21 0021
  * 时间：14:30
  * 描述：
- * ===============Txunda===============
  */
 
 public class City {

@@ -28,12 +28,12 @@ import com.ants.theantsgo.R;
 import com.ants.theantsgo.view.ObservableScrollView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/29 0029
  * 时间：上午 11:53
  * 描述：上拉加载，下拉刷新的ScrollView，可以监听滚动距离(有待测试，不知道可不可用)
- * ===============Txunda===============
+ *
  */
 @SuppressLint("NewApi")
 public class PullToRefreshScrollView2 extends PullToRefreshBase<ObservableScrollView> {

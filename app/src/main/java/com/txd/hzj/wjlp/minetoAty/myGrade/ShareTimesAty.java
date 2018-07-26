@@ -27,12 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/21 0021
  * 时间：下午 4:27
  * 描述：分享次数
- * ===============Txunda===============
  */
 public class ShareTimesAty extends BaseAty {
 

@@ -174,7 +174,6 @@ public class ArcProgress extends View {
         if (progressSuffixText2 == null) {
             progressSuffixText2 = "";
         }
-        L.e("=====这个=====", progressSuffixText2);
         // 旁边字体的颜色
         progressSuffixTextColor = attributes.getColor(R.styleable.ArcProgress_arc_progress_suffix_text_color,
                 default_text_color);
@@ -392,13 +391,10 @@ public class ArcProgress extends View {
         paint.setColor(unfinishedStrokeColor);
         canvas.drawArc(rectF, startAngle, arcAngle, false, paint);
         paint.setColor(finishedStrokeColor);
-        L.e("====3", getMax() + "," + startAngle);
         if (getMax() != 0) {
-            L.e("====4", getMax() + "," + finishedStartAngle + "," + finishedSweepAngle);
             if (finishedSweepAngle != 0)
                 canvas.drawArc(rectF, finishedStartAngle, (float) finishedSweepAngle, false, paint);
         }
-        L.e("====4", getProgress() + "");
         String text = null;
         if ((decimal_digits) == 0) {
             if (!progressSuffixText2.equals(""))
@@ -407,7 +403,6 @@ public class ArcProgress extends View {
                 text = Math.round(getProgress()) + progressSuffixText;
         } else {
             DecimalFormat decimalFormat = new DecimalFormat("0.00");// 格式化设置
-            L.e("=====", progressSuffixText2);
             if (!progressSuffixText2.equals("")) {
                 text = progressSuffixText2 + decimalFormat.format(getProgress()) + progressSuffixText;
             } else {

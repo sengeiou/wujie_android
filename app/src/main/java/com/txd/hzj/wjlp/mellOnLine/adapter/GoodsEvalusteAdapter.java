@@ -23,12 +23,10 @@ import java.util.List;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：17:56
  * 描述：
- * ===============Txunda===============
  */
 
 public class GoodsEvalusteAdapter extends BaseAdapter {

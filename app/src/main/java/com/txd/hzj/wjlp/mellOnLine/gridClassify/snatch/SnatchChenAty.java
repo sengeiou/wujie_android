@@ -48,12 +48,10 @@ import java.util.List;
 
 
 /**
- * ===============Txunda===============
  * 作者：chen
  * 日期：2017/7/13 0007
  * 时间：下午17:10
  * 描述： 一元夺宝(11-1房产购)
- * ===============Txunda===============
  */
 public class SnatchChenAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)//标题

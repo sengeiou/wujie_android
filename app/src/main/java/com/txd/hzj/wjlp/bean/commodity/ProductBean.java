@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean.commodity;
 import java.io.Serializable;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/6 0006
  * 时间：11:31
  * 描述：货品
- * ===============Txunda===============
+ *
  */
 
 public class ProductBean implements Serializable {

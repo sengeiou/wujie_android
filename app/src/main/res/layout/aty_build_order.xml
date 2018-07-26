@@ -257,7 +257,6 @@
                         android:layout_height="8dp" />
 
                     <com.ants.theantsgo.view.inScroll.ListViewForScrollView
-                        android:id="@+id/point_near_by_lv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white" />

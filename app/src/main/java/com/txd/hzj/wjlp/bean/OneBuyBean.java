@@ -3,12 +3,12 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/4 0004
  * 时间：11:39
  * 描述：一元夺宝
- * ===============Txunda===============
+ *
  */
 
 public class OneBuyBean {

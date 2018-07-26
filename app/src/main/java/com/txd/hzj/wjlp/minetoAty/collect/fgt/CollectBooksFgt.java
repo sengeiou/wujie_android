@@ -36,12 +36,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：上午 10:01
  * 描述：收藏书院
- * ===============Txunda===============
  */
 public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelectNum {
 
@@ -246,10 +244,9 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     }
 
     public void setStatus(boolean status) {
-
-        if (allNum <= 0) {
-            return;
-        }
+//        if (allNum <= 0) {
+//            return;
+//        }
         this.status = status;
         if (!status) {
             operation_book_collect_layout.setVisibility(View.GONE);

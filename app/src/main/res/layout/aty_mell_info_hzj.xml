@@ -186,7 +186,6 @@
                                     android:textSize="9sp" />
 
                                 <ImageView
-                                    android:id="@+id/show_or_hide_info_iv"
                                     android:layout_width="12dp"
                                     android:layout_height="12dp"
                                     android:src="@drawable/icon_turn_right" />

@@ -22,12 +22,12 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：下午 1:11
  * 描述：书院详情
- * ===============Txunda===============
+ *
  */
 public class BooksDetailsAty extends BaseAty {
 

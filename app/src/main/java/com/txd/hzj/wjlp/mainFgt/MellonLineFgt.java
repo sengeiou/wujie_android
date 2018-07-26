@@ -78,13 +78,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * <p>
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:05
  * 描述：线上商城
- * ===============Txunda===============
  */
 public class MellonLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 
@@ -696,8 +694,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * @param limit_href 链接
      */
     private void forShowAds(String limit_desc, String limit_href) {
-        if (limit_href.isEmpty() || limit_href.equals(""))
+        if (limit_href.isEmpty() || limit_href.equals("")) {
             return;
+        }
         bundle = new Bundle();
         bundle.putString("desc", limit_desc);
         bundle.putString("href", limit_href);
@@ -787,11 +786,9 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        L.e("onError======================error" + error.toString());
         try {
             removeProgressDialog();
         } catch (IllegalArgumentException e) {
-            L.e("remove Dialog Error:" + e.toString());
         }
         superSwipeRefreshLayout.setRefreshing(false);
     }
@@ -807,7 +804,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
                 // 设置界面广告显示开关
                 Map<String, String> dataASD = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-                L.e("========dataASD========" + dataASD.toString());
                 if (localShowAsd || dataASD.get("activity_status").equals("1")) { // 如果活动页开启，则显示相应广告
                     under_banner_menu_vp.setVisibility(View.VISIBLE);
                     limitBuy_llayout.setVisibility(View.VISIBLE);
@@ -908,7 +904,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 拼团购
     private void forGroup(Map<String, String> data) {
-        L.e("=========forGroup=========", data.toString());
         Map<String, String> group_buy = JSONUtils.parseKeyAndValueToMap(data.get("group_buy"));
         final Map<String, String> group_buy_ads = JSONUtils.parseKeyAndValueToMap(group_buy.get("ads"));
 
@@ -950,7 +945,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 房产购
     private void forHouse(Map<String, String> data) {
-        L.e("=========forHouse=========", data.toString());
         Map<String, String> house_buy = JSONUtils.parseKeyAndValueToMap(data.get("house"));
         final Map<String, String> house_ads = JSONUtils.parseKeyAndValueToMap(house_buy.get("ads"));
         if (house_ads != null) {
@@ -990,7 +984,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     private void forCar(Map<String, String> data) {
-        L.e("=========forCar=========", data.toString());
         Map<String, String> car_buy = JSONUtils.parseKeyAndValueToMap(data.get("car"));
         final Map<String, String> car_ads = JSONUtils.parseKeyAndValueToMap(car_buy.get("ads"));
         if (car_ads != null) {
@@ -1030,7 +1023,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 积分夺宝
     private void forOneBuy(Map<String, String> data) {
-        L.e("=========forOneBuy=========", data.toString());
         Map<String, String> one_buy = JSONUtils.parseKeyAndValueToMap(data.get("one_buy"));
         final Map<String, String> one_buy_ads = JSONUtils.parseKeyAndValueToMap(one_buy.get("ads"));
 
@@ -1071,7 +1063,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 竞拍汇
     private void forAuction(Map<String, String> data) {
-        L.e("=========forAuction=========", data.toString());
         Map<String, String> auction = JSONUtils.parseKeyAndValueToMap(data.get("auction"));
         final Map<String, String> auction_ads = JSONUtils.parseKeyAndValueToMap(auction.get("ads"));
 
@@ -1112,7 +1103,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 进口馆
     private void forCountry(Map<String, String> data) {
-        L.e("=========forCountry=========", data.toString());
         ObserTool.gainInstance().dealData(data.get("country"), new ObserTool.Listener() {
             @Override
             public void returneData(Map<String, String> map) {
@@ -1159,7 +1149,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 
     // 无界预购
     private void orPre(Map<String, String> data) {
-        L.e("=========orPre=========", data.toString());
         Map<String, String> pre_buy = JSONUtils.parseKeyAndValueToMap(data.get("pre_buy"));
         final Map<String, String> pre_ads = JSONUtils.parseKeyAndValueToMap(pre_buy.get("ads"));
         if (ToolKit.isList(pre_buy, "goodsList")) {
@@ -1203,7 +1192,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * @param data 数据
      */
     private void forTicket(Map<String, String> data) {
-        L.e("=========forTicket=========", data.toString());
         Map<String, String> ticket_buy = JSONUtils.parseKeyAndValueToMap(data.get("ticket_buy"));
         if (ToolKit.isList(ticket_buy, "goodsList")) {
             ticket = GsonUtil.getObjectList(ticket_buy.get("goodsList"), AllGoodsBean.class);
@@ -1247,7 +1235,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * @param data 数据
      */
     private void forLimit(Map<String, String> data) {
-        L.e("=========forLimit=========", data.toString());
         // 限量购
         Map<String, String> limit_buy = JSONUtils.parseKeyAndValueToMap(data.get("limit_buy"));
         final Map<String, String> limit_ads = JSONUtils.parseKeyAndValueToMap(limit_buy.get("ads"));
@@ -1268,18 +1255,15 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 @Override
                 public void onClick(View v) {
                     if (!TextUtils.isEmpty(limit_ads.get("merchant_id")) && !limit_ads.get("merchant_id").equals("0")) {
-                        L.e("======================================+");
                         Bundle bundle = new Bundle();
                         bundle.putString("mell_id", limit_ads.get("merchant_id"));
                         startActivity(MellInfoAty.class, bundle);
                     } else if (!TextUtils.isEmpty(limit_ads.get("goods_id")) && !limit_ads.get("goods_id").equals("0")) {
-                        L.e("======================================++");
                         Bundle bundle = new Bundle();
                         bundle.putString("ticket_buy_id", limit_ads.get("goods_id"));
                         bundle.putInt("from", 1);
                         startActivity(TicketGoodsDetialsAty.class, bundle);
                     } else {
-                        L.e("======================================+++");
                         forShowAds(limit_desc, limit_href);
                     }
 
@@ -1372,7 +1356,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             three_image_left_iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    L.e("wang", "brand:" + brand.toString());
                     if (!TextUtils.isEmpty(brand.get("merchant_id")) && !brand.get("merchant_id").equals("0")) {
                         Bundle bundle = new Bundle();
                         bundle.putString("mell_id", brand.get("merchant_id"));
@@ -1403,7 +1386,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         three_image_center_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.e("wang", "china:" + china.toString());
                 if (!TextUtils.isEmpty(china.get("merchant_id")) && !china.get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", china.get("merchant_id"));
@@ -1435,7 +1417,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         three_image_right_iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                L.e("wang", "science:" + science.toString());
                 if (!TextUtils.isEmpty(science.get("merchant_id")) && !science.get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", science.get("merchant_id"));

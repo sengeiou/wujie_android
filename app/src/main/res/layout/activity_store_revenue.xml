@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     android:orientation="vertical"
     tools:context=".distribution.shopAty.ShopRevenue">
 
@@ -32,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="14dp"
-                android:text="周"
+                android:text="日"
                 android:textColor="#ff666666"
                 android:textSize="13sp" />
 
@@ -89,11 +90,12 @@
                 android:layout_height="2dp" />
         </LinearLayout>
     </LinearLayout>
+
     <com.github.mikephil.charting.charts.LineChart
-        android:layout_marginTop="10dp"
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,10 +113,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/shop_main_fontcolor_black"
                 android:layout_marginTop="15dp"
                 android:text="5,000.00"
-                android:textSize="16sp"/>
+                android:textColor="@color/shop_main_fontcolor_black"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -126,15 +128,15 @@
                 android:drawablePadding="6dp"
                 android:text="分销商品"
                 android:textColor="#ff999999"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="9dp"
+            android:layout_marginTop="10dp"
             android:background="#ffdddddd" />
 
         <LinearLayout
@@ -147,10 +149,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
                 android:layout_marginTop="15dp"
-                android:textColor="@color/shop_main_fontcolor_black"
+                android:gravity="center"
                 android:text="15,000.00"
+                android:textColor="@color/shop_main_fontcolor_black"
                 android:textSize="16sp" />
 
             <TextView
@@ -159,11 +161,11 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="38dp"
                 android:layout_marginTop="11dp"
-                android:text="普通商品"
-                android:textColor="#ff999999"
                 android:drawableLeft="@drawable/blue_circle"
                 android:drawablePadding="6dp"
-                android:textSize="12sp"/>
+                android:text="普通商品"
+                android:textColor="#ff999999"
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

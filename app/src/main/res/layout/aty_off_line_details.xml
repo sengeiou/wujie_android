@@ -9,7 +9,6 @@
     tools:context="com.txd.hzj.wjlp.mellOffLine.OffLineDetailsAty">
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -178,7 +177,6 @@
                                     android:textSize="8sp" />
 
                                 <ImageView
-                                    android:id="@+id/show_or_hide_info_iv"
                                     android:layout_width="12dp"
                                     android:layout_height="12dp"
                                     android:layout_marginEnd="4dp"
@@ -226,7 +224,6 @@
                         android:src="@drawable/icon_mj" />
 
                     <TextView
-                        android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="满100减50，满一百减50"
@@ -608,14 +605,12 @@
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <LinearLayout
-            android:id="@+id/under_title_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bg_color"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/off_line_search_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"

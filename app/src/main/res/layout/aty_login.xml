@@ -15,10 +15,11 @@
         android:layout_height="48dp"
         android:background="@color/white">
 
+            <!--android:onClick="beBack"-->
         <ImageView
+            android:id="@+id/login_go_back_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:onClick="beBack"
             android:padding="12dp"
             android:src="@drawable/icon_title_close_hzj"/>
 
@@ -60,7 +61,6 @@
         android:layout_height="8dp"/>
 
     <LinearLayout
-        android:id="@+id/login_lin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -156,6 +156,7 @@
             android:background="@color/view_color"/>
     </LinearLayout>
 
+    <!--此处导入的和分享是同一个布局，在代码中将微信朋友圈和QQ空间隐藏-->
     <include layout="@layout/aty_third_for_login_share_hzj"/>
 
 </LinearLayout>

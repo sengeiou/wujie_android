@@ -60,12 +60,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：上午 11:46
  * 描述：线上商城订单碎片
- * ===============Txunda===============
  */
 public class OrderOnLineFgt extends BaseFgt {
     /**
@@ -1280,9 +1278,9 @@ public class OrderOnLineFgt extends BaseFgt {
             } else {
                 goVh.title.setVisibility(View.VISIBLE);
                 String goods_attr_str = "规格" + getItem(i).get("goods_attr");
-                ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
-                        goods_attr_str + "（赠送:" + getItem(i).get("return_integral") + "积分）", goods_attr_str.length(), Color.parseColor("#F6B87A"));
-//                goVh.title.setText("规格" + getItem(i).get("goods_attr"));
+                String jifen=TextUtils.isEmpty(getItem(i).get("return_integral"))?"":"（赠送:" + getItem(i).get("return_integral") + "积分)";
+                    ChangeTextViewStyle.getInstance().forTextColor(getActivity(), goVh.title,
+                            goods_attr_str + jifen, goods_attr_str.length(), Color.parseColor("#F6B87A"));
             }
 
             if ("10".equals(from)) {
@@ -1314,7 +1312,7 @@ public class OrderOnLineFgt extends BaseFgt {
             private TextView title;
             @ViewInject(R.id.tv_price)
             private TextView tv_price;
-            //            @ViewInject(R.id.jifenTv)
+//                        @ViewInject(R.id.jifenTv)
 //            private TextView jifenTv;
 //            @ViewInject(R.id.textview) // 收货时间，最晚发货时间等等
 //            private TextView textview;

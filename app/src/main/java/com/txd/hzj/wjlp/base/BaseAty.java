@@ -59,12 +59,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/3 0003
  * 时间：15:08
  * 描述：所有Activity的基类
- * ===============Txunda===============
  */
 
 public abstract class BaseAty extends BaseActivity implements ChatListener {
@@ -328,7 +326,6 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
                 @Override
                 public void onSuccess() {
-                    L.e("=====退出登录=====", "成功");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -339,12 +336,10 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
 
                 @Override
                 public void onProgress(int progress, String status) {
-                    L.e("=====退出登录=====", "退出中");
                 }
 
                 @Override
                 public void onError(int code, String message) {
-                    L.e("=====退出登录=====", "失败：" + code + "-----" + message);
                 }
             });
         }

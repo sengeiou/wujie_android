@@ -10,8 +10,8 @@ android {
         applicationId "com.txd.hzj.wjlp"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 20180709
-        versionName "1.1.1"
+        versionCode 20180726
+        versionName "1.1.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -38,7 +38,7 @@ android {
 //        Baidu {} // 百度投放
 //        Xiaomi {} // 小米投放
 //        Vivo {} // VIVO投放
-//        Yingyongbao {} // 应用宝投放
+        Yingyongbao {} // 应用宝投放
 //        Huawei {} // 华为投放
 //        Oppo {} // OPPO投放
 //        Meizu {} // 魅族投放
@@ -167,4 +167,5 @@ dependencies {
     compile 'com.umeng.sdk:analytics:latest.integration'
     compile 'com.android.support:gridlayout-v7:26.+'
     compile 'com.android.support:appcompat-v7:26.1.0'
+
 }

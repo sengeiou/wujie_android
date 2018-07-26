@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 10:10
@@ -45,7 +44,6 @@ import java.util.Set;
  * <li>{@link #makeFolders(String)}</li>
  * <li>{@link #makeDirs(String)}</li>
  * </ul>
- * ===============Txunda===============
  */
 public class FileUtils {
 

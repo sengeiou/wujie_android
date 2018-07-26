@@ -1,12 +1,10 @@
 package com.txd.hzj.wjlp.bean.footPoint;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/22 0022
  * 时间：09:54
  * 描述：足迹，收藏商家商品
- * ===============Txunda===============
  */
 
 public class GoodsListBean {

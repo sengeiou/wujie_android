@@ -32,12 +32,10 @@ import java.util.ArrayList;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/25 0025
  * 时间：下午 1:33
  * 描述：一元夺宝详情
- * ===============Txunda===============
  */
 public class SnatchGoodsDetailsAty extends BaseAty {
 

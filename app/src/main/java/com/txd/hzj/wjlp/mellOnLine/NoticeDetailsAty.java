@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.mellOnLine;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -12,29 +11,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.http.article.Article;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
+import com.txd.hzj.wjlp.view.ScForWebView;
 
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/7 0007
  * 时间：上午 10:47
  * 描述：公告详情(无界头条详情)
- * ===============Txunda===============
  */
 public class NoticeDetailsAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
@@ -47,6 +41,12 @@ public class NoticeDetailsAty extends BaseAty {
 
     @ViewInject(R.id.notice_details_wv)
     public NoScrollWebView notice_details_wv;
+
+    @ViewInject(R.id.noticeDetails_ScForWebView)
+    public ScForWebView noticeDetails_ScForWebView;
+
+    @ViewInject(R.id.details_webview)
+    public WebView details_webview;
 
     /**
      * 0.消息详情
@@ -114,11 +114,11 @@ public class NoticeDetailsAty extends BaseAty {
             String desc = getIntent().getStringExtra("desc");
             titlt_conter_tv.setText(desc);
             url = getIntent().getStringExtra("href");
-            initWebView();
+            initWebView(false); // 不使用noScrollWebView
         } else if (4 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             url = getIntent().getStringExtra("href");
-            initWebView();
+            initWebView(true); // 使用noScrollWebView
         } else if (5 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("会员协议");
@@ -128,28 +128,53 @@ public class NoticeDetailsAty extends BaseAty {
 
     /**
      * 加载网页内容
+     *
+     * @param noScroll 是否使用noScrollWebView，头条界面使用不滑动的，其他界面使用原生WebView
      */
     @SuppressLint("NewApi")
-    private void initWebView() {
-        WebSettings webSettings = notice_details_wv.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setAppCacheEnabled(false);
-        webSettings.setBuiltInZoomControls(false);
-        webSettings.setUseWideViewPort(true);
+    private void initWebView(boolean noScroll) {
+        WebSettings webSettings = null;
+        if (noScroll) { // 如果使用noScrollWebView则获取notice_details_wv进行设置
+            webSettings = notice_details_wv.getSettings(); // 无滑动的主要是进行无界头条展示
+        } else { // 否则的话设置原生的控件
+            webSettings = details_webview.getSettings(); // 原生的WebView主要是进行产品展示
+        }
+        webSettings.setJavaScriptEnabled(true); // JS支持
+        webSettings.setAllowContentAccess(true); // 允许访问内容
+        webSettings.setAppCacheEnabled(false); // 允许缓存
+        webSettings.setBuiltInZoomControls(false); // 支持缩放
+        webSettings.setUseWideViewPort(true); // 使用宽视图窗口
         webSettings.setLoadWithOverviewMode(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        // WebView加载web资源
-        notice_details_wv.loadUrl(url);
-        // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
-        notice_details_wv.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        if (noScroll) { // 使用noScrollWebView
+            noticeDetails_ScForWebView.setVisibility(View.VISIBLE); // 显示noScrollWebView
+            details_webview.setVisibility(View.GONE); // 隐藏原生WebView
+            // WebView加载web资源
+            notice_details_wv.loadUrl(url);
+            // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+            notice_details_wv.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
+        } else { // 使用原生的WebView
+            noticeDetails_ScForWebView.setVisibility(View.GONE); // 隐藏noScrollWebView
+            details_webview.setVisibility(View.VISIBLE); // 显示原生WebView
+            // WebView加载web资源
+            details_webview.loadUrl(url);
+            // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+            details_webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                    view.loadUrl(url);
+                    return true;
+                }
+            });
+        }
         if (from == 4) {
             WebChromeClient wvcc = new WebChromeClient() {
                 @Override
@@ -195,8 +220,6 @@ public class NoticeDetailsAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("headInfo")) {
-
-            L.e("wang", "toutiao=======" + jsonStr);
 
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : "");
 

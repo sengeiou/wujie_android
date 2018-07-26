@@ -6,12 +6,10 @@ import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：14:14
  * 描述：收货地址列表
- * ===============Txunda===============
  */
 
 public class Address {

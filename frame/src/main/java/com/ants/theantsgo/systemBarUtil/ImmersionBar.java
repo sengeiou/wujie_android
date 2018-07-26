@@ -28,12 +28,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：下午 4:21
  * 描述：android 4.4以上沉浸式以及bar的管理
- * ===============Txunda===============
  */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ImmersionBar {

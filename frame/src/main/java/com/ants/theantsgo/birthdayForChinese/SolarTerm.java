@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj 整理 lxslove写作
  * 日期：2017/9/28 0028
  * 时间：下午 4:19
  * 描述：lxslove邮箱moodlxs@163.com
- * ===============Txunda===============
+ *
  */
 public class SolarTerm {
     // ========角度变换===============

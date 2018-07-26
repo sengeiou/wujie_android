@@ -6,12 +6,10 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:55
  * 描述：一些常用方法
- * ===============Txunda===============
  */
 public class Commonly {
 

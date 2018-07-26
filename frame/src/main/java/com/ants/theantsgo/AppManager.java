@@ -8,12 +8,10 @@ import java.util.Iterator;
 import java.util.Stack;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 10:46
  * 描述：Activity管理类
- * ===============Txunda===============
  */
 public class AppManager {
 

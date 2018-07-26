@@ -9,5 +9,6 @@
     <color name="colorGray">#a5a5a5</color>
     <color name="shop_main_fontcolor_black">#ff333333</color>
     <color name="shop_main_fontcolor_red">#fff84242</color>
+    <color name="E2E2E2">#E2E2E2</color>
 
 </resources>

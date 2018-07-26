@@ -14,12 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/22 0022
  * 时间：15:10
  * 描述：
- * ===============Txunda===============
  */
 
 public class UserPst extends BasePresenter {
@@ -157,7 +155,6 @@ public class UserPst extends BasePresenter {
 
     // 个人中心
     public void userCenter() {
-        baseView.showDialog();
         user.userCenter(baseView);
     }
 

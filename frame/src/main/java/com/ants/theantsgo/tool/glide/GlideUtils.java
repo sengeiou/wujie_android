@@ -10,12 +10,12 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import java.io.File;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/6/5 0005
  * 时间：10:03
  * 描述：Glide加载图片工具类(可以加载网络图片和本地图片，圆形图片或者圆角图片)
- * ===============Txunda===============
+ *
  */
 
 public class GlideUtils {
@@ -178,11 +178,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void urlRoundPic(String url, int w, int h, ImageView iv) {
+    public static void urlRoundPic(String url, int w, int h, ImageView iv,int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext()))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -197,11 +197,11 @@ public class GlideUtils {
      * @param h   高
      * @param iv  ImageView
      */
-    public static void fileRoundPic(File url, int w, int h, ImageView iv) {
+    public static void fileRoundPic(File url, int w, int h, ImageView iv,int rdp) {
         Glide.with(iv.getContext()).load(url)
                 .placeholder(R.drawable.ic_default)
                 .error(R.drawable.ic_default)
-                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext()))
+                .transform(new CenterCrop(iv.getContext()), new GlideRoundTransform(iv.getContext(),rdp))
                 .override(w, h)
                 .crossFade()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)

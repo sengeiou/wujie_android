@@ -24,12 +24,10 @@ import com.txd.hzj.wjlp.bean.CFGoodsList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/5 0005
  * 时间：13:32
  * 描述：
- * ===============Txunda===============
  */
 
 public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.ItemView> {

@@ -26,12 +26,10 @@ import java.util.ArrayList;
 import static com.txd.hzj.wjlp.R.id.img_head_edit;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：下午 1:27
  * 描述：修改驿站资料
- * ===============Txunda===============
  */
 public class EditMellInfoAty extends BaseAty {
 

@@ -23,12 +23,10 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.groupbuy.GroupBuyThirdAty;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：09:54
  * 描述：1-2分类，三级分类列表适配器
- * ===============Txunda===============
  */
 
 public class ThreeClassifyAdapter extends BaseAdapter {

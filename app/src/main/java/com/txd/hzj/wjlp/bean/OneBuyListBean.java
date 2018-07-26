@@ -1,12 +1,12 @@
 package com.txd.hzj.wjlp.bean;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/4 0004
  * 时间：13:31
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class OneBuyListBean {

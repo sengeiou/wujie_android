@@ -3,12 +3,10 @@ package com.ants.theantsgo.base;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/5/29 0029
  * 时间：11:35
  * 描述：MVP模式中，所有View的顶级接口
- * ===============Txunda===============
  */
 
 public interface BaseView {

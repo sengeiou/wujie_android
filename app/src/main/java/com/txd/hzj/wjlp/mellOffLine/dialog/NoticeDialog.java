@@ -18,12 +18,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/29 0029
  * 时间：09:11
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class NoticeDialog extends Dialog {

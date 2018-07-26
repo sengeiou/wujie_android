@@ -14,12 +14,10 @@ import com.ants.theantsgo.util.L;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：17:34
  * 描述：修改TextView的字体样式
- * ===============Txunda===============
  */
 public class ChangeTextViewStyle {
 

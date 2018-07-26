@@ -181,7 +181,6 @@ public class aty_after extends BaseAty {
                     holder.view.setVisibility(View.GONE);
                 }
             } else {
-                L.e("wang", "getItem(position) = " + getItem(position));
                 if (getItem(position).get("type").equals("1")) {
                     holder.layout.setBackgroundResource(R.mipmap.icon_qipao2);
                 } else {

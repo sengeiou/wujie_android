@@ -4,12 +4,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/31 0031
  * 时间：下午 5:36
  * 描述：店铺信息
- * ===============Txunda===============
  */
 public class MellInfoFgt extends BaseFgt {
     private String title;

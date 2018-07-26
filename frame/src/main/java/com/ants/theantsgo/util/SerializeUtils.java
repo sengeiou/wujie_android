@@ -7,12 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:25
  * 描述：Serialize 序列化
- * ===============Txunda===============
  */
 public class SerializeUtils {
 

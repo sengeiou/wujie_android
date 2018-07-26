@@ -30,12 +30,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/18 0018
  * 时间：上午 10:21
  * 描述：余额(16-1余额)
- * ===============Txunda===============
  */
 public class BalanceAty extends BaseAty {
 

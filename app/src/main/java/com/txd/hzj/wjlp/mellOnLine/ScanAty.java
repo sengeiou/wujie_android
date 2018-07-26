@@ -21,12 +21,10 @@ import org.json.JSONObject;
 import cn.bingoogolapple.qrcode.core.QRCodeView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：上午 9:39
  * 描述：扫一扫
- * ===============Txunda===============
  */
 public class ScanAty extends BaseAty implements QRCodeView.Delegate {
 
@@ -43,7 +41,12 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("扫一扫");
         mQR.setResultHandler(this);
-        mQR.startSpot();
+        try {
+            mQR.startSpot();
+        } catch (Exception e) {
+            showToast("相机启动失败，请退出后重新打开扫描");
+            L.e("ScanAty Exception:" + e.toString());
+        }
     }
 
     @Override
@@ -104,11 +107,13 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                         JSONObject data = jsonObject.getJSONObject("data");
                         String sid = data.getString("sid");
 
+                        showToast("扫码成功，正在登陆网站端。。。");
                         // 实例化网络请求接口并添加请求参数
                         RegisterPst registerPst = new RegisterPst(this);
                         registerPst.qr_login(sid);
                     }
                 } catch (JSONException e) {
+                    showToast("二维码异常，请刷新网站端界面。");
                     L.e("扫码Json字符串异常：" + e.toString());
                 }
             }
@@ -125,7 +130,6 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
         Bundle bundle = new Bundle();
         bundle.putInt("from", from);
         herf = herf.contains("User/mentorship/invite_code") ? herf + "/token/" + token : herf; // 如果是拜师码，则添加当前登录人的Token
-        L.e("===============herf==================" + herf);
         bundle.putString("href", herf);
         startActivity(NoticeDetailsAty.class, bundle);
     }

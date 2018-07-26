@@ -34,12 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：下午 3:58
  * 描述：商品列表(1-4搜索结果1)
- * ===============Txunda===============
  */
 public class GoodsListAty extends BaseAty {
     @ViewInject(R.id.search_title_be_back_iv)

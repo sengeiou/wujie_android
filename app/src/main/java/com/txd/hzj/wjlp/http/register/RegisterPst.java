@@ -18,12 +18,10 @@ import com.txd.hzj.wjlp.huanxin.db.DemoDBManager;
 import java.io.File;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/17 0017
  * 时间：10:27
  * 描述：注册
- * ===============Txunda===============
  */
 
 public class RegisterPst extends BasePresenter {
@@ -199,12 +197,10 @@ public class RegisterPst extends BasePresenter {
 
         final long start = System.currentTimeMillis();
         // call login method
-        L.e("=====环信登录=====", "EMClient.getInstance().login");
         EMClient.getInstance().login(currentUsername, currentPassword, new EMCallBack() {
 
             @Override
             public void onSuccess() {
-                L.e("=====环信登录成功=====", "login: onSuccess");
                 // ** manually load all local groups and conversation
                 EMClient.getInstance().groupManager().loadAllGroups();
                 EMClient.getInstance().chatManager().loadAllConversations();
@@ -222,12 +218,10 @@ public class RegisterPst extends BasePresenter {
 
             @Override
             public void onProgress(int progress, String status) {
-                L.e("=====环信登录=====", "login: onProgress");
             }
 
             @Override
             public void onError(final int code, final String message) {
-                L.e("=====环信登录失败=====", "login: onError: " + code);
             }
         });
     }

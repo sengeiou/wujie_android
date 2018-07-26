@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.popAty.fgt.RedPacagerFgt;
 import java.util.ArrayList;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：下午 3:54
  * 描述：福利社
- * ===============Txunda===============
  */
 public class WelfareServiceAty extends BaseAty {
 

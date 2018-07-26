@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/29 0029
  * 时间：11:13
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class MellCouponDialog extends Dialog implements AdapterView.OnItemClickListener {

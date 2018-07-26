@@ -24,12 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/9/8 0008
  * 时间：13:53
  * 描述：无界预购三级分类
- * ===============Txunda===============
  */
 
 public class PreBuyThirdAty extends BaseAty {
@@ -109,7 +107,6 @@ public class PreBuyThirdAty extends BaseAty {
         appBarTitle = getIntent().getStringExtra("appBarTitle");
         two_cate_id = getIntent().getStringExtra("two_cate_id");
         type = getIntent().getIntExtra("type", 0);
-        L.e("Aty=====type=====", String.valueOf(type));
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
     }
 

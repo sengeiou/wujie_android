@@ -5,12 +5,10 @@ import android.content.DialogInterface;
 import android.view.View;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:50
  * 描述：直接调取弹窗
- * ===============Txunda===============
  */
 public class MikyouCommonDialog {
 

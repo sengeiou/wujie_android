@@ -46,7 +46,6 @@
                     android:text="线下店铺" />
 
                 <RadioButton
-                    android:id="@+id/main_tab_style"
                     style="@style/main_tab_bottom_style"
                     android:drawableTop="@drawable/icon_main_more"
                     android:text="更多"

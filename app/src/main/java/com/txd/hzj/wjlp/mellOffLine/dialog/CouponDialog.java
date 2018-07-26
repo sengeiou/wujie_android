@@ -14,12 +14,12 @@ import com.lidroid.xutils.ViewUtils;
 import com.txd.hzj.wjlp.R;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/28 0028
  * 时间：17:27
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class CouponDialog extends Dialog {

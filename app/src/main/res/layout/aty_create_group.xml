@@ -179,13 +179,14 @@
                             android:layout_height="wrap_content"
                             app:isConvertDaysToHours="true"
                             app:isHideTimeBackground="false"
-                            app:isShowDay="false"
+                            app:isShowDay="true"
                             app:isShowHour="true"
                             app:isShowMillisecond="true"
                             app:isShowMinute="true"
                             app:isShowSecond="true"
                             app:isSuffixTextBold="true"
                             app:isTimeTextBold="false"
+                            app:suffixDay="天"
                             app:suffixGravity="center"
                             app:suffixHour=":"
                             app:suffixLRMargin="3dp"
@@ -218,7 +219,6 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/group_status_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -262,6 +262,7 @@
 
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"

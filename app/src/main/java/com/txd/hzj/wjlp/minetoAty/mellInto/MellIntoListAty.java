@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/11 0011
  * 时间：上午 11:41
  * 描述：推荐列表
- * ===============Txunda===============
+ *
  */
 public class MellIntoListAty extends BaseAty {
 

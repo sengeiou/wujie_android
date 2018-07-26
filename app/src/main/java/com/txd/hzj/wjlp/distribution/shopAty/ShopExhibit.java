@@ -3,7 +3,7 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,15 +16,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.distribution.adapter.ShopUpGoodsAdapet;
+import com.txd.hzj.wjlp.distribution.bean.ExhibitGoodsBean;
+import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopExhibitFragment;
-import com.txd.hzj.wjlp.http.goods.GoodsPst;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +55,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     private ArrayList<Fragment> fragments;
 
-    private GoodsPst goodsPst;
-
-    /**
-     * 分类列表
-     */
-    private List<Map<String, String>> horizontal_classify;
+    private ShopExhibitPst mExhibitPst;
 
     private String cate_id = "";
 
@@ -74,10 +71,12 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     private View viewBack;
     private RelativeLayout rlLayout;
     private float pivotY;
+    private List<ExhibitGoodsBean.DataBean.TopNavBean> mTop_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
     }
 
     @Override
@@ -85,10 +84,12 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         return R.layout.activity_goods_for_store;
     }
 
+
+
     @Override
     protected void initialized() {
         titlt_conter_tv = findViewById(R.id.titlt_conter_tv);
-        shop_person_title_manage=findViewById(R.id.shop_person_title_manage);
+        shop_person_title_manage = findViewById(R.id.shop_person_title_manage);
         shop_person_title_manage.setVisibility(View.GONE);
 
         exhibit_tab_layout = findViewById(R.id.exhibit_tab_layout);
@@ -104,7 +105,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         lists = new ArrayList<>();
 
         titlt_conter_tv.setText("小店上货");
-        goodsPst = new GoodsPst(this);
+        mExhibitPst = new ShopExhibitPst(this);
         fragments = new ArrayList<>();
 
         myAdapter = new ShopUpGoodsAdapet(this, lists);
@@ -115,6 +116,20 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
         viewBack.setOnClickListener(this);
         back.setOnClickListener(this);
         grView.setOnItemClickListener(this);
+        exhibit_tab_layout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+//                pos=position;
+//                cate_id=mTwo_cate_list.get(position).getId();
+//                mExhibitPst.goodsList("1",cate_id,1);
+                Toast.makeText(ShopExhibit.this, ""+position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
     }
 
     @Override
@@ -130,7 +145,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
     @Override
     protected void requestData() {
-        goodsPst.goodsList(1, cate_id, 0);
+        mExhibitPst.goodsList("1", cate_id,"","",0);
         pivotY = rlLayout.getPivotY();
         Log.i("Y轴距离", pivotY + "=========");
     }
@@ -138,17 +153,13 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
-        if (ToolKit.isList(data, "top_nav")) {
-            horizontal_classify = JSONUtils.parseKeyAndValueToMapList(data.get("top_nav"));
+        ExhibitGoodsBean exhibitGoodsBean = JSONObject.parseObject(jsonStr, ExhibitGoodsBean.class);
+        if (200 == exhibitGoodsBean.getCode()) {
+            mTop_nav = exhibitGoodsBean.getData().getTop_nav();
             myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-            for (Map<String, String> title : horizontal_classify) {
-                //                fragments.add(ClassifyFgt.newInstance(title.get("cate_id")));
-                fragments.add(ShopExhibitFragment.newInstance(title.get("cate_id"), ""));
-            }
-            for (int i = 0; i < horizontal_classify.size(); i++) {
-                lists.add(horizontal_classify.get(i).get("short_name"));
+            for (ExhibitGoodsBean.DataBean.TopNavBean topNavBean : mTop_nav) {
+                fragments.add(ShopExhibitFragment.newInstance(topNavBean.getCate_id()));
+                lists.add(topNavBean.getShort_name());
             }
             // ViewPager设置适配器
             vp_for_exhibit.setAdapter(myPagerAdapter);
@@ -157,6 +168,12 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
             // 设置选中第pos个Tab
             exhibit_tab_layout.setCurrentTab(pos);
         }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+
     }
 
     @Override
@@ -187,7 +204,9 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     }
 
 
-    private class MyPagerAdapter extends FragmentPagerAdapter {
+
+
+    private class MyPagerAdapter extends FragmentStatePagerAdapter {
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -199,7 +218,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return horizontal_classify.get(position).get("short_name");
+            return lists.get(position);
         }
 
         @Override

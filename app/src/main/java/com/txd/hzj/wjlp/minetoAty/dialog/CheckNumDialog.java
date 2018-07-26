@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：19:03
  * 描述：查看全部号码
- * ===============Txunda===============
  */
 
 public class CheckNumDialog extends Dialog implements View.OnClickListener {

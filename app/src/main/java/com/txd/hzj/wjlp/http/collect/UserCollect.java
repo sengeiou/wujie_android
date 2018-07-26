@@ -7,12 +7,12 @@ import com.lidroid.xutils.http.RequestParams;
 import com.txd.hzj.wjlp.base.BaseAty;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/30 0030
  * 时间：09:26
  * 描述：会员收藏
- * ===============Txunda===============
+ *
  */
 
 public class UserCollect {

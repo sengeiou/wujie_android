@@ -35,12 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/6 0006
  * 时间：上午 11:36
  * 描述：搜索(1-3搜索)
- * ===============Txunda===============
  */
 public class SearchAty extends BaseAty {
 

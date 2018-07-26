@@ -5,12 +5,12 @@ import com.bigkoo.pickerview.adapter.WheelAdapter;
 import java.util.List;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/22 0022
  * 时间：10:34
  * 描述：
- * ===============Txunda===============
+ *
  */
 
 public class AreaAdapter<T> implements WheelAdapter {

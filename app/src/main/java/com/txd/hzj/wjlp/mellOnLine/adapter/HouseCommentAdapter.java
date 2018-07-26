@@ -14,12 +14,10 @@ import com.txd.hzj.wjlp.R;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/28 0028
  * 时间：09:56
  * 描述：
- * ===============Txunda===============
  */
 
 public class HouseCommentAdapter extends BaseAdapter {

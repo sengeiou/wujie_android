@@ -1,12 +1,10 @@
 package com.ants.theantsgo.payByThirdParty.aliPay;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:43
  * 描述：支付宝回调接口
- * ===============Txunda===============
  */
 public interface AliPayCallBack {
     /**

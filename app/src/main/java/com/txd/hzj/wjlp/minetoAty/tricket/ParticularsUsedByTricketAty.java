@@ -30,12 +30,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/17 0017
  * 时间：下午 3:48
  * 描述：15-4购物券使用明细
- * ===============Txunda===============
  */
 public class ParticularsUsedByTricketAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)

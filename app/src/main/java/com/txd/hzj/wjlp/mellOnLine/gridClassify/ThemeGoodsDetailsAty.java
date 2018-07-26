@@ -51,12 +51,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/11 0011
  * 时间：上午 10:31
  * 描述：主题街商品详情
- * ===============Txunda===============
+ *
  */
 public class ThemeGoodsDetailsAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
 

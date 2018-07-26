@@ -42,12 +42,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：chen
  * 日期：2017/7/8 0007
  * 时间：上午 12:06
  * 描述：房产购详情页_楼盘(10-2房产购)
- * ===============Txunda===============
+ *
  */
 
 public class HousDetailsHousesChenFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {

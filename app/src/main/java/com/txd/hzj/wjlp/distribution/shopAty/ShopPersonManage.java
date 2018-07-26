@@ -1,15 +1,13 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.distribution.adapter.ShopPersonAdapter;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopPersonFreagment;
 import com.txd.hzj.wjlp.distribution.shopFgt.ShopPersonShopFreagment;
 import com.txd.hzj.wjlp.view.MyShopTitleView;
@@ -28,6 +26,12 @@ public class ShopPersonManage extends BaseAty implements View.OnClickListener {
 
     private ArrayList<Fragment> fragments;
     private FragmentChangeManager fragmentChangeManager;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
+    }
 
     @Override
     protected int getLayoutResId() {

@@ -36,12 +36,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：下午 4:09
  * 描述：10-4房产详情3(户型详情)
- * ===============Txunda===============
+ *
  */
 public class HouseTypeDetailsHzjAty extends BaseAty implements ObservableScrollView.ScrollViewListener {
 

@@ -8,12 +8,10 @@ import android.widget.TextView;
 import com.ants.theantsgo.R;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：上午 11:31
  * 描述：获取验证码倒计时倒计时
- * ===============Txunda===============
  */
 public class MyCount extends CountDownTimer {
 

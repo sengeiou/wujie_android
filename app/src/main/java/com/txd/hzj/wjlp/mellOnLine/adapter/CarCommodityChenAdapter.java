@@ -21,12 +21,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：chen
  * 日期：2017/7/8 0007
  * 时间：上午 12:06
  * 描述：汽车购车型Adapter(9-1汽车购)
- * ===============Txunda===============
  */
 
 public class CarCommodityChenAdapter extends RecyclerView.Adapter<CarCommodityChenAdapter.ViewHolder> {

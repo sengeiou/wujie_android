@@ -157,7 +157,6 @@ public class GiveCouponAty extends BaseAty implements View.OnClickListener {
                     startActivity(VipDetailsAty.class, bundle);
                 } catch (IndexOutOfBoundsException e) {
                     showToast("该会员卡信息存在异常");
-                    L.e("会员卡获取异常，数组下标越界");
                 }
                 break;
         }

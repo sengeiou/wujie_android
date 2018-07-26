@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.bean.CarBean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：cehne
  * 日期：2017/7/8 0007
  * 时间：上午 12:06
  * 描述：汽车购车型Adapter(9-1汽车购)
- * ===============Txunda===============
  */
 
 public class CarTypeChenAdapter extends RecyclerView.Adapter<CarTypeChenAdapter.ViewHolder> {

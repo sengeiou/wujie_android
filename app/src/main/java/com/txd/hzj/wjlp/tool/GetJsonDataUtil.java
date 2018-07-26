@@ -29,7 +29,6 @@ public class GetJsonDataUtil {
                 stringBuilder.append(line);
             }
         } catch (IOException e) {
-            L.e("GetJsonDataUtil.getJson Exception -- IOException:" + e.toString());
         }
         return stringBuilder.toString();
     }

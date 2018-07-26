@@ -4,12 +4,12 @@ import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/5 0005
  * 时间：11:41
  * 描述：拼团购
- * ===============Txunda===============
+ *
  */
 
 public class GroupBuyPst extends BasePresenter {
@@ -60,6 +60,14 @@ public class GroupBuyPst extends BasePresenter {
     public void attrApi(String goods_id, String product_id,int group_type){
         baseView.showDialog();
         groupBuy.attrApi(goods_id,product_id,group_type,baseView);
+    }
+
+    /**
+     * 拼单购规则显示
+     */
+    public void changeShowStatus(BaseView baseView){
+        baseView.showDialog();
+        groupBuy.changeShowStatus( baseView);
     }
 
 }

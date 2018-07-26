@@ -3,12 +3,10 @@ package com.txd.hzj.wjlp.bean;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/30 0030
  * 时间：10:41
  * 描述：
- * ===============Txunda===============
  */
 
 public class CollectBooks {

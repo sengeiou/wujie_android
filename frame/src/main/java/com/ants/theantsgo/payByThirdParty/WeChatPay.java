@@ -6,7 +6,6 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/6/30 0030
  * 时间：下午 4:39
@@ -15,7 +14,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
  * 注意：微信支付在碎片中似乎无法调起，建议使用背景为
  * 半透明的Activity(即弹窗样式的Activity)来吊取微信支付，
  * 支付成功后返回一个值进行调取接口查询是否支付成功
- * ===============Txunda===============
  */
 public class WeChatPay {
     private String url = ConstantUtils.URL;

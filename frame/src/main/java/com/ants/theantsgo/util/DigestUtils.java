@@ -3,12 +3,10 @@ package com.ants.theantsgo.util;
 import java.security.MessageDigest;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/1 0001
  * 时间：上午 10:05
  * 描述：MD5加密
- * ===============Txunda===============
  */
 public class DigestUtils {
 

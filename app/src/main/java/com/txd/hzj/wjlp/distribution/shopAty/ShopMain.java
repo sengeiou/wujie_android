@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
@@ -26,6 +28,12 @@ public class ShopMain extends BaseAty implements OnClickListener {
     private LinearLayout shopOrderManage;
     private TextView visitor;
     private TextView orderNum;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
+    }
 
     @Override
     protected int getLayoutResId() {

@@ -5,12 +5,10 @@ import android.os.Bundle;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/1 0001
  * 时间：下午 3:18
  * 描述：商品二维码
- * ===============Txunda===============
  */
 public class QRCodeForMellGoodsAty extends BaseAty {
 

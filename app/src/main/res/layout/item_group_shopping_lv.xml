@@ -57,11 +57,11 @@
             <!--体验-->
             <ImageView
                 android:id="@+id/showTyImg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:paddingBottom="6dp"
                 android:paddingTop="6dp"
-                android:src="@mipmap/ty" />
+                android:src="@drawable/ty" />
         </RelativeLayout>
     </LinearLayout>
 

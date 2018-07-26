@@ -39,12 +39,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：下午 4:48
  * 描述：售后的各种原因，快递。。。。
- * ===============Txunda===============
  */
 public class TextListAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
@@ -223,7 +221,7 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
             }
 
             showProgressDialog();
@@ -231,7 +229,7 @@ public class TextListAty extends BaseAty {
             if ("3".equals(type)) {
                 AfterSale.backApplyType(getIntent().getStringExtra("order_goods_id"), "2", this);
             } else {
-                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"));
+                AfterSale.backNormalApplyType(this, getIntent().getStringExtra("order_goods_id"),type);
             }
             showProgressDialog();
 //            map = new HashMap<>();

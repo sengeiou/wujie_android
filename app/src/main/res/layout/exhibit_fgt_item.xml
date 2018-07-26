@@ -59,20 +59,16 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ffe71f19"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 tools:text="¥1380.00" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="19dp"
-                android:src="@drawable/icon_send" />
 
             <TextView
                 android:id="@+id/tv_jifen"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/icon_send"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:textColor="#fffd8214"
+                android:layout_marginLeft="16dp"
                 android:textSize="12sp"
                 tools:text="10.00积分" />
         </LinearLayout>

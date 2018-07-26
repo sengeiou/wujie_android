@@ -11,12 +11,12 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/10/9 0009
  * 时间：11:27
  * 描述：将图片转换成圆角(可以设置边框及其颜色)
- * ===============Txunda===============
+ *
  */
 
 class GlideCircleTransform extends BitmapTransformation {

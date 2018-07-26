@@ -9,12 +9,10 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.login.RegisterGetCodeAty;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/14 0014
  * 时间：13:24
  * 描述：找回密码，注册获取验证码
- * ===============Txunda===============
  */
 public class CodeCountDown extends CountDownTimer {
     private Context context;

@@ -31,12 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：下午 2:42
  * 描述：商家入驻
- * ===============Txunda===============
  */
 public class MerchantWillMoveIntoAty extends BaseAty {
 

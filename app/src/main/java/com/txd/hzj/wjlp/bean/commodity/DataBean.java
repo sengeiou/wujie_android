@@ -50,7 +50,6 @@ public class DataBean implements Serializable {
 
     private String group_count;// //拼单中数大于10  弹窗最下面的字显示
 
-
     public String getGroup_type() {
         return group_type;
     }

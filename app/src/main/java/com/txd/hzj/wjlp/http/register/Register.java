@@ -9,12 +9,12 @@ import com.lidroid.xutils.util.LogUtils;
 import java.io.File;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/17 0017
  * 时间：10:18
  * 描述：登录注册模块
- * ===============Txunda===============
+ *
  */
 
 class Register {

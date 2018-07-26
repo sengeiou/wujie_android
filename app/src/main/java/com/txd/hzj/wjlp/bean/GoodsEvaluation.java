@@ -4,12 +4,10 @@ import java.io.File;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/20 0020
  * 时间：10:08
  * 描述：商品评价
- * ===============Txunda===============
  */
 
 public class GoodsEvaluation {

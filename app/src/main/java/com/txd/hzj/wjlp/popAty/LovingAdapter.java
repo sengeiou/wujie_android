@@ -20,12 +20,10 @@ import com.txd.hzj.wjlp.bean.Order;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/24 0024
  * 时间：19:29
  * 描述：
- * ===============Txunda===============
  */
 public class LovingAdapter extends BaseAdapter {
 

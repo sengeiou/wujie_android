@@ -46,12 +46,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/19 0019
  * 时间：下午 3:02
  * 描述：订单详情
- * ===============Txunda===============
  */
 public class OrderDetailsAty extends BaseAty {
     private String type;
@@ -404,7 +402,6 @@ public class OrderDetailsAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-        L.e("wang", requestUrl + "=======>>>>>>>>>" + jsonStr);
         super.onComplete(requestUrl, jsonStr);
 
         // 返回的Url中有好多字段包含在其他返回值中，所以字段截取进行精确匹配
@@ -534,7 +531,11 @@ public class OrderDetailsAty extends BaseAty {
                 if (clickMap.get("sure_status").equals("1")) { // 如果该商品存在七天无理由退换货 1存在 0不存在
                     showPwdPop(clickView, 0);
                 } else {
-                    Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    if (!"10".equals(type)) {
+                        Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    }else {
+                        Order.shopReceiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
+                    }
                     showProgressDialog();
                 }
             } else {
@@ -785,10 +786,6 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh = (TGVH) view.getTag();
             }
             Map<String, String> map = getItem(i);
-            L.e("order_sta" + order_status);
-
-            L.e("wang", "status = " + map.get("status") + "\tgetItem:" + map);
-
 
             if (map.containsKey("after_sale_status") && map.get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
@@ -934,7 +931,9 @@ public class OrderDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     if ("3".equals(type)) {//拼单购，无用代码
                         GroupBuyOrder.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    } else {
+                    }if ("10".equals(type)){
+                        Order.delayShopReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
+                    }else {
                         Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     }
                     showProgressDialog(); // 显示加载框
@@ -1020,7 +1019,12 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("after_type", map.get("after_type"));
                             bundle.putString("back_apply_id", map.get("back_apply_id"));
                             // 继续申请售后需要传的参数
-                            bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
+                            if ("10".equals(type)){
+                                bundle.putString("price","0");
+                            }else {
+                                bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
+                            }
+
                             bundle.putString("order_goods_id", map.get("order_goods_id"));
                             bundle.putString("order_id", order_id);
                             bundle.putString("type", type);

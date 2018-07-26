@@ -62,12 +62,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：下午 4:19
  * 描述：个人信息
- * ===============Txunda===============
  */
 public class EditProfileAty extends BaseAty implements View.OnClickListener {
     /**
@@ -389,7 +387,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 break;
             }
             case R.id.user_select_zoon_layout:// 区域选择
-                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "","","", EditProfileAty.this, null);
+                ProUrbAreaUtil.gainInstance().showPickerView((TextView) findViewById(R.id.user_select_zoon_tv), "", "", "", EditProfileAty.this, null);
                 // 添加省市区的文字变化监听
                 ((TextView) findViewById(R.id.user_select_zoon_tv)).addTextChangedListener(new TextWatcher() {
                     @Override
@@ -525,17 +523,18 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(
-                        ImagePicker.EXTRA_RESULT_ITEMS);
-                String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
-                switch (requestCode) {
-                    case 100:
-                        file = new File(pic_path);
-                        Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
-                        break;
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
+                if (images.size() > 0) {
+                    String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
+                    switch (requestCode) {
+                        case 100:
+                            file = new File(pic_path);
+                            Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
+                            break;
+                    }
                 }
             } else {
-                showErrorTip("哎呀出错了。。");
+                showErrorTip("没有返回任何数据。。");
             }
         } else if (resultCode == RESULT_OK) {
             if (data != null) {

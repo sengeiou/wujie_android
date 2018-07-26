@@ -23,12 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/12 0012
  * 时间：下午 5:09
  * 描述：商家资质
- * ===============Txunda===============
  */
 public class MellAptitudeAty extends BaseAty {
 
@@ -60,7 +58,6 @@ public class MellAptitudeAty extends BaseAty {
     @Override
     protected void initialized() {
         merchant_id = getIntent().getStringExtra("merchant_id");
-        L.e(merchant_id);
         merchantPst = new MerchantPst(this);
         list = new ArrayList<>();
         merchantPst.license(merchant_id);
@@ -72,8 +69,6 @@ public class MellAptitudeAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
-        L.e(jsonStr);
 
         super.onComplete(requestUrl, jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -125,7 +120,7 @@ public class MellAptitudeAty extends BaseAty {
                 apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
                         R.color.gray_text_color));
             }
-            apVH.apt_type_name_tv.setText(map.get("name"));
+            apVH.apt_type_name_tv.setText((String)map.get("name"));
             return view;
         }
 

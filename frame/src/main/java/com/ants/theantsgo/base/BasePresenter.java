@@ -5,12 +5,10 @@ import com.ants.theantsgo.httpTools.ApiListener;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/5/30 0030
  * 时间：15:37
  * 描述：所有Presenter的基类
- * ===============Txunda===============
  */
 
 public class BasePresenter implements ApiListener {

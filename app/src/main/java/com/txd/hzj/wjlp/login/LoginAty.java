@@ -53,12 +53,10 @@ import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/13 0013
  * 时间：下午 7:10
  * 描述：登录，注册(50-1 登录，50-5 注册)
- * ===============Txunda===============
  */
 public class LoginAty extends BaseAty implements Handler.Callback, PlatformActionListener {
     /**
@@ -154,6 +152,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @ViewInject(R.id.share_to_QZone)
     private LinearLayout share_to_QZone;
 
+    @ViewInject(R.id.login_go_back_tv)
+    private TextView login_go_back_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +188,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @Override
     @OnClick({R.id.to_login_tv, R.id.to_register_tv, R.id.forget_pwd_tv, R.id.to_login_or_register_tv,
-            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.terms_of_service_tv})
+            R.id.share_to_wachar, R.id.share_to_qq, R.id.share_to_sine, R.id.terms_of_service_tv, R.id.login_go_back_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -216,9 +217,13 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 } else {// 注册下一步
                     registerPst.checkPhone(phone);
                 }
-                hideKeyBoard();
+                try {
+                    hideKeyBoard();
+                } catch (Exception e) {
+                    L.e("隐藏软键盘报空指针异常，可能是已经隐藏掉了。");
+                }
                 break;
-            case R.id.share_to_wachar:// 微信
+            case R.id.share_to_wachar: // 微信
                 loginType = "1";
                 if (!LoginAty.this.isDestroyed()) {
                     showDialog();
@@ -246,6 +251,12 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 bundle.putInt("from", 3);
                 startActivity(NoticeDetailsAty.class, bundle);
                 break;
+            case R.id.login_go_back_tv: // 点击X按钮退出登录界面
+                if (MainAty.isExit) {
+                    startActivity(MainAty.class, null);
+                }
+                finish();
+                break;
         }
     }
 
@@ -269,9 +280,9 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
-    public void beBack(View view) {
-        startActivity(MainAty.class, null);
-    }
+//    public void beBack(View view) {
+//        startActivity(MainAty.class, null);
+//    }
 
     @Override
     protected int getLayoutResId() {
@@ -297,8 +308,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-
-        L.e("login jsonStr:" + jsonStr);
 
         if (requestUrl.contains("registerOne")) {// 注册第一步
 //            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
@@ -328,11 +337,13 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             application.setUserInfo(data);
             Config.setLoginState(true);
-            if (data.containsKey("invite_code"))
+            if (data.containsKey("invite_code")) {
                 PreferencesUtils.putString(this, "invite_code", data.get("invite_code"));
+            }
             PreferencesUtils.putString(this, "phone", phone);
             PreferencesUtils.putString(this, "pwd", password);
             PreferencesUtils.putString(this, "token", data.get("token"));
+            PreferencesUtils.putBoolean(this, Config.PREF_KEY_LOGIN_STATE, true); // 将登录状态设置为未登录
             // 友盟统计
             MobclickAgent.onProfileSignIn(data.get("user_id"));
 
@@ -367,7 +378,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             } else {
                 showRightTip("登录成功");
                 boolean existMainActivity = isExistMainActivity(MainAty.class);
-                L.e("wang", "existMainActivity:" + existMainActivity);
                 if (existMainActivity) {
                     startActivity(MainAty.class, null);
                 }
@@ -414,6 +424,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             // 判断指定平台是否已经完成授权
             if (plat.isAuthValid()) {
                 if (loginType.equals("1")) {
+                    //TODO  授权三方登录的时候需要传uid
                     openid = plat.getDb().get("unionid");
                 } else {
                     openid = plat.getDb().getUserId();
@@ -451,9 +462,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             head_pic = platform.getDb().getUserIcon();
             getHeadPicAndLogin(head_pic);
             // 三方登陆
-            L.e("=====openid=====", openid);
-            L.e("=====nick=====", nick);
-            L.e("=====pic=====", head_pic);
         }
     }
 
@@ -462,8 +470,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         removeDialog();
         if (i == Platform.ACTION_USER_INFOR) {
             UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
-            L.e("=====授权失败=====", throwable.toString());
-            L.e("=====授权失败=====", String.valueOf(i));
         }
         throwable.printStackTrace();
     }
@@ -471,7 +477,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     @Override
     public void onCancel(Platform platform, int i) {
         removeDialog();
-        L.e(platform.getName(), "=====取消=====");
     }
 
     /**

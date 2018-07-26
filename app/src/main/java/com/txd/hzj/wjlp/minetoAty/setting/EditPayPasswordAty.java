@@ -17,12 +17,12 @@ import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.minetoAty.setting.ResetPayPwdAty;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/9/23 0023
  * 时间：上午 10:03
  * 描述：支付密码(修改，设置)
- * ===============Txunda===============
+ *
  */
 public class EditPayPasswordAty extends BaseAty {
     /**

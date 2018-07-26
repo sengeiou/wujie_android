@@ -4,12 +4,12 @@ import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/8/21 0021
  * 时间：14:31
  * 描述：
- * ===============Txunda===============
+ *
  * 地址相关所用网络接口
  */
 

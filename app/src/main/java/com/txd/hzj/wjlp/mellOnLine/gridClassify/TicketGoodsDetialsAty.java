@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -43,7 +42,6 @@ import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -64,7 +62,6 @@ import com.txd.hzj.wjlp.bean.commodity.GoodsCommonAttrBean;
 import com.txd.hzj.wjlp.bean.commodity.PicturesBean;
 import com.txd.hzj.wjlp.bean.commodity.PromotionBean;
 import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
-import com.txd.hzj.wjlp.http.Easemob;
 import com.txd.hzj.wjlp.http.Freight;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
@@ -83,7 +80,8 @@ import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
-import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
+import com.txd.hzj.wjlp.view.ToastView;
+import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 import com.yanzhenjie.permission.AndPermission;
 
 import org.json.JSONException;
@@ -97,12 +95,12 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 10:13
  * 描述：票券区商品详情(3-2票券)
- * ===============Txunda===============
+ *
  */
 public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
     private String is_attr = "";
@@ -488,6 +486,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView tv_date;
     @ViewInject(R.id.goods_select_attr_tv)
     private TextView goods_select_attr_tv;
+    @ViewInject(R.id.toastView)
+    private ToastView toastView;
     private int goods_number = 0;
     private String product_id = "";
     private boolean is_C = false;
@@ -505,7 +505,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private CommodityDetailsPranster commodityDetailsPranster;
 
     @ViewInject(R.id.ticketGoodsDetials_refreshLayout_ssrl)
-    private SuperSwipeRefreshLayout ticketGoodsDetials_refreshLayout_ssrl; // 下拉刷新控件
+    private VpSwipeRefreshLayout ticketGoodsDetials_refreshLayout_ssrl; // 下拉刷新控件
     // 刷新头部
     private RelativeLayout head_container;
     private ProgressBar progressBar;
@@ -888,7 +888,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         ticketGoodsDetials_refreshLayout_ssrl.setHeaderView(createHeaderView());// add headerView
         ticketGoodsDetials_refreshLayout_ssrl.setHeaderViewBackgroundColor(Color.WHITE);
         ticketGoodsDetials_refreshLayout_ssrl.setTargetScrollWithLayout(true);
-        ticketGoodsDetials_refreshLayout_ssrl.setOnPullRefreshListener(new SuperSwipeRefreshLayout.OnPullRefreshListener() {
+        ticketGoodsDetials_refreshLayout_ssrl.setOnPullRefreshListener(new VpSwipeRefreshLayout.OnPullRefreshListener() {
             @Override
             public void onRefresh() {
                 textView.setText("正在刷新");
@@ -900,6 +900,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 } else {
                     goodsPst.goodsInfo(ticket_buy_id, page);
                 }
+                commodityDetailsPranster.goodsMsg(toastView);
             }
 
             @Override
@@ -914,6 +915,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
+        if(null==commodityDetailsPranster){
+            commodityDetailsPranster=new CommodityDetailsPranster(this);
+        }
+        commodityDetailsPranster.goodsMsg(toastView);
     }
 
     private View createHeaderView() {
@@ -2137,5 +2142,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         // 只需要调用这一句，其它的交给AndPermission吧，最后一个参数是PermissionListener。
         AndPermission.onRequestPermissionsResult(requestCode, permissions, grantResults, commodityDetailsPranster.requestPhoneListener(merchant_phone, TicketGoodsDetialsAty.this));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (null != toastView) {
+            toastView.cancle();
+        }
     }
 }

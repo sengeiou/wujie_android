@@ -71,12 +71,10 @@ import java.util.Map;
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:54
  * 描述：我的
- * ===============Txunda===============
  */
 public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener {
 
@@ -475,6 +473,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @Override
     public void onResume() {
         super.onResume();
+        showDialog(); // 显示Dialog
         userPst.userCenter();
     }
 
@@ -496,6 +495,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 indexPst.index(lng, lat);
+                showDialog(); // 显示Dialog
                 userPst.userCenter();
             }
 
@@ -536,7 +536,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         super.onComplete(requestUrl, jsonStr);
         L.e("jsonStrALIANG" + jsonStr);
         if (requestUrl.contains("userCenter")) {
-
+            removeProgressDialog(); // 关闭userCenter打开的Dialog
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
             Map<String, String> data = (Map<String, String>) map.get("data");
             if (data.containsKey("complete_status")) { // 如果存在指定key
@@ -612,8 +612,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
              "is_iron": "0",//铁，0不点亮 1点亮,
              */
 
-            L.e("wang", "data:" + data);
-
 //            SOURCE：缓存原始数据，RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
 //            NONE：什么都不缓存，  ALL：缓存SOURC和RESULT。
 //            默认采用RESULT策略，对于Download Only操作要使用SOURCE。
@@ -637,12 +635,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .into(im_tie);
 
-            L.e("wang", "data.get(\"is_gold_a\") = " + data.get("is_gold_a")
-                    + "\ndata.get(\"is_silver_a\") = " + data.get("is_silver_a")
-                    + "\ndata.get(\"is_copper_a\") = " + data.get("is_copper_a")
-                    + "\ndata.get(\"is_masonry_a\") = " + data.get("is_masonry_a")
-                    + "\ndata.get(\"is_iron_a\") = " + data.get("is_iron_a"));
-
             Glide.with(getActivity()).load(head_pic)
                     .override(size, size)
                     .placeholder(R.drawable.ic_default)
@@ -656,9 +648,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .centerCrop()
                     .into(user_head_iv);
 
-            integral_tv.setText(data.get("integral"));
-            balance_tv.setText(data.get("balance"));
-            ticket_num_tv.setText(data.get("ticket_num"));
+            integral_tv.setText((String) data.get("integral"));
+            balance_tv.setText((String) data.get("balance"));
+            ticket_num_tv.setText((String) data.get("ticket_num"));
 
             server_line = data.get("server_line");
             // 消息

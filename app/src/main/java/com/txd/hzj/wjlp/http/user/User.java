@@ -10,12 +10,10 @@ import java.io.File;
 import java.util.List;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/8/22 0022
  * 时间：14:58
  * 描述：会员模块
- * ===============Txunda===============
  */
 
 public class User {
@@ -175,9 +173,6 @@ public class User {
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("p", String.valueOf(p));
         params.addBodyParameter("type", type);
-        L.e("==========", String.valueOf(p));
-        L.e("==========", type);
-        L.e("============================================111111111111111");
         apiTool2.postApi(url + "myfooter", params, baseView);
     }
 

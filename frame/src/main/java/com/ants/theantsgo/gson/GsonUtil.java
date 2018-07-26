@@ -12,12 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ===============Txunda===============
  * 作者：DUKE_HwangZj
  * 日期：2017/5/15 0015
  * 时间：12:02
  * 描述：Google提供的GSON的封装
- * ===============Txunda===============
  */
 public class GsonUtil {
 

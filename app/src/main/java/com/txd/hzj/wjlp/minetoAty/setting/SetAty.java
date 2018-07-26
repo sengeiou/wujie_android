@@ -1,10 +1,14 @@
 package com.txd.hzj.wjlp.minetoAty.setting;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,6 +31,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.mob.tools.utils.UIHandler;
 import com.txd.hzj.wjlp.DemoHelper;
+import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
@@ -51,14 +56,15 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import io.reactivex.annotations.NonNull;
 
 /**
- * ===============Txunda===============
+ *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/26 0026
  * 时间：下午 3:40
  * 描述：设置
- * ===============Txunda===============
+ *
  */
 public class SetAty extends BaseAty implements Handler.Callback, PlatformActionListener {
     private Handler handler = new Handler(new Handler.Callback() {
@@ -173,8 +179,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             case R.id.rel_myBankCard:
                 isMyBankCardClick = true;
                 User.userInfo(this); // 获取用户信息
-                L.e("wang", "rel_myBankCard  isMyBankCardClick = " + isMyBankCardClick);
-//                showDialog("我的银行卡"); // TODO ===============================================================
                 break;
             case R.id.rel_bind_phone: // 绑定手机号
                 if (phone.equals("")) {
@@ -211,6 +215,8 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                                 }
                                 Config.setLoginState(false);
                                 PreferencesUtils.putString(SetAty.this, "token", "");
+                                PreferencesUtils.putString(SetAty.this, "invite_code", "");
+                                PreferencesUtils.putBoolean(SetAty.this, Config.PREF_KEY_LOGIN_STATE, false); // 将登录状态设置为未登录
                                 // 友盟统计signout统计
                                 MobclickAgent.onProfileSignOff();
                                 // 删除极光推送之前设置好的Tag或Alias
@@ -372,13 +378,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
-        L.e("cccccc" + error);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("类型" + jsonStr);
         if (requestUrl.contains("Upgrade")) {
             UpdataApp updataApp = GsonUtil.GsonToBean(jsonStr, UpdataApp.class);
             AppUpdate.getInstance().showAppUpdateDialog(updataApp, this, false);
@@ -469,7 +473,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
     }
 
     private void setBindText(TextView textView, Map<String, String> map) {
-        L.e("map" + map.toString());
         if (map.get("is_bind").equals("0")) {
             textView.setText("未绑定");
             return;
@@ -534,7 +537,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
             @Override
             public void onSuccess() {
-                L.e("=====退出登录=====", "成功");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -546,7 +548,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
 
             @Override
             public void onProgress(int progress, String status) {
-                L.e("=====退出登录=====", "退出中");
             }
 
             @Override
@@ -557,7 +558,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                         showErrorTip("退出失败，请重新操作");
                     }
                 });
-                L.e("=====退出登录=====", "失败：" + code + "-----" + message);
             }
         });
     }
@@ -578,15 +578,11 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
             } else {
                 openid = platform.getDb().getUserId();
             }
-            L.e("授权成功" + platform.getDb().getUserName());
             nick = platform.getDb().getUserName();
             head_pic = platform.getDb().getUserIcon();
 //            userPst.bindOther(openid, loginType, nick);
             getHeadPicAndLogin(head_pic);
             // 三方登陆
-            L.e("=====openid=====", openid);
-            L.e("=====nick=====", nick);
-            L.e("=====pic=====", head_pic);
         }
     }
 
@@ -595,8 +591,6 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
         removeDialog();
         if (i == Platform.ACTION_USER_INFOR) {
             UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
-            L.e("=====授权失败=====", throwable.toString());
-            L.e("=====授权失败=====", String.valueOf(i));
         }
         throwable.printStackTrace();
     }
@@ -640,4 +634,38 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
         }
         return false;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case AppUpdate.INSTALL_APK_REQUESTCODE:
+                //有注册权限且用户允许安装
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    AppUpdate.getInstance().install(SetAty.this);
+                } else {
+                    //将用户引导至安装未知应用界面。
+//                    Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+//                    startActivityForResult(intent, GET_UNKNOWN_APP_SOURCES);
+
+                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                    Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, packageURI);
+                    startActivityForResult(intent, 1000);
+
+                }
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1000: // App更新
+                AppUpdate.getInstance().install(SetAty.this);
+                break;
+        }
+    }
+
 }
