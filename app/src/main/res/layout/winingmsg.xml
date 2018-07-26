@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp"
-        android:maxLines="2"
+        android:maxLines="3"
         android:textColor="@color/shop_main_fontcolor_black"
         android:textSize="13sp" />
 </LinearLayout>

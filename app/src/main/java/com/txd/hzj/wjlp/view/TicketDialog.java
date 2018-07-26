@@ -52,11 +52,8 @@ public class TicketDialog extends Dialog {
             StringBuilder builder=new StringBuilder();
             for (int i = 0; i < mGroup_buy_rule.size(); i++) {
                 if (i!=0 && i!=mGroup_buy_rule.size()-1){
-//                    builder.append("<p>");
+                    builder.append("<br>");
                     builder.append(mGroup_buy_rule.get(i));
-//                    builder.append("</p>");
-                    builder.append("<br>");
-                    builder.append("<br>");
                 }
             }
 
