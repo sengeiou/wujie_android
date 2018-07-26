@@ -3,6 +3,7 @@ package com.txd.hzj.wjlp.mellOffLine;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -105,6 +106,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private UserCollectPst collectPst;
     private ShopOffLineBean offLineBean;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showStatusBar(R.id.goods_details_title);
+    }
 
     @Override
     protected int getLayoutResId() {

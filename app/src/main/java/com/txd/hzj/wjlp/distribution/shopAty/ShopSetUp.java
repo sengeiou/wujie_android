@@ -2,6 +2,8 @@ package com.txd.hzj.wjlp.distribution.shopAty;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -60,6 +62,11 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
     private String uri;
     private boolean isUpdata = false;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
+    }
 
     @Override
     protected int getLayoutResId() {

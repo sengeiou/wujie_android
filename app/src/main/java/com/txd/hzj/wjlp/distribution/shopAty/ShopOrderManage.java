@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.distribution.shopAty;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -27,6 +29,12 @@ public class ShopOrderManage extends BaseAty {
     private ViewPager orderVp;
     private ArrayList<String> titles;
     private MyPagerAdapter myPagerAdapter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
+    }
 
     @Override
     protected int getLayoutResId() {

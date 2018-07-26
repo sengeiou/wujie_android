@@ -76,6 +76,7 @@ public class ShopExhibit extends BaseAty implements AdapterView.OnItemClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
     }
 
     @Override

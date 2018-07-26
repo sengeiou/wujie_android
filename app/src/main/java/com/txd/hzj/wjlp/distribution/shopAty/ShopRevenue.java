@@ -75,6 +75,7 @@ public class ShopRevenue extends BaseAty implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showStatusBar(R.id.title_re_layout);
     }
 
     @Override
