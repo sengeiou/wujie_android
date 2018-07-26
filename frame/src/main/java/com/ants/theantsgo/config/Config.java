@@ -23,11 +23,11 @@ public class Config {
 
     private static View[] aty = new View[1];
 
-//    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
+    public final static String OFFICIAL_WEB = "http://api.wujiemall.com/"; // 正式服务器
 //    public final static String OFFICIAL_WEB = "http://fztest.wujiemall.com/"; // 测试库 打包发送
 //    public final static String OFFICIAL_WEB = "http://dev.wujiemall.com/"; // 测试库 打包发送
 
-    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/";// 线上技术内部测试，不需要打包
+//    public final static String OFFICIAL_WEB = "http://test.wujiemall.com/";// 线上技术内部测试，不需要打包
 //    public final static String OFFICIAL_WEB = "http://test2.wujiemall.com/"; // 线下技术内部测试
 
     public final static String BASE_URL = OFFICIAL_WEB + "index.php/Api/";

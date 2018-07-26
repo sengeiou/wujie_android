@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.base.BaseActivity;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
