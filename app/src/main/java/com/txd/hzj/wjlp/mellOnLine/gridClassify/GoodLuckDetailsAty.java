@@ -1501,6 +1501,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
+                                if (!Config.isLogin()) {
+                                    toLogin();
+                                    return;
+                                }
                                 if (null != dataBean && dataBean.getGroup().size() > 0) {
                                     GroupBean groupBean = dataBean.getGroup().get(0);
                                     if (groupBean.getDiff_num().equals("0")) {
