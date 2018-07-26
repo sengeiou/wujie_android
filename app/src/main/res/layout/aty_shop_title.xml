@@ -23,17 +23,24 @@
         android:ellipsize="middle"
         android:gravity="center"
         android:maxLength="8"
-        android:visibility="visible"
         android:textColor="#ff323232"
-        android:textSize="17sp" />
-    <com.txd.hzj.wjlp.view.MyShopTitleView
-        android:id="@+id/mytitle_tv"
+        android:textSize="17sp"
+        android:visibility="visible" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <com.txd.hzj.wjlp.view.MyShopTitleView
+            android:id="@+id/mytitle_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/titlt_right_tv"
@@ -54,8 +61,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:drawablePadding="4dp"
-        android:gravity="center"
         android:drawableTop="@drawable/icon_goods_title_share"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="分享"
@@ -69,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         android:layout_marginEnd="13dp"
-        android:src="@drawable/time_select" />
+        android:src="@drawable/time_select"
+        android:visibility="gone" />
 </RelativeLayout>
