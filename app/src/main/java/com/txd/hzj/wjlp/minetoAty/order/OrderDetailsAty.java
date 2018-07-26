@@ -435,8 +435,7 @@ public class OrderDetailsAty extends BaseAty {
             tv_logistics_time.setText(data.get("logistics_time"));
             leave_message.setText(data.get("leave_message"));
             tv_merchant_name.setText(data.get("merchant_name"));
-            //type为10的时候代表无界商店，无界商店的订单详情没有freight这个参数
-            if (!"10".equals(type)) {
+            if (data.containsKey("freight")) {
                 order_freight_tv.setText(Double.parseDouble(data.get("freight")) > 0 ? data.get("freight") + "元" : "包邮");
             }
             list = JSONUtils.parseKeyAndValueToMapList(data.get("list"));
@@ -533,7 +532,7 @@ public class OrderDetailsAty extends BaseAty {
                 } else {
                     if (!"10".equals(type)) {
                         Order.receiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
-                    }else {
+                    } else {
                         Order.shopReceiving(order_id, clickMap.get("order_goods_id"), "", OrderDetailsAty.this);
                     }
                     showProgressDialog();
@@ -931,9 +930,10 @@ public class OrderDetailsAty extends BaseAty {
                 public void onClick(View v) {
                     if ("3".equals(type)) {//拼单购，无用代码
                         GroupBuyOrder.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    }if ("10".equals(type)){
+                    }
+                    if ("10".equals(type)) {
                         Order.delayShopReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this);
-                    }else {
+                    } else {
                         Order.delayReceiving(list.get(i).get("order_goods_id"), OrderDetailsAty.this); // 请求后台延长收货接口
                     }
                     showProgressDialog(); // 显示加载框
@@ -967,9 +967,9 @@ public class OrderDetailsAty extends BaseAty {
             });
 
 
-//           售后申请
+            //           售后申请
             //先判断 is_back_apply是否显示售后按钮 然后判断after_type 售后按钮中的文字
-//            "is_back_apply":  //是否对应售后服务 0不对应 1对应
+            //            "is_back_apply":  //是否对应售后服务 0不对应 1对应
             String is_back_apply = map.get("is_back_apply");
             if (!TextUtils.isEmpty(is_back_apply) && "1".equals(is_back_apply)) {
                 tgvh.applyAfterSaleTv.setVisibility(View.VISIBLE);
@@ -1019,9 +1019,9 @@ public class OrderDetailsAty extends BaseAty {
                             bundle.putString("after_type", map.get("after_type"));
                             bundle.putString("back_apply_id", map.get("back_apply_id"));
                             // 继续申请售后需要传的参数
-                            if ("10".equals(type)){
-                                bundle.putString("price","0");
-                            }else {
+                            if ("10".equals(type)) {
+                                bundle.putString("price", "0");
+                            } else {
                                 bundle.putString("price", String.valueOf(Double.parseDouble(map.get("refund_price"))));
                             }
 
