@@ -300,21 +300,22 @@ public class RechargeAty extends BaseAty {
 
                 break;
             case R.id.tv_submit:
-                if (!TextUtils.isEmpty(et_price.getText().toString())) {
-                    try {
-                        // 获取输入的金额并转换成float
-                        float price = Float.parseFloat(et_price.getText().toString());
-                        if (price >= 100) { // 如果金额大于（等于）100
-                            showPwdPop(v); // 弹出密码输入框
-                        } else {
-                            showToast("最低充值金额100元");
+                    if (!TextUtils.isEmpty(et_price.getText().toString())) {
+                        try {
+                            // 获取输入的金额并转换成float
+                            float price = Float.parseFloat(et_price.getText().toString());
+                            if (price >= 100) { // 如果金额大于（等于）100
+                                showPwdPop(v); // 弹出密码输入框
+                            } else {
+                                showToast("最低充值金额100元");
+                            }
+                        } catch (Exception e) { // 捕捉类型转换异常
+                            showToast("充值金额输入有误！");
                         }
-                    } catch (Exception e) { // 捕捉类型转换异常
-                        showToast("充值金额输入有误！");
+                    } else { // 没有输入金额
+                        showToast("请输入充值金额！");
                     }
-                } else { // 没有输入金额
-                    showToast("请输入充值金额！");
-                }
+
                 break;
             case R.id.re_left_layout: // 线上充值
                 type = 0;
@@ -372,7 +373,7 @@ public class RechargeAty extends BaseAty {
 //                        float moneyF = Float.parseFloat(money);
 //                        if (moneyF >= 100) {
 //                download(PreferencesUtils.getString(RechargeAty.this,"band_code1"),act_time,money,name,pic,desc,pay_pwd,PreferencesUtils.getString(RechargeAty.this,"band_id1"));
-                            balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this, "band_code1"), act_time, money, name, pic, desc, pay_pwd, PreferencesUtils.getString(RechargeAty.this, "band_id1"));
+                    balancePst.underMoney(PreferencesUtils.getString(RechargeAty.this, "band _code1"), act_time, money, name, pic, desc, pay_pwd, PreferencesUtils.getString(RechargeAty.this, "band_id1"));
 //                        } else {
 //                            showToast("最低转账金额100元");
 //                        }

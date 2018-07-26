@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,16 +11,13 @@ import android.widget.TextView;
 import com.ants.theantsgo.tool.DateTool;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.limit.LimitBuyPst;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.fgt.LimitFgt;
-import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,13 +81,13 @@ public class LimitShoppingAty extends BaseAty {
                 tabTitle = JSONUtils.parseKeyAndValueToMapList(data.get("stage_list"));
                 for (Map<String, String> title : tabTitle) {
                     fragments.add(LimitFgt.getFgt(title.get("stage_id"), title.get("status")));
-//                    if (title.get("status").equals("即将开始")) {
-////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
-//                    } else if (title.get("status").equals("已结束")) {
-////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), -1));
-//                    } else {
-////                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 0));
-//                    }
+                    if (title.get("status").equals("即将开始")) {
+//                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 1));
+                    } else if (title.get("status").equals("已结束")) {
+//                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), -1));
+                    } else {
+//                        fragments.add(LimitFgt.getFgt(title.get("stage_id"), 0));
+                    }
                 }
 
                 for (int i = 0; i < tabTitle.size(); i++) {

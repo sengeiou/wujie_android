@@ -38,7 +38,7 @@ public class BalancePst extends BasePresenter {
     public void underMoney(String bank_card_id, String act_time, String money, String name, File pic, String desc,
                            String pay_password, String id) {
 
-        if (bank_card_id.isEmpty() || bank_card_id.equals("")) {
+        if (bank_card_id == null || bank_card_id.equals("")) {
             baseView.onErrorTip("请选择银行");
             return;
         }
