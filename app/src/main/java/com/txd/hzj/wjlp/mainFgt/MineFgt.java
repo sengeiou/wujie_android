@@ -74,6 +74,8 @@ import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
+//import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
+
 /**
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
@@ -342,7 +344,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(AboutOursAty.class, null);
                 break;
             case R.id.tv_help_center:// 帮助中心
-                startActivity(HelpCenterAty.class, null);
+                startActivity(NewHelpCenterAty.class, null);
                 break;
             case R.id.tv_order_center:// 订单中心
                 startActivity(OrderCenterAty.class, null);
