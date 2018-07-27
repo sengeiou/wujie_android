@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,8 +15,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,18 +25,13 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.util.StringUtils;
 import com.baidu.location.BDAbstractLocationListener;
@@ -53,10 +45,10 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.util.EMLog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.maning.updatelibrary.InstallUtils;
 import com.txd.hzj.wjlp.baidu.LocationService;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.UpdataApp;
+import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.http.index.IndexPst;
 import com.txd.hzj.wjlp.http.updataApp.UpdataPst;
 import com.txd.hzj.wjlp.huanxin.db.InviteMessgeDao;
@@ -69,13 +61,10 @@ import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
-import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
-import com.txd.hzj.wjlp.http.User;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
 import com.txd.hzj.wjlp.tool.AppUpdate;
 import com.txd.hzj.wjlp.tool.MessageEvent;
-import com.txd.hzj.wjlp.tool.NotifyUtil;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -244,8 +233,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         super.onResume();
         if (Config.isLogin()) {
             User.userCenter(this);
-            tv_cart_num.setVisibility(View.VISIBLE);
-        } else {
+        }else {
             tv_cart_num.setVisibility(View.GONE);
         }
         if (Config.isLogin()) {

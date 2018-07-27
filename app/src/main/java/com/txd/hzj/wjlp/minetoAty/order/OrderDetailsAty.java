@@ -173,6 +173,7 @@ public class OrderDetailsAty extends BaseAty {
     @Override
     protected void initialized() {
         thisAdapter = new ThisGoodsAdapter();
+        goods_for_this_order_lv.setFocusable(false);
     }
 
     @Override
@@ -203,6 +204,7 @@ public class OrderDetailsAty extends BaseAty {
         } else if (type.equals("10")) {
             titlt_conter_tv.setText("订单详情");
             IntegralBuyOrder.details(order_id, this);
+            type2WL="5";
         }
     }
 
