@@ -26,7 +26,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.http.AuctionOrder;
+import com.txd.hzj.wjlp.http.GroupBuyOrder;
+import com.txd.hzj.wjlp.http.IntegralBuyOrder;
 import com.txd.hzj.wjlp.http.Order;
+import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
@@ -34,10 +38,6 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.minetoAty.OrderLogisticsAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_after;
-import com.txd.hzj.wjlp.http.AuctionOrder;
-import com.txd.hzj.wjlp.http.GroupBuyOrder;
-import com.txd.hzj.wjlp.http.IntegralBuyOrder;
-import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import com.txd.hzj.wjlp.tool.WJConfig;
 
@@ -462,7 +462,10 @@ public class OrderDetailsAty extends BaseAty {
                 }
                 order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>¥" + (data.get("ticket_color").equals("0") ? data.get("order_price") :
                         (bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue() + "(已抵" + data.get("pay_tickets") + ticket_color + ")")) + "</font>"));
+            }else {
+                order_price_info_tv.setText(Html.fromHtml("共" + calcGoodsNum() + "件商品 合计： <font color='#DF3031'>" +  data.get("order_price") + "积分</font>"));
             }
+
             tv_order_sn.setText("订单编号：" + data.get("order_sn"));
             is_pay_password = data.get("is_pay_password");
             tv_create_time.setText("创建时间：" + data.get("create_time"));

@@ -95,7 +95,7 @@ public class PayForAppAty extends BaseAty {
     @ViewInject(R.id.pay_by_balance_cb)
     private CheckBox pay_by_balance_cb;
 
-    private int bottom_type = 2;
+    private int bottom_type = 0;
 
     /**
      * 传递使者，传递大使
@@ -368,7 +368,6 @@ public class PayForAppAty extends BaseAty {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("wjyp.wxPay");
         registerReceiver(wxPayReceiver, intentFilter);
-        selectCheckBoxBottom(bottom_type);
     }
 
     @Override
