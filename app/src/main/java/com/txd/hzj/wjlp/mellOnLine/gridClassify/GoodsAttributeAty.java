@@ -433,7 +433,8 @@ public class GoodsAttributeAty extends BaseAty {
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     if ("10".equals(type)) {
 //                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
-                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "积分" + goods_val.getUse_integral());
+                        //此处为设置无界商店商品属性积分view
+                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv,goods_val.getUse_integral()+" 积分");
                     } else {
 //                        if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {
 //                            ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, "￥" + val.getGroup_price());

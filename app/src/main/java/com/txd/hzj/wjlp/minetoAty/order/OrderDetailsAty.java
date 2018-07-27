@@ -201,6 +201,7 @@ public class OrderDetailsAty extends BaseAty {
         } else if (type.equals("6")) {
             AuctionOrder.preDetails(order_id, this);
         } else if (type.equals("10")) {
+            titlt_conter_tv.setText("订单详情");
             IntegralBuyOrder.details(order_id, this);
         }
     }
