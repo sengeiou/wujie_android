@@ -316,8 +316,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.my_balance_layout, R.id.coupon_tv, R.id.address_tv, R.id.feedBack_tv, R.id.shre_to_friends_tv, R.id.apply_for_shop,
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
-            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv
-            , R.id.bandOtherAccount_tv, R.id.business_code_tv})
+            R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv,
+            R.id.bandOtherAccount_tv, R.id.business_code_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -327,68 +327,68 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.tv_dljm:
                 startActivity(aty_mine2.class, null);
                 break;
-            case R.id.tv_set:// 设置
+            case R.id.tv_set: // 设置
                 if (1 == type) {
                     startActivity(SetAty.class, null);
                 } else {
                     startActivity(MellSettingAty.class, null);
                 }
                 break;
-            case R.id.grade_of_member_layout:// 会员成长
+            case R.id.grade_of_member_layout: // 会员成长
                 bundle = new Bundle();
                 bundle.putInt("from", 0);
                 startActivity(GradeOfMemberAty.class, null);
                 break;
-            case R.id.mine_member_type_layout:// 会员等级
+            case R.id.mine_member_type_layout: // 会员等级
 //                bundle = new Bundle();
 //                bundle.putInt("from", 1);
                 startActivity(_GradeOfMemberAty.class, bundle);
                 break;
-            case R.id.rel_mine_about:// 关于
+            case R.id.rel_mine_about: // 关于
                 startActivity(AboutOursAty.class, null);
                 break;
-            case R.id.tv_help_center:// 帮助中心
+            case R.id.tv_help_center: // 帮助中心
                 startActivity(NewHelpCenterAty.class, null);
                 break;
-            case R.id.tv_order_center:// 订单中心
+            case R.id.tv_order_center: // 订单中心
                 startActivity(OrderCenterAty.class, null);
                 break;
-            case R.id.collect_tv:// 我的收藏
+            case R.id.collect_tv: // 我的收藏
                 startActivity(CollectHzjAty.class, null);
                 break;
-            case R.id.footprint_tv:// 我的足迹
+            case R.id.footprint_tv: // 我的足迹
                 startActivity(FootprintAty.class, null);
                 break;
-            case R.id.merchant_will_move_into_tv:// 商家推荐
+            case R.id.merchant_will_move_into_tv: // 商家推荐
                 startActivity(aty_mine1.class, null);
                 break;
-            case R.id.evaluate_tv:// 我的评价
+            case R.id.evaluate_tv: // 我的评价
                 bundle = new Bundle();
                 bundle.putInt("from", 1);
                 startActivity(GoodsEvaluateAty.class, bundle);
                 break;
-            case R.id.my_coupon_layout:// 购物券
+            case R.id.my_coupon_layout: // 购物券
                 startActivity(MyCouponAty.class, null);
                 break;
-            case R.id.integral_tv:// 积分
+            case R.id.integral_tv: // 积分
                 String s = center_tv.getText().toString();
                 if (s.equals("积分")) {
                     startActivity(IntegralAty.class, null);
                 }
                 break;
-            case R.id.registration_code_tv:// 注册码
+            case R.id.registration_code_tv: // 注册码
                 bundle = new Bundle();
                 bundle.putString("head_pic", head_pic);
                 bundle.putString("invite_code", invite_code);
                 startActivity(RegistrationCodeAty.class, bundle);
                 break;
-            case R.id.my_balance_layout:// 余额
+            case R.id.my_balance_layout: // 余额
                 startActivity(BalanceAty.class, null);
                 break;
-            case R.id.coupon_tv:// 卡券包
+            case R.id.coupon_tv: // 卡券包
                 startActivity(CouponHzjAty.class, null);
                 break;
-            case R.id.address_tv:// 我的地址
+            case R.id.address_tv: // 我的地址
                 bundle = new Bundle();
                 bundle.putInt("type", 1);
                 startActivity(AddressListAty.class, bundle);

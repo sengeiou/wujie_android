@@ -105,6 +105,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private boolean isCollection;
     private UserCollectPst collectPst;
     private ShopOffLineBean offLineBean;
+    private String sId;
+    //店铺评价
+    private View evaluateDivis;
+    private View evaluateModle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -143,6 +147,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         evaluateNumbers = findViewById(R.id.shop_evaluate_numbers);
         evaluateBranch = findViewById(R.id.shop_evaluate_branch);
         nearbyBusinessList = findViewById(R.id.shop_nearby_business_list);
+        evaluateDivis = findViewById(R.id.shop_evaluate_divis);
+        evaluateModle = findViewById(R.id.shop_evaluate_modle);
         pranster = new Pranster();
         pranster.setView(this);
         page = 1;
@@ -230,10 +236,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
-                ShopOffLineBean shopOffLineBean = new ShopOffLineBean(); // TODO 测试新建的类，传入下一页的时候直接传对应的Bean
                 Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("ShopOffLineBean", shopOffLineBean);
+                bundle.putString("stage_merchant_id", sId);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -280,10 +285,13 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             offLineBean = gson.fromJson(jsonStr, ShopOffLineBean.class);
             //设置评价列表数据
             listBeanList = offLineBean.getData().getComment().getList();
-            if (listBeanList != null) {
+            if (listBeanList != null && listBeanList.size() != 0) {
                 adapter = new ShopEvaluateAdapter(this, listBeanList);
                 shopEvaluate.setLayoutManager(new LinearLayoutManager(this));
                 shopEvaluate.setAdapter(adapter);
+            } else {
+                evaluateDivis.setVisibility(View.GONE);
+                evaluateModle.setVisibility(View.GONE);
             }
             //设置titleName
             titleName.setText(offLineBean.getData().getMerchant_name());
@@ -293,6 +301,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 urls.add(offLineBean.getData().getGallery().get(i).getPath());
             }
             bannerIma.setImages(urls);
+
+            if (offLineBean.getData().getS_id() != null) {
+                sId = offLineBean.getData().getS_id();
+            }
             //开始
             bannerIma.start();
             //设置营业时间

@@ -792,9 +792,11 @@ public class OrderDetailsAty extends BaseAty {
 
             if (map.containsKey("after_sale_status") && map.get("after_sale_status").equals("1")) { // 如果存在售后售后
                 tgvh.lin_shouhou.setVisibility(View.VISIBLE); // 售后类型layout显示
+                tgvh.shouhou_divis.setVisibility(View.VISIBLE);
                 tgvh.tv_shouhou.setText(map.get("after_sale_type")); // 设置要显示的售后类型文字
             } else {
                 tgvh.lin_shouhou.setVisibility(View.GONE); // 不存在售后的话直接隐藏售后layout
+                tgvh.shouhou_divis.setVisibility(View.GONE);
             }
             tgvh.tv_price.setText("10".equals(type) ? map.get("use_integral") + "积分" : "¥" + map.get("shop_price")); // 设置订单中商品价格
             tgvh.tv_price.setVisibility(View.VISIBLE); // 显示订单中商品价格
@@ -838,7 +840,7 @@ public class OrderDetailsAty extends BaseAty {
                 tgvh.jifenTv.setText("（赠送:" + map.get("return_integral") + "积分）");
             }
             tgvh.textviews.setVisibility(View.VISIBLE); // 设置发票名称的控件显示或隐藏
-            tgvh.textviews.setText(map.get("invoice_name")); // 设置发票名称
+            tgvh.textviews.setText(map.get("invoice_name")+"(发票运费:"+map.get("express_fee")+" 税金:"+map.get("tax_pay")+")"); // 设置发票名称
             L.e("time" + map.get("sure_delivery_time"));
 
 
@@ -857,19 +859,24 @@ public class OrderDetailsAty extends BaseAty {
 
             // 是否开发票，1为开发票，显示该控件，否则为0，不开发票，隐藏该控件
             tgvh.layout_fapiao.setVisibility((map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) ? View.VISIBLE : View.GONE);
+            tgvh.fapiao_divis.setVisibility((map.containsKey("is_invoice") && Integer.parseInt(map.get("is_invoice")) == 1) ? View.VISIBLE : View.GONE);
             // 正品保证
             if (map.containsKey("integrity_a")) {
                 tgvh.layout_zhengpinbaozheng.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.vi_zhengpin_divis.setVisibility(map.get("integrity_a").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_zhengpinbaozheng.setText(map.get("integrity_a").isEmpty() ? "" : map.get("integrity_a"));
             } else {
                 tgvh.layout_zhengpinbaozheng.setVisibility(View.GONE);
+                tgvh.vi_zhengpin_divis.setVisibility(View.GONE);
             }
             // 服务承诺
             if (map.containsKey("integrity_b")) {
                 tgvh.layout_fuwuchengnuo.setVisibility(map.get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.fuwuchengnuo_divis.setVisibility(map.get("integrity_b").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_fuwuchengnuo.setText(map.get("integrity_b").isEmpty() ? "" : map.get("integrity_b"));
             } else {
                 tgvh.layout_fuwuchengnuo.setVisibility(View.GONE);
+                tgvh.fuwuchengnuo_divis.setVisibility(View.GONE);
             }
             // 发货时间
             if (map.containsKey("integrity_c")) {
@@ -881,9 +888,11 @@ public class OrderDetailsAty extends BaseAty {
             if (map.containsKey("integrity_d")) {
                 // 公益宝贝
                 tgvh.layout_gongyi.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
+                tgvh.vi_gongyi_divis.setVisibility(map.get("integrity_d").isEmpty() ? View.GONE : View.VISIBLE);
                 tgvh.tv_gongyi.setText(map.get("integrity_d").isEmpty() ? "" : map.get("integrity_d"));
             } else {
                 tgvh.layout_gongyi.setVisibility(View.GONE);
+                tgvh.vi_gongyi_divis.setVisibility(View.GONE);
             }
 
 
@@ -1070,12 +1079,16 @@ public class OrderDetailsAty extends BaseAty {
             private TextView textviews;
             @ViewInject(R.id.delayReceiving)
             private TextView delayReceiving;
-            @ViewInject(R.id.lin_shouhou)
+            @ViewInject(R.id.lin_shouhou)//售后服务
             private View lin_shouhou;
+            @ViewInject(R.id.shouhou_divis)
+            private View shouhou_divis;
             @ViewInject(R.id.tv_shouhou)
             private TextView tv_shouhou;
-            @ViewInject(R.id.layout_gongyi)
+            @ViewInject(R.id.layout_gongyi)//公益宝贝
             private View layout_gongyi;
+            @ViewInject(R.id.vi_gongyi_divis)
+            private View vi_gongyi_divis;
             @ViewInject(R.id.tv_gongyi)
             private TextView tv_gongyi;
             @ViewInject(R.id.lin_server_status)
@@ -1085,13 +1098,19 @@ public class OrderDetailsAty extends BaseAty {
 
             @ViewInject(R.id.layout_fapiao)
             private View layout_fapiao;
+            @ViewInject(R.id.fapiao_divis)
+            private View fapiao_divis;
 
             @ViewInject(R.id.layout_zhengpinbaozheng) // 正品保证
             private View layout_zhengpinbaozheng;
+            @ViewInject(R.id.vi_zhengpin_divis)
+            private View vi_zhengpin_divis;
             @ViewInject(R.id.tv_zhengpinbaozheng)
             private TextView tv_zhengpinbaozheng;
             @ViewInject(R.id.layout_fuwuchengnuo) // 服务承诺
             private View layout_fuwuchengnuo;
+            @ViewInject(R.id.fuwuchengnuo_divis)
+            private View fuwuchengnuo_divis;
             @ViewInject(R.id.tv_fuwuchengnuo)
             private TextView tv_fuwuchengnuo;
             @ViewInject(R.id.layout_fahuoshijian) // 发货时间

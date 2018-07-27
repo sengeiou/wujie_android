@@ -10,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.StringUtils;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
+import com.txd.hzj.wjlp.http.offlineStoreInfo.StoreInfoPst;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.view.keyboard.MyKeyboard;
 
@@ -41,6 +44,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
 
     private MyKeyboard myKeyboard;
     private ShopOffLineBean shopOffLineBean;
+    private StoreInfoPst storeInfoPst;
 
     @Override
     protected int getLayoutResId() {
@@ -78,9 +82,12 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
             }
         });
 
-        shopOffLineBean = (ShopOffLineBean) getIntent().getExtras().getSerializable("ShopOffLineBean");
-        if (shopOffLineBean == null) {
-            L.e("传入的shopOffLineBean为空");
+        // 获取前一页传入的商家id
+        String stage_merchant_id = getIntent().getStringExtra("stage_merchant_id");
+        if (!StringUtils.isEmpty(stage_merchant_id)) {
+            // 如果传入的商家id不为空 则直接请求接口
+            storeInfoPst = new StoreInfoPst(this);
+            storeInfoPst.offlineStoreInfo(stage_merchant_id);
         }
     }
 
@@ -97,8 +104,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
                 Double menyD = Double.parseDouble(meny);
                 if (menyD > 0.00) { // 如果输入金额正确且大于0
                     DecimalFormat df = new DecimalFormat("0.00"); // 将数值保留两位小数
-
-                    if (shopOffLineBean == null) {
+                    if (shopOffLineBean != null) {
                         // 加载头像
                         Glide.with(this).load(shopOffLineBean.getData().getLogo())
                                 .placeholder(R.drawable.ic_default)
@@ -125,11 +131,11 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
 //                        group_buy_id = getString("group_buy_id");
 //                        freight = getString("freight");
 //                        freight_type = getString("freight_type");
-                        startActivity(PayForAppAty.class, bundle);
-                    } else {
-                        showToast("为传入商家信息，请返回重新尝试");
-                    }
 
+//                        startActivity(PayForAppAty.class, bundle);
+                    } else {
+                        showToast("未请求到回传的店铺信息");
+                    }
                 } else { // 否则输入的金额小于0或等于0
                     Toast.makeText(this, "输入有效金额", Toast.LENGTH_SHORT).show();
                 }
@@ -151,6 +157,25 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
             case R.id.offLinePay_closePage_imgv:
                 backMain(0); // 回到首界面第一个Fragment
                 break;
+        }
+    }
+
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+
+        // 获取线下店铺详情
+        if (requestUrl.contains("offlineStoreInfo")) {
+            Gson gson = new Gson();
+            shopOffLineBean = gson.fromJson(jsonStr, ShopOffLineBean.class);
+            // 设置头像
+            Glide.with(this).load(shopOffLineBean.getData().getLogo())
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .centerCrop()
+                    .into(offLinePay_head_imgv);
+            // 设置店铺名称
+            offLinePay_merchantName_tv.setText(shopOffLineBean.getData().getMerchant_name());
         }
     }
 }
