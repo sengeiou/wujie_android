@@ -44,6 +44,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
+import com.txd.hzj.wjlp.view.PayForDialog;
 import com.txd.hzj.wjlp.wxapi.GetPrepayIdTask;
 
 import java.math.BigDecimal;
@@ -710,9 +711,27 @@ public class PayForAppAty extends BaseAty {
             if (type.equals("4")) {
                 AppManager.getInstance().killActivity(CreateGroupAty.class);
             }
-            OrderList();
-            showToast("支付成功！");
-            finish();
+            if ("10".equals(type)){
+                PayForDialog payForDialog=new PayForDialog(PayForAppAty.this);
+                payForDialog.show();
+                payForDialog.setOnPayforListener(new PayForDialog.OnPayForInterface() {
+                    @Override
+                    public void onLookListener() {
+                        OrderList();
+                        finish();
+                    }
+
+                    @Override
+                    public void onBackMainListener() {
+                        backMain(0);
+                        finish();
+                    }
+                });
+            }else {
+                OrderList();
+                showToast("支付成功！");
+                finish();
+            }
         }
 
         // 微信支付
