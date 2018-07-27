@@ -81,8 +81,8 @@ public class NewHelpCenterAty extends BaseAty {
         HashMap<String, String> headers = new HashMap<String, String>();
 
         headers.put("Accept_type", "android");
-
-        helpWebView.loadUrl(Config.OFFICIAL_WEB+"Wap/Article/helpCenter/type/1.html?Accept_type=android",headers);
+        String loadUrl=Config.OFFICIAL_WEB.replace("api","www");
+        helpWebView.loadUrl(loadUrl+"Wap/Article/helpCenter/type/1.html?Accept_type=android",headers);
 //        helpWebView.loadUrl("http://www.baidu.com/");
 
         helpWebView.setWebViewClient(new WebViewClient() {
