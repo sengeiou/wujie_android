@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <include layout="@layout/aty_title" />
@@ -12,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="91dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp">
@@ -83,8 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="91dp"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp">
@@ -139,6 +141,7 @@
 
                 <CheckBox
                     android:id="@+id/thirdPartyAcc_weChatAccount_cb"
+                    style="@style/checkbox_style_14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -166,8 +169,8 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="91dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp">
@@ -183,6 +186,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -206,13 +211,17 @@
                         android:textSize="17sp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/thirdPartyAcc_alipayAccount_tv"
+                <EditText
+                    android:id="@+id/thirdPartyAcc_alipayAccount_et"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="13dp"
-                    android:text="请输入支付宝账户信息" />
+                    android:layout_marginTop="10dp"
+                    android:background="@null"
+                    android:hint="请输入支付宝账户信息"
+                    android:padding="3dp"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -222,6 +231,7 @@
 
                 <CheckBox
                     android:id="@+id/thirdPartyAcc_alipayAccount_cb"
+                    style="@style/checkbox_style_14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
