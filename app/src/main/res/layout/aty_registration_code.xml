@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:background="#7f000000"
     tools:context="com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:onClick="beBack" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,6 +34,7 @@
                 android:src="@drawable/icon_temp_mine_head_hzj" />
 
             <TextView
+                android:id="@+id/registrationCode_zhucema_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="end|center_vertical"
@@ -54,6 +57,7 @@
             android:src="@drawable/icon_temp_my_code_hzj" />
 
         <TextView
+            android:id="@+id/registrationCode_show_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

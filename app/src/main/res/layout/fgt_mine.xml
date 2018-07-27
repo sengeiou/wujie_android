@@ -656,6 +656,26 @@
                         android:background="@color/bg_color" />
 
                     <TextView
+                        android:id="@+id/business_code_tv"
+                        style="@style/mine_text_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/icon_turn_right_gray"
+                        android:drawablePadding="10dp"
+                        android:drawableStart="@drawable/icon_mine_erweima"
+                        android:padding="12dp"
+                        android:text="商家码"
+                        android:textColor="@color/app_text_color"
+                        android:visibility="gone" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@color/bg_color" />
+
+                    <TextView
                         android:id="@+id/tv_dljm"
                         style="@style/mine_text_list"
                         android:layout_width="match_parent"

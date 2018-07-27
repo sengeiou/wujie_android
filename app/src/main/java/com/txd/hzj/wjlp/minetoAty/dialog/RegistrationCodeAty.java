@@ -2,10 +2,13 @@ package com.txd.hzj.wjlp.minetoAty.dialog;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.tool.ToolKit;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -31,6 +34,11 @@ public class RegistrationCodeAty extends BaseAty {
     @ViewInject(R.id.code_user_head_iv)
     private ImageView code_user_head_iv;
 
+    @ViewInject(R.id.registrationCode_zhucema_tv)
+    private TextView registrationCode_zhucema_tv; // 头像右侧的文字框，显示的是注册码那个
+    @ViewInject(R.id.registrationCode_show_tv)
+    private TextView registrationCode_show_tv; // 二维码下方的提示文字
+
     /**
      * 邀请码二维码图片
      */
@@ -44,11 +52,16 @@ public class RegistrationCodeAty extends BaseAty {
      * 注册码
      */
     private String invite_code = "";
+    /**
+     * 联盟商家id
+     */
+    private String stage_merchant_id = "";
 
     private int head_size = 0;
 
     private int code_size = 0;
     private Bitmap recordBitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +84,26 @@ public class RegistrationCodeAty extends BaseAty {
     protected void initialized() {
         head_pic = getIntent().getStringExtra("head_pic");
         invite_code = getIntent().getStringExtra("invite_code");
+        stage_merchant_id = getIntent().getStringExtra("stage_merchant_id");
+        if (stage_merchant_id != null && !stage_merchant_id.equals("")) {
+            // 商家码
+            code_user_head_iv.setVisibility(View.GONE); // 隐藏头像
+            registrationCode_zhucema_tv.setText("商家码"); // 头像右侧的文字框，显示的是注册码那个
+            registrationCode_zhucema_tv.setGravity(Gravity.CENTER); // 标题居中
+            registrationCode_show_tv.setText("点击下载放到线下进行扫码支付"); // 二维码下方的提示文字
+
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(Config.OFFICIAL_WEB);
+            stringBuffer.append("Wap/OfflineStore/confirmation/stage_merchant_id/");
+            stringBuffer.append(stage_merchant_id);
+            stringBuffer.append("/invite_code/");
+            stringBuffer.append(invite_code);
+            stringBuffer.append(".html");
+            invite_code = stringBuffer.toString();
+//          生成字符串的样式：http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
+
+        }
+
         head_size = ToolKit.dip2px(this, 80);
         code_size = ToolKit.dip2px(this, 200);
     }
@@ -94,7 +127,7 @@ public class RegistrationCodeAty extends BaseAty {
             @Override
             public void onEncodeQRCodeSuccess(Bitmap bitmap) {
                 user_code_iv.setImageBitmap(bitmap);
-                recordBitmap=bitmap;
+                recordBitmap = bitmap;
                 removeDialog();
             }
 
@@ -114,8 +147,8 @@ public class RegistrationCodeAty extends BaseAty {
     @OnClick({R.id.user_code_iv})
     public void onClick(View v) {
         super.onClick(v);
-        if(null!=recordBitmap){
-            BitmapUtils.gainInstance().saveBmp2Gallery(RegistrationCodeAty.this, recordBitmap,  "zhucema" , new BitmapUtils.Listener() {
+        if (null != recordBitmap) {
+            BitmapUtils.gainInstance().saveBmp2Gallery(RegistrationCodeAty.this, recordBitmap, "zhucema", new BitmapUtils.Listener() {
                 @Override
                 public void saveSuccess() {
                     Toast.makeText(RegistrationCodeAty.this, "已成功保存到相册！", Toast.LENGTH_LONG).show();
