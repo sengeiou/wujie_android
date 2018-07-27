@@ -11,18 +11,19 @@ import com.lidroid.xutils.http.RequestParams;
  * 功能描述：
  * 联系方式：无
  */
- class StoreInfo {
+class StoreInfo {
     private String url = Config.BASE_URL + "OfflineStore/";
 
     /**
      * 线下店铺详情页
-     * */
-
-    void offlineStoreInfo(String id, BaseView baseView){
+     */
+    void offlineStoreInfo(String id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("merchant_id",id);
-        apiTool2.postApi(url+"offlineStoreInfo",params,baseView);
-
+        params.addBodyParameter("merchant_id", id);
+        apiTool2.postApi(url + "offlineStoreInfo", params, baseView);
     }
+
+
+
 }
