@@ -60,7 +60,6 @@ import com.txd.hzj.wjlp.mainFgt.CartFgt;
 import com.txd.hzj.wjlp.mainFgt.MellOffLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MellonLineFgt;
 import com.txd.hzj.wjlp.mainFgt.MineFgt;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
 import com.txd.hzj.wjlp.popAty.WJHatchAty;
 import com.txd.hzj.wjlp.popAty.WelfareServiceAty;
 import com.txd.hzj.wjlp.tool.AppUpdate;
@@ -416,7 +415,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         popupWindow.setFocusable(false);
 
         /*
-         * 无界商城
+         * 汽车购
          */
         contentView.findViewById(R.id.main_wj_shop_iv).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -426,10 +425,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 //                mBundle.putString("title", "爱心商店");
 //                startActivity(OnlineShopAty.class, mBundle);
 
-                mBundle.putInt("type", 10);
-                mBundle.putString("title", "无界商店");
-                startActivity(TicketZoonAty.class, mBundle);
-
+                showToast("开发中，敬请期待");
+//                startActivity(CarChenAty.class, null);
                 popupWindow.dismiss();
                 mCurPopupWindow = null;
             }

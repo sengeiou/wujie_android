@@ -452,9 +452,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
 //                            bundle.putString("title", "比价购");
 //                            startActivity(AuctionCollectAty.class, bundle);
                             break;
-                        case 7://汽车购
-                            showToast("开发中，敬请期待");
-//                            startActivity(CarChenAty.class, null);
+                        case 7://无界商店
+                            bundle = new Bundle();
+                            bundle.putInt("type", 10);
+                            bundle.putString("title", "无界商店");
+                            startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 8://房产购
                             showToast("开发中，敬请期待");
@@ -737,7 +739,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         gv_classify.add("无界预购");
         gv_classify.add("进口馆");
         gv_classify.add("比价购");
-        gv_classify.add("汽车购");
+        gv_classify.add("无界商店");
         gv_classify.add("房产购");
         gv_classify.add("积分抽奖");
 
