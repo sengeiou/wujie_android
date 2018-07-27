@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty.help;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.HelpCenter;
 import com.txd.hzj.wjlp.http.article.ArticlePst;
-import com.txd.hzj.wjlp.tool.ImageTextUtil;
-import com.txd.hzj.wjlp.tool.URLImageParser;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
 
 import java.util.ArrayList;
@@ -193,12 +190,19 @@ public class HelpFgt extends BaseFgt {
             //iv_child.setImageResource(resId);
             String source=helpCenters.get(groupPosition).getContent().get(childPosition);
             WebSettings settings=tv_child.getSettings();
-            settings.setDefaultTextEncodingName("UTF -8") ;
+            /*settings.setDefaultTextEncodingName("UTF -8") ;
             settings.setJavaScriptEnabled(true);
             settings.setSupportZoom(true);
             settings.setBuiltInZoomControls(true);
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-            settings.setUseWideViewPort(true);
+            settings.setUseWideViewPort(true);*/
+            settings.setJavaScriptEnabled(true); // JS支持
+            settings.setAllowContentAccess(true); // 允许访问内容
+            settings.setAppCacheEnabled(false); // 允许缓存
+            settings.setBuiltInZoomControls(false); // 支持缩放
+            settings.setUseWideViewPort(true); // 使用宽视图窗口
+            settings.setLoadWithOverviewMode(true);
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             tv_child.loadData(source, "text/html; charset=UTF-8", null);//这种写法可以正确解码
 
             tv_child.setWebViewClient(new WebViewClient() {
