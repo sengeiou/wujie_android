@@ -74,10 +74,13 @@
             </RelativeLayout>
 
             <View
+                android:id="@+id/shop_evaluate_divis"
                 android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                android:layout_height="10dp"
+                />
 
             <LinearLayout
+                android:id="@+id/shop_evaluate_modle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
