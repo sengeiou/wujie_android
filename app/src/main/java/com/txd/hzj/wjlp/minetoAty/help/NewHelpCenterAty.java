@@ -50,14 +50,25 @@ public class NewHelpCenterAty extends BaseAty {
 
         //iv_child.setImageResource(resId);
         WebSettings webSettings = helpWebView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setAllowContentAccess(true);
-        webSettings.setAppCacheEnabled(false);
-        webSettings.setBuiltInZoomControls(false);
-        webSettings.setUseWideViewPort(true);
-        webSettings.setLoadWithOverviewMode(true);
+
+
+
+//        int fontSize = (int) getResources().getDimension(R.dimen.chat_nick_text_size);
+//        webSettings.setDefaultFontSize(fontSize);
+//            settings.setTextSize(WebSettings.TextSize.LARGER);
+
+
+//      helpWebView.loadData(source, "text/html; charset=UTF-8", null);//这种写法可以正确解码
+//      helpWebView.loadDataWithBaseURL(null, source, "text/html", "utf-8", null);
+
+
+        webSettings.setJavaScriptEnabled(true); // JS支持
+        webSettings.setAllowContentAccess(true);// 允许访问内容
+        webSettings.setAppCacheEnabled(false);// 允许缓存
+        webSettings.setBuiltInZoomControls(false);// 支持缩放
+        webSettings.setUseWideViewPort(true); // 将图片调整到适合webview的大小
+        webSettings.setLoadWithOverviewMode(true);;// 缩放至屏幕的大
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        webSettings.setJavaScriptEnabled(true);
         webSettings.setPluginState(WebSettings.PluginState.ON);
         webSettings.setAllowFileAccess(true); // 允许访问文件
         webSettings.setSupportZoom(true); // 支持缩放
@@ -66,13 +77,12 @@ public class NewHelpCenterAty extends BaseAty {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        helpWebView.getSettings().setUseWideViewPort(true);
 //        helpWebView.addJavascriptInterface(new MyJavaScript(), "JsUtils");
         HashMap<String, String> headers = new HashMap<String, String>();
 
         headers.put("Accept_type", "android");
-
-        helpWebView.loadUrl(Config.OFFICIAL_WEB+"Wap/Article/helpCenter/type/1.html?Accept_type=android",headers);
+        String loadUrl=Config.OFFICIAL_WEB.replace("api","www");
+        helpWebView.loadUrl(loadUrl+"Wap/Article/helpCenter/type/1.html?Accept_type=android",headers);
 //        helpWebView.loadUrl("http://www.baidu.com/");
 
         helpWebView.setWebViewClient(new WebViewClient() {

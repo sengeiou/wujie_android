@@ -107,8 +107,11 @@ public class HelpFgt extends BaseFgt {
         expandableListView.setAdapter(elv);
         int num = helpCenters.size();
         for (int i = 0; i < num; i++) {
-            expandableListView.expandGroup(i);
+//            expandableListView.expandGroup(i);
+            expandableListView.collapseGroup(i);
         }
+
+
     }
 
     //为ExpandableListView自定义适配器
@@ -190,29 +193,37 @@ public class HelpFgt extends BaseFgt {
             //iv_child.setImageResource(resId);
             String source=helpCenters.get(groupPosition).getContent().get(childPosition);
             WebSettings settings=tv_child.getSettings();
-            /*settings.setDefaultTextEncodingName("UTF -8") ;
+            /*
             settings.setJavaScriptEnabled(true);
             settings.setSupportZoom(true);
             settings.setBuiltInZoomControls(true);
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
             settings.setUseWideViewPort(true);*/
+            settings.setDefaultTextEncodingName("UTF -8") ;
             settings.setJavaScriptEnabled(true); // JS支持
             settings.setAllowContentAccess(true); // 允许访问内容
             settings.setAppCacheEnabled(false); // 允许缓存
             settings.setBuiltInZoomControls(false); // 支持缩放
-            settings.setUseWideViewPort(true); // 使用宽视图窗口
-            settings.setLoadWithOverviewMode(true);
-            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-            tv_child.loadData(source, "text/html; charset=UTF-8", null);//这种写法可以正确解码
+            settings.setUseWideViewPort(true); // 将图片调整到适合webview的大小
+            settings.setLoadWithOverviewMode(true);// 缩放至屏幕的大
+            settings.setSupportZoom(true);
 
-            tv_child.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                    view.loadUrl(url);
-                    return true;
-                }
-            });
+            int fontSize = (int) getResources().getDimension(R.dimen.chat_nick_text_size);
+            settings.setDefaultFontSize(fontSize);
+//            settings.setTextSize(WebSettings.TextSize.LARGER);
+
+
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+//            tv_child.loadData(source, "text/html; charset=UTF-8", null);//这种写法可以正确解码
+            tv_child.loadDataWithBaseURL(null, source, "text/html", "utf-8", null);
+//            tv_child.setWebViewClient(new WebViewClient() {
+//                @Override
+//                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                    // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+//                    view.loadUrl(url);
+//                    return true;
+//                }
+//            });
 //            tv_child.setText(Html.fromHtml(source, new URLImageParser(getActivity().getApplicationContext(),tv_child ), null));\
 //            ImageTextUtil.setImageText(tv_child,source);
             return convertView;

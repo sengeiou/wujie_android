@@ -74,6 +74,8 @@ import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
+//import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
+
 /**
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
@@ -93,6 +95,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private SuperSwipeRefreshLayout superSwipeRefreshLayout;
     @ViewInject(R.id.bandOtherAccount_tv)
     private TextView bandOtherAccount_tv; // 绑定第三方账户
+    @ViewInject(R.id.business_code_tv)
+    private TextView business_code_tv; // 商家码
 
     /**
      * 标题栏
@@ -270,6 +274,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private String service_nickname;
     private String blue_voucher;
     private String imaUrl;
+    private String stage_merchant_id;
+    private String business_invite_code_code;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -311,7 +317,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             R.id.share_grade_tv, R.id.collect_tv, R.id.footprint_tv, R.id.evaluate_tv, R.id.call_service_tv,
             R.id.merchant_will_move_into_tv, R.id.books_tv, R.id.stock_record_tv, R.id.sales_record_tv, R.id.personalStores,
             R.id.mell_goods_list_tv, R.id.grade_for_app_tv, R.id.tv_dljm, R.id.tv_lmsj, R.id.give_coupon_tv_ll, R.id.apprentice_code_tv
-            , R.id.bandOtherAccount_tv})
+            , R.id.bandOtherAccount_tv, R.id.business_code_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -342,7 +348,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(AboutOursAty.class, null);
                 break;
             case R.id.tv_help_center:// 帮助中心
-                startActivity(HelpCenterAty.class, null);
+                startActivity(NewHelpCenterAty.class, null);
                 break;
             case R.id.tv_order_center:// 订单中心
                 startActivity(OrderCenterAty.class, null);
@@ -450,7 +456,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     showErrorTip("跳转至应用市场失败，请到您自行到市场为我们评价哦ლ(⌒▽⌒ლ)");
                 }
                 break;
-            case R.id.apprentice_code_tv: {
+            case R.id.apprentice_code_tv: { // 拜师码
                 bundle = new Bundle();
                 bundle.putString("head_pic", head_pic);
                 bundle.putString("code", code);
@@ -462,6 +468,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
                 startActivity(ThirdPartAccountAty.class, null);
                 break;
+            case R.id.business_code_tv:// 注册码
+                bundle = new Bundle();
+                bundle.putString("head_pic", head_pic);
+                bundle.putString("invite_code", business_invite_code_code);
+                bundle.putString("stage_merchant_id", stage_merchant_id);
+                startActivity(RegistrationCodeAty.class, bundle);
+//                http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
         }
     }
 
@@ -555,6 +568,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 if (change_account_status.equals("1") && !alliance_merchant.equals("0")) {
                     // 支持账户切换 并且 是联盟商家 则显示该按钮
                     bandOtherAccount_tv.setVisibility(View.VISIBLE);
+                    business_code_tv.setVisibility(View.VISIBLE);
                 }
             } catch (JSONException e) {
             }
@@ -595,6 +609,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             head_pic = data.get("head_pic");
             // 邀请码
             invite_code = data.get("invite_code");
+            // 联盟商家id
+            stage_merchant_id = data.containsKey("stage_merchant_id") ? data.get("stage_merchant_id") : "";
+            // 商家码的invite_code
+            business_invite_code_code = data.containsKey("code") ? data.get("code") : "";
 
             //      "is_agent":"0",    //是否显示    代理加盟  0 不显示  1 显示
             String is_agent = data.get("is_agent");
