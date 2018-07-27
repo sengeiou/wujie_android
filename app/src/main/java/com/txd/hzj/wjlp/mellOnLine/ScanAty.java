@@ -10,10 +10,12 @@ import com.ants.theantsgo.AppManager;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
+import com.ants.theantsgo.util.StringUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.txd.hzj.wjlp.mellOffLine.PaymentAty;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,13 +84,23 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
      */
     @Override
     public void onScanQRCodeSuccess(String result) {
-        //  showRightTip(result);
+
         L.e(result);
         //震动
         vibrate();
         //停止预览
         mQR.stopCamera();
 
+        dataProcessing(result); // 处理数据
+
+    }
+
+    /**
+     * 扫码成功之后数据的处理
+     *
+     * @param result 扫码成功返回字符串
+     */
+    private void dataProcessing(String result) {
         // 扫描商家拜师码
         if (result.contains("User/mentorship/invite_code")) {
             if (!Config.isLogin()) { // 如果未登录则先去登录
@@ -96,7 +108,9 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
             } else {
                 toDetail(4, result);
             }
-        } else if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
+        }
+        // 扫网站的二维码
+        if (result.contains("type")) {// type:1登录，2邀请码注册 ，3下载
             if (!Config.isLogin()) { // 如果未登录则先去登录
                 toLogin();
             } else {
@@ -116,6 +130,26 @@ public class ScanAty extends BaseAty implements QRCodeView.Delegate {
                     showToast("二维码异常，请刷新网站端界面。");
                     L.e("扫码Json字符串异常：" + e.toString());
                 }
+            }
+        }
+
+//        http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
+        // 线下扫码付款
+        if (result.contains("OfflineStore/confirmation") && result.contains("stage_merchant_id")) {
+            String stage_merchant_id = "";
+            String[] split = result.split("/");
+            for (int i = 0; i < split.length; i++) {
+                if (!StringUtils.isEmpty(split[i]) && split[i].equals("stage_merchant_id")) {
+                    stage_merchant_id = split[i + 1];
+                    break;
+                }
+            }
+            if (!StringUtils.isEmpty(stage_merchant_id)) {
+                Bundle bundle = new Bundle();
+                bundle.putString("stage_merchant_id", stage_merchant_id);
+                startActivity(PaymentAty.class, bundle);
+            } else {
+                showToast("二维码错误，未获取到商家编号");
             }
         } else {
             toDetail(4, result);
