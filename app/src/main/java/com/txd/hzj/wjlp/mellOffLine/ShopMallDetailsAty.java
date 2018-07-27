@@ -105,6 +105,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private boolean isCollection;
     private UserCollectPst collectPst;
     private ShopOffLineBean offLineBean;
+    private String sId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -230,10 +231,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
-                ShopOffLineBean shopOffLineBean = new ShopOffLineBean(); // TODO 测试新建的类，传入下一页的时候直接传对应的Bean
                 Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("ShopOffLineBean", shopOffLineBean);
+                bundle.putString("stage_merchant_id", sId);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -293,6 +293,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 urls.add(offLineBean.getData().getGallery().get(i).getPath());
             }
             bannerIma.setImages(urls);
+
+            if (offLineBean.getData().getS_id() != null) {
+                sId = offLineBean.getData().getS_id();
+            }
             //开始
             bannerIma.start();
             //设置营业时间
