@@ -380,7 +380,7 @@ public class OrderDetailsAty extends BaseAty {
                             }
 
                         } else if (type.equals("10")) {
-                            if (order_status.equals("1")) {
+                            if (order_status.equals("0")) {
                                 IntegralBuyOrder.CancelOrder(order_id, OrderDetailsAty.this);
                                 showProgressDialog();
                             }
@@ -390,8 +390,6 @@ public class OrderDetailsAty extends BaseAty {
                 }).setNegativeButton("取消", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AuctionOrder.CancelOrder(order_id, OrderDetailsAty.this);
-                        showProgressDialog();
                     }
                 }).show();
             }
