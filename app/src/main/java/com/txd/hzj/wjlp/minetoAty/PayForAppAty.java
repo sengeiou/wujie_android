@@ -420,6 +420,8 @@ public class PayForAppAty extends BaseAty {
             AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
 
         } else if (type.equals("10")) {
+            bottom_type=3;
+            selectCheckBoxBottom(bottom_type);
             //无界商店添加订单
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
             decimalFormat = new DecimalFormat("0");
