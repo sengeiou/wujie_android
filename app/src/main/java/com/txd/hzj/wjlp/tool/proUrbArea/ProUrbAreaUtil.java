@@ -1,6 +1,5 @@
 package com.txd.hzj.wjlp.tool.proUrbArea;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -19,9 +18,8 @@ import com.bigkoo.pickerview.listener.OnDismissListener;
 import com.txd.hzj.wjlp.bean.addres.CityForTxd;
 import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
 import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
-import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.Freight;
-import com.txd.hzj.wjlp.wjyp.BaseAty;
+import com.txd.hzj.wjlp.http.address.AddressPst;
 
 import org.json.JSONArray;
 import org.json.JSONException;

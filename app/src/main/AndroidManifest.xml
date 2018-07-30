@@ -1105,6 +1105,8 @@
         <activity android:name=".distribution.shopAty.ShopExhibit" />
         <activity android:name=".distribution.shopAty.ShopGoodsManage" />
         <activity android:name=".distribution.shopAty.ShopRevenue"></activity>
+        <activity android:name=".minetoAty.order.OffLineShopAty"/>
+        <activity android:name=".minetoAty.order.OffLineShopDetailsAty"/>
 
     </application>
 

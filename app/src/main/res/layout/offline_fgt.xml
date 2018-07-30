@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout
+        android:id="@+id/super_sr_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/order_on_line_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EFEFF4"
+            android:divider="#ffffffff"
+            android:scrollbars="none" />
+
+    </com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout>
+
+    <TextView
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:id="@+id/tv_null"
+        android:drawableTop="@drawable/icon_no_data_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无数据"/>
+
+</RelativeLayout>

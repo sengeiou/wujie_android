@@ -10,9 +10,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -73,7 +71,7 @@ public class OrderCenterAty extends BaseAty {
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("线下商铺")) {
                     mBundle.putString("title", "线下商铺");
-                    startActivity(OnlineShopAty.class, mBundle);
+                    startActivity(OffLineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("无界商店")) {
                     mBundle.putString("title", "无界商店");
                     mBundle.putString("type", "10");
