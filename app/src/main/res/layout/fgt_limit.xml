@@ -55,7 +55,7 @@
                             android:layout_gravity="center_horizontal"
                             app:isHideTimeBackground="false"
                             app:isShowDay="false"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             app:isShowHour="true"
                             app:isShowMillisecond="false"
                             app:isShowMinute="true"

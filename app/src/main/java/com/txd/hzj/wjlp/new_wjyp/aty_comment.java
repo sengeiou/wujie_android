@@ -217,18 +217,16 @@ public class aty_comment extends BaseAty {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
-            if (data != null && requestCode == 100) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker
-                        .EXTRA_RESULT_ITEMS);
+            if (requestCode == 100 && data != null) {
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 for (ImageItem img : images) {
                     String pic_path = CompressionUtil.compressionBitmap(img.path);
                     File file = new File(pic_path);
                     file_list.add(file);
                     gridImageAdapter.notifyDataSetChanged();
                 }
-
             } else {
-                showErrorTip("哎呀出错了。。");
+                showErrorTip("出错了。。");
             }
         }
     }

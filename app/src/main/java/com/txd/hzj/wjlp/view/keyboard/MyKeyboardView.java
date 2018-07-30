@@ -103,7 +103,7 @@ public class MyKeyboardView extends KeyboardView {
                     field = KeyboardView.class.getDeclaredField("mLabelTextSize");
                     field.setAccessible(true);
 //                    keyTextSize = (int) field.get(this);
-                    keyTextSize = 80;
+                    keyTextSize = 60;
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();
                 }

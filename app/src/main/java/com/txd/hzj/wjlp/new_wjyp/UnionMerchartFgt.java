@@ -249,8 +249,7 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
 
         if (resultCode == ImagePicker.RESULT_CODE_ITEMS) {
             if (data != null) {
-                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker
-                        .EXTRA_RESULT_ITEMS);
+                ArrayList<ImageItem> images = (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
                 switch (requestCode) {
                     case 102:
                         String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);

@@ -52,11 +52,11 @@ public class GsonUtil {
      * @return T
      */
     public static <T> T GsonToBean(String gsonString, Class<T> cls) {
-//        T t = null;
-//        if (gson != null) {
-//            t = gson.fromJson(gsonString, cls);
-//        }
-        T t=JSON.parseObject(gsonString,cls);
+        T t = null;
+        if (gson != null) {
+            t = gson.fromJson(gsonString, cls);
+        }
+//        T t=JSON.parseObject(gsonString,cls);
         return t;
     }
 

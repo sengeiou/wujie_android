@@ -114,11 +114,11 @@ public class LimitAdapter extends BaseAdapter {
                 .into(lvh.goods_pic_iv);
 
         // 现在时间
-        long now =  System.currentTimeMillis() / 1000;
+        long now = System.currentTimeMillis() / 1000;
         // 结束时间
         long end = Long.parseLong(auctionList.getEnd_time());
         lvh.home_count_down_view.setTag("limit" + i);
-        lvh.home_count_down_view.start((end - now)*1000);
+        lvh.home_count_down_view.start((end - now) * 1000);
 
         // 控制显示或隐藏提醒我按钮
         if (1 == type) {

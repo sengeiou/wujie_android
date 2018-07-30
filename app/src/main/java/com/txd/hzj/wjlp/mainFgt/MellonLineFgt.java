@@ -53,6 +53,7 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
@@ -412,8 +413,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     int pos = i + curIndex * pageSize;
                     switch (pos) {
                         case 0:// 限量购
-                            showToast("开发中，敬请期待");
-//                            startActivity(LimitShoppingAty.class, null);
+//                            showToast("开发中，敬请期待");
+                            startActivity(LimitShoppingAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
