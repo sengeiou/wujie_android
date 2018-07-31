@@ -833,7 +833,7 @@ public class BuildOrderAty extends BaseAty {
                 }
 
                 // 设置税金四舍五入显示到界面上
-                DecimalFormat df = new DecimalFormat(".##");
+                DecimalFormat df = new DecimalFormat("0.00");
                 tv_invoice.setText("");
                 if (countryTax > 0) {
                     // 界面返回的时候显示税金、发票运费等，如果先前包含进口税，则添加进口税显示
