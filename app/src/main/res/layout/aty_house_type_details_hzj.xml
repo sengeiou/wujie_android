@@ -269,7 +269,7 @@
                             android:id="@+id/mell_score_rating_bar"
                             style="@style/foodRatingBar"
                             android:layout_width="wrap_content"
-                            android:layout_height="14dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:isIndicator="true"
                             android:numStars="5"

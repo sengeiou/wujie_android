@@ -63,7 +63,7 @@
                                 android:id="@+id/rb"
                                 style="@style/foodRatingBar"
                                 android:layout_width="wrap_content"
-                                android:layout_height="22dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginRight="10dp"

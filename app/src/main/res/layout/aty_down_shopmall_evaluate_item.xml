@@ -57,8 +57,8 @@
         <RatingBar
             android:id="@+id/shop_evaluate_star_level"
            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            style="@style/foddRatingBar"
+            android:layout_height="wrap_content"
+            style="@style/foodRatingBar"
             android:layout_alignBottom="@+id/shopmall_item_img_head"
             android:layout_toRightOf="@+id/shopmall_item_img_head"
             android:layout_marginStart="8dp"

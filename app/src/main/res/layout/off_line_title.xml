@@ -17,6 +17,7 @@
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/to_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
@@ -29,8 +30,7 @@
         android:background="@drawable/shape_search_view"
         android:drawableLeft="@drawable/icon_search"
         android:drawablePadding="8dp"
-        android:hint="搜索商品、商家"
-        android:onClick="toSearch"
+        android:hint="搜索商家"
         android:padding="8dp"
         android:textColor="@color/white"
         android:textColorHint="#8Cffffff" />
