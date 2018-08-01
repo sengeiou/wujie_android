@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.StringUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
@@ -88,7 +89,11 @@ public class ToastView extends LinearLayout {
         TextView userdoTv = view.findViewById(R.id.userdoTv);
         Event_msgBean event_msgBean = event_msgBeans.get(currentPos);
         String headPic = event_msgBean.getHead_pic();
-        GlideUtils.urlCirclePic(headPic, imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), imageView);
+        try {
+            GlideUtils.urlCirclePic(headPic, imageView.getMeasuredWidth(), imageView.getMeasuredHeight(), imageView);
+        } catch (Exception e) {
+            L.e("显示的标题参数异常，无法显示");
+        }
         usernickNameTv.setText(event_msgBean.getNick_name());
         userdoTv.setText(event_msgBean.getMsg());
 
