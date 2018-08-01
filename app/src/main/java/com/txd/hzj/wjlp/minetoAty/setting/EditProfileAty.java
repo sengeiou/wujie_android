@@ -27,6 +27,7 @@ import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.StringUtils;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -528,8 +529,13 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                     String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                     switch (requestCode) {
                         case 100:
-                            file = new File(pic_path);
-                            Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
+                            try {
+                                file = new File(pic_path);
+                                Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
+                            } catch (Exception e) {
+                                L.e("File Exception:" + e.toString());
+                                showToast("未找到推按文件，请重新选择。");
+                            }
                             break;
                     }
                 }
