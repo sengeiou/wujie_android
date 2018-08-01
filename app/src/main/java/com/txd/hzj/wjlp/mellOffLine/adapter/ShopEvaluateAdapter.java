@@ -39,11 +39,11 @@ public class ShopEvaluateAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MyViewHolde viewHolder = (MyViewHolde)holder;
+        MyViewHolde viewHolder = (MyViewHolde) holder;
         Glide.with(context).load(list.get(position).getHead_pic()).into(viewHolder.imaHead);
         viewHolder.shopEvaluateName.setText(list.get(position).getNickname());
         viewHolder.shopEvaluateTime.setText(list.get(position).getStart_time());
-        viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(list.get(position).getStar()));
+        viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(list.get(position).getStar() != null ? list.get(position).getStar() : "0"));
 
     }
 
@@ -56,7 +56,7 @@ public class ShopEvaluateAdapter extends RecyclerView.Adapter {
 
         private ShapedImageView imaHead;
         private TextView shopEvaluateName, shopEvaluateTime;
-        private  RatingBar shop_evaluate_star_level;
+        private RatingBar shop_evaluate_star_level;
 
         public MyViewHolde(View itemView) {
             super(itemView);
