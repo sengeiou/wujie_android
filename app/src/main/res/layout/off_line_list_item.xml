@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@color/white"
     android:padding="8dp">
 
     <ImageView
@@ -48,6 +49,26 @@
                 android:text="进店逛逛"
                 android:textColor="@color/colorAccent" />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RatingBar
+                android:id="@+id/shop_evaluate_star_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/foodRatingBar"
+                android:layout_marginStart="8dp"
+                android:isIndicator="true"
+                android:rating="4"
+                android:numStars="5"
+                />
+            <TextView
+                android:id="@+id/achievement_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textView7"
@@ -57,14 +78,9 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxLines="2" />
+            android:maxLines="1" />
 
-        <TextView
-            android:id="@+id/mell_score_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray_text_color"
-            android:textSize="16sp" />
+
     </LinearLayout>
 
 

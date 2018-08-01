@@ -3,98 +3,111 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <LinearLayout
+    <ScrollView
+        android:scrollbars="none"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:id="@+id/layout_tv"
-        android:background="@android:color/white"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/r"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/icon_daijinquan_r"
-            android:drawablePadding="10dp"
-            android:padding="14dp" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:id="@+id/layout_tv"
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/y"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/icon_daijinquan_y"
-            android:drawablePadding="10dp"
-            android:padding="14dp" />
+                <TextView
+                    android:id="@+id/r"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_daijinquan_r"
+                    android:drawablePadding="10dp"
+                    android:padding="14dp" />
 
-        <TextView
-            android:id="@+id/b"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/icon_daijinquan_b"
-            android:drawablePadding="10dp"
-            android:padding="14dp" />
+                <TextView
+                    android:id="@+id/y"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_daijinquan_y"
+                    android:drawablePadding="10dp"
+                    android:padding="14dp" />
 
-        <TextView
-            android:id="@+id/cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="不使用"
-            android:textColor="#FF534C"
-            android:textSize="14sp" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/b"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/icon_daijinquan_b"
+                    android:drawablePadding="10dp"
+                    android:padding="14dp" />
+
+                <TextView
+                    android:id="@+id/cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="不使用"
+                    android:textColor="#FF534C"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_cb"
-        android:layout_margin="20dp"
-        android:visibility="gone"
-        android:background="@android:color/white"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_cb"
+                android:layout_margin="20dp"
+                android:visibility="gone"
+                android:background="@android:color/white"
+                android:orientation="vertical">
 
-        <CheckBox
-            android:id="@+id/cb_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawableLeft="@mipmap/icon_daijinquan_r"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/select_check_box_style_cart"
-            android:padding="14dp" />
+                <CheckBox
+                    android:id="@+id/cb_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@mipmap/icon_daijinquan_r"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="14dp" />
 
-        <CheckBox
-            android:id="@+id/cb_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawableLeft="@mipmap/icon_daijinquan_y"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/select_check_box_style_cart"
-            android:padding="14dp" />
+                <CheckBox
+                    android:id="@+id/cb_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@mipmap/icon_daijinquan_y"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="14dp" />
 
-        <CheckBox
-            android:id="@+id/cb_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:button="@null"
-            android:drawableLeft="@mipmap/icon_daijinquan_b"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/select_check_box_style_cart"
-            android:padding="14dp" />
+                <CheckBox
+                    android:id="@+id/cb_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@mipmap/icon_daijinquan_b"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/select_check_box_style_cart"
+                    android:padding="14dp" />
 
-        <TextView
-            android:id="@+id/tv_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="不使用"
-            android:textColor="#FF534C"
-            android:textSize="14sp" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="不使用"
+                    android:textColor="#FF534C"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </LinearLayout>

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
@@ -70,7 +71,9 @@ public class MellOffLineListAdapter extends BaseAdapter {
 
         viewHolder.mell_name_tv.setText(dataBean.getMerchant_name());
         viewHolder.textView7.setText(dataBean.getMerchant_desc());
-        viewHolder.mell_score_tv.setText("评分\u3000"+dataBean.getScore()+"分");
+        String star = dataBean.getScore();
+        viewHolder.shop_evaluate_star_level.setRating(android.text.TextUtils.isEmpty(star)?4:Integer.valueOf(star));
+        viewHolder.achievement_tv.setText("|月售"+dataBean.getMonths_order()+"单");
 
         //点击了进店逛逛
         viewHolder.into_mell_tv.setOnClickListener(new View.OnClickListener() {
@@ -106,8 +109,14 @@ public class MellOffLineListAdapter extends BaseAdapter {
         /**
          * 评分
          */
-        @ViewInject(R.id.mell_score_tv)
-        private TextView mell_score_tv;
+        @ViewInject(R.id.shop_evaluate_star_level)
+        private RatingBar shop_evaluate_star_level;
+
+        /**
+         * 业绩
+         */
+        @ViewInject(R.id.achievement_tv)
+        private TextView achievement_tv;
 
         /**
          * 进店逛逛

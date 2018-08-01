@@ -63,6 +63,7 @@ public class OffLineOrderListBean {
          * pay_time : 2018-07-25 10:55:58
          * order_price : 0.10
          * pay_status : 1
+         * common_status："1"//评价状态     0未评价   只有在pay_status=1且status=0时有评价按钮   1评价  无评价按钮
          * status : 0
          */
 
@@ -74,6 +75,7 @@ public class OffLineOrderListBean {
         private String pay_time;
         private String order_price;
         private String pay_status;
+        private String common_status;
         private String status;
 
         public String getOrder_id() {
@@ -138,6 +140,14 @@ public class OffLineOrderListBean {
 
         public void setPay_status(String pay_status) {
             this.pay_status = pay_status;
+        }
+
+        public String getCommon_status() {
+            return common_status;
+        }
+
+        public void setCommon_status(String common_status) {
+            this.common_status = common_status;
         }
 
         public String getStatus() {

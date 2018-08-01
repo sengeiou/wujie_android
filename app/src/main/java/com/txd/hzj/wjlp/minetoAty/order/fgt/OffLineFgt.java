@@ -327,6 +327,9 @@ public class OffLineFgt extends BaseFragment {
             } else if ("1".equals(dataBean.getPay_status())) {
                 viewHolder.tv_order_status.setText("已支付");
                 setButton(viewHolder, position);
+                if ("0".equals(dataBean.getStatus())){
+
+                }
             }
             return view;
         }

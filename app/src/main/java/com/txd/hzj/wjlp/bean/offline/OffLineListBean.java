@@ -59,6 +59,7 @@ public class OffLineListBean {
          * logo : http://img.wujiemall.com/Uploads/Merchant/2018-07-24/5b56ca2eb4470.jpg
          * score : 5.0
          * merchant_desc : 618爆款手机带回家，心动不如行动！！门店地址：红桥区兴县勉县鞍山西道与白堤路交口风湖里15号楼人！
+         *  "months_order": "0"//月消单
          */
 
         private String merchant_id;
@@ -66,6 +67,15 @@ public class OffLineListBean {
         private String logo;
         private String score;
         private String merchant_desc;
+        private String months_order;
+
+        public String getMonths_order() {
+            return months_order;
+        }
+
+        public void setMonths_order(String months_order) {
+            this.months_order = months_order;
+        }
 
         public String getMerchant_id() {
             return merchant_id;

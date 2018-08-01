@@ -42,6 +42,7 @@ import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
+import com.txd.hzj.wjlp.minetoAty.order.OffLineShopAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -721,7 +722,6 @@ public class PayForAppAty extends BaseAty {
                     AppManager.getInstance().killActivity(CreateGroupAty.class);
                 }
                 OrderList();
-                showToast("支付成功");
                 finish();
             } else {
                 showToast(map.get("message"));
@@ -860,29 +860,38 @@ public class PayForAppAty extends BaseAty {
         if (TextUtils.isEmpty(mType) || mType.equals("0") || mType.equals("0") || mType.equals("1") || mType.equals("5") || mType.equals("11")) {
             mBundle.putString("title", "线上商城");
             mBundle.putString("type", "0");
+            startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("2") || mType.equals("3") || mType.equals("4")) {
             mBundle.putString("title", "拼单购");
             mBundle.putString("type", "3");
+            startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("6")) {
             mBundle.putString("title", "无界预购");
             mBundle.putString("type", "4");
+            startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("7")) {
 
             mBundle.putString("title", "积分抽奖");
             mBundle.putString("type", "5");
+            startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("9")) {
             mBundle.putString("title", "比价购");
             mBundle.putString("type", "6");
+            startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("10")) {
             mBundle.putString("title", "无界商店");
             mBundle.putString("type", "10");
+            startActivity(OnlineShopAty.class, mBundle);
         }
-        startActivity(OnlineShopAty.class, mBundle);
+        if (mType.equals("100")){
+            startActivity(OffLineShopAty.class, mBundle);
+        }
+
     }
 
     public void showPop(View view, final int type) {
