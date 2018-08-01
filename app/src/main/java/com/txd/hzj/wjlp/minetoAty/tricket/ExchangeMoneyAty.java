@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.tools.MoneyUtils;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
+import com.ants.theantsgo.util.StringUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
@@ -297,7 +298,7 @@ public class ExchangeMoneyAty extends BaseAty {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String integral = money_ev.getText().toString().trim(); // 获取输入的数值
+                String integral = money_ev.getText().toString() == null ? "" : money_ev.getText().toString().trim(); // 获取输入的数值
                 if (1 == type) { //
                     if (Integer.parseInt(integral.isEmpty() ? "0" : integral) > Integer.parseInt(myChangeIntegralStr)) {
                         // 否则如果输入的数字值大于可兑换积分，直接设置最大积分数值
@@ -307,6 +308,9 @@ public class ExchangeMoneyAty extends BaseAty {
                     }
                     User.autoChange(ExchangeMoneyAty.this, integral);
                 } else if (type == 2) { // 提现
+                    if (StringUtils.isEmpty(balanceStr) && balanceStr == null) {
+                        return;
+                    }
                     if (Double.parseDouble(integral.isEmpty() ? "0" : integral) > Double.parseDouble(balanceStr)) {
                         // 否则如果输入的数字值大于可提现的数值，直接设置最大提现数值
                         integral = balanceStr; // 将最大值赋给输入的值
@@ -394,7 +398,7 @@ public class ExchangeMoneyAty extends BaseAty {
             Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map != null ? map.get("data") : null);
             balance = data != null ? data.get("balance") : "0.00";
             bal = new BigDecimal(balance);
-            balanceStr = data != null ? data.get("balance").trim() : "0.00";
+            balanceStr = data.get("balance") != null ? data.get("balance").trim() : "0.00";
             my_bal_tv1.setText("我的余额" + balanceStr + " ");
             String rate = data.get("rate"); // 获取手续费费率字符串
             rateInt = Integer.parseInt(rate); // 将手续费率字符串转换成Int用于计算具体金额
