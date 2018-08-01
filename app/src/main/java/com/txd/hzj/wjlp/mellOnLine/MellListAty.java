@@ -1,12 +1,8 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -14,12 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
@@ -159,11 +153,11 @@ public class MellListAty extends BaseAty {
             showErrorTip("请输入搜索关键词");
             return;
         }
-        his_str = PreferencesUtils.getString(this, "history", "");
+        his_str = PreferencesUtils.getString(this, "onlinehistory", "");
         if (!his_str.contains(key)) {
             sb = new StringBuilder();
             sb.append(key).append(",").append(his_str);
-            PreferencesUtils.putString(this, "history", sb.toString());
+            PreferencesUtils.putString(this, "onlinehistory", sb.toString());
         }
         keyword = key;
         p = 1;
@@ -205,7 +199,6 @@ public class MellListAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
-        L.e("wang", "=========>>>>>>>>jsonstr:" + jsonStr);
         if (requestUrl.contains("search")) {
             SearchMell mell = GsonUtil.GsonToBean(jsonStr, SearchMell.class);
 

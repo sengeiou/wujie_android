@@ -1105,9 +1105,10 @@
         <activity android:name=".distribution.shopAty.ShopExhibit" />
         <activity android:name=".distribution.shopAty.ShopGoodsManage" />
         <activity android:name=".distribution.shopAty.ShopRevenue"></activity>
-        <activity android:name=".minetoAty.order.OffLineShopAty"/>
-        <activity android:name=".minetoAty.order.OffLineShopDetailsAty"/>
-
+        <activity android:name=".minetoAty.order.OffLineShopAty" />
+        <activity android:name=".minetoAty.order.OffLineShopDetailsAty" />
+        <!--线下店铺搜索列表页-->
+        <activity android:name=".mellOffLine.MellOffLineListAty" />
     </application>
 
 </manifest>

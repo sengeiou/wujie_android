@@ -12,9 +12,8 @@ public class Pay {
      * 获取支付宝支付参数
      *
      * @param order_id
-     * @param discount_type
-     * @param type
-     * @param baseView
+     * @param discount_type  使用代金券：discount_type 0不使用代金券 1使用红券 2使用黄券 3使用蓝券(多个用','隔开)
+     * @param type  	类型：type 1.充值,2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 7限量购(作废) 8竞拍汇 9 线下店铺 10无界驿店
      * @return pay_string;
      */
     public static void getAlipayParam(String order_id, String discount_type, String type, BaseView baseView) {
@@ -30,8 +29,8 @@ public class Pay {
     /**
      * 查询订单
      *
-     * @param order_id
-     * @param type
+     * @param order_id  	订单ID
+     * @param type  类型：type 1.充值,2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 7限量购(作废) 8竞拍汇 9线下店铺 10无界商店
      * @param baseView
      */
     public static void findPayResult(String order_id, String type, BaseView baseView) {
@@ -43,9 +42,10 @@ public class Pay {
     }
 
     /**
-     * @param order_id
-     * @param discount_type
-     * @param type
+     * 微信支付
+     * @param order_id 订单id
+     * @param discount_type  	使用代金券：discount_type 0不使用代金券 1使用红券 2使用黄券 3使用蓝券(多个用','隔开)
+     * @param type  类型：type 2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 8竞拍汇
      * @param baseView
      */
     public static void getJsTine(String order_id, String discount_type, String type, BaseView baseView) {
@@ -57,6 +57,12 @@ public class Pay {
         apiTool2.postApi(url + "getJsTine", params, baseView);
     }
 
+
+    /**
+     * 微信充值
+     * @param order_id  	订单ID再次支付时传
+     * @param totalPrice  充值金额
+     */
     public static void getHjsp(String order_id, String totalPrice, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();

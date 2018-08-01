@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOffLine;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -9,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.StringUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -45,6 +45,10 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
     private MyKeyboard myKeyboard;
     private ShopOffLineBean shopOffLineBean;
     private StoreInfoPst storeInfoPst;
+    //店铺ID
+    private String mStage_merchant_id;
+
+    private String order_id = "";
 
     @Override
     protected int getLayoutResId() {
@@ -83,16 +87,17 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
         });
 
         // 获取前一页传入的商家id
-        String stage_merchant_id = getIntent().getStringExtra("stage_merchant_id");
-        if (!StringUtils.isEmpty(stage_merchant_id)) {
+        mStage_merchant_id = getIntent().getStringExtra("stage_merchant_id");
+        if (!StringUtils.isEmpty(mStage_merchant_id)) {
             // 如果传入的商家id不为空 则直接请求接口
             storeInfoPst = new StoreInfoPst(this);
-            storeInfoPst.offlineStoreInfo(stage_merchant_id);
+            storeInfoPst.offlineStoreInfo(mStage_merchant_id);
         }
     }
 
     @Override
     protected void requestData() {
+
     }
 
     @Override
@@ -114,25 +119,16 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
 
                         offLinePay_merchantName_tv.setText(shopOffLineBean.getData().getMerchant_name());
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("type", "100");
-                        // 需要传入下一页的数据
-//                        type = getString("type");
-//                        goods_id = getString("goods_id");
-//                        num = getString("num");
-//                        //  ordertype = getString("order_type");
-//                        product_id = getString("product_id");
-//                        inte_id = getString("inte_id");
-//                        order_type = getString("order_type");
-//                        address_id = getString("address_id");
-//                        shop_name = getString("shop_name");
-//                        cart_id = getString("cart_id");
-//                        order_id = getString("order_id");
-//                        group_buy_id = getString("group_buy_id");
-//                        freight = getString("freight");
-//                        freight_type = getString("freight_type");
+                        if (!TextUtils.isEmpty(mStage_merchant_id)) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("type", "100");
+                            // 需要传入下一页的数据
+                            bundle.putString("order_id",order_id);
+                            bundle.putString("money",meny);
+                            bundle.putString("merchant_id",mStage_merchant_id);
+                            startActivity(PayForAppAty.class, bundle);
+                        }
 
-//                        startActivity(PayForAppAty.class, bundle);
                     } else {
                         showToast("未请求到回传的店铺信息");
                     }
@@ -177,5 +173,16 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
             // 设置店铺名称
             offLinePay_merchantName_tv.setText(shopOffLineBean.getData().getMerchant_name());
         }
+
+//        if (requestUrl.contains("setOrder")) {
+//            JSONObject jsonObject = JSON.parseObject(jsonStr);
+//            if ("1".equals(jsonObject.getString("code"))) {
+//                JSONObject data = JSON.parseObject(jsonObject.getString("data"));
+//                if (data.containsKey("order_id")) {
+//                    order_id = data.getString("order_id");
+//
+//                }
+//            }
+//        }
     }
 }

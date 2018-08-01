@@ -72,4 +72,35 @@ public class OfflineStore {
         requestParams.addBodyParameter("order_status", order_status);
         apiTool2.postApi(url+"delOrder",requestParams , baseView);
     }
+
+
+    /**
+     *下单接口
+     * @param merchant_id  店铺ID
+     * @param pay_money  支付金额
+     * @param order_id  第二次支付时传 在订单列表中或者订单详情中
+     */
+    public static void setOrder(String merchant_id,String pay_money,String order_id,BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("merchant_id", merchant_id);
+        requestParams.addBodyParameter("pay_money", pay_money);
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url+"setOrder",requestParams , baseView);
+    }
+
+
+    /**
+     *搜索
+     * @param name  商家名称
+     * @param p     分页
+
+     */
+    public static  void  offlinesearch(String name,String p,BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("name", name);
+        requestParams.addBodyParameter("p", p);
+        apiTool2.postApi(url+"search",requestParams , baseView);
+    }
 }

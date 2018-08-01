@@ -138,6 +138,7 @@ public class NoticeDetailsAty extends BaseAty {
             webSettings = notice_details_wv.getSettings(); // 无滑动的主要是进行无界头条展示
         } else { // 否则的话设置原生的控件
             webSettings = details_webview.getSettings(); // 原生的WebView主要是进行产品展示
+
         }
         webSettings.setJavaScriptEnabled(true); // JS支持
         webSettings.setAllowContentAccess(true); // 允许访问内容
@@ -163,6 +164,7 @@ public class NoticeDetailsAty extends BaseAty {
         } else { // 使用原生的WebView
             noticeDetails_ScForWebView.setVisibility(View.GONE); // 隐藏noScrollWebView
             details_webview.setVisibility(View.VISIBLE); // 显示原生WebView
+            details_webview.setWebChromeClient(new WebChromeClient());
             // WebView加载web资源
             details_webview.loadUrl(url);
             // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
@@ -174,6 +176,7 @@ public class NoticeDetailsAty extends BaseAty {
                     return true;
                 }
             });
+
         }
         if (from == 4) {
             WebChromeClient wvcc = new WebChromeClient() {

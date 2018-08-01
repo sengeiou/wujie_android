@@ -30,6 +30,7 @@ import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
+import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -87,6 +88,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @ViewInject(R.id.to_location_tv)
     private TextView to_location_tv;
+    @ViewInject(R.id.to_search)
+    private TextView to_search;
 
     @ViewInject(R.id.im_ads)
     private ImageView im_ads;
@@ -256,12 +259,16 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     }
 
     @Override
-    @OnClick({R.id.to_location_tv, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
+    @OnClick({R.id.to_location_tv,R.id.to_search, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_location_tv:// 当前位置
                 startActivity(MellCitySelectAty.class, null);
+                break;
+            case R.id.to_search:
+                Bundle b =new Bundle();
+                startActivity(SearchAty.class,b);
                 break;
             case R.id.point_by_food_tv:// 美食
                 showToast("开发中，敬请期待");

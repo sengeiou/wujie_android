@@ -53,7 +53,6 @@ import com.txd.hzj.wjlp.mellOnLine.gridClassify.CarDetailseAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodLuckDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsInputHzjAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitGoodsAty;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.LimitShoppingAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketZoonAty;
@@ -413,8 +412,8 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     int pos = i + curIndex * pageSize;
                     switch (pos) {
                         case 0:// 限量购
-//                            showToast("开发中，敬请期待");
-                            startActivity(LimitShoppingAty.class, null);
+                            showToast("开发中，敬请期待");
+//                            startActivity(LimitShoppingAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
@@ -648,7 +647,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             case R.id.wujie_top_lin_layout:// 无界头条
                 startActivity(WujieTopHzjAty.class, null);
                 break;
-            case R.id.on_line_be_back_top_iv:// 无界头条
+            case R.id.on_line_be_back_top_iv:
                 mell_on_line_sc.smoothScrollTo(0, 0);
                 break;
             case R.id.three_image_left_iv://左边

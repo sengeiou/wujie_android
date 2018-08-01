@@ -22,6 +22,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.OffLineOrderListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.OffLineShopDetailsAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
@@ -313,8 +314,11 @@ public class OffLineFgt extends BaseFragment {
                         @Override
                         public void onClick(View view) {
                             //立即支付
-                            //                        order_id = list.get(i).getId();
-                            //                        MemberOrder.settlement(list.get(i).getMember_coding(), VipCardFgt.this);
+                            Bundle bundle=new Bundle();
+                            bundle.putString("order_id",dataBeanList.get(position).getOrder_id());
+                            bundle.putString("type","9");
+                            startActivity(PayForAppAty.class,bundle);
+//                            getActivity().finish();
                         }
                     });
                 } else if ("5".equals(dataBean.getStatus())) {

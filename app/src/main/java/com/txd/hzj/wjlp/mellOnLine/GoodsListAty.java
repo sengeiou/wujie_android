@@ -26,7 +26,6 @@ import com.txd.hzj.wjlp.bean.CFGoodsList;
 import com.txd.hzj.wjlp.bean.search.SeaechBean;
 import com.txd.hzj.wjlp.http.goods.GoodsPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.SearchGoodsAdapter;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.ThemeGoodsDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
@@ -167,11 +166,11 @@ public class GoodsListAty extends BaseAty {
             showErrorTip("请输入搜索关键词");
             return;
         }
-        his_str = PreferencesUtils.getString(this, "history", "");
+        his_str = PreferencesUtils.getString(this, "onlinehistory", "");
         if (!his_str.contains(key)) {
             sb = new StringBuilder();
             sb.append(key).append(",").append(his_str);
-            PreferencesUtils.putString(this, "history", sb.toString());
+            PreferencesUtils.putString(this, "onlinehistory", sb.toString());
         }
         p = 1;
         keyword = key;

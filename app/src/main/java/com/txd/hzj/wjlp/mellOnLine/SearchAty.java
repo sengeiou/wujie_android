@@ -1,17 +1,14 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -30,6 +27,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.mellOffLine.MellOffLineListAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +80,7 @@ public class SearchAty extends BaseAty {
     private StringBuilder sb;
     private String type = "商品";
     private String[] his;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +113,7 @@ public class SearchAty extends BaseAty {
     }
 
     private void forTitle() {
-        search_title_layout.setBackgroundColor(ContextCompat.getColor(this,R.color.white));
+        search_title_layout.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         search_title_be_back_iv.setVisibility(View.VISIBLE);
         title_search_tv.setVisibility(View.GONE);
         search_lin_layout.setVisibility(View.VISIBLE);
@@ -132,7 +131,12 @@ public class SearchAty extends BaseAty {
      * 本地获取历史记录
      */
     private void getHistory() {
-        his_str = PreferencesUtils.getString(this, "history", "");
+        if (mBundle != null) {
+            his_str = PreferencesUtils.getString(this, "offlinehistory", "");
+        } else {
+            his_str = PreferencesUtils.getString(this, "onlinehistory", "");
+        }
+
         if (!his_str.equals("")) {// 本地有历史记录
             his = his_str.split(ListUtils.DEFAULT_JOIN_SEPARATOR);
             historyAdapter = new HistoryAdapter(his);
@@ -156,7 +160,11 @@ public class SearchAty extends BaseAty {
                 break;
             case R.id.clear_history_tv:// 清除历史记录
                 hideKeyBoard();
-                PreferencesUtils.putString(this, "history", "");
+                if (mBundle != null) {
+                    PreferencesUtils.putString(this, "offlinehistory", "");
+                } else {
+                    PreferencesUtils.putString(this, "onlinehistory", "");
+                }
                 search_history_gv.setVisibility(View.GONE);
                 break;
         }
@@ -173,7 +181,11 @@ public class SearchAty extends BaseAty {
         if (!his_str.contains(key)) {
             sb = new StringBuilder();
             sb.append(key).append(",").append(his_str);
-            PreferencesUtils.putString(this, "history", sb.toString());
+            if (mBundle != null) {
+                PreferencesUtils.putString(this, "offlinehistory", sb.toString());
+            } else {
+                PreferencesUtils.putString(this, "onlinehistory", sb.toString());
+            }
         }
         nextAty(key);
     }
@@ -184,13 +196,20 @@ public class SearchAty extends BaseAty {
      * @param key 关键词
      */
     private void nextAty(String key) {
-        Bundle bundle = new Bundle();
-        bundle.putString("keyword", key);
-        bundle.putString("type", type);
-        if (1 == search_type) {
-            startActivity(GoodsListAty.class, bundle);
+
+        if (mBundle != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", key);
+            startActivity(MellOffLineListAty.class, bundle);
         } else {
-            startActivity(MellListAty.class,bundle);
+            Bundle bundle = new Bundle();
+            bundle.putString("keyword", key);
+            bundle.putString("type", type);
+            if (1 == search_type) {
+                startActivity(GoodsListAty.class, bundle);
+            } else {
+                startActivity(MellListAty.class, bundle);
+            }
         }
     }
 
@@ -202,6 +221,18 @@ public class SearchAty extends BaseAty {
     @Override
     protected void initialized() {
         history = new ArrayList<>();
+        mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            title_search_tv.setHint("搜索商家");
+            search_type_tv.setText("商家");
+            search_type_tv.setClickable(false);
+            search_type = 2;
+        } else {
+            title_search_tv.setHint("搜索商品、商家");
+            search_type_tv.setText("商品");
+            search_type_tv.setClickable(true);
+            search_type = 1;
+        }
     }
 
     @Override
