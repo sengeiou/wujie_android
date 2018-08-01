@@ -1,7 +1,7 @@
 package com.ants.theantsgo.tools;
 
 
-import com.ants.theantsgo.gson.GsonUtil;
+import com.alibaba.fastjson.JSON;
 import com.ants.theantsgo.util.JSONUtils;
 
 import java.util.Map;
@@ -41,7 +41,7 @@ public class ObserTool {
         final Observable<T> observable = Observable.create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(Subscriber<? super T> subscriber) {
-                subscriber.onNext(GsonUtil.GsonToBean(jsonStr, cls));
+                subscriber.onNext(JSON.parseObject(jsonStr, cls));
             }
         });
 
