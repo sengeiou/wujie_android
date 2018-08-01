@@ -579,7 +579,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                             data = groupBuyBean.getData().getList();
                             break;
                         case WJConfig.WJSD:// 无界商店
-                            data = groupBuyBean.getData().getIntegral_buy_list();
+                            data2 = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
                     if (!ListUtils.isEmpty(data2)) {
