@@ -534,7 +534,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                                 Glide.with(this).load(file).override(size, size).centerCrop().into(img_head_edit);
                             } catch (Exception e) {
                                 L.e("File Exception:" + e.toString());
-                                showToast("未找到推按文件，请重新选择。");
+                                showToast("未找到图片文件，请重新选择。");
                             }
                             break;
                     }
