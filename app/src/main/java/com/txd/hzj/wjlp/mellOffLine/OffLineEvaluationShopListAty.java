@@ -83,7 +83,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
     private LinearLayout no_data_layout;
     //店铺ID
     private String mMerchant_id;
-    private int p;
+    private int p=1;
 
     private List<OffLineEvaluationListBean> mListBeans=new ArrayList<>();
     private List<OffLineEvaluationListBean.PictureBean> mPictureBeanList=new ArrayList<>();
@@ -102,6 +102,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
             showToast("店铺ID不能为空");
             return;
         }
+
         // 滚动到顶部
         goods_comment_sc.smoothScrollTo(0, 0);
         // 滚动监听
@@ -122,7 +123,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                 p = 1;
                 mListBeans.clear();
                 mPictureBeanList.clear();
-
+                OfflineStore.commentList(mMerchant_id,String.valueOf(p),OffLineEvaluationShopListAty.this);
 
             }
 
@@ -146,6 +147,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
+                OfflineStore.commentList(mMerchant_id,String.valueOf(p),OffLineEvaluationShopListAty.this);
             }
 
             @Override
@@ -164,7 +166,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
 
     @Override
     protected void requestData() {
-        OfflineStore.commentList(mMerchant_id,this);
+        OfflineStore.commentList(mMerchant_id,String.valueOf(p),this);
     }
 
     @Override
@@ -172,41 +174,44 @@ public class OffLineEvaluationShopListAty extends BaseAty{
         super.onComplete(requestUrl, jsonStr);
         refresh();
         if (requestUrl.contains("commentList")){
-            JSONObject jsonObject = JSON.parseObject(jsonStr);
-            if (jsonObject.containsKey("count")){
-                evaluate_num_tv.setText(jsonObject.getString("count"));
-            }
-            if (jsonObject.containsKey("list")) {
-                JSONArray array = JSONArray.parseArray(jsonObject.getString("list"));
-                for (int i = 0; i < array.size(); i++) {
-                    JSONObject object=(JSONObject)array.get(i);
-                    OffLineEvaluationListBean bean=new OffLineEvaluationListBean();
-                    bean.setC_id(object.containsKey("c_id")?object.getString("c_id"):"");
-                    bean.setHead_pic(object.containsKey("head_pic")?object.getString("head_pic"):"");
-                    bean.setContent(object.containsKey("content")?object.getString("content"):"");
-                    bean.setEnvironment(object.containsKey("environment")?object.getString("environment"):"");
-                    bean.setNickname(object.containsKey("nickname")?object.getString("nickname"):"");
-                    bean.setStart_time(object.containsKey("start_time")?object.getString("start_time"):"");
-                    if (object.containsKey("picture")){
-                        JSONArray picture = JSONArray.parseArray(object.getString("picture"));
-                        if (picture.size()>0) {
-                            for (int i1 = 0; i1 < picture.size(); i1++) {
-                                OffLineEvaluationListBean.PictureBean pictureBean=new OffLineEvaluationListBean.PictureBean();
-                                JSONObject pic = (JSONObject) picture.get(i1);
-                                if (pic.containsKey("path")){
-                                    pictureBean.setPath(pic.getString("path"));
-                                    mPictureBeanList.add(pictureBean);
-                                }
-
-                            }
-                        }
-                        bean.setPicture(mPictureBeanList);
-                    }
-                    mListBeans.add(bean);
+            JSONObject ject = JSON.parseObject(jsonStr);
+            if (ject.containsKey("data")) {
+                JSONObject jsonObject = JSON.parseObject(ject.getString("data"));
+                if (jsonObject.containsKey("count")) {
+                    evaluate_num_tv.setText(jsonObject.getString("count"));
                 }
-                mEvaluationAdapter=new EvaluationAdapter();
-                goods_evaluste_lv.setAdapter(mEvaluationAdapter);
+                if (jsonObject.containsKey("list")) {
+                    JSONArray array = JSONArray.parseArray(jsonObject.getString("list"));
+                    for (int i = 0; i < array.size(); i++) {
+                        JSONObject object = (JSONObject) array.get(i);
+                        OffLineEvaluationListBean bean = new OffLineEvaluationListBean();
+                        bean.setC_id(object.containsKey("c_id") ? object.getString("c_id") : "");
+                        bean.setHead_pic(object.containsKey("head_pic") ? object.getString("head_pic") : "");
+                        bean.setContent(object.containsKey("content") ? object.getString("content") : "");
+                        bean.setEnvironment(object.containsKey("environment") ? object.getString("environment") : "");
+                        bean.setNickname(object.containsKey("nickname") ? object.getString("nickname") : "");
+                        bean.setStart_time(object.containsKey("start_time") ? object.getString("start_time") : "");
+                        if (object.containsKey("picture")) {
+                            JSONArray picture = JSONArray.parseArray(object.getString("picture"));
+                            if (picture.size() > 0) {
+                                for (int i1 = 0; i1 < picture.size(); i1++) {
+                                    OffLineEvaluationListBean.PictureBean pictureBean = new OffLineEvaluationListBean.PictureBean();
+                                    JSONObject pic = (JSONObject) picture.get(i1);
+                                    if (pic.containsKey("path")) {
+                                        pictureBean.setPath(pic.getString("path"));
+                                        mPictureBeanList.add(pictureBean);
+                                    }
 
+                                }
+                            }
+                            bean.setPicture(mPictureBeanList);
+                        }
+                        mListBeans.add(bean);
+                    }
+                    mEvaluationAdapter = new EvaluationAdapter();
+                    goods_evaluste_lv.setAdapter(mEvaluationAdapter);
+
+                }
             }
         }
 
@@ -304,6 +309,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
             Glide.with(OffLineEvaluationShopListAty.this).load(bean.getHead_pic()).into(viewHolder.head_img);
             viewHolder.nickname_tv.setText(bean.getNickname());
             viewHolder.time_tv.setText(bean.getStart_time());
+            viewHolder.ratingBar.setIsIndicator(true);
             viewHolder.ratingBar.setRating(Float.valueOf(bean.getEnvironment()));
             viewHolder.content_tv.setText(bean.getContent());
             // 设置布局方式

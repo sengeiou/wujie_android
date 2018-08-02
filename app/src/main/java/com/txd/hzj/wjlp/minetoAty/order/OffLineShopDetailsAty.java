@@ -47,6 +47,7 @@ public class OffLineShopDetailsAty extends BaseAty{
 
     //5是取消订单 9是删除订单
     private String order_stats;
+    private String mCommon_status;
 
 
     @Override
@@ -62,6 +63,7 @@ public class OffLineShopDetailsAty extends BaseAty{
         mMerchant_id = extras.getString("merchant_id");
         mPay_status = extras.getString("pay_status");
         mStatus = extras.getString("status");
+        mCommon_status = extras.getString("common_status");
         if ("1".equals(mPay_status)){
             tv_btn_left.setVisibility(View.GONE);
             tv_btn_right.setVisibility(View.VISIBLE);
@@ -83,6 +85,9 @@ public class OffLineShopDetailsAty extends BaseAty{
                         startActivity(OffLineEvaluationShopAty.class,bundle);
                     }
                 });
+                if ("1".equals(mCommon_status)){
+                    tv_btn_left.setVisibility(View.GONE);
+                }
             }
         }else if ("0".equals(mPay_status)){
             if ("0".equals(mStatus)){

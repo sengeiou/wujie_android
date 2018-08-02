@@ -103,6 +103,7 @@ public class OffLineFgt extends BaseFragment {
                 bundle.putString("merchant_id", dataBeanList.get(i).getMerchant_id());
                 bundle.putString("pay_status", dataBeanList.get(i).getPay_status());
                 bundle.putString("status", dataBeanList.get(i).getStatus());
+                bundle.putString("common_status",dataBeanList.get(i).getCommon_status());
                 startActivity(OffLineShopDetailsAty.class, bundle);
             }
         });
@@ -343,6 +344,9 @@ public class OffLineFgt extends BaseFragment {
                             startActivity(OffLineEvaluationShopAty.class,bundle);
                         }
                     });
+                    if ("1".equals(dataBean.getCommon_status())){
+                        viewHolder.tv_btn_left.setVisibility(View.GONE);
+                    }
                 }
             }
             return view;
