@@ -19,7 +19,7 @@ public class IntegralBuy {
     private String url = Config.BASE_URL + "IntegralBuy/";
 
     /**
-     * 无界商店首页
+     * 积分商店首页
      *
      * @param p
      * @param cate_id
@@ -34,7 +34,7 @@ public class IntegralBuy {
     }
 
     /**
-     * 无界商店详情
+     * 积分商店详情
      *
      * @param integral_buy_id 商店商品编号
      * @param baseView        回调

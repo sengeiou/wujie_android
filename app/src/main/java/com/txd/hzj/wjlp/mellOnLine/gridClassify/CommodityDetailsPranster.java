@@ -547,7 +547,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
 
 
     /**
-     * 拼单购、无界商店和进口馆商品详情页公共属性封装
+     * 拼单购、积分商店和进口馆商品详情页公共属性封装
      */
     @Override
     public void setBitmap(Context context, String url, View view) {
@@ -561,7 +561,7 @@ public class CommodityDetailsPranster implements CommodityDetailsInter.Commodity
     }
 
     /**
-     * 拼单购、无界商店和进口馆商品详情页收藏
+     * 拼单购、积分商店和进口馆商品详情页收藏
      */
     @Override
     public void isCollect(String is_collect, String viewContent, View view, Context context) {

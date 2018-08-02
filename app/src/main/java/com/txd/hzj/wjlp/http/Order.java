@@ -22,7 +22,7 @@ public class Order {
      * @param merchant_id 商家id
      * @param goods_id
      * @param num         数量(直接购买时传)
-     * @param order_type  订单类型（ 0:普通 1限量购 2无界商店 3进口馆 4搭配购）
+     * @param order_type  订单类型（ 0:普通 1限量购 2积分商店 3进口馆 4搭配购）
      * @param product_id
      * @param goods       json(商品id，属性id),(除购物车结算之外，其他全部需要传) 若无属性id，则不传 格式：[{"product_id":"0","goods_id":"5"},{"product_id":"1","goods_id":"6"}]
      * @param baseView
@@ -87,7 +87,7 @@ public class Order {
 
     /**
      * @param order_status 订单状态（'0': '待支付‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
-     * @param order_type   购买渠道（0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：无界商店 8：线下商城）
+     * @param order_type   购买渠道（0:普通 1：团购 2：预购 3：竞拍 4：一元夺宝 5：积分商店 8：线下商城）
      * @param p
      * @param baseView
      */
@@ -173,7 +173,7 @@ public class Order {
     }
 
     /**
-     * 无界商店确认收货
+     * 积分商店确认收货
      *
      * @param order_id
      * @param baseView
@@ -197,7 +197,7 @@ public class Order {
         RequestParams requestParams = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         requestParams.addBodyParameter("order_id", order_id);
-        //order_type	订单类型 1普通订单 2拼单购 3无界预购 4比价购 5无界商店
+        //order_type	订单类型 1普通订单 2拼单购 3无界预购 4比价购 5积分商店
         if ("0".equals(type)) {
             requestParams.addBodyParameter("order_type", "1");
         } else if ("3".equals(type)) {
@@ -340,7 +340,7 @@ public class Order {
     }
 
     /**
-     * 无界商店延长收货(接口不一样)
+     * 积分商店延长收货(接口不一样)
      *
      * @param order_goods_id
      * @param baseView

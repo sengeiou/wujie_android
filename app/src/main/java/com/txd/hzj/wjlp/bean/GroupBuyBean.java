@@ -90,7 +90,7 @@ public class GroupBuyBean {
         private List<AllGoodsBean> pre_buy_list;
         // ==========票券区=========
         private List<AllGoodsBean> ticket_buy_list;
-        // ==========无界商店=========
+        // ==========积分商店=========
         private List<AllGoodsBean> integral_buy_list;
         // ==========进口馆==========
         private List<AllGoodsBean> list;

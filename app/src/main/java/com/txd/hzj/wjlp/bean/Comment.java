@@ -104,7 +104,7 @@ public class Comment {
         private String goods_num;
         private String shop_price;
         private String goods_img;
-        private String order_type; //  '订单类型'  //0普通订单 1团购订单 2无界预购 3竞拍汇 4一元夺宝 5无界商店 6汽车购 7房产购 8线下商城
+        private String order_type; //  '订单类型'  //0普通订单 1团购订单 2无界预购 3竞拍汇 4一元夺宝 5积分商店 6汽车购 7房产购 8线下商城
         private List<Pictures> pictures;
 
         public String getComment_id() {

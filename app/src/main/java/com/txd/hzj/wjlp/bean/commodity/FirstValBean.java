@@ -61,7 +61,7 @@ public class FirstValBean implements Serializable {
     private String p_shop_price;//拼单购单独购买价
     private String max_num;//拼单购限购数量
 
-    private String integral_buy_id;//无界商店商品id
+    private String integral_buy_id;//积分商店商品id
     private String use_integral; //积分价格
 
     public String getIntegral_buy_id() {

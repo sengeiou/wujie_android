@@ -61,7 +61,7 @@ public interface CommodityDetailsInter {
         void showLQPop(View view, String title, Activity activity, final TheTrickAdapter theTrickAdapter);
 
         /**
-         * 拼单购、无界商店和进口馆商品详情页公共属性封装(包括国家的图片，描述和进口税，收藏)
+         * 拼单购、积分商店和进口馆商品详情页公共属性封装(包括国家的图片，描述和进口税，收藏)
          *
          * @param context
          * @param url

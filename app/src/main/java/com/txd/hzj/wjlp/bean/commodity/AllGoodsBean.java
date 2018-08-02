@@ -110,7 +110,7 @@ public class    AllGoodsBean implements Serializable {
     private String auction_id;
     private String start_price;
 
-    // TODO==========无界商店==========
+    // TODO==========积分商店==========
     /**
      * 兑换所需积分
      */

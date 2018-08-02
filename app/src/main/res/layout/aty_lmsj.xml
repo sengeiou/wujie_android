@@ -57,7 +57,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:paddingTop="4dp"
-                        android:text="升级无界商店"
+                        android:text="升级积分商店"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </RelativeLayout>

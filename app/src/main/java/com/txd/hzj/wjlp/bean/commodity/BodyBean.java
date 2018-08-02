@@ -44,7 +44,7 @@ public class BodyBean implements Serializable {
     private String goods_num;//"所买数量",
     private String shop_price;// "售价",
     private String goods_img;// "商品图片",
-    private String order_type;//"订单类型" ////0普通订单 1团购订单 2无界预购 3竞拍汇 4一元夺宝 5无界商店 6汽车购 7房产购 8线下商城
+    private String order_type;//"订单类型" ////0普通订单 1团购订单 2无界预购 3竞拍汇 4一元夺宝 5积分商店 6汽车购 7房产购 8线下商城
     private List<PicturesBean> pictures;//评论图片列表
 
     public String getComment_id() {

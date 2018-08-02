@@ -154,7 +154,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     /**
      * @param v
      * @param from
-     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 积分商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price
@@ -184,7 +184,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
      *
      * @param v
      * @param from
-     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 积分商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price
@@ -214,7 +214,7 @@ public abstract class BaseAty extends BaseActivity implements ChatListener {
     /**
      * @param v
      * @param from
-     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * @param type         "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 积分商店 "11" 搭配购
      * @param goods_id
      * @param imageurl
      * @param price

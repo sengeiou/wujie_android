@@ -76,7 +76,7 @@ public class OrderOnLineFgt extends BaseFgt {
      * 5：积分订单列表
      * 6：拍品订单列表
      * 8：充值订单列表
-     * 10：无界商店订单列表
+     * 10：积分商店订单列表
      */
     private String from = "";
     /**
@@ -611,7 +611,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     num += Integer.parseInt(goods_num);
                 }
             }
-            if ("10".equals(from)) {// 无界商店
+            if ("10".equals(from)) {// 积分商店
                 holder.goods_price_info_tv.setText("共" + num + "件商品 合计：" + getItem(position).get("order_price") + "积分" + " 运费：" + ("0.00".equals(freight) ? "包邮" : freight + "积分"));
             } else {
                 holder.goods_price_info_tv.setText("共" + num + "件商品 合计：¥" + getItem(position).get("order_price") + " 运费：" + ("0.00".equals(freight) ? "包邮" : freight + "元"));
@@ -900,7 +900,7 @@ public class OrderOnLineFgt extends BaseFgt {
         }
 
         private void setOrderStatus(int position) {
-            //	无界商店订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
+            //	积分商店订单状态（'0': '待付款‘ ； '1': '待发货' ； '2': '待收货' ；'3': '待评价'；'4': '已完成；‘5’：取消订单） 默认9（全部）
             switch (getItem(position).get("order_status")) {
                 case "0":
                     holder.state.setText("待付款");
@@ -1265,7 +1265,7 @@ public class OrderOnLineFgt extends BaseFgt {
 //            if (!"10".equals(from)) {
 //                goVh.jifenTv.setVisibility(View.VISIBLE);
 //                goVh.jifenTv.setText("(赠送：" + getItem(i).get("return_integral") + "积分）");
-//            } else {//无界商店
+//            } else {//积分商店
 //                goVh.jifenTv.setVisibility(View.GONE);
 //            }
             L.e("wang", "===============>>>>>>>>>>>>.minetoAty.order.fgt.getItem(i)" + getItem(i));

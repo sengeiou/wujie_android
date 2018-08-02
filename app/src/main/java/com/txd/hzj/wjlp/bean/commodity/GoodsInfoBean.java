@@ -43,7 +43,7 @@ public class GoodsInfoBean implements Serializable {
     private String is_end;////是否临期 0未临期 1临期
     private String end_date;//
     private String goods_num;// "库存"，
-    private String integral_buy_id;// "积分兑换id，如果不为0 显示此商品可使用xxx积分兑换，如想使用积分兑换，亲到无界商店中进行兑换"。xxx使用user_integral字段
+    private String integral_buy_id;// "积分兑换id，如果不为0 显示此商品可使用xxx积分兑换，如想使用积分兑换，亲到积分商店中进行兑换"。xxx使用user_integral字段
     private String package_list;//"包装清单",
     private String after_sale_service;// "售后服务",
     private String one_buy_id;//

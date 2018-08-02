@@ -168,7 +168,7 @@ public class AfterSale {
     public static void backNormalApplyType(BaseView baseView, String order_goods_id,String type) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("order_goods_id", order_goods_id);
-        //type为10代表无界商店
+        //type为10代表积分商店
         if ("10".equals(type)){
             params.addBodyParameter("order_type", "5");
         }else {

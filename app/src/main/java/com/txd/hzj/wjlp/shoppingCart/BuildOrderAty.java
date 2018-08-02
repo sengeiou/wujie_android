@@ -123,7 +123,7 @@ public class BuildOrderAty extends BaseAty {
     //    private TextView order_price_at_last_tv;
     private String mid = "";
     private String cart_id = "";
-    private int p = 1; // 订单类型 0:普通 1限量购 2无界商店 3进口馆 4搭配购
+    private int p = 1; // 订单类型 0:普通 1限量购 2积分商店 3进口馆 4搭配购
     @ViewInject(R.id.tv_name)
     private TextView tv_name;
     @ViewInject(R.id.tv_tel)
@@ -382,7 +382,7 @@ public class BuildOrderAty extends BaseAty {
             IntegralOrder.ShoppingCart(mid, num, group_buy_id, this);
         } else if (type.equals("9")) {//拍品详情   竞拍汇
             AuctionOrder.ShoppingCart(mid, group_buy_id, "", "0", this);
-        } else if (type.equals("10")) {//限量购 无界商店
+        } else if (type.equals("10")) {//限量购 积分商店
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
         } else if (type.equals("11")) {//搭配购
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json", intent), this);
@@ -942,7 +942,7 @@ public class BuildOrderAty extends BaseAty {
 //                govh.price_for_goods_tv.setText(getItem(i).get("goods_attr_first"));
                 govh.price_for_goods_tv.setText(Html.fromHtml(guigeJiFenStr));
                 govh.price_for_goods_tv.setTextSize(12);
-                if ("10".equals(type)) {//无界商店积分处理
+                if ("10".equals(type)) {//积分商店积分处理
                     if (getItem(i).containsKey("use_integral")) {
                         govh.shop_priceTv.setText(getItem(i).get("use_integral") + "积分");
                     }
@@ -986,7 +986,7 @@ public class BuildOrderAty extends BaseAty {
                     if (i_bean.get(i).getExpress_fee().isEmpty()) {
                         bundle.putString("data2", "data1 is null so intent data2.");
                     }
-                    if ("10".equals(type)) {//无界商店
+                    if ("10".equals(type)) {//积分商店
                         bundle.putString("shop_price", getItem(i).get("use_integral"));
                     }
                     //跳转选择发票

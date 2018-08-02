@@ -69,7 +69,7 @@ public class PreBuyThirdAty extends BaseAty {
      */
     private TicketBuyPst ticketBuyPst;
     /**
-     * 无界商店
+     * 积分商店
      */
     private IntegralBuyPst integralBuyPst;
     /**
@@ -123,7 +123,7 @@ public class PreBuyThirdAty extends BaseAty {
                 country_id = getIntent().getStringExtra("country_id");
                 countryPst.threeList(two_cate_id, country_id, 1, "");
                 break;
-            case 10:// 无界商店
+            case 10:// 积分商店
                 integralBuyPst.threeList(two_cate_id, "", 1);
                 break;
         }

@@ -81,7 +81,7 @@ public class PreBuyThirdFgt extends BaseFgt {
      */
     private TicketBuyPst ticketBuyPst;
     /**
-     * 无界商店
+     * 积分商店
      */
     private IntegralBuyPst integralBuyPst;
     /**
@@ -173,7 +173,7 @@ public class PreBuyThirdFgt extends BaseFgt {
                         bundle.putInt("type", 2);
                         startActivity(LimitGoodsAty.class, bundle);
                         break;
-                    case 10:// 无界商店
+                    case 10:// 积分商店
                         bundle.putString("limit_buy_id", data.get(i).getIntegral_buy_id());
                         bundle.putInt("type", 10);
                         startActivity(LimitGoodsAty.class, bundle);
@@ -249,7 +249,7 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 3:// 进口馆
                         data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
                         break;
-                    case 10:// 无界商店
+                    case 10:// 积分商店
                         data = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
                         break;
                 }
@@ -274,7 +274,7 @@ public class PreBuyThirdFgt extends BaseFgt {
                     case 3:// 进口馆
                         data = GsonUtil.getObjectList(datajson.get("list"), AllGoodsBean.class);
                         break;
-                    case 10:// 无界商店
+                    case 10:// 积分商店
                         data2 = GsonUtil.getObjectList(datajson.get("integral_buy_list"), AllGoodsBean.class);
                         break;
                 }

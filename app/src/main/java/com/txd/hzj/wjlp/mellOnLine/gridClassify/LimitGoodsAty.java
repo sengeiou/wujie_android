@@ -510,11 +510,11 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
      */
     private PerBuyPst perBuyPst;
     /**
-     * 无界商店
+     * 积分商店
      */
     private IntegralBuyPst integralBuyPst;
     private String goods_id = "";
-    private int type = 0; //0 限量 2无界预购 10无界商店
+    private int type = 0; //0 限量 2无界预购 10积分商店
     @ViewInject(R.id.tv_rmb)
     private TextView tv_rmb;
     @ViewInject(R.id.tv_kucun)
@@ -779,7 +779,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 perBuyPst.preBuyInfo(limit_buy_id, page);
                 tv_ljgm.setText("交付定金");
                 break;
-            case WJConfig.WJSD:// 无界商店
+            case WJConfig.WJSD:// 积分商店
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
@@ -825,7 +825,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
+                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//积分商店
                     if (is_C) {
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
@@ -856,7 +856,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 perBuyPst.preBuyInfo(limit_buy_id, page);
                 tv_ljgm.setText("交付定金");
                 break;
-            case WJConfig.WJSD:// 无界商店
+            case WJConfig.WJSD:// 积分商店
                 integralBuyPst.integralBuyInfo(limit_buy_id, page);
                 tv_jrgwc.setVisibility(View.GONE);
                 break;
@@ -902,7 +902,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         toAttrs(v, 0, WJConfig.TYPE_WJYG, goods_id + "-" + mell_id, goodsInfo.getGoods_img(), goodsInfo.getShop_price(), limit_buy_id, goods_attr_first, first_val, is_attr);
                     }
-                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//无界商店
+                } else {///   (ArrayList) goodsAttrs,                            (ArrayList) goods_produc,//积分商店
                     if (is_C) {
                         Intent intent = new Intent();
                         intent.putExtra("mid", mell_id);
@@ -1771,7 +1771,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 case WJConfig.WJYG:// 无界预购
                     perBuyPst.preBuyInfo(limit_buy_id, page);
                     break;
-                case WJConfig.WJSD:// 无界商店
+                case WJConfig.WJSD:// 积分商店
                     L.e("==========", String.valueOf(type));
                     integralBuyPst.integralBuyInfo(limit_buy_id, page);
                     break;
@@ -1942,7 +1942,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             is_C = true;
             goods_number = data.getIntExtra("num", 0);
             product_id = data.getStringExtra("product_id");
-            if (WJConfig.TYPE_WJSD.equals(data.getStringExtra("type"))) {//无界商店
+            if (WJConfig.TYPE_WJSD.equals(data.getStringExtra("type"))) {//积分商店
                 limit_buy_id = data.getStringExtra("integral_buy_id");
                 String use_integral = data.getStringExtra("use_integral");
                 old_price_tv.setText("￥" + data.getStringExtra("shop_price"));
@@ -2026,7 +2026,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
             bundle.putString("mid", data.getStringExtra("mid"));
             bundle.putString("type", data.getStringExtra("type"));
             bundle.putString("goods_id", data.getStringExtra("goods_id"));
-            if (WJConfig.WJSD == type) {//无界商店
+            if (WJConfig.WJSD == type) {//积分商店
                 bundle.putString("group_buy_id", data.getStringExtra("integral_buy_id"));
             } else {
                 bundle.putString("group_buy_id", data.getStringExtra("group_buy_id"));

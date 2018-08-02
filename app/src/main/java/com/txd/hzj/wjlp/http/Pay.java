@@ -30,7 +30,7 @@ public class Pay {
      * 查询订单
      *
      * @param order_id  	订单ID
-     * @param type  类型：type 1.充值,2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 7限量购(作废) 8竞拍汇 9线下店铺 10无界商店
+     * @param type  类型：type 1.充值,2汽车购订单，3房产购 4 订单支付(限量购) 5 预购 6拼单购 7限量购(作废) 8竞拍汇 9线下店铺 10积分商店
      * @param baseView
      */
     public static void findPayResult(String order_id, String type, BaseView baseView) {

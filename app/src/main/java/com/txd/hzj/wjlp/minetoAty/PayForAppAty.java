@@ -429,10 +429,10 @@ public class PayForAppAty extends BaseAty {
             AuctionOrder.SetOrder(address_id, group_buy_id, "0", "", freight, freight_type, order_id, getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
 
         } else if (mType.equals("10")) {
-            //无界商店默认选中积分支付
+            //积分商店默认选中积分支付
             bottom_type=3;
             selectCheckBoxBottom(bottom_type);
-            //无界商店添加订单
+            //积分商店添加订单
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
             decimalFormat = new DecimalFormat("0");
 //            total_price = Double.parseDouble(getIntent().getStringExtra("money"));
@@ -697,7 +697,7 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "7", "", num, this);
                     } else if (mType.equals("9")) {
                         IntegralPay.integralPay(order_id, "4", "", num, this);
-                    } else if (mType.equals("10")) {//无界商店
+                    } else if (mType.equals("10")) {//积分商店
                         IntegralPay.integralPay(order_id, "5", "", num, this);
                     }
                     showProgressDialog();
@@ -884,7 +884,7 @@ public class PayForAppAty extends BaseAty {
             startActivity(OnlineShopAty.class, mBundle);
         }
         if (mType.equals("10")) {
-            mBundle.putString("title", "无界商店");
+            mBundle.putString("title", "积分商店");
             mBundle.putString("type", "10");
             startActivity(OnlineShopAty.class, mBundle);
         }

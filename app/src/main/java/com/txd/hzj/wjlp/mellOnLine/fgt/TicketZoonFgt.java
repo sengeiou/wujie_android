@@ -62,7 +62,7 @@ import java.util.List;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 9:42
- * 描述：票券区 无界预购 进口馆 拼团购 无界商店
+ * 描述：票券区 无界预购 进口馆 拼团购 积分商店
  */
 public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollChangeListener {
     /**
@@ -347,7 +347,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
             case WJConfig.PTG:// 拼团购
                 groupBuyPst.groupBuyIndex(p, title);
                 break;
-            case WJConfig.WJSD:// 无界商店
+            case WJConfig.WJSD:// 积分商店
                 integralBuyPst.integralBuyIndex(p, title);
                 break;
         }
@@ -447,7 +447,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
             forOtherData(jsonStr);
             return;
         }
-        if (requestUrl.contains("integralBuyIndex")) {// 无界商店
+        if (requestUrl.contains("integralBuyIndex")) {// 积分商店
             forOtherData(jsonStr);
             return;
         }
@@ -514,7 +514,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case WJConfig.WJSD:// 无界商店
+                        case WJConfig.WJSD:// 积分商店
                             data = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
@@ -578,7 +578,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.JKG:// 进口馆
                             data = groupBuyBean.getData().getList();
                             break;
-                        case WJConfig.WJSD:// 无界商店
+                        case WJConfig.WJSD:// 积分商店
                             data2 = groupBuyBean.getData().getIntegral_buy_list();
                             break;
                     }
@@ -639,7 +639,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
                         case WJConfig.PQQ:// 票券区
                         case WJConfig.WJYG:// 无界预购
                         case WJConfig.JKG:// 进口馆
-                        case WJConfig.WJSD:// 无界商店
+                        case WJConfig.WJSD:// 积分商店
                             startActivity(PreBuyThirdAty.class, bundle);
                             break;
                         case WJConfig.PTG:// 拼团购

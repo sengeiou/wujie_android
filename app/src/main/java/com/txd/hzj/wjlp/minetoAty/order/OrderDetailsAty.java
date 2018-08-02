@@ -916,7 +916,7 @@ public class OrderDetailsAty extends BaseAty {
                             GroupBuyOrder.remind(OrderDetailsAty.this, order_id);
                         }
                         break;
-                        case "10": {//无界商店
+                        case "10": {//积分商店
                             IntegralBuyOrder.remind(order_id, OrderDetailsAty.this);
                         }
                         break;

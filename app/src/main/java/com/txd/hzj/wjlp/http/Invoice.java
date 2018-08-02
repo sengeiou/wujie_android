@@ -19,7 +19,7 @@ public class Invoice {
         RequestParams params = new RequestParams();
         params.addBodyParameter("goods", goods);
         if (!TextUtils.isEmpty(shop_price))
-            params.addBodyParameter("shop_price", shop_price);//	价格（无界商店商品积分价格不从商品或制品表中取值时，用此参数设定价格）
+            params.addBodyParameter("shop_price", shop_price);//	价格（积分商店商品积分价格不从商品或制品表中取值时，用此参数设定价格）
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "invoice", params, baseView);
     }

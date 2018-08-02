@@ -98,7 +98,7 @@ public class GoodsAttributeAty extends BaseAty {
     private String mid = "";
     private String group_buy_id = "";
     /**
-     * "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 无界商店 "11" 搭配购
+     * "0"   主界面购物车, "1" 票券 "2" 拼单单独购买 "3" 拼单参团 "4" 参团 "5" 限量购  "6" 限量购 无界预购 "10" 限量购 积分商店 "11" 搭配购
      */
     private String type;
     private List<FirstListBean> list;
@@ -195,7 +195,7 @@ public class GoodsAttributeAty extends BaseAty {
                             intent.putExtra("red_return_integral", val.getIntegral());
                             intent.putExtra("p_integral", val.getP_integral()); //"原积分"
                             intent.putExtra("p_shop_price", val.getP_shop_price());
-                        } else if (type.equals("10")) {//无界商店
+                        } else if (type.equals("10")) {//积分商店
                             intent.putExtra("use_integral", val.getUse_integral());
                             intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
                         } else {
@@ -433,7 +433,7 @@ public class GoodsAttributeAty extends BaseAty {
                     Glide.with(GoodsAttributeAty.this).load(goods_val.getGoods_img()).into(imageview);
                     if ("10".equals(type)) {
 //                        ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv, price + "积分");
-                        //此处为设置无界商店商品属性积分view
+                        //此处为设置积分商店商品属性积分view
                         ChangeTextViewStyle.getInstance().forGoodsPrice24(GoodsAttributeAty.this, goods_price_tv,goods_val.getUse_integral()+" 积分");
                     } else {
 //                        if (!TextUtils.isEmpty(type) && ("2".equals(type)||"3".equals(type) || "4".equals(type))) {
@@ -510,7 +510,7 @@ public class GoodsAttributeAty extends BaseAty {
                 }
                 if (!TextUtils.isEmpty(order_id))
                     intent.putExtra("order_id", order_id);
-                if (type.equals("10")) {//无界商店
+                if (type.equals("10")) {//积分商店
                     intent.putExtra("use_integral", val.getUse_integral());
                     intent.putExtra("integral_buy_id", val.getIntegral_buy_id());
                 }

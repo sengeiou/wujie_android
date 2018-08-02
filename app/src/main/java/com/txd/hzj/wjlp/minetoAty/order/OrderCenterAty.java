@@ -72,8 +72,8 @@ public class OrderCenterAty extends BaseAty {
                 } else if (showItem.getShowName().equals("线下商铺")) {
                     mBundle.putString("title", "线下商铺");
                     startActivity(OffLineShopAty.class, mBundle);
-                } else if (showItem.getShowName().equals("无界商店")) {
-                    mBundle.putString("title", "无界商店");
+                } else if (showItem.getShowName().equals("积分商店")) {
+                    mBundle.putString("title", "积分商店");
                     mBundle.putString("type", "10");
                     startActivity(OnlineShopAty.class, mBundle);
                 } else if (showItem.getShowName().equals("拼单购")) {
@@ -129,7 +129,7 @@ public class OrderCenterAty extends BaseAty {
                 // 添加然后添加所有项
                 list.add(new ShowItem(R.drawable.icon_order_center_01, "线上商城"));
                 list.add(new ShowItem(R.drawable.icon_order_center_02, "线下商铺"));
-                list.add(new ShowItem(R.drawable.icon_order_center_03, "无界商店"));
+                list.add(new ShowItem(R.drawable.icon_order_center_03, "积分商店"));
                 list.add(new ShowItem(R.drawable.icon_order_center_04, "拼单购"));
                 list.add(new ShowItem(R.drawable.icon_order_center_05, "无界预购"));
                 list.add(new ShowItem(R.drawable.icon_order_center_06, "比价购"));

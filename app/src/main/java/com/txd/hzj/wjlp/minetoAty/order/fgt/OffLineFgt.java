@@ -281,7 +281,7 @@ public class OffLineFgt extends BaseFragment {
             } else {
                 viewHolder = (ViewHolder) view.getTag();
             }
-            OffLineOrderListBean.DataBean dataBean = dataBeanList.get(position);
+            final OffLineOrderListBean.DataBean dataBean = dataBeanList.get(position);
             viewHolder.tv_rank_name.setText("店铺名称：" + dataBean.getMerchant_name());
             viewHolder.tv_order_sn.setText("订单编号:" + dataBean.getOrder_sn());
             viewHolder.tv_create_time.setText("支付时间:" + dataBean.getPay_time());
@@ -315,10 +315,12 @@ public class OffLineFgt extends BaseFragment {
                         public void onClick(View view) {
                             //立即支付
                             Bundle bundle=new Bundle();
-                            bundle.putString("order_id",dataBeanList.get(position).getOrder_id());
-                            bundle.putString("type","9");
+                            bundle.putString("order_id",dataBean.getOrder_id());
+                            bundle.putString("type","100");
+                            bundle.putString("money",dataBean.getOrder_price());
+                            bundle.putString("merchant_id",dataBean.getMerchant_id());
                             startActivity(PayForAppAty.class,bundle);
-//                            getActivity().finish();
+                            getActivity().finish();
                         }
                     });
                 } else if ("5".equals(dataBean.getStatus())) {
