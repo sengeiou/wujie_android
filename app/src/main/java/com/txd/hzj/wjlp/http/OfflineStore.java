@@ -140,4 +140,16 @@ public class OfflineStore {
         }
         apiTool2.postApi(url+"comment",requestParams , baseView);
     }
+
+
+    /**
+     *线下店铺评论列表
+     * @param merchant_id  店铺ID
+     */
+    public static void commentList(String merchant_id, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("merchant_id", merchant_id);
+        apiTool2.postApi(url+"commentList",requestParams , baseView);
+    }
 }

@@ -1110,6 +1110,7 @@
         <!--线下店铺搜索列表页-->
         <activity android:name=".mellOffLine.MellOffLineListAty" />
         <activity android:name=".mellOffLine.OffLineEvaluationShopAty"/>
+        <activity android:name=".mellOffLine.OffLineEvaluationShopListAty" />
     </application>
 
 </manifest>

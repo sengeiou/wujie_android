@@ -6,10 +6,6 @@
 
     <include layout="@layout/aty_title_down_shopmall_details" />
 
-    <!--<com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
-        android:id="@+id/shop_mall_refrsh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">-->
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -120,6 +116,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/comment_layout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end|center"

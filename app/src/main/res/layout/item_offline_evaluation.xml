@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/head_img"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/nickname_tv"
+        android:text="我是一个兵"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/head_img"
+        app:layout_constraintTop_toTopOf="@id/head_img"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"/>
+
+    <RatingBar
+        android:id="@+id/rb_1"
+        style="@style/foodRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="5.0"
+        android:stepSize="1"
+        app:layout_constraintStart_toEndOf="@id/head_img"
+        app:layout_constraintTop_toBottomOf="@id/nickname_tv"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:text="2018-07-23 15:50:49"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/head_img"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"/>
+    <TextView
+        android:id="@+id/content_tv"
+        android:text="店铺不错"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/head_img"
+        app:layout_constraintTop_toBottomOf="@id/head_img"
+        android:layout_marginTop="10dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@id/content_tv"
+        app:layout_constraintStart_toStartOf="@id/head_img"/>
+
+
+</android.support.constraint.ConstraintLayout>
