@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.ants.theantsgo.systemBarUtil.ImmersionBar;
@@ -15,15 +14,12 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.txdHxListener.ChatListener;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
-import com.txd.hzj.wjlp.DemoApplication;
-import com.txd.hzj.wjlp.DemoHelper;
-import com.txd.hzj.wjlp.base.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.base.EaseChatFragment;
 import com.yanzhenjie.permission.AndPermission;
 
 import java.util.List;

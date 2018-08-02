@@ -1530,7 +1530,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                                         goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
                                             }
                                         } else {
-                                            showErrorTip("您已参加活动");
+                                            showToast("您已参与");
                                         }
                                     }
                                 }
