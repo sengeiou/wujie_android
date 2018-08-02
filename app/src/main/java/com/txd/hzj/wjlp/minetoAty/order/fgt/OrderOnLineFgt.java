@@ -930,7 +930,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("已完成");
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除订单");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                     break;
                 case "5":
                     holder.state.setText("取消订单");
@@ -988,7 +988,7 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.tv_btn_left.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除订单");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.bg_color)));
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "6": {
@@ -1010,9 +1010,8 @@ public class OrderOnLineFgt extends BaseFgt {
                     holder.state.setText("未中奖");
                     holder.lineColor.setBackground(new ColorDrawable(getResources().getColor(R.color.white)));
                     holder.tv_btn_left.setVisibility(View.GONE);
-//                    holder.tv_btn_right.setVisibility(View.GONE);
                     holder.tv_btn_right.setText("删除订单");
-                    holder.tv_btn_right.setVisibility(View.VISIBLE);
+                    holder.tv_btn_right.setVisibility(View.GONE);
                 }
                 break;
                 case "8": {

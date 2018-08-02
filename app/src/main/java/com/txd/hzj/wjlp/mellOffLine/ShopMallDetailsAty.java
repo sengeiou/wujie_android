@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -107,6 +108,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private ShopOffLineBean offLineBean;
     private String sId;
     //店铺评价
+    private LinearLayout comment_layout;
     private View evaluateDivis;
     private View evaluateModle;
     private TextView addressMap;
@@ -148,6 +150,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         evaluateNumbers = findViewById(R.id.shop_evaluate_numbers);
         evaluateBranch = findViewById(R.id.shop_evaluate_branch);
         nearbyBusinessList = findViewById(R.id.shop_nearby_business_list);
+        comment_layout = findViewById(R.id.comment_layout);
         evaluateDivis = findViewById(R.id.shop_evaluate_divis);
         evaluateModle = findViewById(R.id.shop_evaluate_modle);
         addressMap = findViewById(R.id.shop_address_map);
@@ -222,6 +225,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         mySettleAccounts.setOnClickListener(this);
         titleCollect.setOnClickListener(this);
         titleShare.setOnClickListener(this);
+        comment_layout.setOnClickListener(this);
     }
 
     @Override
@@ -257,6 +261,12 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             //分享
             case R.id.goods_title_share_tv:
                 toShare("无界优品", "pic", "url", "context", "id", "shapetype");
+                break;
+            //跳转到评论列表页
+            case R.id.comment_layout:
+                Bundle bundle1=new Bundle();
+                bundle1.putString("merchant_id",s_id);
+                startActivity(OffLineEvaluationShopListAty.class,bundle1);
                 break;
         }
     }
@@ -307,6 +317,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if (offLineBean.getData().getS_id() != null) {
                 sId = offLineBean.getData().getS_id();
             }
+
             //开始
             bannerIma.start();
             //设置营业时间

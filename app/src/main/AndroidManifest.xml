@@ -1109,6 +1109,7 @@
         <activity android:name=".minetoAty.order.OffLineShopDetailsAty" />
         <!--线下店铺搜索列表页-->
         <activity android:name=".mellOffLine.MellOffLineListAty" />
+        <activity android:name=".mellOffLine.OffLineEvaluationShopAty"/>
     </application>
 
 </manifest>

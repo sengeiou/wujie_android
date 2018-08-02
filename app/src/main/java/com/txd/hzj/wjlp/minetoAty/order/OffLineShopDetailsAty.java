@@ -18,6 +18,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.OffLineOrderInfoBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.mellOffLine.OffLineEvaluationShopAty;
 
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,18 @@ public class OffLineShopDetailsAty extends BaseAty{
                     delOrderDialog("是否删除订单");
                 }
             });
+            if ("0".equals(mStatus)){
+                tv_btn_left.setVisibility(View.VISIBLE);
+                tv_btn_left.setText("评论店铺");
+                tv_btn_left.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle=new Bundle();
+                        bundle.putString("order_id",mOrder_id);
+                        startActivity(OffLineEvaluationShopAty.class,bundle);
+                    }
+                });
+            }
         }else if ("0".equals(mPay_status)){
             if ("0".equals(mStatus)){
                 tv_btn_left.setVisibility(View.VISIBLE);
