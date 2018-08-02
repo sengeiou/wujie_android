@@ -253,7 +253,7 @@ public class GoodsEvaluateAty extends BaseAty implements NestedScrollView.OnScro
         from = getIntent().getIntExtra("from", 0);
         userPst = new UserPst(this);
         merchantPst = new MerchantPst(this);
-
+        goods_evaluste_lv.setFocusable(false);
         if (0 == from) {
             titlt_conter_tv.setText("商品评价");
             layout_top.setVisibility(View.GONE);//20180531

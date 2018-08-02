@@ -5,6 +5,9 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
 import com.lidroid.xutils.http.RequestParams;
 
+import java.io.File;
+import java.util.List;
+
 /**
  * 线下店铺模块
  */
@@ -102,5 +105,39 @@ public class OfflineStore {
         requestParams.addBodyParameter("name", name);
         requestParams.addBodyParameter("p", p);
         apiTool2.postApi(url+"search",requestParams , baseView);
+    }
+
+
+    /**
+     *评论页面参数获取
+     * @param order_id 	订单ID
+     */
+    public static  void commentPageParameters(String order_id,BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url+"common",requestParams , baseView);
+    }
+
+
+    /**
+     * 提交评论
+     * @param order_id 订单ID
+     * @param content 	评论内容
+     * @param list 评论图片集合
+     * @param environment 环境星级
+     * @param serve 	服务星级
+     */
+    public static  void commentSubmit(String order_id, String content, List<File> list, String environment, String serve, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("order_id", order_id);
+        requestParams.addBodyParameter("content", content);
+        requestParams.addBodyParameter("environment", environment);
+        requestParams.addBodyParameter("serve", serve);
+        for (File file:list){
+            requestParams.addBodyParameter("picture", file);
+        }
+        apiTool2.postApi(url+"comment",requestParams , baseView);
     }
 }

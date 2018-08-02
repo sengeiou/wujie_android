@@ -11,17 +11,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.base.BaseFragment;
-import com.ants.theantsgo.tips.ToastTip;
 import com.ants.theantsgo.tools.AlertDialog;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.OffLineOrderListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.mellOffLine.OffLineEvaluationShopAty;
 import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 import com.txd.hzj.wjlp.minetoAty.order.OffLineShopDetailsAty;
 import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
@@ -90,7 +89,7 @@ public class OffLineFgt extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), this);
+        update();
     }
 
     @Override
@@ -120,7 +119,7 @@ public class OffLineFgt extends BaseFragment {
                         imageView.setVisibility(View.GONE);
                         progressBar.setVisibility(View.VISIBLE);
                         p = 1;
-                        OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), OffLineFgt.this);
+                        update();
                     }
 
                     @Override
@@ -143,7 +142,6 @@ public class OffLineFgt extends BaseFragment {
                         footerImageView.setVisibility(View.GONE);
                         footerProgressBar.setVisibility(View.VISIBLE);
                         p++;
-                        dataBeanList.clear();
                         OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), OffLineFgt.this);
                         //                        new Handler().postDelayed(new Runnable() {
                         //
@@ -173,6 +171,11 @@ public class OffLineFgt extends BaseFragment {
 
     }
 
+    private void update() {
+        dataBeanList.clear();
+        OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), OffLineFgt.this);
+    }
+
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         super.onError(requestUrl, error);
@@ -197,8 +200,8 @@ public class OffLineFgt extends BaseFragment {
             if (jsonObject.containsKey("code")) {
                 if ("1".equals(jsonObject.getString("code"))) {
                     if (jsonObject.containsKey("message")) {
-                        OfflineStore.offLineOrderList(mPay_status, String.valueOf(p), this);
-                        ToastTip.makeText(getActivity(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        update();
+                        showRightTip( jsonObject.getString("message"));
                     }
                 }
             }
@@ -330,7 +333,16 @@ public class OffLineFgt extends BaseFragment {
                 viewHolder.tv_order_status.setText("已支付");
                 setButton(viewHolder, position);
                 if ("0".equals(dataBean.getStatus())){
-
+                    viewHolder.tv_btn_left.setVisibility(View.VISIBLE);
+                    viewHolder.tv_btn_left.setText("评论店铺");
+                    viewHolder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Bundle bundle=new Bundle();
+                            bundle.putString("order_id",dataBean.getOrder_id());
+                            startActivity(OffLineEvaluationShopAty.class,bundle);
+                        }
+                    });
                 }
             }
             return view;
