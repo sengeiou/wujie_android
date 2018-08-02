@@ -109,6 +109,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     //店铺评价
     private View evaluateDivis;
     private View evaluateModle;
+    private TextView addressMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -149,6 +150,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         nearbyBusinessList = findViewById(R.id.shop_nearby_business_list);
         evaluateDivis = findViewById(R.id.shop_evaluate_divis);
         evaluateModle = findViewById(R.id.shop_evaluate_modle);
+        addressMap = findViewById(R.id.shop_address_map);
         pranster = new Pranster();
         pranster.setView(this);
         page = 1;
@@ -321,6 +323,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             shopAddress.setText(offLineBean.getData().getFinal_address());
             //评价数量
             evaluateNumbers.setText("店铺评价(" + offLineBean.getData().getComment().getCount() + ")");
+            //设置位置
+            addressMap.setText(offLineBean.getData().getAddress());
             //综合星级
             evaluateBranch.setText(offLineBean.getData().getComment().getStar_cate());
             //设置是否收藏
