@@ -678,6 +678,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
     private ImageView imageView;
 
     private CommodityDetailsInter.CommodityPranster commodityPranster;
+    private String goods_name="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -958,7 +959,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, LimitGoodsAty.this);
                     }
-                    share_url = data.getShare_url();
+                    share_url = Config.OFFICIAL_WEB+"Wap/IntegralBuy/integralBuyInfo/integral_buy_id/"+data.getGoodsInfo().getGoods_id()+".html";
                     share_img = data.getShare_img();
                     share_content = data.getShare_content();
                     List<GoodsBannerBean> banners = data.getGoods_banner();
@@ -993,6 +994,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     is_attr = is_attr + "-" + goodsInfo.getGoods_num();
                     // 商品id
                     goods_id = goodsInfo.getGoods_id();
+                    goods_name=goodsInfo.getGoods_name();
 
                     String tx = DemoApplication.getInstance().getLocInfo().get("province")
                             + "," + DemoApplication.getInstance().getLocInfo().get("city") + "," + DemoApplication.getInstance().getLocInfo().get("district");
@@ -1437,7 +1439,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                 collectPst.delOneCollect("1", goods_id);
                 break;
             case R.id.goods_title_share_tv://分享
-                toShare("无界优品", share_img, share_url, share_content, goods_id, "1");
+                toShare(goods_name, share_img, share_url, share_content, goods_id, "1");
                 break;
             case R.id.show_or_hide_iv://展开,隐藏(满折布局)
 //                getHeight();// 重新计算高度
