@@ -337,7 +337,8 @@ public class MessageAty extends BaseAty {
         synchronized (conversations) {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
-                    sortList.add(new Pair<>(conversation.getLastMessage().getMsgTime(), conversation));
+//                    if (!conversation.getLastMessage().getBody().toString().split(":")[1].equals("\"\""))
+                        sortList.add(new Pair<>(conversation.getLastMessage().getMsgTime(), conversation));
                 }
             }
         }

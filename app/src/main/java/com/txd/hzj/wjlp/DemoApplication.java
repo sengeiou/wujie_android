@@ -193,8 +193,10 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
      */
     @Override
     public void onMessageReceived(List<EMMessage> list) {
-        if (chatListener != null)
-            chatListener.onMessageReceived(list);
+        if (chatListener != null) {
+//            if (!list.get(0).getBody().toString().split(":")[1].toString().equals("\"\""))
+                chatListener.onMessageReceived(list);
+        }
     }
 
     /**
@@ -205,8 +207,11 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
      */
     @Override
     public void onCmdMessageReceived(List<EMMessage> list) {
-        if (chatListener != null)
+        if (chatListener != null) {
+
             chatListener.onMessageReceived(list);
+        }
+
     }
 
     /**
