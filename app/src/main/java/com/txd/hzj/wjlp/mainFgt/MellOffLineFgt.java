@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.MapUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -25,6 +26,7 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
+import com.txd.hzj.wjlp.bean.CustomoLocation;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
@@ -33,6 +35,7 @@ import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
+import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
@@ -259,7 +262,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     }
 
     @Override
-    @OnClick({R.id.to_location_tv,R.id.to_search, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
+    @OnClick({R.id.to_location_tv, R.id.to_search, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -267,8 +270,8 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 startActivity(MellCitySelectAty.class, null);
                 break;
             case R.id.to_search:
-                Bundle b =new Bundle();
-                startActivity(SearchAty.class,b);
+                Bundle b = new Bundle();
+                startActivity(SearchAty.class, b);
                 break;
             case R.id.point_by_food_tv:// 美食
                 showToast("开发中，敬请期待");
