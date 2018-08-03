@@ -234,7 +234,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         titleCollect.setOnClickListener(this);
         titleShare.setOnClickListener(this);
         comment_layout.setOnClickListener(this);
-        addressMap.setOnClickListener(this);
+        findViewById(R.id.shop_Report_busines).setOnClickListener(this);
     }
 
     @Override
@@ -277,7 +277,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 bundle1.putString("merchant_id", s_id);
                 startActivity(OffLineEvaluationShopListAty.class, bundle1);
                 break;
-            case R.id.shop_address_map:
+            case R.id.shop_Report_busines:
 
                 List<String> mapList = new ArrayList<>();
                 if (MapIntentUtil.isInstallByread(this, "com.baidu.BaiduMap")) {
