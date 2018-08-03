@@ -755,10 +755,19 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
     @Override
-    protected void requestData() {
+    public void onResume() {
+        super.onResume();
+        if (horizontalAdapter != null) {
+            horizontalAdapter.setSelected(0);
+            horizontalAdapter.notifyDataSetChanged();
+        }
         lat = DemoApplication.getInstance().getLocInfo().get("lat");
         lng = DemoApplication.getInstance().getLocInfo().get("lon");
         indexPst.index(lng, lat);
+    }
+
+    @Override
+    protected void requestData() {
         superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);
         superSwipeRefreshLayout.setHeaderView(createHeaderView());// add headerView
         superSwipeRefreshLayout.setTargetScrollWithLayout(true);
@@ -1305,14 +1314,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (horizontalAdapter != null) {
-            horizontalAdapter.setSelected(0);
-            horizontalAdapter.notifyDataSetChanged();
-        }
-    }
+
 
     /**
      * 横向菜单

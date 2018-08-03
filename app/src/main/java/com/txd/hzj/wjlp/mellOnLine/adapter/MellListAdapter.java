@@ -151,7 +151,7 @@ public class MellListAdapter extends BaseAdapter {
 
         if (showSelect) {
             mvh.operation_mell_iv.setVisibility(View.VISIBLE);
-            if (mellsFoot.get(i).isSelect()) {
+            if (mellsFoot!=null && mellsFoot.get(i).isSelect()) {
                 mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
             } else {
                 mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);

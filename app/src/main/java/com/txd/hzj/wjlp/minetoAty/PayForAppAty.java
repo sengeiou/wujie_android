@@ -988,23 +988,29 @@ public class PayForAppAty extends BaseAty {
         this.is_b = is_b;
         if (is_r) {
             textview.setText(order.get("red_desc"));
-            bd = new BigDecimal(total_price - Double.parseDouble(order.get("discount_price")));
-            String format = decimalFormat.format(bd);
-            tv_price.setText("¥" + format);
+            if (order.containsKey("discount_price")) {
+                bd = new BigDecimal(total_price - Double.parseDouble(order.get("discount_price")));
+                String format = decimalFormat.format(bd);
+                tv_price.setText("¥" + format);
+            }
             //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
         }
         if (is_y) {
             textview.setText(order.get("yellow_desc"));
-            bd = new BigDecimal(total_price - Double.parseDouble(order.get("yellow_price")));
-            String format = decimalFormat.format(bd);
-            tv_price.setText("¥" + format);
+            if (order.containsKey("yellow_price")) {
+                bd = new BigDecimal(total_price - Double.parseDouble(order.get("yellow_price")));
+                String format = decimalFormat.format(bd);
+                tv_price.setText("¥" + format);
+            }
             //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
         }
         if (is_b) {
             textview.setText(order.get("blue_desc"));
-            bd = new BigDecimal(total_price - Double.parseDouble(order.get("blue_price")));
+            if (order.containsKey("blue_price")) {
+                bd = new BigDecimal(total_price - Double.parseDouble(order.get("blue_price")));
 
-            tv_price.setText("¥" + bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                tv_price.setText("¥" + bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+            }
         }
         if (!is_r && !is_y && !is_b) {
             textview.setText("");
