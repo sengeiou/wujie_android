@@ -107,7 +107,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
         if (!meny.equals("")) { // 获取输入的字符串，如果字符串不为空
             try { // 将输入的字符串转换为Double类型
                 Double menyD = Double.parseDouble(meny);
-                if (menyD > 0.00) { // 如果输入金额正确且大于0
+                if (menyD >= 1.00) { // 如果输入金额正确且大于0
                     DecimalFormat df = new DecimalFormat("0.00"); // 将数值保留两位小数
                     if (shopOffLineBean != null) {
                         // 加载头像
@@ -133,7 +133,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
                         showToast("未请求到回传的店铺信息");
                     }
                 } else { // 否则输入的金额小于0或等于0
-                    Toast.makeText(this, "输入有效金额", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "输入金额必须大余1元", Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) { // 类型转换异常，说明有其他字符，提示其自行检查重新输入
                 Toast.makeText(this, "输入有误，请检查", Toast.LENGTH_SHORT).show();

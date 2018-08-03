@@ -547,8 +547,8 @@ public class PayForAppAty extends BaseAty {
                 order_id = data.get("order_id");
                 total_price= Double.parseDouble(mMoney);
                 decimalFormat = new DecimalFormat("0.00");
+                pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
             }else {
-
                 if (!mType.equals("10")) {
                     decimalFormat = new DecimalFormat("0.00");
 

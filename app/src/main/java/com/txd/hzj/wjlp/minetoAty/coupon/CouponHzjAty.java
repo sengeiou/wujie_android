@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.utils.FragmentChangeManager;
@@ -56,7 +55,7 @@ public class CouponHzjAty extends BaseAty {
 
         title_goods_tv.setText("会员卡");
         title_details_tv.setText("优惠券");
-        title_evaluate_tv.setText("期权券");
+        title_evaluate_tv.setText("期权");
         fcm = new FragmentChangeManager(getSupportFragmentManager(), R.id.center_for_coupon_layout, mFragment);
         setTextViewAndViewColor(0);
     }
