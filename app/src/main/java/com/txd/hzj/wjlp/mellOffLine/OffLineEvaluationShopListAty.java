@@ -193,7 +193,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                         bean.setStart_time(object.containsKey("start_time") ? object.getString("start_time") : "");
                         if (object.containsKey("picture")) {
                             JSONArray picture = JSONArray.parseArray(object.getString("picture"));
-                            if (picture.size() > 0) {
+                            if (picture!=null && picture.size() > 0) {
                                 for (int i1 = 0; i1 < picture.size(); i1++) {
                                     OffLineEvaluationListBean.PictureBean pictureBean = new OffLineEvaluationListBean.PictureBean();
                                     JSONObject pic = (JSONObject) picture.get(i1);
