@@ -174,7 +174,7 @@ public class ToShareAty extends BaseAty {
     private void shareForApp(String name) {
 //        if (isComplete) {
 
-        if(shareUrl.contains("http://api")){
+        if(Config.isLogin() && shareUrl.contains("http://api")){
             shareUrl=shareUrl.replace("api","www");
         }
         if (Config.isLogin()&&!shareUrl.contains("invite_code")) {

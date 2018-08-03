@@ -959,7 +959,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                     } else {
                         commodityPranster.isCollect(is_collect, "已收藏", goods_title_collect_tv, LimitGoodsAty.this);
                     }
-                    share_url = Config.OFFICIAL_WEB+"Wap/IntegralBuy/integralBuyInfo/integral_buy_id/"+data.getGoodsInfo().getGoods_id()+".html";
+                    share_url = Config.OFFICIAL_WEB+"Wap/IntegralBuy/integralBuyInfo/integral_buy_id/"+limit_buy_id+".html";
                     share_img = data.getShare_img();
                     share_content = data.getShare_content();
                     List<GoodsBannerBean> banners = data.getGoods_banner();
