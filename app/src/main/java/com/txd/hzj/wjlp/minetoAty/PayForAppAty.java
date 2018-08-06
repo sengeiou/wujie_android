@@ -548,6 +548,15 @@ public class PayForAppAty extends BaseAty {
                 total_price= Double.parseDouble(mMoney);
                 decimalFormat = new DecimalFormat("0.00");
                 pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
+                //是否能用积分支付  1可以  2不可以
+                if (data.containsKey("integration_status")&&"1".equals(data.get("integration_status"))){
+                    if (data.containsKey("integral")) {
+                        cb_jfzf.setText("积分支付(" + data.get("integral") + ")");
+                    }
+                    cb_jfzf.setVisibility(View.VISIBLE);
+                }else if (data.containsKey("integration_status")&&"2".equals(data.get("integration_status"))){
+                    cb_jfzf.setVisibility(View.GONE);
+                }
             }else {
                 if (!mType.equals("10")) {
                     decimalFormat = new DecimalFormat("0.00");
@@ -699,6 +708,8 @@ public class PayForAppAty extends BaseAty {
                         IntegralPay.integralPay(order_id, "4", "", num, this);
                     } else if (mType.equals("10")) {//积分商店
                         IntegralPay.integralPay(order_id, "5", "", num, this);
+                    }else if (mType.equals("100")) {//线下店铺积分支付
+                        IntegralPay.integralPay(order_id, "9", "", num, this);
                     }
                     showProgressDialog();
 
