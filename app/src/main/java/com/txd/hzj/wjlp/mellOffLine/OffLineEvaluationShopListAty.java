@@ -164,8 +164,7 @@ public class OffLineEvaluationShopListAty extends BaseAty {
             @Override
             public void onClick(View v) {
                 // 滚动到顶部
-                goods_evaluste_lv.setNestedScrollingEnabled(false);
-                goods_comment_sc.fullScroll(View.FOCUS_UP);
+                goods_comment_sc.smoothScrollTo(0,0);
             }
         });
     }
