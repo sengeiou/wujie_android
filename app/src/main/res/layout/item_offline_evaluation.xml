@@ -48,22 +48,31 @@
         app:layout_constraintTop_toTopOf="@id/head_img"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"/>
-    <TextView
-        android:id="@+id/content_tv"
-        android:text="店铺不错"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/head_img"
-        app:layout_constraintTop_toBottomOf="@id/head_img"
-        android:layout_marginTop="10dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        app:layout_constraintTop_toBottomOf="@id/content_tv"
-        app:layout_constraintStart_toStartOf="@id/head_img"/>
+        app:layout_constraintStart_toStartOf="@id/head_img"
+        app:layout_constraintTop_toBottomOf="@id/head_img">
+        <TextView
+            android:id="@+id/content_tv"
+            android:text="店铺不错"
+            android:layout_marginBottom="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:paddingBottom="15dp"/>
+    </LinearLayout>
+
 
 
 </android.support.constraint.ConstraintLayout>

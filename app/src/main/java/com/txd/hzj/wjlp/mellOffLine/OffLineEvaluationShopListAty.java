@@ -30,7 +30,6 @@ import com.txd.hzj.wjlp.bean.OffLineEvaluationListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.tool.MallRecyclerViewDivider;
 import com.txd.hzj.wjlp.tool.UnitHelper;
-import com.txd.hzj.wjlp.view.NoScrollLinearLayoutManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ import java.util.Map;
  * 创建时间：2018/8/2 15:06
  * 功能描述：
  */
-public class OffLineEvaluationShopListAty extends BaseAty{
+public class OffLineEvaluationShopListAty extends BaseAty {
 
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
@@ -83,10 +82,9 @@ public class OffLineEvaluationShopListAty extends BaseAty{
     private LinearLayout no_data_layout;
     //店铺ID
     private String mMerchant_id;
-    private int p=1;
+    private int p = 1;
 
-    private List<OffLineEvaluationListBean> mListBeans=new ArrayList<>();
-    private List<OffLineEvaluationListBean.PictureBean> mPictureBeanList=new ArrayList<>();
+    private List<OffLineEvaluationListBean> mListBeans = new ArrayList<>();
     private EvaluationAdapter mEvaluationAdapter;
 
     @Override
@@ -98,16 +96,16 @@ public class OffLineEvaluationShopListAty extends BaseAty{
     protected void initialized() {
         titlt_conter_tv.setText("店铺评价");
         mMerchant_id = getIntent().getStringExtra("merchant_id");
-        if (TextUtils.isEmpty(mMerchant_id)){
+        if (TextUtils.isEmpty(mMerchant_id)) {
             showToast("店铺ID不能为空");
             return;
         }
 
-        // 滚动到顶部
-        goods_comment_sc.smoothScrollTo(0, 0);
+
         // 滚动监听
         goods_comment_sc.setOnScrollChangeListener(new Scrollistener());
 
+        goods_evaluste_lv.setFocusable(false);
         goods_evaluste_lv.setEmptyView(no_data_layout);
 
         refresh_view.setHeaderViewBackgroundColor(Color.WHITE);
@@ -122,8 +120,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                 progressBar.setVisibility(View.VISIBLE);
                 p = 1;
                 mListBeans.clear();
-                mPictureBeanList.clear();
-                OfflineStore.commentList(mMerchant_id,String.valueOf(p),OffLineEvaluationShopListAty.this);
+                OfflineStore.commentList(mMerchant_id, String.valueOf(p), OffLineEvaluationShopListAty.this);
 
             }
 
@@ -147,7 +144,7 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 p++;
-                OfflineStore.commentList(mMerchant_id,String.valueOf(p),OffLineEvaluationShopListAty.this);
+                OfflineStore.commentList(mMerchant_id, String.valueOf(p), OffLineEvaluationShopListAty.this);
             }
 
             @Override
@@ -162,18 +159,27 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
+
+        gc_be_back_top_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 滚动到顶部
+                goods_evaluste_lv.setNestedScrollingEnabled(false);
+                goods_comment_sc.fullScroll(View.FOCUS_UP);
+            }
+        });
     }
 
     @Override
     protected void requestData() {
-        OfflineStore.commentList(mMerchant_id,String.valueOf(p),this);
+        OfflineStore.commentList(mMerchant_id, String.valueOf(p), this);
     }
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         refresh();
-        if (requestUrl.contains("commentList")){
+        if (requestUrl.contains("commentList")) {
             JSONObject ject = JSON.parseObject(jsonStr);
             if (ject.containsKey("data")) {
                 JSONObject jsonObject = JSON.parseObject(ject.getString("data"));
@@ -193,22 +199,28 @@ public class OffLineEvaluationShopListAty extends BaseAty{
                         bean.setStart_time(object.containsKey("start_time") ? object.getString("start_time") : "");
                         if (object.containsKey("picture")) {
                             JSONArray picture = JSONArray.parseArray(object.getString("picture"));
-                            if (picture!=null && picture.size() > 0) {
-                                for (int i1 = 0; i1 < picture.size(); i1++) {
-                                    OffLineEvaluationListBean.PictureBean pictureBean = new OffLineEvaluationListBean.PictureBean();
-                                    JSONObject pic = (JSONObject) picture.get(i1);
-                                    if (pic.containsKey("path")) {
-                                        pictureBean.setPath(pic.getString("path"));
-                                        mPictureBeanList.add(pictureBean);
-                                    }
+                            if (picture != null) {
+                                List<OffLineEvaluationListBean.PictureBean> mPictureBeanList = new ArrayList<>();
+                                if (picture.size() > 0) {
+                                    for (int i1 = 0; i1 < picture.size(); i1++) {
+                                        OffLineEvaluationListBean.PictureBean pictureBean = new OffLineEvaluationListBean.PictureBean();
+                                        JSONObject pic = (JSONObject) picture.get(i1);
+                                        if (pic.containsKey("path")) {
+                                            pictureBean.setPath(pic.getString("path"));
+                                            mPictureBeanList.add(pictureBean);
+                                        }
 
+                                    }
+                                    bean.setPicture(mPictureBeanList);
+                                }else {
+                                    bean.setPicture(mPictureBeanList);
                                 }
                             }
-                            bean.setPicture(mPictureBeanList);
+
                         }
                         mListBeans.add(bean);
                     }
-                    mEvaluationAdapter = new EvaluationAdapter();
+                    mEvaluationAdapter = new EvaluationAdapter(mListBeans);
                     goods_evaluste_lv.setAdapter(mEvaluationAdapter);
 
                 }
@@ -273,15 +285,21 @@ public class OffLineEvaluationShopListAty extends BaseAty{
         }
     }
 
-    class EvaluationAdapter extends BaseAdapter{
+    class EvaluationAdapter extends BaseAdapter {
+        List<OffLineEvaluationListBean> mList;
+
+        public EvaluationAdapter(List<OffLineEvaluationListBean> list) {
+            mList = list;
+        }
+
         @Override
         public int getCount() {
-            return mListBeans.size();
+            return mList.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return mListBeans.get(position);
+            return mList.get(position);
         }
 
         @Override
@@ -290,81 +308,95 @@ public class OffLineEvaluationShopListAty extends BaseAty{
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup parent) {
+        public View getView(final int position, View view, ViewGroup parent) {
             ViewHolder viewHolder;
-            if (view==null){
-                viewHolder=new ViewHolder();
-                view=LayoutInflater.from(OffLineEvaluationShopListAty.this).inflate(R.layout.item_offline_evaluation,parent,false);
-                viewHolder.head_img=view.findViewById(R.id.head_img);
-                viewHolder.nickname_tv=view.findViewById(R.id.nickname_tv);
-                viewHolder.time_tv=view.findViewById(R.id.time_tv);
-                viewHolder.ratingBar=view.findViewById(R.id.rb_1);
-                viewHolder.content_tv=view.findViewById(R.id.content_tv);
-                viewHolder.recyclerView=view.findViewById(R.id.recyclerView);
+            if (view == null) {
+                viewHolder = new ViewHolder();
+                view = LayoutInflater.from(OffLineEvaluationShopListAty.this).inflate(R.layout.item_offline_evaluation, parent, false);
+                viewHolder.head_img = view.findViewById(R.id.head_img);
+                viewHolder.nickname_tv = view.findViewById(R.id.nickname_tv);
+                viewHolder.time_tv = view.findViewById(R.id.time_tv);
+                viewHolder.ratingBar = view.findViewById(R.id.rb_1);
+                viewHolder.content_tv = view.findViewById(R.id.content_tv);
+                viewHolder.recyclerView = view.findViewById(R.id.recyclerView);
                 view.setTag(viewHolder);
-            }else {
-                viewHolder= (ViewHolder) view.getTag();
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
             }
-            OffLineEvaluationListBean bean = mListBeans.get(position);
+            OffLineEvaluationListBean bean = mList.get(position);
             Glide.with(OffLineEvaluationShopListAty.this).load(bean.getHead_pic()).into(viewHolder.head_img);
             viewHolder.nickname_tv.setText(bean.getNickname());
             viewHolder.time_tv.setText(bean.getStart_time());
             viewHolder.ratingBar.setIsIndicator(true);
             viewHolder.ratingBar.setRating(Float.valueOf(bean.getEnvironment()));
+            viewHolder.content_tv.setVisibility(TextUtils.isEmpty(bean.getContent())?View.GONE:View.VISIBLE);
             viewHolder.content_tv.setText(bean.getContent());
             // 设置布局方式
-            viewHolder.recyclerView.setLayoutManager(new NoScrollLinearLayoutManager(OffLineEvaluationShopListAty.this, LinearLayoutManager.HORIZONTAL, false));//不让recycleview横向滑动
+            viewHolder.recyclerView.setLayoutManager(new LinearLayoutManager(OffLineEvaluationShopListAty.this, LinearLayoutManager.HORIZONTAL, false));
             // 默认分割线
-            int dip= UnitHelper.dip2px(getApplicationContext(),10);//转换dip的工具类
-            viewHolder.recyclerView.addItemDecoration(new MallRecyclerViewDivider(getApplicationContext(),MallRecyclerViewDivider.HORIZONTAL_LIST,0,dip));//自定义分割线使得纵向分割不至于撑开布局
-            int dipbian=UnitHelper.dip2px(getApplicationContext(),4);//转换之前是4转换成dip之后乘以2倍，外层布局8dip所以这里写4
-            DisplayMetrics metrics = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-            final int itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
-            viewHolder.recyclerView.setAdapter(new RecyclerView.Adapter() {
-                @Override
-                public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    View view = LayoutInflater.from(OffLineEvaluationShopListAty.this).inflate(R.layout.item_shop_pic, parent, false);
-                    return new PicHolder(view);
-                }
-
-                @Override
-                public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                    PicHolder picHolder = (PicHolder) holder;
-                    Glide.with(OffLineEvaluationShopListAty.this)
-                            .load(mPictureBeanList.get(position).getPath())
-                            .error(R.drawable.ic_default)
-                            .placeholder(R.drawable.ic_default)
-                            .override(itemWidth, itemWidth)
-                            .into(picHolder.imageView);
-                    picHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, itemWidth));
-                }
-
-                @Override
-                public int getItemCount() {
-                    return 0 != mPictureBeanList.size() ? mPictureBeanList.size() : 0;
-                }
-
-                class PicHolder extends RecyclerView.ViewHolder {
-                    ImageView imageView;
-
-                    public PicHolder(View itemView) {
-                        super(itemView);
-                        imageView = itemView.findViewById(R.id.shop_pic);
-                    }
-                }
-            });
-
+            int dip = UnitHelper.dip2px(getApplicationContext(), 10);//转换dip的工具类
+            viewHolder.recyclerView.addItemDecoration(new MallRecyclerViewDivider(getApplicationContext(), MallRecyclerViewDivider.HORIZONTAL_LIST, 0, dip));//自定义分割线使得纵向分割不至于撑开布局
+            if (mList.get(position).getPicture() != null) {
+                viewHolder.recyclerView.setAdapter(new PicAdapter(mList.get(position).getPicture()));
+            }
             return view;
         }
 
-        class ViewHolder{
+        class ViewHolder {
             ImageView head_img;
             TextView nickname_tv;
             TextView time_tv;
             RatingBar ratingBar;
             TextView content_tv;
             RecyclerView recyclerView;
+        }
+    }
+
+    class PicAdapter extends RecyclerView.Adapter<PicAdapter.PicHolder> {
+
+        List<OffLineEvaluationListBean.PictureBean> mPictureBeans;
+        int itemWidth;
+
+
+        public PicAdapter(List<OffLineEvaluationListBean.PictureBean> pictureBeans) {
+            mPictureBeans = pictureBeans;
+            int dipbian = UnitHelper.dip2px(getApplicationContext(), 4);//转换之前是4转换成dip之后乘以2倍，外层布局8dip所以这里写4
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+            int dip = UnitHelper.dip2px(getApplicationContext(), 10);//转换dip的工具类
+            itemWidth = (metrics.widthPixels - dipbian * 2) / 4 - dip;//屏幕宽度减去两边的边距8dip 然后除以4 减去行间距就是单条的宽度
+        }
+
+        @Override
+        public PicHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(OffLineEvaluationShopListAty.this).inflate(R.layout.item_shop_pic, parent, false);
+            return new PicHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(PicHolder holder, int position) {
+            PicHolder picHolder = holder;
+            Glide.with(OffLineEvaluationShopListAty.this)
+                    .load(mPictureBeans.get(position).getPath())
+                    .error(R.drawable.ic_default)
+                    .placeholder(R.drawable.ic_default)
+                    .override(itemWidth, itemWidth)
+                    .into(picHolder.imageView);
+            picHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, itemWidth));
+        }
+
+        @Override
+        public int getItemCount() {
+            return mPictureBeans.size() > 0 ? mPictureBeans.size() : 0;
+        }
+
+        class PicHolder extends RecyclerView.ViewHolder {
+            ImageView imageView;
+
+            public PicHolder(View itemView) {
+                super(itemView);
+                imageView = itemView.findViewById(R.id.shop_pic);
+            }
         }
     }
 }
