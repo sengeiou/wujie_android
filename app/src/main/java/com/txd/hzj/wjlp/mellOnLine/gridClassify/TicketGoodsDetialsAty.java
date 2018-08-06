@@ -1101,12 +1101,9 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                         layout_comment.setVisibility(View.GONE);
                     }
                 } catch (JsonSyntaxException e) {
-                    all_comment_num_tv.setText("商品评价(0)");
-                    comment_layout.setVisibility(View.GONE);
                     layout_comment.setVisibility(View.GONE);
                 }
             } else {
-                comment_layout.setVisibility(View.GONE);
                 layout_comment.setVisibility(View.GONE);
             }
             // TODO==========产品属性==========

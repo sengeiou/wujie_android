@@ -1259,14 +1259,14 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                                     estimate_pic.setAdapter(picadapter);
                                 }
                             }else {
-                                comment_layout.setVisibility(View.GONE);
+                                layout_comment.setVisibility(View.GONE);
                             }
                         } catch (JsonSyntaxException e) {
-                            comment_layout.setVisibility(View.GONE);
+                            layout_comment.setVisibility(View.GONE);
                         }
 
                     } else {
-                        comment_layout.setVisibility(View.GONE);
+                        layout_comment.setVisibility(View.GONE);
                     }
                     List<GoodsPriceDescBean> goodsPriceDescBeans = data.getGoods_price_desc();
                     if (null != goodsPriceDescBeans && goodsPriceDescBeans.size() > 0) {

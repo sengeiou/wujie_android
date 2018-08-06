@@ -1420,12 +1420,9 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                                 layout_comment.setVisibility(View.GONE); // 隐藏评价模块
                             }
                         } catch (JsonSyntaxException e) {
-                            all_comment_num_tv.setText("商品评价(0)");
-                            comment_layout.setVisibility(View.GONE);
                             layout_comment.setVisibility(View.GONE);
                         }
                     } else {
-                        comment_layout.setVisibility(View.GONE);
                         layout_comment.setVisibility(View.GONE);
                     }
 
