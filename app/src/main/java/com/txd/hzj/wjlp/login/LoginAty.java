@@ -8,9 +8,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.register.RegisterPst;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.jpush.JpushSetTagAndAlias;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
@@ -153,7 +156,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     private LinearLayout share_to_QZone;
 
     @ViewInject(R.id.login_go_back_tv)
-    private TextView login_go_back_tv;
+    private ImageView login_go_back_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -351,6 +354,13 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
 
+            String registrationID = DemoApplication.registrationID;
+            boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
+            if (!TextUtils.isEmpty(registrationID) && is_first_commit){
+                PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
+                User.postRegistrationID(registrationID,this);
+            }
+
             // 环信登录
             registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
 //            if (0 == skip_type) {
@@ -391,6 +401,12 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 // 极光设置Tag或者别名
                 JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
                 JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
+                String registrationID = DemoApplication.registrationID;
+                boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
+                if (!TextUtils.isEmpty(registrationID) && is_first_commit){
+                    PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
+                    User.postRegistrationID(registrationID,this);
+                }
                 // 环信登录
                 registerPst.toLogin(data.get("easemob_account"), data.get("easemob_pwd"));
                 if (0 == skip_type) {
@@ -398,6 +414,16 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                     AppManager.getInstance().killAllActivity();
                 }
                 finish();
+            }
+        }
+
+        if (requestUrl.contains("add_jpush_rid")){
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (map.containsKey("code")){
+                Log.e("TAG", "add_jpush_rid=====code:"+map.get("code") );
+            }
+            if (map.containsKey("message")){
+                Log.e("TAG", "add_jpush_rid=====message:"+map.get("message") );
             }
         }
     }

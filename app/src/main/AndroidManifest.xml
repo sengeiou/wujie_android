@@ -13,9 +13,6 @@
 
     <!-- 友盟统计所需权限 -->
     <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
-    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
 
     <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -24,7 +21,8 @@
     <!-- 相机权限 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 在SDCard中创建与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 往SDCard写入数据权限 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 从SDCard读取数据权限 -->
@@ -51,7 +49,8 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- GCM required, remember replace "com.hyphenate.chatuidemo" to your own package -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -67,10 +66,10 @@
         android:protectionLevel="signatureOrSystem" />
     <!-- com.hyphenate.chatuidemo -->
     <uses-permission android:name="com.txd.hzj.wjlp.permission.MIPUSH_RECEIVE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- 百度地图 权限 Begin -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 百度地图 权限 End -->
 
 
@@ -860,9 +859,20 @@
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
             android:name="cn.jpush.android.ui.PopWinActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:theme="@style/MyDialogStyle" />
-
+            android:theme="@style/MyDialogStyle">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.txd.hzj.wjlp" />
+            </intent-filter>
+        </activity>
+        <!-- Required SDK核心功能-->
+        <service
+            android:name="cn.jpush.android.service.DownloadService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
         <!-- Required SDK核心功能 -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
@@ -891,8 +901,8 @@
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
             android:name="cn.jpush.android.service.PushService"
-            android:exported="false"
-            android:process=":mult">
+            android:enabled="true"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -902,9 +912,10 @@
         </service>
         <!-- since 3.0.9 Required SDK 核心功能 -->
         <provider
-            android:name="cn.jpush.android.service.DataProvider"
             android:authorities="com.txd.hzj.wjlp.DataProvider"
-            android:exported="true" />
+            android:name="cn.jpush.android.service.DataProvider"
+            android:exported="true"
+            />
 
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -912,21 +923,27 @@
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
             android:exported="true">
-            <intent-filter>
+            <intent-filter >
                 <action android:name="cn.jpush.android.intent.DaemonService" />
-
-                <category android:name="com.txd.hzj.wjlp" />
+                <category android:name="com.txd.hzj.wjlp"/>
             </intent-filter>
         </service>
 
+        <!-- since 3.1.0 Required SDK 核心功能-->
+        <provider
+            android:authorities="com.txd.hzj.wjlp.DownloadProvider"
+            android:name="cn.jpush.android.service.DownloadProvider"
+            android:exported="true"
+            />
+
         <!-- Required SDK核心功能 -->
+
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true"
-            android:exported="false">
+            android:enabled="true" >
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
-                <category android:name="com.txd.hzj.wjlp" />
+                <category android:name="com.txd.hzj.wjlp"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -936,7 +953,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -975,7 +991,7 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="24cdc347d4a637382d381238" /> <!-- </>值来自开发者平台取得的AppKey -->
+            android:value="8ca752e9c56ad02dc93990f9" /> <!-- </>值来自开发者平台取得的AppKey -->
 
 
         <!-- Jpush(极光推送)END -->

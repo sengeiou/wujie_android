@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.http.user;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 import java.io.File;
@@ -594,6 +593,18 @@ public class User {
         params.addBodyParameter("voucher_id", voucher_id);
         params.addBodyParameter("p", page);
         apiTool2.postApi(url + "gifVoucherListDetail", params, baseView);
+    }
+
+
+    /**
+     * 记录极光用户唯一性标识registrationID  极光用户唯一性标识registrationID
+     * @param registrationID
+     */
+    public static  void postRegistrationID(String registrationID,BaseView baseView){
+        RequestParams params = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("registrationID", registrationID);
+        apiTool2.postApi(url + "add_jpush_rid", params, baseView);
     }
 
 }

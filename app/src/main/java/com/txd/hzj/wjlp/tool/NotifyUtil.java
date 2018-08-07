@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.SystemClock;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -103,6 +103,7 @@ public class NotifyUtil {
      * @param smallIcon
      * @param ticker
      */
+    @SuppressLint("WrongConstant")
     private void setBuilder(PendingIntent pendingIntent, int smallIcon, String ticker, boolean sound, boolean vibrate, boolean lights) {
         nBuilder = new Notification.Builder(mContext);
         nBuilder.setContentIntent(pendingIntent);

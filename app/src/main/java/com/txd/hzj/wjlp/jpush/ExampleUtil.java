@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.jpush;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -96,6 +97,7 @@ public class ExampleUtil {
         return (info != null && info.isConnected());
     }
 
+    @SuppressLint("MissingPermission")
     public static String getImei(Context context, String imei) {
         String ret = null;
         try {

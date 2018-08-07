@@ -73,6 +73,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     private ChatListener chatListener;
 
+    //极光推送获取registrationID的方式
+    public static  String registrationID;
+
  /*   public static RefWatcher getRefWatcher(Context context) {
         DemoApplication application = (DemoApplication) context.getApplicationContext();
         return application.refWatcher;
@@ -84,7 +87,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         super.onCreate();
 
         // 该处只在正式版需要打印Log日志的时候打开，调完之后及时关闭，其他地方非特殊情况不要添加
-//        L.isDebug = false; // 正式版头部信息
+        //        L.isDebug = false; // 正式版头部信息
 
         if (!L.isDebug) { // 如果是正式版则开启异常上报，意在防止在测试过程中上报的异常影响正常用户上报的真实数据
             // 腾讯Bugly初始化，第三个参数为SDK调试模式开关，建议在测试阶段建议设置成true，发布时设置为false。
@@ -99,8 +102,9 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
         // 初始化ShareSDK
         ShareSDK.initSDK(getApplicationContext(), "20e25f8941c82");
         // 极光推送初始化
-        JPushInterface.init(this);
-
+        JPushInterface.setDebugMode(L.isDebug);    // 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);            // 初始化 JPush
+        registrationID = JPushInterface.getRegistrationID(this);
         /*
          * 初始化定位sdk，建议在Application中创建
          */
@@ -112,14 +116,14 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
             EMClient.getInstance().chatManager().addMessageListener(this);
         } catch (NullPointerException e) {
         }
-//        if (L.isDebug) {
-//            if (LeakCanary.isInAnalyzerProcess(this)) {
-//                // This process is dedicated to LeakCanary for heap analysis.
-//                // You should not init your app in this process.
-//                return;
-//            }
-//            refWatcher = LeakCanary.install(this);
-//        }
+        //        if (L.isDebug) {
+        //            if (LeakCanary.isInAnalyzerProcess(this)) {
+        //                // This process is dedicated to LeakCanary for heap analysis.
+        //                // You should not init your app in this process.
+        //                return;
+        //            }
+        //            refWatcher = LeakCanary.install(this);
+        //        }
     }
 
     /**
@@ -194,8 +198,8 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
     @Override
     public void onMessageReceived(List<EMMessage> list) {
         if (chatListener != null) {
-//            if (!list.get(0).getBody().toString().split(":")[1].toString().equals("\"\""))
-                chatListener.onMessageReceived(list);
+            //            if (!list.get(0).getBody().toString().split(":")[1].toString().equals("\"\""))
+            chatListener.onMessageReceived(list);
         }
     }
 
@@ -250,7 +254,7 @@ public class DemoApplication extends WeApplication implements EMMessageListener 
 
     public void removeLisetener() {
         this.chatListener = null;
-//        EMClient.getInstance().chatManager().removeMessageListener(this);
+        //        EMClient.getInstance().chatManager().removeMessageListener(this);
     }
 
     /**

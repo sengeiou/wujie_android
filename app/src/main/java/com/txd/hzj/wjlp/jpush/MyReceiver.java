@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
 import com.ants.theantsgo.util.L;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.MainAty;
 
 import org.json.JSONException;
@@ -37,6 +37,7 @@ public class MyReceiver extends BroadcastReceiver {
 				String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 				L.e(TAG, "[MyReceiver] 接收Registration Id : " + regId);
 				//send the Registration Id to your server...
+				DemoApplication.registrationID=regId;
 
 			} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
 				L.e(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
