@@ -50,6 +50,10 @@ public class VipDetailsAty extends BaseAty {
     private String abs_url;
     private String member_coding;
     private String pay_money;
+    //"是否存在延时会员卡功能" 1 存在  0不存在
+    private int reward_status=0;
+    //个人中心请求状态  1代表成功 0代表失败
+    private int userCenterCode=1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,19 +66,25 @@ public class VipDetailsAty extends BaseAty {
         switch (view.getId()) {
             case R.id.pay:
                 if (sale_status.equals("0")) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("sale_status", sale_status);
-                    bundle.putString("rank_name", rank_name);
-                    bundle.putString("money", money);
-                    bundle.putString("prescription", prescription);
-                    bundle.putString("big_gift", big_gift);
-                    bundle.putString("score_status", score_status);
-                    bundle.putString("abs_url", abs_url);
-                    bundle.putString("member_coding", member_coding);
-                    bundle.putString("pay_money", money);
-//                    bundle.putString("data", data);
-                    bundle.putString("order_id", "");
-                    startActivity(VipPayAty.class, bundle);
+                    if (reward_status==0) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("sale_status", sale_status);
+                        bundle.putString("rank_name", rank_name);
+                        bundle.putString("money", money);
+                        bundle.putString("prescription", prescription);
+                        bundle.putString("big_gift", big_gift);
+                        bundle.putString("score_status", score_status);
+                        bundle.putString("abs_url", abs_url);
+                        bundle.putString("member_coding", member_coding);
+                        bundle.putString("pay_money", money);
+                        //                    bundle.putString("data", data);
+                        bundle.putString("order_id", "");
+                        startActivity(VipPayAty.class, bundle);
+                    }else if (reward_status==1){
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("userCenterCode",userCenterCode);
+                        startActivity(FreeRenew.class,bundle);
+                    }
                     finish();
                 } else {
                     showToast("此会员级别禁止申请");
@@ -99,8 +109,10 @@ public class VipDetailsAty extends BaseAty {
         score_status = getIntent().getStringExtra("score_status");
         abs_url = getIntent().getStringExtra("abs_url");
         member_coding = getIntent().getStringExtra("member_coding");
+        reward_status = getIntent().getIntExtra("rewardStatus", 0);
+        userCenterCode = getIntent().getIntExtra("userCenterCode", 1);
 
-//        data = getIntent().getStringExtra("data");
+        //        data = getIntent().getStringExtra("data");
 //        map = JSONUtils.parseKeyAndValueToMap(data); // TODO 报空指针
 
         list_pic = JSONUtils.parseKeyAndValueToMapList(abs_url);
@@ -116,7 +128,12 @@ public class VipDetailsAty extends BaseAty {
             tv1.setTextColor(Color.BLACK);
             tv2.setVisibility(View.INVISIBLE);
         } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("1")) {
-            tv1.setText("续费");
+            if (reward_status==0) {
+                tv1.setText("续费");
+            }else if (reward_status==1){
+                tv1.setText("免费续约");
+                tv_price.setText("点击领取延期一年优享会员");
+            }
             tv2.setVisibility(View.INVISIBLE);
         } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("2")) {
             tv1.setText("立即开通");
@@ -137,7 +154,12 @@ public class VipDetailsAty extends BaseAty {
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);
         } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("1")) {
-            tv1.setText("续费");
+            if (reward_status==0) {
+                tv1.setText("续费");
+            }else if (reward_status==1){
+                tv1.setText("免费续约");
+                tv_price.setText("点击领取延期一年优享会员");
+            }
             tv2.setVisibility(View.INVISIBLE);
         } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("2")) {
             tv1.setText("立即开通");

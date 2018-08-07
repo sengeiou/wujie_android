@@ -52,7 +52,6 @@ import com.txd.hzj.wjlp.minetoAty.coupon.CouponHzjAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.ApprenticeCodeAty;
 import com.txd.hzj.wjlp.minetoAty.dialog.RegistrationCodeAty;
 import com.txd.hzj.wjlp.minetoAty.feedback.FeedBackAty;
-import com.txd.hzj.wjlp.minetoAty.help.HelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.help.NewHelpCenterAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellGoodsListAty;
 import com.txd.hzj.wjlp.minetoAty.mell.MellSettingAty;
@@ -201,6 +200,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     @ViewInject(R.id.level_icon_iv)
     private ImageView level_icon_iv;
 
+    //赠送图标
+    @ViewInject(R.id.give_img)
+    private ImageView give_img;
+
     /**
      * 金牌会员
      */
@@ -276,6 +279,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private String imaUrl;
     private String stage_merchant_id;
     private String business_invite_code_code;
+    //"是否存在延时会员卡功能" 1 存在  0不存在
+    private int reward_status = 0;
+    //个人中心请求状态  1代表成功 0代表失败
+    private int userCenterCode = 1;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -335,13 +342,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 }
                 break;
             case R.id.grade_of_member_layout: // 会员成长
-                bundle = new Bundle();
-                bundle.putInt("from", 0);
+                //                bundle = new Bundle();
+                //                bundle.putInt("from", 0);
                 startActivity(GradeOfMemberAty.class, null);
                 break;
             case R.id.mine_member_type_layout: // 会员等级
-//                bundle = new Bundle();
-//                bundle.putInt("from", 1);
+                bundle = new Bundle();
+                bundle.putInt("rewardStatus", reward_status);
+                bundle.putInt("userCenterCode",userCenterCode);
                 startActivity(_GradeOfMemberAty.class, bundle);
                 break;
             case R.id.rel_mine_about: // 关于
@@ -474,7 +482,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bundle.putString("invite_code", business_invite_code_code);
                 bundle.putString("stage_merchant_id", stage_merchant_id);
                 startActivity(RegistrationCodeAty.class, bundle);
-//                http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
+                //                http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
         }
     }
 
@@ -576,6 +584,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         if (requestUrl.contains("userCenter")) {
             removeProgressDialog(); // 关闭userCenter打开的Dialog
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
+            userCenterCode= Integer.parseInt(String.valueOf(map.get("code"))) ;
             Map<String, String> data = (Map<String, String>) map.get("data");
             if (data.containsKey("complete_status")) { // 如果存在指定key
                 if (data.get("complete_status").equals("1")) { // 如果可以转蓝色代金券
@@ -607,6 +616,14 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             String nickname = data.get("nickname");
             // 头像
             head_pic = data.get("head_pic");
+            //"是否存在延时会员卡功能" 1 存在  0不存在
+            if (data.containsKey("reward_status") && "1".equals(data.get("reward_status"))) {
+                reward_status = 1;
+                give_img.setVisibility(View.VISIBLE);
+            } else {
+                reward_status = 0;
+                give_img.setVisibility(View.GONE);
+            }
             // 邀请码
             invite_code = data.get("invite_code");
             // 联盟商家id
@@ -621,7 +638,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             } else {
                 tv_dljm.setVisibility(View.GONE);
             }
-//            拜师码判断
+            //            拜师码判断
             is_member_trainer = data.get("is_member_trainer");
             is_merchant_trainer = data.get("is_merchant_trainer");
 
@@ -654,9 +671,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
              "is_iron": "0",//铁，0不点亮 1点亮,
              */
 
-//            SOURCE：缓存原始数据，RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
-//            NONE：什么都不缓存，  ALL：缓存SOURC和RESULT。
-//            默认采用RESULT策略，对于Download Only操作要使用SOURCE。
+            //            SOURCE：缓存原始数据，RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
+            //            NONE：什么都不缓存，  ALL：缓存SOURC和RESULT。
+            //            默认采用RESULT策略，对于Download Only操作要使用SOURCE。
             Glide.with(getActivity()).load(data.get("is_gold_a"))
                     .diskCacheStrategy(DiskCacheStrategy.RESULT)
                     .into(im_jin);
@@ -705,17 +722,17 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .transform(new GlideRoundTransform(getActivity(), 20))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-//                    .fitCenter()
+                    //                    .fitCenter()
 
-//                    .override(icon_size, icon_size)
+                    //                    .override(icon_size, icon_size)
                     .into(rank_icon_iv);
             Glide.with(getActivity()).load(data.get("rank_icon"))
                     .transform(new GlideRoundTransform(getActivity(), 20))
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-//                    .fitCenter()
+                    //                    .fitCenter()
 
-//                    .override(icon_size, icon_size)
+                    //                    .override(icon_size, icon_size)
                     .into(level_icon_iv);
         }
         if (requestUrl.contains("promoters")) {
@@ -735,6 +752,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         progressBar.setVisibility(View.GONE);
 
     }
+
 
     private void forMsg(Map<String, String> data) {
         // 消息数量

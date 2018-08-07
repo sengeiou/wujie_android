@@ -60,7 +60,6 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -68,6 +67,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="20dp"
+                                android:layout_marginTop="20dp"
                                 android:background="@drawable/shape_mine_identity_li"
                                 android:drawablePadding="8dp"
                                 android:drawableStart="@drawable/icon_point_left_hzj"
@@ -84,33 +84,53 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
-                                <LinearLayout
+
+                                <FrameLayout
                                     android:id="@+id/mine_member_type_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="20dp"
-                                    android:background="@drawable/shape_mine_identity_li"
-                                    android:gravity="center"
-                                    android:paddingBottom="4dp"
-                                    android:paddingEnd="8dp"
-                                    android:paddingStart="8dp"
-                                    android:paddingTop="4dp">
+                                    android:layout_marginEnd="20dp">
 
-                                    <ImageView
-                                        android:id="@+id/level_icon_iv"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:layout_marginEnd="8dp"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/icon_putong" />
-
-                                    <TextView
-                                        android:id="@+id/mine_member_type_tv"
+                                    <LinearLayout
+                                        android:id="@+id/ll_layout"
+                                        android:background="@drawable/shape_mine_identity_li"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:layout_marginTop="20dp"
+                                        android:paddingBottom="4dp"
+                                        android:paddingEnd="8dp"
                                         android:gravity="center"
-                                        android:text="普通用户" />
-                                </LinearLayout>
+                                        android:paddingStart="8dp"
+                                        android:paddingTop="4dp">
+
+                                        <ImageView
+                                            android:id="@+id/level_icon_iv"
+                                            android:layout_width="20dp"
+                                            android:layout_height="20dp"
+                                            android:layout_marginEnd="8dp"
+                                            android:scaleType="centerCrop"
+                                            android:src="@drawable/icon_putong" />
+
+                                        <TextView
+                                            android:id="@+id/mine_member_type_tv"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="普通用户" />
+
+
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:id="@+id/give_img"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
+                                        android:visibility="gone"
+                                        android:layout_gravity="right"
+                                        android:layout_marginBottom="20dp"
+                                        android:src="@drawable/givebg" />
+                                </FrameLayout>
+
 
                                 <LinearLayout
                                     android:id="@+id/grade_of_member_layout"
@@ -118,6 +138,7 @@
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/shape_mine_identity_li"
                                     android:gravity="center"
+                                    android:layout_marginTop="20dp"
                                     android:paddingBottom="4dp"
                                     android:paddingEnd="8dp"
                                     android:paddingStart="8dp"

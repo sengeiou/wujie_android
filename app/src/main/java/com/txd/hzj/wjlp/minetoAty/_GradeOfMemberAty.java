@@ -1,9 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty;
 
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,25 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.view.UPMarqueeView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +47,10 @@ public class _GradeOfMemberAty extends BaseAty {
 
     @ViewInject(R.id.tv_tk)
     private TextView tv_tk;
+    //"是否存在延时会员卡功能" 1 存在  0不存在
+    private int reward_status=0;
+    //个人中心请求状态  1代表成功 0代表失败
+    private int userCenterCode=1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +68,8 @@ public class _GradeOfMemberAty extends BaseAty {
     protected void initialized() {
         views = new ArrayList<>();
         titlt_conter_tv.setText("会员等级");
+        reward_status = getIntent().getIntExtra("rewardStatus", 0);
+        userCenterCode = getIntent().getIntExtra("userCenterCode", 1);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -216,6 +212,8 @@ public class _GradeOfMemberAty extends BaseAty {
                         bundle.putString("score_status", getItem(position).get("score_status"));
                         bundle.putString("abs_url", getItem(position).get("abs_url"));
                         bundle.putString("member_coding", getItem(position).get("member_coding"));
+                        bundle.putInt("rewardStatus",reward_status);
+                        bundle.putInt("userCenterCode",userCenterCode);
                         startActivity(VipDetailsAty.class, bundle);
                     } else if (getItem(position).get("sale_status").equals("0")) {
                         String data = getItem(position).toString();
@@ -229,6 +227,8 @@ public class _GradeOfMemberAty extends BaseAty {
                         bundle.putString("score_status", getItem(position).get("score_status"));
                         bundle.putString("abs_url", getItem(position).get("abs_url"));
                         bundle.putString("member_coding", getItem(position).get("member_coding"));
+                        bundle.putInt("rewardStatus",reward_status);
+                        bundle.putInt("userCenterCode",userCenterCode);
                         startActivity(VipDetailsAty.class, bundle);
                     }
                     finish();
