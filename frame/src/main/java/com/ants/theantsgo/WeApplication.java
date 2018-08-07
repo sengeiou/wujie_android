@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.FileManager;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 
@@ -43,8 +42,6 @@ public class WeApplication extends Application {
         super.onCreate();
         application = this;
         appManager = AppManager.getInstance();
-//        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
-//        JPushInterface.init(this);            // 初始化 JPush
         start();
         initUserInfo();
     }
