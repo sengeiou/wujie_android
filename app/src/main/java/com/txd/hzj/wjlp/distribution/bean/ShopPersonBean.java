@@ -122,6 +122,7 @@ public class ShopPersonBean {
              * head_pic : 0
              * path : null
              * set_name :
+             * "profit_num": "100",
              * head_path : http://test.wujiemall.com/Uploads/User/default.png
              */
 
@@ -173,6 +174,15 @@ public class ShopPersonBean {
             private Object path;
             private String set_name;
             private String head_path;
+            private String profit_num;
+
+            public String getProfit_num() {
+                return profit_num;
+            }
+
+            public void setProfit_num(String profit_num) {
+                this.profit_num = profit_num;
+            }
 
             public String getId() {
                 return id;
@@ -659,6 +669,15 @@ public class ShopPersonBean {
             private String path;
             private String set_name;
             private String head_path;
+            private String profit_num;
+
+            public String getProfit_num() {
+                return profit_num;
+            }
+
+            public void setProfit_num(String profit_num) {
+                this.profit_num = profit_num;
+            }
 
             public String getId() {
                 return id;
