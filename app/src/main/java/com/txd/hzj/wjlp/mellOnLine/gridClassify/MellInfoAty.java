@@ -343,7 +343,7 @@ public class MellInfoAty extends BaseAty {
                 /**
                  * 1 商品 2商家 3书院 4红包 5其他(个人中心)
                  */
-                toShare("无界优品", share_img, share_url, share_content, mell_id, "2");
+                toShare(merchant_name, share_img, share_url, share_content, mell_id, "2");
                 break;
             case R.id.popularity_tv:// 店铺首页
                 soft_type = 0;
