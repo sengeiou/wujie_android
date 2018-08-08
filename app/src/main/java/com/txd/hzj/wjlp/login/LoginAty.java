@@ -357,6 +357,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             String registrationID = DemoApplication.registrationID;
             boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
             if (!TextUtils.isEmpty(registrationID) && is_first_commit){
+                Log.e("TAG", "registrationID: "+registrationID );
                 PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
                 User.postRegistrationID(registrationID,this);
             }
@@ -404,6 +405,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 String registrationID = DemoApplication.registrationID;
                 boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
                 if (!TextUtils.isEmpty(registrationID) && is_first_commit){
+                    Log.e("TAG", "registrationID: "+registrationID );
                     PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
                     User.postRegistrationID(registrationID,this);
                 }
