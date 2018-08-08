@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.NotificationsUtils;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.ants.theantsgo.util.StringUtils;
 import com.baidu.location.BDAbstractLocationListener;
@@ -156,6 +158,7 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content, fragments);
         //申请权限
         requestSomePermission();
+        checkNotification();
         // 电源管理
 //        forPowerManager();
         // 当用户登录到另一个设备或删除时，确保活动不会出现在后台
@@ -189,6 +192,55 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
         }
 
+    }
+    private void checkNotification(){
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT&&Build.VERSION.SDK_INT<Build.VERSION_CODES.O) {
+            if (!NotificationsUtils.isNotificationEnabled(this)) {
+                notificationDialog();
+            }
+        }else if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            if (!NotificationsUtils.isEnableV26(this,getPackageName(),android.os.Process.myUid())){
+                notificationDialog();
+            }
+
+        }
+
+    }
+
+    private void notificationDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setTitle("打开通知权限获取更多促销优惠，正品省钱才是硬道理！");
+
+        dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        dialog.setButton(DialogInterface.BUTTON_POSITIVE, " 去设置", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", MainAty.this.getPackageName(), null));
+                } else if (Build.VERSION.SDK_INT <= 8) {
+                    localIntent.setAction(Intent.ACTION_VIEW);
+
+                    localIntent.setClassName("com.android.settings",
+                            "com.android.settings.InstalledAppDetails");
+
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName",
+                            MainAty.this.getPackageName());
+                }
+                startActivity(localIntent);
+            }
+        });
+        dialog.show();
     }
 
     @Override
