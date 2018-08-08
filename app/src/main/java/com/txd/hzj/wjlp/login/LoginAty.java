@@ -157,6 +157,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
 
     @ViewInject(R.id.login_go_back_tv)
     private ImageView login_go_back_tv;
+    private String registrationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -354,10 +355,10 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
             JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
 
-            String registrationID = DemoApplication.registrationID;
+            registrationID = DemoApplication.registrationID;
             boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
             if (!TextUtils.isEmpty(registrationID) && is_first_commit){
-                Log.e("TAG", "registrationID: "+registrationID );
+                Log.e("TAG", "registrationID: "+ registrationID);
                 PreferencesUtils.putBoolean(LoginAty.this, "is_first_commit", false);
                 User.postRegistrationID(registrationID,this);
             }
@@ -402,7 +403,7 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
                 // 极光设置Tag或者别名
                 JpushSetTagAndAlias.getInstance().setAlias(getApplicationContext());
                 JpushSetTagAndAlias.getInstance().setTag(getApplicationContext());
-                String registrationID = DemoApplication.registrationID;
+                registrationID = DemoApplication.registrationID;
                 boolean is_first_commit = PreferencesUtils.getBoolean(this, "is_first_commit", true);
                 if (!TextUtils.isEmpty(registrationID) && is_first_commit){
                     Log.e("TAG", "registrationID: "+registrationID );
@@ -423,6 +424,11 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
             Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (map.containsKey("code")){
                 Log.e("TAG", "add_jpush_rid=====code:"+map.get("code") );
+                if ("0".equals(map.containsKey("code"))){
+                    if (!TextUtils.isEmpty(registrationID)) {
+                        User.postRegistrationID(registrationID, this);
+                    }
+                }
             }
             if (map.containsKey("message")){
                 Log.e("TAG", "add_jpush_rid=====message:"+map.get("message") );
