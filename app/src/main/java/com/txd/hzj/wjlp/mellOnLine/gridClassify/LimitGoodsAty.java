@@ -1076,7 +1076,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         }
 
                         // 市场价(原价)
-                        old_price_tv.setText("￥" + goodsInfo.getShop_price());
+                        old_price_tv.setText("￥" + goodsInfo.getMarket_price());
                         old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         // 积分
                         ChangeTextViewStyle.getInstance().forTextColor(LimitGoodsAty.this, goods_profit_num_tv,
@@ -1139,7 +1139,7 @@ public class LimitGoodsAty extends BaseAty implements ObservableScrollView.Scrol
                         count_down_layout.setVisibility(View.GONE);
                         goods_pro_layout.setVisibility(View.GONE);
                         goods_profit_num_tv.setVisibility(View.GONE);
-                        old_price_tv.setText("￥" + goodsInfo.getShop_price());
+                        old_price_tv.setText("￥" + goodsInfo.getMarket_price());
                         old_price_tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                         now_price_tv.setText("此物品兑换，需要" + goodsInfo.getUse_integral() + "积分");
                         now_price_tv.setTextSize(16f);

@@ -46,7 +46,6 @@ public class ToShareAty extends BaseAty {
     private String shareType = ""; // 分享类别：1微信 2微博 3qq 4微信朋友圈 5QQ空间
     private String shareUrl = "";
     private UserPst userPst;
-    private boolean isComplete;
 
     private String shapetype = "";
     /**
@@ -155,7 +154,6 @@ public class ToShareAty extends BaseAty {
             JSONObject jsonObject = JSONObject.parseObject(jsonStr);
             JSONObject object = jsonObject.getJSONObject("data");
             shareUrl = object.getString("url");
-            isComplete = true;
         }
 
     }
@@ -172,7 +170,6 @@ public class ToShareAty extends BaseAty {
      * @param name 分享平台
      */
     private void shareForApp(String name) {
-//        if (isComplete) {
 
         if(Config.isLogin() && shareUrl.contains("http://api")){
             shareUrl=shareUrl.replace("api","www");
