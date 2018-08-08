@@ -112,7 +112,7 @@ public class NoticeDetailsAty extends BaseAty {
         } else if (2 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             String desc = getIntent().getStringExtra("desc");
-            titlt_conter_tv.setText("无界商店");
+            titlt_conter_tv.setText("无界优品");
             url = getIntent().getStringExtra("href");
             initWebView(false); // 不使用noScrollWebView
         } else if (4 == from) {

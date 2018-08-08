@@ -231,6 +231,7 @@ public class GoodsInputHzjAty extends BaseAty implements NestedScrollView.OnScro
         list = new ArrayList<>();
         country = new ArrayList<>();
         type = getIntent().getIntExtra("type", 3);
+        global_goods_gv.setFocusable(false);
     }
 
     @Override
