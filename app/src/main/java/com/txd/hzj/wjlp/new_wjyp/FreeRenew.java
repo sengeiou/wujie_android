@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.text.TextUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -10,6 +11,9 @@ import com.ants.theantsgo.config.Config;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -43,15 +47,15 @@ public class FreeRenew extends BaseAty{
         settings.setJavaScriptEnabled(true);
         settings.setUseWideViewPort(true);
         webview.setWebChromeClient(new WebChromeClient());
-        String url= Config.OFFICIAL_WEB+"index.php/Wap/User/success/status/"+userCenterCode;
-        webview.loadUrl(url);
-        webview.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
+        String url= Config.OFFICIAL_WEB+"Api/User/delayProcessing";
+        final Map<String,String> map=new HashMap<>();
+        String token = Config.getToken();
+        if (!TextUtils.isEmpty(token)){
+            map.put("token",token);
+            webview.loadUrl(url,map);
+        }
+
+        webview.setWebViewClient(new WebViewClient());
     }
 
     @Override
