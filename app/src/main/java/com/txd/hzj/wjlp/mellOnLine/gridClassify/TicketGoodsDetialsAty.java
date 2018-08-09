@@ -1903,12 +1903,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
 
         @Override
         public Object getItem(int i) {
-            return null;
+            return list.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return i;
         }
 
         @Override
