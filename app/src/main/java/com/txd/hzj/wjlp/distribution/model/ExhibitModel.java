@@ -63,13 +63,31 @@ public class ExhibitModel {
     }
 
 
+    /**
+     * 小店信息获取，传id取单个，不传id取列表
+     * @param cate_id
+     */
     public void postShopsData(String cate_id, BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("cate_id", cate_id);
+        params.addBodyParameter("id", cate_id);
         apiTool2.postApi(DISTRIBUTION_URL+"shops", params, baseView);
     }
 
+    /**
+     * 小店信息更新接口
+     * @param id  小店id
+     * @param shop_name  用户名
+     * @param shop_pic 	小店点标id
+     * @param shop_desc 小店描述
+     * @param user_id 	小店店主
+     * @param set_id 小店等级 小店等级升级
+     * @param shop_status 小店状态（默认0 [0 正常 9 删除]）
+     * @param pay_money 付款金额数（默认0）
+     * @param pay_orders 付款订单数（默认0）
+     * @param visit_nums 小店访问数（默认0）
+     * @param update_time 	更新时间
+     */
     public void postShopsSetData(String id,String shop_name,String shop_pic,String shop_desc,String user_id,String set_id,String shop_status,String pay_money,String pay_orders,String visit_nums,String update_time, BaseView baseView){
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();

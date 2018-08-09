@@ -14,24 +14,23 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.lzy.imagepicker.ImagePicker;
 import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.distribution.bean.ShopGetDetailsBean;
 import com.txd.hzj.wjlp.distribution.presenter.ShopExhibitPst;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 
@@ -97,7 +96,8 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleRight.setText("保存");
         titleRight.setTextColor(Color.rgb(255, 0, 0));
         pst = new ShopExhibitPst(this);
-        pst.shops("1");
+        pst.shops("18");
+        Log.e("TAG",  Config.getToken());
     }
 
     /**
@@ -133,7 +133,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                     uri = shopUrl;
                 }
                 isUpdata = true;
-                pst.shopsetData("1", tvName, "23869", tvDetails, "2", "1", "0", "0", "0", "0", l + "");
+                pst.shopsetData("18", tvName, "3", tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
                 break;
         }
     }
@@ -143,42 +143,37 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         super.onComplete(requestUrl, jsonStr);
         if (requestUrl.contains("shops")) {
             Log.i("获取信息", jsonStr.toString());
-            Gson gson = new Gson();
-            ShopGetDetailsBean detailsBean = gson.fromJson(jsonStr, ShopGetDetailsBean.class);
-
-            if (isUpdata){
-                if (detailsBean.getCode() == 200) {
-                    Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if ("200".equals(JSONUtils.getMapValue(map, "code"))) {
+                if (isUpdata) {
                     ShopSetUp.this.finish();
+                    showToast(JSONUtils.getMapValue(map, "message"));
                 }
-            }
-            List<ShopGetDetailsBean.DataBean> data = detailsBean.getData();
-            //店铺名字
-            shopName = data.get(1).getShop_name();
-            //店铺描述
-            shopDesc = data.get(1).getShop_desc();
-            //店铺头像
-            shopUrl = data.get(1).getShop_url();
-            if (shopUrl != null && !shopUrl.equals("")) {
-                Glide.with(ShopSetUp.this).load(shopUrl).error(R.mipmap.icon_idcard_front)
-                        .placeholder(R.mipmap.icon_idcard_front).centerCrop().into(shopImage);
-            }
-            if (shopName != null && !shopName.equals("")) {
-                inPutName.setText(shopName);
-            }
-            if (!shopDesc.equals("") && shopDesc != null) {
-                shopDetails.setText(shopDesc);
+
+                String data = JSONUtils.getMapValue(map, "data");
+                Map<String, String> mapData = JSONUtils.parseKeyAndValueToMap(data);
+
+                //                List<ShopGetDetailsBean.DataBean> data = detailsBean.getData();
+                //店铺名字
+                shopName = JSONUtils.getMapValue(mapData, "shop_name");
+                //店铺描述
+                shopDesc = JSONUtils.getMapValue(mapData, "shop_desc");
+                //店铺头像
+                shopUrl = JSONUtils.getMapValue(mapData, "shop_url");
+                if (shopUrl != null && !shopUrl.equals("")) {
+                    Glide.with(ShopSetUp.this).load(shopUrl).error(R.mipmap.icon_idcard_front)
+                            .placeholder(R.mipmap.icon_idcard_front).centerCrop().into(shopImage);
+                }
+                if (shopName != null && !shopName.equals("")) {
+                    inPutName.setText(shopName);
+                }
+                if (!shopDesc.equals("") && shopDesc != null) {
+                    shopDetails.setText(shopDesc);
+                }
+
             }
 
         }
-      /*  if (isUpdata&&requestUrl.contains("shops")) {
-            Gson gson = new Gson();
-            ShopSetUpmsg setUpmsg = gson.fromJson(jsonStr, ShopSetUpmsg.class);
-            if (setUpmsg.getCode() == 200) {
-                Toast.makeText(this, "保存成功", Toast.LENGTH_SHORT).show();
-                ShopSetUp.this.finish();
-            }
-        }*/
     }
 
     private void showDialogs() {
