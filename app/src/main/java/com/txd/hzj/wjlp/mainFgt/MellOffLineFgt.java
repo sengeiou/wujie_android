@@ -3,10 +3,12 @@ package com.txd.hzj.wjlp.mainFgt;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.MapUtils;
+import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,16 +28,16 @@ import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.CustomoLocation;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.mainFgt.adapter.OffLineMenuGvAdapter;
+import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.MellInfoAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
-import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
@@ -80,6 +82,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
 
+    @ViewInject(R.id.under_banner_menu_vp)
+    ViewPager under_banner_menu_vp;
+
     private int allHeight = 0;
 
     /**
@@ -102,6 +107,15 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private ImageView three_image_center_iv;
     @ViewInject(R.id.three_image_right_iv)
     private ImageView three_image_right_iv;
+
+
+    private int pageSize = 10;
+    /**
+     * 当前选中的第几页
+     */
+    private int curIndex = 0;
+
+    private List<String> gv_classify;
 
     private int img_w = 0;
     private int img_h = 0;
@@ -202,6 +216,110 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
+        forMenu();
+    }
+
+    private void forMenu() {
+
+        // 获取总页数
+        int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
+        // 初始化View列表
+        ArrayList<View> mPagerList = new ArrayList<>();
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        for (int i = 0; i < pageCount; i++) {
+            GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout, under_banner_menu_vp, false);
+            //设置adapter  给布局填充控件（限量购及票卷区图标）
+            gridView.setAdapter(new OffLineMenuGvAdapter(getActivity(), gv_classify, i));
+            mPagerList.add(gridView);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    int pos = i + curIndex * pageSize;
+                    switch (pos) {
+                        case 0:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 1:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 4:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 7:
+                            break;
+                        case 8:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 9:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 10:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 11:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 12:
+                            break;
+                        case 13:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 14:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 15:
+                            break;
+                        case 16:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 17:
+                            break;
+                        case 18:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 19:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 20:
+                            showToast("开发中，敬请期待");
+                            break;
+                        case 21:
+                            showToast("开发中，敬请期待");
+                            break;
+
+                    }
+                }
+            });
+            // 给ViewPager设置适配器
+            under_banner_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
+            // 添加页面改变监听事件
+            under_banner_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    curIndex = position;
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+        }
     }
 
 
@@ -262,7 +380,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     }
 
     @Override
-    @OnClick({R.id.to_location_tv, R.id.to_search, R.id.point_by_food_tv, R.id.point_by_wj_tv, R.id.point_by_map_tv})
+    @OnClick({R.id.to_location_tv, R.id.to_search})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -272,15 +390,6 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             case R.id.to_search:
                 Bundle b = new Bundle();
                 startActivity(SearchAty.class, b);
-                break;
-            case R.id.point_by_food_tv:// 美食
-                showToast("开发中，敬请期待");
-                break;
-            case R.id.point_by_wj_tv:// 无界驿站
-                showToast("开发中，敬请期待");
-                break;
-            case R.id.point_by_map_tv:// 地图
-                showToast("开发中，敬请期待");
                 break;
         }
     }
@@ -292,7 +401,11 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
-
+        gv_classify=new ArrayList<>();
+        String[] titles={"餐饮美食","商户地图","精选美食","品质购物","休闲娱乐","生活服务","精致丽人","学习培训","母婴亲子","运动健身","我要结婚","酒店住宿","汽车服务","宠物生活","口碑家装","电影演出","K歌达人","周边玩乐","畅游海外","医疗健康","交通出行"};
+        for (int i = 0; i < titles.length; i++) {
+            gv_classify.add(titles[i]);
+        }
 
     }
 

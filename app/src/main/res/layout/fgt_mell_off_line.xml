@@ -36,52 +36,12 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="8dp" />
-
-            <LinearLayout
+            <android.support.v4.view.ViewPager
+                android:id="@+id/under_banner_menu_vp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="160dp"
+                android:background="@color/white"/>
 
-                <TextView
-                    android:id="@+id/point_by_food_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:drawableTop="@drawable/icon_nice_foods_hzj"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:text="餐饮美食"
-                    android:textColor="@color/gray_text_color"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/point_by_wj_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:drawableTop="@drawable/icon_wujie_post_hzj"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:text="无界驿店"
-                    android:textColor="@color/gray_text_color"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/point_by_map_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
-                    android:drawableTop="@drawable/icon_wujie_post_hzj"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:text="商户地图"
-                    android:textColor="@color/gray_text_color"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
 
             <Space
                 android:layout_width="match_parent"
