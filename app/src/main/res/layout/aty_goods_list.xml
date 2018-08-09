@@ -9,6 +9,62 @@
     tools:context="com.txd.hzj.wjlp.mellOnLine.GoodsListAty">
 
     <include layout="@layout/aty_search_title" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:background="@color/white"
+        android:paddingTop="13dp"
+        android:paddingBottom="13dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/internal_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="积分"
+            android:drawableRight="@drawable/shopblgjiantou"
+            android:gravity="right"
+            android:drawablePadding="6dp"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/cash_coupon_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="代金券"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/shopblgjiantou"
+            android:gravity="right"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/sales_volume_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="6dp"
+            android:text="销量"
+            android:drawableRight="@drawable/shopblgjiantou"
+            android:gravity="right"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+        <TextView
+            android:id="@+id/price_tv"
+            android:layout_marginRight="26dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="价格"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/shopblgjiantou"
+            android:gravity="right"
+            android:textColor="#ff333333"
+            android:textSize="14sp" />
+    </LinearLayout>
 
     <com.ants.theantsgo.view.pulltorefresh.PullToRefreshGridView
         android:id="@+id/search_goods_gv"

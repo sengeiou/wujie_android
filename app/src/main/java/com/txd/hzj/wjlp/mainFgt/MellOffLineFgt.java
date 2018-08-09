@@ -243,6 +243,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             showToast("开发中，敬请期待");
                             break;
                         case 2:
+                            showToast("开发中，敬请期待");
                             break;
                         case 3:
                             showToast("开发中，敬请期待");
@@ -251,11 +252,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             showToast("开发中，敬请期待");
                             break;
                         case 5:
+                            showToast("开发中，敬请期待");
                             break;
                         case 6:
                             showToast("开发中，敬请期待");
                             break;
                         case 7:
+                            showToast("开发中，敬请期待");
                             break;
                         case 8:
                             showToast("开发中，敬请期待");
@@ -270,6 +273,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             showToast("开发中，敬请期待");
                             break;
                         case 12:
+                            showToast("开发中，敬请期待");
                             break;
                         case 13:
                             showToast("开发中，敬请期待");
@@ -278,11 +282,13 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                             showToast("开发中，敬请期待");
                             break;
                         case 15:
+                            showToast("开发中，敬请期待");
                             break;
                         case 16:
                             showToast("开发中，敬请期待");
                             break;
                         case 17:
+                            showToast("开发中，敬请期待");
                             break;
                         case 18:
                             showToast("开发中，敬请期待");
