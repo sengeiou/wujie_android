@@ -511,6 +511,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private ProgressBar progressBar;
     private TextView textView;
     private ImageView imageView;
+    private String integral_buy_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -746,8 +747,13 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             case R.id.tv_wjsd:
                 Bundle mBundle = new Bundle();
                 mBundle.putInt("type", 10);
-                mBundle.putString("title", "积分商店");
-                startActivity(TicketZoonAty.class, mBundle);
+                if (integral_buy_id.equals("0")) {
+                    mBundle.putString("title", "积分商店");
+                    startActivity(TicketZoonAty.class, mBundle);
+                }else {
+                    mBundle.putString("limit_buy_id", integral_buy_id);
+                    startActivity(LimitGoodsAty.class, mBundle);
+                }
                 break;
             case R.id.tv_dpg:
                 Bundle bundle1 = new Bundle();
@@ -1469,12 +1475,15 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("TicketGoodsDetialsAty:" + goodsInfo.toString());
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
-        if (goodsInfo.get("integral_buy_id").equals("0")) {
+        if (JSONUtils.getMapValue(goodsInfo,"use_integral").equals("0")){
             layout_jifen.setVisibility(View.GONE);
-        } else {
+        }else {
             //此商品可以使用xxx积分兑换，如想使用积分兑换请到积分商店进行兑换
-            tv_integral.setText("此商品可以使用" + goodsInfo.get("use_integral") + "积分兑换，如想使用积分兑换请到积分商店进行兑换");
+            layout_jifen.setVisibility(View.VISIBLE);
+            tv_integral.setText("此商品可以使用" + JSONUtils.getMapValue(goodsInfo,"use_integral")+ "积分兑换");
         }
+        integral_buy_id = JSONUtils.getMapValue(goodsInfo, "integral_buy_id");
+
         tv_brief.setText(goodsInfo.get("goods_brief"));
 
         if (ToolKit.isList(goodsInfo, "dj_ticket")) {

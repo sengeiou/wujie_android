@@ -175,6 +175,7 @@
 
                                 <LinearLayout
                                     android:id="@+id/layout_jifen"
+                                    android:visibility="gone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
@@ -189,7 +190,6 @@
                                         android:drawablePadding="10dp"
                                         android:gravity="center_vertical"
                                         android:padding="10dp"
-                                        android:text="此商品可以使用466积分兑换，如想使用积分兑换请到积分商店进行兑换"
                                         android:textColor="#6C6C6C"
                                         android:textSize="10sp" />
 

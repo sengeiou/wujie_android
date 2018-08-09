@@ -61,7 +61,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getLong(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static Long getLong(String jsonData, String key, Long defaultValue) {
@@ -144,7 +143,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getInt(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static Integer getInt(String jsonData, String key,
@@ -176,7 +174,6 @@ public class JSONUtils {
 	}
 
 	/**
-	 * @param jsonObject
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -227,7 +224,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getDouble(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static Double getDouble(String jsonData, String key,
@@ -260,7 +256,6 @@ public class JSONUtils {
 	}
 
 	/**
-	 * @param jsonObject
 	 * @param key
 	 * @param defaultValue
 	 * @return
@@ -312,7 +307,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getString(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static String getString(String jsonData, String key,
@@ -383,7 +377,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getStringArray(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static String[] getStringArray(String jsonData, String key,
@@ -506,7 +499,6 @@ public class JSONUtils {
 	 *         <li>if jsonData {@link JSONObject#JSONObject(String)} exception,
 	 *         return defaultValue</li>
 	 *         <li>return
-	 *         {@link JSONUtils#getJSONArray(JSONObject, String, JSONObject)}</li>
 	 *         </ul>
 	 */
 	public static JSONArray getJSONArray(String jsonData, String key,
@@ -750,6 +742,13 @@ public class JSONUtils {
 			}
 			return null;
 		}
+	}
+
+	public static String  getMapValue(Map<String,String> map,String key){
+		if (map.containsKey(key)){
+			return map.get(key);
+		}
+		return "";
 	}
 
 }
