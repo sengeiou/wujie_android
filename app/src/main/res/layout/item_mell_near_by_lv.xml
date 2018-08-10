@@ -112,6 +112,7 @@
                 app:stepSize="Full"></com.txd.hzj.wjlp.view.RatingBar>
 
             <View
+                android:id="@+id/vertical_line"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="4dp"
@@ -147,6 +148,7 @@
             android:background="#ffdddddd" />
 
         <LinearLayout
+            android:id="@+id/voucher_layout"
             android:layout_marginBottom="14dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

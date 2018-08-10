@@ -2,9 +2,7 @@ package com.txd.hzj.wjlp.mainFgt.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
-import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.view.inScroll.GridViewForScrollView;
-import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.Mell;
-import com.txd.hzj.wjlp.bean.commodity.TicketListBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.bean.offline.TicketBean;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
-import com.txd.hzj.wjlp.tool.GlideUtil;
 import com.txd.hzj.wjlp.view.RatingBar;
 
 import java.util.ArrayList;
@@ -83,6 +74,15 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             view.setTag(nyvh);
         } else {
             nyvh = (NYVH) view.getTag();
+        }
+        if ("0".equals(offLineDataBean.getUser_id())){
+            nyvh.vertical_line.setVisibility(View.GONE);
+            nyvh.mell_sell_num.setVisibility(View.GONE);
+            nyvh.voucher_layout.setVisibility(View.GONE);
+        }else {
+            nyvh.vertical_line.setVisibility(View.VISIBLE);
+            nyvh.mell_sell_num.setVisibility(View.VISIBLE);
+            nyvh.voucher_layout.setVisibility(View.VISIBLE);
         }
         int width = (int) (Resources.getSystem().getDisplayMetrics().density * 67);
         GlideUtils.urlRoundPic(offLineDataBean.getLogo(), width, width, nyvh.mell_img, 2);
@@ -208,12 +208,19 @@ public class MellNearByHzjAdapter extends BaseAdapter {
 
         @ViewInject(R.id.mell_score_rating_bar)
         private RatingBar mell_score_rating_bar;
+
+        @ViewInject(R.id.vertical_line)
+        private View vertical_line;
+
         @ViewInject(R.id.mell_sell_num)
         private TextView mell_sell_num;
         @ViewInject(R.id.mell_intro)
         private TextView mell_intro;
         @ViewInject(R.id.djpLayout)
         private LinearLayout djpLayout;
+
+        @ViewInject(R.id.voucher_layout)
+        private LinearLayout voucher_layout;
         /**
          * 其他优惠折扣布局
          */

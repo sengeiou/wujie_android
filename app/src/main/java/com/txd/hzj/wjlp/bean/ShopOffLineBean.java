@@ -58,6 +58,7 @@ public class ShopOffLineBean implements Serializable {
     public static class DataBean {
         /**
          * s_id : 38
+         * user_id:0
          * merchant_name : 达令商城
          * merchant_desc : 618爆款手机带回家，心动不如行动！！门店地址：红桥区兴县勉县鞍山西道与白堤路交口风湖里15号楼人！
          * logo : http://test2.wujiemall.com/Uploads/Merchant/2018-07-24/5b56ca2eb4470.jpg
@@ -81,6 +82,7 @@ public class ShopOffLineBean implements Serializable {
          */
 
         private String s_id;
+        private String user_id;
         private String merchant_name;
         private String merchant_desc;
         private String logo;
@@ -101,6 +103,14 @@ public class ShopOffLineBean implements Serializable {
         private int is_collect;
         private List<GalleryBean> gallery;
         private List<OtherLicenseBean> other_license;
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
+        }
 
         public String getS_id() {
             return s_id;
