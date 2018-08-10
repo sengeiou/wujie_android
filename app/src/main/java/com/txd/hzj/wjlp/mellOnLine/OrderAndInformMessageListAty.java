@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
+import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.ViewUtils;
@@ -21,6 +22,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
+import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
+import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,12 +86,60 @@ public class OrderAndInformMessageListAty extends BaseAty {
         message_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (2 == type) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("from", 0);
-                    bundle.putString("id", list.get(i - 1).get("id"));
-                    startActivity(NoticeDetailsAty.class, bundle);
+                switch (type) {
+                    case 0: // 订单消息
+                        Map<String, String> orderMap = list.get(i - 1);
+                        L.e("voodoo_jie", orderMap.toString());
+                        String orderType = orderMap.containsKey("type") ? orderMap.get("type") : "";
+                        if (!orderType.isEmpty()) {
+                            Bundle bundle = new Bundle();
+                            switch (Integer.parseInt(orderType)) {
+                                case 0: // 0商品订单
+                                case 2: // 2拼单购
+                                    bundle.putString("id", orderMap.containsKey("order_id") ? orderMap.get("order_id") : "");
+                                    if (Integer.parseInt(orderType) == 0) {
+                                        bundle.putString("type", "0"); // TODO 此处Type为订单类型，0是普通商品，4是拼单购。。。。
+                                    } else if (Integer.parseInt(orderType) == 2) {
+                                        bundle.putString("type", "3");
+                                    }
+                                    startActivity(OrderDetailsAty.class, bundle);
+                                    break;
+                                case 1: // 会员卡
+                                    bundle.putString("order_id", orderMap.containsKey("order_id") ? orderMap.get("order_id") : "");
+                                    bundle.putString("member_coding", ""); // TODO 此处member_coding为会员卡编码
+                                    startActivity(VipCardDetailsAty.class, bundle);
+                                    break;
+                                case 3:
+//                                    showToast("无界预购");
+                                    break;
+                                case 4:
+//                                    showToast("比价购");
+                                    break;
+                                case 5:
+//                                    showToast("无界商店");
+                                    break;
+                                case 6:
+//                                    showToast("积分抽奖");
+                                    break;
+                            }
+                        }
+                        break;
+                    case 1: // 通知消息
+//                        showToast("1");
+                        break;
+                    case 2:
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("from", 0);
+                        bundle.putString("id", list.get(i - 1).get("id"));
+                        startActivity(NoticeDetailsAty.class, bundle);
+                        break;
                 }
+//                if (1 == type) {
+//
+//                }
+//                if ()
+//                    if (2 == type) {
+//                    }
             }
         });
     }
@@ -127,6 +178,7 @@ public class OrderAndInformMessageListAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        L.e("voodoo_jie", jsonStr);
         Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
         if (ToolKit.isList(map, "data")) {
             if (1 == p) {
@@ -191,13 +243,12 @@ public class OrderAndInformMessageListAty extends BaseAty {
 
             mvh.msg_time_tv.setText(msg.get("create_time"));
 
-            if(2 == type){
+            if (2 == type) {
                 mvh.item_message_content_tv.setText(msg.get("title"));
-                mvh.is_read_tv.setVisibility(msg.get("is_read").equals("0")?View.VISIBLE:View.GONE);
+                mvh.is_read_tv.setVisibility(msg.get("is_read").equals("0") ? View.VISIBLE : View.GONE);
             } else {
                 mvh.item_message_content_tv.setText(msg.get("content"));
             }
-
 
 
             if (msg.get("status").equals("0")) {// 未读

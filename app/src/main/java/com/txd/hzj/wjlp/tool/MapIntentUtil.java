@@ -21,7 +21,7 @@ import java.util.List;
 public class MapIntentUtil {
 
     /**
-     * 跳转到百度地图APP驾车导航
+     * 跳转到百度地图APP驾车线路规划
      *
      * @param context             上下文
      * @param currentLocation     起始位置
@@ -60,7 +60,7 @@ public class MapIntentUtil {
     }
 
     /**
-     * 调起高德地图
+     * 调起高德地图APP驾车线路规划
      *
      * @param context //     * @param loc
      */
@@ -118,10 +118,24 @@ public class MapIntentUtil {
 
     }
 
+//    /**
+//     * 百度坐标转换为高德坐标
+//     *
+//     * @param baiduLat 百度坐标纬度
+//     * @param baiduLng 百度坐标经度
+//     * @return 高德坐标Double[]
+//     */
 //    public static double[] baidu2gaode(double baiduLat, double baiduLng) {
 //
 //    }
-//
+
+//    /**
+//     * 高德坐标转换为百度坐标
+//     *
+//     * @param gaodeLat 高德坐标纬度
+//     * @param gaodeLng 高德坐标经度
+//     * @return 百度坐标Double[]
+//     */
 //    public static double[] gaode2baidu(double gaodeLat, double gaodeLng) {
 //
 //    }

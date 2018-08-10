@@ -74,13 +74,6 @@ public class AppUpdate {
                 showNoUpdate(activity);
             }
         }
-//        else if (serverCode < BuildConfig.VERSION_CODE && updataApp.getData().getUpdate().equals("0")) {
-//            showBack(updataApp, activity);
-//        } else if (serverCode < BuildConfig.VERSION_CODE && !updataApp.getData().getUpdate().equals("0")) {
-//            if (!systemChecked) {
-//                showNoUpdate(activity);
-//            }
-//        }
     }
 
     /**
