@@ -96,7 +96,7 @@
                                         android:background="@drawable/shape_mine_identity_li"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="20dp"
+                                        android:layout_marginTop="25dp"
                                         android:paddingBottom="4dp"
                                         android:paddingEnd="8dp"
                                         android:gravity="center"
@@ -123,8 +123,8 @@
 
                                     <ImageView
                                         android:id="@+id/give_img"
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
                                         android:visibility="gone"
                                         android:layout_gravity="right"
                                         android:layout_marginBottom="20dp"
@@ -138,7 +138,7 @@
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/shape_mine_identity_li"
                                     android:gravity="center"
-                                    android:layout_marginTop="20dp"
+                                    android:layout_marginTop="25dp"
                                     android:paddingBottom="4dp"
                                     android:paddingEnd="8dp"
                                     android:paddingStart="8dp"
