@@ -1,10 +1,12 @@
 package com.txd.hzj.wjlp.mellOnLine;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -75,6 +77,31 @@ public class GoodsListAty extends BaseAty {
     @ViewInject(R.id.price_tv)
     private TextView price_tv;
 
+    @ViewInject(R.id.pop_search_layout)
+    private LinearLayout pop_search_layout;
+
+    @ViewInject(R.id.lower_et)
+    private EditText lower_et;
+
+    @ViewInject(R.id.higher_et)
+    private EditText higher_et;
+
+    @ViewInject(R.id.lower_tv)
+    private TextView lower_tv;
+
+    @ViewInject(R.id.higher_tv)
+    private TextView higher_tv;
+
+    @ViewInject(R.id.cancel_tv)
+    private TextView cancel_tv;
+
+    @ViewInject(R.id.sure_tv)
+    private TextView sure_tv;
+
+
+    @ViewInject(R.id.bg_view)
+    private View bg_view;
+
     @ViewInject(R.id.search_goods_gv)
     private PullToRefreshGridView search_goods_gv;
 
@@ -98,10 +125,17 @@ public class GoodsListAty extends BaseAty {
     private Drawable selectId;
     private Drawable twoSelectId;
     private Drawable unSelectId;
-    private int internalNum = 0;
-    private int cashCouponNum = 0;
-    private int salesVolumeNum = 0;
     private int priceNum = 0;
+    //按销量从高到底排序
+    private String sell = "";
+    //按用券比例从高到底排序
+    private String tsort = "";
+    //按可返积分从高到底排序
+    private String integral = "";
+    //psort=1按价格从底到高，psort=2按价格从高到底
+    private String psort = "";
+    //价格区间内检索商品，格式是 开始金额_结束金额 ，两个价格中间用下划线链接
+    private String price = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +149,7 @@ public class GoodsListAty extends BaseAty {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
                 p = 1;
-                goodsPst.search("1", keyword, p, false);
+                goodsPst.search("1", keyword, p, sell, tsort, integral, psort, price, false);
             }
 
             @Override
@@ -125,7 +159,7 @@ public class GoodsListAty extends BaseAty {
                     search_goods_gv.onRefreshComplete();
                     return;
                 }
-                goodsPst.search("1", keyword, p, false);
+                goodsPst.search("1", keyword, p, sell, tsort, integral, psort, price, false);
             }
         });
 
@@ -134,7 +168,7 @@ public class GoodsListAty extends BaseAty {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // 票券区详情
                 Bundle bundle = new Bundle();
-                bundle.putString("ticket_buy_id", data.get(i ).getGoods_id());
+                bundle.putString("ticket_buy_id", data.get(i).getGoods_id());
                 bundle.putInt("from", 1);
                 startActivity(TicketGoodsDetialsAty.class, bundle);
             }
@@ -169,8 +203,9 @@ public class GoodsListAty extends BaseAty {
         });
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
-    @OnClick({R.id.search_title_right_tv,R.id.search_type_tv,R.id.internal_tv,R.id.cash_coupon_tv,R.id.sales_volume_tv,R.id.price_tv})
+    @OnClick({R.id.search_title_right_tv, R.id.search_type_tv, R.id.internal_tv, R.id.cash_coupon_tv, R.id.sales_volume_tv, R.id.price_tv,R.id.lower_tv,R.id.higher_tv,R.id.cancel_tv,R.id.sure_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -190,52 +225,106 @@ public class GoodsListAty extends BaseAty {
                 setChioceItem(2);
                 break;
             case R.id.price_tv:
-                setChioceItem(3);
+                //                setChioceItem(3);
+
+                TranslateAnimation animation = null;
+                if (pop_search_layout.getVisibility()==View.GONE){
+                    bg_view.setVisibility(View.VISIBLE);
+                    pop_search_layout.setVisibility(View.VISIBLE);
+                    pop_search_layout.setFocusable(true);
+                    animation = new TranslateAnimation(0, 0, 0, 0.5f);
+                    animation.setDuration(200);
+                    pop_search_layout.startAnimation(animation);
+                }else if (pop_search_layout.getVisibility()==View.VISIBLE){
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
+
+                break;
+            case R.id.lower_tv:
+                clearTv();
+                lower_tv.setTextColor(Color.parseColor("#FE666A"));
+                lower_tv.setBackgroundResource(R.drawable.shape_red_pop);
+                sell = "";
+                tsort = "";
+                integral = "";
+                psort = "1";
+                price = "";
+                requestData();
+                bg_view.setVisibility(View.GONE);
+                pop_search_layout.setVisibility(View.GONE);
+                break;
+            case R.id.higher_tv:
+                clearTv();
+                higher_tv.setTextColor(Color.parseColor("#FE666A"));
+                higher_tv.setBackgroundResource(R.drawable.shape_red_pop);
+                sell = "";
+                tsort = "";
+                integral = "";
+                psort = "2";
+                price = "";
+                requestData();
+                bg_view.setVisibility(View.GONE);
+                pop_search_layout.setVisibility(View.GONE);
+                break;
+            case R.id.cancel_tv:
+                bg_view.setVisibility(View.GONE);
+                pop_search_layout.setVisibility(View.GONE);
+                break;
+            case R.id.sure_tv:
+                bg_view.setVisibility(View.GONE);
+                pop_search_layout.setVisibility(View.GONE);
                 break;
         }
+    }
+    private void clearTv(){
+        lower_tv.setTextColor(getResources().getColor(R.color.hint_text_color));
+        lower_tv.setBackgroundResource(R.drawable.gr_item_back);
+        higher_tv.setTextColor(getResources().getColor(R.color.hint_text_color));
+        higher_tv.setBackgroundResource(R.drawable.gr_item_back);
     }
 
     private void setChioceItem(int index) {
         clearChioce();
         if (index == 0) {
             internal_tv.setTextColor(Color.parseColor(redColor));
-            internal_tv.setCompoundDrawables(null, null, internalNum % 2 == 0 ? selectId : twoSelectId, null);
-            internalNum++;
-            cashCouponNum = 0;
-            salesVolumeNum = 0;
             priceNum = 0;
+            sell = "";
+            tsort = "";
+            integral = "1";
+            psort = "";
+            price = "";
+            requestData();
         } else if (index == 1) {
             cash_coupon_tv.setTextColor(Color.parseColor(redColor));
-            cash_coupon_tv.setCompoundDrawables(null, null, cashCouponNum % 2 == 0 ? selectId : twoSelectId, null);
-
-            internalNum = 0;
-            cashCouponNum++;
-            salesVolumeNum = 0;
             priceNum = 0;
+            sell = "";
+            tsort = "1";
+            integral = "";
+            psort = "";
+            price = "";
+            requestData();
         } else if (index == 2) {
             sales_volume_tv.setTextColor(Color.parseColor(redColor));
-            sales_volume_tv.setCompoundDrawables(null, null, salesVolumeNum % 2 == 0 ? selectId : twoSelectId, null);
-            internalNum = 0;
-            cashCouponNum = 0;
-            salesVolumeNum++;
             priceNum = 0;
+            sell = "1";
+            tsort = "";
+            integral = "";
+            psort = "";
+            price = "";
+            requestData();
         } else if (index == 3) {
             price_tv.setTextColor(Color.parseColor(redColor));
             price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
-            internalNum = 0;
-            cashCouponNum = 0;
-            salesVolumeNum = 0;
             priceNum++;
         }
     }
 
     private void clearChioce() {
         internal_tv.setTextColor(Color.parseColor(blgColor));
-        internal_tv.setCompoundDrawables(null, null, unSelectId, null);
         cash_coupon_tv.setTextColor(Color.parseColor(blgColor));
-        cash_coupon_tv.setCompoundDrawables(null, null, unSelectId, null);
         sales_volume_tv.setTextColor(Color.parseColor(blgColor));
-        sales_volume_tv.setCompoundDrawables(null, null, unSelectId, null);
         price_tv.setTextColor(Color.parseColor(blgColor));
         price_tv.setCompoundDrawables(null, null, unSelectId, null);
     }
@@ -280,7 +369,7 @@ public class GoodsListAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        goodsPst.search("1", keyword, p, true);
+        goodsPst.search("1", keyword, p, sell, tsort, integral, psort, price, true);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.tool;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ public class CommonPopupWindow extends PopupWindow {
         void getChildView(View view, int layoutResId, int position);
     }
 
+    @SuppressLint("WrongConstant")
     private CommonPopupWindow(Context context) {
         controller = new PopupController(context, this);
         setSoftInputMode(CommonPopupWindow.INPUT_METHOD_NEEDED);

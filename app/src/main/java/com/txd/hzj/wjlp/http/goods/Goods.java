@@ -72,12 +72,17 @@ class Goods {
      * @param p        分页
      * @param baseView 回调
      */
-    void search(String type, String name, int p, BaseView baseView) {
+    void search(String type, String name, int p,String sell, String tsort,String integral, String psort,String price, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("type", type);
         params.addBodyParameter("name", name);
         params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("sell", sell);
+        params.addBodyParameter("tsort", tsort);
+        params.addBodyParameter("integral", integral);
+        params.addBodyParameter("psort", psort);
+        params.addBodyParameter("price", price);
         apiTool2.postApi(url + "search", params, baseView);
     }
 

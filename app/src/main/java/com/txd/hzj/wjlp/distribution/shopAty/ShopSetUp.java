@@ -15,7 +15,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
@@ -97,7 +96,6 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
         titleRight.setTextColor(Color.rgb(255, 0, 0));
         pst = new ShopExhibitPst(this);
         pst.shops("18");
-        Log.e("TAG",  Config.getToken());
     }
 
     /**
@@ -133,7 +131,7 @@ public class ShopSetUp extends BaseAty implements View.OnClickListener {
                     uri = shopUrl;
                 }
                 isUpdata = true;
-                pst.shopsetData("18", tvName, "3", tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
+                pst.shopsetData("18", tvName, uri, tvDetails, "1515", "1", "0", "0", "0", "0", l+ "");
                 break;
         }
     }

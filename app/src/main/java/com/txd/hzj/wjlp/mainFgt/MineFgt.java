@@ -20,6 +20,7 @@ import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -34,6 +35,7 @@ import com.txd.hzj.wjlp.bean.Promoters;
 import com.txd.hzj.wjlp.distribution.ApplyForShop;
 import com.txd.hzj.wjlp.distribution.shopAty.ShopMain;
 import com.txd.hzj.wjlp.http.index.IndexPst;
+import com.txd.hzj.wjlp.http.user.User;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.huanxin.ui.ChatActivity;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.GoodsEvaluateAty;
@@ -61,6 +63,7 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
+import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_mine1;
 import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
@@ -69,6 +72,7 @@ import com.txd.hzj.wjlp.wjyp.LMSJAty;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -347,10 +351,11 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(GradeOfMemberAty.class, null);
                 break;
             case R.id.mine_member_type_layout: // 会员等级
-                bundle = new Bundle();
-                bundle.putInt("rewardStatus", reward_status);
-                bundle.putInt("userCenterCode",userCenterCode);
-                startActivity(_GradeOfMemberAty.class, bundle);
+                if (reward_status == 0) {
+                    startActivity(_GradeOfMemberAty.class, null);
+                } else if (reward_status == 1) {
+                    User.userCard(MineFgt.this);
+                }
                 break;
             case R.id.rel_mine_about: // 关于
                 startActivity(AboutOursAty.class, null);
@@ -584,7 +589,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         if (requestUrl.contains("userCenter")) {
             removeProgressDialog(); // 关闭userCenter打开的Dialog
             Map<String, Object> map = GsonUtil.GsonToMaps(jsonStr);
-            userCenterCode= Integer.parseInt(String.valueOf(map.get("code"))) ;
+            userCenterCode = Integer.parseInt(String.valueOf(map.get("code")));
             Map<String, String> data = (Map<String, String>) map.get("data");
             if (data.containsKey("complete_status")) { // 如果存在指定key
                 if (data.get("complete_status").equals("1")) { // 如果可以转蓝色代金券
@@ -746,6 +751,30 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     Log.i("textviewtoStroing", imaUrl + "===================" + promoters.getData().getAds().get(0).getDesc());
                 }
             }
+        }
+
+        if (requestUrl.contains("userCard")) {
+            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            ArrayList<Map<String, String>> list = JSONUtils.parseKeyAndValueToMapList(JSONUtils.parseKeyAndValueToMap(map.get("data")).get("list"));
+            for (int i = 0; i < list.size(); i++) {
+                if ("优享会员".equals(JSONUtils.getMapValue(list.get(i), "rank_name"))) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("sale_status", list.get(i).get("sale_status"));
+                    bundle.putString("rank_name",  list.get(i).get("rank_name"));
+                    bundle.putString("money",  list.get(i).get("money"));
+                    bundle.putString("prescription",  list.get(i).get("prescription"));
+                    bundle.putString("big_gift",  list.get(i).get("big_gift"));
+                    bundle.putString("score_status",  list.get(i).get("score_status"));
+                    bundle.putString("abs_url",  list.get(i).get("abs_url"));
+                    bundle.putString("member_coding",  list.get(i).get("member_coding"));
+                    bundle.putInt("rewardStatus", reward_status);
+                    bundle.putInt("userCenterCode", userCenterCode);
+                    startActivity(VipDetailsAty.class, bundle);
+                    break;
+                }
+            }
+
+
         }
 
         superSwipeRefreshLayout.setRefreshing(false);

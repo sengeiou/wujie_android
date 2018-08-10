@@ -83,6 +83,12 @@ public class MellListAty extends BaseAty {
     private int allNum = 0;
     private int search_type = 1;
 
+    private String sell="";
+    private String tsort="";
+    private String integral="";
+    private String psort="";
+    private String price="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +100,7 @@ public class MellListAty extends BaseAty {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 p = 1;
 
-                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, false);
-
+                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, sell,tsort,integral,psort,price,false);
             }
 
             @Override
@@ -105,7 +110,7 @@ public class MellListAty extends BaseAty {
                     return;
                 }
                 p++;
-                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, false);
+                goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, sell,tsort,integral,psort,price,false);
             }
         });
 
@@ -182,7 +187,7 @@ public class MellListAty extends BaseAty {
     protected void requestData() {
         // 如果type对象为空则直接将其设置一个空字符串，防止空指针异常
         type = type == null ? "" : type;
-        goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, true);
+        goodsPst.search(type.equals("商品") ? "1" : "2", keyword, p, sell,tsort,integral,psort,price,true);
     }
 
     private void forTitle() {

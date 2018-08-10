@@ -42,11 +42,11 @@ public class GoodsPst extends BasePresenter {
     }
 
     // 搜索
-    public void search(String type, String name, int p, boolean show) {
+    public void search(String type, String name, int p, String sell, String tsort,String integral, String psort,String price,boolean show) {
         if (show) {
             baseView.showDialog();
         }
-        goods.search(type, name, p, baseView);
+        goods.search(type, name, p,sell,tsort,integral,psort,price, baseView);
     }
 
 }

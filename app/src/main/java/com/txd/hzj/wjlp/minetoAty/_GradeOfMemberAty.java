@@ -47,10 +47,6 @@ public class _GradeOfMemberAty extends BaseAty {
 
     @ViewInject(R.id.tv_tk)
     private TextView tv_tk;
-    //"是否存在延时会员卡功能" 1 存在  0不存在
-    private int reward_status=0;
-    //个人中心请求状态  1代表成功 0代表失败
-    private int userCenterCode=1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,8 +64,6 @@ public class _GradeOfMemberAty extends BaseAty {
     protected void initialized() {
         views = new ArrayList<>();
         titlt_conter_tv.setText("会员等级");
-        reward_status = getIntent().getIntExtra("rewardStatus", 0);
-        userCenterCode = getIntent().getIntExtra("userCenterCode", 1);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
         recyclerview.setNestedScrollingEnabled(false);
     }
@@ -212,8 +206,6 @@ public class _GradeOfMemberAty extends BaseAty {
                         bundle.putString("score_status", getItem(position).get("score_status"));
                         bundle.putString("abs_url", getItem(position).get("abs_url"));
                         bundle.putString("member_coding", getItem(position).get("member_coding"));
-                        bundle.putInt("rewardStatus",reward_status);
-                        bundle.putInt("userCenterCode",userCenterCode);
                         startActivity(VipDetailsAty.class, bundle);
                     } else if (getItem(position).get("sale_status").equals("0")) {
                         String data = getItem(position).toString();
@@ -227,8 +219,6 @@ public class _GradeOfMemberAty extends BaseAty {
                         bundle.putString("score_status", getItem(position).get("score_status"));
                         bundle.putString("abs_url", getItem(position).get("abs_url"));
                         bundle.putString("member_coding", getItem(position).get("member_coding"));
-                        bundle.putInt("rewardStatus",reward_status);
-                        bundle.putInt("userCenterCode",userCenterCode);
                         startActivity(VipDetailsAty.class, bundle);
                     }
                     finish();

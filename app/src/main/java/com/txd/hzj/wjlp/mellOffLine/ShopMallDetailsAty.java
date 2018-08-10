@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -30,7 +29,6 @@ import com.txd.hzj.wjlp.mellOffLine.adapter.ShopEvaluateAdapter;
 import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.tool.MapIntentUtil;
 import com.txd.hzj.wjlp.tool.TextUtils;
-import com.umeng.commonsdk.debug.E;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -73,6 +71,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private StoreInfoPst pst;
     //商品数量
     private TextView shopGoddsNumber;
+    private LinearLayout month_layout;
     //月销单量
     private TextView monthOrderNumber;
     //关注人数
@@ -144,6 +143,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         bannerIma = findViewById(R.id.banner);
         shopEvaluate = findViewById(R.id.shop_mall_evaluate_list);
         shopGoddsNumber = findViewById(R.id.shop_goods_number);
+        month_layout=findViewById(R.id.month_layout);
         monthOrderNumber = findViewById(R.id.shop_month_order_number);
         shopFollowPersons = findViewById(R.id.shop_follow_persons);
         shopBusinessHours = findViewById(R.id.shop_business_hours);
@@ -381,6 +381,15 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             shopFollowPersons.setText(offLineBean.getData().getFocus_num() + "人");
             //设置商品数量
             shopGoddsNumber.setText(offLineBean.getData().getGoods_num() + "件");
+            if ("0".equals(offLineBean.getData().getUser_id())){
+                month_layout.setVisibility(View.GONE);
+                shopBusinessAptitude.setVisibility(View.GONE);
+                shopReportBusiness.setVisibility(View.GONE);
+            }else {
+                month_layout.setVisibility(View.VISIBLE);
+                shopBusinessAptitude.setVisibility(View.VISIBLE);
+                shopReportBusiness.setVisibility(View.VISIBLE);
+            }
             //设置月单量
             monthOrderNumber.setText(offLineBean.getData().getMonths_orders() + "件");
             //设置地址
