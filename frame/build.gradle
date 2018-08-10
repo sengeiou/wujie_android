@@ -45,51 +45,74 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/xUtils-2.6.14.jar')
+
     // xUtils
     compile files('libs/alipaySingle-20160825.jar')
+
     // 支付宝支付
+
     //    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
+
     //    compile 'com.squareup.okhttp3:okhttp:3.4.1'// OKHttp
+
     //    compile 'com.squareup.okio:okio:1.10.0'// OKio
     compile 'com.android.support:recyclerview-v7:26.+'
+
     // RecyclerView
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
     // Google图片异步加载框架
-    compile 'com.lzy.widget:imagepicker:0.5.3'
-    // 廖子尧图片选择控件
     compile 'com.android.support:support-v4:26.+'
-//    compile 'com.umeng.analytics:analytics:latest.integration'
+
+    //    compile 'com.umeng.analytics:analytics:latest.integration'
+
     // 友盟
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.synnapps:carouselview:0.1.3'
+
     // 轮播图
     compile 'com.google.code.gson:gson:2.8.0'
+
     // Gson
     compile 'cn.gavinliu.android.lib:ShapedImageView:0.8.4'
     compile 'com.youth.banner:banner:1.4.10'
+
     // 圆形头像
+
     //compile 'com.github.iwgang:countdownview:2.1.3'
+
     // 倒计时控件
     testCompile 'junit:junit:4.12'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+
     // TabLayout可以设置左右滑动和不滑动
     compile files('libs/wechat-sdk-android-without-mta-1.3.4.jar')
+
     /*material风格的dialogs*/
     compile 'com.afollestad.material-dialogs:core:0.9.3.0'
+
     /*FloatingActionButton*/
     compile 'com.melnykov:floatingactionbutton:1.3.0'
     compile project(':easeui')
+
     //https://github.com/ReactiveX/RxJava  集成rxjava 刘刚
     compile 'io.reactivex:rxjava:1.3.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex.rxjava2:rxjava:2.1.1'
-//    https://github.com/alibaba/fastjson
+
+    //    https://github.com/alibaba/fastjson
     compile 'com.alibaba:fastjson:1.2.46'
     compile 'com.alibaba:fastjson:1.1.68.android'
-//    https://github.com/wasabeef/glide-transformations
-//    compile 'jp.wasabeef:glide-transformations:3.3.0'
+
+    //    https://github.com/wasabeef/glide-transformations
+
+    //    compile 'jp.wasabeef:glide-transformations:3.3.0'
+
     // If you want to use the GPU Filters
-//    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+
+    //    compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    // 廖子尧图片选择控件0.6.1
+    compile project(':imagepicker')
 }

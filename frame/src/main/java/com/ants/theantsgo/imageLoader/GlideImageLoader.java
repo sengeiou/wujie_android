@@ -49,6 +49,11 @@ public class GlideImageLoader implements ImageLoader {
     }
 
     @Override
+    public void displayImagePreview(Activity activity, String s, ImageView imageView, int i, int i1) {
+
+    }
+
+    @Override
     public void clearMemoryCache() {
     }
 }

@@ -1,3 +1,3 @@
 
-include ':app', ':frame', ':pickerview', ':sideBar', ':easeui', ':baiduLoc','countdownview_lib'
+include ':app', ':frame', ':pickerview', ':sideBar', ':easeui', ':baiduLoc',':countdownview_lib',':imagepicker'
 
