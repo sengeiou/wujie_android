@@ -1494,7 +1494,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             }
                         });
                     } else if ("1".equals(groupType)) {//1试用品拼单
-                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n体验" + goodsInfo.getShop_price() + "元");
+                        creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n手气" + goodsInfo.getShop_price() + "元");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
@@ -1864,7 +1864,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                 //                old_price_tv.setText("￥" + data.getStringExtra("market_price"));
                 //                old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 if ("1".equals(groupType)) {
-                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n体验" + goodsInfo.getShop_price() + "元");
+                    creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n手气" + goodsInfo.getShop_price() + "元");
                 } else {
                     creat_group_tv.setText("送" + data.getStringExtra("red_return_integral") + "积分\n发起拼单");
                 }
