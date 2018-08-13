@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
@@ -205,7 +207,7 @@ public class GoodsListAty extends BaseAty {
 
     @SuppressLint("ResourceAsColor")
     @Override
-    @OnClick({R.id.search_title_right_tv, R.id.search_type_tv, R.id.internal_tv, R.id.cash_coupon_tv, R.id.sales_volume_tv, R.id.price_tv,R.id.lower_tv,R.id.higher_tv,R.id.cancel_tv,R.id.sure_tv})
+    @OnClick({R.id.search_title_right_tv, R.id.search_type_tv, R.id.internal_tv, R.id.cash_coupon_tv, R.id.sales_volume_tv, R.id.price_tv, R.id.lower_tv, R.id.higher_tv, R.id.cancel_tv, R.id.sure_tv})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -217,32 +219,46 @@ public class GoodsListAty extends BaseAty {
                 break;
             case R.id.internal_tv:
                 setChioceItem(0);
-                break;
-            case R.id.cash_coupon_tv:
-                setChioceItem(1);
-                break;
-            case R.id.sales_volume_tv:
-                setChioceItem(2);
-                break;
-            case R.id.price_tv:
-                //                setChioceItem(3);
-
-                TranslateAnimation animation = null;
-                if (pop_search_layout.getVisibility()==View.GONE){
-                    bg_view.setVisibility(View.VISIBLE);
-                    pop_search_layout.setVisibility(View.VISIBLE);
-                    pop_search_layout.setFocusable(true);
-                    animation = new TranslateAnimation(0, 0, 0, 0.5f);
-                    animation.setDuration(200);
-                    pop_search_layout.startAnimation(animation);
-                }else if (pop_search_layout.getVisibility()==View.VISIBLE){
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
                     bg_view.setVisibility(View.GONE);
                     pop_search_layout.setVisibility(View.GONE);
                     pop_search_layout.setFocusable(false);
                 }
-
+                break;
+            case R.id.cash_coupon_tv:
+                setChioceItem(1);
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
+                break;
+            case R.id.sales_volume_tv:
+                setChioceItem(2);
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
+                break;
+            case R.id.price_tv:
+                setChioceItem(3);
+                if (pop_search_layout.getVisibility() == View.GONE) {
+                    bg_view.setVisibility(View.VISIBLE);
+                    pop_search_layout.setVisibility(View.VISIBLE);
+                    pop_search_layout.setFocusable(true);
+                    TranslateAnimation animation  = new TranslateAnimation(0, 0, 0, 0.5f);
+                    animation.setDuration(200);
+                    pop_search_layout.startAnimation(animation);
+                } else if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
                 break;
             case R.id.lower_tv:
+                priceNum=1;
+                price_tv.setCompoundDrawables(null, null,selectId, null);
                 clearTv();
                 lower_tv.setTextColor(Color.parseColor("#FE666A"));
                 lower_tv.setBackgroundResource(R.drawable.shape_red_pop);
@@ -252,10 +268,15 @@ public class GoodsListAty extends BaseAty {
                 psort = "1";
                 price = "";
                 requestData();
-                bg_view.setVisibility(View.GONE);
-                pop_search_layout.setVisibility(View.GONE);
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
                 break;
             case R.id.higher_tv:
+                priceNum=2;
+                price_tv.setCompoundDrawables(null, null,twoSelectId, null);
                 clearTv();
                 higher_tv.setTextColor(Color.parseColor("#FE666A"));
                 higher_tv.setBackgroundResource(R.drawable.shape_red_pop);
@@ -265,20 +286,53 @@ public class GoodsListAty extends BaseAty {
                 psort = "2";
                 price = "";
                 requestData();
-                bg_view.setVisibility(View.GONE);
-                pop_search_layout.setVisibility(View.GONE);
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
                 break;
             case R.id.cancel_tv:
-                bg_view.setVisibility(View.GONE);
-                pop_search_layout.setVisibility(View.GONE);
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
                 break;
             case R.id.sure_tv:
-                bg_view.setVisibility(View.GONE);
-                pop_search_layout.setVisibility(View.GONE);
+                String lower = lower_et.getText().toString();
+                String higher=higher_et.getText().toString();
+                if (TextUtils.isEmpty(lower)){
+                    lower="0";
+                }
+                if (TextUtils.isEmpty(higher)){
+                    higher="0";
+                }
+                int low = Integer.parseInt(lower);
+                int high = Integer.parseInt(higher);
+                if (low>high){
+                    showToast("输入有误，最低价不能高于最高价");
+                    return;
+                }
+
+                PreferencesUtils.putInt(GoodsListAty.this,"lower",low);
+                PreferencesUtils.putInt(GoodsListAty.this,"higher",high);
+                sell = "";
+                tsort = "";
+                integral = "";
+                psort = "";
+                price = low+"_"+high;
+                requestData();
+                if (pop_search_layout.getVisibility() == View.VISIBLE) {
+                    bg_view.setVisibility(View.GONE);
+                    pop_search_layout.setVisibility(View.GONE);
+                    pop_search_layout.setFocusable(false);
+                }
                 break;
         }
     }
-    private void clearTv(){
+
+    private void clearTv() {
         lower_tv.setTextColor(getResources().getColor(R.color.hint_text_color));
         lower_tv.setBackgroundResource(R.drawable.gr_item_back);
         higher_tv.setTextColor(getResources().getColor(R.color.hint_text_color));
@@ -289,7 +343,6 @@ public class GoodsListAty extends BaseAty {
         clearChioce();
         if (index == 0) {
             internal_tv.setTextColor(Color.parseColor(redColor));
-            priceNum = 0;
             sell = "";
             tsort = "";
             integral = "1";
@@ -298,7 +351,6 @@ public class GoodsListAty extends BaseAty {
             requestData();
         } else if (index == 1) {
             cash_coupon_tv.setTextColor(Color.parseColor(redColor));
-            priceNum = 0;
             sell = "";
             tsort = "1";
             integral = "";
@@ -307,7 +359,6 @@ public class GoodsListAty extends BaseAty {
             requestData();
         } else if (index == 2) {
             sales_volume_tv.setTextColor(Color.parseColor(redColor));
-            priceNum = 0;
             sell = "1";
             tsort = "";
             integral = "";
@@ -316,8 +367,12 @@ public class GoodsListAty extends BaseAty {
             requestData();
         } else if (index == 3) {
             price_tv.setTextColor(Color.parseColor(redColor));
-            price_tv.setCompoundDrawables(null, null, priceNum % 2 == 0 ? selectId : twoSelectId, null);
-            priceNum++;
+            if (priceNum==1){
+                price_tv.setCompoundDrawables(null, null,selectId, null);
+            }else if (priceNum==2){
+                price_tv.setCompoundDrawables(null, null,twoSelectId, null);
+            }
+
         }
     }
 
@@ -365,6 +420,26 @@ public class GoodsListAty extends BaseAty {
         selectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         twoSelectId.setBounds(0, 0, selectId.getMinimumWidth(), selectId.getMinimumHeight());
         unSelectId.setBounds(0, 0, unSelectId.getMinimumWidth(), unSelectId.getMinimumHeight());
+        if (PreferencesUtils.containKey(GoodsListAty.this,"lower")) {
+            lower_et.setText(PreferencesUtils.getInt(GoodsListAty.this, "lower",0)+"");
+        }
+        if (PreferencesUtils.containKey(GoodsListAty.this,"higher")) {
+            higher_et.setText(PreferencesUtils.getInt(GoodsListAty.this, "higher",0)+"");
+        }
+        lower_et.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                lower_et.setCursorVisible(true);
+                return false;
+            }
+        });
+        higher_et.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                higher_et.setCursorVisible(true);
+                return false;
+            }
+        });
     }
 
     @Override

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/pop_search_layout"
     android:background="@color/white"
-    android:visibility="visible"
+    android:visibility="gone"
     android:orientation="vertical">
 
 
@@ -30,6 +30,7 @@
             android:paddingTop="5dp"
             android:cursorVisible="false"
             android:paddingBottom="5dp"
+            android:inputType="number"
             android:layout_marginStart="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,6 +50,7 @@
             android:paddingEnd="15dp"
             android:cursorVisible="false"
             android:paddingTop="5dp"
+            android:inputType="number"
             android:paddingBottom="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

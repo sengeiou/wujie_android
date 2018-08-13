@@ -3,7 +3,6 @@ package com.ants.theantsgo.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.ants.theantsgo.config.Config;
 import com.google.gson.Gson;
 
 /**
@@ -238,6 +237,14 @@ public class PreferencesUtils {
         SharedPreferences.Editor editor = settings.edit();
         editor.remove(key);
         return editor.commit();
+    }
+
+    public static boolean containKey(Context context, String key){
+        SharedPreferences settings = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if (settings.contains(key)){
+            return true;
+        }
+        return false;
     }
 
 }
