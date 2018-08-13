@@ -2,6 +2,7 @@ package com.txd.hzj.wjlp.mellOnLine;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -23,6 +24,8 @@ import com.txd.hzj.wjlp.view.NoScrollWebView;
 import com.txd.hzj.wjlp.view.ScForWebView;
 
 import java.util.Map;
+
+import io.reactivex.internal.operators.completable.CompletableTimer;
 
 /**
  * 作者：DUKE_HwangZj
@@ -133,12 +136,24 @@ public class NoticeDetailsAty extends BaseAty {
      */
     @SuppressLint("NewApi")
     private void initWebView(boolean noScroll) {
+        if (url.isEmpty()) {
+            showToast("链接地址为空，请重新检查");
+            new CountDownTimer(2000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                }
+                @Override
+                public void onFinish() {
+                    NoticeDetailsAty.this.finish();
+                }
+            }.start();
+            return;
+        }
         WebSettings webSettings = null;
         if (noScroll) { // 如果使用noScrollWebView则获取notice_details_wv进行设置
             webSettings = notice_details_wv.getSettings(); // 无滑动的主要是进行无界头条展示
         } else { // 否则的话设置原生的控件
             webSettings = details_webview.getSettings(); // 原生的WebView主要是进行产品展示
-
         }
         webSettings.setJavaScriptEnabled(true); // JS支持
         webSettings.setAllowContentAccess(true); // 允许访问内容

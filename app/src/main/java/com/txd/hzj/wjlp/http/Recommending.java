@@ -1,5 +1,7 @@
 package com.txd.hzj.wjlp.http;
 
+import android.text.TextUtils;
+
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
@@ -24,14 +26,14 @@ public class Recommending {
                                    File identity, String type, File apply, File logo, String rec_type_id, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
-        params.addBodyParameter("mechant_name", mechant_name);
-        params.addBodyParameter("user_name", user_name);
-        params.addBodyParameter("user_position", user_position);
-        params.addBodyParameter("user_phone", user_phone);
-        params.addBodyParameter("city", city);
-        params.addBodyParameter("street", street);
-        params.addBodyParameter("desc", desc);
-        params.addBodyParameter("type", type);
+        params.addBodyParameter("mechant_name", TextUtils.isEmpty(mechant_name) ? "" : mechant_name);
+        params.addBodyParameter("user_name", TextUtils.isEmpty(user_name) ? "" : user_name);
+        params.addBodyParameter("user_position", TextUtils.isEmpty(user_position) ? "" : user_position);
+        params.addBodyParameter("user_phone", TextUtils.isEmpty(user_phone) ? "" : user_phone);
+        params.addBodyParameter("city", TextUtils.isEmpty(city) ? "" : city);
+        params.addBodyParameter("street", TextUtils.isEmpty(street) ? "" : street);
+        params.addBodyParameter("desc", TextUtils.isEmpty(desc) ? "" : desc);
+        params.addBodyParameter("type", TextUtils.isEmpty(type) ? "" : type);
         params.addBodyParameter("license", license);
         params.addBodyParameter("facade", facade);
         params.addBodyParameter("identity", identity);
@@ -39,7 +41,7 @@ public class Recommending {
             params.addBodyParameter("apply", apply);
         }
         params.addBodyParameter("logo", logo);
-        params.addBodyParameter("rec_type_id", rec_type_id);
+        params.addBodyParameter("rec_type_id", TextUtils.isEmpty(rec_type_id) ? "" : rec_type_id);
         apiTool2.postApi(url + "addBusiness", params, baseView);
 
     }
@@ -56,7 +58,8 @@ public class Recommending {
         apiTool2.postApi(url + "businessInfo", params, baseView);
 
     }
-    public static void advertImg(BaseView view){
+
+    public static void advertImg(BaseView view) {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "advertImg", new RequestParams(), view);
     }

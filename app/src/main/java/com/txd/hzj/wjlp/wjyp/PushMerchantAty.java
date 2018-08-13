@@ -80,47 +80,38 @@ public class PushMerchantAty extends BaseAty {
             Recommending.businessList(new BaseView() {
                 @Override
                 public void showDialog() {
-
                 }
 
                 @Override
                 public void showDialog(String text) {
-
                 }
 
                 @Override
                 public void showContent() {
-
                 }
 
                 @Override
                 public void removeDialog() {
-
                 }
 
                 @Override
                 public void removeContent() {
-
                 }
 
                 @Override
                 public void onStarted() {
-
                 }
 
                 @Override
                 public void onCancelled() {
-
                 }
 
                 @Override
                 public void onLoading(long total, long current, boolean isUploading) {
-
                 }
 
                 @Override
                 public void onException(Exception exception) {
-
                 }
 
                 @Override
@@ -132,12 +123,10 @@ public class PushMerchantAty extends BaseAty {
 
                 @Override
                 public void onError(String requestUrl, Map<String, String> error) {
-
                 }
 
                 @Override
                 public void onErrorTip(String tips) {
-
                 }
             });
         } catch (Exception e) {
@@ -168,15 +157,35 @@ public class PushMerchantAty extends BaseAty {
             holder.tv_tel.setText(list.get(position).get("user_phone"));
             holder.tv_address.setText(list.get(position).get("city") + list.get(position).get("street"));
             switch (list.get(position).get("status")) {
+                case "0":
                 case "1":
                     holder.tv_edit.setText("审核中");
                     break;
                 case "2":
-                    holder.tv_edit.setText("审核通过");
-                    break;
                 case "3":
                     holder.tv_edit.setText("审核拒绝");
                     break;
+                case "4":
+                    holder.tv_edit.setText("待入驻");
+                    break;
+                case "5":
+                    holder.tv_edit.setText("入驻失败");
+                    break;
+                case "6":
+                    holder.tv_edit.setText("入驻成功");
+                    break;
+                case "7":
+                    holder.tv_edit.setText("入驻中");
+                    break;
+//                case "1":
+//                    holder.tv_edit.setText("审核中");
+//                    break;
+//                case "2":
+//                    holder.tv_edit.setText("审核通过");
+//                    break;
+//                case "3":
+//                    holder.tv_edit.setText("审核拒绝");
+//                    break;
             }
             holder.tv_wjyd.setVisibility(list.get(position).get("type").equals("1") ? View.GONE : View.VISIBLE);
             holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -187,7 +196,6 @@ public class PushMerchantAty extends BaseAty {
                     intent.putExtra("data", list.get(position).toString());
                     intent.putExtra("type", "2");
                     startActivity(intent);
-
                 }
             });
         }
