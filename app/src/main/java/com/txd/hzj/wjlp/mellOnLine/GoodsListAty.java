@@ -245,6 +245,8 @@ public class GoodsListAty extends BaseAty {
                 setChioceItem(3);
                 if (pop_search_layout.getVisibility() == View.GONE) {
                     bg_view.setVisibility(View.VISIBLE);
+                    bg_view.setClickable(true);
+                    bg_view.setFocusableInTouchMode(true);
                     pop_search_layout.setVisibility(View.VISIBLE);
                     pop_search_layout.setFocusable(true);
                     TranslateAnimation animation  = new TranslateAnimation(0, 0, 0, 0.5f);
