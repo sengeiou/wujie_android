@@ -467,7 +467,7 @@ public class TicketZoonFgt extends BaseFgt implements NestedScrollView.OnScrollC
      */
     private void setView( List<WinBean> winBeans) {
         views=new ArrayList<>();
-        for (int i = 0; i < winBeans.size(); i = i + 2) {
+        for (int i = 0; i < winBeans.size(); i = i + 1) {
             //设置滚动的单个布局
             LinearLayout winingView = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.winingmsg, null);
             //中奖商品名称
