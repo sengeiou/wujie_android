@@ -303,6 +303,7 @@ public class GoodsListAty extends BaseAty {
                 break;
             case R.id.sure_tv:
                 clearTv();
+                price_tv.setCompoundDrawables(null, null, unSelectId, null);
                 String lower = lower_et.getText().toString();
                 String higher=higher_et.getText().toString();
                 if (TextUtils.isEmpty(lower)){
