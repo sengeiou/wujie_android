@@ -1,6 +1,7 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
+import com.ants.theantsgo.tips.CustomDialog;
+import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -21,6 +24,7 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.PayeeBindBean;
 import com.txd.hzj.wjlp.http.User;
+import com.txd.hzj.wjlp.minetoAty.balance.RechargeAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 
@@ -82,6 +86,7 @@ public class ThirdPartAccountAty extends BaseAty {
     private String alipayAccounts; // 支付宝账户
 
     private int clickView = 0;
+    private double balance; // 会员余额
 
 
     @Override
@@ -92,6 +97,7 @@ public class ThirdPartAccountAty extends BaseAty {
     @Override
     protected void initialized() {
         titlt_conter_tv.setText("三方收款账户");
+        balance = getIntent().getDoubleExtra("balance", 0); // 获取传入的会员余额
         // 初始化的时候隐藏掉微信和支付宝复选框
         thirdPartyAcc_weChatAccount_cb.setVisibility(View.GONE);
         thirdPartyAcc_alipayAccount_cb.setVisibility(View.GONE);
@@ -107,35 +113,45 @@ public class ThirdPartAccountAty extends BaseAty {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.thirdPartyAcc_verificationWeChat_tv:
-                clickView = R.id.thirdPartyAcc_verificationWeChat_tv;
-                // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
-                if (payeeBindBean.getData().getIs_pay_password() == 1) {
-                    showPwdPop(v); // 验证支付密码
-                } else { // 否则的话直接提示其进行设置支付密码
-                    showToast("请设置支付密码");
-                    Bundle bundle = new Bundle();
-                    bundle.putString("is_pay_password", "0");
-                    bundle.putString("phone", payeeBindBean.getData().getPhone());
-                    startActivity(EditPayPasswordAty.class, bundle);
+            case R.id.thirdPartyAcc_verificationWeChat_tv: // 点击微信绑定
+
+                if (balance <= 2.0) { // 如果余额小于2则弹窗提醒
+                    showMenyDialog();
+                } else {
+                    clickView = R.id.thirdPartyAcc_verificationWeChat_tv;
+                    // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
+                    if (payeeBindBean.getData().getIs_pay_password() == 1) {
+                        showPwdPop(v); // 验证支付密码
+                    } else { // 否则的话直接提示其进行设置支付密码
+                        showToast("请设置支付密码");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("is_pay_password", "0");
+                        bundle.putString("phone", payeeBindBean.getData().getPhone());
+                        startActivity(EditPayPasswordAty.class, bundle);
+                    }
                 }
+
                 break;
-            case R.id.thirdPartyAcc_verificationAlipay_tv:
-                if (thirdPartyAcc_alipayAccount_et.getText().toString().trim().equals("")) {
-                    showToast("请输入支付宝账号");
-                    return;
-                }
-                alipayAccounts = thirdPartyAcc_alipayAccount_et.getText().toString().trim();
-                clickView = R.id.thirdPartyAcc_verificationAlipay_tv;
-                // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
-                if (payeeBindBean.getData().getIs_pay_password() == 1) {
-                    showPwdPop(v); // 验证支付密码
-                } else { // 否则的话直接提示其进行设置支付密码
-                    showToast("请设置支付密码");
-                    Bundle bundle = new Bundle();
-                    bundle.putString("is_pay_password", "0");
-                    bundle.putString("phone", payeeBindBean.getData().getPhone());
-                    startActivity(EditPayPasswordAty.class, bundle);
+            case R.id.thirdPartyAcc_verificationAlipay_tv: // 绑定支付宝账号
+                if (balance <= 2.0) { // 如果余额小于2则弹窗提醒
+                    showMenyDialog();
+                } else {
+                    if (thirdPartyAcc_alipayAccount_et.getText().toString().trim().equals("")) {
+                        showToast("请输入支付宝账号");
+                        return;
+                    }
+                    alipayAccounts = thirdPartyAcc_alipayAccount_et.getText().toString().trim();
+                    clickView = R.id.thirdPartyAcc_verificationAlipay_tv;
+                    // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
+                    if (payeeBindBean.getData().getIs_pay_password() == 1) {
+                        showPwdPop(v); // 验证支付密码
+                    } else { // 否则的话直接提示其进行设置支付密码
+                        showToast("请设置支付密码");
+                        Bundle bundle = new Bundle();
+                        bundle.putString("is_pay_password", "0");
+                        bundle.putString("phone", payeeBindBean.getData().getPhone());
+                        startActivity(EditPayPasswordAty.class, bundle);
+                    }
                 }
                 break;
             case R.id.thirdPartyAcc_wujieAccount_cb:
@@ -380,6 +396,31 @@ public class ThirdPartAccountAty extends BaseAty {
             thirdPartyAcc_weChatAccount_tv.setText(nickName);
             return;
         }
+    }
+
+    /**
+     * 显示弹窗提醒
+     */
+    private void showMenyDialog() {
+        new MikyouCommonDialog(this, "您的会员账户余额不足，请前去充值！", "温馨提示", "去充值", "取消绑定", true)
+                .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
+
+                    @Override
+                    public void dialogListener(int btnType, View customView, DialogInterface dialogInterface, int which) {
+                        switch (btnType) {
+                            case MikyouCommonDialog.OK: { // 去充值
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean("orderIn", false);
+                                startActivity(RechargeAty.class, bundle);
+                            }
+                            break;
+                            case MikyouCommonDialog.NO: { // 取消绑定
+                                ThirdPartAccountAty.this.finish();
+                            }
+                            break;
+                        }
+                    }
+                }).showDialog();
     }
 
 }

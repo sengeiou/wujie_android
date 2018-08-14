@@ -287,6 +287,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private int reward_status = 0;
     //个人中心请求状态  1代表成功 0代表失败
     private int userCenterCode = 1;
+    private String balance; // 当前余额
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -479,7 +480,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
             break;
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
-                startActivity(ThirdPartAccountAty.class, null);
+                bundle = new Bundle();
+                Double aDouble = Double.valueOf(balance);
+                bundle.putDouble("balance",aDouble);
+                startActivity(ThirdPartAccountAty.class, bundle);
                 break;
             case R.id.business_code_tv:// 注册码
                 bundle = new Bundle();
@@ -713,7 +717,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     .into(user_head_iv);
 
             integral_tv.setText((String) data.get("integral"));
-            balance_tv.setText((String) data.get("balance"));
+            balance = data.get("balance");
+            balance_tv.setText(balance);
             ticket_num_tv.setText((String) data.get("ticket_num"));
 
             server_line = data.get("server_line");
