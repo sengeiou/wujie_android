@@ -236,7 +236,8 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
             tv_street.setEnabled(false);
             desc.setEnabled(false);
             tv_street.setText(map.get("street"));
-            desc.setText(map.get("desc"));
+            desc.setText(map.containsKey("description") ? map.get("description") : "");
+//            desc.setText(map.get("desc"));
             // 检查是否存在状态字段，如果存在则直接提取状态
             if (map.containsKey("status")) {
                 String status = map.get("status");
@@ -245,17 +246,17 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
                     showMessageTv.setVisibility(View.VISIBLE);
                     showMessageTv.setText(map.containsKey("reason") ? map.get("reason") : "");
 
-                    // 申请遭拒绝之后
-                    isC = true;
-                    mechant_name.setEnabled(true);
-                    tv_type.setEnabled(true);
-                    user_name.setEnabled(true);
-                    user_position.setEnabled(true);
-                    user_phone.setEnabled(true);
-                    tv_city.setEnabled(true);
-                    tv_street.setEnabled(true);
-                    desc.setEnabled(true);
-                    tv_submit.setVisibility(View.VISIBLE);
+//                    // 申请遭拒绝之后
+//                    isC = true;
+//                    mechant_name.setEnabled(true);
+//                    tv_type.setEnabled(true);
+//                    user_name.setEnabled(true);
+//                    user_position.setEnabled(true);
+//                    user_phone.setEnabled(true);
+//                    tv_city.setEnabled(true);
+//                    tv_street.setEnabled(true);
+//                    desc.setEnabled(true);
+//                    tv_submit.setVisibility(View.VISIBLE);
                 }
             }
             Glide.with(getActivity()).load(map.get("license")).into(image1);

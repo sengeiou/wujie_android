@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -153,7 +154,7 @@ public class PushMerchantAty extends BaseAty {
             Glide.with(PushMerchantAty.this).load(list.get(position).get("logo")).bitmapTransform(new RoundTransformation(PushMerchantAty.this, 10)).into(holder.im_head);
             holder.tv_name.setText(list.get(position).get("user_name"));
             holder.tv_text.setText(list.get(position).get("merchant_name"));
-            holder.tv_time.setText("推荐时间\n" + list.get(position).get("create_time"));
+            holder.tv_time.setText(list.get(position).get("create_time"));
             holder.tv_tel.setText(list.get(position).get("user_phone"));
             holder.tv_address.setText(list.get(position).get("city") + list.get(position).get("street"));
             switch (list.get(position).get("status")) {
@@ -214,7 +215,7 @@ public class PushMerchantAty extends BaseAty {
             TextView tv_name;
             TextView tv_tel;
             TextView tv_wjyd;
-            RelativeLayout layout;
+            LinearLayout layout;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -226,7 +227,7 @@ public class PushMerchantAty extends BaseAty {
                 tv_name = (TextView) itemView.findViewById(R.id.tv_name);
                 tv_tel = (TextView) itemView.findViewById(R.id.tv_tel);
                 tv_wjyd = (TextView) itemView.findViewById(R.id.tv_wjyd);
-                layout = (RelativeLayout) itemView.findViewById(R.id.layout);
+                layout = (LinearLayout) itemView.findViewById(R.id.layout);
 
             }
 

@@ -323,7 +323,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
+            android:layout_margin="15dp"
             android:gravity="center"
             android:text="对焦使照片上面字体和照片清晰可见"
             android:textColor="#0B0B0B"
