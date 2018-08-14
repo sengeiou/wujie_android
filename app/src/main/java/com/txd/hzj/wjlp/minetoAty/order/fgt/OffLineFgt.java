@@ -330,6 +330,7 @@ public class OffLineFgt extends BaseFragment {
                             bundle.putString("money",dataBean.getOrder_price());
                             bundle.putString("merchant_id",dataBean.getMerchant_id());
                             startActivity(PayForAppAty.class,bundle);
+                            getActivity().finish();
                         }
                     });
                 } else if ("5".equals(dataBean.getStatus())) {

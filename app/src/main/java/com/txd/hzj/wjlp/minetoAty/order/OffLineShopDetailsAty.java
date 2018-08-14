@@ -115,7 +115,7 @@ public class OffLineShopDetailsAty extends BaseAty{
                         bundle.putString("money",money);
                         bundle.putString("merchant_id",mMerchant_id);
                         startActivity(PayForAppAty.class,bundle);
-
+                        finish();
                     }
                 });
             }else if ("5".equals(mStatus)){
