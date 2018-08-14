@@ -113,7 +113,14 @@
                     android:text="￥0.00"
                     android:textColor="@color/colorAccent"
                      />
-
+                <TextView
+                    android:id="@+id/youhui_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:textColor="#FF4500"
+                    />
 
                 <TextView
                     android:id="@+id/textview"

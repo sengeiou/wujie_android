@@ -114,6 +114,8 @@ public class PayForAppAty extends BaseAty {
     private TextView tv_shopname;
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
+    @ViewInject(R.id.youhui_tv)
+    private TextView youhui_tv;
     String order_type;
     String address_id;
     String shop_name;
@@ -542,10 +544,16 @@ public class PayForAppAty extends BaseAty {
         }
         // 设置生成订单
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
+            if (data.containsKey("price_desc")){
+                youhui_tv.setVisibility(View.VISIBLE);
+                youhui_tv.setText("("+data.get("price_desc")+")");
+            }else {
+                youhui_tv.setVisibility(View.GONE);
+            }
             if (mType.equals("100")){
-                tv_price.setText("¥" + mMoney);
+                tv_price.setText("¥" + data.get("order_price"));
                 order_id = data.get("order_id");
-                total_price= Double.parseDouble(mMoney);
+                total_price= Double.parseDouble(data.get("order_price"));
                 decimalFormat = new DecimalFormat("0.00");
                 pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
                 //是否能用积分支付  1可以  2不可以
