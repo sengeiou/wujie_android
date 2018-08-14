@@ -74,6 +74,8 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
     private File f3;
     private String street;
 
+    @ViewInject(R.id.textview)
+    private TextView showMessageTv; // 显示提示消息的那个
     @ViewInject(R.id.tv_submit)
     private TextView tv_submit;
 
@@ -225,6 +227,7 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
             user_phone.setEnabled(false);
             Glide.with(getActivity()).load(map.get("logo")).bitmapTransform(new RoundTransformation(getActivity(), 10)).into(im_logo);
             tv_type.setText(map.get("rec_type_id"));
+            rec_type_id = map.get("rec_type_id");
             user_name.setText(map.get("user_name"));
             user_position.setText(map.get("user_position"));
             user_phone.setText(map.get("user_phone"));
@@ -234,6 +237,27 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
             desc.setEnabled(false);
             tv_street.setText(map.get("street"));
             desc.setText(map.get("desc"));
+            // 检查是否存在状态字段，如果存在则直接提取状态
+            if (map.containsKey("status")) {
+                String status = map.get("status");
+                // 如果状态码不为空并且是2、3、5则显示拒绝理由
+                if (!status.isEmpty() && (status.equals("2") || status.equals("3") || status.equals("5"))) {
+                    showMessageTv.setVisibility(View.VISIBLE);
+                    showMessageTv.setText(map.containsKey("reason") ? map.get("reason") : "");
+
+                    // 申请遭拒绝之后
+                    isC = true;
+                    mechant_name.setEnabled(true);
+                    tv_type.setEnabled(true);
+                    user_name.setEnabled(true);
+                    user_position.setEnabled(true);
+                    user_phone.setEnabled(true);
+                    tv_city.setEnabled(true);
+                    tv_street.setEnabled(true);
+                    desc.setEnabled(true);
+                    tv_submit.setVisibility(View.VISIBLE);
+                }
+            }
             Glide.with(getActivity()).load(map.get("license")).into(image1);
             Glide.with(getActivity()).load(map.get("facade")).into(image2);
             Glide.with(getActivity()).load(map.get("identity")).into(image3);
