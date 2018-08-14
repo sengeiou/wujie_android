@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.bumptech.glide.Glide;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.ShopOffLineBean;
@@ -40,10 +41,12 @@ public class ShopEvaluateAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyViewHolde viewHolder = (MyViewHolde) holder;
-        Glide.with(context).load(list.get(position).getHead_pic()).into(viewHolder.imaHead);
-        viewHolder.shopEvaluateName.setText(list.get(position).getNickname());
-        viewHolder.shopEvaluateTime.setText(list.get(position).getStart_time());
-        viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(list.get(position).getStar() != null ? list.get(position).getStar() : "0"));
+        ShopOffLineBean.DataBean.CommentBean.ListBean listBean = list.get(position);
+        L.e("listBean:" + listBean.toString());
+        Glide.with(context).load(listBean.getHead_pic()).into(viewHolder.imaHead);
+        viewHolder.shopEvaluateName.setText(listBean.getNickname());
+        viewHolder.shopEvaluateTime.setText(listBean.getStart_time());
+        viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(listBean.getStar() != null ? listBean.getStar() : "0"));
 
     }
 
