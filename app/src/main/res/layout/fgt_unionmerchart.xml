@@ -62,7 +62,7 @@
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="LOGO"
+                android:text="门头"
                 android:textColor="#656565"
                 android:textSize="14sp" />
 

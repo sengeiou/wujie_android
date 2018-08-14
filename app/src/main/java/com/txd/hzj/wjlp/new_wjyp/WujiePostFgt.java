@@ -159,7 +159,7 @@ public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
                         return;
                     }
                     if (logo == null) {
-                        showToast("请上传LOGO");
+                        showToast("请上传门头");
                         return;
                     }
                     if (TextUtils.isEmpty(tv_type.getText().toString())) {

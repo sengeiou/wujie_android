@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -22,8 +21,8 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.http.Recommending;
+import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
 import java.io.File;
@@ -150,7 +149,7 @@ public class UnionMerchartFgt extends BaseFgt implements ProUrbAreaUtil.GetData 
                         return;
                     }
                     if (logo == null) {
-                        showToast("请上传LOGO");
+                        showToast("请上传门头");
                         return;
                     }
                     if (TextUtils.isEmpty(tv_type.getText().toString())) {
