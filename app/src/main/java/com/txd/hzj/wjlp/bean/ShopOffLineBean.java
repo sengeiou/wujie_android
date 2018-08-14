@@ -379,6 +379,18 @@ public class ShopOffLineBean implements Serializable {
                 public void setStar_array(List<String> star_array) {
                     this.star_array = star_array;
                 }
+
+                @Override
+                public String toString() {
+                    return "ListBean{" +
+                            "c_id='" + c_id + '\'' +
+                            ", nickname='" + nickname + '\'' +
+                            ", start_time='" + start_time + '\'' +
+                            ", star='" + star + '\'' +
+                            ", head_pic='" + head_pic + '\'' +
+                            ", star_array=" + star_array +
+                            '}';
+                }
             }
         }
 

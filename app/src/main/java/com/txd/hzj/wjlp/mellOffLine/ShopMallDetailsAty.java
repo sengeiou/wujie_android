@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.util.L;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -143,7 +144,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         bannerIma = findViewById(R.id.banner);
         shopEvaluate = findViewById(R.id.shop_mall_evaluate_list);
         shopGoddsNumber = findViewById(R.id.shop_goods_number);
-        month_layout=findViewById(R.id.month_layout);
+        month_layout = findViewById(R.id.month_layout);
         monthOrderNumber = findViewById(R.id.shop_month_order_number);
         shopFollowPersons = findViewById(R.id.shop_follow_persons);
         shopBusinessHours = findViewById(R.id.shop_business_hours);
@@ -240,19 +241,26 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        Bundle bundle;
         switch (v.getId()) {
             //查看商家资质
             case R.id.shop_business_aptitude:
-
+                bundle = new Bundle();
+                bundle.putInt("type", 1); // 目前为止下一界面没有使用到该属性
+                bundle.putString("merchant_id", s_id);
+                startActivity(MellAptitudeAty.class, bundle);
                 break;
             //举报商家
             case R.id.shop_Report_business:
-
+                bundle = new Bundle();
+                bundle.putInt("type", 1); // 目前为止下一界面没有使用到该属性
+                bundle.putString("merchant_id", s_id);
+                startActivity(MellReportedAty.class, bundle);
                 break;
             //我要结账
             case R.id.shop_my_settle_accounts:
                 Intent intent = new Intent(ShopMallDetailsAty.this, PaymentAty.class);
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("stage_merchant_id", sId);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -381,11 +389,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             shopFollowPersons.setText(offLineBean.getData().getFocus_num() + "人");
             //设置商品数量
             shopGoddsNumber.setText(offLineBean.getData().getGoods_num() + "件");
-            if ("0".equals(offLineBean.getData().getUser_id())){
+            if ("0".equals(offLineBean.getData().getUser_id())) {
                 month_layout.setVisibility(View.GONE);
                 shopBusinessAptitude.setVisibility(View.GONE);
                 shopReportBusiness.setVisibility(View.GONE);
-            }else {
+            } else {
                 month_layout.setVisibility(View.VISIBLE);
                 shopBusinessAptitude.setVisibility(View.VISIBLE);
                 shopReportBusiness.setVisibility(View.VISIBLE);
