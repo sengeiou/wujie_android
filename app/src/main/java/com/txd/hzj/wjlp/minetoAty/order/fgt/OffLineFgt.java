@@ -104,6 +104,7 @@ public class OffLineFgt extends BaseFragment {
                 bundle.putString("pay_status", dataBeanList.get(i).getPay_status());
                 bundle.putString("status", dataBeanList.get(i).getStatus());
                 bundle.putString("common_status",dataBeanList.get(i).getCommon_status());
+                bundle.putString("money",dataBeanList.get(i).getOrder_price());
                 startActivity(OffLineShopDetailsAty.class, bundle);
             }
         });
@@ -288,8 +289,13 @@ public class OffLineFgt extends BaseFragment {
             final OffLineOrderListBean.DataBean dataBean = dataBeanList.get(position);
             viewHolder.tv_rank_name.setText("店铺名称：" + dataBean.getMerchant_name());
             viewHolder.tv_order_sn.setText("订单编号:" + dataBean.getOrder_sn());
-            viewHolder.tv_create_time.setText("支付时间:" + dataBean.getPay_time());
-            viewHolder.tv_validity.setText("订单金额：" + dataBean.getOrder_price() + "元");
+            viewHolder.tv_create_time.setText("下单时间:" + dataBean.getCreate_time());
+            if ("4".equals(dataBean.getPay_type())){
+                viewHolder.tv_validity.setText("订单金额：" + dataBean.getOrder_price() + "积分");
+            }else {
+                viewHolder.tv_validity.setText("订单金额：" + dataBean.getOrder_price() + "元");
+            }
+
             if ("0".equals(dataBean.getPay_status())) {
                 viewHolder.tv_order_status.setText("未支付");
                 if ("0".equals(dataBean.getStatus())) {
@@ -324,7 +330,6 @@ public class OffLineFgt extends BaseFragment {
                             bundle.putString("money",dataBean.getOrder_price());
                             bundle.putString("merchant_id",dataBean.getMerchant_id());
                             startActivity(PayForAppAty.class,bundle);
-                            getActivity().finish();
                         }
                     });
                 } else if ("5".equals(dataBean.getStatus())) {

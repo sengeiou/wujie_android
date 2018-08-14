@@ -19,6 +19,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.OffLineOrderInfoBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellOffLine.OffLineEvaluationShopAty;
+import com.txd.hzj.wjlp.minetoAty.PayForAppAty;
 
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,7 @@ public class OffLineShopDetailsAty extends BaseAty{
     //5是取消订单 9是删除订单
     private String order_stats;
     private String mCommon_status;
+    private String money;
 
 
     @Override
@@ -64,6 +66,7 @@ public class OffLineShopDetailsAty extends BaseAty{
         mPay_status = extras.getString("pay_status");
         mStatus = extras.getString("status");
         mCommon_status = extras.getString("common_status");
+        money = extras.getString("money");
         if ("1".equals(mPay_status)){
             tv_btn_left.setVisibility(View.GONE);
             tv_btn_right.setVisibility(View.VISIBLE);
@@ -105,6 +108,14 @@ public class OffLineShopDetailsAty extends BaseAty{
                 tv_btn_right.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //立即支付
+                        Bundle bundle=new Bundle();
+                        bundle.putString("order_id",mOrder_id);
+                        bundle.putString("type","100");
+                        bundle.putString("money",money);
+                        bundle.putString("merchant_id",mMerchant_id);
+                        startActivity(PayForAppAty.class,bundle);
+
                     }
                 });
             }else if ("5".equals(mStatus)){
