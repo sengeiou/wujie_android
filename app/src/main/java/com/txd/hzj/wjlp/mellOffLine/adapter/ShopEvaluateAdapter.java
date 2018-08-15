@@ -20,7 +20,7 @@ import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
 /**
  * 创建者：Qyl
  * 创建时间：2018/7/24 0024 8:57
- * 功能描述：
+ * 功能描述：评价列表适配器
  * 联系方式：无
  */
 public class ShopEvaluateAdapter extends RecyclerView.Adapter {
@@ -47,7 +47,6 @@ public class ShopEvaluateAdapter extends RecyclerView.Adapter {
         viewHolder.shopEvaluateName.setText(listBean.getNickname());
         viewHolder.shopEvaluateTime.setText(listBean.getStart_time());
         viewHolder.shop_evaluate_star_level.setRating(Integer.valueOf(listBean.getStar() != null ? listBean.getStar() : "0"));
-
     }
 
     @Override
