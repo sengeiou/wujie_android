@@ -176,7 +176,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             view.setLayoutParams(params);
             linearLayout.addView(view);
         }
-        View djqItem = LayoutInflater.from(context).inflate(R.layout.item_djq, null);
+        View djqItem = LayoutInflater.from(context).inflate(R.layout.item_djq, linearLayout,false);
         TextView yhTv = djqItem.findViewById(R.id.yhTv);
         yhTv.setText(ticketBean.getDiscount_desc());
         switch (ticketBean.getType()) {
