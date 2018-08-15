@@ -14,7 +14,6 @@ import com.hyphenate.chat.EMCmdMessageBody;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.model.EaseNotifier;
-import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.util.EMLog;
 import com.hyphenate.util.EasyUtils;
 import com.txd.hzj.wjlp.MainAty;
@@ -38,7 +37,6 @@ public class ChatActivity extends BaseActivity {
     private EaseChatFragment chatFragment;
     public String toChatUsername;
     private EaseUI easeUI;
-    private EaseContactListFragment easeContactListFragment;
     private EMMessageListener messageListener;
 
     @Override
@@ -57,7 +55,6 @@ if (!AndPermission.hasPermission(ChatActivity.this, Manifest.permission.RECORD_A
         toChatUsername = getIntent().getExtras().getString("userId");
         // 创建懒加载Fragment
         chatFragment = new ChatFragment();
-        easeContactListFragment = new EaseContactListFragment();
         easeUI = EaseUI.getInstance();
         // 传递参数给Fragment
         chatFragment.setArguments(getIntent().getExtras());

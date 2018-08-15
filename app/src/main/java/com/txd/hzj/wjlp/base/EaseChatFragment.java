@@ -2,15 +2,14 @@ package com.txd.hzj.wjlp.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipboardManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -38,8 +37,8 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMMessage.ChatType;
 import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.model.EaseAtMessageHelper;
@@ -63,8 +62,6 @@ import com.hyphenate.util.PathUtil;
 import com.txd.hzj.wjlp.DemoApplication;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -900,19 +897,26 @@ public class EaseChatFragment extends EaseBaseFragment implements ChatListener {
             Toast.makeText(getActivity(), R.string.sd_card_does_not_exist, Toast.LENGTH_SHORT).show();
             return;
         }
-
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser() + System.currentTimeMillis() + ".jpg");
-        cameraFile.getParentFile().mkdirs();
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (Build.VERSION.SDK_INT >= 24) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            //24以上使用FileProvider
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), "com.txd.hzj.wjlp.fileProvider", cameraFile));
-        } else {
-            //24以下
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser() + System.currentTimeMillis() + ".jpg");
+            cameraFile.getParentFile().mkdirs();
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                //24以上使用FileProvider
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getContext(), "com.txd.hzj.wjlp.fileProvider", cameraFile));
+            } else {
+                //24以下
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+            }
+            try {
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            } catch (ActivityNotFoundException a) {
+                a.getMessage();
+            }
         }
-        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+
 
 //        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
 //                + System.currentTimeMillis() + ".jpg");

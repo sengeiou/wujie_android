@@ -480,10 +480,6 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="com.hyphenate.chat.EMGCMListenerService"
-            android:exported="false" />
-
         <receiver
             android:name=".huanxin.receiver.GCMPushBroadCast"
             android:exported="false">
@@ -494,7 +490,6 @@
             </intent-filter>
         </receiver>
         <!-- gcm ←→ end -->
-
 
         <!-- 小米推送 ←→ begin -->
         <service
@@ -521,7 +516,6 @@
             </intent-filter>
         </receiver>
         <!-- 小米推送 ←→ end -->
-
 
         <!-- 华为推送 ←→ 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
         <receiver
@@ -561,33 +555,6 @@
         <!-- 华为推送 ←→ end -->
 
 
-        <!-- 设置环信应用的appkey -->
-        <meta-data
-            android:name="EASEMOB_APPKEY"
-            android:value="1132170721115445#wjyp" />
-        <!-- 声明sdk所需的service -->
-        <service
-            android:name="com.hyphenate.chat.EMChatService"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        <service
-            android:name="com.hyphenate.chat.EMJobService"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <!-- 声明sdk所需的receiver -->
-        <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <!-- 可选filter -->
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
 
         <!-- 友盟统计配置Appkey与Channel -->
         <!-- value的值填写你在友盟后台申请的应用Appkey -->
@@ -669,93 +636,12 @@
             </intent-filter>
         </receiver>
 
-        <!-- gcm ←→ start -->
-        <receiver
-            android:name="com.hyphenate.chat.EMGCMBroadcastReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="com.hyphenate.chatuidemo" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".huanxin.receiver.GCMPushBroadCast"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.hyphenate.sdk.push" />
-
-                <category android:name="com.hyphenate.chatuidemo" />
-            </intent-filter>
-        </receiver>
-        <!-- gcm ←→ end -->
 
 
-        <!-- 小米推送 ←→ begin -->
-        <service
-            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        <service
-            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
-            android:enabled="true" />
-
-        <receiver
-            android:name="com.hyphenate.chat.EMMipushReceiver"
-            android:exported="true"
-            tools:ignore="ExportedReceiver">
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.MESSAGE_ARRIVED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.xiaomi.mipush.ERROR" />
-            </intent-filter>
-        </receiver>
-        <!-- 小米推送 ←→ end -->
 
 
-        <!-- 华为推送 ←→ 第三方相关 :接收Push消息（注册、Push消息、Push连接状态、标签，LBS上报结果）广播 -->
-        <receiver
-            android:name="com.hyphenate.chat.EMHuaweiPushReceiver"
-            android:exported="true">
-            <intent-filter>
 
-                <!-- 必须,用于接收token -->
-                <action android:name="com.huawei.android.push.intent.REGISTRATION" />
-                <!-- 必须，用于接收消息 -->
-                <action android:name="com.huawei.android.push.intent.RECEIVE" />
-            </intent-filter>
 
-            <meta-data
-                android:name="CS_cloud_ablitity"
-                android:value="successRateAnalytics" />
-        </receiver>
-
-        <!-- PushSDK:PushSDK接收外部请求事件入口 -->
-        <receiver
-            android:name="com.huawei.android.pushagent.PushEventReceiver"
-            android:exported="true"
-            android:process=":pushservice">
-            <intent-filter>
-                <action android:name="com.huawei.android.push.intent.REFRESH_PUSH_CHANNEL" />
-                <action android:name="com.huawei.intent.action.PUSH" />
-                <action android:name="com.huawei.intent.action.PUSH_ON" />
-                <action android:name="com.huawei.android.push.PLUGIN" />
-            </intent-filter>
-        </receiver>
-
-        <!-- PushSDK:Push服务 -->
-        <service
-            android:name="com.huawei.android.pushagent.PushService"
-            android:process=":pushservice" />
-
-        <!-- 华为推送 ←→ end -->
 
 
         <!-- 设置环信应用的appkey -->
