@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.PreferencesUtils;
 import com.bumptech.glide.Glide;
@@ -21,13 +18,12 @@ import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.TricketDetailks;
-import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.balance.RechargeOffLineAty;
 import com.txd.hzj.wjlp.minetoAty.order.CollageDetailsAty;
+import com.txd.hzj.wjlp.minetoAty.order.OffLineShopDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineChongDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
-import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUsedByTricketAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.ParticularsUserCouponAty;
 
 import java.util.List;
@@ -143,7 +139,14 @@ public class StickyExampleAdapter extends RecyclerView.Adapter<RecyclerView.View
                             bundle.putString("status", stickyExampleModel.order_status);
                             intent.putExtras(bundle);
                             context.startActivity(intent);
-                        }
+                        }else if(stickyExampleModel.act_type.equals("17")){//线下店铺订单详情
+                        Intent intent = new Intent(context, OffLineShopDetailsAty.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("order_id", stickyExampleModel.getOrderId());
+                        bundle.putString("status", stickyExampleModel.order_status);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
                     } else if (type == 1) {//代金券明细
                         L.e("========stickyExampleModel.act_type==type == 1=========" + stickyExampleModel.act_type);
                         if (stickyExampleModel.act_type.equals("1")) { //会员卡订单详情
