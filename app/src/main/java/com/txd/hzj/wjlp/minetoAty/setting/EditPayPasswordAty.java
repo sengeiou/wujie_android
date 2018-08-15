@@ -89,6 +89,7 @@ public class EditPayPasswordAty extends BaseAty {
                 }
                 bundle.putString("phone", phone);
                 startActivity(ResetPayPwdAty.class, bundle);
+                finish();
                 break;
             case R.id.to_set_pay_pwd_tv:
                 String newPayPwd = new_pay_pwd_ev.getText().toString();

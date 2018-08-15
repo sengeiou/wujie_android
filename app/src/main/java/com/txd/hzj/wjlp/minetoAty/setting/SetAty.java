@@ -169,6 +169,7 @@ public class SetAty extends BaseAty implements Handler.Callback, PlatformActionL
                 bundle.putString("is_pay_password", is_pay_password);
                 bundle.putString("phone", phone);
                 startActivity(EditPayPasswordAty.class, bundle);
+                this.finish();
                 break;
             case R.id.rel_realname:// 实名认证
                 userPst.userInfo();
