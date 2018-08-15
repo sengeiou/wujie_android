@@ -121,7 +121,7 @@ public class RatingBar extends LinearLayout {
         starEmptyDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starempty);
         starFillDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starFill);
         starHalfDrawable = mTypedArray.getDrawable(R.styleable.RatingBar_starHalf);
-        mClickable = mTypedArray.getBoolean(R.styleable.RatingBar_clickable, true);
+        mClickable = mTypedArray.getBoolean(R.styleable.RatingBar_clickable, false);
         mTypedArray.recycle();
         for (int i = 0; i < starCount; ++i) {
             final ImageView imageView = getStarImageView();

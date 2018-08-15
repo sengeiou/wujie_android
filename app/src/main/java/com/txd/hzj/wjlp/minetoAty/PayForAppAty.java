@@ -544,7 +544,7 @@ public class PayForAppAty extends BaseAty {
         }
         // 设置生成订单
         if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
-            if (data.containsKey("price_desc")){
+            if (data.containsKey("price_desc") && !TextUtils.isEmpty(data.get("price_desc"))){
                 youhui_tv.setVisibility(View.VISIBLE);
                 youhui_tv.setText("("+data.get("price_desc")+")");
             }else {
