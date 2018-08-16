@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.mellOnLine.gridClassify;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -75,7 +74,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_wachar: // 微信
                 L.e("微信");
                 shareType = "1";
-                isSharing = true;
+//                isSharing = true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -85,7 +84,7 @@ public class ToShareAty extends BaseAty {
             case R.id.share_to_WechatMoments: // 微信朋友圈
                 L.e("微信朋友圈");
                 shareType = "4";
-                isSharing = true;
+//                isSharing = true;
                 if (!CheckAppExist.getInstancei().isAppAvilible(this, "com.tencent.mm")) {
                     showErrorTip("请安装微信");
                     break;
@@ -218,7 +217,7 @@ public class ToShareAty extends BaseAty {
     @Override
     protected void onResume() {
         super.onResume();
-        isSharing = false;
+//        isSharing = false;
         isResume = true;
     }
 
@@ -231,17 +230,17 @@ public class ToShareAty extends BaseAty {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (isSharing) {
-            isSharing = false;
-            //这里要延时0.2秒在判断是否回调了onResume，因为onRestart在onResume之前执行。
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
-                    if (!isResume) {
-                        if (userPst == null) { // 判断对象是否为空，防止空指针报错
-                            userPst = new UserPst(ToShareAty.this);
-                        }
+//        if (isSharing) {
+//            isSharing = false;
+//            //这里要延时0.2秒在判断是否回调了onResume，因为onRestart在onResume之前执行。
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    // 如果0.2秒后没有调用onResume，则认为是分享成功并且留着微信。
+//                    if (!isResume) {
+//                        if (userPst == null) { // 判断对象是否为空，防止空指针报错
+//                            userPst = new UserPst(ToShareAty.this);
+//                        }
 //                        if (mStatusForShare != null) {
 //                            switch (mStatusForShare) {
 //                                case Error:
@@ -251,19 +250,19 @@ public class ToShareAty extends BaseAty {
 //                                    showErrorTip("分享取消");
 //                                    break;
 //                                case Success:
-                        if (L.isDebug) {
-                            showErrorTip("0.2s分享成功");
-                        }
-                        userPst.shareBack(shareType, context, id, type, link);
-                        showRightTip("分享成功");
-                        finish();
+//                        if (L.isDebug) {
+//                            showErrorTip("0.2s分享成功");
+//                        }
+//                        userPst.shareBack(shareType, context, id, type, link);
+//                        showRightTip("分享成功");
+//                        finish();
 //                                    break;
 //                            }
 //                        }
 
-                    }
-                }
-            }, 200);
-        }
+//                    }
+//                }
+//            }, 200);
+//        }
     }
 }
