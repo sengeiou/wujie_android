@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -21,7 +22,8 @@ import java.util.List;
  */
 public class OffLineMenuGvAdapter  extends BaseAdapter {
     private Context context;
-    private List<String> list;
+    private List<String> title_list;
+    private List<String> image_list;
     private LayoutInflater inflater;
 
     private OffLineMenuGvAdapter.ViewHolder vh;
@@ -29,9 +31,10 @@ public class OffLineMenuGvAdapter  extends BaseAdapter {
     private int curIndex = 0;
     private int pageSize;
 
-    public OffLineMenuGvAdapter(Context context, List<String> list, int curIndex) {
+    public OffLineMenuGvAdapter(Context context, List<String> title_list, List<String> image_list,int curIndex) {
         this.context = context;
-        this.list = list;
+        this.title_list = title_list;
+        this.image_list=image_list;
         this.curIndex = curIndex;
         pageSize = 10;
         inflater = LayoutInflater.from(context);
@@ -39,12 +42,12 @@ public class OffLineMenuGvAdapter  extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size() > (curIndex + 1) * pageSize ? pageSize : (list.size() - curIndex * pageSize);
+        return title_list.size() > (curIndex + 1) * pageSize ? pageSize : (title_list.size() - curIndex * pageSize);
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return title_list.get(i);
     }
 
     @Override
@@ -68,7 +71,7 @@ public class OffLineMenuGvAdapter  extends BaseAdapter {
          * 在给View绑定显示的数据时，计算正确的position = position + curIndex * pageSize，
          */
         int pos = i + curIndex * pageSize;
-        vh.all_classify_title_tv.setText(list.get(pos));
+        vh.all_classify_title_tv.setText(title_list.get(pos));
         setIcon(pos);
         return view;
     }
@@ -79,71 +82,72 @@ public class OffLineMenuGvAdapter  extends BaseAdapter {
      * @param i 小标
      */
     private void setIcon(int i) {
-        switch (i) {
-            case 0:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_selecteddelicacies);
-                break;
-            case 1:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_merchantmap);
-                break;
-            case 2:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_foodandbeverage);
-                break;
-            case 3:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_qualityshopping);
-                break;
-            case 4:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_entertainment);
-                break;
-            case 5:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_lifeservice);
-                break;
-            case 6:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_exquisitebeauty);
-                break;
-            case 7:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_learningandtraining);
-                break;
-            case 8:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_motherandchild);
-                break;
-            case 9:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_exerciseandfitness);
-                break;
-            case 10:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_getmarried);
-                break;
-            case 11:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_hotelaccommodation);
-                break;
-            case 12:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_automobileservice);
-                break;
-            case 13:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_petlife);
-                break;
-            case 14:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_wordofmouth);
-                break;
-            case 15:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_filmperformance);
-                break;
-            case 16:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_song);
-                break;
-            case 17:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_peripheralamusement);
-                break;
-            case 18:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_traveloverseas);
-                break;
-            case 19:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_medicalhealth);
-                break;
-            case 20:
-                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_traffictravel);
-                break;
-        }
+        Glide.with(context).load(image_list.get(i)).asBitmap().error(R.mipmap.ic_launcher).into(vh.all_classify_logo_iv);
+//        switch (i) {
+//            case 0:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_selecteddelicacies);
+//                break;
+//            case 1:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_merchantmap);
+//                break;
+//            case 2:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_foodandbeverage);
+//                break;
+//            case 3:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_qualityshopping);
+//                break;
+//            case 4:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_entertainment);
+//                break;
+//            case 5:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_lifeservice);
+//                break;
+//            case 6:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_exquisitebeauty);
+//                break;
+//            case 7:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_learningandtraining);
+//                break;
+//            case 8:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_motherandchild);
+//                break;
+//            case 9:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_exerciseandfitness);
+//                break;
+//            case 10:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_getmarried);
+//                break;
+//            case 11:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_hotelaccommodation);
+//                break;
+//            case 12:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_automobileservice);
+//                break;
+//            case 13:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_petlife);
+//                break;
+//            case 14:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_wordofmouth);
+//                break;
+//            case 15:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_filmperformance);
+//                break;
+//            case 16:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_song);
+//                break;
+//            case 17:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_peripheralamusement);
+//                break;
+//            case 18:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_traveloverseas);
+//                break;
+//            case 19:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_medicalhealth);
+//                break;
+//            case 20:
+//                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_traffictravel);
+//                break;
+//        }
     }
 
     class ViewHolder {

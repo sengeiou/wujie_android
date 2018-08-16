@@ -15,7 +15,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.google.gson.Gson;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -421,9 +420,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if (mellInfo.getLng() != null && mellInfo.getLat() != null) {
                 baiDuLng = Double.parseDouble(mellInfo.getLng()); // 获取回传的商家位置（百度）
                 baiDuLat = Double.parseDouble(mellInfo.getLat()); // 获取回传的商家位置（百度）
-                pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, "","",ShopMallDetailsAty.this, nearbyBusinessList);
             } else {
-                pranster.requestStoreData(page, "", "", s_id, ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, "", "", s_id, "","",ShopMallDetailsAty.this, nearbyBusinessList);
             }
 
         }

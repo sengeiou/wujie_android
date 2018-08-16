@@ -31,8 +31,10 @@ import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.mainFgt.adapter.OffLineMenuGvAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.ViewPagerAdapter;
+import com.txd.hzj.wjlp.mellOffLine.ShopMallAty;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.NoticeDetailsAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
@@ -115,7 +117,20 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
      */
     private int curIndex = 0;
 
-    private List<String> gv_classify;
+    /**
+     * 标题的集合
+     */
+    private List<String> title_list;
+
+    /**
+     * 图片的集合
+     */
+    private List<String> image_list;
+
+    /**
+     * 每个图标对应的type_id
+     */
+    private List<String> rec_type_id_list;
 
     private int img_w = 0;
     private int img_h = 0;
@@ -172,9 +187,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page = 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","" ,getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", "","" ,getContext(), mell_near_by_lv);
                 }
             }
 
@@ -198,9 +213,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 page += 1;
                 Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
                 if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","" , getContext(), mell_near_by_lv);
                 } else {
-                    pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+                    pranster.requestStoreData(page, "", "", "", "","" ,getContext(), mell_near_by_lv);
                 }
             }
 
@@ -216,117 +231,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 footerImageView.setRotation(enable ? 0 : 180);
             }
         });
-        forMenu();
     }
 
-    private void forMenu() {
 
-        // 获取总页数
-        int pageCount = (int) Math.ceil(gv_classify.size() * 1.0 / pageSize);
-        // 初始化View列表
-        ArrayList<View> mPagerList = new ArrayList<>();
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        for (int i = 0; i < pageCount; i++) {
-            GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout, under_banner_menu_vp, false);
-            //设置adapter  给布局填充控件（限量购及票卷区图标）
-            gridView.setAdapter(new OffLineMenuGvAdapter(getActivity(), gv_classify, i));
-            mPagerList.add(gridView);
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    int pos = i + curIndex * pageSize;
-                    switch (pos) {
-                        case 0:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 1:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 2:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 3:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 4:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 5:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 6:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 7:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 8:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 9:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 10:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 11:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 12:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 13:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 14:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 15:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 16:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 17:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 18:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 19:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 20:
-                            showToast("开发中，敬请期待");
-                            break;
-                        case 21:
-                            showToast("开发中，敬请期待");
-                            break;
-
-                    }
-                }
-            });
-            // 给ViewPager设置适配器
-            under_banner_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
-            // 添加页面改变监听事件
-            under_banner_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    curIndex = position;
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }
-    }
 
 
     /**
@@ -407,16 +314,14 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
     @Override
     protected void initialized() {
-        gv_classify=new ArrayList<>();
-        String[] titles={"餐饮美食","商户地图","精选美食","品质购物","休闲娱乐","生活服务","精致丽人","学习培训","母婴亲子","运动健身","我要结婚","酒店住宿","汽车服务","宠物生活","口碑家装","电影演出","K歌达人","周边玩乐","畅游海外","医疗健康","交通出行"};
-        for (int i = 0; i < titles.length; i++) {
-            gv_classify.add(titles[i]);
-        }
-
+        title_list=new ArrayList<>();
+        image_list=new ArrayList<>();
+        rec_type_id_list=new ArrayList<>();
     }
 
     @Override
     protected void requestData() {
+        Recommending.businessType(this);
         to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
         Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
@@ -426,9 +331,9 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         }
         page = 1;
         if (null != locMap && !TextUtils.isEmpty(locMap.get("lon"))) {
-            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "", getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, locMap.get("lon"), locMap.get("lat"), "","","", getContext(), mell_near_by_lv);
         } else {
-            pranster.requestStoreData(page, "", "", "", getContext(), mell_near_by_lv);
+            pranster.requestStoreData(page, "", "", "", "","",getContext(), mell_near_by_lv);
         }
     }
 
@@ -559,6 +464,120 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
 
         }
 
+        if (requestUrl.contains("Recommending/businessType")){
+            Map<String, String> businessMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (businessMap.containsKey("code") && "1".equals(businessMap.get("code"))){
+                if (businessMap.containsKey("data")){
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(businessMap.get("data"));
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).containsKey("type")){
+                            title_list.add(data.get(i).get("type"));
+                        }
+                        if (data.get(i).containsKey("cate_img")){
+                            image_list.add(data.get(i).get("cate_img"));
+                        }
+                        if (data.get(i).containsKey("rec_type_id")){
+                            rec_type_id_list.add(data.get(i).get("rec_type_id"));
+                        }
+                    }
+                    forMenu();
+                }
+            }
+        }
+
+    }
+
+    private void forMenu() {
+
+        if (title_list.size()>0) {
+
+            // 获取总页数
+            int pageCount = (int) Math.ceil(title_list.size() * 1.0 / pageSize);
+            // 初始化View列表
+            ArrayList<View> mPagerList = new ArrayList<>();
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            for (int i = 0; i < pageCount; i++) {
+                GridViewForScrollView gridView = (GridViewForScrollView) inflater.inflate(R.layout.on_line_gv_layout, under_banner_menu_vp, false);
+                //设置adapter  给布局填充控件（限量购及票卷区图标）
+                gridView.setAdapter(new OffLineMenuGvAdapter(getActivity(), title_list, image_list, i));
+                mPagerList.add(gridView);
+                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        int pos = i + curIndex * pageSize;
+                        //        String[] titles={"餐饮美食","商户地图","精选美食","品质购物","休闲娱乐","生活服务","精致丽人","学习培训","母婴亲子","运动健身","我要结婚","酒店住宿","汽车服务","宠物生活","口碑家装","电影演出","K歌达人","周边玩乐","畅游海外","医疗健康","交通出行"};
+//                        showToast(title_list.get(pos));
+//                        if ("餐饮美食".equals(title_list.get(pos))){
+//
+//                        }else if ("商户地图".equals(title_list.get(pos))){
+//
+//                        }else if ("精选美食".equals(title_list.get(pos))){
+//
+//                        }else if ("品质购物".equals(title_list.get(pos))){
+//
+//                        }else if ("休闲娱乐".equals(title_list.get(pos))){
+//
+//                        }else if ("生活服务".equals(title_list.get(pos))){
+//
+//                        }else if ("精致丽人".equals(title_list.get(pos))){
+//
+//                        }else if ("学习培训".equals(title_list.get(pos))){
+//
+//                        }else if ("母婴亲子".equals(title_list.get(pos))){
+//
+//                        }else if ("运动健身".equals(title_list.get(pos))){
+//
+//                        }else if ("我要结婚".equals(title_list.get(pos))){
+//
+//                        }else if ("酒店住宿".equals(title_list.get(pos))){
+//
+//                        }else if ("汽车服务".equals(title_list.get(pos))){
+//
+//                        }else if ("宠物生活".equals(title_list.get(pos))){
+//
+//                        }else if ("口碑家装".equals(title_list.get(pos))){
+//
+//                        }else if ("电影演出".equals(title_list.get(pos))){
+//
+//                        }else if ("K歌达人".equals(title_list.get(pos))){
+//
+//                        }else if ("周边玩乐".equals(title_list.get(pos))){
+//
+//                        }else if ("畅游海外".equals(title_list.get(pos))){
+//
+//                        }else if ("医疗健康".equals(title_list.get(pos))){
+//
+//                        }else if ("交通出行".equals(title_list.get(pos))){
+//
+//                        }
+
+                        Bundle menuBundle=new Bundle();
+                        menuBundle.putString("menu_title",title_list.get(pos));
+                        menuBundle.putString("top_cate",rec_type_id_list.get(pos));
+                        startActivity(ShopMallAty.class,menuBundle);
+                    }
+                });
+                // 给ViewPager设置适配器
+                under_banner_menu_vp.setAdapter(new ViewPagerAdapter(mPagerList));
+                // 添加页面改变监听事件
+                under_banner_menu_vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+                        curIndex = position;
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
+            }
+        }
     }
 
     @Override

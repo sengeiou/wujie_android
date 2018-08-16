@@ -7,7 +7,6 @@ import android.widget.ListView;
 
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.tools.ObserTool;
-import com.txd.hzj.wjlp.*;
 import com.txd.hzj.wjlp.bean.offline.OffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
@@ -44,12 +43,12 @@ public class Pranster implements Constant.Pranster, BaseView {
      * @param context
      * @param listView
      */
-    public void requestStoreData(int p, String lng, String lat, String merchant_id, Context context, ListView listView) {
+    public void requestStoreData(int p, String lng, String lat, String merchant_id, String top_cate, String little_cate, Context context, ListView listView) {
         currentPage = p;
-        OfflineStore.offlineStoreList(lng, lat, p, merchant_id, this);
+        OfflineStore.offlineStoreList(lng, lat, p, merchant_id, top_cate, little_cate, this);
         this.context = context;
         this.listView = listView;
-        if (null == mellNearByHzjAdapter){
+        if (null == mellNearByHzjAdapter) {
             mellNearByHzjAdapter = new MellNearByHzjAdapter(context);
             listView.setAdapter(mellNearByHzjAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,23 +114,26 @@ public class Pranster implements Constant.Pranster, BaseView {
                 @Override
                 public void returnObj(Object t) {
                     OffLineBean offLineBean = (OffLineBean) t;
-                    if (currentPage == 1) {
-                        mellNearByHzjAdapter.getList().clear();
-                    }
-                    if (offLineBean.getData().size() > 0) {
-                        mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
-                        mellNearByHzjAdapter.notifyDataSetChanged();
-                        if (offLineBean.getData().size() < 10) {
-                            constantView.loadMoreOver();
+                    if ("1".equals(offLineBean.getCode())) {
+                        if (currentPage == 1) {
+                            mellNearByHzjAdapter.getList().clear();
                         }
-                        listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size() - offLineBean.getData().size());
-                    } else {
-                        listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size());
+                        if (offLineBean.getData().size() > 0) {
+                            mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
+                            mellNearByHzjAdapter.notifyDataSetChanged();
+                            if (offLineBean.getData().size() < 10) {
+                                constantView.loadMoreOver();
+                            }
+                            listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size() - offLineBean.getData().size());
+                        } else {
+                            listView.smoothScrollToPosition(mellNearByHzjAdapter.getList().size());
+                        }
                     }
                 }
             });
 
             constantView.loadComplate();
+
         }
     }
 

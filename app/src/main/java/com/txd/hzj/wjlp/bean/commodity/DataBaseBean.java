@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class DataBaseBean implements Serializable {
     protected String code;
     protected String message;
-    protected  String nums;
 
     public String getCode() {
         return code;
@@ -29,11 +28,4 @@ public class DataBaseBean implements Serializable {
         this.message = message;
     }
 
-    public String getNums() {
-        return nums;
-    }
-
-    public void setNums(String nums) {
-        this.nums = nums;
-    }
 }

@@ -1014,6 +1014,7 @@
         <activity android:name=".mellOffLine.OffLineEvaluationShopAty"/>
         <activity android:name=".mellOffLine.OffLineEvaluationShopListAty" />
         <activity android:name=".new_wjyp.FreeRenew"/>
+        <activity android:name=".mellOffLine.ShopMallAty" />
     </application>
 
 </manifest>
