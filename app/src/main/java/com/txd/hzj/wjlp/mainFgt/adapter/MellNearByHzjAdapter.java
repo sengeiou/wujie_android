@@ -75,11 +75,11 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         } else {
             nyvh = (NYVH) view.getTag();
         }
-        if ("0".equals(offLineDataBean.getUser_id())){
+        if ("0".equals(offLineDataBean.getUser_id())) {
             nyvh.vertical_line.setVisibility(View.GONE);
             nyvh.mell_sell_num.setVisibility(View.GONE);
             nyvh.voucher_layout.setVisibility(View.GONE);
-        }else {
+        } else {
             nyvh.vertical_line.setVisibility(View.VISIBLE);
             nyvh.mell_sell_num.setVisibility(View.VISIBLE);
             nyvh.voucher_layout.setVisibility(View.VISIBLE);
@@ -97,7 +97,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         } else {
             nyvh.delivery_status_tv.setVisibility(View.VISIBLE);
         }
-//        nyvh.mell_goods_gv.setAdapter(new GoodsAdapter(list2));
+        //        nyvh.mell_goods_gv.setAdapter(new GoodsAdapter(list2));
         // 是否有更多优惠
         List<TicketBean> ticketBeans = offLineDataBean.getTicket();
         if (null == nyvh.djpLayout.getTag()) {
@@ -121,6 +121,10 @@ public class MellNearByHzjAdapter extends BaseAdapter {
                     nyvh.other_zk_layout.setVisibility(View.GONE);
                     TicketBean ticketBean = offLineDataBean.getTicket().get(0);
                     addView(nyvh.djpLayout, ticketBean, false);
+                } else {
+                    nyvh.vertical_line.setVisibility(View.GONE);
+                    nyvh.mell_sell_num.setVisibility(View.GONE);
+                    nyvh.voucher_layout.setVisibility(View.GONE);
                 }
             } else {// 都不可见
                 nyvh.djpLayout.setVisibility(View.GONE);
@@ -150,19 +154,19 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             }
         });
 
-//        if (i % 3 == 0) {
-//            nyvh.delivery_status_tv.setText("达达专送-54分钟");
-//            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#37A5FA"));
-//            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj_tv);
-//        } else if (i % 2 == 0) {
-//            nyvh.delivery_status_tv.setText("商家自送-54分钟");
-//            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#9E9E9E"));
-//            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj2_tv);
-//        } else {
-//            nyvh.delivery_status_tv.setText("蜂鸟专送-54分钟");
-//            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#FFB80F"));
-//            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj3_tv);
-//        }
+        //        if (i % 3 == 0) {
+        //            nyvh.delivery_status_tv.setText("达达专送-54分钟");
+        //            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#37A5FA"));
+        //            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj_tv);
+        //        } else if (i % 2 == 0) {
+        //            nyvh.delivery_status_tv.setText("商家自送-54分钟");
+        //            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#9E9E9E"));
+        //            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj2_tv);
+        //        } else {
+        //            nyvh.delivery_status_tv.setText("蜂鸟专送-54分钟");
+        //            nyvh.delivery_status_tv.setTextColor(Color.parseColor("#FFB80F"));
+        //            nyvh.delivery_status_tv.setBackgroundResource(R.drawable.shape_off_line_hzj3_tv);
+        //        }
 
 
         return view;
@@ -176,7 +180,7 @@ public class MellNearByHzjAdapter extends BaseAdapter {
             view.setLayoutParams(params);
             linearLayout.addView(view);
         }
-        View djqItem = LayoutInflater.from(context).inflate(R.layout.item_djq, linearLayout,false);
+        View djqItem = LayoutInflater.from(context).inflate(R.layout.item_djq, linearLayout, false);
         TextView yhTv = djqItem.findViewById(R.id.yhTv);
         yhTv.setText(ticketBean.getDiscount_desc());
         switch (ticketBean.getType()) {
@@ -239,55 +243,55 @@ public class MellNearByHzjAdapter extends BaseAdapter {
         @ViewInject(R.id.delivery_status_tv)
         private TextView delivery_status_tv;
 
-//        /**
-//         * 商品列表
-//         */
-//        @ViewInject(R.id.mell_goods_gv)
-//        private GridViewForScrollView mell_goods_gv;
+        //        /**
+        //         * 商品列表
+        //         */
+        //        @ViewInject(R.id.mell_goods_gv)
+        //        private GridViewForScrollView mell_goods_gv;
     }
 
-//    /**
-//     * 商品列表
-//     */
-//    private class GoodsAdapter extends BaseAdapter {
-//        private NYGVH nygvh;
-//        private List<String> goods;
-//
-//        public GoodsAdapter(List<String> goods) {
-//            this.goods = goods;
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return 4;
-//        }
-//
-//        @Override
-//        public Object getItem(int i) {
-//            return goods.get(i);
-//        }
-//
-//        @Override
-//        public long getItemId(int i) {
-//            return i;
-//        }
-//
-//        @Override
-//        public View getView(int i, View view, ViewGroup viewGroup) {
-//            if (view == null) {
-//                view = LayoutInflater.from(context).inflate(R.layout.item_mell_goods_hzj_gv, viewGroup, false);
-//                nygvh = new NYGVH();
-//                ViewUtils.inject(nygvh, view);
-//                view.setTag(nygvh);
-//            } else {
-//                nygvh = (NYGVH) view.getTag();
-//            }
-//            return view;
-//        }
-//
-//        class NYGVH {
-//
-//        }
-//    }
+    //    /**
+    //     * 商品列表
+    //     */
+    //    private class GoodsAdapter extends BaseAdapter {
+    //        private NYGVH nygvh;
+    //        private List<String> goods;
+    //
+    //        public GoodsAdapter(List<String> goods) {
+    //            this.goods = goods;
+    //        }
+    //
+    //        @Override
+    //        public int getCount() {
+    //            return 4;
+    //        }
+    //
+    //        @Override
+    //        public Object getItem(int i) {
+    //            return goods.get(i);
+    //        }
+    //
+    //        @Override
+    //        public long getItemId(int i) {
+    //            return i;
+    //        }
+    //
+    //        @Override
+    //        public View getView(int i, View view, ViewGroup viewGroup) {
+    //            if (view == null) {
+    //                view = LayoutInflater.from(context).inflate(R.layout.item_mell_goods_hzj_gv, viewGroup, false);
+    //                nygvh = new NYGVH();
+    //                ViewUtils.inject(nygvh, view);
+    //                view.setTag(nygvh);
+    //            } else {
+    //                nygvh = (NYGVH) view.getTag();
+    //            }
+    //            return view;
+    //        }
+    //
+    //        class NYGVH {
+    //
+    //        }
+    //    }
 
 }
