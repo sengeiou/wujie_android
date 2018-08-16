@@ -152,8 +152,14 @@ public abstract class BaseFragment extends ImmersionFragment implements BaseView
 
     protected  void getView(View view){};
 
-    public BaseActivity getContext() {
-        return (BaseActivity) getActivity();
+    public Context getContext() {
+        Context activity = getActivity();
+
+        if (activity == null) {
+            return WeApplication.getInstance();
+        }
+
+        return activity;
     }
 
     /**
