@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tool.ToolKit;
 import com.ants.theantsgo.util.JSONUtils;
-import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
@@ -87,7 +85,7 @@ public class SubclassificationAty extends BaseAty {
 
     @Override
     protected void requestData() {
-        goodsPst.threeList(two_cate_id, "", 1, 1);
+        goodsPst.threeList(two_cate_id, "", 1,"","","","","", 1);
     }
 
     @Override

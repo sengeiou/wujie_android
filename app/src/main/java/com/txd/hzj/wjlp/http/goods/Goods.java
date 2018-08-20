@@ -55,12 +55,17 @@ class Goods {
      * @param p             分页
      * @param baseView      回调
      */
-    void threeList(String two_cate_id, String three_cate_id, int p, BaseView baseView) {
+    void threeList(String two_cate_id, String three_cate_id, int p,String sell, String tsort,String integral, String psort,String price, BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("two_cate_id", two_cate_id);
         params.addBodyParameter("three_cate_id", three_cate_id);
         params.addBodyParameter("p", String.valueOf(p));
+        params.addBodyParameter("sell", sell);
+        params.addBodyParameter("tsort", tsort);
+        params.addBodyParameter("integral", integral);
+        params.addBodyParameter("psort", psort);
+        params.addBodyParameter("price", price);
         apiTool2.postApi(url + "threeList", params, baseView);
     }
 

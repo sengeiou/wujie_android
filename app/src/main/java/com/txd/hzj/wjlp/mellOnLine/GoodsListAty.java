@@ -218,6 +218,7 @@ public class GoodsListAty extends BaseAty {
                 finish();
                 break;
             case R.id.internal_tv:
+                p=1;
                 setChioceItem(0);
                 if (pop_search_layout.getVisibility() == View.VISIBLE) {
                     bg_view.setVisibility(View.GONE);
@@ -226,6 +227,7 @@ public class GoodsListAty extends BaseAty {
                 }
                 break;
             case R.id.cash_coupon_tv:
+                p=1;
                 setChioceItem(1);
                 if (pop_search_layout.getVisibility() == View.VISIBLE) {
                     bg_view.setVisibility(View.GONE);
@@ -234,6 +236,7 @@ public class GoodsListAty extends BaseAty {
                 }
                 break;
             case R.id.sales_volume_tv:
+                p=1;
                 setChioceItem(2);
                 if (pop_search_layout.getVisibility() == View.VISIBLE) {
                     bg_view.setVisibility(View.GONE);
@@ -259,6 +262,7 @@ public class GoodsListAty extends BaseAty {
                 }
                 break;
             case R.id.lower_tv:
+                p=1;
                 priceNum=1;
                 price_tv.setCompoundDrawables(null, null,selectId, null);
                 clearTv();
@@ -277,6 +281,7 @@ public class GoodsListAty extends BaseAty {
                 }
                 break;
             case R.id.higher_tv:
+                p=1;
                 priceNum=2;
                 price_tv.setCompoundDrawables(null, null,twoSelectId, null);
                 clearTv();
@@ -302,6 +307,8 @@ public class GoodsListAty extends BaseAty {
                 }
                 break;
             case R.id.sure_tv:
+                p=1;
+                priceNum=0;
                 clearTv();
                 price_tv.setCompoundDrawables(null, null, unSelectId, null);
                 String lower = lower_et.getText().toString();

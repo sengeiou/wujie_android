@@ -34,11 +34,11 @@ public class GoodsPst extends BasePresenter {
     }
 
     // 三级分类商品列表
-    public void threeList(String two_cate_id, String three_cate_id, int p, int type) {
+    public void threeList(String two_cate_id, String three_cate_id, int p, String sell, String tsort,String integral, String psort,String price,int type) {
         if (1 == type) {
             baseView.showDialog();
         }
-        goods.threeList(two_cate_id, three_cate_id, p, baseView);
+        goods.threeList(two_cate_id, three_cate_id, p,sell,tsort,integral,psort,price, baseView);
     }
 
     // 搜索
