@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/7/31 11:35
- * 功能描述：线下商铺列表页
+ * 功能描述：线下店铺列表页
  */
 public class MellOffLineListAty extends BaseAty{
 

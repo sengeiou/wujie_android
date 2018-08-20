@@ -113,6 +113,8 @@ public class ShopMallAty extends BaseAty {
     private int leftPosition = 0;
     private ShopMallPop shopMallPop;
 
+    private boolean isSelected=false;
+
 
     @Override
     protected int getLayoutResId() {
@@ -164,12 +166,16 @@ public class ShopMallAty extends BaseAty {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 page = 1;
-                int position = tab.getPosition();
+                int tabPosition = tab.getPosition();
                 if (mNumsBeans.size() > 0) {
-                    little_cate = mNumsBeans.get(position).getRec_type_id();
-                    postUrl(top_cate, little_cate);
-                }
+                    little_cate = mNumsBeans.get(tabPosition).getRec_type_id();
+                    if (!isSelected){
+                        isSelected=true;
+                    }else {
+                        postUrl(top_cate, little_cate);
+                    }
 
+                }
             }
 
             @Override
@@ -256,8 +262,11 @@ public class ShopMallAty extends BaseAty {
                         }
                         mNumsBeans = offLineBean.getNums();
                         if (mNumsBeans.size() > 0) {
-                            for (OffLineBean.NumsBean bean : mNumsBeans) {
-                                titles_tab_layout.addTab(titles_tab_layout.newTab().setText(bean.getType()));
+                            if (!isSelected) {
+                                for (OffLineBean.NumsBean bean : mNumsBeans) {
+                                    String type = bean.getType();
+                                    titles_tab_layout.addTab(titles_tab_layout.newTab().setText(type));
+                                }
                             }
                         }
                         String tip_num = offLineBean.getTip_num();
@@ -305,6 +314,7 @@ public class ShopMallAty extends BaseAty {
         }
         loadComplate();
     }
+
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {

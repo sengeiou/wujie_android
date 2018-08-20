@@ -51,7 +51,7 @@ import java.util.Map;
  * 作者：DUKE_HwangZj
  * 日期：2017/7/4 0004
  * 时间：上午 11:52
- * 描述：线下商铺
+ * 描述：线下店铺
  */
 public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.ScrollViewListener, Constant.View {
 

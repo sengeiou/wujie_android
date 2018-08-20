@@ -486,7 +486,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
 
     @Override
     public void onItemClickListener(OffLineDataBean offLineDataBean, int position) {
-
+        Bundle options = new Bundle();
+        options.putSerializable("mellInfo", offLineDataBean);
+        startActivity(ShopMallDetailsAty.class, options);
+        finish();
     }
 
     @Override
