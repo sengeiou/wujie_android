@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.tools.ObserTool;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
@@ -24,11 +26,14 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.bean.offline.OffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
+import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
+import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +62,13 @@ public class ShopMallAty extends BaseAty {
     @ViewInject(R.id.ad_img)
     private ImageView ad_img;
 
+    @ViewInject(R.id.off_line_to_change_sc)
+    private ObservableScrollView off_line_to_change_sc;
+
+
+    @ViewInject(R.id.line_view)
+    private View line_view;
+
     @ViewInject(R.id.titles_tab_layout)
     private TabLayout titles_tab_layout;
 
@@ -75,14 +87,31 @@ public class ShopMallAty extends BaseAty {
 
 
     private String mTitle;
-    private String top_cate="";
-    private String little_cate="";
+    private String top_cate = "";
+    private String little_cate = "";
 
     private int page = 1;
     private MellNearByHzjAdapter mellNearByHzjAdapter;
     private List<OffLineBean.NumsBean> mNumsBeans;
-//    箭头旋转
-    private boolean isRotation=false;
+
+    /**
+     * 标题的集合
+     */
+    private List<String> title_list;
+
+    /**
+     * 图片的集合
+     */
+    private List<String> image_list;
+
+    /**
+     * 每个图标对应的type_id
+     */
+    private List<String> rec_type_id_list;
+
+
+    private int leftPosition = 0;
+    private ShopMallPop shopMallPop;
 
 
     @Override
@@ -93,6 +122,9 @@ public class ShopMallAty extends BaseAty {
     @Override
     protected void initialized() {
         showStatusBar(R.id.off_line_title_layout);
+        title_list = new ArrayList<>();
+        image_list = new ArrayList<>();
+        rec_type_id_list = new ArrayList<>();
         mTitle = getIntent().getStringExtra("menu_title");
         top_cate = getIntent().getStringExtra("top_cate");
         if (!TextUtils.isEmpty(mTitle)) {
@@ -111,8 +143,9 @@ public class ShopMallAty extends BaseAty {
 
     @Override
     protected void requestData() {
+        Recommending.businessType(this);
         postUrl(top_cate, little_cate);
-        OfflineStore.stageAds(top_cate,this);
+        OfflineStore.stageAds(top_cate, this);
         if (null == mellNearByHzjAdapter) {
             mellNearByHzjAdapter = new MellNearByHzjAdapter(this);
             mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
@@ -133,7 +166,7 @@ public class ShopMallAty extends BaseAty {
                 page = 1;
                 int position = tab.getPosition();
                 if (mNumsBeans.size() > 0) {
-                    little_cate=mNumsBeans.get(position).getRec_type_id();
+                    little_cate = mNumsBeans.get(position).getRec_type_id();
                     postUrl(top_cate, little_cate);
                 }
 
@@ -161,8 +194,8 @@ public class ShopMallAty extends BaseAty {
                 textView.setText("正在刷新");
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
-                page=1;
-                postUrl(top_cate,little_cate);
+                page = 1;
+                postUrl(top_cate, little_cate);
             }
 
             @Override
@@ -186,7 +219,7 @@ public class ShopMallAty extends BaseAty {
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 page++;
-                postUrl(top_cate,little_cate);
+                postUrl(top_cate, little_cate);
             }
 
             @Override
@@ -228,20 +261,44 @@ public class ShopMallAty extends BaseAty {
                             }
                         }
                         String tip_num = offLineBean.getTip_num();
-                        if (!TextUtils.isEmpty(tip_num)){
+                        if (!TextUtils.isEmpty(tip_num)) {
                             message_num_tv.setText(tip_num);
                         }
                     }
+                    if (shopMallPop != null && shopMallPop.isShowing()) {
+                        shopMallPop.notifyRightData(mNumsBeans, title_list.get(leftPosition));
+                    }
+
                 }
             });
         }
-        if (requestUrl.contains("stageAds")){
+        if (requestUrl.contains("stageAds")) {
             Map<String, String> jsonMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
-            if (jsonMap.containsKey("code") && "1".equals(jsonMap.get("code"))){
-                if (jsonMap.containsKey("data")){
+            if (jsonMap.containsKey("code") && "1".equals(jsonMap.get("code"))) {
+                if (jsonMap.containsKey("data")) {
                     Map<String, String> dataMap = JSONUtils.parseKeyAndValueToMap(jsonMap.get("data"));
-                    if (dataMap.containsKey("picture")){
+                    if (dataMap.containsKey("picture")) {
                         Glide.with(ShopMallAty.this).load(dataMap.get("picture")).asBitmap().into(ad_img);
+                    }
+                }
+            }
+        }
+
+        if (requestUrl.contains("Recommending/businessType")) {
+            Map<String, String> businessMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (businessMap.containsKey("code") && "1".equals(businessMap.get("code"))) {
+                if (businessMap.containsKey("data")) {
+                    ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(businessMap.get("data"));
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).containsKey("type")) {
+                            title_list.add(data.get(i).get("type"));
+                        }
+                        if (data.get(i).containsKey("cate_img")) {
+                            image_list.add(data.get(i).get("cate_img"));
+                        }
+                        if (data.get(i).containsKey("rec_type_id")) {
+                            rec_type_id_list.add(data.get(i).get("rec_type_id"));
+                        }
                     }
                 }
             }
@@ -266,22 +323,39 @@ public class ShopMallAty extends BaseAty {
     @OnClick({R.id.to_search, R.id.off_line_message_layout, R.id.title_layout})
     public void onClick(View v) {
         int id = v.getId();
-        if (id==R.id.to_search){
+        if (id == R.id.to_search) {
             Bundle b = new Bundle();
-            startActivity(SearchAty.class,b);
+            startActivity(SearchAty.class, b);
         }
-        if (id== R.id.off_line_message_layout){
-            startActivity(MessageAty.class,null);
+        if (id == R.id.off_line_message_layout) {
+            startActivity(MessageAty.class, null);
         }
-        if (id==R.id.title_layout){
-            if (!isRotation) {
+        if (id == R.id.title_layout) {
+            off_line_to_change_sc.smoothScrollTo(0,ad_img.getLayoutParams().height+50);
+            shopMallPop = new ShopMallPop(ShopMallAty.this, title_list, image_list, rec_type_id_list, mNumsBeans);
+            shopMallPop.setWidthAndHeight(LinearLayout.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2);
+            shopMallPop.setOnPopItemListener(new ShopMallPop.OnPopItemListener() {
+                @Override
+                public void leftClick(String top_cate, int position) {
+                    postUrl(top_cate, little_cate);
+                    leftPosition = position;
+
+                }
+
+                @Override
+                public void rightClick(String little_cate) {
+
+                }
+            });
+            shopMallPop.showPopupWindow(line_view);
+
+            if (null != shopMallPop && shopMallPop.isFocusable()) {
                 title_img.setRotation(90f);
-                isRotation=true;
-            }else {
+            } else {
                 title_img.setRotation(270f);
-                isRotation=false;
             }
         }
+
     }
 
     private View createHeaderView() {
@@ -297,7 +371,7 @@ public class ShopMallAty extends BaseAty {
     }
 
     private View createFooterView() {
-        View footerView = LayoutInflater.from(super_offline_layout.getContext()).inflate(R.layout.layout_footer, super_offline_layout,false);
+        View footerView = LayoutInflater.from(super_offline_layout.getContext()).inflate(R.layout.layout_footer, super_offline_layout, false);
         footerProgressBar = footerView.findViewById(R.id.footer_pb_view);
         footerImageView = footerView.findViewById(R.id.footer_image_view);
         footerTextView = footerView.findViewById(R.id.footer_text_view);
