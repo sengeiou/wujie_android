@@ -114,6 +114,7 @@ public class ShopMallAty extends BaseAty {
     private ShopMallPop shopMallPop;
 
     private boolean isSelected=false;
+    private int mInt=0;
 
 
     @Override
@@ -342,7 +343,15 @@ public class ShopMallAty extends BaseAty {
         }
         if (id == R.id.title_layout) {
             off_line_to_change_sc.smoothScrollTo(0,ad_img.getLayoutParams().height+50);
-            shopMallPop = new ShopMallPop(ShopMallAty.this, title_list, image_list, rec_type_id_list, mNumsBeans);
+            if (null!=rec_type_id_list && rec_type_id_list.size()>0){
+                for (int i = 0; i < rec_type_id_list.size(); i++) {
+                    if (top_cate.equals(rec_type_id_list.get(i))){
+                        mInt=i;
+                        break;
+                    }
+                }
+            }
+            shopMallPop = new ShopMallPop(ShopMallAty.this, title_list, image_list, rec_type_id_list, mNumsBeans,mInt);
             shopMallPop.setWidthAndHeight(LinearLayout.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2);
             shopMallPop.setOnPopItemListener(new ShopMallPop.OnPopItemListener() {
                 @Override

@@ -770,6 +770,16 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         indexPst.index(lng, lat);
     }
 
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (null!=upview1 && upview1.isFlipping()){
+            upview1.stopFlipping();
+            upview1.removeAllViews();
+        }
+    }
+
     @Override
     protected void requestData() {
         superSwipeRefreshLayout.setHeaderViewBackgroundColor(Color.WHITE);

@@ -60,13 +60,14 @@ public class ShopMallPop extends PopupWindow {
     }
 
 
-    public ShopMallPop(Context context, List<String> title_list,List<String> image_list,List<String> rec_type_id_list,List<OffLineBean.NumsBean> numsBeanList) {
+    public ShopMallPop(Context context, List<String> title_list,List<String> image_list,List<String> rec_type_id_list,List<OffLineBean.NumsBean> numsBeanList,int i) {
         super(context);
         this.mContext=context;
         this.title_list=title_list;
         this.image_list=image_list;
         this.rec_type_id_list=rec_type_id_list;
         this.mNumsBeanList=numsBeanList;
+        this.mInt=i;
         initPop();
     }
 
@@ -89,6 +90,7 @@ public class ShopMallPop extends PopupWindow {
                 }
             }
         });
+        mLeft_adapter.setLastChoice(mInt);
         left_recyclerView.setAdapter(mLeft_adapter);
         mRight_adapter = new Right_Adapter(mNumsBeanList, new Right_Adapter.OnRightItemClickListener() {
             @Override
@@ -96,6 +98,8 @@ public class ShopMallPop extends PopupWindow {
 
             }
         });
+
+
 
         mRight_adapter.setTitle(title_list.get(mInt));
 
@@ -152,6 +156,10 @@ public class ShopMallPop extends PopupWindow {
 
         public interface OnLeftItemClickListener{
             void leftClick(int position);
+        }
+
+        public void setLastChoice(int choice){
+            lastChoice=choice;
         }
 
         public Left_Adapter(Context context,List<String> title_list, List<String> image_list, OnLeftItemClickListener onItemClickListener) {
