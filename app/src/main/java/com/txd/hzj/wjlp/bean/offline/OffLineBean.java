@@ -13,7 +13,15 @@ import java.util.List;
 public class OffLineBean extends DataBaseBean {
     private List<OffLineDataBean> data;
     private List<NumsBean> nums;
+    private String tip_num;
 
+    public String getTip_num() {
+        return tip_num;
+    }
+
+    public void setTip_num(String tip_num) {
+        this.tip_num = tip_num;
+    }
 
     public List<OffLineDataBean> getData() {
         return data;

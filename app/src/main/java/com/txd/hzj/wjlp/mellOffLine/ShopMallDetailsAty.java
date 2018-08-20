@@ -134,8 +134,12 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     @Override
     protected void initialized() {
         Intent intent = getIntent();
-        mellInfo = (OffLineDataBean) intent.getSerializableExtra("mellInfo");
-        s_id = mellInfo.getS_id();
+        if (intent!=null) {
+            mellInfo = (OffLineDataBean) intent.getSerializableExtra("mellInfo");
+            if (mellInfo!=null) {
+                s_id = mellInfo.getS_id();
+            }
+        }
 
         urls = new ArrayList();
 

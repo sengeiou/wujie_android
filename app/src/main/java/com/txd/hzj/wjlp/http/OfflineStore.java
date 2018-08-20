@@ -155,4 +155,15 @@ public class OfflineStore {
         requestParams.addBodyParameter("p", p);
         apiTool2.postApi(url+"commentList",requestParams , baseView);
     }
+
+    /**
+     *二级分类页面广告
+     * @param top_cate  顶级分类ID
+     */
+    public static void stageAds(String top_cate, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("top_cate", top_cate);
+        apiTool2.postApi(url+"stageAds",requestParams , baseView);
+    }
 }

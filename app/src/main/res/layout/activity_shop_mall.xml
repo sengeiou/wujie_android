@@ -1,9 +1,82 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_color"
-    android:backgroundTint="@color/bg_color">
+    android:backgroundTint="@color/bg_color"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/off_line_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#F23030">
+
+        <ImageView
+            android:id="@+id/title_be_back_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="beBack"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:src="@drawable/icon_be_back_w" />
+
+        <TextView
+            android:id="@+id/to_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@+id/title_be_back_iv"
+            android:layout_toStartOf="@+id/off_line_message_layout"
+            android:background="@drawable/shape_search_view"
+            android:drawableLeft="@drawable/icon_search"
+            android:drawablePadding="8dp"
+            android:hint="搜索商家"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="#8Cffffff" />
+
+
+        <FrameLayout
+            android:id="@+id/off_line_message_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:onClick="toMessage"
+            android:paddingEnd="6dp"
+            android:paddingStart="6dp">
+
+            <TextView
+                android:id="@+id/search_title_message_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:drawablePadding="4dp"
+                android:drawableTop="@drawable/icon_message"
+                android:gravity="center"
+                android:text="消息"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/message_num_tv"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="end"
+                android:background="@drawable/shape_search_message_num_tv"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+    </RelativeLayout>
 
     <com.txd.hzj.wjlp.view.VpSwipeRefreshLayout
         android:id="@+id/super_offline_layout"
@@ -21,44 +94,48 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <include layout="@layout/aty_banner" />
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/icon_main_top_bg" />
-                </RelativeLayout>
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp" />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/under_banner_menu_vp"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:background="@color/white" />
-
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/view_color" />
+                    android:layout_height="8dp"
+                    android:background="@color/white" />
+
+                <ImageView
+                    android:id="@+id/ad_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:scaleType="fitXY" />
 
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp" />
 
-                <TextView
-                    android:id="@+id/title_tv"
-                    android:text="精选美食"
+                <LinearLayout
+                    android:id="@+id/title_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:background="@color/white"
-                    android:padding="15dp"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/title_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:paddingStart="15dp"
+                        android:text="精选美食" />
+
+                    <ImageView
+                        android:id="@+id/title_img"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:alpha="0.5"
+                        android:rotation="270"
+                        android:src="@drawable/icon_be_back_b" />
+                </LinearLayout>
+
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="1dp" />
@@ -66,16 +143,17 @@
                 <android.support.design.widget.TabLayout
                     android:id="@+id/titles_tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="35dp"
                     android:background="@color/white"
-                    app:tabSelectedTextColor="@color/theme_color"
                     app:tabIndicatorColor="@color/theme_color"
                     app:tabMode="scrollable"
-                    app:tabTextColor="@color/app_text_color"
-                    />
+                    app:tabSelectedTextColor="@color/theme_color"
+                    app:tabTextColor="@color/app_text_color" />
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="1dp" />
+
                 <com.ants.theantsgo.view.inScroll.ListViewForScrollView
                     android:id="@+id/mell_near_by_lv"
                     android:layout_width="match_parent"
@@ -88,5 +166,5 @@
         </com.txd.hzj.wjlp.view.ObservableScrollView>
     </com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>
 
-    <include layout="@layout/off_line_title" />
-</FrameLayout>
+
+</LinearLayout>

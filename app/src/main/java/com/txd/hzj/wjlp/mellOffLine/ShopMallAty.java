@@ -12,9 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.tools.ObserTool;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.view.inScroll.ListViewForScrollView;
+import com.bumptech.glide.Glide;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
@@ -22,6 +25,8 @@ import com.txd.hzj.wjlp.bean.offline.OffLineBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
+import com.txd.hzj.wjlp.mellOnLine.MessageAty;
+import com.txd.hzj.wjlp.mellOnLine.SearchAty;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
 
 import java.util.List;
@@ -40,6 +45,17 @@ public class ShopMallAty extends BaseAty {
     @ViewInject(R.id.title_tv)
     private TextView title_tv;
 
+    @ViewInject(R.id.title_img)
+    private ImageView title_img;
+
+
+    //消息数量
+    @ViewInject(R.id.message_num_tv)
+    private TextView message_num_tv;
+
+    //广告图片
+    @ViewInject(R.id.ad_img)
+    private ImageView ad_img;
 
     @ViewInject(R.id.titles_tab_layout)
     private TabLayout titles_tab_layout;
@@ -65,6 +81,8 @@ public class ShopMallAty extends BaseAty {
     private int page = 1;
     private MellNearByHzjAdapter mellNearByHzjAdapter;
     private List<OffLineBean.NumsBean> mNumsBeans;
+//    箭头旋转
+    private boolean isRotation=false;
 
 
     @Override
@@ -74,6 +92,7 @@ public class ShopMallAty extends BaseAty {
 
     @Override
     protected void initialized() {
+        showStatusBar(R.id.off_line_title_layout);
         mTitle = getIntent().getStringExtra("menu_title");
         top_cate = getIntent().getStringExtra("top_cate");
         if (!TextUtils.isEmpty(mTitle)) {
@@ -93,6 +112,7 @@ public class ShopMallAty extends BaseAty {
     @Override
     protected void requestData() {
         postUrl(top_cate, little_cate);
+        OfflineStore.stageAds(top_cate,this);
         if (null == mellNearByHzjAdapter) {
             mellNearByHzjAdapter = new MellNearByHzjAdapter(this);
             mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
@@ -207,9 +227,24 @@ public class ShopMallAty extends BaseAty {
                                 titles_tab_layout.addTab(titles_tab_layout.newTab().setText(bean.getType()));
                             }
                         }
+                        String tip_num = offLineBean.getTip_num();
+                        if (!TextUtils.isEmpty(tip_num)){
+                            message_num_tv.setText(tip_num);
+                        }
                     }
                 }
             });
+        }
+        if (requestUrl.contains("stageAds")){
+            Map<String, String> jsonMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
+            if (jsonMap.containsKey("code") && "1".equals(jsonMap.get("code"))){
+                if (jsonMap.containsKey("data")){
+                    Map<String, String> dataMap = JSONUtils.parseKeyAndValueToMap(jsonMap.get("data"));
+                    if (dataMap.containsKey("picture")){
+                        Glide.with(ShopMallAty.this).load(dataMap.get("picture")).asBitmap().into(ad_img);
+                    }
+                }
+            }
         }
         loadComplate();
     }
@@ -225,6 +260,28 @@ public class ShopMallAty extends BaseAty {
         footerImageView.setVisibility(View.VISIBLE);
         footerProgressBar.setVisibility(View.GONE);
         super_offline_layout.setLoadMore(false);
+    }
+
+    @Override
+    @OnClick({R.id.to_search, R.id.off_line_message_layout, R.id.title_layout})
+    public void onClick(View v) {
+        int id = v.getId();
+        if (id==R.id.to_search){
+            Bundle b = new Bundle();
+            startActivity(SearchAty.class,b);
+        }
+        if (id== R.id.off_line_message_layout){
+            startActivity(MessageAty.class,null);
+        }
+        if (id==R.id.title_layout){
+            if (!isRotation) {
+                title_img.setRotation(90f);
+                isRotation=true;
+            }else {
+                title_img.setRotation(270f);
+                isRotation=false;
+            }
+        }
     }
 
     private View createHeaderView() {

@@ -375,7 +375,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             im_ads.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(ShopMallDetailsAty.class, null);
+//                    startActivity(ShopMallDetailsAty.class, null);
                /* if (!TextUtils.isEmpty(list_ads.get(0).get("merchant_id")) && !list_ads.get(0).get("merchant_id").equals("0")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
