@@ -1,6 +1,8 @@
 package com.txd.hzj.wjlp.mellOffLine.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
+import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineListBean;
+import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -72,16 +78,34 @@ public class MellOffLineListAdapter extends BaseAdapter {
         viewHolder.mell_name_tv.setText(dataBean.getMerchant_name());
         viewHolder.textView7.setText(dataBean.getMerchant_desc());
         String star = dataBean.getScore();
-        viewHolder.shop_evaluate_star_level.setRating(android.text.TextUtils.isEmpty(star)?4:Integer.valueOf(star));
+        viewHolder.shop_evaluate_star_level.setRating(android.text.TextUtils.isEmpty(star)?4:Float.valueOf(star));
         viewHolder.achievement_tv.setText("|月售"+dataBean.getMonths_order()+"单");
 
         //点击了进店逛逛
         viewHolder.into_mell_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(mContext, MellInfoAty.class);
-//                intent.putExtra("mell_id", dataBean.getMerchant_id());
-//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, ShopMallDetailsAty.class);
+                Bundle options = new Bundle();
+
+                OffLineDataBean offLineDataBea=new OffLineDataBean();
+                offLineDataBea.setS_id(dataBean.getMerchant_id());
+                offLineDataBea.setMerchant_name(dataBean.getMerchant_name());
+                offLineDataBea.setMerchant_desc(dataBean.getMerchant_desc());
+                offLineDataBea.setLogo(dataBean.getLogo());
+                offLineDataBea.setScore(dataBean.getScore());
+                offLineDataBea.setMonths_order(dataBean.getMonths_order());
+                offLineDataBea.setDistance("");
+                Map<String, String> locInfo = DemoApplication.getInstance().getLocInfo();
+                offLineDataBea.setLat(locInfo.containsKey("lat")?locInfo.get("lat"):"");
+                offLineDataBea.setLng(locInfo.containsKey("lon")?locInfo.get("lon"):"");
+                offLineDataBea.setProportion("");
+                offLineDataBea.setShow(false);
+                offLineDataBea.setTicket(null);
+                offLineDataBea.setUser_id("");
+                options.putSerializable("mellInfo", offLineDataBea);
+                intent.putExtras(options);
+                mContext.startActivity(intent);
             }
         });
         return view;

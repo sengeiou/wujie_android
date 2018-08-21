@@ -164,6 +164,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         evaluateNumbers = findViewById(R.id.shop_evaluate_numbers);
         evaluateBranch = findViewById(R.id.shop_evaluate_branch);
         nearbyBusinessList = findViewById(R.id.shop_nearby_business_list);
+        nearbyBusinessList.setFocusable(false);
         comment_layout = findViewById(R.id.comment_layout);
         evaluateDivis = findViewById(R.id.shop_evaluate_divis);
         evaluateModle = findViewById(R.id.shop_evaluate_modle);
