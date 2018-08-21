@@ -15,13 +15,12 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
+import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectOffLineshopFgt;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 作者：DUKE_HwangZj
@@ -63,6 +62,15 @@ public class CollectHzjAty extends BaseAty {
     @ViewInject(R.id.right_books_view)
     private View right_books_view;
 
+
+    /**
+     * 线下店铺
+     */
+    @ViewInject(R.id.right_offLine_tv)
+    private TextView right_offLine_tv;
+    @ViewInject(R.id.right_offLine_view)
+    private View right_offLine_view;
+
     private int selected = 0;
 
     private ArrayList<Fragment> mFragment;
@@ -84,9 +92,11 @@ public class CollectHzjAty extends BaseAty {
         left_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         middle_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         right_books_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
+        right_offLine_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         left_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         middle_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         right_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        right_offLine_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
 
         if (0 == position) {
             left_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
@@ -94,16 +104,19 @@ public class CollectHzjAty extends BaseAty {
         } else if ((1 == position)) {
             middle_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             middle_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        } else {
+        } else if (2==position){
             right_books_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             right_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        }else if (3==position){
+            right_offLine_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            right_offLine_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 3)
+        if (position < 4)
             fcm.setFragments(position);
     }
 
     @Override
-    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout})
+    @OnClick({R.id.foot_right_tv, R.id.collect_left_layout, R.id.collect_middle_layout, R.id.collect_right_layout,R.id.collect_offLine_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -137,6 +150,12 @@ public class CollectHzjAty extends BaseAty {
                 setNewStatus(mFragment.get(selected));
                 titlt_right_tv.setVisibility(View.GONE);
                 break;
+            case R.id.collect_offLine_layout:
+                setTvAndViewStyle(3);
+                // 设置碎片中删除和全选按钮状态
+                setNewStatus(mFragment.get(selected));
+                titlt_right_tv.setVisibility(View.GONE);
+                break;
         }
     }
 
@@ -147,9 +166,12 @@ public class CollectHzjAty extends BaseAty {
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
             ((CollectMellHzjFgt) f).r();
-        } else {// 书院
+        } else if (2== selected){// 书院
             ((CollectBooksFgt) f).setStatus(status);
             ((CollectBooksFgt) f).r();
+        } else if (3== selected){// 线下店铺
+            ((CollectOffLineshopFgt) f).setStatus(status);
+            ((CollectOffLineshopFgt) f).r();
         }
     }
 
@@ -164,6 +186,7 @@ public class CollectHzjAty extends BaseAty {
         mFragment.add(CollectGoodsHzjFgt.newInstance(false, 1));
         mFragment.add(CollectMellHzjFgt.newInstance(false, 1));
         mFragment.add(CollectBooksFgt.newInstance(false, 1));
+        mFragment.add(CollectOffLineshopFgt.newInstance(false, 1));
     }
 
     @Override

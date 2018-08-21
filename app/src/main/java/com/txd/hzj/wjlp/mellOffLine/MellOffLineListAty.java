@@ -1,5 +1,6 @@
 package com.txd.hzj.wjlp.mellOffLine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -20,13 +21,16 @@ import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
 import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineListBean;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.mellOffLine.adapter.MellOffLineListAdapter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -161,6 +165,32 @@ public class MellOffLineListAty extends BaseAty{
             mells=offLineListBean.getData();
             allNum = Integer.parseInt(offLineListBean.getNums());
             mlAdapter = new MellOffLineListAdapter(MellOffLineListAty.this, mells);
+            mlAdapter.setOnItemClickListener(new MellOffLineListAdapter.OnItemClickListener() {
+                @Override
+                public void itemClick(int position) {
+                    Intent intent = new Intent(MellOffLineListAty.this, ShopMallDetailsAty.class);
+                    Bundle options = new Bundle();
+                    OffLineListBean.DataBean dataBean = mells.get(position);
+                    OffLineDataBean offLineDataBea=new OffLineDataBean();
+                    offLineDataBea.setS_id(dataBean.getMerchant_id());
+                    offLineDataBea.setMerchant_name(dataBean.getMerchant_name());
+                    offLineDataBea.setMerchant_desc(dataBean.getMerchant_desc());
+                    offLineDataBea.setLogo(dataBean.getLogo());
+                    offLineDataBea.setScore(dataBean.getScore());
+                    offLineDataBea.setMonths_order(dataBean.getMonths_order());
+                    offLineDataBea.setDistance("");
+                    Map<String, String> locInfo = DemoApplication.getInstance().getLocInfo();
+                    offLineDataBea.setLat(locInfo.containsKey("lat")?locInfo.get("lat"):"");
+                    offLineDataBea.setLng(locInfo.containsKey("lon")?locInfo.get("lon"):"");
+                    offLineDataBea.setProportion("");
+                    offLineDataBea.setShow(false);
+                    offLineDataBea.setTicket(null);
+                    offLineDataBea.setUser_id("");
+                    options.putSerializable("mellInfo", offLineDataBea);
+                    intent.putExtras(options);
+                    startActivity(intent);
+                }
+            });
             mell_lv.setAdapter(mlAdapter);
             mell_lv.onRefreshComplete();
         }

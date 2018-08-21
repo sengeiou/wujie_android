@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!--<com.txd.hzj.wjlp.view.VpSwipeRefreshLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <ListView
+        android:id="@+id/mell_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/bg_color"
+        android:dividerHeight="4dp"
+        android:scrollbars="none"/>
+
+    <include layout="@layout/aty_no_data_layout"/>
+    <!--</com.txd.hzj.wjlp.view.VpSwipeRefreshLayout>-->
+</LinearLayout>

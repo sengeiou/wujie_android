@@ -248,14 +248,14 @@ public class RechargeAty extends BaseAty {
         re_right_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
 
         if (0 == type) { // 线上充值
-            et_price.setHint("最低充值金额100元");
+//            et_price.setHint("最低充值金额100元");
             re_left_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             re_left_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
             on_line_recharge_layout.setVisibility(View.VISIBLE);
             off_line_recharge_layout.setVisibility(View.GONE);
             titlt_right_tv.setVisibility(View.GONE);
         } else { // 线下充值
-            off_line_recharge_money_tv.setHint("最低转账金额100元");
+//            off_line_recharge_money_tv.setHint("最低转账金额100元");
             re_right_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             re_right_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
             on_line_recharge_layout.setVisibility(View.GONE);
@@ -312,10 +312,10 @@ public class RechargeAty extends BaseAty {
                         try {
                             // 获取输入的金额并转换成float
                             float price = Float.parseFloat(et_price.getText().toString());
-                            if (price >= 100) { // 如果金额大于（等于）100
+                            if (price > 0) { // 如果金额大于（等于）100
                                 showPwdPop(v); // 弹出密码输入框
                             } else {
-                                showToast("最低充值金额100元");
+                                showToast("充值金额输入有误！");
                             }
                         } catch (Exception e) { // 捕捉类型转换异常
                             showToast("充值金额输入有误！");

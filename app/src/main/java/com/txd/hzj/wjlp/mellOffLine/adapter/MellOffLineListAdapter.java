@@ -1,8 +1,6 @@
 package com.txd.hzj.wjlp.mellOffLine.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +14,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
-import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
 import com.txd.hzj.wjlp.bean.offline.OffLineListBean;
-import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 创建者：zhangyunfei
@@ -35,6 +29,7 @@ public class MellOffLineListAdapter extends BaseAdapter {
     private final int size;
     private Context mContext;
     private List<OffLineListBean.DataBean> mList;
+    private OnItemClickListener mOnItemClickListener;
 
     public MellOffLineListAdapter(Context context, List<OffLineListBean.DataBean> list) {
         mContext = context;
@@ -42,9 +37,16 @@ public class MellOffLineListAdapter extends BaseAdapter {
         size = ToolKit.dip2px(context, 100);
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.mOnItemClickListener=onItemClickListener;
+    }
+    public interface  OnItemClickListener{
+        void itemClick(int position);
+    }
+
     @Override
     public int getCount() {
-        return mList.size();
+        return mList.size()>0?mList.size():0;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MellOffLineListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
         if (view==null){
             viewHolder=new ViewHolder();
@@ -85,27 +87,11 @@ public class MellOffLineListAdapter extends BaseAdapter {
         viewHolder.into_mell_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ShopMallDetailsAty.class);
-                Bundle options = new Bundle();
 
-                OffLineDataBean offLineDataBea=new OffLineDataBean();
-                offLineDataBea.setS_id(dataBean.getMerchant_id());
-                offLineDataBea.setMerchant_name(dataBean.getMerchant_name());
-                offLineDataBea.setMerchant_desc(dataBean.getMerchant_desc());
-                offLineDataBea.setLogo(dataBean.getLogo());
-                offLineDataBea.setScore(dataBean.getScore());
-                offLineDataBea.setMonths_order(dataBean.getMonths_order());
-                offLineDataBea.setDistance("");
-                Map<String, String> locInfo = DemoApplication.getInstance().getLocInfo();
-                offLineDataBea.setLat(locInfo.containsKey("lat")?locInfo.get("lat"):"");
-                offLineDataBea.setLng(locInfo.containsKey("lon")?locInfo.get("lon"):"");
-                offLineDataBea.setProportion("");
-                offLineDataBea.setShow(false);
-                offLineDataBea.setTicket(null);
-                offLineDataBea.setUser_id("");
-                options.putSerializable("mellInfo", offLineDataBea);
-                intent.putExtras(options);
-                mContext.startActivity(intent);
+                if (null!=mOnItemClickListener){
+                    mOnItemClickListener.itemClick(position);
+                }
+
             }
         });
         return view;
