@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -75,6 +76,9 @@ public class ShopMallAty extends BaseAty {
     @ViewInject(R.id.mell_near_by_lv)
     private ListViewForScrollView mell_near_by_lv;
 
+    @ViewInject(R.id.no_data_layout)
+    private LinearLayout no_data_layout;
+
 
     // Footer View
     private ProgressBar footerProgressBar;
@@ -87,8 +91,8 @@ public class ShopMallAty extends BaseAty {
 
 
     private String mTitle;
-    private String top_cate = "";
-    private String little_cate = "";
+    private String mTop_cate = "";
+    private String mLittle_cate = "";
 
     private int page = 1;
     private MellNearByHzjAdapter mellNearByHzjAdapter;
@@ -113,8 +117,9 @@ public class ShopMallAty extends BaseAty {
     private int leftPosition = 0;
     private ShopMallPop shopMallPop;
 
-    private boolean isSelected=false;
-    private int mInt=0;
+    private boolean isSelected = false;
+    private int mInt = 0;
+    private int rightPositon = 0;
 
 
     @Override
@@ -128,8 +133,9 @@ public class ShopMallAty extends BaseAty {
         title_list = new ArrayList<>();
         image_list = new ArrayList<>();
         rec_type_id_list = new ArrayList<>();
+        mell_near_by_lv.setFocusable(false);
         mTitle = getIntent().getStringExtra("menu_title");
-        top_cate = getIntent().getStringExtra("top_cate");
+        mTop_cate = getIntent().getStringExtra("top_cate");
         if (!TextUtils.isEmpty(mTitle)) {
             title_tv.setText(mTitle);
         }
@@ -147,8 +153,8 @@ public class ShopMallAty extends BaseAty {
     @Override
     protected void requestData() {
         Recommending.businessType(this);
-        postUrl(top_cate, little_cate);
-        OfflineStore.stageAds(top_cate, this);
+        postUrl(mTop_cate, mLittle_cate);
+        OfflineStore.stageAds(mTop_cate, this);
         if (null == mellNearByHzjAdapter) {
             mellNearByHzjAdapter = new MellNearByHzjAdapter(this);
             mell_near_by_lv.setAdapter(mellNearByHzjAdapter);
@@ -169,11 +175,11 @@ public class ShopMallAty extends BaseAty {
                 page = 1;
                 int tabPosition = tab.getPosition();
                 if (mNumsBeans.size() > 0) {
-                    little_cate = mNumsBeans.get(tabPosition).getRec_type_id();
-                    if (!isSelected){
-                        isSelected=true;
-                    }else {
-                        postUrl(top_cate, little_cate);
+                    if (!isSelected) {
+                        isSelected = true;
+                    } else {
+                        mLittle_cate = mNumsBeans.get(tabPosition).getRec_type_id();
+                        postUrl(mTop_cate, mLittle_cate);
                     }
 
                 }
@@ -202,7 +208,7 @@ public class ShopMallAty extends BaseAty {
                 imageView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 page = 1;
-                postUrl(top_cate, little_cate);
+                postUrl(mTop_cate, mLittle_cate);
             }
 
             @Override
@@ -226,7 +232,7 @@ public class ShopMallAty extends BaseAty {
                 footerImageView.setVisibility(View.GONE);
                 footerProgressBar.setVisibility(View.VISIBLE);
                 page++;
-                postUrl(top_cate, little_cate);
+                postUrl(mTop_cate, mLittle_cate);
             }
 
             @Override
@@ -258,16 +264,29 @@ public class ShopMallAty extends BaseAty {
                             mellNearByHzjAdapter.getList().clear();
                         }
                         if (offLineBean.getData().size() > 0) {
+                            mell_near_by_lv.setVisibility(View.VISIBLE);
+                            no_data_layout.setVisibility(View.GONE);
                             mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
                             mellNearByHzjAdapter.notifyDataSetChanged();
+                        } else {
+                            mell_near_by_lv.setVisibility(View.GONE);
+                            no_data_layout.setVisibility(View.VISIBLE);
                         }
                         mNumsBeans = offLineBean.getNums();
                         if (mNumsBeans.size() > 0) {
+                            OffLineBean.NumsBean numsBean = new OffLineBean.NumsBean();
+                            numsBean.setRec_type_id("");
+                            numsBean.setType("全部");
+                            numsBean.setCate_img("");
+                            mNumsBeans.add(0, numsBean);
                             if (!isSelected) {
-                                for (OffLineBean.NumsBean bean : mNumsBeans) {
-                                    String type = bean.getType();
+                                for (int i = 0; i < mNumsBeans.size(); i++) {
+                                    String type = mNumsBeans.get(i).getType();
                                     titles_tab_layout.addTab(titles_tab_layout.newTab().setText(type));
+
                                 }
+                                titles_tab_layout.getTabAt(rightPositon).select();
+                                titles_tab_layout.setScrollPosition(rightPositon, 0f, false);
                             }
                         }
                         String tip_num = offLineBean.getTip_num();
@@ -342,36 +361,52 @@ public class ShopMallAty extends BaseAty {
             startActivity(MessageAty.class, null);
         }
         if (id == R.id.title_layout) {
-            off_line_to_change_sc.smoothScrollTo(0,ad_img.getLayoutParams().height+50);
-            if (null!=rec_type_id_list && rec_type_id_list.size()>0){
+            off_line_to_change_sc.smoothScrollTo(0, ad_img.getLayoutParams().height + 50);
+            if (null != rec_type_id_list && rec_type_id_list.size() > 0) {
                 for (int i = 0; i < rec_type_id_list.size(); i++) {
-                    if (top_cate.equals(rec_type_id_list.get(i))){
-                        mInt=i;
+                    if (mTop_cate.equals(rec_type_id_list.get(i))) {
+                        mInt = i;
                         break;
                     }
                 }
             }
-            shopMallPop = new ShopMallPop(ShopMallAty.this, title_list, image_list, rec_type_id_list, mNumsBeans,mInt);
+            shopMallPop = new ShopMallPop(ShopMallAty.this, title_list, image_list, rec_type_id_list, mNumsBeans, mInt);
             shopMallPop.setWidthAndHeight(LinearLayout.LayoutParams.MATCH_PARENT, Settings.displayHeight / 2);
             shopMallPop.setOnPopItemListener(new ShopMallPop.OnPopItemListener() {
                 @Override
                 public void leftClick(String top_cate, int position) {
-                    postUrl(top_cate, little_cate);
+                    mTop_cate = top_cate;
+                    postUrl(top_cate, mLittle_cate);
                     leftPosition = position;
 
                 }
 
                 @Override
-                public void rightClick(String little_cate) {
+                public void rightClick(String top_cate, String little_cate, int position) {
 
+                    rightPositon = position;
+                    Log.e("TAG", "rightClick: " + rightPositon);
+                    mTop_cate = top_cate;
+                    mLittle_cate = little_cate;
+                    titles_tab_layout.removeAllTabs();
+                    isSelected = false;
+                    for (int i = 0; i < rec_type_id_list.size(); i++) {
+                        if (top_cate.equals(rec_type_id_list.get(i))) {
+                            title_tv.setText(title_list.get(i));
+                            break;
+                        }
+                    }
+                    postUrl(top_cate, little_cate);
+                    OfflineStore.stageAds(mTop_cate, ShopMallAty.this);
+
+                    shopMallPop.dismiss();
                 }
+
             });
             shopMallPop.showPopupWindow(line_view);
 
-            if (null != shopMallPop && shopMallPop.isFocusable()) {
+            if (null != shopMallPop && shopMallPop.isShowing()) {
                 title_img.setRotation(90f);
-            } else {
-                title_img.setRotation(270f);
             }
         }
 

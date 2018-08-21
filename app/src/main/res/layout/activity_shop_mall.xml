@@ -87,6 +87,7 @@
             android:id="@+id/off_line_to_change_sc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fillViewport="true"
             android:scrollbars="none">
 
             <LinearLayout
@@ -162,6 +163,7 @@
                     android:divider="@color/bg_color"
                     android:dividerHeight="1dp"
                     android:scrollbars="none" />
+                <include layout="@layout/aty_no_data_layout"/>
             </LinearLayout>
 
         </com.txd.hzj.wjlp.view.ObservableScrollView>

@@ -47,27 +47,31 @@ public class ShopMallPop extends PopupWindow {
     private Left_Adapter mLeft_adapter;
     private Right_Adapter mRight_adapter;
 
-    private int mInt=0;
+    private int mInt = 0;
+
+
 
     private OnPopItemListener mOnPopItemListener;
-    public interface  OnPopItemListener{
-        void leftClick(String top_cate,int position );
-        void rightClick(String little_cate);
+
+    public interface OnPopItemListener {
+        void leftClick(String top_cate, int position);
+
+        void rightClick(String top_cate, String little_cate, int position);
     }
 
-    public void setOnPopItemListener(OnPopItemListener onPopItemListener){
-        this.mOnPopItemListener=onPopItemListener;
+    public void setOnPopItemListener(OnPopItemListener onPopItemListener) {
+        this.mOnPopItemListener = onPopItemListener;
     }
 
 
-    public ShopMallPop(Context context, List<String> title_list,List<String> image_list,List<String> rec_type_id_list,List<OffLineBean.NumsBean> numsBeanList,int i) {
+    public ShopMallPop(Context context, List<String> title_list, List<String> image_list, List<String> rec_type_id_list, List<OffLineBean.NumsBean> numsBeanList, int i) {
         super(context);
-        this.mContext=context;
-        this.title_list=title_list;
-        this.image_list=image_list;
-        this.rec_type_id_list=rec_type_id_list;
-        this.mNumsBeanList=numsBeanList;
-        this.mInt=i;
+        this.mContext = context;
+        this.title_list = title_list;
+        this.image_list = image_list;
+        this.rec_type_id_list = rec_type_id_list;
+        this.mNumsBeanList = numsBeanList;
+        this.mInt = i;
         initPop();
     }
 
@@ -75,30 +79,32 @@ public class ShopMallPop extends PopupWindow {
         setFocusable(true);
         setOutsideTouchable(true);
         setBackgroundDrawable(new ColorDrawable(0x000000));
-        View view=View.inflate(mContext, R.layout.shop_mall_pop,null);
-        left_recyclerView=view.findViewById(R.id.left_recyclerView);
-        right_recyclerView=view.findViewById(R.id.right_recyclerView);
+        View view = View.inflate(mContext, R.layout.shop_mall_pop, null);
+        left_recyclerView = view.findViewById(R.id.left_recyclerView);
+        right_recyclerView = view.findViewById(R.id.right_recyclerView);
         left_recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         right_recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        right_recyclerView.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
-        mLeft_adapter = new Left_Adapter(mContext, title_list, image_list,  new Left_Adapter.OnLeftItemClickListener() {
+        right_recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        mLeft_adapter = new Left_Adapter(mContext, title_list, image_list, new Left_Adapter.OnLeftItemClickListener() {
             @Override
             public void leftClick(int position) {
-                mInt=position;
-                if (mOnPopItemListener!=null){
-                    mOnPopItemListener.leftClick(rec_type_id_list.get(position),position);
+                mInt = position;
+                if (mOnPopItemListener != null) {
+                    mOnPopItemListener.leftClick(rec_type_id_list.get(position), position);
                 }
             }
         });
         mLeft_adapter.setLastChoice(mInt);
         left_recyclerView.setAdapter(mLeft_adapter);
+        left_recyclerView.smoothScrollToPosition(mInt);
         mRight_adapter = new Right_Adapter(mNumsBeanList, new Right_Adapter.OnRightItemClickListener() {
             @Override
-            public void rightClick(int position) {
-
+            public void rightClick( int position) {
+                if (mOnPopItemListener != null) {
+                    mOnPopItemListener.rightClick( rec_type_id_list.get(mInt), mNumsBeanList.get(position).getRec_type_id(), position);
+                }
             }
         });
-
 
 
         mRight_adapter.setTitle(title_list.get(mInt));
@@ -108,15 +114,17 @@ public class ShopMallPop extends PopupWindow {
     }
 
 
-    public void notifyRightData(List<OffLineBean.NumsBean> numsBeanList,String title){
-        if (mRight_adapter!=null){
+    public void notifyRightData(List<OffLineBean.NumsBean> numsBeanList, String title) {
+        if (mRight_adapter != null) {
+            mNumsBeanList.clear();
+            mNumsBeanList=numsBeanList;
             mRight_adapter.setNumsBeanList(numsBeanList);
             mRight_adapter.setTitle(title);
             mRight_adapter.notifyDataSetChanged();
         }
     }
 
-    public void setWidthAndHeight(int width,int height){
+    public void setWidthAndHeight(int width, int height) {
         if (width == 0 || height == 0) {
             //如果没设置宽高，默认是WRAP_CONTENT
             this.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -141,7 +149,7 @@ public class ShopMallPop extends PopupWindow {
     }
 
 
-    private static class Left_Adapter extends RecyclerView.Adapter<Left_Adapter.ViewHolder>{
+    private static class Left_Adapter extends RecyclerView.Adapter<Left_Adapter.ViewHolder> {
 
         private Context mContext;
 
@@ -152,18 +160,25 @@ public class ShopMallPop extends PopupWindow {
 
         private OnLeftItemClickListener mOnLeftItemClickListener;
 
-        private int lastChoice=0;
+        private int lastChoice = 0;
 
-        public interface OnLeftItemClickListener{
+//        private int leftSelectPosition=0;
+
+
+        public interface OnLeftItemClickListener {
             void leftClick(int position);
         }
 
-        public void setLastChoice(int choice){
-            lastChoice=choice;
+        public void setLastChoice(int choice) {
+            this.lastChoice = choice;
         }
 
-        public Left_Adapter(Context context,List<String> title_list, List<String> image_list, OnLeftItemClickListener onItemClickListener) {
-            this.mContext=context;
+//        public int getLeftSelectPosition(){
+//            return leftSelectPosition;
+//        }
+
+        public Left_Adapter(Context context, List<String> title_list, List<String> image_list, OnLeftItemClickListener onItemClickListener) {
+            this.mContext = context;
             this.title_list = title_list;
             this.image_list = image_list;
             mOnLeftItemClickListener = onItemClickListener;
@@ -172,8 +187,8 @@ public class ShopMallPop extends PopupWindow {
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_mall_left_item,parent,false);
-            ViewHolder holder=new ViewHolder(v);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_mall_left_item, parent, false);
+            ViewHolder holder = new ViewHolder(v);
             return holder;
         }
 
@@ -181,7 +196,7 @@ public class ShopMallPop extends PopupWindow {
         public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
             Glide.with(mContext).load(image_list.get(position)).asBitmap().into(holder.mImageView);
             holder.mTextView.setText(title_list.get(position));
-            holder.itemView.setBackgroundResource(lastChoice==position?R.color.white:R.color.bg_color);
+            holder.itemView.setBackgroundResource(lastChoice == position ? R.color.white : R.color.bg_color);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -190,6 +205,7 @@ public class ShopMallPop extends PopupWindow {
                     }
 
                     togglePosition(holder.getLayoutPosition());
+//                    leftSelectPosition=holder.getLayoutPosition();
                 }
             });
 
@@ -205,78 +221,84 @@ public class ShopMallPop extends PopupWindow {
 
         @Override
         public int getItemCount() {
-            return title_list.size()>0?title_list.size():0;
+            return title_list.size() > 0 ? title_list.size() : 0;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             private ImageView mImageView;
             private TextView mTextView;
+
             public ViewHolder(View itemView) {
                 super(itemView);
-                mImageView=itemView.findViewById(R.id.left_img);
-                mTextView=itemView.findViewById(R.id.left_title_tv);
+                mImageView = itemView.findViewById(R.id.left_img);
+                mTextView = itemView.findViewById(R.id.left_title_tv);
             }
         }
     }
 
-    private static class Right_Adapter extends RecyclerView.Adapter<Right_Adapter.ViewHolder>{
+    private static class Right_Adapter extends RecyclerView.Adapter<Right_Adapter.ViewHolder> {
         private List<OffLineBean.NumsBean> mNumsBeanList;
         private OnRightItemClickListener mOnRightItemClickListener;
         private String title;
+
 
         public Right_Adapter(List<OffLineBean.NumsBean> numsBeanList, OnRightItemClickListener onRightItemClickListener) {
             mNumsBeanList = numsBeanList;
             mOnRightItemClickListener = onRightItemClickListener;
         }
 
-        public interface OnRightItemClickListener{
-            void rightClick(int position);
+        public interface OnRightItemClickListener {
+            void rightClick( int position);
         }
 
 
-        public void setNumsBeanList(List<OffLineBean.NumsBean> numsBeanList){
-            this.mNumsBeanList=numsBeanList;
+        public void setNumsBeanList(List<OffLineBean.NumsBean> numsBeanList) {
+            this.mNumsBeanList = numsBeanList;
         }
-        public void setTitle(String title){
-            this.title=title;
+
+        public void setTitle(String title) {
+            this.title = title;
         }
+
+
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_mall_right_item,parent,false);
-            Right_Adapter.ViewHolder holder=new Right_Adapter.ViewHolder(v);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.shop_mall_right_item, parent, false);
+            Right_Adapter.ViewHolder holder = new Right_Adapter.ViewHolder(v);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(@NonNull final ViewHolder holder,  int position) {
-            if (position==0){
-                holder.mTextView.setText("全部"+title);
-            }else {
-                holder.mTextView.setText(mNumsBeanList.get(position-1).getType());
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mOnRightItemClickListener!=null){
-                            mOnRightItemClickListener.rightClick(holder.getLayoutPosition());
-                        }
-                    }
-                });
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+            if (position == 0) {
+                holder.mTextView.setText(mNumsBeanList.get(position).getType() + title);
+            } else {
+                holder.mTextView.setText(mNumsBeanList.get(position).getType());
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnRightItemClickListener != null) {
+                        mOnRightItemClickListener.rightClick( holder.getLayoutPosition());
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return mNumsBeanList.size()>0?mNumsBeanList.size()+1:0;
+            return mNumsBeanList.size() > 0 ? mNumsBeanList.size() : 0;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             private TextView mTextView;
+
             public ViewHolder(View itemView) {
                 super(itemView);
-                mTextView=itemView.findViewById(R.id.right_title_tv);
+                mTextView = itemView.findViewById(R.id.right_title_tv);
             }
         }
     }
