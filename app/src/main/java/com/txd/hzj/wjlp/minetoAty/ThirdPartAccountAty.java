@@ -1,7 +1,6 @@
 package com.txd.hzj.wjlp.minetoAty;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -10,12 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.tips.CustomDialog;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -31,13 +28,10 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import cn.iwgang.countdownview.CustomCountDownTimer;
 import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.wechat.friends.Wechat;
 
 /**
@@ -402,7 +396,7 @@ public class ThirdPartAccountAty extends BaseAty {
      * 显示弹窗提醒
      */
     private void showMenyDialog() {
-        new MikyouCommonDialog(this, "您的会员账户余额不足，请前去充值！", "温馨提示", "去充值", "取消绑定", true)
+        new MikyouCommonDialog(this, "您的会员账户余额不足2元,请前去充值！", "温馨提示", "去充值", "取消绑定", true)
                 .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
                     @Override
