@@ -19,6 +19,7 @@ import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,13 +34,10 @@ public class MellAptitudeAty extends BaseAty {
     @ViewInject(R.id.titlt_conter_tv)
     public TextView titlt_conter_tv;
 
-    private MerchantPst merchantPst;
-    private String merchant_id = "";
-
     @ViewInject(R.id.aptitude_lv)
     private ListView aptitude_lv;
 
-    private List<Map<String, String>> list;
+    private List<String> list;
 
     private ApAdapter apAdapter;
 
@@ -57,10 +55,17 @@ public class MellAptitudeAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        merchant_id = getIntent().getStringExtra("merchant_id");
-        merchantPst = new MerchantPst(this);
+        String aptitudeName = getIntent().getStringExtra("AptitudeName");
         list = new ArrayList<>();
-        merchantPst.license(merchant_id);
+
+        String[] split = aptitudeName.split(",");
+        for (String tempName : split) {
+            list.add(tempName);
+        }
+
+        apAdapter = new ApAdapter();
+        aptitude_lv.setAdapter(apAdapter);
+
     }
 
     @Override
@@ -69,16 +74,15 @@ public class MellAptitudeAty extends BaseAty {
 
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
-
         super.onComplete(requestUrl, jsonStr);
-        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-        if (requestUrl.contains("license")) {
-            if (ToolKit.isList(map, "data")) {
-                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
-                apAdapter = new ApAdapter();
-                aptitude_lv.setAdapter(apAdapter);
-            }
-        }
+//        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
+//        if (requestUrl.contains("license")) {
+//            if (ToolKit.isList(map, "data")) {
+//                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+//                apAdapter = new ApAdapter();
+//                aptitude_lv.setAdapter(apAdapter);
+//            }
+//        }
     }
 
     private class ApAdapter extends BaseAdapter {
@@ -89,7 +93,7 @@ public class MellAptitudeAty extends BaseAty {
         }
 
         @Override
-        public Map<String, String> getItem(int i) {
+        public String getItem(int i) {
             return list.get(i);
         }
 
@@ -101,7 +105,7 @@ public class MellAptitudeAty extends BaseAty {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ApVH apVH;
-            Map<String, String> map = getItem(i);
+            String aptitudeName = getItem(i);
             if (view == null) {
                 view = LayoutInflater.from(MellAptitudeAty.this).inflate(R.layout.item_aptitude_lv, viewGroup, false);
                 apVH = new ApVH();
@@ -111,16 +115,9 @@ public class MellAptitudeAty extends BaseAty {
                 apVH = (ApVH) view.getTag();
             }
 
-            if (map.get("status").equals("1")) {
-                apVH.business_license_tv.setText("已认证");
-                apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
-                        R.color.theme_color));
-            } else {
-                apVH.business_license_tv.setText("未认证");
-                apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this,
-                        R.color.gray_text_color));
-            }
-            apVH.apt_type_name_tv.setText((String)map.get("name"));
+            apVH.apt_type_name_tv.setText(aptitudeName);
+            apVH.business_license_tv.setText("已认证");
+            apVH.business_license_tv.setTextColor(ContextCompat.getColor(MellAptitudeAty.this, R.color.theme_color));
             return view;
         }
 

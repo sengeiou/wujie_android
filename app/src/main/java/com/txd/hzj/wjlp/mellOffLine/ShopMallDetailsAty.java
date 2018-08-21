@@ -120,6 +120,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private double baiDuLng; // 商家定位（百度）
     private double baiDuLat; // 商家定位（百度）
 
+    private String aptitudeName = ""; // 商家资质名称列表
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,9 +136,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     @Override
     protected void initialized() {
         Intent intent = getIntent();
-        if (intent!=null) {
+        if (intent != null) {
             mellInfo = (OffLineDataBean) intent.getSerializableExtra("mellInfo");
-            if (mellInfo!=null) {
+            if (mellInfo != null) {
                 s_id = mellInfo.getS_id();
             }
         }
@@ -248,10 +250,15 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         switch (v.getId()) {
             //查看商家资质
             case R.id.shop_business_aptitude:
-                bundle = new Bundle();
-                bundle.putInt("type", 1); // 目前为止下一界面没有使用到该属性
-                bundle.putString("merchant_id", s_id);
-                startActivity(MellAptitudeAty.class, bundle);
+                if (!aptitudeName.equals("")) {
+                    bundle = new Bundle();
+                    bundle.putInt("type", 1); // 目前为止下一界面没有使用到该属性
+                    bundle.putString("merchant_id", s_id);
+                    bundle.putString("AptitudeName", aptitudeName);
+                    startActivity(MellAptitudeAty.class, bundle);
+                } else {
+                    showToast("该商家暂无已认证的商家资质！");
+                }
                 break;
             //举报商家
             case R.id.shop_Report_business:
@@ -386,6 +393,16 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             bannerIma.start();
             //设置营业时间
             shopBusinessHours.setText(offLineBean.getData().getOpen_time());
+            // 获取商家资质列表
+            List<ShopOffLineBean.DataBean.OtherLicenseBean> other_license = offLineBean.getData().getOther_license();
+            if (other_license != null && other_license.size() > 0) {
+                for (ShopOffLineBean.DataBean.OtherLicenseBean otherLicenseBean : other_license) {
+                    aptitudeName = aptitudeName + otherLicenseBean.getLicense_name();
+                    if (!otherLicenseBean.getLicense_name().equals(other_license.get(other_license.size() - 1).getLicense_name())) {
+                        aptitudeName = aptitudeName + ",";
+                    }
+                }
+            }
             //设置门店电话
             shopTelephone.setText(offLineBean.getData().getMerchant_phone());
             //设置关注人数
@@ -424,9 +441,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             if (mellInfo.getLng() != null && mellInfo.getLat() != null) {
                 baiDuLng = Double.parseDouble(mellInfo.getLng()); // 获取回传的商家位置（百度）
                 baiDuLat = Double.parseDouble(mellInfo.getLat()); // 获取回传的商家位置（百度）
-                pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, "","",ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, "", "", ShopMallDetailsAty.this, nearbyBusinessList);
             } else {
-                pranster.requestStoreData(page, "", "", s_id, "","",ShopMallDetailsAty.this, nearbyBusinessList);
+                pranster.requestStoreData(page, "", "", s_id, "", "", ShopMallDetailsAty.this, nearbyBusinessList);
             }
 
         }

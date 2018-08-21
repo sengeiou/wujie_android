@@ -93,14 +93,13 @@ import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
+import cn.iwgang.countdownview.CustomCountDownTimer;
 
 /**
- *
  * 作者：DUKE_HwangZj
  * 日期：2017/7/10 0010
  * 时间：上午 10:13
  * 描述：票券区商品详情(3-2票券)
- *
  */
 public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollView.ScrollViewListener, ObservableScrollView.onBottomListener, ProUrbAreaUtil.CallBack, CommodityDetailsInter.CommodityView {
     private String is_attr = "";
@@ -678,6 +677,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     } catch (Exception e) {
                         L.e("TicketGoodsDetialsAty is Exception:" + e.toString());
                         showErrorTip("获取字段异常");
+                        closePage();
                     }
                 }
                 break;
@@ -701,6 +701,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     } catch (Exception e) {
                         L.e("tv_ljgm throw Exception :" + e.toString());
                         showErrorTip("获取字段异常");
+                        closePage();
                     }
                 }
                 break;
@@ -723,6 +724,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 } catch (Exception e) {
                     L.e("layout_layout_settings throw Exception :" + e.toString());
                     showErrorTip("获取字段异常");
+                    closePage();
                 }
 
                 break;
@@ -750,7 +752,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 if (integral_buy_id.equals("0")) {
                     mBundle.putString("title", "积分商店");
                     startActivity(TicketZoonAty.class, mBundle);
-                }else {
+                } else {
                     mBundle.putString("limit_buy_id", integral_buy_id);
                     startActivity(LimitGoodsAty.class, mBundle);
                 }
@@ -921,8 +923,8 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 imageView.setRotation(enable ? 180 : 0);
             }
         });
-        if(null==commodityDetailsPranster){
-            commodityDetailsPranster=new CommodityDetailsPranster(this);
+        if (null == commodityDetailsPranster) {
+            commodityDetailsPranster = new CommodityDetailsPranster(this);
         }
         commodityDetailsPranster.goodsMsg(toastView);
     }
@@ -941,7 +943,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     }
 
     private List<AllGoodsBean> ticket = new ArrayList<>();
-//    private List<AllGoodsBean> more = new ArrayList<>();
+    //    private List<AllGoodsBean> more = new ArrayList<>();
     Map<String, String> goodsInfo;
 
 
@@ -1475,12 +1477,12 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         L.e("TicketGoodsDetialsAty:" + goodsInfo.toString());
         tv_wy_price.setText("¥" + goodsInfo.get("wy_price"));
         tv_yx_price.setText("¥" + goodsInfo.get("yx_price"));
-        if (JSONUtils.getMapValue(goodsInfo,"use_integral").equals("0")){
+        if (JSONUtils.getMapValue(goodsInfo, "use_integral").equals("0")) {
             layout_jifen.setVisibility(View.GONE);
-        }else {
+        } else {
             //此商品可以使用xxx积分兑换，如想使用积分兑换请到积分商店进行兑换
             layout_jifen.setVisibility(View.VISIBLE);
-            tv_integral.setText("此商品可以使用" + JSONUtils.getMapValue(goodsInfo,"use_integral")+ "积分兑换");
+            tv_integral.setText("此商品可以使用" + JSONUtils.getMapValue(goodsInfo, "use_integral") + "积分兑换");
         }
         integral_buy_id = JSONUtils.getMapValue(goodsInfo, "integral_buy_id");
 
@@ -2156,5 +2158,21 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
         if (null != toastView) {
             toastView.cancle();
         }
+    }
+
+    /**
+     * 间隔两秒钟关闭本页面
+     */
+    private void closePage() {
+        new CustomCountDownTimer(2 * 1000, 1 * 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+
+            @Override
+            public void onFinish() {
+                TicketGoodsDetialsAty.this.finish();
+            }
+        }.start();
     }
 }
