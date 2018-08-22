@@ -82,7 +82,7 @@ public class OffLineMenuGvAdapter  extends BaseAdapter {
      * @param i 小标
      */
     private void setIcon(int i) {
-        Glide.with(context).load(image_list.get(i)).asBitmap().error(R.mipmap.ic_launcher).into(vh.all_classify_logo_iv);
+        Glide.with(context).load(image_list.get(i)).asBitmap().into(vh.all_classify_logo_iv);
 //        switch (i) {
 //            case 0:
 //                vh.all_classify_logo_iv.setImageResource(R.drawable.icon_selecteddelicacies);

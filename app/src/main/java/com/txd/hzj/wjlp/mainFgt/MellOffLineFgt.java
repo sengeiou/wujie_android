@@ -191,6 +191,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 } else {
                     pranster.requestStoreData(page, "", "", "", "","" ,getContext(), mell_near_by_lv);
                 }
+                Recommending.businessType(MellOffLineFgt.this);
             }
 
             @Override
