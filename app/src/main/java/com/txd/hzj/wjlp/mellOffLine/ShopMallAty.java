@@ -31,12 +31,8 @@ import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.mainFgt.adapter.MellNearByHzjAdapter;
 import com.txd.hzj.wjlp.mellOnLine.MessageAty;
 import com.txd.hzj.wjlp.mellOnLine.SearchAty;
-import com.txd.hzj.wjlp.tool.GlideImageLoader;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.Transformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +62,6 @@ public class ShopMallAty extends BaseAty {
     //广告图片
     @ViewInject(R.id.ad_img)
     private ImageView ad_img;
-
-    @ViewInject(R.id.banner)
-    private Banner bannerImg;
 
     @ViewInject(R.id.off_line_to_change_sc)
     private ObservableScrollView off_line_to_change_sc;
@@ -146,15 +139,6 @@ public class ShopMallAty extends BaseAty {
         if (!TextUtils.isEmpty(mTitle)) {
             title_tv.setText(mTitle);
         }
-
-        //设置图片加载器
-        bannerImg.setImageLoader(new GlideImageLoader());
-        //设置样式
-        bannerImg.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        //设置动画
-        bannerImg.setBannerAnimation(Transformer.DepthPage);
-        //设置轮播时间
-        bannerImg.setDelayTime(2000);
     }
 
     private void postUrl(String top_cate, String little_cate) {
@@ -225,7 +209,6 @@ public class ShopMallAty extends BaseAty {
                 progressBar.setVisibility(View.VISIBLE);
                 page = 1;
                 postUrl(mTop_cate, mLittle_cate);
-                OfflineStore.stageAds(mTop_cate, ShopMallAty.this);
             }
 
             @Override
@@ -281,14 +264,11 @@ public class ShopMallAty extends BaseAty {
                             mellNearByHzjAdapter.getList().clear();
                         }
                         if (offLineBean.getData().size() > 0) {
-                            mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
-                            mellNearByHzjAdapter.notifyDataSetChanged();
-                        }
-
-                        if (mellNearByHzjAdapter.getList().size()>0){
                             mell_near_by_lv.setVisibility(View.VISIBLE);
                             no_data_layout.setVisibility(View.GONE);
-                        }else {
+                            mellNearByHzjAdapter.getList().addAll(offLineBean.getData());
+                            mellNearByHzjAdapter.notifyDataSetChanged();
+                        } else {
                             mell_near_by_lv.setVisibility(View.GONE);
                             no_data_layout.setVisibility(View.VISIBLE);
                         }
@@ -325,37 +305,10 @@ public class ShopMallAty extends BaseAty {
             Map<String, String> jsonMap = JSONUtils.parseKeyAndValueToMap(jsonStr);
             if (jsonMap.containsKey("code") && "1".equals(jsonMap.get("code"))) {
                 if (jsonMap.containsKey("data")) {
-                    ArrayList<Map<String, String>> dataList = JSONUtils.parseKeyAndValueToMapList(jsonMap.get("data"));
-                    if (dataList.size()>0){
-                        if (dataList.size()==1){
-                            ad_img.setVisibility(View.VISIBLE);
-                            bannerImg.setVisibility(View.GONE);
-                            Map<String, String> dataMap = dataList.get(0);
-                            if (dataMap.containsKey("picture")) {
-                                String picUrl = dataMap.get("picture");
-                                if (picUrl.contains("gif")){
-                                    Glide.with(ShopMallAty.this).load(picUrl).asGif().into(ad_img);
-                                }else {
-                                    Glide.with(ShopMallAty.this).load(picUrl).asBitmap().into(ad_img);
-                                }
-
-                            }
-                        }else {
-                            ad_img.setVisibility(View.GONE);
-                            bannerImg.setVisibility(View.VISIBLE);
-                            List<String> picList=new ArrayList<>();
-                            for (int i = 0; i < dataList.size(); i++) {
-                                Map<String, String> dataMap = dataList.get(i);
-                                if (dataMap.containsKey("picture")) {
-                                    picList.add(dataMap.get("picture"));
-                                }
-                            }
-                            bannerImg.setImages(picList);
-                            bannerImg.start();
-                        }
-
+                    Map<String, String> dataMap = JSONUtils.parseKeyAndValueToMap(jsonMap.get("data"));
+                    if (dataMap.containsKey("picture")) {
+                        Glide.with(ShopMallAty.this).load(dataMap.get("picture")).asBitmap().into(ad_img);
                     }
-
                 }
             }
         }
@@ -382,23 +335,6 @@ public class ShopMallAty extends BaseAty {
         loadComplate();
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (null!=bannerImg && bannerImg.getVisibility()==View.VISIBLE){
-            bannerImg.startAutoPlay();
-        }
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (bannerImg != null) {
-            bannerImg.stopAutoPlay();
-        }
-    }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {

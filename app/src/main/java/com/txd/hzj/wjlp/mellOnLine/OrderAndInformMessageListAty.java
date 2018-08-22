@@ -22,6 +22,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.message.UserMessagePst;
+import com.txd.hzj.wjlp.minetoAty.order.OffLineShopDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.OrderDetailsAty;
 import com.txd.hzj.wjlp.minetoAty.order.VipCardDetailsAty;
 
@@ -98,7 +99,7 @@ public class OrderAndInformMessageListAty extends BaseAty {
                                 case 2: // 2拼单购
                                     bundle.putString("id", orderMap.containsKey("order_id") ? orderMap.get("order_id") : "");
                                     if (Integer.parseInt(orderType) == 0) {
-                                        bundle.putString("type", "0"); // TODO 此处Type为订单类型，0是普通商品，4是拼单购。。。。
+                                        bundle.putString("type", "0"); // 此处Type为订单类型，0是普通商品，4是拼单购。。。。
                                     } else if (Integer.parseInt(orderType) == 2) {
                                         bundle.putString("type", "3");
                                     }
@@ -106,26 +107,26 @@ public class OrderAndInformMessageListAty extends BaseAty {
                                     break;
                                 case 1: // 会员卡
                                     bundle.putString("order_id", orderMap.containsKey("order_id") ? orderMap.get("order_id") : "");
-                                    bundle.putString("member_coding", ""); // TODO 此处member_coding为会员卡编码
+                                    bundle.putString("member_coding", "");
                                     startActivity(VipCardDetailsAty.class, bundle);
                                     break;
-                                case 3:
-//                                    showToast("无界预购");
+                                case 3: // 无界预购
                                     break;
-                                case 4:
-//                                    showToast("比价购");
+                                case 4: // 比价购
                                     break;
-                                case 5:
-//                                    showToast("无界商店");
+                                case 5: // 无界商店
                                     break;
-                                case 6:
-//                                    showToast("积分抽奖");
+                                case 6: // 积分抽奖
+                                    break;
+                                case 9: // 线下店铺
+                                    bundle.putString("order_id", orderMap.containsKey("order_id") ? orderMap.get("order_id") : "");
+                                    bundle.putString("status", orderMap.containsKey("status") ? orderMap.get("status") : "");
+                                    startActivity(OffLineShopDetailsAty.class, bundle); // 跳转至线下店铺订单详情页面
                                     break;
                             }
                         }
                         break;
                     case 1: // 通知消息
-//                        showToast("1");
                         break;
                     case 2:
                         Bundle bundle = new Bundle();
@@ -134,12 +135,6 @@ public class OrderAndInformMessageListAty extends BaseAty {
                         startActivity(NoticeDetailsAty.class, bundle);
                         break;
                 }
-//                if (1 == type) {
-//
-//                }
-//                if ()
-//                    if (2 == type) {
-//                    }
             }
         });
     }

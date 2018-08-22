@@ -8,7 +8,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -103,10 +105,20 @@ public class AppUpdate {
      * @param activity
      */
     private void showUpdate(final UpdataApp updataApp, final Activity activity) {
-        String messageStr = "检测到新版本：v" + updataApp.getData().getName() + (updataApp.getData().getDesc().isEmpty() ? "" : "\n" + updataApp.getData().getDesc());
         String exitBtnStr = updataApp.getData().getUpdate().equals("0") ? "退出" : "稍后更新";
 
-        new MikyouCommonDialog(activity, messageStr, "APP更新", "立即更新", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
+        // 设置显示的内容View并添加进Dialog
+        View view = LayoutInflater.from(activity).inflate(R.layout.dialog_update_content_view, null);
+        TextView appVersionTv = view.findViewById(R.id.updateContent_appVersion_tv);
+        TextView updateListTv = view.findViewById(R.id.updateContent_updateList_tv);
+        appVersionTv.setText("检测到新版本：v" + updataApp.getData().getName());
+        if (updataApp.getData().getDesc().isEmpty()) {
+            updateListTv.setVisibility(View.GONE);
+        } else {
+            updateListTv.setText(updataApp.getData().getDesc());
+        }
+
+        MikyouCommonDialog mikyouCommonDialog = new MikyouCommonDialog(activity, null, "APP更新", "立即更新", exitBtnStr, !updataApp.getData().getUpdate().equals("0"))
                 .setOnDiaLogListener(new MikyouCommonDialog.OnDialogListener() {
 
                     @Override
@@ -124,7 +136,9 @@ public class AppUpdate {
                             break;
                         }
                     }
-                }).showDialog();
+                });
+        mikyouCommonDialog.setDialogView(view);
+        mikyouCommonDialog.showDialog();
     }
 
     /**

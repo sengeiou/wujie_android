@@ -55,8 +55,6 @@ public class ToShareAty extends BaseAty {
     private boolean isSharing;  //是否调起了分享。如果调起分享，这个值为true。
     private boolean isResume;  //Activity是否处于前台。
     //    private ShareForApp.StatusForShare mStatusForShare;
-    @ViewInject(R.id.shreUrlTv)
-    private TextView shreUrlTv;
 
     @ViewInject(R.id.share_to_sine_tv)
     private TextView share_to_sine_tv;
@@ -121,11 +119,6 @@ public class ToShareAty extends BaseAty {
 
     @Override
     protected void initialized() {
-        if (L.isDebug) {
-            shreUrlTv.setVisibility(View.VISIBLE);
-        } else {
-            shreUrlTv.setVisibility(View.GONE);
-        }
         title = getIntent().getStringExtra("title");
         pic = getIntent().getStringExtra("pic");
         link = getIntent().getStringExtra("url");
@@ -181,12 +174,6 @@ public class ToShareAty extends BaseAty {
             }
             String invite_code = PreferencesUtils.getString(AppManager.getInstance().getTopActivity(), "invite_code", "");
             shareUrl = shareUrl + "/invite_code/" + invite_code + ".html";
-        }
-        LogUtils.e("shareUrl" + shareUrl);
-        if (shreUrlTv.getVisibility() == View.VISIBLE) {
-            shreUrlTv.setText(shareUrl);
-        } else {
-            shreUrlTv.setText("");
         }
         ShareForApp shareForApp = new ShareForApp(name, pic, title, context, shareUrl, new ShareBeBackListener() {
             @Override

@@ -95,16 +95,44 @@ public class ShopOffLineBean implements Serializable {
         private String street_name;
         private String address;
         private String distance;
+        private String gaode_lat;
+        private String gaode_lng;
         private String final_address;
         private String focus_num;
         private String goods_num;
         private String months_orders;
+        private String share_url;
         private CommentBean comment;
         private int is_collect;
         private List<GalleryBean> gallery;
         private List<OtherLicenseBean> other_license;
 
+        public String getGaode_lat() {
+            return gaode_lat;
+        }
+
+        public void setGaode_lat(String gaode_lat) {
+            this.gaode_lat = gaode_lat;
+        }
+
+        public String getGaode_lng() {
+            return gaode_lng;
+        }
+
+        public void setGaode_lng(String gaode_lng) {
+            this.gaode_lng = gaode_lng;
+        }
+
+        public String getShare_url() {
+            return share_url;
+        }
+
+        public void setShare_url(String share_url) {
+            this.share_url = share_url;
+        }
+
         public String getUser_id() {
+
             return user_id;
         }
 

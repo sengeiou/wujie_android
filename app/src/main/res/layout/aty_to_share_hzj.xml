@@ -8,16 +8,6 @@
     android:orientation="vertical"
     tools:context="com.txd.hzj.wjlp.mellOnLine.gridClassify.ToShareAty">
 
-
-    <TextView
-        android:id="@+id/shreUrlTv"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="15dp" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

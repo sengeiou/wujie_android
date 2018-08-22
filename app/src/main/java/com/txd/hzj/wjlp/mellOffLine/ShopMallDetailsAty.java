@@ -119,6 +119,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private TextView addressMap;
     private double baiDuLng; // 商家定位（百度）
     private double baiDuLat; // 商家定位（百度）
+    private double gaoDeLng; // 商家定位（高德）
+    private double gaoDeLat; // 商家定位（高德）
 
     private String aptitudeName = ""; // 商家资质名称列表
 
@@ -164,7 +166,6 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         evaluateNumbers = findViewById(R.id.shop_evaluate_numbers);
         evaluateBranch = findViewById(R.id.shop_evaluate_branch);
         nearbyBusinessList = findViewById(R.id.shop_nearby_business_list);
-        nearbyBusinessList.setFocusable(false);
         comment_layout = findViewById(R.id.comment_layout);
         evaluateDivis = findViewById(R.id.shop_evaluate_divis);
         evaluateModle = findViewById(R.id.shop_evaluate_modle);
@@ -288,7 +289,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 break;
             //分享
             case R.id.goods_title_share_tv:
-                toShare("无界优品", "pic", "url", "context", "id", "shapetype");
+                toShare(offLineBean.getData().getMerchant_name(), offLineBean.getData().getLogo(), offLineBean.getData().getShare_url(), offLineBean.getData().getMerchant_desc(), offLineBean.getData().getS_id(), "1");
                 break;
             //跳转到评论列表页
             case R.id.comment_layout:
@@ -323,11 +324,11 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                                         customoLocation.setName("");
                                         MapIntentUtil.startNative_Baidu(ShopMallDetailsAty.this, null, customoLocation);
                                     } else if ("高德地图".equals(items[which])) {
-                                        showToast("回传的是百度地图，暂时未集成高德地图SDK");
-                                        // TODO 暂时跳转到高德地图拿百度位置标注
+//                                        showToast("回传的是百度地图，暂时未集成高德地图SDK");
+//                                        暂时跳转到高德地图拿百度位置标注
                                         CustomoLocation customoLocation = new CustomoLocation();
-                                        customoLocation.setLat(baiDuLat);
-                                        customoLocation.setLng(baiDuLng);
+                                        customoLocation.setLat(gaoDeLat);
+                                        customoLocation.setLng(gaoDeLng);
                                         customoLocation.setName("");
                                         MapIntentUtil.startNative_Gaode(ShopMallDetailsAty.this, customoLocation);
                                     }
@@ -445,6 +446,10 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
                 pranster.requestStoreData(page, mellInfo.getLng(), mellInfo.getLat(), s_id, "", "", ShopMallDetailsAty.this, nearbyBusinessList);
             } else {
                 pranster.requestStoreData(page, "", "", s_id, "", "", ShopMallDetailsAty.this, nearbyBusinessList);
+            }
+            if (offLineBean.getData().getGaode_lat() != null && offLineBean.getData().getGaode_lng() != null){
+                gaoDeLng = Double.parseDouble(offLineBean.getData().getGaode_lng()); // 获取回传的商家位置（高德）
+                gaoDeLat = Double.parseDouble(offLineBean.getData().getGaode_lat()); // 获取回传的商家位置（高德）
             }
 
         }
