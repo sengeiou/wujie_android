@@ -5,30 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ants.theantsgo.util.L;
 import com.flyco.tablayout.utils.FragmentChangeManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.bean.CollectBooks;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectBooksFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectGoodsHzjFgt;
 import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectMellHzjFgt;
+import com.txd.hzj.wjlp.minetoAty.collect.fgt.CollectOffLineshopFgt;
 
 import java.util.ArrayList;
-
-import static com.txd.hzj.wjlp.R.id.left_goods_tv;
-import static com.txd.hzj.wjlp.R.id.middle_mell_tv;
-import static com.txd.hzj.wjlp.R.id.right_books_tv;
 
 public class FootprintAty extends BaseAty {
 
@@ -52,12 +44,20 @@ public class FootprintAty extends BaseAty {
     @ViewInject(R.id.foot_print_mell_view)
     private View foot_print_mell_view;
     /**
-     * 商家
+     * 书院
      */
     @ViewInject(R.id.foot_print_books_tv)
     private TextView foot_print_books_tv;
     @ViewInject(R.id.foot_print_books_view)
     private View foot_print_books_view;
+
+    /**
+     * 线下店铺
+     */
+    @ViewInject(R.id.foot_offline_tv)
+    private TextView foot_offline_tv;
+    @ViewInject(R.id.foot_offline_view)
+    private View foot_offline_view;
 
     private FragmentChangeManager fcm;
 
@@ -79,10 +79,22 @@ public class FootprintAty extends BaseAty {
 
     @Override
     @OnClick({R.id.title_left_layout, R.id.title_right_layout, R.id.title_right_right_layout,
-            R.id.foot_right_tv})
+            R.id.foot_right_tv,R.id.title_right_offline_layout})
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.foot_right_tv:// 编辑，完成
+                f = mFragment.get(selected);
+                String tv = foot_right_tv.getText().toString();
+                if (tv.equals("编辑")) {
+                    foot_right_tv.setText("完成");
+                    status = true;
+                } else {
+                    foot_right_tv.setText("编辑");
+                    status = false;
+                }
+                setNewStatus(f);
+                break;
             case R.id.title_left_layout:// 商品
                 index = 0;
                 setTvAndViewStyle(index);
@@ -101,17 +113,11 @@ public class FootprintAty extends BaseAty {
                 setNewStatus(mFragment.get(selected));
                 foot_right_tv.setVisibility(View.GONE);
                 break;
-            case R.id.foot_right_tv:// 编辑，完成
-                f = mFragment.get(selected);
-                String tv = foot_right_tv.getText().toString();
-                if (tv.equals("编辑")) {
-                    foot_right_tv.setText("完成");
-                    status = true;
-                } else {
-                    foot_right_tv.setText("编辑");
-                    status = false;
-                }
-                setNewStatus(f);
+            case R.id.title_right_offline_layout: //线下店铺
+                index = 3;
+                setTvAndViewStyle(index);
+                setNewStatus(mFragment.get(selected));
+                foot_right_tv.setVisibility(View.GONE);
                 break;
         }
     }
@@ -123,9 +129,12 @@ public class FootprintAty extends BaseAty {
         } else if (1 == selected) {// 商家
             ((CollectMellHzjFgt) f).setStatus(status);
             ((CollectMellHzjFgt) f).r();
-        } else { // 应该是书院
+        } else if (2 == selected){ // 应该是书院
             ((CollectBooksFgt) f).setStatus(status);
             ((CollectBooksFgt) f).r();
+        }else if (3 == selected){ // 应该是书院
+            ((CollectOffLineshopFgt) f).setStatus(status);
+            ((CollectOffLineshopFgt) f).r();
         }
     }
 
@@ -134,9 +143,11 @@ public class FootprintAty extends BaseAty {
         foot_print_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         foot_print_books_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
+        foot_offline_tv.setTextColor(ContextCompat.getColor(this, R.color.gray_text_color));
         foot_print_goods_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
         foot_print_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        foot_offline_view.setBackgroundColor(ContextCompat.getColor(this, R.color.white));
 
         if (0 == position) {
             foot_print_goods_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
@@ -144,11 +155,14 @@ public class FootprintAty extends BaseAty {
         } else if ((1 == position)) {
             foot_print_mell_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_mell_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-        } else {
+        } else if (2==position){
             foot_print_books_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
             foot_print_books_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        } else if(3==position){
+            foot_offline_tv.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            foot_offline_view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
         }
-        if (position < 3)
+        if (position < 4)
             fcm.setFragments(position);
     }
 
@@ -163,6 +177,7 @@ public class FootprintAty extends BaseAty {
         mFragment.add(CollectGoodsHzjFgt.newInstance(false, 0));
         mFragment.add(CollectMellHzjFgt.newInstance(false, 0));
         mFragment.add(CollectBooksFgt.newInstance(false, 0));
+        mFragment.add(CollectOffLineshopFgt.newInstance(false, 0));
     }
 
     @Override
