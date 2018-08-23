@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -85,6 +86,9 @@ public class ShopMallAty extends BaseAty {
 
     @ViewInject(R.id.no_data_layout)
     private LinearLayout no_data_layout;
+
+    @ViewInject(R.id.bg_view)
+    private View bg_view;
 
 
     // Footer View
@@ -323,24 +327,24 @@ public class ShopMallAty extends BaseAty {
             if (jsonMap.containsKey("code") && "1".equals(jsonMap.get("code"))) {
                 if (jsonMap.containsKey("data")) {
                     ArrayList<Map<String, String>> dataList = JSONUtils.parseKeyAndValueToMapList(jsonMap.get("data"));
-                    if (dataList.size()>0){
-                        if (dataList.size()==1){
+                    if (dataList.size() > 0) {
+                        if (dataList.size() == 1) {
                             ad_img.setVisibility(View.VISIBLE);
                             bannerImg.setVisibility(View.GONE);
                             Map<String, String> dataMap = dataList.get(0);
                             if (dataMap.containsKey("picture")) {
                                 String picUrl = dataMap.get("picture");
-                                if (picUrl.contains("gif")){
+                                if (picUrl.contains("gif")) {
                                     Glide.with(ShopMallAty.this).load(picUrl).asGif().into(ad_img);
-                                }else {
+                                } else {
                                     Glide.with(ShopMallAty.this).load(picUrl).asBitmap().into(ad_img);
                                 }
 
                             }
-                        }else {
+                        } else {
                             ad_img.setVisibility(View.GONE);
                             bannerImg.setVisibility(View.VISIBLE);
-                            List<String> picList=new ArrayList<>();
+                            List<String> picList = new ArrayList<>();
                             for (int i = 0; i < dataList.size(); i++) {
                                 Map<String, String> dataMap = dataList.get(i);
                                 if (dataMap.containsKey("picture")) {
@@ -383,7 +387,7 @@ public class ShopMallAty extends BaseAty {
     @Override
     protected void onStart() {
         super.onStart();
-        if (null!=bannerImg && bannerImg.getVisibility()==View.VISIBLE){
+        if (null != bannerImg && bannerImg.getVisibility() == View.VISIBLE) {
             bannerImg.startAutoPlay();
         }
 
@@ -459,10 +463,19 @@ public class ShopMallAty extends BaseAty {
                     }
                     postUrl(top_cate, little_cate);
                     OfflineStore.stageAds(mTop_cate, ShopMallAty.this);
-
                     shopMallPop.dismiss();
                 }
 
+            });
+            title_img.setRotation(90);
+            bg_view.setVisibility(View.VISIBLE);
+            bg_view.setFocusable(true);
+            shopMallPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    title_img.setRotation(270);
+                    bg_view.setVisibility(View.GONE);
+                }
             });
             shopMallPop.showPopupWindow(line_view);
 
@@ -472,6 +485,7 @@ public class ShopMallAty extends BaseAty {
         }
 
     }
+
 
     private View createHeaderView() {
         View headerView = LayoutInflater.from(super_offline_layout.getContext()).inflate(R.layout.layout_head, null);
