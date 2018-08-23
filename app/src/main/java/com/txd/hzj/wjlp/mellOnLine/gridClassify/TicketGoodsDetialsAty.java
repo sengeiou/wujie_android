@@ -314,6 +314,10 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
      */
     @ViewInject(R.id.user_card_num_tv)
     private TextView user_card_num_tv;
+
+
+    @ViewInject(R.id.tv_gwc)
+    private TextView  tv_gwc;
     /**
      * 是否收藏
      */
@@ -511,6 +515,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
     private TextView textView;
     private ImageView imageView;
     private String integral_buy_id;
+    /**
+     * 普通商品详情页与2980商品详情页区别
+     *区别标识（字段 is_active == 3 是2980商品）
+     */
+    private String mIs_active="0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -685,7 +694,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                 if (is_C) {
                     Intent intent = new Intent();
                     intent.putExtra("mid", mell_id);
-                    intent.putExtra("type", "1");
+                    if (from==13){
+                        intent.putExtra("type", from);
+                    }else {
+                        intent.putExtra("type", "1");
+                    }
                     intent.putExtra("goods_id", goods_id);
                     intent.putExtra("group_buy_id", "");
                     intent.putExtra("num", String.valueOf(goods_number));
@@ -697,7 +710,11 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
                     try {
                         String goods_img = goodsInfo.get("goods_img");
                         String shop_price = goodsInfo.get("shop_price");
-                        toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                        if (13==from){
+                            toAttrs(v, 0, "13", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                        }else {
+                            toAttrs(v, 0, "1", goods_id + "-" + mell_id, goods_img, shop_price, "", goods_attr_first, first_val, is_attr);
+                        }
                     } catch (Exception e) {
                         L.e("tv_ljgm throw Exception :" + e.toString());
                         showErrorTip("获取字段异常");
@@ -1014,6 +1031,24 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             // 商品基本信息
             goodsInfo = JSONUtils.parseKeyAndValueToMap(data.get("goodsInfo"));
             share_content = goodsInfo.get("goods_brief");
+
+            /**
+             * 普通商品详情页与2980商品详情页区别
+             *区别标识（字段 is_active == 3 是2980商品）
+             */
+            if (goodsInfo.containsKey("is_active")){
+                mIs_active = goodsInfo.get("is_active");
+                if ("3".equals(mIs_active)){
+                    goods_profit_num_tv.setVisibility(View.GONE);
+                    layout_djq.setVisibility(View.GONE);
+                    tv_gwc.setVisibility(View.GONE);
+                }else {
+                    goods_profit_num_tv.setVisibility(View.VISIBLE);
+                    layout_djq.setVisibility(View.VISIBLE);
+                    tv_gwc.setVisibility(View.VISIBLE);
+                }
+            }
+
             /**
              *以下表示如果buy_status==0，表示当前商品已经下架
              * */
@@ -2030,7 +2065,7 @@ public class TicketGoodsDetialsAty extends BaseAty implements ObservableScrollVi
             if (resultCode == 0x0001) {
                 Bundle bundle = new Bundle();
                 bundle.putString("mid", data.getStringExtra("mid"));
-                bundle.putString("type", "1");
+                bundle.putString("type", data.getStringExtra("type"));
                 bundle.putString("goods_id", data.getStringExtra("goods_id"));
                 bundle.putString("group_buy_id", "");
                 bundle.putString("num", data.getStringExtra("num"));

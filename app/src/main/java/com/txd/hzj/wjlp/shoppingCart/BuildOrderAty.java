@@ -386,6 +386,8 @@ public class BuildOrderAty extends BaseAty {
             IntegralBuyOrder.ShoppingCart(mid, group_buy_id, num, this);
         } else if (type.equals("11")) {//搭配购
             Order.shoppingCart(cart_id, p, mid, goods_id, num, "4", product_id, getString("json", intent), this);
+        } else if (type.equals("13")){//2980专区
+            Order.shoppingCart(cart_id, p, mid, goods_id, num, "0", product_id, toJSon(), this);
         }
         showProgressDialog();
 
@@ -932,10 +934,8 @@ public class BuildOrderAty extends BaseAty {
 //                }
                 String guigeJiFenStr = ""; // 积分和规格的字符串
                 String return_integral = ""; // 积分
-                try {
-                    return_integral = getItem(i).get("return_integral") != null ? "（赠送:" + getItem(i).get("return_integral") + "积分）" : "";
-                } catch (Exception e) {
-                    return_integral = "";
+                if (getItem(i).containsKey("return_integral") && !"13".equals(type)){
+                    return_integral = "（赠送:" + getItem(i).get("return_integral") + "积分）";
                 }
                 guigeJiFenStr = getItem(i).get("goods_attr_first") + "<font color='#FD8214'><small><small>" + return_integral + "</small></small></font>";
 

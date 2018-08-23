@@ -210,7 +210,6 @@ public class GoodsAttributeAty extends BaseAty {
                         intent.putExtra("goods_num", val.getGoods_num());
 //                        intent.putExtra("data", (Serializable) list_val.get(position).getDj_ticket());
                         intent.putExtra("data", (Serializable) val.getDj_ticket());
-////////////////////后加的
                         intent.putExtra("mid", mid);
                         intent.putExtra("type", type);
                         intent.putExtra("goods_id", val.getGoods_id());
@@ -226,7 +225,6 @@ public class GoodsAttributeAty extends BaseAty {
                         if (getIntent().hasExtra("group_type")) {//体验拼单
                             intent.putExtra("group_type", getIntent().getStringExtra("group_type"));
                         }
-////////////////////后加的
                         setResult(0x0002, intent);
                         finish();
                     } else {

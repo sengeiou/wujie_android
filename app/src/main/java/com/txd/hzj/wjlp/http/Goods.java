@@ -3,7 +3,6 @@ package com.txd.hzj.wjlp.http;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.httpTools.ApiTool2;
-import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.http.RequestParams;
 
 
@@ -48,4 +47,16 @@ public class Goods {
         ApiTool2 apiTool2 = new ApiTool2();
         apiTool2.postApi(url + "goodsMsg", requestParams, baseView);
     }
+
+    /**
+     *2980专区列表
+     * @param p  分页参数
+     */
+    public static void twoNineEightZero(String p,BaseView baseView){
+        RequestParams requestParams = new RequestParams();
+        ApiTool2 apiTool2 = new ApiTool2();
+        requestParams.addBodyParameter("p", p);
+        apiTool2.postApi(url + "twoNineEightZero", requestParams, baseView);
+    }
+
 }

@@ -1,13 +1,20 @@
 package com.txd.hzj.wjlp.new_wjyp;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -18,6 +25,9 @@ import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
+import com.txd.hzj.wjlp.bean.mine.TwoNineEightZeroBean;
+import com.txd.hzj.wjlp.http.Goods;
+import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +39,8 @@ public class VipDetailsAty extends BaseAty {
     private TextView titlt_conter_tv;
     @ViewInject(R.id.online_carvouse_view)
     private CarouselView online_carvouse_view;
-//    private String data;
-//    private Map<String, String> map;
+    //    private String data;
+    //    private Map<String, String> map;
     private List<Map<String, String>> list_pic = new ArrayList<>();
     @ViewInject(R.id.tv_price)
     private TextView tv_price;
@@ -40,6 +50,11 @@ public class VipDetailsAty extends BaseAty {
     LinearLayout pay;
     @ViewInject(R.id.tv2)
     TextView tv2;
+
+    //2980专区列表
+    @ViewInject(R.id.recyclerView)
+    private RecyclerView mRecyclerView;
+
     private int allHeight;
     private String sale_status;
     private String rank_name;
@@ -51,9 +66,13 @@ public class VipDetailsAty extends BaseAty {
     private String member_coding;
     private String pay_money;
     //"是否存在延时会员卡功能" 1 存在  0不存在
-    private int reward_status=0;
+    private int reward_status = 0;
     //个人中心请求状态  1代表成功 0代表失败
-    private int userCenterCode=1;
+    private int userCenterCode = 1;
+    private int p = 1;
+
+    private List<TwoNineEightZeroBean.DataBean.ListBean> mVipList;
+    private VipAdapter mVipAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +85,7 @@ public class VipDetailsAty extends BaseAty {
         switch (view.getId()) {
             case R.id.pay:
                 if (sale_status.equals("0")) {
-                    if (reward_status==0) {
+                    if (reward_status == 0) {
                         Bundle bundle = new Bundle();
                         bundle.putString("sale_status", sale_status);
                         bundle.putString("rank_name", rank_name);
@@ -80,10 +99,10 @@ public class VipDetailsAty extends BaseAty {
                         //                    bundle.putString("data", data);
                         bundle.putString("order_id", "");
                         startActivity(VipPayAty.class, bundle);
-                    }else if (reward_status==1){
-                        Bundle bundle=new Bundle();
-                        bundle.putInt("userCenterCode",userCenterCode);
-                        startActivity(FreeRenew.class,bundle);
+                    } else if (reward_status == 1) {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("userCenterCode", userCenterCode);
+                        startActivity(FreeRenew.class, bundle);
                     }
                     finish();
                 } else {
@@ -100,7 +119,7 @@ public class VipDetailsAty extends BaseAty {
 
     @Override
     protected void initialized() {
-
+        mVipList = new ArrayList<>();
         sale_status = getIntent().getStringExtra("sale_status");
         rank_name = getIntent().getStringExtra("rank_name");
         money = getIntent().getStringExtra("money");
@@ -113,13 +132,13 @@ public class VipDetailsAty extends BaseAty {
         userCenterCode = getIntent().getIntExtra("userCenterCode", 1);
 
         //        data = getIntent().getStringExtra("data");
-//        map = JSONUtils.parseKeyAndValueToMap(data); // TODO 报空指针
+        //        map = JSONUtils.parseKeyAndValueToMap(data); // TODO 报空指针
 
         list_pic = JSONUtils.parseKeyAndValueToMapList(abs_url);
         titlt_conter_tv.setText(rank_name);
         String Y = "会员年费¥" + money + "/" + (prescription.equals("0") ? "永久" : "年");//年or永久
         tv_price.setText(Y);
-//        big_gift
+        //        big_gift
 
         if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("0")) {
             tv1.setText("已拥有更高级别会员卡");
@@ -128,9 +147,9 @@ public class VipDetailsAty extends BaseAty {
             tv1.setTextColor(Color.BLACK);
             tv2.setVisibility(View.INVISIBLE);
         } else if (sale_status.equals("0") && big_gift.equals("1") && score_status.equals("1")) {
-            if (reward_status==0) {
+            if (reward_status == 0) {
                 tv1.setText("续费");
-            }else if (reward_status==1){
+            } else if (reward_status == 1) {
                 tv1.setText("免费续约");
                 tv_price.setText("点击领取延期一年优享会员");
             }
@@ -154,9 +173,9 @@ public class VipDetailsAty extends BaseAty {
             pay.setBackgroundColor(Color.GRAY);
             tv1.setTextColor(Color.BLACK);
         } else if (sale_status.equals("0") && big_gift.equals("2") && score_status.equals("1")) {
-            if (reward_status==0) {
+            if (reward_status == 0) {
                 tv1.setText("续费");
-            }else if (reward_status==1){
+            } else if (reward_status == 1) {
                 tv1.setText("免费续约");
                 tv_price.setText("点击领取延期一年优享会员");
             }
@@ -198,18 +217,18 @@ public class VipDetailsAty extends BaseAty {
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        if (!TextUtils.isEmpty(list_pic.get(position).get("merchant_id")) && !list_pic.get(position).get("merchant_id").equals("0")) {
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("mell_id", list_pic.get(position).get("merchant_id"));
-//                            startActivity(MellInfoAty.class, bundle);
-//                        } else if (!TextUtils.isEmpty(list_pic.get(position).get("goods_id")) && !list_pic.get(position).get("goods_id").equals("0")) {
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("ticket_buy_id", list_pic.get(position).get("goods_id"));
-//                            bundle.putInt("from", 1);
-//                            startActivity(TicketGoodsDetialsAty.class, bundle);
-//                        } else {
-//                            forShowAds(list_pic.get(position).get("desc"), list_pic.get(position).get("href"));
-//                        }
+                        //                        if (!TextUtils.isEmpty(list_pic.get(position).get("merchant_id")) && !list_pic.get(position).get("merchant_id").equals("0")) {
+                        //                            Bundle bundle = new Bundle();
+                        //                            bundle.putString("mell_id", list_pic.get(position).get("merchant_id"));
+                        //                            startActivity(MellInfoAty.class, bundle);
+                        //                        } else if (!TextUtils.isEmpty(list_pic.get(position).get("goods_id")) && !list_pic.get(position).get("goods_id").equals("0")) {
+                        //                            Bundle bundle = new Bundle();
+                        //                            bundle.putString("ticket_buy_id", list_pic.get(position).get("goods_id"));
+                        //                            bundle.putInt("from", 1);
+                        //                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        //                        } else {
+                        //                            forShowAds(list_pic.get(position).get("desc"), list_pic.get(position).get("href"));
+                        //                        }
                     }
                 });
             }
@@ -223,7 +242,99 @@ public class VipDetailsAty extends BaseAty {
 
     @Override
     protected void requestData() {
-
+        Goods.twoNineEightZero(String.valueOf(p), this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
+        mRecyclerView.setLayoutManager(gridLayoutManager);
+        mRecyclerView.setNestedScrollingEnabled(false);
     }
 
+    @Override
+    public void onComplete(String requestUrl, String jsonStr) {
+        super.onComplete(requestUrl, jsonStr);
+        if (requestUrl.contains("twoNineEightZero")) {
+            TwoNineEightZeroBean twoNineEightZeroBean = JSONObject.parseObject(jsonStr, TwoNineEightZeroBean.class);
+            List<TwoNineEightZeroBean.DataBean.ListBean> list = twoNineEightZeroBean.getData().getList();
+            mVipList.addAll(list);
+            tv2.setVisibility(View.VISIBLE);
+            mVipAdapter = new VipAdapter(this, mVipList);
+            mVipAdapter.setOnItemClickListener(new VipAdapter.OnItemClickListener() {
+                @Override
+                public void click(int position) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("ticket_buy_id", mVipList.get(position).getGoods_id());
+                    bundle.putInt("from", 13);
+                    startActivity(TicketGoodsDetialsAty.class, bundle);
+                }
+            });
+            mRecyclerView.setAdapter(mVipAdapter);
+        }
+    }
+
+    @Override
+    public void onError(String requestUrl, Map<String, String> error) {
+        super.onError(requestUrl, error);
+    }
+
+
+    private static class VipAdapter extends RecyclerView.Adapter<VipAdapter.ViewHolder> {
+        private Context mContext;
+        private List<TwoNineEightZeroBean.DataBean.ListBean> mList;
+
+        public VipAdapter(Context context, List<TwoNineEightZeroBean.DataBean.ListBean> list) {
+            mContext = context;
+            mList = list;
+        }
+
+        public interface OnItemClickListener {
+            void click(int position);
+        }
+
+        private OnItemClickListener mOnItemClickListener;
+
+        public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+            this.mOnItemClickListener = onItemClickListener;
+        }
+
+        @NonNull
+        @Override
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.two_nine_eight_zero_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+            TwoNineEightZeroBean.DataBean.ListBean listBean = mList.get(position);
+            Glide.with(mContext).load(listBean.getGoods_img()).asBitmap().into(holder.goods_img);
+            holder.goods_title_tv.setText(listBean.getGoods_name());
+            holder.goods_price_tv.setText("￥" + listBean.getShop_price());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (null != mOnItemClickListener) {
+                        mOnItemClickListener.click(holder.getLayoutPosition());
+                    }
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return mList.size() > 0 ? mList.size() : 0;
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView goods_img;
+            TextView goods_title_tv;
+            TextView goods_give_tv;
+            TextView goods_price_tv;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                goods_img = itemView.findViewById(R.id.goods_img);
+                goods_title_tv = itemView.findViewById(R.id.goods_name_tv);
+                goods_give_tv = itemView.findViewById(R.id.give_tv);
+                goods_price_tv = itemView.findViewById(R.id.goods_price_tv);
+            }
+        }
+    }
 }

@@ -447,6 +447,8 @@ public class PayForAppAty extends BaseAty {
             Order.setOrder(address_id, order_type, order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("12")) {
             showToast("jakgflkasfhksajdfhakdj");
+        }else if (mType.equals("13")) {
+            Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         }else if (mType.equals("100")){
             //线下店铺
             OfflineStore.setOrder(mMerchant_id,mMoney,order_id,this);
@@ -657,6 +659,8 @@ public class PayForAppAty extends BaseAty {
                         } else {
                             BalancePay.BalancePay(data.get("order_id"), "1", getType(), "", this);
                         }
+                    }else if (mType.equals("13")){
+                        BalancePay.BalancePay(order_id, "13", getType(), "", this);
                     }else if (mType.equals("100")){
                         BalancePay.BalancePay(order_id, "9", getType(), "", this);
                     }
@@ -672,6 +676,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getJsTine(order.get("order_id"), getType(), "5", this);
                     } else if (mType.equals("9")) {
                         Pay.getJsTine(order.get("order_id"), getType(), "8", this);
+                    }else if (mType.equals("13")){
+                        Pay.getJsTine(order_id, getType(), "13", this);
                     }else if (mType.equals("100")){
                         Pay.getJsTine(order_id, getType(), "9", this);
                     }
@@ -687,6 +693,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
                     } else if (mType.equals("9")) {
                         Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
+                    }else if (mType.equals("13")){
+                        Pay.getAlipayParam(order_id, getType(), "13", this);
                     }else if (mType.equals("100")){
                         Pay.getAlipayParam(order_id, getType(), "9", this);
                     }
@@ -906,6 +914,9 @@ public class PayForAppAty extends BaseAty {
             mBundle.putString("title", "积分商店");
             mBundle.putString("type", "10");
             startActivity(OnlineShopAty.class, mBundle);
+        }
+        if (mType.equals("13")){
+            showToast("需要调整到2980专区");
         }
         if (mType.equals("100")){
             startActivity(OffLineShopAty.class, mBundle);
