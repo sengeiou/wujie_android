@@ -31,7 +31,7 @@ public class CompressionUtil {
             FileOutputStream fOut = null;
             fOut = new FileOutputStream(f);
             if (bmp != null)
-                bmp.compress(Bitmap.CompressFormat.JPEG, 50, fOut);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 80, fOut);
             fOut.flush();
             fOut.close();
             return f.getPath();
@@ -58,20 +58,33 @@ public class CompressionUtil {
     }
 
     private static int calcilateInSampleSize(BitmapFactory.Options options) {
+        final int height = options.outHeight;
         final int width = options.outWidth;
         int inSampleSize = 1;
+        int reqWidth=640;
+        int reqHeight=480;
 
-        if (width > 4000) {
-            inSampleSize = 9;
-        } else if (width > 3000 && width <= 4000) {
-            inSampleSize = 7;
-        } else if (width > 2000 && width <= 3000) {
-            inSampleSize = 5;
-        } else if (width > 1000 && width <= 2000) {
-            inSampleSize = 3;
-        } else if (width > 800 && width < 1000) {
-            inSampleSize = 2;
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight && (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
         }
+
+//        if (width > 4000) {
+//            inSampleSize = 9;
+//        } else if (width > 3000 && width <= 4000) {
+//            inSampleSize = 7;
+//        } else if (width > 2000 && width <= 3000) {
+//            inSampleSize = 5;
+//        } else if (width > 1000 && width <= 2000) {
+//            inSampleSize = 3;
+//        } else if (width > 800 && width < 1000) {
+//            inSampleSize = 2;
+//        }
         return inSampleSize;
     }
 
