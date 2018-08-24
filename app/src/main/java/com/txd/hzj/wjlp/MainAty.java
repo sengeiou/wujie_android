@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.os.PowerManager;
 import android.support.annotation.IdRes;
 import android.support.annotation.RequiresApi;
@@ -150,10 +151,24 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
 
     private String auto_update_status; // 是否开启强制更新 0强制更新 1可以不更新
 
+    private Bundle savedInstanceState;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putBundle("state", savedInstanceState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.savedInstanceState = savedInstanceState;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        this.savedInstanceState = savedInstanceState;
         app_main_rg.setOnCheckedChangeListener(this);
         fragmentChangeManager = new FragmentChangeManager(this.getSupportFragmentManager(), R.id.main_content, fragments);
         //申请权限
