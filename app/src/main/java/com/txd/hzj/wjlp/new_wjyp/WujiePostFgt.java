@@ -55,6 +55,8 @@ public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
     private String rec_type_id;
     @ViewInject(R.id.im_logo)
     private ImageView im_logo;
+    @ViewInject(R.id.hint_tv)
+    private TextView hint_tv;
     private File logo;
     @ViewInject(R.id.mechant_name)
     private EditText mechant_name;
@@ -296,6 +298,8 @@ public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
             user_name.setEnabled(false);
             user_position.setEnabled(false);
             user_phone.setEnabled(false);
+            hint_tv.setVisibility(View.GONE);
+            im_logo.setVisibility(View.VISIBLE);
             Glide.with(getActivity()).load(map.get("logo")).bitmapTransform(new RoundTransformation(getActivity(), 10)).into(im_logo);
             tv_type.setText(map.get("rec_type_id"));
             user_name.setText(map.get("user_name"));
@@ -325,6 +329,8 @@ public class WujiePostFgt extends BaseFgt implements ProUrbAreaUtil.GetData {
                     case 102:
                         String pic_path = CompressionUtil.compressionBitmap(images.get(0).path);
                         logo = new File(pic_path);
+                        hint_tv.setVisibility(View.GONE);
+                        im_logo.setVisibility(View.VISIBLE);
                         Glide.with(this).load(pic_path).into(im_logo);
                         break;
                     case 103:

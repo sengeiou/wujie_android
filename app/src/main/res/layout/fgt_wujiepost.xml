@@ -71,7 +71,13 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/ic_launcher_round" />
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/hint_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="请上传店铺门头照片"
+                android:paddingStart="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
