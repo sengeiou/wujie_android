@@ -71,14 +71,15 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
-                android:visibility="gone"
-                android:src="@mipmap/ic_launcher_round" />
+                android:src="@mipmap/ic_launcher_round"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/hint_tv"
-                android:paddingStart="10dp"
-                android:hint="请上传店铺门头照片"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="请上传店铺门头照片"
+                android:paddingStart="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -208,12 +209,12 @@
                 android:textSize="14sp" />
 
             <EditText
-                android:inputType="number"
                 android:id="@+id/user_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:hint="请输入联系电话"
+                android:inputType="number"
                 android:maxLines="1"
                 android:padding="10dp"
                 android:textColor="#656565"
@@ -308,11 +309,11 @@
         <EditText
             android:id="@+id/desc"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/white"
             android:gravity="start"
             android:hint="请填写申请店铺的情况"
-            android:maxLines="1"
+            android:lines="4"
             android:padding="10dp"
             android:textColor="#656565"
             android:textColorHint="#9A9A9A"
@@ -417,8 +418,8 @@
             android:layout_margin="20dp"
             android:text="提示:认证企业资质后，此账号个人信息认证不做唯一性认证限制"
             android:textColor="#F45A58"
-            android:visibility="gone"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_submit"
