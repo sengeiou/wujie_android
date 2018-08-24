@@ -18,10 +18,15 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.http.merchant.MerchantPst;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 作者：DUKE_HwangZj
@@ -41,6 +46,9 @@ public class MellAptitudeAty extends BaseAty {
 
     private ApAdapter apAdapter;
 
+    private MerchantPst merchantPst;
+    private String merchant_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +66,15 @@ public class MellAptitudeAty extends BaseAty {
         String aptitudeName = getIntent().getStringExtra("AptitudeName");
         list = new ArrayList<>();
 
-        String[] split = aptitudeName.split(",");
-        for (String tempName : split) {
-            list.add(tempName);
+        if (aptitudeName != null && !aptitudeName.isEmpty()) {
+            String[] split = aptitudeName.split(",");
+            for (String tempName : split) {
+                list.add(tempName);
+            }
+        } else {
+            merchant_id = getIntent().getStringExtra("merchant_id");
+            merchantPst = new MerchantPst(this);
+            merchantPst.license(merchant_id);
         }
 
         apAdapter = new ApAdapter();
@@ -75,10 +89,30 @@ public class MellAptitudeAty extends BaseAty {
     @Override
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
+        try {
+            JSONObject jsonObject = new JSONObject(jsonStr);
+            JSONArray data = jsonObject.getJSONArray("data");
+            if (data.length() > 0) {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject jsonObject1 = data.getJSONObject(i);
+                    list.add(jsonObject1.getString("name"));
+                }
+                apAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            L.e("Json 字符串格式异常");
+            showToast("回传数据格式异常");
+        }
 //        Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
 //        if (requestUrl.contains("license")) {
 //            if (ToolKit.isList(map, "data")) {
-//                list = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+//                ArrayList<Map<String, String>> data = JSONUtils.parseKeyAndValueToMapList(map.get("data"));
+//                if (data.size() > 0) {
+//                    for (int i = 0; i < data.size(); i++) {
+//                        Set<String> strings = data.get(i).keySet();
+//                        list.add(strings.size());
+//                    }
+//                }
 //                apAdapter = new ApAdapter();
 //                aptitude_lv.setAdapter(apAdapter);
 //            }
