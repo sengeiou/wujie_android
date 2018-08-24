@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -71,7 +72,9 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private StoreInfoPst pst;
     //商品数量
     private TextView shopGoddsNumber;
-    private LinearLayout month_layout;
+    // 商品数量容器，当数量为0时隐藏该行
+    private TableRow shop_goods_number_tabRow;
+    private TableRow month_layout;
     //月销单量
     private TextView monthOrderNumber;
     //关注人数
@@ -151,6 +154,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         bannerIma = findViewById(R.id.banner);
         shopEvaluate = findViewById(R.id.shop_mall_evaluate_list);
         shopGoddsNumber = findViewById(R.id.shop_goods_number);
+        shop_goods_number_tabRow = findViewById(R.id.shop_goods_number_tabRow);
         month_layout = findViewById(R.id.month_layout);
         monthOrderNumber = findViewById(R.id.shop_month_order_number);
         shopFollowPersons = findViewById(R.id.shop_follow_persons);
@@ -411,17 +415,22 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             shopFollowPersons.setText(offLineBean.getData().getFocus_num() + "人");
             //设置商品数量
             shopGoddsNumber.setText(offLineBean.getData().getGoods_num() + "件");
+            if ("0".equals(offLineBean.getData().getGoods_num()) || "0".equals(offLineBean.getData().getUser_id())) { // 如果商品数量为0，则隐藏掉商品数量
+                shop_goods_number_tabRow.setVisibility(View.GONE);
+            }
             if ("0".equals(offLineBean.getData().getUser_id())) {
                 month_layout.setVisibility(View.GONE);
                 shopBusinessAptitude.setVisibility(View.GONE);
                 shopReportBusiness.setVisibility(View.GONE);
+                mySettleAccounts.setVisibility(View.GONE); // 我要结账隐藏
             } else {
                 month_layout.setVisibility(View.VISIBLE);
                 shopBusinessAptitude.setVisibility(View.VISIBLE);
                 shopReportBusiness.setVisibility(View.VISIBLE);
+                mySettleAccounts.setVisibility(View.VISIBLE); // 显示我要结账
             }
             //设置月单量
-            monthOrderNumber.setText(offLineBean.getData().getMonths_orders() + "件");
+            monthOrderNumber.setText(offLineBean.getData().getMonths_orders() + "单");
             //设置地址
             shopAddress.setText(offLineBean.getData().getFinal_address());
             //评价数量
@@ -447,7 +456,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             } else {
                 pranster.requestStoreData(page, "", "", s_id, "", "", ShopMallDetailsAty.this, nearbyBusinessList);
             }
-            if (offLineBean.getData().getGaode_lat() != null && offLineBean.getData().getGaode_lng() != null){
+            if (offLineBean.getData().getGaode_lat() != null && offLineBean.getData().getGaode_lng() != null) {
                 gaoDeLng = Double.parseDouble(offLineBean.getData().getGaode_lng()); // 获取回传的商家位置（高德）
                 gaoDeLat = Double.parseDouble(offLineBean.getData().getGaode_lat()); // 获取回传的商家位置（高德）
             }
