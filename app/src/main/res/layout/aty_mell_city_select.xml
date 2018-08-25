@@ -29,6 +29,7 @@
             android:padding="12dp">
 
             <TextView
+                android:id="@+id/city_tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="北京"
@@ -45,6 +46,7 @@
         </LinearLayout>
 
         <EditText
+            android:id="@+id/search_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -90,6 +92,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/city_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="12dp"
@@ -101,6 +104,7 @@
             android:layout_weight="1"/>
 
         <TextView
+            android:id="@+id/reLocation_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="8dp"
