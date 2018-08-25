@@ -18,6 +18,8 @@ import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
 import com.txd.hzj.wjlp.tool.BitmapUtils;
 
+import java.util.regex.Pattern;
+
 import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 
 /**
@@ -92,8 +94,10 @@ public class RegistrationCodeAty extends BaseAty {
             registrationCode_zhucema_tv.setGravity(Gravity.CENTER); // 标题居中
             registrationCode_show_tv.setText("点击下载放到线下进行扫码支付"); // 二维码下方的提示文字
 
+            Config.OFFICIAL_WEB.replace("api", "www");
+
             StringBuffer stringBuffer = new StringBuffer();
-            stringBuffer.append(Config.OFFICIAL_WEB);
+            stringBuffer.append(Config.OFFICIAL_WEB.replace("api", "www")); // 将网址的api替换成www
             stringBuffer.append("Wap/OfflineStore/confirmation/stage_merchant_id/");
             stringBuffer.append(stage_merchant_id);
             stringBuffer.append("/invite_code/");

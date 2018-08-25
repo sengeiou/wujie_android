@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
+import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -108,25 +109,30 @@ public class ThirdPartAccountAty extends BaseAty {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.thirdPartyAcc_verificationWeChat_tv: // 点击微信绑定
+                clickView = R.id.thirdPartyAcc_verificationWeChat_tv;
 
                 if (balance <= 2.0) { // 如果余额小于2则弹窗提醒
                     showMenyDialog();
                 } else {
-                    clickView = R.id.thirdPartyAcc_verificationWeChat_tv;
-                    // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
-                    if (payeeBindBean.getData().getIs_pay_password() == 1) {
-                        showPwdPop(v); // 验证支付密码
-                    } else { // 否则的话直接提示其进行设置支付密码
-                        showToast("请设置支付密码");
-                        Bundle bundle = new Bundle();
-                        bundle.putString("is_pay_password", "0");
-                        bundle.putString("phone", payeeBindBean.getData().getPhone());
-                        startActivity(EditPayPasswordAty.class, bundle);
+                    if (!payeeBindBean.getData().getWxpay_accounts().isEmpty()) {
+                        // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
+                        if (payeeBindBean.getData().getIs_pay_password() == 1) {
+                            showPwdPop(v); // 验证支付密码
+                        } else { // 否则的话直接提示其进行设置支付密码
+                            showToast("请设置支付密码");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("is_pay_password", "0");
+                            bundle.putString("phone", payeeBindBean.getData().getPhone());
+                            startActivity(EditPayPasswordAty.class, bundle);
+                        }
+                    } else {
+                        authorize(new Wechat(this), v);
                     }
                 }
 
                 break;
             case R.id.thirdPartyAcc_verificationAlipay_tv: // 绑定支付宝账号
+                clickView = R.id.thirdPartyAcc_verificationAlipay_tv;
                 if (balance <= 2.0) { // 如果余额小于2则弹窗提醒
                     showMenyDialog();
                 } else {
@@ -135,7 +141,6 @@ public class ThirdPartAccountAty extends BaseAty {
                         return;
                     }
                     alipayAccounts = thirdPartyAcc_alipayAccount_et.getText().toString().trim();
-                    clickView = R.id.thirdPartyAcc_verificationAlipay_tv;
                     // 判断是否设置了支付密码，如果设置过，则直接去弹窗验证
                     if (payeeBindBean.getData().getIs_pay_password() == 1) {
                         showPwdPop(v); // 验证支付密码
@@ -174,7 +179,7 @@ public class ThirdPartAccountAty extends BaseAty {
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
 
-        L.e("ThirdPartAccountAty", jsonStr);
+        L.e("qweqweqweqweqweqweqweqweqwe", jsonStr);
 
         // 获取三方绑定
         if (requestUrl.contains("payee_bind")) {
@@ -246,8 +251,6 @@ public class ThirdPartAccountAty extends BaseAty {
                 String status = jsonObject.getJSONObject("data").getString("status");
                 if (status.equals("1")) { // 验证成功
                     if (clickView == R.id.thirdPartyAcc_verificationWeChat_tv) {
-                        // 微信验证
-                        authorize(new Wechat(this));
                         User.pay_money_bind("wx", weChatOpenid, ThirdPartAccountAty.this);
                         showInputDialog();
                         return;
@@ -287,9 +290,24 @@ public class ThirdPartAccountAty extends BaseAty {
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         // 收款账户绑定
+        L.e("qweqweqweqweqweqweqweqweqwe`````````````` : " + requestUrl + " : " + error.toString());
         if (requestUrl.contains("pay_account_bind")) {
             showErrorTip(error.get("message"));
             User.payeeBind(this);
+        }
+
+        if (requestUrl.contains("verificationPayPwd")) {
+//            showProgressDialog
+            removeProgressDialog();
+            showErrorTip(error.get("message"));
+            error = JSONUtils.parseKeyAndValueToMap(error.get("data"));
+            if (error.get("status").equals("0")) {
+                Bundle bundle = new Bundle();
+                bundle.putString("is_pay_password", "0");
+                bundle.putString("phone", "");
+                startActivity(EditPayPasswordAty.class, bundle);
+                return;
+            }
         }
     }
 
@@ -381,14 +399,16 @@ public class ThirdPartAccountAty extends BaseAty {
         commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
-    private void authorize(Platform plat) {
+    private void authorize(Platform plat, View view) {
         // 获取微信openid
         weChatOpenid = plat.getDb().getUserId();
         // 获取微信昵称
         nickName = plat.getDb().getUserName();
         if (weChatOpenid != null && nickName != null) {
             thirdPartyAcc_weChatAccount_tv.setText(nickName);
-            return;
+        }
+        if (!weChatOpenid.isEmpty() && !nickName.isEmpty()) {
+            showPwdPop(view);
         }
     }
 

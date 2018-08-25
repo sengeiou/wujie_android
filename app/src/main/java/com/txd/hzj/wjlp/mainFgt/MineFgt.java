@@ -485,7 +485,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bundle.putDouble("balance",aDouble);
                 startActivity(ThirdPartAccountAty.class, bundle);
                 break;
-            case R.id.business_code_tv:// 注册码
+            case R.id.business_code_tv:// 商家码
                 bundle = new Bundle();
                 bundle.putString("head_pic", head_pic);
                 bundle.putString("invite_code", business_invite_code_code);
@@ -724,7 +724,6 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             server_line = data.get("server_line");
             // 消息
             forMsg(data);
-
 
             mine_member_type_tv.setText(data.get("rank"));
             grade_of_member_tv.setText(data.get("level"));

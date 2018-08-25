@@ -858,7 +858,6 @@ public class PayForAppAty extends BaseAty {
                 startActivity(EditPayPasswordAty.class, bundle);
                 return;
             }
-
         }
         if (requestUrl.contains("BalancePay")) {
             return;
