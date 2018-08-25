@@ -1467,7 +1467,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     private void setView() {
         for (int i = 0; i < updata.size(); i = i + 2) {
             //设置滚动的单个布局
-            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, wujie_top_lin_layout,false);
+            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
             //初始化布局的控件
             TextView tv1 = moreView.findViewById(R.id.top_tv1);
             //初始化布局的控件

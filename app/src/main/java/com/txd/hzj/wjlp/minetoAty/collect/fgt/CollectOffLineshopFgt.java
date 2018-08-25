@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.ants.theantsgo.util.ListUtils;
-import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.txd.hzj.wjlp.DemoApplication;
@@ -28,7 +27,7 @@ import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOffLine.ShopMallDetailsAty;
 import com.txd.hzj.wjlp.mellOffLine.adapter.OffLineFooterAndCollectAdapter;
-import com.txd.hzj.wjlp.view.VpSwipeRefreshLayout;
+import com.txd.hzj.wjlp.view.SuperSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,7 @@ public class CollectOffLineshopFgt extends BaseFgt {
     private int dataType = 1;
 
     @ViewInject(R.id.vpSwipeRefreshLayout)
-    private VpSwipeRefreshLayout mVpSwipeRefreshLayout;
+    private SuperSwipeRefreshLayout mVpSwipeRefreshLayout;
 
     @ViewInject(R.id.mell_lv)
     private ListView mell_lv;
