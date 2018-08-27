@@ -4,7 +4,6 @@ package com.txd.hzj.wjlp.minetoAty.collect.fgt;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -17,8 +16,6 @@ import android.widget.TextView;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -31,7 +28,6 @@ import com.txd.hzj.wjlp.bean.footPoint.FootPointBean;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
 import com.txd.hzj.wjlp.mellOnLine.adapter.MellListAdapter;
-import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -319,7 +315,7 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
             if (1 == p) {
                 mellsFoot = foot.getData();
                 if (!ListUtils.isEmpty(mellsFoot)) {
-                    mellListAdapter = new MellListAdapter(getActivity(), mellsFoot, 1);
+                    mellListAdapter = new MellListAdapter(getActivity(), mellsFoot, 0);
                     collect_mell_lv.setAdapter(mellListAdapter);
                     // 设置选中数量的监听
                     mellListAdapter.setForSelectNum(this);

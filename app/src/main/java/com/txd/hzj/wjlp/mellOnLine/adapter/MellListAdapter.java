@@ -45,8 +45,8 @@ public class MellListAdapter extends BaseAdapter {
 
     private int selectNum = 0;
     /**
-     * 0.收藏
-     * 1.足迹
+     * 0.足迹
+     * 1.收藏
      */
     private int type = 0;
     private MellInfoList mellInfoList;
@@ -55,7 +55,7 @@ public class MellListAdapter extends BaseAdapter {
     public MellListAdapter(Context context, List<MellInfoList> mells) {
         this.context = context;
         this.mells = mells;
-        type = 0;
+        type = 1;
         size = ToolKit.dip2px(context, 100);
     }
 
@@ -73,15 +73,17 @@ public class MellListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 0 == type ? mells.size() : mellsFoot.size();
+        return 0 == type ? mellsFoot.size() : mells.size();
     }
 
     @Override
     public Object getItem(int i) {
         if (0 == type) {
+            return mellsFoot.get(i);
+        }else if (1==type){
             return mells.get(i);
         }
-        return mellsFoot.get(i);
+        return null;
     }
 
     @Override
@@ -108,18 +110,8 @@ public class MellListAdapter extends BaseAdapter {
         String score;
         final String merchant_id;
         final boolean itemSelect;
-
         List<GoodsListBean> goods;
-        if (0 == type) {// 收藏
-            mellInfoList = (MellInfoList) getItem(i);
-            logo = mellInfoList.getMerchantFace().getMerInfo().getLogo();
-            mellName = mellInfoList.getMerchantFace().getMerInfo().getMerchant_name();
-            dexc = mellInfoList.getMerchantFace().getMerInfo().getMerchant_desc();
-            score = mellInfoList.getMerchantFace().getMerInfo().getScore();
-            merchant_id = mellInfoList.getMerchantFace().getMerInfo().getMerchant_id();
-            itemSelect = mellInfoList.isSelect();
-            goods = mellInfoList.getMerchantFace().getGoodsList();
-        } else {// 足迹
+        if (0 == type) {// 足迹
             footMellsBan = (FootMellsBan) getItem(i);
             logo = footMellsBan.getMerInfo().getLogo();
             mellName = footMellsBan.getMerInfo().getMerchant_name();
@@ -128,39 +120,78 @@ public class MellListAdapter extends BaseAdapter {
             merchant_id = footMellsBan.getMerInfo().getMerchant_id();
             itemSelect = footMellsBan.isSelect();
             goods = footMellsBan.getGoodsList();
+            Glide.with(context).load(logo)
+                    .override(size, size).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(mvh.mell_logo_iv);
+            mvh.mell_name_tv.setText(mellName);
+            mvh.textView7.setText(dexc);
+            mvh.mell_score_tv.setText(score);
+            //点击了进店逛逛
+            mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, MellInfoAty.class);
+                    intent.putExtra("mell_id", merchant_id);
+                    context.startActivity(intent);
+                }
+            });
+            mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
+
+        } else if (1==type){// 收藏
+            mellInfoList = (MellInfoList) getItem(i);
+            logo = mellInfoList.getMerchantFace().getMerInfo().getLogo();
+            mellName = mellInfoList.getMerchantFace().getMerInfo().getMerchant_name();
+            dexc = mellInfoList.getMerchantFace().getMerInfo().getMerchant_desc();
+            score = mellInfoList.getMerchantFace().getMerInfo().getScore();
+            merchant_id = mellInfoList.getMerchantFace().getMerInfo().getMerchant_id();
+            itemSelect = mellInfoList.isSelect();
+            goods = mellInfoList.getMerchantFace().getGoodsList();
+            Glide.with(context).load(logo)
+                    .override(size, size).diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .placeholder(R.drawable.ic_default)
+                    .error(R.drawable.ic_default)
+                    .into(mvh.mell_logo_iv);
+            mvh.mell_name_tv.setText(mellName);
+            mvh.textView7.setText(dexc);
+            mvh.mell_score_tv.setText(score);
+            //点击了进店逛逛
+            mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, MellInfoAty.class);
+                    intent.putExtra("mell_id", merchant_id);
+                    context.startActivity(intent);
+                }
+            });
+            mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
         }
 
-        Glide.with(context).load(logo)
-                .override(size, size).diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .placeholder(R.drawable.ic_default)
-                .error(R.drawable.ic_default)
-                .into(mvh.mell_logo_iv);
-        mvh.mell_name_tv.setText(mellName);
-        mvh.textView7.setText(dexc);
-        mvh.mell_score_tv.setText(score);
 
-        //点击了进店逛逛
-        mvh.into_mell_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, MellInfoAty.class);
-                intent.putExtra("mell_id", merchant_id);
-                context.startActivity(intent);
-            }
-        });
+
 
         if (showSelect) {
             mvh.operation_mell_iv.setVisibility(View.VISIBLE);
-            if (mellsFoot!=null && mellsFoot.get(i).isSelect()) {
-                mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
-            } else {
-                mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
+            if (0==type){
+                if (mellsFoot!=null && mellsFoot.get(i).isSelect()) {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
+                } else {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
+                }
+            }else if (1==type){
+                if (mells!=null && mells.get(i).isSelect()) {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_selected);
+                } else {
+                    mvh.operation_mell_iv.setImageResource(R.drawable.icon_collect_mells_unselect);
+                }
             }
+
         } else {
             mvh.operation_mell_iv.setVisibility(View.GONE);
         }
 
-        mvh.mell_prodect_gv.setAdapter(new MellProdectAdapter(context, goods));
+
 
         mvh.operation_mell_iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,28 +202,30 @@ public class MellListAdapter extends BaseAdapter {
                     footMellsBan.setSelect(!itemSelect);
                 }*/
                 if (0 == type) {
-                    if (mells.get(i).isSelect() == false) {
-                        mells.get(i).setSelect(true);
-                    } else {
-                        mells.get(i).setSelect(false);
-                    }
-                } else {
                     if (mellsFoot.get(i).isSelect() == false) {
                         mellsFoot.get(i).setSelect(true);
                     } else {
                         mellsFoot.get(i).setSelect(false);
                     }
+
+                } else if (1==type){
+                    if (mells.get(i).isSelect() == false) {
+                        mells.get(i).setSelect(true);
+                    } else {
+                        mells.get(i).setSelect(false);
+                    }
                 }
                 selectNum = 0;
                 if (0 == type) {
-                    for (MellInfoList mell : mells) {
-                        if (mell.isSelect()) {
+                    for (FootMellsBan foot : mellsFoot) {
+                        if (foot.isSelect()) {
                             selectNum++;
                         }
                     }
-                } else {
-                    for (FootMellsBan foot : mellsFoot) {
-                        if (foot.isSelect()) {
+
+                } else if (1==type){
+                    for (MellInfoList mell : mells) {
+                        if (mell.isSelect()) {
                             selectNum++;
                         }
                     }
