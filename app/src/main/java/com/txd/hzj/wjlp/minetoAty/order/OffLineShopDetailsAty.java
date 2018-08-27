@@ -79,7 +79,7 @@ public class OffLineShopDetailsAty extends BaseAty{
             });
             if ("0".equals(mStatus)){
                 tv_btn_left.setVisibility(View.VISIBLE);
-                tv_btn_left.setText("评论店铺");
+                tv_btn_left.setText("评价");
                 tv_btn_left.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
