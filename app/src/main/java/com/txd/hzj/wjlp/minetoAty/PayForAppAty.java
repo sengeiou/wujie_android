@@ -159,8 +159,8 @@ public class PayForAppAty extends BaseAty {
     private String inte_id;
     @ViewInject(R.id.layout_yue)
     private RelativeLayout layout_yue;
-    @ViewInject(R.id.textview)
-    private TextView textview;
+    @ViewInject(R.id.tv_desc)
+    private TextView tv_desc;
     private String is_pay_password = "0";
     private double total_price = 0.00f;//总价格
     private BigDecimal bd;
@@ -169,6 +169,7 @@ public class PayForAppAty extends BaseAty {
     private String mMerchant_id;
     //从线下店铺传过来的金额
     private String mMoney;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,20 +201,6 @@ public class PayForAppAty extends BaseAty {
                 goBack();
 
                 break;
-//            case R.id.top_lin_layout:
-//            case R.id.top_cb:// 传递使者
-//                top_type = 0;
-//                selectCheckBoxTop(top_type);
-//                break;
-//            case R.id.bottom_lin_layout:
-//            case R.id.bottom_cb:// 传递大使
-//                top_type = 1;
-//                selectCheckBoxTop(top_type);
-//                break;
-            case R.id.cb_jfzf:
-                bottom_type = 3;
-                selectCheckBoxBottom(bottom_type);
-                break;
             case R.id.pay_by_wechat_cb:// 微信
                 bottom_type = 0;
                 selectCheckBoxBottom(bottom_type);
@@ -231,6 +218,12 @@ public class PayForAppAty extends BaseAty {
                 }
                 selectCheckBoxBottom(bottom_type);
                 break;
+            case R.id.cb_jfzf: //积分
+                bottom_type = 3;
+                selectCheckBoxBottom(bottom_type);
+                tv_desc.setVisibility(View.GONE);
+                tv_price.setText(decimalFormat.format(total_price));
+                break;
             case R.id.tv_submit:
                 if (pay_by_wechat_cb.isChecked()) { // 微信支付
                     if (is_pay_password.equals("1")) {
@@ -245,17 +238,6 @@ public class PayForAppAty extends BaseAty {
                         startActivity(EditPayPasswordAty.class, bundle);
 
                     }
-
-//                    if (TextUtils.isEmpty(type) || type.equals("1") || type.equals("5") || type.equals("0")) {
-//                        Pay.getJsTine(order.get("order_id"), getType(), "4", this);
-//                    } else if (type.equals("2") || type.equals("3")) {
-//                        Pay.getJsTine(order.get("group_buy_order_id"), getType(), "6", this);
-//                    } else if (type.equals("6")) {
-//                        Pay.getJsTine(order.get("order_id"), getType(), "5", this);
-//                    } else if (type.equals("9")) {
-//                        Pay.getJsTine(order.get("order_id"), getType(), "8", this);
-//                    }
-//                    showProgressDialog();
                     return;
                 }
                 if (pay_by_ali_cb.isChecked()) { // 支付宝支付
@@ -271,17 +253,6 @@ public class PayForAppAty extends BaseAty {
                         startActivity(EditPayPasswordAty.class, bundle);
 
                     }
-
-//                    if (TextUtils.isEmpty(type) || type.equals("0") || type.equals("1") || type.equals("5")) {
-//                        Pay.getAlipayParam(order.get("order_id"), getType(), "4", this);
-//                    } else if (type.equals("2") || type.equals("3")) {
-//                        Pay.getAlipayParam(order.get("group_buy_order_id"), getType(), "6", this);
-//                    } else if (type.equals("6")) {
-//                        Pay.getAlipayParam(order.get("order_id"), getType(), "5", this);
-//                    } else if (type.equals("9")) {
-//                        Pay.getAlipayParam(order.get("order_id"), getType(), "8", this);
-//                    }
-//                    showProgressDialog();
                     return;
                 }
                 if (pay_by_balance_cb.isChecked()) { // 余额支付
@@ -310,21 +281,6 @@ public class PayForAppAty extends BaseAty {
         }
     }
 
-
-//    /**
-//     * 传递使者，传递大使选中状态
-//     *
-//     * @param type 方式
-//     */
-//    private void selectCheckBoxTop(int type) {
-//        top_cb.setChecked(false);
-//        bottom_cb.setChecked(false);
-//        if (0 == type) {
-//            top_cb.setChecked(true);
-//        } else {
-//            bottom_cb.setChecked(true);
-//        }
-//    }
 
     /**
      * 支付方式选择
@@ -399,6 +355,7 @@ public class PayForAppAty extends BaseAty {
         freight = getString("freight");
         freight_type = getString("freight_type");
         tv_shopname.setText(shop_name);
+        decimalFormat = new DecimalFormat("0.00");
         if (mType.equals("0") || mType.equals("1") || TextUtils.isEmpty(mType)) {
             Order.setOrder(address_id, "0", order_id, "", "", getString("invoiceList"), getString("leave_message"), TextUtils.isEmpty(cart_id) ? getString("goodsList") : getString("goodsCartList"), this);
         } else if (mType.equals("2")) {
@@ -436,10 +393,6 @@ public class PayForAppAty extends BaseAty {
             selectCheckBoxBottom(bottom_type);
             //积分商店添加订单
             IntegralBuyOrder.SetOrder(group_buy_id, address_id, num, order_id, freight, freight_type, getString("leave_message"), getString("shippingId"),  getString("invoiceList"), PayForAppAty.this);
-            decimalFormat = new DecimalFormat("0");
-//            total_price = Double.parseDouble(getIntent().getStringExtra("money"));
-//            String format = decimalFormat.format(total_price);
-//            tv_price.setText("付款金额" + format + "积分");
             layout_ali.setVisibility(View.GONE);
             layout_wx.setVisibility(View.GONE);
             layout_yue.setVisibility(View.GONE);
@@ -552,11 +505,15 @@ public class PayForAppAty extends BaseAty {
             }else {
                 youhui_tv.setVisibility(View.GONE);
             }
+
+            if (data.containsKey("order_price")){
+                total_price= Double.parseDouble(data.get("order_price"));
+            }
             if (mType.equals("100")){
                 tv_price.setText("¥" + data.get("order_price"));
                 order_id = data.get("order_id");
-                total_price= Double.parseDouble(data.get("order_price"));
-                decimalFormat = new DecimalFormat("0.00");
+
+
                 pay_by_balance_cb.setText("余额支付（¥" + data.get("balance") + ")");
                 //是否能用积分支付  1可以  2不可以
                 if (data.containsKey("integration_status")&&"1".equals(data.get("integration_status"))){
@@ -569,9 +526,6 @@ public class PayForAppAty extends BaseAty {
                 }
             }else {
                 if (!mType.equals("10")) {
-                    decimalFormat = new DecimalFormat("0.00");
-
-                    total_price = Double.parseDouble(data.get("order_price"));
                     String format = decimalFormat.format(total_price);
                     tv_price.setText("¥" + format);
                 } else {
@@ -1015,39 +969,40 @@ public class PayForAppAty extends BaseAty {
         this.is_r = is_r;
         this.is_y = is_y;
         this.is_b = is_b;
+        tv_desc.setVisibility(View.VISIBLE);
         if (is_r) {
-            textview.setText(order.get("red_desc"));
-            if (order.containsKey("discount_price")) {
+            tv_desc.setText(order.get("red_desc"));
+            if (order.containsKey("discount_price")){
                 bd = new BigDecimal(total_price - Double.parseDouble(order.get("discount_price")));
                 String format = decimalFormat.format(bd);
                 tv_price.setText("¥" + format);
             }
-            //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
+            if (order.containsKey("red_price")) {
+                bd = new BigDecimal(total_price - Double.parseDouble(order.get("red_price")));
+                String format = decimalFormat.format(bd);
+                tv_price.setText("¥" + format);
+            }
         }
         if (is_y) {
-            textview.setText(order.get("yellow_desc"));
+            tv_desc.setText(order.get("yellow_desc"));
             if (order.containsKey("yellow_price")) {
                 bd = new BigDecimal(total_price - Double.parseDouble(order.get("yellow_price")));
                 String format = decimalFormat.format(bd);
                 tv_price.setText("¥" + format);
             }
-            //bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()
         }
         if (is_b) {
-            textview.setText(order.get("blue_desc"));
+            tv_desc.setText(order.get("blue_desc"));
             if (order.containsKey("blue_price")) {
                 bd = new BigDecimal(total_price - Double.parseDouble(order.get("blue_price")));
 
-                tv_price.setText("¥" + bd.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue());
+                tv_price.setText("¥" + decimalFormat.format(bd));
             }
         }
         if (!is_r && !is_y && !is_b) {
-            textview.setText("");
-            tv_price.setText("¥" + (total_price - 0));
+            tv_desc.setText("");
+            tv_price.setText("¥" + (decimalFormat.format(total_price)));
         }
-//        else{
-
-//        }
         switch (from) {
             case 1:
                 im1.setVisibility(is_r ? View.VISIBLE : View.GONE);
