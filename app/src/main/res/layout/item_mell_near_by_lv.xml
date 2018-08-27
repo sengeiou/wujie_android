@@ -135,8 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:text="店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介店铺简介"
+            android:maxLines="2"
             android:textColor="#777777"
             android:textSize="12sp" />
 
