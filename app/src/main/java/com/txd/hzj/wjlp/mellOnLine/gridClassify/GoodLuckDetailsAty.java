@@ -76,6 +76,7 @@ import com.txd.hzj.wjlp.mellOnLine.adapter.PostAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.PromotionAdapter;
 import com.txd.hzj.wjlp.mellOnLine.adapter.TheTrickAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.adapter.CommentPicAdapter;
+import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_collocations;
 import com.txd.hzj.wjlp.shoppingCart.BuildOrderAty;
 import com.txd.hzj.wjlp.tool.ChangeTextViewStyle;
@@ -643,6 +644,8 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
     private String onePrice;//单买价
     private Dialog dialog;
     private String title;//体验拼单规则
+    //是否参与了拼手气活动
+    private boolean isPartPinShouQi = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1082,7 +1085,7 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         experiencePb.setMax(max);
                         experiencePb.setProgress(current);
                         progress_tv.setVisibility(View.VISIBLE);
-                        progress_tv.setText((int)((100.0f * current) / max) + "%");
+                        progress_tv.setText((int) ((100.0f * current) / max) + "%");
                         layout_pt.setVisibility(View.GONE); // 隐藏开团列表
                         online_carvouse_view.setPageColor(0);//设置banner圆点非可见
                         online_carvouse_view.setFillColor(0);
@@ -1092,12 +1095,10 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                             GroupBean groupBean = groupList.get(0);
                             if (groupBean.getDiff_num().equals("0") || !groupBean.getIs_member().equals("0")) {
                                 creat_group_tv.setBackgroundColor(Color.parseColor("#9D9D9D"));
-                                creat_group_tv.setClickable(false);
-                                creat_group_tv.setEnabled(false);
+                                isPartPinShouQi = true;
                             } else {
-                                creat_group_tv.setClickable(true);
-                                creat_group_tv.setEnabled(true);
                                 creat_group_tv.setBackgroundColor(getResources().getColor(R.color.red_tv_back));
+                                isPartPinShouQi = false;
                             }
                             tyLayout.setVisibility(View.VISIBLE);
                             tyLayout.getBackground().setAlpha(180);
@@ -1148,7 +1149,6 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         tv_expirationdateLayout.setVisibility(View.GONE);
                     }
                     // 售价
-                    //   ChangeTextViewStyle.getInstance().forGoodsPrice(this, now_price_tv, "￥" + goodsInfo.getShop_price());
                     now_price_tv.setText(goodsInfo.getShop_price());
                     if ("1".equals(groupType)) {//体验拼单
                         old_price_tv.setText("已参与" + dataBean.getTotal() + "人");
@@ -1497,39 +1497,58 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
                         creat_group_tv.setText("送" + goodsInfo.getIntegral() + "积分\n手气" + goodsInfo.getShop_price() + "元");
                         creat_group_tv.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View v) {//, (ArrayList) goodsAttrs, (ArrayList) goods_produc
+                            public void onClick(View v) {
                                 if (!Config.isLogin()) {
                                     toLogin();
                                     return;
                                 }
-                                if (null != dataBean && dataBean.getGroup().size() > 0) {
-                                    GroupBean groupBean = dataBean.getGroup().get(0);
-                                    if (groupBean.getDiff_num().equals("0")) {
-                                        showErrorTip("团已满");
-                                    } else {
-                                        if (groupBean.getIs_member().equals("0")) {
-                                            if (is_C) {
-                                                Intent intent = new Intent();
-                                                intent.putExtra("mid", mellInfoBean.getMerchant_id());
-                                                intent.putExtra("type", "2");
-                                                intent.putExtra("goods_id", goods_id);
-                                                intent.putExtra("group_buy_id", group_buy_id);
-                                                intent.putExtra("num", String.valueOf(goods_number));
-                                                intent.putExtra("product_id", product_id);
-                                                intent.putExtra("group_type", groupType);
-                                                if (!TextUtils.isEmpty(order_id)) {
-                                                    bundle.putString("order_id", order_id);
-                                                }
-                                                intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
-                                                startActivity(intent);
-                                            } else {
-                                                toExAttars(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
-                                                        goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
-                                            }
+
+                                if (!isPartPinShouQi) {
+                                    if (null != dataBean && dataBean.getGroup().size() > 0) {
+                                        GroupBean groupBean = dataBean.getGroup().get(0);
+                                        if (groupBean.getDiff_num().equals("0")) {
+                                            showErrorTip("团已满");
                                         } else {
-                                            showToast("您已参与");
+                                            if (groupBean.getIs_member().equals("0")) {
+                                                if (is_C) {
+                                                    Intent intent = new Intent();
+                                                    intent.putExtra("mid", mellInfoBean.getMerchant_id());
+                                                    intent.putExtra("type", "2");
+                                                    intent.putExtra("goods_id", goods_id);
+                                                    intent.putExtra("group_buy_id", group_buy_id);
+                                                    intent.putExtra("num", String.valueOf(goods_number));
+                                                    intent.putExtra("product_id", product_id);
+                                                    intent.putExtra("group_type", groupType);
+                                                    if (!TextUtils.isEmpty(order_id)) {
+                                                        bundle.putString("order_id", order_id);
+                                                    }
+                                                    intent.setClass(GoodLuckDetailsAty.this, BuildOrderAty.class);
+                                                    startActivity(intent);
+                                                } else {
+                                                    toExAttars(v, 0, "2", goods_id + "-" + mellInfoBean.getMerchant_id(), goodsInfo.getGoods_img(),
+                                                            goodsInfo.getShop_price(), group_buy_id, goods_attr_first, first_val, is_attr, groupType);
+                                                }
+                                            } else {
+                                                showToast("您已参与");
+                                            }
                                         }
                                     }
+                                } else {
+                                    showPingShouQiDialog(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
+                                        }
+                                    }, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Bundle mBundle=new Bundle();
+                                            mBundle.putString("title", "拼单购");
+                                            mBundle.putString("type", "3");
+                                            startActivity(OnlineShopAty.class, mBundle);
+                                            dialog.dismiss();
+                                        }
+                                    });
                                 }
                             }
                         });
@@ -1825,6 +1844,28 @@ public class GoodLuckDetailsAty extends BaseAty implements ObservableScrollView.
         dialog.setCancelable(false);
         dialog.show();
 
+    }
+
+
+    /**
+     * 参与拼手气完成后的弹窗
+     */
+    private void showPingShouQiDialog(View.OnClickListener yesListener, View.OnClickListener noListener) {
+        dialog = new Dialog(GoodLuckDetailsAty.this, R.style.Ticket_Dialog);
+        View view = View.inflate(this, R.layout.goodluck_collage_dialog_view, null);
+        dialog.setContentView(view);
+        ((TextView)view.findViewById(R.id.title_tv)).setText("主人，您已参与此商品拼手气活动，不可重复参与哦！");
+        TextView left_tv=view.findViewById(R.id.goodluck_yes);
+        TextView right_tv=view.findViewById(R.id.goodluck_no);
+        left_tv.setText("继续逛逛");
+        right_tv.setText("看看进度");
+        left_tv.setOnClickListener(yesListener);
+        right_tv.setOnClickListener(noListener);
+
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        dialog.setCancelable(false);
+        dialog.show();
     }
 
     @ViewInject(R.id.tv_chose_ads)
