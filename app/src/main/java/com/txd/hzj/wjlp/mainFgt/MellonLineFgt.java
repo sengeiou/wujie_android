@@ -897,6 +897,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             }
             // 无界头条
             if (ToolKit.isList(data, "headlines")) {
+                updata.clear();
                 updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
                 setView();
                 upview1.setViews(views);
