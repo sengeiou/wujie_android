@@ -280,7 +280,7 @@ public class ThirdPartAccountAty extends BaseAty {
         if (requestUrl.contains("pay_account_bind")) {
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
-                showErrorTip(jsonObject.getString("message"));
+                showRightTip(jsonObject.getString("message"));
                 User.payeeBind(this);
             } catch (JSONException e) {
             }
@@ -401,7 +401,7 @@ public class ThirdPartAccountAty extends BaseAty {
 
     private void authorize(Platform plat, View view) {
         // 获取微信openid
-        weChatOpenid = plat.getDb().getUserId();
+        weChatOpenid= plat.getDb().get("openid");
         // 获取微信昵称
         nickName = plat.getDb().getUserName();
         if (weChatOpenid != null && nickName != null) {
