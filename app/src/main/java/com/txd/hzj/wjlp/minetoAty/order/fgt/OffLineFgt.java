@@ -340,7 +340,7 @@ public class OffLineFgt extends BaseFragment {
                 setButton(viewHolder, position);
                 if ("0".equals(dataBean.getStatus())){
                     viewHolder.tv_btn_left.setVisibility(View.VISIBLE);
-                    viewHolder.tv_btn_left.setText("评价");
+                    viewHolder.tv_btn_left.setText("\u3000评价\u3000");
                     viewHolder.tv_btn_left.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
