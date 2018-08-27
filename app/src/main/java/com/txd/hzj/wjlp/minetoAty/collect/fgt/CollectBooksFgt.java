@@ -14,10 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
-import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshBase;
-import com.ants.theantsgo.view.pulltorefresh.PullToRefreshListView;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -27,7 +24,6 @@ import com.txd.hzj.wjlp.bean.AcademyList;
 import com.txd.hzj.wjlp.bean.CollectBooks;
 import com.txd.hzj.wjlp.http.collect.UserCollectPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.minetoAty.FootprintAty;
 import com.txd.hzj.wjlp.minetoAty.adapter.WjBooksAdapter;
 import com.txd.hzj.wjlp.minetoAty.books.BooksDetailsAty;
 
@@ -244,13 +240,12 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     }
 
     public void setStatus(boolean status) {
-//        if (allNum <= 0) {
-//            return;
-//        }
         this.status = status;
         if (!status) {
+            book_super_layouts.setEnabled(true);
             operation_book_collect_layout.setVisibility(View.GONE);
         } else {
+            book_super_layouts.setEnabled(false);
             operation_book_collect_layout.setVisibility(View.VISIBLE);
         }
         if (wjBooksAdapter != null) {
@@ -286,12 +281,6 @@ public class CollectBooksFgt extends BaseFgt implements WjBooksAdapter.ForSelect
     @Override
     public void onResume() {
         super.onResume();
-//
-//        if (0 == dataType) {
-//            userPst.myfooter(p, "3");
-//        } else {
-//            collectPst.collectList(p, "3");
-//        }
     }
 
     @Override

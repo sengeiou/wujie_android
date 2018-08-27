@@ -243,11 +243,6 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
     @Override
     public void onResume() {
         super.onResume();
-//        if (0 == dataType) {
-//            userPst.myfooter(p, "2");
-//        } else {
-//            collectPst.collectList(p, "2");
-//        }
     }
 
     @Override
@@ -272,11 +267,13 @@ public class CollectMellHzjFgt extends BaseFgt implements MellListAdapter.ForSel
 
         this.status = status;
         if (!status) {
+            super_layouts.setEnabled(true);
             operation_mell_collect_layout.setVisibility(View.GONE);
             if (mellListAdapter != null) {
                 mellListAdapter.setShowSelect(false);
             }
         } else {
+            super_layouts.setEnabled(false);
             operation_mell_collect_layout.setVisibility(View.VISIBLE);
             if (mellListAdapter != null) {
                 mellListAdapter.setShowSelect(true);

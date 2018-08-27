@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.tool.ToolKit;
-import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
 import com.ants.theantsgo.util.ListUtils;
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout;
@@ -32,10 +31,6 @@ import com.txd.hzj.wjlp.mainFgt.adapter.HorizontalAdapter;
 import com.txd.hzj.wjlp.mainFgt.adapter.RacycleAllAdapter;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.TicketGoodsDetialsAty;
 import com.txd.hzj.wjlp.tool.GridDividerItemDecoration;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,11 +250,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onResume() {
         super.onResume();
-        if (0 == dataType) {
-            userPst.myfooter(p, "1");
-        } else {
-            collectPst.collectList(p, "1");
-        }
+        r();
     }
 
     @Override
@@ -270,10 +261,8 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
         removeProgressDialog();
+        loadComplate();
         if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
-//            intent.putExtra("a","333");
-//            ((FootprintAty)getActivity()).setView(View.GONE);
-            footerProgressBar.setVisibility(View.GONE);
         } else {
             super.onError(requestUrl, error);
         }
@@ -283,6 +272,7 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     public void onComplete(String requestUrl, String jsonStr) {
         super.onComplete(requestUrl, jsonStr);
         removeProgressDialog();
+        loadComplate();
 
         if (requestUrl.contains("myfooter")) { // 足迹
             L.e("=====myfooter=====", jsonStr);
@@ -411,6 +401,12 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
             }
         }
     }
+    private void loadComplate() {
+        super_layout.setRefreshing(false); // 刷新成功
+        footerImageView.setVisibility(View.VISIBLE);
+        footerProgressBar.setVisibility(View.GONE);
+        super_layout.setLoadMore(false);
+    }
 
     @Override
     protected void immersionInit() {
@@ -426,16 +422,15 @@ public class CollectGoodsHzjFgt extends BaseFgt implements RacycleAllAdapter.Sel
     }
 
     public void setStatus(boolean show) {
-//        if (allNum <= 0) {
-//            return;
-//        }
         this.status = show;
         if (!show) {
+            super_layout.setEnabled(true);
             collect_operation_layout.setVisibility(View.GONE);
             if (racycleAllAdapter != null) {
                 racycleAllAdapter.setShowSelect(false);
             }
         } else {
+            super_layout.setEnabled(false);
             collect_operation_layout.setVisibility(View.VISIBLE);
             if (racycleAllAdapter != null) {
                 racycleAllAdapter.setShowSelect(true);

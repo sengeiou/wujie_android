@@ -132,12 +132,16 @@ public class CollectOffLineshopFgt extends BaseFgt {
     public void setStatus(boolean status) {
         this.status = status;
         if (!status) {
+            mVpSwipeRefreshLayout.setEnabled(true);
+            mVpSwipeRefreshLayout.setRefreshing(false);
+            mVpSwipeRefreshLayout.setLoadMore(false);
             collect_operation_layout.setVisibility(View.GONE);
             if (mlAdapter != null) {
                 mlAdapter.setShowSelect(false);
                 mlAdapter.notifyDataSetChanged();
             }
         } else {
+            mVpSwipeRefreshLayout.setEnabled(false);
             collect_operation_layout.setVisibility(View.VISIBLE);
             if (mlAdapter != null) {
                 mlAdapter.setShowSelect(true);
@@ -453,17 +457,21 @@ public class CollectOffLineshopFgt extends BaseFgt {
                 no_data_layout.setVisibility(View.VISIBLE);
             }
         }
-
+        removeProgressDialog();
         loadComplate();
     }
 
     @Override
     public void onError(String requestUrl, Map<String, String> error) {
-        super.onError(requestUrl, error);
+        removeProgressDialog();
         if (collect_operation_layout.getVisibility()==View.VISIBLE){
             collect_operation_layout.setVisibility(View.GONE);
         }
         loadComplate();
+        if (requestUrl.contains("myfooter") || requestUrl.contains("collectList")) {
+        } else {
+            super.onError(requestUrl, error);
+        }
     }
 
     private void loadComplate() {

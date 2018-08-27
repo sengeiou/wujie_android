@@ -1,10 +1,7 @@
 package com.txd.hzj.wjlp.mainFgt.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -214,11 +211,7 @@ public class RacycleAllAdapter extends RecyclerView.Adapter<RacycleAllAdapter.It
 
     @Override
     public int getItemCount() {
-        try {
-            return list.size();
-        } catch (NullPointerException e) {
-            return 0;
-        }
+        return  list.size()>0?list.size():0;
     }
 
     @Override
