@@ -892,7 +892,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.READ_PHONE_STATE) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.CAMERA) ||
                 !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_FINE_LOCATION) ||
-                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                !AndPermission.hasPermission(MainAty.this, Manifest.permission.ACCESS_COARSE_LOCATION) ||
+                !AndPermission.hasPermission(MainAty.this,Manifest.permission.READ_CONTACTS)
 
                 ) {
             // 申请权限。
@@ -902,7 +903,8 @@ public class MainAty extends BaseAty implements RadioGroup.OnCheckedChangeListen
                             Manifest.permission.READ_PHONE_STATE,
                             Manifest.permission.CAMERA,
                             Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION)
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.READ_CONTACTS)
                     .send();
         }
     }

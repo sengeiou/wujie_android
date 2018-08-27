@@ -3,10 +3,12 @@ package com.txd.hzj.wjlp.login;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
@@ -284,9 +286,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         }
     }
 
-//    public void beBack(View view) {
-//        startActivity(MainAty.class, null);
-//    }
 
     @Override
     protected int getLayoutResId() {
@@ -297,6 +296,37 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
     protected void initialized() {
         skip_type = getIntent().getIntExtra("type", 1);
         registerPst = new RegisterPst(this);
+        readContacts();
+    }
+
+    /**
+     * 读取手机联系人信息
+     */
+    private void readContacts() {
+        Cursor cursor = null;
+        try {
+            // 查询联系人数据
+            cursor = getContentResolver().query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null, null, null, null);
+            StringBuilder builder=new StringBuilder();
+            while (cursor.moveToNext()) {
+                // 获取联系人姓名
+                String displayName = cursor.getString(cursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                // 获取联系人手机号
+                String number = cursor.getString(cursor.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                builder.append(displayName+":"+number+";");
+            }
+            Log.e("TAG", "readContacts: "+builder.toString() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     @Override
@@ -314,8 +344,6 @@ public class LoginAty extends BaseAty implements Handler.Callback, PlatformActio
         super.onComplete(requestUrl, jsonStr);
 
         if (requestUrl.contains("registerOne")) {// 注册第一步
-//            Map<String, String> map = JSONUtils.parseKeyAndValueToMap(jsonStr);
-//            Map<String, String> data = JSONUtils.parseKeyAndValueToMap(map.get("data"));
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 String code = jsonObject.getString("code");
