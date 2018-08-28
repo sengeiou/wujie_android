@@ -12,7 +12,7 @@
         android:drawableStart="@drawable/icon_loc_hzj_w"
         android:gravity="center"
         android:padding="8dp"
-        android:text="北京市"
+        android:text="定位中..."
         android:textColor="@color/white"
         android:textSize="12sp" />
 

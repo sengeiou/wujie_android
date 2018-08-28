@@ -32,7 +32,6 @@
                 android:id="@+id/city_tv1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="北京"
                 android:textColor="@color/app_text_color"
                 android:textSize="16sp"/>
 
@@ -95,8 +94,7 @@
             android:id="@+id/city_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:text="北京"/>
+            android:padding="12dp"/>
 
         <Space
             android:layout_width="0dp"

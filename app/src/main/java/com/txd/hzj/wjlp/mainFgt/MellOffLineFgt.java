@@ -29,7 +29,6 @@ import com.txd.hzj.wjlp.DemoApplication;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.offline.OffLineDataBean;
-import com.txd.hzj.wjlp.citySelect.MellCitySelectAty;
 import com.txd.hzj.wjlp.http.OfflineStore;
 import com.txd.hzj.wjlp.http.Recommending;
 import com.txd.hzj.wjlp.mainFgt.adapter.OffLineMenuGvAdapter;
@@ -303,7 +302,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
         super.onClick(v);
         switch (v.getId()) {
             case R.id.to_location_tv:// 当前位置
-                startActivity(MellCitySelectAty.class, null);
+//                startActivity(MellCitySelectAty.class, null);
                 break;
             case R.id.to_search:
                 Bundle b = new Bundle();
@@ -327,7 +326,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @Override
     protected void requestData() {
         Recommending.businessType(this);
-        to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
+//        to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
         Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
         if (null == pranster) {
