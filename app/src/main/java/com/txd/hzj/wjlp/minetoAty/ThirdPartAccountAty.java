@@ -29,10 +29,12 @@ import com.txd.hzj.wjlp.tool.CommonPopupWindow;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cn.iwgang.countdownview.CustomCountDownTimer;
 import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.wechat.friends.Wechat;
 
 /**
@@ -40,7 +42,7 @@ import cn.sharesdk.wechat.friends.Wechat;
  * 创建时间：2018/07/25 025 下午 16:02
  * 功能描述：三方收款账户
  */
-public class ThirdPartAccountAty extends BaseAty {
+public class ThirdPartAccountAty extends BaseAty implements PlatformActionListener{
 
     // 平台账号
     @ViewInject(R.id.thirdPartyAcc_wujieAccount_tv)
@@ -400,16 +402,32 @@ public class ThirdPartAccountAty extends BaseAty {
     }
 
     private void authorize(Platform plat, View view) {
-        // 获取微信openid
-        weChatOpenid= plat.getDb().get("openid");
-        // 获取微信昵称
-        nickName = plat.getDb().getUserName();
-        if (weChatOpenid != null && nickName != null) {
-            thirdPartyAcc_weChatAccount_tv.setText(nickName);
+
+        if(plat ==null) {
+            showToast("授权平台为空");
+            return;
         }
-        if (!weChatOpenid.isEmpty() && !nickName.isEmpty()) {
-            showPwdPop(view);
+
+        // 判断指定平台是否已经完成授权
+        if (plat.isAuthValid()) {
+            // 获取微信openid
+            weChatOpenid= plat.getDb().get("openid");
+            // 获取微信昵称
+            nickName = plat.getDb().getUserName();
+            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)){
+                thirdPartyAcc_weChatAccount_tv.setText(nickName);
+                showPwdPop(view);
+            }
+            return;
         }
+        // 授权监听
+
+        plat.setPlatformActionListener(this);
+        // true不使用SSO授权，false使用SSO授权，(即true不使用客户端登录，false有客户端则使用客户端登录，没有则使用web网页登录)
+        plat.SSOSetting(false);
+        // 获取用户资料
+        plat.showUser(null);
+
     }
 
     /**
@@ -437,4 +455,31 @@ public class ThirdPartAccountAty extends BaseAty {
                 }).showDialog();
     }
 
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        if (Platform.ACTION_USER_INFOR == i) {
+            // 获取微信openid
+            weChatOpenid= platform.getDb().get("openid");
+            // 获取微信昵称
+            nickName = platform.getDb().getUserName();
+            if (!TextUtils.isEmpty(weChatOpenid) && !TextUtils.isEmpty(nickName)){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        thirdPartyAcc_weChatAccount_tv.setText(nickName);
+                        showPwdPop(thirdPartyAcc_verificationWeChat_tv);
+                    }
+                });
+
+            }
+        }
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+    }
 }
