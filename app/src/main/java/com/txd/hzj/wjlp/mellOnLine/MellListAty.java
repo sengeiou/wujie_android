@@ -211,7 +211,7 @@ public class MellListAty extends BaseAty {
             if (1 == p) {
                 mells = mell.getData().getList();
                 if (!ListUtils.isEmpty(mells)) {
-                    mlAdapter = new MellListAdapter(this, mells, 1);
+                    mlAdapter = new MellListAdapter(this, mells, 0);
                     mell_lv.setAdapter(mlAdapter);
                 }
             } else {

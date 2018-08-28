@@ -326,7 +326,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     @Override
     protected void requestData() {
         Recommending.businessType(this);
-//        to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
+        to_location_tv.setText(DemoApplication.getInstance().getLocInfo().get("city"));
         OfflineStore.Index(this);
         Map<String, String> locMap = DemoApplication.getInstance().getLocInfo();
         if (null == pranster) {
