@@ -96,17 +96,8 @@ public class _GradeOfMemberAty extends BaseAty {
                     TextView tv1 = moreView.findViewById(R.id.top_tv1);
                     tv1.setTextColor(Color.WHITE);
                     tv1.setTextSize(20f);
-                    //初始化布局的控件
-                    TextView tv2 = moreView.findViewById(R.id.top_tv2);
                     //进行对控件赋值
                     tv1.setText(advertisement.get(i).get("content"));
-//
-//                if (advertisement.size() > i + 1) {
-//                    //因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
-//                    tv2.setText(advertisement.get(i + 1).get("content"));
-//                } else {
-//                    tv2.setVisibility(View.GONE);
-//                }
 
                     //添加到循环滚动数组里面去
                     views.add(moreView);

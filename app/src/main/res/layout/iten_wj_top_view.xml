@@ -9,15 +9,8 @@
         android:id="@+id/top_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
+        android:lines="2"
+        android:gravity="center_vertical"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/top_tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textSize="14sp" />
 </LinearLayout>

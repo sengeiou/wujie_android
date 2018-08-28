@@ -898,6 +898,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
             // 无界头条
             if (ToolKit.isList(data, "headlines")) {
                 updata.clear();
+                views.clear();
                 updata = JSONUtils.parseKeyAndValueToMapList(data.get("headlines"));
                 setView();
                 upview1.setViews(views);
@@ -1466,45 +1467,17 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
      */
     private void setView() {
-        for (int i = 0; i < updata.size(); i = i + 2) {
+        for (int i = 0; i < updata.size(); i = i + 1) {
             //设置滚动的单个布局
             LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
             //初始化布局的控件
             TextView tv1 = moreView.findViewById(R.id.top_tv1);
-            //初始化布局的控件
-            TextView tv2 = moreView.findViewById(R.id.top_tv2);
-
-//            /*
-//             * 设置监听
-//             */
-//            final int finalI = i;
-//            tv1.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    bundle = new Bundle();
-//                    bundle.putString("headlines_id",updata.get(finalI).get("headlines_id"));
-//                    bundle.putInt("from", 1);
-//                    startActivity(NoticeDetailsAty.class, bundle);
-//
-//                }
-//            });
-//            tv2.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    bundle = new Bundle();
-//                    bundle.putString("headlines_id",updata.get(finalI+1).get("headlines_id"));
-//                    bundle.putInt("from", 1);
-//                    startActivity(NoticeDetailsAty.class, bundle);
-//                }
-//            });
             //进行对控件赋值
-            tv1.setText(updata.get(i).get("title"));
-
-            if (updata.size() > i + 1) {
-                // 因为淘宝那儿是两条数据，但是当数据是奇数时就不需要赋值第二个，所以加了一个判断，还应该把第二个布局给隐藏掉
-                tv2.setText(updata.get(i + 1).get("title"));
-            } else {
-                tv2.setVisibility(View.GONE);
+            if (i<updata.size()-2){
+                tv1.setText(updata.get(i).get("title"));
+                tv1.append("\n"+updata.get(i+1).get("title"));
+            }else {
+                tv1.setText(updata.get(i).get("title"));
             }
 
             //添加到循环滚动数组里面去
