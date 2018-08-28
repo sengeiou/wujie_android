@@ -417,14 +417,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                     switch (pos) {
                         case 0:// 限量购
                             showToast("开发中，敬请期待");
-//                            startActivity(LimitShoppingAty.class, null);
+                            //                            startActivity(LimitShoppingAty.class, null);
                             break;
                         case 1:// 票券区
                             showToast("开发中，敬请期待");
-//                            bundle = new Bundle();
-//                            bundle.putInt("type", 1);
-//                            bundle.putString("title", "票券区");
-//                            startActivity(TicketZoonAty.class, bundle);
+                            //                            bundle = new Bundle();
+                            //                            bundle.putInt("type", 1);
+                            //                            bundle.putString("title", "票券区");
+                            //                            startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 2:// 拼团购
                             bundle = new Bundle();
@@ -434,14 +434,14 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 3:// 主题街
                             showToast("开发中，敬请期待");
-//                            startActivity(ThemeStreetHzjAty.class, null);
+                            //                            startActivity(ThemeStreetHzjAty.class, null);
                             break;
                         case 4:// 无界预购
                             showToast("开发中，敬请期待");
-//                            bundle = new Bundle();
-//                            bundle.putInt("type", 2);
-//                            bundle.putString("title", "无界预购");
-//                            startActivity(TicketZoonAty.class, bundle);
+                            //                            bundle = new Bundle();
+                            //                            bundle.putInt("type", 2);
+                            //                            bundle.putString("title", "无界预购");
+                            //                            startActivity(TicketZoonAty.class, bundle);
                             break;
                         case 5:// 进口馆
                             bundle = new Bundle();
@@ -451,10 +451,10 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 6:// 竞拍汇
                             showToast("开发中，敬请期待");
-//                            bundle = new Bundle();
-//                            bundle.putInt("type", 3);
-//                            bundle.putString("title", "比价购");
-//                            startActivity(AuctionCollectAty.class, bundle);
+                            //                            bundle = new Bundle();
+                            //                            bundle.putInt("type", 3);
+                            //                            bundle.putString("title", "比价购");
+                            //                            startActivity(AuctionCollectAty.class, bundle);
                             break;
                         case 7://积分商店
                             bundle = new Bundle();
@@ -464,11 +464,11 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                             break;
                         case 8://房产购
                             showToast("开发中，敬请期待");
-//                            startActivity(HousChenAty.class, null);
+                            //                            startActivity(HousChenAty.class, null);
                             break;
                         case 9://一元夺宝
                             showToast("开发中，敬请期待");
-//                            startActivity(SnatchChenAty.class, null);
+                            //                            startActivity(SnatchChenAty.class, null);
                             break;
                     }
                 }
@@ -774,7 +774,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     @Override
     public void onStop() {
         super.onStop();
-        if (null!=upview1 && upview1.isFlipping()){
+        if (null != upview1 && upview1.isFlipping()) {
             upview1.stopFlipping();
             upview1.removeAllViews();
         }
@@ -857,7 +857,7 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
                 JSONObject jsonData = jsonObject.getJSONObject("data");
                 // 获取个人所在地址填写状态 0是未填写 1是已填写
                 if (!Config.getToken().equals("") && jsonData.getString("city_status").equals("0")) {
-//                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
+                    //                if (message.equals("请先填写个人所在地") && !Config.getToken().equals("")) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("请完善个人资料地区信息")
                             .setMessage("前往个人个人资料页面？")
@@ -1331,7 +1331,6 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
     }
 
 
-
     /**
      * 横向菜单
      *
@@ -1467,22 +1466,38 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
      * 假如滚动的是三条或者一条，或者是其他，只需要把对应的布局，和这个方法稍微改改就可以了，
      */
     private void setView() {
-        for (int i = 0; i < updata.size(); i = i + 1) {
-            //设置滚动的单个布局
-            LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
-            //初始化布局的控件
-            TextView tv1 = moreView.findViewById(R.id.top_tv1);
-            //进行对控件赋值
-            if (i<updata.size()-2){
+        if (updata.size() % 2 == 0) {
+            for (int i = 0; i < updata.size(); i = i + 2) {
+                //设置滚动的单个布局
+                LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
+                //初始化布局的控件
+                TextView tv1 = moreView.findViewById(R.id.top_tv1);
+                //进行对控件赋值
                 tv1.setText(updata.get(i).get("title"));
-                tv1.append("\n"+updata.get(i+1).get("title"));
-            }else {
-                tv1.setText(updata.get(i).get("title"));
-            }
+                tv1.append("\n" + updata.get(i + 1).get("title"));
 
-            //添加到循环滚动数组里面去
-            views.add(moreView);
+                //添加到循环滚动数组里面去
+                views.add(moreView);
+            }
+        }else {
+            for (int i = 0; i < updata.size(); i = i + 2) {
+                //设置滚动的单个布局
+                LinearLayout moreView = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.iten_wj_top_view, null);
+                //初始化布局的控件
+                TextView tv1 = moreView.findViewById(R.id.top_tv1);
+                //进行对控件赋值
+                if (i!=updata.size()-1){
+                    tv1.setText(updata.get(i).get("title"));
+                    tv1.append("\n"+updata.get(i+1).get("title"));
+                }else {
+                    tv1.setText(updata.get(i).get("title"));
+                }
+
+                //添加到循环滚动数组里面去
+                views.add(moreView);
+            }
         }
+
     }
 
     /**
@@ -1519,43 +1534,43 @@ public class MellonLineFgt extends BaseFgt implements ObservableScrollView.Scrol
         return headerView;
     }
 
-//    @Override
-//    public void setCanLoadImg(boolean flag) {
-//        AllGvLvAdapter auctionAdapter = (AllGvLvAdapter) auction_gv.getAdapter();
-//        if (null != auctionAdapter)
-//            auctionAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter carAdapter = (AllGvLvAdapter) car_gv.getAdapter();
-//        if (null != carAdapter)
-//            carAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter importAdapter = (AllGvLvAdapter) import_gv.getAdapter();
-//        if (null != importAdapter)
-//            importAdapter.setCanLoadImg(flag);
-//
-//
-//        AllGvLvAdapter group_shoppingAdapter = (AllGvLvAdapter) group_shopping_lv.getAdapter();
-//        if (null != group_shoppingAdapter)
-//            group_shoppingAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter houseAdapter = (AllGvLvAdapter) house_gv.getAdapter();
-//        if (null != houseAdapter)
-//            houseAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter purchaseAdapter = (AllGvLvAdapter) purchase_gv.getAdapter();
-//        if (null != purchaseAdapter)
-//            purchaseAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter good_luckAdapter = (AllGvLvAdapter) good_luck_gv.getAdapter();
-//        if (null != good_luckAdapter)
-//            good_luckAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter ticketAdapter = (AllGvLvAdapter) ticket_gv.getAdapter();
-//        if (null != ticketAdapter)
-//            ticketAdapter.setCanLoadImg(flag);
-//
-//        AllGvLvAdapter limit_shoppingAdapter = (AllGvLvAdapter) limit_shopping_gv.getAdapter();
-//        if (null != limit_shoppingAdapter)
-//            limit_shoppingAdapter.setCanLoadImg(flag);
-//    }
+    //    @Override
+    //    public void setCanLoadImg(boolean flag) {
+    //        AllGvLvAdapter auctionAdapter = (AllGvLvAdapter) auction_gv.getAdapter();
+    //        if (null != auctionAdapter)
+    //            auctionAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter carAdapter = (AllGvLvAdapter) car_gv.getAdapter();
+    //        if (null != carAdapter)
+    //            carAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter importAdapter = (AllGvLvAdapter) import_gv.getAdapter();
+    //        if (null != importAdapter)
+    //            importAdapter.setCanLoadImg(flag);
+    //
+    //
+    //        AllGvLvAdapter group_shoppingAdapter = (AllGvLvAdapter) group_shopping_lv.getAdapter();
+    //        if (null != group_shoppingAdapter)
+    //            group_shoppingAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter houseAdapter = (AllGvLvAdapter) house_gv.getAdapter();
+    //        if (null != houseAdapter)
+    //            houseAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter purchaseAdapter = (AllGvLvAdapter) purchase_gv.getAdapter();
+    //        if (null != purchaseAdapter)
+    //            purchaseAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter good_luckAdapter = (AllGvLvAdapter) good_luck_gv.getAdapter();
+    //        if (null != good_luckAdapter)
+    //            good_luckAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter ticketAdapter = (AllGvLvAdapter) ticket_gv.getAdapter();
+    //        if (null != ticketAdapter)
+    //            ticketAdapter.setCanLoadImg(flag);
+    //
+    //        AllGvLvAdapter limit_shoppingAdapter = (AllGvLvAdapter) limit_shopping_gv.getAdapter();
+    //        if (null != limit_shoppingAdapter)
+    //            limit_shoppingAdapter.setCanLoadImg(flag);
+    //    }
 }
