@@ -85,6 +85,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
     private TextView shopAddress;
     //门店电话
     private TextView shopTelephone;
+    //门店描述
+    private TextView shop_desc_tv;
     //查看商家资质
     private RelativeLayout shopBusinessAptitude;
     //举报商家
@@ -161,6 +163,7 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
         shopBusinessHours = findViewById(R.id.shop_business_hours);
         shopAddress = findViewById(R.id.shop_address);
         shopTelephone = findViewById(R.id.shop_tele_phone);
+        shop_desc_tv = findViewById(R.id.shop_desc_tv);
         shopBusinessAptitude = findViewById(R.id.shop_business_aptitude);
         shopReportBusiness = findViewById(R.id.shop_Report_business);
         mySettleAccounts = findViewById(R.id.shop_my_settle_accounts);
@@ -411,6 +414,8 @@ public class ShopMallDetailsAty extends BaseAty implements View.OnClickListener,
             }
             //设置门店电话
             shopTelephone.setText(offLineBean.getData().getMerchant_phone());
+            //门店描述
+            shop_desc_tv.setText(offLineBean.getData().getMerchant_desc());
             //设置关注人数
             shopFollowPersons.setText(offLineBean.getData().getFocus_num() + "人");
             //设置商品数量
