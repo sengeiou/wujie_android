@@ -381,14 +381,27 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 im_ads.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (list_ads.get(0).containsKey("href") && !TextUtils.isEmpty(list_ads.get(0).get("href"))) {
-                            bundle = new Bundle();
-                            if (list_ads.get(0).containsKey("desc")){
-                                bundle.putString("desc", list_ads.get(0).get("desc"));
+                        if (list_ads.get(0).containsKey("merchant_id") && !"0".equals(list_ads.get(0).get("merchant_id"))) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("mell_id", list_ads.get(0).get("merchant_id"));
+                            startActivity(MellInfoAty.class, bundle);
+                        }else if (list_ads.get(0).containsKey("goods_id") && !"0".equals(list_ads.get(0).get("goods_id"))){
+                            Bundle bundle = new Bundle();
+                            if (list_ads.get(0).containsKey("goods_id")){
+                                bundle.putString("ticket_buy_id", list_ads.get(0).get("goods_id"));
                             }
-                            bundle.putString("href", list_ads.get(0).get("href"));
-                            bundle.putInt("from", 6);
-                            startActivity(NoticeDetailsAty.class, bundle);
+                            bundle.putInt("from", 1);
+                            startActivity(TicketGoodsDetialsAty.class, bundle);
+                        }else {
+                            if (list_ads.get(0).containsKey("href") && !TextUtils.isEmpty(list_ads.get(0).get("href"))) {
+                                bundle = new Bundle();
+                                if (list_ads.get(0).containsKey("desc")){
+                                    bundle.putString("desc", list_ads.get(0).get("desc"));
+                                }
+                                bundle.putString("href", list_ads.get(0).get("href"));
+                                bundle.putInt("from", 6);
+                                startActivity(NoticeDetailsAty.class, bundle);
+                            }
                         }
 
                     }
@@ -415,33 +428,22 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
                 three_image_left_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (list_brand.get(0).containsKey("merchant_id")) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
-                            startActivity(MellInfoAty.class, bundle);
-                        }
+                        jumpToAty(0);
+
                     }
                 });
 
                 three_image_center_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (list_brand.get(1).containsKey("merchant_id")) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("mell_id", list_brand.get(1).get("merchant_id"));
-                            startActivity(MellInfoAty.class, bundle);
-                        }
+                        jumpToAty(1);
                     }
                 });
 
                 three_image_right_iv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (list_brand.get(2).containsKey("merchant_id")) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("mell_id", list_brand.get(2).get("merchant_id"));
-                            startActivity(MellInfoAty.class, bundle);
-                        }
+                        jumpToAty(2);
                     }
                 });
             }
@@ -471,6 +473,31 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
             }
         }
 
+    }
+
+    private void jumpToAty(int i) {
+        if (list_brand.get(i).containsKey("merchant_id") && !"0".equals(list_brand.get(i).get("merchant_id"))) {
+            Bundle bundle = new Bundle();
+            bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
+            startActivity(MellInfoAty.class, bundle);
+        }else if (list_brand.get(i).containsKey("goods_id") && !"0".equals(list_brand.get(i).get("goods_id"))){
+            Bundle bundle = new Bundle();
+            if (list_brand.get(i).containsKey("goods_id")){
+                bundle.putString("ticket_buy_id", list_brand.get(i).get("goods_id"));
+            }
+            bundle.putInt("from", 1);
+            startActivity(TicketGoodsDetialsAty.class, bundle);
+        }else {
+            if (list_brand.get(i).containsKey("href") && !TextUtils.isEmpty(list_brand.get(i).get("href"))) {
+                bundle = new Bundle();
+                if (list_brand.get(i).containsKey("desc")){
+                    bundle.putString("desc", list_brand.get(i).get("desc"));
+                }
+                bundle.putString("href", list_brand.get(i).get("href"));
+                bundle.putInt("from", 2);
+                startActivity(NoticeDetailsAty.class, bundle);
+            }
+        }
     }
 
     private void forMenu() {
