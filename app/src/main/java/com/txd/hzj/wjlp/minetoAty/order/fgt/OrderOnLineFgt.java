@@ -578,7 +578,7 @@ public class OrderOnLineFgt extends BaseFgt {
 
         @Override
         public long getItemId(int position) {
-            return 0;
+            return position;
         }
 
         @Override
