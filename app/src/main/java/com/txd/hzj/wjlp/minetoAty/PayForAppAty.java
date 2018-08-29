@@ -41,6 +41,8 @@ import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
+import com.txd.hzj.wjlp.mellOffLine.PaymentAty;
+import com.txd.hzj.wjlp.mellOffLine.PaymentResultsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
 import com.txd.hzj.wjlp.minetoAty.order.OffLineShopAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
@@ -872,7 +874,9 @@ public class PayForAppAty extends BaseAty {
             showToast("需要调整到2980专区");
         }
         if (mType.equals("100")){
-            startActivity(OffLineShopAty.class, mBundle);
+            mBundle.putString("orderId", order_id);
+            startActivity(PaymentResultsAty.class, mBundle);
+//            startActivity(OffLineShopAty.class, mBundle);
         }
 
     }

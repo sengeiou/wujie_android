@@ -166,4 +166,15 @@ public class OfflineStore {
         requestParams.addBodyParameter("top_cate", top_cate);
         apiTool2.postApi(url+"stageAds",requestParams , baseView);
     }
+
+    /**
+     * 线下店铺支付结果
+     * @param order_id 订单id
+     */
+    public static void orderSuccess(String order_id, BaseView baseView){
+        ApiTool2 apiTool2 = new ApiTool2();
+        RequestParams requestParams = new RequestParams();
+        requestParams.addBodyParameter("order_id", order_id);
+        apiTool2.postApi(url+"orderSuccess",requestParams , baseView);
+    }
 }
