@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+
     <ScrollView
         android:scrollbars="none"
         android:overScrollMode="never"
@@ -19,6 +21,15 @@
                 android:id="@+id/layout_tv"
                 android:background="@android:color/white"
                 android:orientation="vertical">
+                <TextView
+                    android:text="欢迎点击使用代金券"
+                    android:textColor="#FF5151"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/r"
@@ -64,6 +75,15 @@
                 android:visibility="gone"
                 android:background="@android:color/white"
                 android:orientation="vertical">
+                <TextView
+                    android:text="欢迎点击使用代金券"
+                    android:textColor="#FF5151"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <CheckBox
                     android:id="@+id/cb_1"

@@ -41,10 +41,8 @@ import com.txd.hzj.wjlp.http.Order;
 import com.txd.hzj.wjlp.http.Pay;
 import com.txd.hzj.wjlp.http.PreOrder;
 import com.txd.hzj.wjlp.http.user.User;
-import com.txd.hzj.wjlp.mellOffLine.PaymentAty;
 import com.txd.hzj.wjlp.mellOffLine.PaymentResultsAty;
 import com.txd.hzj.wjlp.mellOnLine.gridClassify.CreateGroupAty;
-import com.txd.hzj.wjlp.minetoAty.order.OffLineShopAty;
 import com.txd.hzj.wjlp.minetoAty.order.OnlineShopAty;
 import com.txd.hzj.wjlp.minetoAty.setting.EditPayPasswordAty;
 import com.txd.hzj.wjlp.tool.CommonPopupWindow;
@@ -765,6 +763,8 @@ public class PayForAppAty extends BaseAty {
                         Pay.findPayResult(order_id, "5", PayForAppAty.this);
                     } else if (mType.equals("9")) {
                         Pay.findPayResult(order_id, "8", PayForAppAty.this);
+                    }else if (mType.equals("100")) {
+                        Pay.findPayResult(order_id, "9", PayForAppAty.this);
                     }
                 }
 
@@ -882,73 +882,78 @@ public class PayForAppAty extends BaseAty {
     }
 
     public void showPop(View view, final int type) {
-        if (order == null || (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0")))
-            return;
+//        if (order == null || (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0")))
+//            return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing())
             return;
+        if (order ==null){return;}
+        if (order.containsKey("red_price") && order.containsKey("yellow_price") && order.containsKey("blue_price")){
 
-        commonPopupWindow = new CommonPopupWindow.Builder(this)
-                .setView(R.layout.popup_layout_djq)
-                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                .setBackGroundLevel(0.7f)
-                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                    @Override
-                    public void getChildView(View view, int layoutResId, int position) {
-                        LinearLayout layout_cb = (LinearLayout) view.findViewById(R.id.layout_cb);
-                        LinearLayout layout_tv = (LinearLayout) view.findViewById(R.id.layout_tv);
-                        layout_cb.setVisibility(View.VISIBLE);
-                        layout_tv.setVisibility(View.GONE);
-                        r = (CheckBox) view.findViewById(R.id.cb_1);
-                        y = (CheckBox) view.findViewById(R.id.cb_2);
-                        b = (CheckBox) view.findViewById(R.id.cb_3);
-                        r.setText(order.get("red_desc"));
-                        y.setText(order.get("yellow_desc"));
-                        b.setText(order.get("blue_desc"));
-                        TextView cancel = (TextView) view.findViewById(R.id.tv_cancel);
+            if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))){return;}
+            commonPopupWindow = new CommonPopupWindow.Builder(this)
+                    .setView(R.layout.popup_layout_djq)
+                    .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    .setBackGroundLevel(0.7f)
+                    .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                        @Override
+                        public void getChildView(View view, int layoutResId, int position) {
+                            LinearLayout layout_cb =  view.findViewById(R.id.layout_cb);
+                            LinearLayout layout_tv =  view.findViewById(R.id.layout_tv);
+                            layout_cb.setVisibility(View.VISIBLE);
+                            layout_tv.setVisibility(View.GONE);
+                            r =  view.findViewById(R.id.cb_1);
+                            y =  view.findViewById(R.id.cb_2);
+                            b =  view.findViewById(R.id.cb_3);
 
-                        r.setVisibility(order.get("discount").equals("1") ? View.VISIBLE : View.GONE);
-                        y.setVisibility(order.get("yellow_discount").equals("1") ? View.VISIBLE : View.GONE);
-                        b.setVisibility(order.get("blue_discount").equals("1") ? View.VISIBLE : View.GONE);
-                        r.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setCheck(1);
-                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        y.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setCheck(2);
-                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                commonPopupWindow.dismiss();
-                            }
-                        });
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setCheck(3);
-                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                commonPopupWindow.dismiss();
-                            }
-                        });
+                            r.setText(order.containsKey("red_desc")?order.get("red_desc"):"");
+                            y.setText(order.containsKey("yellow_desc")?order.get("yellow_desc"):"");
+                            b.setText(order.containsKey("blue_desc")?order.get("blue_desc"):"");
+                            TextView cancel =  view.findViewById(R.id.tv_cancel);
 
-                        cancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                commonPopupWindow.dismiss();
-                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                setCheck(4);
-                                String num = decimalFormat.format(total_price);
-                                tv_price.setText("¥" + num);
-                            }
-                        });
-                    }
-                }, 0)
-                .setAnimationStyle(R.style.animbottom)
-                .create();
-        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                            r.setVisibility(order.get("red_price").equals("0") ? View.GONE: View.VISIBLE);
+                            y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE: View.VISIBLE);
+                            b.setVisibility(order.get("blue_price").equals("0") ? View.GONE: View.VISIBLE);
+                            r.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    setCheck(1);
+                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                    commonPopupWindow.dismiss();
+                                }
+                            });
+                            y.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    setCheck(2);
+                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                    commonPopupWindow.dismiss();
+                                }
+                            });
+                            b.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    setCheck(3);
+                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                    commonPopupWindow.dismiss();
+                                }
+                            });
+
+                            cancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    commonPopupWindow.dismiss();
+                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                    setCheck(4);
+                                    String num = decimalFormat.format(total_price);
+                                    tv_price.setText("¥" + num);
+                                }
+                            });
+                        }
+                    }, 0)
+                    .setAnimationStyle(R.style.animbottom)
+                    .create();
+            commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        }
 
     }
 
