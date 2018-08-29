@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitCenter"
-                android:src="@drawable/icon_temp_discount" />
+                tools:src="@drawable/icon_temp_discount" />
 
             <Space
                 android:layout_width="match_parent"

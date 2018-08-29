@@ -193,7 +193,7 @@ public class OffLineEvaluationShopListAty extends BaseAty {
                         bean.setC_id(object.containsKey("c_id") ? object.getString("c_id") : "");
                         bean.setHead_pic(object.containsKey("head_pic") ? object.getString("head_pic") : "");
                         bean.setContent(object.containsKey("content") ? object.getString("content") : "");
-                        bean.setEnvironment(object.containsKey("environment") ? object.getString("environment") : "");
+                        bean.setStar(object.containsKey("star") ? object.getString("star") : "");
                         bean.setNickname(object.containsKey("nickname") ? object.getString("nickname") : "");
                         bean.setStart_time(object.containsKey("start_time") ? object.getString("start_time") : "");
                         if (object.containsKey("picture")) {
@@ -327,7 +327,7 @@ public class OffLineEvaluationShopListAty extends BaseAty {
             viewHolder.nickname_tv.setText(bean.getNickname());
             viewHolder.time_tv.setText(bean.getStart_time());
             viewHolder.ratingBar.setIsIndicator(true);
-            viewHolder.ratingBar.setRating(Float.valueOf(bean.getEnvironment()));
+            viewHolder.ratingBar.setRating(Float.valueOf(bean.getStar()));
             viewHolder.content_tv.setVisibility(TextUtils.isEmpty(bean.getContent())?View.GONE:View.VISIBLE);
             viewHolder.content_tv.setText(bean.getContent());
             // 设置布局方式

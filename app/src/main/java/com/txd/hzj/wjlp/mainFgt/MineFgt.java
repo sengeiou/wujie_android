@@ -64,7 +64,7 @@ import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
 import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
-import com.txd.hzj.wjlp.new_wjyp.aty_mine1;
+import com.txd.hzj.wjlp.new_wjyp.BusinessRecommendAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
@@ -374,7 +374,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 startActivity(FootprintAty.class, null);
                 break;
             case R.id.merchant_will_move_into_tv: // 商家推荐
-                startActivity(aty_mine1.class, null);
+                startActivity(BusinessRecommendAty.class, null);
                 break;
             case R.id.evaluate_tv: // 我的评价
                 bundle = new Bundle();

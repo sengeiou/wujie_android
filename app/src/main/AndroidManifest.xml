@@ -927,7 +927,7 @@
             </intent-filter>
         </activity>
         <!-- 商家推荐 -->
-        <activity android:name=".new_wjyp.aty_mine1" />
+        <activity android:name=".new_wjyp.BusinessRecommendAty" />
         <!-- 代理加盟 -->
         <activity android:name=".new_wjyp.aty_mine2" />
         <!-- 拓展商 拓展员 联盟商家 -->

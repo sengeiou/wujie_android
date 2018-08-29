@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * 商家推荐
  */
-public class aty_mine1 extends BaseAty {
+public class BusinessRecommendAty extends BaseAty {
 
     @ViewInject(R.id.im_main)
     private ImageView im_main;

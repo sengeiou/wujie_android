@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ants.theantsgo.config.Config;
 import com.ants.theantsgo.util.JSONUtils;
 import com.bumptech.glide.Glide;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -23,9 +24,8 @@ import com.txd.hzj.wjlp.http.message.UserMessagePst;
 import com.txd.hzj.wjlp.view.NoScrollWebView;
 import com.txd.hzj.wjlp.view.ScForWebView;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.internal.operators.completable.CompletableTimer;
 
 /**
  * 作者：DUKE_HwangZj
@@ -107,7 +107,6 @@ public class NoticeDetailsAty extends BaseAty {
             titlt_conter_tv.setText("无界头条");
             String headlines_id = getIntent().getStringExtra("headlines_id");
             indexPst.headInfo(headlines_id);
-//            initWebView();
         } else if (3 == from) {
             only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("服务条款");
@@ -126,6 +125,12 @@ public class NoticeDetailsAty extends BaseAty {
             only_for_top_layout.setVisibility(View.GONE);
             titlt_conter_tv.setText("会员协议");
             articlePst.getArticle("2");
+        }else if (6 == from) { //商家推荐
+            only_for_top_layout.setVisibility(View.GONE);
+            String desc = getIntent().getStringExtra("desc");
+            titlt_conter_tv.setText("无界优品");
+            url = getIntent().getStringExtra("href");
+            initWebView(false); // 不使用noScrollWebView
         }
     }
 
@@ -181,7 +186,14 @@ public class NoticeDetailsAty extends BaseAty {
             details_webview.setVisibility(View.VISIBLE); // 显示原生WebView
             details_webview.setWebChromeClient(new WebChromeClient());
             // WebView加载web资源
-            details_webview.loadUrl(url);
+            if (6==from){
+                Map<String,String> map=new HashMap<>();
+                map.put("token", Config.getToken());
+                details_webview.loadUrl(url,map);
+            }else {
+                details_webview.loadUrl(url);
+            }
+
             // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
             details_webview.setWebViewClient(new WebViewClient() {
                 @Override
@@ -219,6 +231,15 @@ public class NoticeDetailsAty extends BaseAty {
     }
 
     @Override
+    public void onBackPressed() {
+        if (details_webview.canGoBack()){
+            details_webview.goBack();
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void requestData() {
 
     }
@@ -247,21 +268,11 @@ public class NoticeDetailsAty extends BaseAty {
 
             books_other_info_tv.setText("创建时间：" + data.get("create_time") + "\n修改时间：" + data.get("update_time"));
 
-//            ViewGroup.LayoutParams lp = books_logo_iv.getLayoutParams();
-//            lp.width = Settings.displayWidth;
-//            lp.height = Settings.displayWidth * 3 / 3;
-//            books_logo_iv.setLayoutParams(lp);
-//            books_logo_iv.setMaxWidth(lp.width);
-//            books_logo_iv.setMaxHeight(lp.width  * 3 / 3);
 
             Glide.with(this).load(data.get("logo"))
-//                    .centerCrop()
-//                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-//                    .centerCrop()
                     .dontAnimate()
-//                    .override(lp.width, lp.height)
                     .into(books_logo_iv);
 
             notice_details_wv.loadDataWithBaseURL(null, data != null ? data.get("content") : "", "text/html", "utf-8", null);

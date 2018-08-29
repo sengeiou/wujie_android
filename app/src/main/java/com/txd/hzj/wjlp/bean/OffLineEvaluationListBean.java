@@ -13,7 +13,7 @@ public class OffLineEvaluationListBean {
      * c_id : 5
      * nickname : 无界新人1508
      * start_time : 2018-07-23 15:50:49
-     * environment : 5
+     * star : 5
      * head_pic : http://img.wujiemall.com/Uploads/User/2018-07-16/5b4c4836e3008.gif
      * content : 店铺不错
      * picture : [{"path":"http://img.wujiemall.com/Uploads/Merchant/2018-07-31/5b6016ba3d478.jpg"}]
@@ -22,7 +22,7 @@ public class OffLineEvaluationListBean {
     private String c_id;
     private String nickname;
     private String start_time;
-    private String environment;
+    private String star;
     private String head_pic;
     private String content;
     private List<PictureBean> picture;
@@ -51,12 +51,12 @@ public class OffLineEvaluationListBean {
         this.start_time = start_time;
     }
 
-    public String getEnvironment() {
-        return environment;
+    public String getStar() {
+        return star;
     }
 
-    public void setEnvironment(String environment) {
-        this.environment = environment;
+    public void setStar(String star) {
+        this.star = star;
     }
 
     public String getHead_pic() {
