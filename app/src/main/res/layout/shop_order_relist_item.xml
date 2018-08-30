@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <View
@@ -19,7 +20,7 @@
             android:drawableLeft="@drawable/icon_mine_collection"
             android:drawablePadding="10dp"
             android:padding="13dp"
-            android:text="水晶家纺"
+            tools:text="水晶家纺"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="13dp"
-            android:text="已完成"
+            tools:text="已完成"
             android:textColor="@color/red_tv_back"
             android:textSize="15sp" />
     </RelativeLayout>
@@ -46,7 +47,7 @@
             android:layout_marginBottom="9dp"
             android:layout_marginStart="14dp"
             android:layout_marginTop="9dp"
-            android:src="@drawable/icon_temp_mine_head_hzj" />
+            tools:src="@drawable/icon_temp_mine_head_hzj" />
         <LinearLayout
             android:id="@+id/ll_shop"
             android:layout_width="match_parent"
@@ -63,7 +64,7 @@
             android:layout_marginTop="9dp"
             android:ellipsize="end"
             android:lines="2"
-            android:text="康尔馨五星级酒店毛巾纯棉加大加棉加大加棉加大加棉加大加棉加大加棉加大加
+            tools:text="康尔馨五星级酒店毛巾纯棉加大加棉加大加棉加大加棉加大加棉加大加棉加大加
 厚面巾洗脸全棉吸水男女成人"
             android:textSize="12sp" />
 
@@ -76,7 +77,7 @@
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/shop_order_content"
             android:gravity="end"
-            android:text="￥99.00"
+            tools:text="￥99.00"
             android:textColor="@color/black"
             android:textSize="12sp" />
         </LinearLayout>
@@ -117,7 +118,7 @@
                 android:id="@+id/shop_order_item_buyer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="买家：你的长安城"
+                tools:text="买家：你的长安城"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -126,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="供货商：123456"
+                tools:text="供货商：123456"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -135,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="收益：156.00积分"
+                tools:text="收益：156.00积分"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -157,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="11dp"
-                android:text="用卷类型：红券"
+                tools:text="用卷类型：红券"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
 
@@ -167,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/shop_order_voucher_type"
                 android:layout_marginTop="8dp"
-                android:text="用卷比例：50%"
+                tools:text="用卷比例：50%"
                 android:textColor="@color/black"
                 android:textSize="13sp" />
         </RelativeLayout>
@@ -191,7 +192,7 @@
             android:paddingBottom="6dp"
             android:paddingEnd="14dp"
             android:paddingTop="6dp"
-            android:text="2018-05-29  11:37:35"
+            tools:text="2018-05-29  11:37:35"
             android:textColor="@color/shop_text_color" />
     </RelativeLayout>
 </LinearLayout>

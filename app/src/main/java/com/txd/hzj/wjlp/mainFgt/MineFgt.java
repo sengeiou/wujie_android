@@ -1,17 +1,26 @@
 package com.txd.hzj.wjlp.mainFgt;
 
 
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,6 +41,7 @@ import com.txd.hzj.wjlp.MainAty;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
 import com.txd.hzj.wjlp.bean.Promoters;
+import com.txd.hzj.wjlp.bean.mine.MineInfoBean;
 import com.txd.hzj.wjlp.distribution.ApplyForShop;
 import com.txd.hzj.wjlp.distribution.shopAty.ShopMain;
 import com.txd.hzj.wjlp.http.index.IndexPst;
@@ -63,16 +73,18 @@ import com.txd.hzj.wjlp.minetoAty.order.OrderCenterAty;
 import com.txd.hzj.wjlp.minetoAty.setting.SetAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.IntegralAty;
 import com.txd.hzj.wjlp.minetoAty.tricket.MyCouponAty;
-import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.BusinessRecommendAty;
+import com.txd.hzj.wjlp.new_wjyp.VipDetailsAty;
 import com.txd.hzj.wjlp.new_wjyp.aty_mine2;
 import com.txd.hzj.wjlp.view.ObservableScrollView;
 import com.txd.hzj.wjlp.wjyp.LMSJAty;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import cn.gavinliu.android.lib.shapedimageview.ShapedImageView;
@@ -289,6 +301,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private int userCenterCode = 1;
     private String balance; // 当前余额
 
+    private List<MineInfoBean> mMineInfoBeanList;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -480,19 +494,60 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
             break;
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
-                bundle = new Bundle();
-                Double aDouble = Double.valueOf(balance);
-                bundle.putDouble("balance",aDouble);
-                startActivity(ThirdPartAccountAty.class, bundle);
+                if (mMineInfoBeanList!=null && mMineInfoBeanList.size()>0){
+                    showTanchuang("联盟商家绑定账户");
+                }
                 break;
             case R.id.business_code_tv:// 商家码
-                bundle = new Bundle();
-                bundle.putString("head_pic", head_pic);
-                bundle.putString("invite_code", business_invite_code_code);
-                bundle.putString("stage_merchant_id", stage_merchant_id);
-                startActivity(RegistrationCodeAty.class, bundle);
-                //                http://test2.wujiemall.com/Wap/OfflineStore/confirmation/stage_merchant_id/39/invite_code/GYrJovNW.html
+                if (mMineInfoBeanList!=null && mMineInfoBeanList.size()>0){
+                    showTanchuang("商家码");
+                }
+                break;
+
+
         }
+    }
+    private void showTanchuang(final String name) {
+        final Dialog dialog = new Dialog(getActivity(), R.style.Ticket_Dialog);
+        View view = View.inflate(getActivity(), R.layout.aty_registration_list, null);
+        dialog.setContentView(view);
+        TextView close_tv=view.findViewById(R.id.close_tv);
+        if ("商家码".equals(name)){
+            close_tv.setText("商家二维码：店铺选择");
+        }else {
+            close_tv.setText("收款账户绑定：店铺选择");
+        }
+        ListView listView = view.findViewById(R.id.listview);
+        MineInfoAdapter infoAdapter = new MineInfoAdapter(getActivity(), mMineInfoBeanList);
+        listView.setAdapter(infoAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                bundle = new Bundle();
+                if ("商家码".equals(name)) {
+                    bundle.putString("head_pic", mMineInfoBeanList.get(position).getLogo());
+                    bundle.putString("invite_code", business_invite_code_code);
+                    bundle.putString("stage_merchant_id", mMineInfoBeanList.get(position).getMerchant_name());
+                    startActivity(RegistrationCodeAty.class, bundle);
+                }else {
+                    if ("1".equals(mMineInfoBeanList.get(position).getChange_account_status())){
+                        bundle = new Bundle();
+                        Double aDouble = Double.valueOf(balance);
+                        bundle.putDouble("balance", aDouble);
+                        startActivity(ThirdPartAccountAty.class, bundle);
+                    }
+                }
+                dialog.dismiss();
+            }
+        });
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.width= (int) (Settings.displayWidth*0.8);
+        attributes.height=Settings.displayHeight/3;
+        window.setAttributes(attributes);
+        window.setGravity(Gravity.CENTER);
+        dialog.setCancelable(true);
+        dialog.show();
     }
 
     @Override
@@ -507,6 +562,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         size = ToolKit.dip2px(getActivity(), 80);
         tit_size = ToolKit.dip2px(getActivity(), 40);
         icon_size = ToolKit.dip2px(getActivity(), 20);
+
     }
 
     @Override
@@ -587,6 +643,34 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     bandOtherAccount_tv.setVisibility(View.VISIBLE);
                     business_code_tv.setVisibility(View.VISIBLE);
                 }
+
+                JSONArray mInfo = jsonData.has("mInfo") ? jsonData.getJSONArray("mInfo") : null;
+                if (mInfo != null && mInfo.length() > 0) {
+                    mMineInfoBeanList = new ArrayList<>();
+                    for (int i = 0; i < mInfo.length(); i++) {
+                        //                        "stage_merchant_id": "39",
+                        //                                "wxpay_accounts": "213qweqweqe",
+                        //                                "alipay_accounts": "27336157@qq.com",
+                        //                                "default_account": "1",
+                        //                                "change_account_status": "2",
+                        //                        "merchant_name": "达令服饰",
+                        //                                "logo": "http://www.wujiemall.com/Uploads/Merchant/2018-07-24/5b56ca1a10d09.jpg"
+
+                        JSONObject obj = mInfo.getJSONObject(i);
+                        String stage_merchant_id = obj.has("stage_merchant_id") ? obj.getString("stage_merchant_id") : "";
+                        String wxpay_accounts = obj.has("wxpay_accounts") ? obj.getString("wxpay_accounts") : "";
+                        String alipay_accounts = obj.has("alipay_accounts") ? obj.getString("alipay_accounts") : "";
+                        String default_account = obj.has("default_account") ? obj.getString("default_account") : "";
+                        String change_account_status1 = obj.has("change_account_status") ? obj.getString("change_account_status") : "";
+                        String merchant_name = obj.has("merchant_name") ? obj.getString("merchant_name") : "";
+                        String logo = obj.has("logo") ? obj.getString("logo") : "";
+                        MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
+                        mMineInfoBeanList.add(mineInfoBean);
+                    }
+
+
+                }
+
             } catch (JSONException e) {
             }
         }
@@ -764,13 +848,13 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 if ("优享会员".equals(JSONUtils.getMapValue(list.get(i), "rank_name"))) {
                     Bundle bundle = new Bundle();
                     bundle.putString("sale_status", list.get(i).get("sale_status"));
-                    bundle.putString("rank_name",  list.get(i).get("rank_name"));
-                    bundle.putString("money",  list.get(i).get("money"));
-                    bundle.putString("prescription",  list.get(i).get("prescription"));
-                    bundle.putString("big_gift",  list.get(i).get("big_gift"));
-                    bundle.putString("score_status",  list.get(i).get("score_status"));
-                    bundle.putString("abs_url",  list.get(i).get("abs_url"));
-                    bundle.putString("member_coding",  list.get(i).get("member_coding"));
+                    bundle.putString("rank_name", list.get(i).get("rank_name"));
+                    bundle.putString("money", list.get(i).get("money"));
+                    bundle.putString("prescription", list.get(i).get("prescription"));
+                    bundle.putString("big_gift", list.get(i).get("big_gift"));
+                    bundle.putString("score_status", list.get(i).get("score_status"));
+                    bundle.putString("abs_url", list.get(i).get("abs_url"));
+                    bundle.putString("member_coding", list.get(i).get("member_coding"));
                     bundle.putInt("rewardStatus", reward_status);
                     bundle.putInt("userCenterCode", userCenterCode);
                     startActivity(VipDetailsAty.class, bundle);
@@ -858,5 +942,60 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         bundle.putString("myName", application.getUserInfo().get("nickname"));// 我的昵称
         bundle.putString("myHead", application.getUserInfo().get("head_pic"));// 我的头像
         startActivity(ChatActivity.class, bundle);
+    }
+
+
+    private class MineInfoAdapter extends BaseAdapter {
+
+        private Context mContext;
+        private List<MineInfoBean> mList;
+        private LayoutInflater mInflater;
+
+        public MineInfoAdapter(Context context, List<MineInfoBean> list) {
+            mContext = context;
+            mList = list;
+            mInflater = LayoutInflater.from(mContext);
+        }
+
+        @Override
+        public int getCount() {
+            return mList.size() > 0 ? mList.size() : 0;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            ViewHolder holder;
+
+            if (view == null) {
+                holder = new ViewHolder();
+                view = mInflater.inflate(R.layout.info_item, null);
+                holder.mImageView = view.findViewById(R.id.head_img);
+                holder.mTextView = view.findViewById(R.id.name_tv);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+
+            Glide.with(mContext).load(mList.get(position).getLogo()).into(holder.mImageView);
+            holder.mTextView.setText(mList.get(position).getMerchant_name());
+
+            return view;
+        }
+
+        class ViewHolder {
+            private ImageView mImageView;
+            private TextView mTextView;
+
+        }
     }
 }

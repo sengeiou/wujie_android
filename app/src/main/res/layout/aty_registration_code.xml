@@ -31,14 +31,14 @@
                 android:id="@+id/code_user_head_iv"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/icon_temp_mine_head_hzj" />
+                tools:src="@drawable/icon_temp_mine_head_hzj" />
 
             <TextView
                 android:id="@+id/registrationCode_zhucema_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="end|center_vertical"
-                android:text="注册码"
+                tools:text="注册码"
                 android:textColor="@color/app_text_color" />
 
         </LinearLayout>
