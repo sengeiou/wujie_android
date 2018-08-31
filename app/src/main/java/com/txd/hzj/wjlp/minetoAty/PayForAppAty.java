@@ -173,6 +173,7 @@ public class PayForAppAty extends BaseAty {
     private String mMerchant_id;
     //从线下店铺传过来的金额
     private String mMoney;
+    private String mIn;
 
 
     @Override
@@ -502,8 +503,8 @@ public class PayForAppAty extends BaseAty {
 
             if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
                 order = data;
-                String in = order.containsKey("integral_money") ? order.get("integral_money") : "0";
-                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + in + "个）<font/>";
+                mIn = order.containsKey("integral_money") ? order.get("integral_money") : "0";
+                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
                 integral_money.setText(Html.fromHtml(integralMoneyStr));
             }
         }
@@ -928,12 +929,21 @@ public class PayForAppAty extends BaseAty {
 
                         if (order.containsKey("red_price")){
                             r.setVisibility(order.get("red_price").equals("0") ? View.GONE : View.VISIBLE);
+                            mIn=order.get("red_price");
+                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
                         if (order.containsKey("yellow_price")){
                             y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
+                            mIn=order.get("yellow_price");
+                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
                         if (order.containsKey("blue_price")){
                             b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
+                            mIn=order.get("blue_price");
+                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
