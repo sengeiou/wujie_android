@@ -122,10 +122,11 @@
                     android:visibility="gone" />
 
                 <TextView
-                    android:gravity="center"
                     android:id="@+id/integral_money"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_desc"
@@ -133,10 +134,10 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:padding="10dp"
-                    tools:text="赠送积分数量"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="赠送积分数量" />
             </LinearLayout>
 
             <Space

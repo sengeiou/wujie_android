@@ -503,9 +503,20 @@ public class PayForAppAty extends BaseAty {
 
             if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
                 order = data;
-                mIn = order.containsKey("integral_money") ? order.get("integral_money") : "0";
-                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
-                integral_money.setText(Html.fromHtml(integralMoneyStr));
+                if (!"10".equals(mType)){
+                    integral_money.setVisibility(View.VISIBLE);
+                    if (order.containsKey("integral_money")){
+                        mIn =order.get("integral_money");
+                        integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                        integral_money.setText(Html.fromHtml(integralMoneyStr));
+                    }else {
+                        integral_money.setVisibility(View.GONE);
+                    }
+
+                }else {
+                    integral_money.setVisibility(View.GONE);
+                }
+
             }
         }
         // 设置生成订单
@@ -929,27 +940,27 @@ public class PayForAppAty extends BaseAty {
 
                         if (order.containsKey("red_price")){
                             r.setVisibility(order.get("red_price").equals("0") ? View.GONE : View.VISIBLE);
-                            mIn=order.get("red_price");
-                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
-                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
                         if (order.containsKey("yellow_price")){
                             y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
-                            mIn=order.get("yellow_price");
-                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
-                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
                         if (order.containsKey("blue_price")){
                             b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
-                            mIn=order.get("blue_price");
-                            integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
-                            integral_money.setText(Html.fromHtml(integralMoneyStr));
                         }
+
                         r.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 setCheck(1);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                if (order.containsKey("red_return_integral")){
+                                    integral_money.setVisibility(View.VISIBLE);
+                                    mIn=order.get("red_return_integral");
+                                    integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                                    integral_money.setText(Html.fromHtml(integralMoneyStr));
+                                }else {
+                                    integral_money.setVisibility(View.GONE);
+                                }
                                 commonPopupWindow.dismiss();
                             }
                         });
@@ -958,6 +969,14 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 setCheck(2);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                if (order.containsKey("yellow_return_integral")){
+                                    integral_money.setVisibility(View.VISIBLE);
+                                    mIn=order.get("yellow_return_integral");
+                                    integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                                    integral_money.setText(Html.fromHtml(integralMoneyStr));
+                                }else {
+                                    integral_money.setVisibility(View.GONE);
+                                }
                                 commonPopupWindow.dismiss();
                             }
                         });
@@ -966,6 +985,14 @@ public class PayForAppAty extends BaseAty {
                             public void onClick(View v) {
                                 setCheck(3);
                                 setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                if (order.containsKey("blue_return_integral")){
+                                    integral_money.setVisibility(View.VISIBLE);
+                                    mIn=order.get("blue_return_integral");
+                                    integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                                    integral_money.setText(Html.fromHtml(integralMoneyStr));
+                                }else {
+                                    integral_money.setVisibility(View.GONE);
+                                }
                                 commonPopupWindow.dismiss();
                             }
                         });
