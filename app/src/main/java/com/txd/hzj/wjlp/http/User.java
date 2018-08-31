@@ -205,7 +205,7 @@ public class User {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("id", stage_merchant_id);
-        apiTool2.postApi(url + "payee_bind", new RequestParams(), baseView);
+        apiTool2.postApi(url + "payee_bind", params, baseView);
     }
 
     /**

@@ -165,7 +165,7 @@ public class UserPst extends BasePresenter {
     }
 
     //蓝色代金券赠送
-    public void giveCoupon(String price, String code,String merchant_id, String pay_password) {
+    public void giveCoupon(String price, String code, String pay_password,String merchant_id) {
         user.giveCoupon(price, code, pay_password,merchant_id, baseView);
     }
 

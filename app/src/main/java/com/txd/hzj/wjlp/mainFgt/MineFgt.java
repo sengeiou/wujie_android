@@ -543,7 +543,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     bundle = new Bundle();
                     Double aDouble = Double.valueOf(balance);
                     bundle.putDouble("balance", aDouble);
-                    bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
+                    bundle.putString("stage_merchant_id", sanfangList.get(position).getStage_merchant_id());
                     startActivity(ThirdPartAccountAty.class, bundle);
                 }
                 dialog.dismiss();
