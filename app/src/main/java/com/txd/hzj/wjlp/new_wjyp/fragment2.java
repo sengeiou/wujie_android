@@ -16,6 +16,7 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tips.MikyouCommonDialog;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.JSONUtils;
 import com.ants.theantsgo.util.L;
@@ -30,9 +31,8 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseFgt;
-import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.http.User;
-import com.txd.hzj.wjlp.tool.GlideUtil;
+import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 
 import org.json.JSONException;
@@ -298,7 +298,7 @@ public class fragment2 extends BaseFgt implements ProUrbAreaUtil.GetData {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        file1 = new File(GlideUtil.getGlideFilePath(getActivity(), comp_business_license));
+                        file1 = new File(GlideUtils.getGlideFilePath(getActivity(), comp_business_license));
                     }
                 }).start();
             }

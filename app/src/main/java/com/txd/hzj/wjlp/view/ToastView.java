@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.StringUtils;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.bean.commodity.Event_msgBean;
-import com.txd.hzj.wjlp.tool.GlideUtil;
 
 import java.util.List;
 

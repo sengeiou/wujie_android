@@ -137,8 +137,8 @@ public class OfflineStore {
         requestParams.addBodyParameter("content", content);
         requestParams.addBodyParameter("environment", environment);
         requestParams.addBodyParameter("serve", serve);
-        for (File file:list){
-            requestParams.addBodyParameter("picture", file);
+        for (int i = 0; i < list.size(); i++) {
+            requestParams.addBodyParameter("picture"+i, list.get(i));
         }
         apiTool2.postApi(url+"comment",requestParams , baseView);
     }

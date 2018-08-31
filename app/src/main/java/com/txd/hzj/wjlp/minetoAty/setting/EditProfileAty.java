@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,13 +23,11 @@ import com.ants.theantsgo.config.Settings;
 import com.ants.theantsgo.gson.GsonUtil;
 import com.ants.theantsgo.imageLoader.GlideImageLoader;
 import com.ants.theantsgo.tool.ToolKit;
+import com.ants.theantsgo.tool.glide.GlideUtils;
 import com.ants.theantsgo.util.CompressionUtil;
 import com.ants.theantsgo.util.L;
-import com.ants.theantsgo.util.StringUtils;
-import com.bigkoo.pickerview.OptionsPickerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.gson.Gson;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lzy.imagepicker.ImagePicker;
@@ -39,22 +35,12 @@ import com.lzy.imagepicker.bean.ImageItem;
 import com.lzy.imagepicker.ui.ImageGridActivity;
 import com.txd.hzj.wjlp.R;
 import com.txd.hzj.wjlp.base.BaseAty;
-import com.txd.hzj.wjlp.bean.addres.CityForTxd;
-import com.txd.hzj.wjlp.bean.addres.DistrictsForTxd;
-import com.txd.hzj.wjlp.bean.addres.ProvinceForTxd;
 import com.txd.hzj.wjlp.http.address.AddressPst;
 import com.txd.hzj.wjlp.http.user.UserPst;
-import com.txd.hzj.wjlp.minetoAty.address.AddNewAddressAty2;
 import com.txd.hzj.wjlp.minetoAty.order.TextListAty;
-import com.txd.hzj.wjlp.tool.GetJsonDataUtil;
 import com.txd.hzj.wjlp.new_wjyp.aty_authentication;
-import com.txd.hzj.wjlp.tool.GlideUtil;
 import com.txd.hzj.wjlp.tool.proUrbArea.ProUrbAreaUtil;
 import com.txd.hzj.wjlp.view.flowlayout.ClearEditText;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -270,7 +256,7 @@ public class EditProfileAty extends BaseAty implements View.OnClickListener {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        file = new File(GlideUtil.getGlideFilePath(EditProfileAty.this, data.get("head_pic")));
+                        file = new File(GlideUtils.getGlideFilePath(EditProfileAty.this, data.get("head_pic")));
                     }
                 }).start();
             }

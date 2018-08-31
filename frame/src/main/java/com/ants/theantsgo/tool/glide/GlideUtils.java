@@ -1,13 +1,16 @@
 package com.ants.theantsgo.tool.glide;
 
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.ants.theantsgo.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.request.FutureTarget;
 
 import java.io.File;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -207,5 +210,33 @@ public class GlideUtils {
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(iv);
     }
+
+
+    /**
+     * 将Glide缓存图片的路径返回
+     * <p>注：该方法需要在新线程中使用
+     *
+     * @param context 上下文
+     * @param url     加载图片的URL
+     * @return String路径
+     */
+    public static String getGlideFilePath(Context context, String url) {
+        String absolutePath = "";
+        FutureTarget<File> future = Glide.with(context)
+                .load(url)
+                .downloadOnly(100, 100);
+        try {
+            File file = future.get();
+            absolutePath = file.getAbsolutePath();
+            return absolutePath;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return absolutePath;
+    }
+
+
 
 }

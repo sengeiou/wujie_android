@@ -373,15 +373,15 @@ public class OffLineEvaluationShopListAty extends BaseAty {
         }
 
         @Override
-        public void onBindViewHolder(PicHolder holder, int position) {
-            PicHolder picHolder = holder;
+        public void onBindViewHolder(final PicHolder holder, int position) {
             Glide.with(OffLineEvaluationShopListAty.this)
                     .load(mPictureBeans.get(position).getPath())
+                    .asBitmap()
                     .error(R.drawable.ic_default)
                     .placeholder(R.drawable.ic_default)
-                    .override(itemWidth, itemWidth)
-                    .into(picHolder.imageView);
-            picHolder.itemView.setLayoutParams(new ViewGroup.LayoutParams(itemWidth, itemWidth));
+                    .centerCrop()
+                    .override(itemWidth,itemWidth)
+                    .into(holder.imageView);
         }
 
         @Override
@@ -398,4 +398,5 @@ public class OffLineEvaluationShopListAty extends BaseAty {
             }
         }
     }
+
 }
