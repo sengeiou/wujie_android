@@ -478,7 +478,7 @@ public class MellOffLineFgt extends BaseFgt implements ObservableScrollView.Scro
     private void jumpToAty(int i) {
         if (list_brand.get(i).containsKey("merchant_id") && !"0".equals(list_brand.get(i).get("merchant_id"))) {
             Bundle bundle = new Bundle();
-            bundle.putString("mell_id", list_brand.get(0).get("merchant_id"));
+            bundle.putString("mell_id", list_brand.get(i).get("merchant_id"));
             startActivity(MellInfoAty.class, bundle);
         }else if (list_brand.get(i).containsKey("goods_id") && !"0".equals(list_brand.get(i).get("goods_id"))){
             Bundle bundle = new Bundle();

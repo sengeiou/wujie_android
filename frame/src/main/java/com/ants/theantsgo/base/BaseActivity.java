@@ -497,6 +497,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
         if (toast == null) {
             toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         } else {
+            toast.cancel();//关闭吐司显示
+            toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
             toast.setText(text);
         }
         toast.setGravity(Gravity.CENTER, 0, 0);

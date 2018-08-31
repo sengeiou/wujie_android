@@ -126,6 +126,7 @@ public class PaymentAty extends BaseAty implements MyKeyboard.OnOkClick, View.On
                             bundle.putString("order_id",order_id);
                             bundle.putString("money",meny);
                             bundle.putString("merchant_id",mStage_merchant_id);
+                            bundle.putString("shop_name",shopOffLineBean.getData().getMerchant_name());
                             startActivity(PayForAppAty.class, bundle);
                         }
 
