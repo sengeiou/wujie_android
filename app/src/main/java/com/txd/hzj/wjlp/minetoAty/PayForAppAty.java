@@ -497,7 +497,8 @@ public class PayForAppAty extends BaseAty {
 
             if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
                 order = data;
-                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + order.get("integral_money") + "个）<font/>";
+                String in=order.containsKey("integral_money")?order.get("integral_money"):"0";
+                integralMoneyStr = "<font color=#FFB226>（赠送积分：" + in + "个）<font/>";
                 tv_desc.setText(Html.fromHtml(integralMoneyStr));
             }
         }
@@ -893,7 +894,7 @@ public class PayForAppAty extends BaseAty {
         if (order == null) {
             return;
         }
-        if (order.containsKey("red_price") && order.containsKey("yellow_price") && order.containsKey("blue_price")) {
+        if (!order.containsKey("red_price") && !order.containsKey("yellow_price") && !order.containsKey("blue_price")){return;}
 
             if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))) {
                 return;
@@ -961,7 +962,6 @@ public class PayForAppAty extends BaseAty {
                     .setAnimationStyle(R.style.animbottom)
                     .create();
             commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-        }
 
     }
 
