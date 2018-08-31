@@ -1005,6 +1005,13 @@ public class PayForAppAty extends BaseAty {
                                 setCheck(4);
                                 String num = decimalFormat.format(total_price);
                                 tv_price.setText("¥" + num);
+                                if (order.containsKey("integral_money")){
+                                    mIn =order.get("integral_money");
+                                    integralMoneyStr = "<font color=#FFB226>（赠送积分：" + mIn + "个）<font/>";
+                                    integral_money.setText(Html.fromHtml(integralMoneyStr));
+                                }else {
+                                    integral_money.setVisibility(View.GONE);
+                                }
                             }
                         });
                     }
