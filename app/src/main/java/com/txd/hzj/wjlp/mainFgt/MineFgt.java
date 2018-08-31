@@ -301,7 +301,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     private int userCenterCode = 1;
     private String balance; // 当前余额
 
-    private List<MineInfoBean> mMineInfoBeanList;
+    //商家码列表集合
+    private List<MineInfoBean> shangjiamaList;
+    //三方付款列表集合
+    private  List<MineInfoBean> sanfangList;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -494,12 +497,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
             break;
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
-                if (mMineInfoBeanList!=null && mMineInfoBeanList.size()>0){
+                if (sanfangList!=null && sanfangList.size()>0){
                     showTanchuang("联盟商家绑定账户");
                 }
                 break;
             case R.id.business_code_tv:// 商家码
-                if (mMineInfoBeanList!=null && mMineInfoBeanList.size()>0){
+                if (shangjiamaList!=null && shangjiamaList.size()>0){
                     showTanchuang("商家码");
                 }
                 break;
@@ -512,30 +515,30 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
         View view = View.inflate(getActivity(), R.layout.aty_registration_list, null);
         dialog.setContentView(view);
         TextView close_tv=view.findViewById(R.id.close_tv);
+        ListView listView = view.findViewById(R.id.listview);
+        MineInfoAdapter infoAdapter;
         if ("商家码".equals(name)){
             close_tv.setText("商家二维码：店铺选择");
+            infoAdapter = new MineInfoAdapter(getActivity(), shangjiamaList);
         }else {
             close_tv.setText("收款账户绑定：店铺选择");
+            infoAdapter = new MineInfoAdapter(getActivity(), sanfangList);
         }
-        ListView listView = view.findViewById(R.id.listview);
-        MineInfoAdapter infoAdapter = new MineInfoAdapter(getActivity(), mMineInfoBeanList);
         listView.setAdapter(infoAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bundle = new Bundle();
                 if ("商家码".equals(name)) {
-                    bundle.putString("head_pic", mMineInfoBeanList.get(position).getLogo());
+                    bundle.putString("head_pic", shangjiamaList.get(position).getLogo());
                     bundle.putString("invite_code", business_invite_code_code);
-                    bundle.putString("stage_merchant_id", mMineInfoBeanList.get(position).getMerchant_name());
+                    bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
                     startActivity(RegistrationCodeAty.class, bundle);
                 }else {
-                    if ("1".equals(mMineInfoBeanList.get(position).getChange_account_status())){
                         bundle = new Bundle();
                         Double aDouble = Double.valueOf(balance);
                         bundle.putDouble("balance", aDouble);
                         startActivity(ThirdPartAccountAty.class, bundle);
-                    }
                 }
                 dialog.dismiss();
             }
@@ -646,7 +649,8 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
                 JSONArray mInfo = jsonData.has("mInfo") ? jsonData.getJSONArray("mInfo") : null;
                 if (mInfo != null && mInfo.length() > 0) {
-                    mMineInfoBeanList = new ArrayList<>();
+                    shangjiamaList = new ArrayList<>();
+                    sanfangList=new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
                         //                        "stage_merchant_id": "39",
                         //                                "wxpay_accounts": "213qweqweqe",
@@ -665,7 +669,10 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         String merchant_name = obj.has("merchant_name") ? obj.getString("merchant_name") : "";
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
-                        mMineInfoBeanList.add(mineInfoBean);
+                        shangjiamaList.add(mineInfoBean);
+                        if (change_account_status1.equals("1")){
+                            sanfangList.add(mineInfoBean);
+                        }
                     }
 
 
