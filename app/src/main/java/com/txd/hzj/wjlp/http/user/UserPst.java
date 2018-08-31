@@ -1,17 +1,11 @@
 package com.txd.hzj.wjlp.http.user;
 
-import android.widget.EditText;
-
 import com.ants.theantsgo.base.BasePresenter;
 import com.ants.theantsgo.base.BaseView;
 import com.ants.theantsgo.config.Config;
-import com.ants.theantsgo.tools.RegexUtils;
-import com.ants.theantsgo.util.L;
-import com.txd.hzj.wjlp.DemoApplication;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 作者：DUKE_HwangZj
@@ -171,8 +165,8 @@ public class UserPst extends BasePresenter {
     }
 
     //蓝色代金券赠送
-    public void giveCoupon(String price, String code, String pay_password) {
-        user.giveCoupon(price, code, pay_password, baseView);
+    public void giveCoupon(String price, String code,String merchant_id, String pay_password) {
+        user.giveCoupon(price, code, pay_password,merchant_id, baseView);
     }
 
     //诚招无界推广员

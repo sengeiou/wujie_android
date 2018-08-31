@@ -83,6 +83,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -304,7 +305,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     //商家码列表集合
     private List<MineInfoBean> shangjiamaList;
     //三方付款列表集合
-    private  List<MineInfoBean> sanfangList;
+    private List<MineInfoBean> sanfangList;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -442,6 +443,9 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 bundle.putString("TYPE", TYPE);
                 bundle.putString("url", imaUrl);
                 bundle.putString("blue_voucher", blue_voucher);
+                if (shangjiamaList != null && shangjiamaList.size() > 0) {
+                    bundle.putSerializable("shangjiamaList", (Serializable) shangjiamaList);
+                }
                 intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;
@@ -497,12 +501,12 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
             }
             break;
             case R.id.bandOtherAccount_tv: // 联盟商家绑定账户
-                if (sanfangList!=null && sanfangList.size()>0){
+                if (sanfangList != null && sanfangList.size() > 0) {
                     showTanchuang("联盟商家绑定账户");
                 }
                 break;
             case R.id.business_code_tv:// 商家码
-                if (shangjiamaList!=null && shangjiamaList.size()>0){
+                if (shangjiamaList != null && shangjiamaList.size() > 0) {
                     showTanchuang("商家码");
                 }
                 break;
@@ -510,17 +514,18 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
 
         }
     }
+
     private void showTanchuang(final String name) {
         final Dialog dialog = new Dialog(getActivity(), R.style.Ticket_Dialog);
         View view = View.inflate(getActivity(), R.layout.aty_registration_list, null);
         dialog.setContentView(view);
-        TextView close_tv=view.findViewById(R.id.close_tv);
+        TextView close_tv = view.findViewById(R.id.close_tv);
         ListView listView = view.findViewById(R.id.listview);
         MineInfoAdapter infoAdapter;
-        if ("商家码".equals(name)){
+        if ("商家码".equals(name)) {
             close_tv.setText("商家二维码：店铺选择");
             infoAdapter = new MineInfoAdapter(getActivity(), shangjiamaList);
-        }else {
+        } else {
             close_tv.setText("收款账户绑定：店铺选择");
             infoAdapter = new MineInfoAdapter(getActivity(), sanfangList);
         }
@@ -534,19 +539,20 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                     bundle.putString("invite_code", business_invite_code_code);
                     bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
                     startActivity(RegistrationCodeAty.class, bundle);
-                }else {
-                        bundle = new Bundle();
-                        Double aDouble = Double.valueOf(balance);
-                        bundle.putDouble("balance", aDouble);
-                        startActivity(ThirdPartAccountAty.class, bundle);
+                } else {
+                    bundle = new Bundle();
+                    Double aDouble = Double.valueOf(balance);
+                    bundle.putDouble("balance", aDouble);
+                    bundle.putString("stage_merchant_id", shangjiamaList.get(position).getStage_merchant_id());
+                    startActivity(ThirdPartAccountAty.class, bundle);
                 }
                 dialog.dismiss();
             }
         });
         Window window = dialog.getWindow();
         WindowManager.LayoutParams attributes = window.getAttributes();
-        attributes.width= (int) (Settings.displayWidth*0.8);
-        attributes.height=Settings.displayHeight/3;
+        attributes.width = (int) (Settings.displayWidth * 0.8);
+        attributes.height = Settings.displayHeight / 3;
         window.setAttributes(attributes);
         window.setGravity(Gravity.CENTER);
         dialog.setCancelable(true);
@@ -650,7 +656,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                 JSONArray mInfo = jsonData.has("mInfo") ? jsonData.getJSONArray("mInfo") : null;
                 if (mInfo != null && mInfo.length() > 0) {
                     shangjiamaList = new ArrayList<>();
-                    sanfangList=new ArrayList<>();
+                    sanfangList = new ArrayList<>();
                     for (int i = 0; i < mInfo.length(); i++) {
                         //                        "stage_merchant_id": "39",
                         //                                "wxpay_accounts": "213qweqweqe",
@@ -670,7 +676,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
                         String logo = obj.has("logo") ? obj.getString("logo") : "";
                         MineInfoBean mineInfoBean = new MineInfoBean(stage_merchant_id, wxpay_accounts, alipay_accounts, default_account, change_account_status1, merchant_name, logo);
                         shangjiamaList.add(mineInfoBean);
-                        if (change_account_status1.equals("1")){
+                        if (change_account_status1.equals("1")) {
                             sanfangList.add(mineInfoBean);
                         }
                     }
@@ -952,7 +958,7 @@ public class MineFgt extends BaseFgt implements ObservableScrollView.ScrollViewL
     }
 
 
-    private class MineInfoAdapter extends BaseAdapter {
+    public static class MineInfoAdapter extends BaseAdapter {
 
         private Context mContext;
         private List<MineInfoBean> mList;

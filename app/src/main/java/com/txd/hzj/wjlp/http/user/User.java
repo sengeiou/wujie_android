@@ -339,12 +339,13 @@ public class User {
     /**
      * 赠送蓝色代金券
      */
-    void giveCoupon(String price, String code, String pay_password, BaseView baseView) {
+    void giveCoupon(String price, String code, String pay_password, String merchant_id,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("price", price);
         params.addBodyParameter("code", code);
         params.addBodyParameter("pay_password", pay_password);
+        params.addBodyParameter("merchant_id", merchant_id);
         apiTool2.postApi(url + "gifVoucher", params, baseView);
     }
 

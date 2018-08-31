@@ -1,11 +1,13 @@
 package com.txd.hzj.wjlp.bean.mine;
 
+import java.io.Serializable;
+
 /**
  * 创建者：zhangyunfei
  * 创建时间：2018/8/30 17:04
  * 功能描述：
  */
-public class MineInfoBean {
+public class MineInfoBean implements Serializable{
 
     /**
      * stage_merchant_id : 39

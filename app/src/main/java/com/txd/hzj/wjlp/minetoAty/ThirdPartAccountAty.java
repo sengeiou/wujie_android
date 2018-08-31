@@ -84,6 +84,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
 
     private int clickView = 0;
     private double balance; // 会员余额
+    private String mStage_merchant_id;
 
 
     @Override
@@ -95,6 +96,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
     protected void initialized() {
         titlt_conter_tv.setText("三方收款账户");
         balance = getIntent().getDoubleExtra("balance", 0); // 获取传入的会员余额
+        mStage_merchant_id = getIntent().getStringExtra("stage_merchant_id");
         // 初始化的时候隐藏掉微信和支付宝复选框
         thirdPartyAcc_weChatAccount_cb.setVisibility(View.GONE);
         thirdPartyAcc_alipayAccount_cb.setVisibility(View.GONE);
@@ -102,7 +104,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
 
     @Override
     protected void requestData() {
-        User.payeeBind(this);
+        User.payeeBind(mStage_merchant_id,this);
     }
 
     @OnClick({R.id.thirdPartyAcc_verificationWeChat_tv, R.id.thirdPartyAcc_verificationAlipay_tv,
@@ -170,7 +172,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
                             setCheckBoxChecked(3);
                         }
                     } else {
-                        User.pay_account_bind(newSelectCheckBox + "", "", "", "", "", ThirdPartAccountAty.this);
+                        User.pay_account_bind(newSelectCheckBox + "", "", "", "", "", mStage_merchant_id,ThirdPartAccountAty.this);
                     }
                 }
                 break;
@@ -283,7 +285,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
             try {
                 JSONObject jsonObject = new JSONObject(jsonStr);
                 showRightTip(jsonObject.getString("message"));
-                User.payeeBind(this);
+                User.payeeBind(mStage_merchant_id,this);
             } catch (JSONException e) {
             }
         }
@@ -295,7 +297,7 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
         L.e("qweqweqweqweqweqweqweqweqwe`````````````` : " + requestUrl + " : " + error.toString());
         if (requestUrl.contains("pay_account_bind")) {
             showErrorTip(error.get("message"));
-            User.payeeBind(this);
+            User.payeeBind(mStage_merchant_id,this);
         }
 
         if (requestUrl.contains("verificationPayPwd")) {
@@ -354,10 +356,10 @@ public class ThirdPartAccountAty extends BaseAty implements PlatformActionListen
                         if (!trim.equals("")) {
                             if (clickView == R.id.thirdPartyAcc_verificationWeChat_tv) {
                                 // 微信转账
-                                User.pay_account_bind("", "wx", trim, weChatOpenid, nickName, ThirdPartAccountAty.this);
+                                User.pay_account_bind("", "wx", trim, weChatOpenid, nickName, mStage_merchant_id,ThirdPartAccountAty.this);
                             } else if (clickView == R.id.thirdPartyAcc_verificationAlipay_tv) {
                                 // 支付宝转账
-                                User.pay_account_bind("", "ali", trim, alipayAccounts, "", ThirdPartAccountAty.this);
+                                User.pay_account_bind("", "ali", trim, alipayAccounts, "", mStage_merchant_id,ThirdPartAccountAty.this);
                             }
                         }
                     }

@@ -33,6 +33,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
     private UserPst userPst;
     private String nums;
     private ImageView titleBack;
+    private String mMerchant_id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,19 +50,20 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
     protected void initialized() {
         //可用余额
         String blue_voucher = getIntent().getExtras().getString("blue_voucher");
-        balance = (TextView) findViewById(R.id.give_can_use_money_tv);
+        mMerchant_id = getIntent().getExtras().getString("merchant_id");
+        balance = findViewById(R.id.give_can_use_money_tv);
         balance.setText(blue_voucher);
         //title
-        titleBack = (ImageView) findViewById(R.id.title_be_back_iv);
-        tvName = (TextView) findViewById(R.id.titlt_conter_tv);
+        titleBack =  findViewById(R.id.title_be_back_iv);
+        tvName =  findViewById(R.id.titlt_conter_tv);
         //确定
-        moneyOk = (TextView) findViewById(R.id.give_change_money_tv);
+        moneyOk = findViewById(R.id.give_change_money_tv);
         //支付密码
-        payPwds = (EditText) findViewById(R.id.give_pay_pwd_ev);
+        payPwds =  findViewById(R.id.give_pay_pwd_ev);
         //赠送金额
-        moneyNumber = (EditText) findViewById(R.id.give_tr_acc_money_et);
+        moneyNumber = findViewById(R.id.give_tr_acc_money_et);
         //收卷方
-        userName = (EditText) findViewById(R.id.give_opposite_side_ev);
+        userName =  findViewById(R.id.give_opposite_side_ev);
 
         //注册点击事件
         moneyOk.setOnClickListener(this);
@@ -82,7 +84,7 @@ public class GiveCouponAccounts extends BaseAty implements View.OnClickListener 
                 String user = userName.getText().toString().trim();
                 String pwd = payPwds.getText().toString().trim();
                 if (money != null && user != null && pwd != null) {
-                    userPst.giveCoupon(money, user, pwd);
+                    userPst.giveCoupon(money, user, pwd,mMerchant_id);
                 }
                 break;
             case R.id.title_be_back_iv:

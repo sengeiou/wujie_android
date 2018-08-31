@@ -201,8 +201,10 @@ public class User {
      *
      * @param baseView
      */
-    public static void payeeBind(BaseView baseView) {
+    public static void payeeBind(String stage_merchant_id,BaseView baseView) {
+        RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
+        params.addBodyParameter("id", stage_merchant_id);
         apiTool2.postApi(url + "payee_bind", new RequestParams(), baseView);
     }
 
@@ -231,7 +233,7 @@ public class User {
      * @param wxpay_name      微信昵称，只有在pay_type=wx的时候这个参数是必填
      * @param baseView        BaseView
      */
-    public static void pay_account_bind(String default_account, String pay_type, String pay_money, String account, String wxpay_name, BaseView baseView) {
+    public static void pay_account_bind(String default_account, String pay_type, String pay_money, String account, String wxpay_name, String stage_merchant_id,BaseView baseView) {
         RequestParams params = new RequestParams();
         ApiTool2 apiTool2 = new ApiTool2();
         params.addBodyParameter("default_account", default_account);
@@ -239,6 +241,7 @@ public class User {
         params.addBodyParameter("pay_money", pay_money);
         params.addBodyParameter("account", account);
         params.addBodyParameter("wxpay_name", wxpay_name);
+        params.addBodyParameter("id", stage_merchant_id);
         apiTool2.postApi(url + "pay_account_bind", params, baseView);
     }
 }
