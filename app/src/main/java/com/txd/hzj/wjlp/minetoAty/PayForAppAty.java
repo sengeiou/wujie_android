@@ -104,13 +104,13 @@ public class PayForAppAty extends BaseAty {
     /**
      * 传递使者，传递大使
      */
-//    @ViewInject(R.id.for_member_layout)
-//    private LinearLayout for_member_layout;
+    //    @ViewInject(R.id.for_member_layout)
+    //    private LinearLayout for_member_layout;
     /**
      * 购买商品
      */
-//    @ViewInject(R.id.for_order_layout)
-//    private LinearLayout for_order_layout;
+    //    @ViewInject(R.id.for_order_layout)
+    //    private LinearLayout for_order_layout;
     @ViewInject(R.id.tv_shopname)
     private TextView tv_shopname;
     @ViewInject(R.id.tv_price)
@@ -178,15 +178,15 @@ public class PayForAppAty extends BaseAty {
         showStatusBar(R.id.title_re_layout);
         titlt_conter_tv.setText("支付");
 
-//        if (0 == order_type) {
-//            for_member_layout.setVisibility(View.VISIBLE);
-//            for_order_layout.setVisibility(View.GONE);
-//        } else {
-//            for_member_layout.setVisibility(View.GONE);
-//            for_order_layout.setVisibility(View.VISIBLE);
-//        }
-//        selectCheckBoxTop(top_type);
-//        selectCheckBoxBottom(bottom_type);
+        //        if (0 == order_type) {
+        //            for_member_layout.setVisibility(View.VISIBLE);
+        //            for_order_layout.setVisibility(View.GONE);
+        //        } else {
+        //            for_member_layout.setVisibility(View.GONE);
+        //            for_order_layout.setVisibility(View.VISIBLE);
+        //        }
+        //        selectCheckBoxTop(top_type);
+        //        selectCheckBoxBottom(bottom_type);
 
     }
 
@@ -413,7 +413,8 @@ public class PayForAppAty extends BaseAty {
 
     //支付弹出框
     public void showPwdPop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+            return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_pwd)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight / 4)
@@ -444,7 +445,8 @@ public class PayForAppAty extends BaseAty {
 
     //兑换成功
     public void showExchangePop(View view) {
-        if (commonPopupWindow != null && commonPopupWindow.isShowing()) return;
+        if (commonPopupWindow != null && commonPopupWindow.isShowing())
+            return;
         commonPopupWindow = new CommonPopupWindow.Builder(this)
                 .setView(R.layout.popup_exc_success)
                 .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, Settings.displayHeight)
@@ -497,7 +499,7 @@ public class PayForAppAty extends BaseAty {
 
             if (requestUrl.contains("SetOrder") || requestUrl.contains("setOrder") || requestUrl.contains("preSetOrder")) {
                 order = data;
-                String in=order.containsKey("integral_money")?order.get("integral_money"):"0";
+                String in = order.containsKey("integral_money") ? order.get("integral_money") : "0";
                 integralMoneyStr = "<font color=#FFB226>（赠送积分：" + in + "个）<font/>";
                 tv_desc.setText(Html.fromHtml(integralMoneyStr));
             }
@@ -824,22 +826,22 @@ public class PayForAppAty extends BaseAty {
             return;
         }
         if (requestUrl.contains("setOrder")) {
-//            if (requestUrl.contains("GroupBuyOrder/setOrder")) {
-//                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
-//                dialog.setCancelable(false);
-//                dialog.setMessage(error.get("message"));
-//                dialog.setTitle("活动提示");
-//                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
+            //            if (requestUrl.contains("GroupBuyOrder/setOrder")) {
+            //                CustomDialog.Builder dialog = new CustomDialog.Builder(PayForAppAty.this);
+            //                dialog.setCancelable(false);
+            //                dialog.setMessage(error.get("message"));
+            //                dialog.setTitle("活动提示");
+            //                dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            //                    @Override
+            //                    public void onClick(DialogInterface dialog, int which) {
             PayForAppAty.this.finish();
-//                    }
-//                });
-//                dialog.create().show();
-//            }
+            //                    }
+            //                });
+            //                dialog.create().show();
+            //            }
             return;
         }
-//        finish();
+        //        finish();
     }
 
     private void OrderList() {
@@ -881,87 +883,95 @@ public class PayForAppAty extends BaseAty {
         if (mType.equals("100")) {
             mBundle.putString("orderId", order_id);
             startActivity(PaymentResultsAty.class, mBundle);
-//            startActivity(OffLineShopAty.class, mBundle);
+            //            startActivity(OffLineShopAty.class, mBundle);
         }
 
     }
 
     public void showPop(View view, final int type) {
-//        if (order == null || (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0")))
-//            return;
+        //        if (order == null || (order.get("discount").equals("0") && order.get("yellow_discount").equals("0") && order.get("blue_discount").equals("0")))
+        //            return;
         if (commonPopupWindow != null && commonPopupWindow.isShowing())
             return;
         if (order == null) {
             return;
         }
-        if (!order.containsKey("red_price") && !order.containsKey("yellow_price") && !order.containsKey("blue_price")){return;}
+        if (!order.containsKey("red_price") && !order.containsKey("yellow_price") && !order.containsKey("blue_price")) {
+            return;
+        }
 
-            if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))) {
-                return;
-            }
-            commonPopupWindow = new CommonPopupWindow.Builder(this)
-                    .setView(R.layout.popup_layout_djq)
-                    .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                    .setBackGroundLevel(0.7f)
-                    .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
-                        @Override
-                        public void getChildView(View view, int layoutResId, int position) {
-                            LinearLayout layout_cb = view.findViewById(R.id.layout_cb);
-                            LinearLayout layout_tv = view.findViewById(R.id.layout_tv);
-                            layout_cb.setVisibility(View.VISIBLE);
-                            layout_tv.setVisibility(View.GONE);
-                            r = view.findViewById(R.id.cb_1);
-                            y = view.findViewById(R.id.cb_2);
-                            b = view.findViewById(R.id.cb_3);
+        if ("0".equals(order.get("red_price")) && "0".equals(order.get("yellow_price")) && "0".equals(order.get("blue_price"))) {
+            return;
+        }
+        commonPopupWindow = new CommonPopupWindow.Builder(this)
+                .setView(R.layout.popup_layout_djq)
+                .setWidthAndHeight(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                .setBackGroundLevel(0.7f)
+                .setViewOnclickListener(new CommonPopupWindow.ViewInterface() {
+                    @Override
+                    public void getChildView(View view, int layoutResId, int position) {
+                        LinearLayout layout_cb = view.findViewById(R.id.layout_cb);
+                        LinearLayout layout_tv = view.findViewById(R.id.layout_tv);
+                        layout_cb.setVisibility(View.VISIBLE);
+                        layout_tv.setVisibility(View.GONE);
+                        r = view.findViewById(R.id.cb_1);
+                        y = view.findViewById(R.id.cb_2);
+                        b = view.findViewById(R.id.cb_3);
 
-                            r.setText(order.containsKey("red_desc") ? order.get("red_desc") : "");
-                            y.setText(order.containsKey("yellow_desc") ? order.get("yellow_desc") : "");
-                            b.setText(order.containsKey("blue_desc") ? order.get("blue_desc") : "");
-                            TextView cancel = view.findViewById(R.id.tv_cancel);
+                        r.setText(order.containsKey("red_desc") ? order.get("red_desc") : "");
+                        y.setText(order.containsKey("yellow_desc") ? order.get("yellow_desc") : "");
+                        b.setText(order.containsKey("blue_desc") ? order.get("blue_desc") : "");
+                        TextView cancel = view.findViewById(R.id.tv_cancel);
 
+                        if (order.containsKey("red_price")){
                             r.setVisibility(order.get("red_price").equals("0") ? View.GONE : View.VISIBLE);
-                            y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
-                            b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
-                            r.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    setCheck(1);
-                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                    commonPopupWindow.dismiss();
-                                }
-                            });
-                            y.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    setCheck(2);
-                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                    commonPopupWindow.dismiss();
-                                }
-                            });
-                            b.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    setCheck(3);
-                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                    commonPopupWindow.dismiss();
-                                }
-                            });
-
-                            cancel.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    commonPopupWindow.dismiss();
-                                    setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
-                                    setCheck(4);
-                                    String num = decimalFormat.format(total_price);
-                                    tv_price.setText("¥" + num);
-                                }
-                            });
                         }
-                    }, 0)
-                    .setAnimationStyle(R.style.animbottom)
-                    .create();
-            commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                        if (order.containsKey("yellow_price")){
+                            y.setVisibility(order.get("yellow_price").equals("0") ? View.GONE : View.VISIBLE);
+                        }
+                        if (order.containsKey("blue_price")){
+                            b.setVisibility(order.get("blue_price").equals("0") ? View.GONE : View.VISIBLE);
+                        }
+                        r.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setCheck(1);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        y.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setCheck(2);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setCheck(3);
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                commonPopupWindow.dismiss();
+                            }
+                        });
+
+                        cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                commonPopupWindow.dismiss();
+                                setImage(type, r.isChecked(), y.isChecked(), b.isChecked());
+                                setCheck(4);
+                                String num = decimalFormat.format(total_price);
+                                tv_price.setText("¥" + num);
+                            }
+                        });
+                    }
+                }, 0)
+                .setAnimationStyle(R.style.animbottom)
+                .create();
+        commonPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
     }
 
